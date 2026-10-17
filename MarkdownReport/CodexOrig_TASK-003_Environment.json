@@ -1,0 +1,88 @@
+{
+  "CheckedAt": "2026-10-18T01:30:25.1156717+09:00",
+  "CheckKind": "InstalledIdeAndWpfBuild",
+  "Succeeded": true,
+  "IDEs": [
+    {
+      "Year": "2017",
+      "Installed": true,
+      "Version": "15.9.37627.17",
+      "Path": "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community",
+      "Complete": true,
+      "Launchable": true,
+      "RequiredComponentsPresent": true,
+      "DevenvPresent": true,
+      "VsixInstallerPresent": true,
+      "MSBuildPresent": true,
+      "Framework462Present": true,
+      "SmokeBuild": "Passed",
+      "SmokeLog": "C:\\Users\\ygree\\AppData\\Local\\CodexOrig\\VSIX-TestEnvironment\\logs\\smoke\\2017\\msbuild.log"
+    },
+    {
+      "Year": "2019",
+      "Installed": true,
+      "Version": "16.11.37627.13",
+      "Path": "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community",
+      "Complete": true,
+      "Launchable": true,
+      "RequiredComponentsPresent": true,
+      "DevenvPresent": true,
+      "VsixInstallerPresent": true,
+      "MSBuildPresent": true,
+      "Framework462Present": true,
+      "SmokeBuild": "Passed",
+      "SmokeLog": "C:\\Users\\ygree\\AppData\\Local\\CodexOrig\\VSIX-TestEnvironment\\logs\\smoke\\2019\\msbuild.log"
+    },
+    {
+      "Year": "2022",
+      "Installed": true,
+      "Version": "17.14.37806.7",
+      "Path": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community",
+      "Complete": true,
+      "Launchable": true,
+      "RequiredComponentsPresent": true,
+      "DevenvPresent": true,
+      "VsixInstallerPresent": true,
+      "MSBuildPresent": true,
+      "Framework462Present": true,
+      "SmokeBuild": "Passed",
+      "SmokeLog": "C:\\Users\\ygree\\AppData\\Local\\CodexOrig\\VSIX-TestEnvironment\\logs\\smoke\\2022\\msbuild.log"
+    }
+  ],
+  "Problems": [],
+  "RequiredComponents": [
+    "Microsoft.VisualStudio.Workload.ManagedDesktop",
+    "Microsoft.VisualStudio.Workload.VisualStudioExtension",
+    "Microsoft.VisualStudio.Component.VSSDK",
+    "Microsoft.Net.Component.4.6.2.TargetingPack",
+    "Microsoft.Net.Component.4.6.2.SDK"
+  ],
+  "IdeUiAndVsixRuntimeTested": false,
+  "IdeCommandLineBuilds": [
+    {
+      "Year": "2017",
+      "ExitCode": 0,
+      "Solution": "C:\\Users\\ygree\\AppData\\Local\\CodexOrig\\VSIX-TestEnvironment\\logs\\smoke\\2017\\WpfProbe.sln",
+      "Log": "C:\\Users\\ygree\\AppData\\Local\\CodexOrig\\VSIX-TestEnvironment\\logs\\ide-build-valid-2017.log",
+      "StartedAt": "2026-10-18T01:30:48.3043072+09:00",
+      "FinishedAt": "2026-10-18T01:30:56.203455+09:00"
+    },
+    {
+      "Year": "2019",
+      "ExitCode": 0,
+      "Solution": "C:\\Users\\ygree\\AppData\\Local\\CodexOrig\\VSIX-TestEnvironment\\logs\\smoke\\2019\\WpfProbe.sln",
+      "Log": "C:\\Users\\ygree\\AppData\\Local\\CodexOrig\\VSIX-TestEnvironment\\logs\\ide-build-valid-2019.log",
+      "StartedAt": "2026-10-18T01:30:48.3143592+09:00",
+      "FinishedAt": "2026-10-18T01:31:00.6629583+09:00"
+    },
+    {
+      "Year": "2022",
+      "ExitCode": 0,
+      "Solution": "C:\\Users\\ygree\\AppData\\Local\\CodexOrig\\VSIX-TestEnvironment\\logs\\smoke\\2022\\WpfProbe.sln",
+      "Log": "C:\\Users\\ygree\\AppData\\Local\\CodexOrig\\VSIX-TestEnvironment\\logs\\ide-build-valid-2022.log",
+      "StartedAt": "2026-10-18T01:30:48.3607211+09:00",
+      "FinishedAt": "2026-10-18T01:31:04.4266458+09:00"
+    }
+  ],
+  "GuiVerificationError": "GetCursorPos failed: 액세스가 거부되었습니다. (0x80070005)"
+}

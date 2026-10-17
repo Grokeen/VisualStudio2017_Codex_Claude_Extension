@@ -1,0 +1,91 @@
+# 개발 및 수동 검증
+
+v0.2.0은 Codex/Claude CLI를 통한 현재 파일 수정안 생성, 비교·승인, IDE 편집기 적용·별도 저장·직전 적용 복구를 제공한다. 2026-10-18 추가된 Role.md 요구에 따라 초기 MVP의 수정 제외 범위를 변경했다. [사용법과 범위](SOURCE_EDITING.md)를 참고한다.
+
+## 호환성 기준
+
+| 항목 | 현재 설정 |
+|---|---|
+| 설치 대상 | Visual Studio 2017 15.9 이상, `[15.0.28307.0,16.0)` |
+| 에디션 | Community 및 상위 에디션 Professional/Enterprise |
+| 프로젝트 | 기존 형식 C# VSIX, .NET Framework 4.6.2, C# 7.0 |
+| VS SDK | Microsoft.VisualStudio.Shell.15.0 15.9.28307 |
+| VSIX 빌드 도구 | Microsoft.VSSDK.BuildTools 15.9.3032 |
+| 진입점 | 도구(Tools) → AI Assistant |
+
+VS2019 및 VS2022는 향후 목표이다. 현재 매니페스트는 두 버전의 설치를 허용하지 않는다. VS2022는 64비트 IDE이므로 적합한 SDK 및 아키텍처 대상으로 별도 빌드·실행 검증해야 한다.
+
+SDK 패키지와 IDE 의존성의 기준을 맞추기 위해 VS2017 15.9를 최소 버전으로 삼는다. VSIX 버전 범위의 minor는 Microsoft 스키마 규칙에 따라 `15.0.28307.0`으로 표기한다. Threading 및 Json의 참조 버전은 SDK 의존성 충돌을 피하도록 고정하며, IDE에서 제공하는 SDK와 해당 종속 DLL은 패키지에 포함하지 않는다.
+
+## 개발 PC 준비
+
+1. Visual Studio 2017 15.9의 Visual Studio extension development 워크로드를 설치한다.
+2. .NET Framework 4.6.2 targeting pack 및 개발 도구를 선택한다. 명령줄 빌드에서는 NuGet ReferenceAssemblies 패키지도 참조 어셈블리를 공급한다.
+3. `VS2017.AIAssistant.sln`을 열고 NuGet 패키지를 복원한다.
+4. Debug 구성을 빌드하고 F5를 누른다. 시작 프로그램은 `$(DevEnvDir)devenv.exe`, 인수는 `/RootSuffix Exp`이다.
+
+이 확장은 별도 솔루션으로 개발하며 사용자가 연 기존 개발 프로젝트는 변경하지 않는다.
+
+## 명령줄 빌드
+
+Windows PowerShell에서 저장소 루트 기준으로 실행한다.
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\build.ps1
+```
+
+MSBuild를 자동으로 찾지 못하면 전체 Framework MSBuild.exe 경로를 `-MSBuildPath`로 지정한다. NuGet.exe로 미리 복원해야 하는 독립 도구 환경은 `-NuGetPath`도 지원한다. `dotnet build`는 이 legacy WPF/VSSDK 프로젝트의 빌드 경로가 아니다.
+
+빌드 결과: `src/VS2017.AIAssistant/bin/Release/VS2017.AIAssistant.vsix`. 스크립트는 CLI 빌드 시 IDE에 확장을 자동 설치하지 않는다.
+
+## 자동 검증
+
+빌드 후 Windows PowerShell에서 실행한다.
+
+```powershell
+powershell -NoProfile -NonInteractive -ExecutionPolicy Bypass -STA -File .\tests\foundation\Test-FoundationPackage.ps1
+powershell -NoProfile -NonInteractive -ExecutionPolicy Bypass -File .\tests\editing\Test-SourceEditing.ps1
+powershell -NoProfile -NonInteractive -ExecutionPolicy Bypass -File .\tests\compatibility\Test-VsixCompatibility.Tests.ps1
+powershell -NoProfile -NonInteractive -ExecutionPolicy Bypass -File .\scripts\Test-VsixCompatibility.ps1 `
+    -ManifestPath .\src\VS2017.AIAssistant\source.extension.vsixmanifest `
+    -ProjectPath .\src\VS2017.AIAssistant\VS2017.AIAssistant.csproj
+```
+
+Foundation 검사는 VSIX 안의 DLL·pkgdef·메뉴·BAML을 확인하고 빌드된 WPF 컨트롤을 별도 테스트 프로세스에서 생성한다. 밝은/어두운 테마와 320/200픽셀 폭에서 렌더링한 결과는 `artifacts/phase1/`에 저장한다. IDE SDK DLL을 VSIX에 중복 포함하지 않는지도 검사한다. Debug 산출물 검증은 `-Configuration Debug`를 지정한다.
+
+편집 회귀 테스트는 VSIX DLL을 참조하는 C# 실행 파일을 컴파일하고 실제 subprocess/파이프로 가짜 CLI를 호출한다. 승인·충돌·원복, Codex/Claude 인수 및 JSON, 한글/공백 경로, 출력 제한, 취소·타임아웃·하위 프로세스 종료와 실제 WPF 버튼 흐름을 검사한다. 산출물은 `artifacts/source-editing/run-*/`이다. 실제 계정 AI 호출이나 EnvDTE 실행을 대체하는 테스트로 보고하지 않는다. `-CompilerPath`로 VS2017의 `MSBuild/15.0/Bin/Roslyn/csc.exe`를 지정할 수 있다.
+
+호환성 도구는 CodexOrig의 독립 검사이며 상세 범위는 [VSIX_COMPATIBILITY.md](VSIX_COMPATIBILITY.md)를 참고한다. 자동 검증은 아래의 실제 IDE 검증과 함께 수행한다.
+
+## VS2017 설치 및 실행 검증
+
+| 순서 | 실행 | 기대 결과 |
+|---|---|---|
+| 1 | Debug 빌드 후 F5 | 별도 VS2017 Experimental Instance 실행 |
+| 2 | 도구 → AI Assistant | Provider·수정 요청·비교·승인·저장 화면 표시 |
+| 3 | 메뉴 명령을 반복 실행 | 기존 창 활성화, 중복 창 없음 |
+| 4 | 창 닫기 후 다시 열기 | 오류 없이 다시 표시 |
+| 5 | 창 도킹, 폭 축소, 밝은/어두운 테마 전환 | 글자와 배경이 구별되고 문구 줄바꿈 및 스크롤 정상 |
+| 6 | 솔루션 없이 실행, C# 4.6.2 솔루션 열고 다시 실행 | 두 경우 모두 창이 열리고 요청·승인 전 소스 변경 없음 |
+| 7 | 창을 연 상태로 VS 종료·재시작 | 오류 없이 종료 및 창 복원 |
+| 8 | VS를 닫고 Release VSIX 실행 | VS2017 설치 대상으로 표시되고 설치 성공 |
+| 9 | 일반 VS2017에서 메뉴 확인 후 도구 → 확장 및 업데이트에서 제거 | 메뉴/창 정상, 재시작 후 제거 완료 |
+
+환경이 없는 항목은 미실행으로 보고한다. 빌드 성공은 설치·IDE 실행 성공을 대신하지 않는다. 실패 시 `devenv.exe /RootSuffix Exp /Log`로 실행하고 `%APPDATA%/Microsoft/VisualStudio/15.0_*Exp/ActivityLog.xml`을 확인한다.
+
+실제 소스 편집의 요청·승인·저장·Undo·충돌 시나리오는 [SOURCE_EDITING.md](SOURCE_EDITING.md)의 실제 IDE 체크리스트를 수행한다.
+
+TASK-005에서는 별도 VS2017 인스턴스에 고정 v0.2.0을 설치하고 실제 메뉴·도구 창·EnvDTE와 Codex 계정을 연결한 25개 검사를 통과했다. `tests/ide/Test-IdeIntegration.ps1`로 재현할 수 있으며 설치·초기 구성 옵션과 전체 사례는 [IDE_TESTS.md](IDE_TESTS.md)를 참고한다. 테스트 보조 VSIX는 제품에 포함하지 않는다.
+
+## 작업 순서
+
+`MarkdownReport/WORK_STATUS.md`를 확인한 후 담당 범위를 등록한다. 한 기능씩 구현하고 결과는 `MarkdownReport/Update_History.md` 및 `MarkdownReport/OWERORDER.md`에 기록한다. 다른 작업자가 진행 중이면 GitHub에 push하거나 릴리스하지 않는다. 추가 Role.md의 소스 수정 요구를 우선 반영하되 실제 IDE·계정 검증이 완료되지 않은 항목은 별도로 남긴다.
+
+## 공식 근거
+
+- [Microsoft: 도구 창 확장 만들기](https://learn.microsoft.com/en-us/visualstudio/extensibility/creating-an-extension-with-a-tool-window)
+- [Microsoft: AsyncPackage 사용](https://learn.microsoft.com/en-us/visualstudio/extensibility/how-to-use-asyncpackage-to-load-vspackages-in-the-background)
+- [Microsoft: VSIX 매니페스트 스키마와 SKU/버전 범위](https://learn.microsoft.com/en-us/visualstudio/extensibility/vsix-extension-schema-2-0-reference)
+- [Microsoft: VS2022 확장 업그레이드](https://learn.microsoft.com/en-us/visualstudio/extensibility/migration/update-visual-studio-extension)
+- [Microsoft Shell 15.9.28307 패키지](https://www.nuget.org/packages/Microsoft.VisualStudio.Shell.15.0/15.9.28307)
+- [Microsoft VSSDK.BuildTools 15.9.3032 패키지](https://www.nuget.org/packages/Microsoft.VSSDK.BuildTools/15.9.3032)

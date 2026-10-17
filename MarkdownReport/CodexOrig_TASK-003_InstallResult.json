@@ -1,0 +1,28 @@
+﻿{
+    "StartedAt":  "2026-10-18T01:03:08.4059083+09:00",
+    "State":  "InstallersCompleted",
+    "CurrentVersion":  "2022",
+    "RestartRequired":  false,
+    "Results":  [
+                    {
+                        "Year":  "2017",
+                        "InstallPath":  "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community",
+                        "ExitCode":  0,
+                        "FinishedAt":  "2026-10-18T01:03:08.7932174+09:00",
+                        "State":  "AlreadyConfigured"
+                    },
+                    {
+                        "Year":  "2019",
+                        "InstallPath":  "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community",
+                        "ExitCode":  0,
+                        "FinishedAt":  "2026-10-18T01:09:07.4327807+09:00"
+                    },
+                    {
+                        "Year":  "2022",
+                        "InstallPath":  "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community",
+                        "ExitCode":  0,
+                        "FinishedAt":  "2026-10-18T01:22:43.8802817+09:00"
+                    }
+                ],
+    "Error":  ""
+}

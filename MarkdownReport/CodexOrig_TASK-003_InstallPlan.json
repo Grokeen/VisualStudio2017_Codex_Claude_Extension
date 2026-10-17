@@ -1,0 +1,53 @@
+[
+    {
+        "Year":  "2017",
+        "Major":  15,
+        "Installer":  "C:\\Users\\ygree\\AppData\\Local\\CodexOrig\\VSIX-TestEnvironment\\installers\\vs2017_community.exe",
+        "DownloadUri":  "https://aka.ms/vs/15/release/vs_community.exe",
+        "ExpectedSha256":  "1BF11FC98CF22D93498180D50794219A0CBB860A98880E29836BB66ACADC0123",
+        "InstallPath":  "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community",
+        "Components":  [
+                           "Microsoft.VisualStudio.Workload.ManagedDesktop",
+                           "Microsoft.VisualStudio.Workload.VisualStudioExtension",
+                           "Microsoft.VisualStudio.Component.VSSDK",
+                           "Microsoft.Net.Component.4.6.2.TargetingPack",
+                           "Microsoft.Net.Component.4.6.2.SDK"
+                       ],
+        "Language":  "ko-KR",
+        "NoRestart":  true
+    },
+    {
+        "Year":  "2019",
+        "Major":  16,
+        "Installer":  "C:\\Users\\ygree\\AppData\\Local\\CodexOrig\\VSIX-TestEnvironment\\installers\\vs2019_community.exe",
+        "DownloadUri":  "https://aka.ms/vs/16/release/vs_community.exe",
+        "ExpectedSha256":  "D70A79F50E37C337227A928875FCEF8D233B71056D4C967F070D92F1584D2C7E",
+        "InstallPath":  "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community",
+        "Components":  [
+                           "Microsoft.VisualStudio.Workload.ManagedDesktop",
+                           "Microsoft.VisualStudio.Workload.VisualStudioExtension",
+                           "Microsoft.VisualStudio.Component.VSSDK",
+                           "Microsoft.Net.Component.4.6.2.TargetingPack",
+                           "Microsoft.Net.Component.4.6.2.SDK"
+                       ],
+        "Language":  "ko-KR",
+        "NoRestart":  true
+    },
+    {
+        "Year":  "2022",
+        "Major":  17,
+        "Installer":  "C:\\Users\\ygree\\AppData\\Local\\CodexOrig\\VSIX-TestEnvironment\\installers\\vs2022_community.exe",
+        "DownloadUri":  "https://download.visualstudio.microsoft.com/download/pr/c95450be-0a45-4779-b142-33f567ccfd6e/d52e18859b0996bac3a89ba7d07e180508e49eb55f824d7eda2822aded495020/vs_Community.exe",
+        "ExpectedSha256":  "D52E18859B0996BAC3A89BA7D07E180508E49EB55F824D7EDA2822ADED495020",
+        "InstallPath":  "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community",
+        "Components":  [
+                           "Microsoft.VisualStudio.Workload.ManagedDesktop",
+                           "Microsoft.VisualStudio.Workload.VisualStudioExtension",
+                           "Microsoft.VisualStudio.Component.VSSDK",
+                           "Microsoft.Net.Component.4.6.2.TargetingPack",
+                           "Microsoft.Net.Component.4.6.2.SDK"
+                       ],
+        "Language":  "ko-KR",
+        "NoRestart":  true
+    }
+]

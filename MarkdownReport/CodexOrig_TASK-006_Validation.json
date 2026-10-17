@@ -1,0 +1,62 @@
+{
+  "CheckedAt": "2026-10-18T02:01:41.7474948+09:00",
+  "CheckKind": "MsbuildBatchEntry",
+  "Succeeded": true,
+  "RegressionTests": [
+    {
+      "PowerShell": "5.1.26100.9711",
+      "Passed": 16,
+      "Total": 16,
+      "ResultPath": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\build-entry\\run-4eb994af255c4d0f92960d68bf43a952\\results.json"
+    },
+    {
+      "PowerShell": "7.6.5",
+      "Passed": 16,
+      "Total": 16,
+      "ResultPath": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\build-entry\\run-a3ca5c4c189644a684d781c203dc461d\\results.json"
+    }
+  ],
+  "ReleaseBuilds": [
+    {
+      "Year": "2017",
+      "StartedAt": "2026-10-18T02:00:14.0418906+09:00",
+      "FinishedAt": "2026-10-18T02:00:18.8983777+09:00",
+      "ExitCode": 0,
+      "PackagePresent": true,
+      "PackagePath": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\build-entry\\compile-e4864061127c48aa9b0cb981a3bae141\\src\\VS2017.AIAssistant\\bin\\Release\\VS2017.AIAssistant.vsix",
+      "PackageSHA256": "675F8A2BB26E61EC802DA76E6143EA9FFE754FD2B23BCF1CC98D759FFAA0011C",
+      "SnapshotRoot": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\build-entry\\compile-e4864061127c48aa9b0cb981a3bae141",
+      "IdeLicenseBannerObserved": false,
+      "BuildLog": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\build-entry\\compile-e4864061127c48aa9b0cb981a3bae141\\build-2017.log"
+    },
+    {
+      "Year": "2019",
+      "StartedAt": "2026-10-18T02:00:35.8568837+09:00",
+      "FinishedAt": "2026-10-18T02:00:40.4118971+09:00",
+      "ExitCode": 0,
+      "PackagePresent": true,
+      "PackagePath": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\build-entry\\compile-e4864061127c48aa9b0cb981a3bae141\\engine-2019\\src\\VS2017.AIAssistant\\bin\\Release\\VS2017.AIAssistant.vsix",
+      "PackageSHA256": "01C78BF675173774BEDE86158BBA744437484FD6BEE94EE6C194E365246CF1C5",
+      "SnapshotRoot": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\build-entry\\compile-e4864061127c48aa9b0cb981a3bae141\\engine-2019",
+      "IdeLicenseBannerObserved": false,
+      "BuildLog": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\build-entry\\compile-e4864061127c48aa9b0cb981a3bae141\\build-2019.log"
+    },
+    {
+      "Year": "2022",
+      "StartedAt": "2026-10-18T02:00:40.5285342+09:00",
+      "FinishedAt": "2026-10-18T02:00:47.7446296+09:00",
+      "ExitCode": 0,
+      "PackagePresent": true,
+      "PackagePath": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\build-entry\\compile-e4864061127c48aa9b0cb981a3bae141\\engine-2022\\src\\VS2017.AIAssistant\\bin\\Release\\VS2017.AIAssistant.vsix",
+      "PackageSHA256": "9CC7813B9EBE2A4DA0FFCDD7B7706A4077F6BE5FCE1B7A0A323B8B1D7CED4F3F",
+      "SnapshotRoot": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\build-entry\\compile-e4864061127c48aa9b0cb981a3bae141\\engine-2022",
+      "IdeLicenseBannerObserved": false,
+      "BuildLog": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\build-entry\\compile-e4864061127c48aa9b0cb981a3bae141\\build-2022.log"
+    }
+  ],
+  "SnapshotManifest": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\build-entry\\compile-e4864061127c48aa9b0cb981a3bae141\\source-snapshot.json",
+  "SourcesChangedSinceSnapshot": [],
+  "LicenseActivationVerified": false,
+  "IdeRuntimeVerifiedByThisTask": false,
+  "PinnedHandoffSHA256": "0B7FD44509A6CA02344E645924378EB544966A0831B942A9F7D4B6CDAB872D94"
+}
