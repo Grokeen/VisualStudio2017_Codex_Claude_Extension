@@ -61,4 +61,4 @@ Windows Computer Use로 실제 VS2017 도구 창이 표시되는 화면을 관�
 
 VS 초기 구성 로그에는 Community 설치 폴더의 `detection_keys_reg.pkgdef`, XAML UI 리소스 및 일부 선택 구성요소의 오류가 기록되었다. 이번 제품 25개 검사는 통과했으나 전체 VS 설치의 모든 구성요소가 정상이라는 뜻은 아니다. 원본 로그를 보존했고 별도 설치 파일은 변경하지 않았다.
 
-CodexOrig가 TASK-006(빌드 배치 및 라이선스 안내)을 진행 중인 것을 확인했다. 담당 파일과 기록을 보존했으며, Role.md 6번에 따라 GitHub push·릴리스 배포를 하지 않았다.
+검증 진행 중에는 CodexOrig의 TASK-006(빌드 배치 및 라이선스 안내)과 겹쳐 GitHub 배포를 보류했다. 이후 TASK-006 완료 기록을 재확인하고, 후속 TASK-007에서 Role.md 6번에 따라 검증 소스와 고정 VSIX를 GitHub 저장소에 반영했다. 담당 파일과 기록을 보존했다. [배포 검증 보고](CodexCode_TASK-007.md)를 참고한다.

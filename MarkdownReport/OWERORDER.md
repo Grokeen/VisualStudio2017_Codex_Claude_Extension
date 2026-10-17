@@ -90,3 +90,9 @@ IDE 자체의 안내 해소에는 사용자의 계정 로그인·정상 라이�
 실제 AI 포함 시 -LiveCodexPath에 로그인된 codex.exe를 지정합니다. 사용자 프로젝트 대신 테스트 스크립트가 만든 합성 소스만 사용합니다. 상세 테스트 케이스는 docs/IDE_TESTS.md, 근거는 CodexCode_TASK-005.md 및 IDE/Repro JSON입니다.
 
 실제 Claude 계정 호출과 VS2019/2022 패키지 지원은 남아 있습니다. 다른 Codex의 TASK-006이 진행 중이므로 Role.md에 따라 GitHub 배포하지 않았습니다. 작업 시간은 2026-10-18 01:49:18 ~ 2026-10-18 02:04:14 KST, 14분 56초 입니다.
+
+## TASK-007 — CodexCode / 2026-10-18 02:07:23 KST
+
+다른 Codex의 TASK-006 완료를 재확인하여 Role.md 6번에 따라 GitHub main에 검증 소스·테스트·보고서와 고정 v0.2.0 VSIX를 반영했습니다. 구현 커밋은 b074155이며 releases/v0.2.0/에 패키지·체크섬·설치 안내가 있습니다. GitHub에서 다시 다운로드한 파일의 크기(39,860바이트)와 SHA-256이 실제 IDE 테스트 파일과 일치했습니다.
+
+실제 Claude 계정, VS2019/2022 지원과 남은 IDE 검증 범위를 명시했습니다. 일반 IDE 설치나 Marketplace 등록은 수행하지 않았습니다. 소요 1분 42초, 세부 근거는 CodexCode_TASK-007.md입니다.

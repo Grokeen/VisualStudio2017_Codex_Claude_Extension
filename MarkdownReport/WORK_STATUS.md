@@ -8,7 +8,7 @@
 | TASK-002 | CodexOrig | 완료 (로컬 검증) | 2026-10-17 22:11:32 | 독립 호환성 검사: scripts/Test-VsixCompatibility.ps1, tests/compatibility/, docs/VSIX_COMPATIBILITY.md, MarkdownReport/CodexOrig_TASK-002* | 22:19:55 KST 완료, 8분 23초. 두 PowerShell에서 각각 44/44 PASS, 최신 소스 재검사 VS2017 정적 PASS. src/·솔루션·README·빌드 구성 미변경. TASK-001 진행 중이므로 push/배포 안 함. |
 | TASK-003 | CodexOrig | 설치·컴파일 검증 완료 / GUI 미검증 | 2026-10-18 00:50:54 | 사용자 요청: VS2017·2019·2022 병렬 설치 및 VSIX 실제 테스트 환경 구성. 설치 구성/검증 스크립트와 자기 보고서 | 01:33:36 KST 완료, 42분 42초. Community 15.9.83/16.11.60/17.14.42, VSSDK·WPF·.NET 4.6.2 포함. 세 MSBuild 및 세 IDE 명령행 빌드 PASS(종료 0), 재부팅 불필요. GUI 접근 거부 0x80070005로 도구 창 미검증. |
 | TASK-004 | CodexCode | 구현·로컬 검증 완료 / IDE 통합 검증 인계 | 2026-10-18 00:55:01 | 추가 Role 요구: Codex/Claude CLI 수정안 생성, 활성 문서 컨텍스트, 비교·승인·편집기 적용·되돌리기, 자동 검증 및 보고 | 2026-10-18 01:26:19 KST, 31분 18초. v0.2.0 VS2017 표준 Debug/Release 빌드, 편집 55/55·Foundation 29/29·호환성 44/44 및 실제 Codex 합성 코드 수정안 PASS. 고정 패키지 인계, 실제 IDE·Claude 검증은 별도. TASK-003 진행 중이므로 배포 안 함. |
-| TASK-005 | CodexCode | 실제 VS2017/Codex 통합 검증·보고 완료 | 2026-10-18 01:49:18 | 고정 v0.2.0 설치·실제 메뉴/도구 창/EnvDTE·승인/적용/저장/Undo 및 재현 테스트 | 02:04:14 KST 완료, 14분 56초. 실제 Codex 포함 IDE 25/25 및 기존 128/128 PASS. 새 인스턴스 재현 22/22 PASS. 제품 소스 미변경. 실제 Claude 계정·VS2019/2022는 별도. TASK-006 진행 중 배포 보류. |
+| TASK-005 | CodexCode | 실제 VS2017/Codex 통합 검증·보고 완료 | 2026-10-18 01:49:18 | 고정 v0.2.0 설치·실제 메뉴/도구 창/EnvDTE·승인/적용/저장/Undo 및 재현 테스트 | 02:04:14 KST 완료, 14분 56초. 실제 Codex 포함 IDE 25/25 및 기존 128/128 PASS. 새 인스턴스 재현 22/22 PASS. 제품 소스 미변경. 실제 Claude 계정·VS2019/2022는 별도. TASK-007에서 후속 배포. |
 
 ## TASK-004 진행 메모 — CodexCode
 
@@ -76,6 +76,8 @@
 
 ## TASK-007 진행 메모 — CodexCode
 
-- 상태: 진행 중. 시작 2026-10-18 02:05:41 KST.
+- 상태: 배포·원격 파일 검증 완료. 시작 2026-10-18 02:05:41 KST, 종료 2026-10-18 02:07:23 KST, 소요 1분 42초.
 - 범위: TASK-006 완료를 재확인한 뒤 Role.md 6번에 따른 검증된 v0.2.0 소스·테스트·고정 VSIX의 GitHub 저장소 반영. 실제 Claude 계정·VS2019/2022·남은 IDE 사용성 검증 한계를 배포 문서에 명시한다.
 - TASK-005 결과 153/153 및 새 인스턴스 22/22 재현 PASS. 다른 작업자의 완료 소스와 보고를 검토하고 보존한다. 일반 VSIX 설치나 Marketplace 공개는 수행하지 않는다.
+
+- TASK-007 완료 (2026-10-18 02:07:23 KST): TASK-006 완료 재확인 후 b074155 커밋을 main에 push. releases/v0.2.0에 검증 VSIX·해시·설치 안내 제공. GitHub에서 다시 다운로드한 39,860바이트와 SHA-256이 고정 인계 파일과 일치. 후속 보고 커밋에 최종 상태 기록. 현재 CodexCode 소스 작업 없음.

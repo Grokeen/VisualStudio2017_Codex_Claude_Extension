@@ -68,3 +68,11 @@
 - 소스 경로: tests/ide/의 csproj·C# 보조 패키지/케이스·PowerShell 런처·매니페스트. 제품 src/와 고정 인계 VSIX 미변경.
 - 보고: docs/IDE_TESTS.md, MarkdownReport/CodexCode_TASK-005.md 및 IDE/Repro JSON. README·DEVELOPMENT·SOURCE_EDITING·Project_Plan·협업 기록 갱신.
 - 한계: 실제 Claude 계정, VS2019/2022 패키지, 일부 IDE 특수 문서·수동 사용성 검증은 별도. TASK-006의 담당 파일 보존 및 작업 중 배포 금지 준수.
+
+## TASK-007 — CodexCode / 2026-10-18 02:07:23 KST
+
+- 작업 시간: 2026-10-18 02:05:41 ~ 2026-10-18 02:07:23 KST, 소요 1분 42초.
+- 내용: TASK-006 완료 재확인 후 검증한 소스·테스트·보고서 및 고정 VSIX를 GitHub main에 반영. 구현 커밋 b07415505a5be7253d25ccc078003bf492353674.
+- 경로: releases/v0.2.0/VS2017.AIAssistant-0.2.0.vsix, SHA256SUMS.txt, README.md 및 루트 README의 다운로드 안내.
+- 검증: 원격 main 커밋 일치, GitHub 재다운로드 파일 39,860바이트·SHA-256 일치. 배포 파일의 비밀키/토큰 형식 검사 검출 없음. 실제 IDE 25/25 및 기존 128/128, 새 인스턴스 재현 22/22 PASS 패키지와 동일.
+- 범위: GitHub 저장소 배포 완료. Marketplace·일반 IDE 설치·별도 GitHub Releases 객체 생성은 미수행. 상세 CodexCode_TASK-007.md.
