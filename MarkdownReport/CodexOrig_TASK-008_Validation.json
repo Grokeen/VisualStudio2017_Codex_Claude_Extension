@@ -1,0 +1,31 @@
+{
+  "CheckedAt": "2026-10-18T02:57:31.9128693+09:00",
+  "Succeeded": true,
+  "ProductVersion": "0.3.0",
+  "PackagePath": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.3.0\\VS2017.AIAssistant-0.3.0.vsix",
+  "PackageSHA256": "A7F1C597BA0CCF7B18AC52DEB29BACE2D6B66E300B9A90C6A55EB5A3E7A88DF2",
+  "AssemblySHA256": "28ACEEBE6A83AD63941F20CE38E77682DB40F30794DB4630564AC5AB7912C34C",
+  "DebugAndReleaseBuildWarnings": 0,
+  "RegressionTests": {
+    "EditingAndChat": 71,
+    "Foundation": 33,
+    "Compatibility": 44,
+    "Passed": 148,
+    "Failed": 0
+  },
+  "ActualIde": {
+    "Passed": 35,
+    "Failed": 0,
+    "ProductVersion": "0.3.0.0",
+    "LiveCodex": true,
+    "LiveClaude": false,
+    "ResultPath": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\ide\\run-0ed36ab0384d4c78a2ea5e2ff61ac226\\result.json"
+  },
+  "LiveImageContextReport": "artifacts/chat/live-458d0bd3175d464d8c954db0147db6c1/result.json",
+  "IndependentFinalContextReport": "MarkdownReport/CodexCode_TASK-009_LiveContext.json",
+  "SourceChangesSinceFreeze": [],
+  "RemainingCompactCodexOrigComments": 0,
+  "UserProjectSourceSent": false,
+  "ManualDragAndKeyGestureVerified": false,
+  "GitHubPublished": false
+}

@@ -1,6 +1,6 @@
-# 개발 및 수동 검증
+﻿# 개발 및 수동 검증
 
-v0.2.0은 Codex/Claude CLI를 통한 현재 파일 수정안 생성, 비교·승인, IDE 편집기 적용·별도 저장·직전 적용 복구를 제공한다. 2026-10-18 추가된 Role.md 요구에 따라 초기 MVP의 수정 제외 범위를 변경했다. [사용법과 범위](SOURCE_EDITING.md)를 참고한다.
+v0.3.0은 Chat 탭·첨부·누적 대화·instruction·계정/글자 설정과 Codex/Claude CLI를 통한 현재 파일 수정안 생성, 비교·승인, IDE 편집기 적용·별도 저장·직전 적용 복구를 제공한다. 2026-10-18 추가된 Role.md 요구에 따라 초기 MVP의 수정 제외 범위를 변경했다. 추가 Role 프로젝트 3~8번의 Chat 기능은 v0.3.0에서 반영했다. [사용법과 범위](SOURCE_EDITING.md)를 참고한다.
 
 ## 호환성 기준
 
@@ -11,7 +11,7 @@ v0.2.0은 Codex/Claude CLI를 통한 현재 파일 수정안 생성, 비교·승
 | 프로젝트 | 기존 형식 C# VSIX, .NET Framework 4.6.2, C# 7.0 |
 | VS SDK | Microsoft.VisualStudio.Shell.15.0 15.9.28307 |
 | VSIX 빌드 도구 | Microsoft.VSSDK.BuildTools 15.9.3032 |
-| 진입점 | 도구(Tools) → AI Assistant |
+| 진입점 | 도구(Tools) → AI Assistant → Chat 문서 탭 |
 
 VS2019 및 VS2022는 향후 목표이다. 현재 매니페스트는 두 버전의 설치를 허용하지 않는다. VS2022는 64비트 IDE이므로 적합한 SDK 및 아키텍처 대상으로 별도 빌드·실행 검증해야 한다.
 

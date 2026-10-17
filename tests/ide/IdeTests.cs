@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
@@ -12,6 +12,8 @@ using Microsoft.VisualStudio.Shell;
 using VS2017.AIAssistant.Editing;
 using VS2017.AIAssistant.ToolWindows;
 using VS2017.AIAssistant.Views;
+using Microsoft.VisualStudio.Shell.Interop;
+using VS2017.AIAssistant.Chat;
 
 namespace CodexCode.IdeIntegration
 {
@@ -22,6 +24,7 @@ namespace CodexCode.IdeIntegration
     /// author       : CodexCode
     /// create date  : 2026-10-18
     /// update date  : 2026-10-18 CodexCode : 메모리 fixture 대신 실제 VS2017 편집기 통합 테스트.
+    /// update date  : 2026-10-18 CodexOrig : Chat 컨텍스트·설정·창 이동 및 검증 흐름 갱신.
     /// </summary>
     /// ---------------------------------------------------------------------
     internal static class IdeTests
@@ -37,6 +40,7 @@ namespace CodexCode.IdeIntegration
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : IDE 안에서 제품 DLL과 UI를 교체하지 않고 실행.
+        /// update date  : 2026-10-18 CodexOrig : Chat 컨텍스트·설정·창 이동 및 검증 흐름 갱신.
         /// </summary>
         /// ---------------------------------------------------------------------
         internal static async Task RunAsync(Package product, DTE dte, TestConfig config)
@@ -48,6 +52,19 @@ namespace CodexCode.IdeIntegration
             Check("IDE-02 real VS2017 host", dte.Version.StartsWith("15."));
             Check("IDE-03 tool window created", pane != null && pane.Frame != null);
             var view = (AssistantControl)pane.Content;
+            var frame = (IVsWindowFrame)pane.Frame;
+            object frameMode;
+            frame.GetProperty((int)__VSFPROPID.VSFPROPID_FrameMode, out frameMode);
+            Check("CHAT-01 Chat starts as document tab", pane.Caption == "Chat" && Convert.ToInt32(frameMode) == (int)VSFRAMEMODE.VSFM_MdiChild);
+            frame.SetProperty((int)__VSFPROPID.VSFPROPID_FrameMode, (int)VSFRAMEMODE.VSFM_Float);
+            frame.GetProperty((int)__VSFPROPID.VSFPROPID_FrameMode, out frameMode);
+            Check("CHAT-02 Chat can float", Convert.ToInt32(frameMode) == (int)VSFRAMEMODE.VSFM_Float);
+            frame.SetProperty((int)__VSFPROPID.VSFPROPID_FrameMode, (int)VSFRAMEMODE.VSFM_Dock);
+            frame.GetProperty((int)__VSFPROPID.VSFPROPID_FrameMode, out frameMode);
+            Check("CHAT-03 Chat can dock", Convert.ToInt32(frameMode) == (int)VSFRAMEMODE.VSFM_Dock);
+            frame.SetProperty((int)__VSFPROPID.VSFPROPID_FrameMode, (int)VSFRAMEMODE.VSFM_MdiChild);
+            frame.GetProperty((int)__VSFPROPID.VSFPROPID_FrameMode, out frameMode);
+            Check("CHAT-04 Chat returns to document tab", Convert.ToInt32(frameMode) == (int)VSFRAMEMODE.VSFM_MdiChild);
             Check("IDE-04 real document service connected", Button(view, "GenerateButton").IsEnabled);
             var service = (IActiveDocumentService)typeof(AssistantControl).GetField("documents", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(view);
             Check("IDE-05 production EnvDTE adapter", service.GetType().FullName == "VS2017.AIAssistant.Services.VisualStudioDocumentService");
@@ -67,6 +84,19 @@ namespace CodexCode.IdeIntegration
             var textDoc = (TextDocument)sourceDoc.Object("TextDocument");
             var target = service.GetActiveDocument();
             var initial = target.Capture();
+            frame.Show();
+            await Task.Delay(100);
+            Check("CHAT-05 Chat tab retains last source target", service.GetActiveDocument().Capture().FilePath == sourcePath);
+            string attachmentPath = Path.Combine(config.OutputDirectory, "참고.txt");
+            File.WriteAllText(attachmentPath, "테스트 참고 조건", new UTF8Encoding(true));
+            view.AttachFiles(new[] { attachmentPath });
+            Check("CHAT-06 text attachment appears in actual IDE", ((ListBox)view.FindName("AttachmentList")).Items.Count == 1);
+            Text(view, "RulesText").Text = "기존 API와 들여쓰기를 유지한다.";
+            ((ComboBox)view.FindName("TextSizeChoice")).SelectedValue = "16";
+            Click(view, "SaveSettingsButton");
+            using (var recreated = new AssistantControl())
+                Check("CHAT-07 settings restore in recreated IDE control", recreated.FontSize == 16 && Text(recreated, "RulesText").Text.Contains("기존 API"));
+            Check("CHAT-08 settings isolated from personal profile", new AssistantSettingsStore().FilePath.StartsWith(config.OutputDirectory, StringComparison.OrdinalIgnoreCase));
             Check("IDE-07 capture exact active buffer", initial.Content == originalDisk && !initial.HasUnsavedChanges && !initial.IsReadOnly);
             Check("IDE-08 project and framework context", initial.ProjectContext.Contains("IdeProbe") && initial.ProjectContext.Contains("4.6.2"));
             textDoc.EndPoint.CreateEditPoint().Insert("// 테스트 미저장 편집\r\n");
@@ -75,6 +105,7 @@ namespace CodexCode.IdeIntegration
 
             await GenerateAsync(view);
             Check("IDE-10 Codex fixture proposal displayed", Text(view, "ProposedPreview").Text == unsaved.Replace("return 1;", "return 2;"));
+            Check("CHAT-09 conversation stacks user and AI turns", ((ItemsControl)view.FindName("ConversationMessages")).Items.Count >= 3);
             Check("IDE-11 approval starts unchecked", ((CheckBox)view.FindName("ReviewApproval")).IsChecked != true && !Button(view, "ApplyButton").IsEnabled);
             Check("IDE-12 proposal preserves buffer and disk", target.Capture().Content == unsaved && File.ReadAllText(sourcePath) == originalDisk);
             dte.ItemOperations.OpenFile(otherPath);
@@ -104,8 +135,10 @@ namespace CodexCode.IdeIntegration
             textDoc.StartPoint.CreateEditPoint().ReplaceText(textDoc.EndPoint, unsaved, 0);
             sourceDoc.Save(sourcePath);
 
-            ((ComboBox)view.FindName("ProviderChoice")).SelectedIndex = 1;
+            ((TabControl)view.FindName("ProviderChoice")).SelectedIndex = 1;
+            Check("CHAT-10 Provider tabs separate drafts and attachments", Text(view, "Instruction").Text == "" && ((ListBox)view.FindName("AttachmentList")).Items.Count == 0);
             Text(view, "ExecutablePath").Text = config.FixturePath;
+            Text(view, "Instruction").Text = "fixture:ok";
             await GenerateAsync(view);
             Check("IDE-21 Claude fixture protocol in real IDE", Text(view, "ProposedPreview").Text == unsaved.Replace("return 1;", "return 2;"));
             ApproveAndApply(view);
@@ -116,7 +149,7 @@ namespace CodexCode.IdeIntegration
             bool liveRan = !string.IsNullOrWhiteSpace(config.LiveCodexPath);
             if (liveRan)
             {
-                ((ComboBox)view.FindName("ProviderChoice")).SelectedIndex = 0;
+                ((TabControl)view.FindName("ProviderChoice")).SelectedIndex = 0;
                 Text(view, "ExecutablePath").Text = config.LiveCodexPath;
                 Text(view, "Instruction").Text = "Change only GetValue's return value from 1 to 2. Preserve all other text including comments and whitespace. Return one edit replacing exactly return 1; with return 2;.";
                 await GenerateAsync(view, 120000);

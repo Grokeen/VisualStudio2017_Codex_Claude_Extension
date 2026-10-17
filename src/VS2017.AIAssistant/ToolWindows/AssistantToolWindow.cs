@@ -1,4 +1,4 @@
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 using Microsoft.VisualStudio.Shell;
 using VS2017.AIAssistant.Views;
 using VS2017.AIAssistant.Providers;
@@ -13,11 +13,13 @@ namespace VS2017.AIAssistant.ToolWindows
     /// author       : CodexCode
     /// create date  : 2026-10-17
     /// update date  : 2026-10-18 CodexCode : 실제 문서·AI 수정 서비스와 종료 처리를 연결.
+    /// update date  : 2026-10-18 CodexOrig : Chat 제목 및 마지막 소스 추적 서비스 해제.
     /// </summary>
     /// ---------------------------------------------------------------------
     [Guid("c0482cd3-9556-4081-9c50-79cf84667042")]
     public sealed class AssistantToolWindow : ToolWindowPane
     {
+        private VisualStudioDocumentService documentService;
         /// ---------------------------------------------------------------------
         /// <summary>
         /// name         : AssistantToolWindow
@@ -25,12 +27,13 @@ namespace VS2017.AIAssistant.ToolWindows
         /// author       : CodexCode
         /// create date  : 2026-10-17
         /// update date  : 2026-10-17 CodexCode : 최소 화면 연결.
+        /// update date  : 2026-10-18 CodexOrig : Chat 컨텍스트·설정·창 이동 및 검증 흐름 갱신.
         /// </summary>
         /// ---------------------------------------------------------------------
         public AssistantToolWindow() : base(null)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
-            Caption = "AI Assistant";
+            Caption = "Chat";
             Content = new AssistantControl();
         }
 
@@ -41,13 +44,15 @@ namespace VS2017.AIAssistant.ToolWindows
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 생성 시 서비스 연결.
+        /// update date  : 2026-10-18 CodexOrig : Chat 컨텍스트·설정·창 이동 및 검증 흐름 갱신.
         /// </summary>
         /// ---------------------------------------------------------------------
         public override void OnToolWindowCreated()
         {
             base.OnToolWindowCreated();
             ThreadHelper.ThrowIfNotOnUIThread();
-            ((AssistantControl)Content).Initialize(new VisualStudioDocumentService((System.IServiceProvider)Package), new CliEditProvider());
+            documentService = new VisualStudioDocumentService((System.IServiceProvider)Package);
+            ((AssistantControl)Content).Initialize(documentService, new CliEditProvider());
         }
 
         /// ---------------------------------------------------------------------
@@ -57,12 +62,15 @@ namespace VS2017.AIAssistant.ToolWindows
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : IDE 종료 시 AI 프로세스 정리 연결.
+        /// update date  : 2026-10-18 CodexOrig : Chat 컨텍스트·설정·창 이동 및 검증 흐름 갱신.
         /// </summary>
         /// ---------------------------------------------------------------------
         protected override void Dispose(bool disposing)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
             var view = Content as AssistantControl;
             if (disposing && view != null) view.Dispose();
+            if (disposing && documentService != null) documentService.Dispose();
             base.Dispose(disposing);
         }
     }

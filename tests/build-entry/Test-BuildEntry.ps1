@@ -49,18 +49,22 @@ using System.Reflection;
 [assembly: AssemblyFileVersion("__MAJOR__.9.0.0")]
 /// ---------------------------------------------------------------------
 /// <summary>
-/// name: InventoryFixture; desc: Emit deterministic vswhere JSON and record arguments.
-/// author: CodexOrig; create date: 2026-10-18;
-/// update date: 2026-10-18 CodexOrig: test-only native process fixture.
+/// name         : InventoryFixture
+/// desc         : Emit deterministic vswhere JSON and record arguments.
+/// author       : CodexOrig
+/// create date  : 2026-10-18
+/// update date  : 2026-10-18 CodexOrig : test-only native process fixture.
 /// </summary>
 /// ---------------------------------------------------------------------
 internal static class InventoryFixture
 {
     /// ---------------------------------------------------------------------
     /// <summary>
-    /// name: Main; desc: Return controlled inventory or native failure without launching an IDE.
-    /// author: CodexOrig; create date: 2026-10-18;
-    /// update date: 2026-10-18 CodexOrig: preserve UTF-8 and argument boundaries.
+    /// name         : Main
+    /// desc         : Return controlled inventory or native failure without launching an IDE.
+    /// author       : CodexOrig
+    /// create date  : 2026-10-18
+    /// update date  : 2026-10-18 CodexOrig : preserve UTF-8 and argument boundaries.
     /// </summary>
     /// ---------------------------------------------------------------------
     public static int Main(string[] args)

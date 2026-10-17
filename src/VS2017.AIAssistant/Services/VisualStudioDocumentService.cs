@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.IO;
 using System.Security.Cryptography;
 using EnvDTE;
@@ -14,11 +14,15 @@ namespace VS2017.AIAssistant.Services
     /// author       : CodexCode
     /// create date  : 2026-10-18
     /// update date  : 2026-10-18 CodexCode : EnvDTE 문서 컨텍스트 연결.
+    /// update date  : 2026-10-18 CodexOrig : Chat 문서 탭 활성화 시 마지막 소스 문서 유지.
     /// </summary>
     /// ---------------------------------------------------------------------
-    internal sealed class VisualStudioDocumentService : IActiveDocumentService
+    internal sealed class VisualStudioDocumentService : IActiveDocumentService, IDisposable
     {
-        private readonly IServiceProvider services;
+        private readonly DTE dte;
+        private readonly WindowEvents windowEvents;
+        private readonly DocumentEvents documentEvents;
+        private Document lastDocument;
 
         /// ---------------------------------------------------------------------
         /// <summary>
@@ -27,9 +31,68 @@ namespace VS2017.AIAssistant.Services
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 서비스 초기화.
+        /// update date  : 2026-10-18 CodexOrig : Chat 컨텍스트·설정·창 이동 및 검증 흐름 갱신.
         /// </summary>
         /// ---------------------------------------------------------------------
-        internal VisualStudioDocumentService(IServiceProvider services) { this.services = services; }
+        internal VisualStudioDocumentService(IServiceProvider services)
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+            dte = services.GetService(typeof(DTE)) as DTE;
+            if (dte != null)
+            {
+                lastDocument = dte.ActiveDocument;
+                windowEvents = dte.Events.WindowEvents; documentEvents = dte.Events.DocumentEvents;
+                windowEvents.WindowActivated += WindowActivated;
+                documentEvents.DocumentClosing += DocumentClosing;
+            }
+        }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : WindowActivated
+        /// desc         : Chat 탭과 전환하기 직전의 실제 소스 문서를 기억한다.
+        /// author       : CodexOrig
+        /// create date  : 2026-10-18
+        /// update date  : 2026-10-18 CodexOrig : 문서 없는 도구 창은 대상으로 삼지 않음.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        private void WindowActivated(Window gotFocus, Window lostFocus)
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+            if (gotFocus != null && gotFocus.Document != null) lastDocument = gotFocus.Document;
+        }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : DocumentClosing
+        /// desc         : 닫힌 문서를 다음 요청의 대상으로 재사용하지 않는다.
+        /// author       : CodexOrig
+        /// create date  : 2026-10-18
+        /// update date  : 2026-10-18 CodexOrig : COM 문서 수명에 맞춰 캐시 해제.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        private void DocumentClosing(Document closing)
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+            if (lastDocument == closing) lastDocument = null;
+        }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : Dispose
+        /// desc         : Chat 창 해제 시 DTE 이벤트 구독을 해제한다.
+        /// author       : CodexOrig
+        /// create date  : 2026-10-18
+        /// update date  : 2026-10-18 CodexOrig : IDE 종료 후 참조 누수 방지.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        public void Dispose()
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+            if (windowEvents != null) windowEvents.WindowActivated -= WindowActivated;
+            if (documentEvents != null) documentEvents.DocumentClosing -= DocumentClosing;
+            lastDocument = null;
+        }
 
         /// ---------------------------------------------------------------------
         /// <summary>
@@ -38,14 +101,14 @@ namespace VS2017.AIAssistant.Services
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 솔루션 부재·디자이너·새 문서 오류 안내.
+        /// update date  : 2026-10-18 CodexOrig : Chat 컨텍스트·설정·창 이동 및 검증 흐름 갱신.
         /// </summary>
         /// ---------------------------------------------------------------------
         public IEditorDocument GetActiveDocument()
         {
             ThreadHelper.ThrowIfNotOnUIThread();
-            var dte = services.GetService(typeof(DTE)) as DTE;
             if (dte == null) throw new InvalidOperationException("Visual Studio 문서 서비스를 사용할 수 없습니다.");
-            Document active = dte.ActiveDocument;
+            Document active = dte.ActiveDocument ?? lastDocument;
             if (active == null || string.IsNullOrWhiteSpace(active.FullName) || !File.Exists(active.FullName))
                 throw new InvalidOperationException("수정할 소스 파일을 편집기에서 열어 주세요. 새 문서는 먼저 저장하세요.");
             var text = active.Object("TextDocument") as TextDocument;

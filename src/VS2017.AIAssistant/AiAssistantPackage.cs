@@ -15,12 +15,13 @@ namespace VS2017.AIAssistant
     /// author       : CodexCode
     /// create date  : 2026-10-17
     /// update date  : 2026-10-17 CodexCode : Phase 1 VSIX 패키지 등록 구현.
+    /// update date  : 2026-10-18 CodexOrig : 문서 탭 영역에 이동 가능한 Chat 창 기본 등록.
     /// </summary>
     /// ---------------------------------------------------------------------
     [PackageRegistration(UseManagedResourcesOnly = true, AllowsBackgroundLoading = true)]
     [Guid(PackageGuidString)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
-    [ProvideToolWindow(typeof(AssistantToolWindow))]
+    [ProvideToolWindow(typeof(AssistantToolWindow), Style = VsDockStyle.MDI)]
     public sealed class AiAssistantPackage : AsyncPackage
     {
         public const string PackageGuidString = "f31272f1-3188-4cca-b6e1-37c118cf7824";

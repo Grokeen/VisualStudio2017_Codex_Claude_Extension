@@ -6,6 +6,7 @@ desc         : 별도 VS2017 인스턴스에 VSIX와 테스트 패키지를 설�
 author       : CodexCode
 create date  : 2026-10-18
 update date  : 2026-10-18 CodexCode : 실제 IDE 실행과 실행별 합성 솔루션·결과 격리.
+update date  : 2026-10-18 CodexOrig : 최신 패키지·Provider 탭·개인 설정 격리 검증.
 -------------------------------------------------------------------------
 .SYNOPSIS
     Runs the installed product in a dedicated VS2017 root suffix. Live Codex is opt-in.+#>
@@ -19,7 +20,7 @@ param(
 )
 $ErrorActionPreference = 'Stop'
 $repositoryDir = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..\..'))
-if (!$VsixPath) { $VsixPath = Join-Path $repositoryDir 'artifacts\source-editing\handoff\VS2017.AIAssistant-0.2.0.vsix' }
+if (!$VsixPath) { $VsixPath = Join-Path $repositoryDir 'src\VS2017.AIAssistant\bin\Release\VS2017.AIAssistant.vsix' }
 $VsixPath = (Resolve-Path -LiteralPath $VsixPath).Path
 if (!$FixturePath) {
     $FixturePath = Get-ChildItem -LiteralPath (Join-Path $repositoryDir 'artifacts\source-editing') -Filter 'run-*' -Directory |
@@ -108,6 +109,7 @@ $startInfo.Arguments = '/RootSuffix ' + $rootSuffix + ' /NoSplash /ResetSettings
 $startInfo.UseShellExecute = $false
 $startInfo.WindowStyle = [Diagnostics.ProcessWindowStyle]::Hidden
 $startInfo.EnvironmentVariables['CODEXCODE_IDE_TEST_CONFIG'] = $configPath
+$startInfo.EnvironmentVariables['VS2017_AI_SETTINGS_PATH'] = Join-Path $outputDir 'ui-settings.json'
 $ideProcess = [Diagnostics.Process]::Start($startInfo)
 [pscustomobject]@{
     ProcessId=$ideProcess.Id; RootSuffix=$rootSuffix; OutputDirectory=$outputDir; VsixPath=$VsixPath

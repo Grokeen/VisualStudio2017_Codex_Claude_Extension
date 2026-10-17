@@ -100,7 +100,9 @@ $resolveHandler = [ResolveEventHandler]{
     return $null
 }
 [AppDomain]::CurrentDomain.add_AssemblyResolve($resolveHandler)
+$previousSettingsPath = $env:VS2017_AI_SETTINGS_PATH
 try {
+    $env:VS2017_AI_SETTINGS_PATH = Join-Path $OutputDirectory ('isolated-settings-' + [guid]::NewGuid().ToString('N') + '.json')
     $extensionAssembly = [Reflection.Assembly]::LoadFrom($assemblyPath)
     $menuStream = $extensionAssembly.GetManifestResourceStream('VSPackage.resources')
     $menuReader = New-Object Resources.ResourceReader($menuStream)
@@ -137,6 +139,7 @@ try {
             $control.Dispatcher.Invoke([Action]{}, [Windows.Threading.DispatcherPriority]::Render)
             Assert-FoundationCondition ($control.Background -eq $background -and $control.Foreground -eq $foreground) "$theme theme resources update at width $width"
             Assert-FoundationCondition ($control.FindName('ReviewApproval').Content.Foreground -eq $foreground) "$theme approval label remains readable at width $width"
+            Assert-FoundationCondition ($control.FindName('SettingsPanel').Foreground -eq $foreground -and $control.FindName('ReviewPanel').Foreground -eq $foreground) "$theme settings and review headers remain readable at width $width"
             $bitmap = New-Object Windows.Media.Imaging.RenderTargetBitmap($width, $height, 96, 96, [Windows.Media.PixelFormats]::Pbgra32)
             $bitmap.Render($control)
             $encoder = New-Object Windows.Media.Imaging.PngBitmapEncoder
@@ -148,6 +151,9 @@ try {
         }
     }
 }
-finally { [AppDomain]::CurrentDomain.remove_AssemblyResolve($resolveHandler) }
+finally {
+    [AppDomain]::CurrentDomain.remove_AssemblyResolve($resolveHandler)
+    $env:VS2017_AI_SETTINGS_PATH = $previousSettingsPath
+}
 
 Write-Output "Foundation checks: $script:passedChecks PASS. Actual Visual Studio installation and IDE execution remain untested."

@@ -60,6 +60,12 @@ $compileArguments += Join-Path $PSScriptRoot 'EditingTests.cs'
 if ($LASTEXITCODE -ne 0) { throw "테스트 컴파일 실패: $LASTEXITCODE" }
 $fixturePath = Join-Path $testDir 'Fixture CLI 한글.exe'
 Copy-Item -LiteralPath $testExecutable -Destination $fixturePath
-& $testExecutable $testDir $fixturePath 2>&1 | Tee-Object -FilePath (Join-Path $testDir 'results.log')
-if ($LASTEXITCODE -ne 0) { throw "편집 회귀 테스트 실패: $LASTEXITCODE (기록: $testDir)" }
+$previousSettingsPath = $env:VS2017_AI_SETTINGS_PATH
+try {
+    $env:VS2017_AI_SETTINGS_PATH = Join-Path $testDir 'ui-settings.json'
+    & $testExecutable $testDir $fixturePath 2>&1 | Tee-Object -FilePath (Join-Path $testDir 'results.log')
+    $testExitCode = $LASTEXITCODE
+}
+finally { $env:VS2017_AI_SETTINGS_PATH = $previousSettingsPath }
+if ($testExitCode -ne 0) { throw "편집 회귀 테스트 실패: $testExitCode (기록: $testDir)" }
 Write-Output "테스트 산출물: $testDir"

@@ -76,3 +76,24 @@
 - 경로: releases/v0.2.0/VS2017.AIAssistant-0.2.0.vsix, SHA256SUMS.txt, README.md 및 루트 README의 다운로드 안내.
 - 검증: 원격 main 커밋 일치, GitHub 재다운로드 파일 39,860바이트·SHA-256 일치. 배포 파일의 비밀키/토큰 형식 검사 검출 없음. 실제 IDE 25/25 및 기존 128/128, 새 인스턴스 재현 22/22 PASS 패키지와 동일.
 - 범위: GitHub 저장소 배포 완료. Marketplace·일반 IDE 설치·별도 GitHub Releases 객체 생성은 미수행. 상세 CodexCode_TASK-007.md.
+
+## TASK-009 — CodexCode / 2026-10-18 02:57:20 KST
+
+- 작업 시간: 2026-10-18 02:31:42 ~ 2026-10-18 02:57:20 KST, 소요 25분 38초.
+- 내용: Role 기본7번과 프로젝트3~8번 확인. README를 사용자 가치·설치·계정 연결·요청·첨부·대화·instruction·승인/저장 중심으로 전면 개편하고 상세 USER_GUIDE·실제 제품 UI 예제 이미지 추가.
+- 소스/문서 경로: README.md, docs/USER_GUIDE.md, docs/assets/chat-0.3-preview.png, tests/review/Test-LiveChatContext.ps1. 제품 구현 및 기존 회귀/IDE 검사는 CodexOrig TASK-008과 분담.
+- 독립 검토: 어두운 Expander 제목 가독성 문제 발견·수정 재확인, 이미지 Ctrl+V 명령 경로 검토 인계 및 수정 확인. 이전 v0.2 파일 보존.
+- 최종 검증: 고정 DLL로 실제Codex 이미지·텍스트·대화·규칙/계정6/6, 편집71/71, Foundation33/33 PASS. IDE35/35 결과 확인. 문서 로컬 참조 16개·패키지 해시 일치.
+- 보고: CodexCode_TASK-009.md, _LiveContext.json, _Documentation.json. 작업 종료 후 최종 GitHub 반영을 TASK-008 CodexOrig에 인계. 직접 중복 커밋·push하지 않음.
+
+## TASK-008 — CodexOrig / 2026-10-18 02:58:58 KST
+
+- 작업 시간: 2026-10-18 02:32:55 ~ 02:58:58 KST, 로컬 검증까지 소요 26분 3초.
+- 요청: Role.md의 Chat 이동·이미지/파일·누적 프롬프트·instruction·계정/텍스트 설정 및 README 7번 반영. 추가 사용자 지시로 CodexOrig C# 주석의 줄바꿈·콜론 열을 기존 CodexCode 형식으로 통일.
+- 구현: v0.3.0 Chat MDI/Float/Dock, 마지막 소스 추적, Provider별 대화/초안/첨부, 제한된 첨부 스냅샷·이미지 전달·붙여넣기 명령, 최근 대화/instruction, 공식 CLI 계정 연결/확인, 경로/모델/글자 크기 영속 설정.
+- 소스: src/VS2017.AIAssistant/Chat/ChatWorkspace.cs, Views/AssistantControl*, Providers/CliEditProvider.cs·CliAccountService.cs, Services/VisualStudioDocumentService.cs, 창/패키지 등록·csproj·버전.
+- 테스트: tests/editing·foundation·ide, tests/chat/Test-LiveChat.ps1. scripts/Test-VsixTestEnvironment.ps1 및 tests/build-entry의 생성 C# 주석도 통일.
+- 검증: VS2017 표준 Debug/Release 경고·오류0, 편집/Chat71·Foundation33·호환성44 전부 PASS. 고정 패키지 실제 IDE35/35(실제 Codex 포함), 실제 이미지/텍스트/대화/instruction 수정안 PASS. 최종 DLL을 TASK-009가 독립 재검증해 컨텍스트6/6·편집71·Foundation33 PASS.
+- 문서/보고: docs/DEVELOPMENT.md·IDE_TESTS.md·SOURCE_EDITING.md, Project_Plan.md, CodexOrig_TASK-008* 및 협업/상관 보고. 사용자 README·USER_GUIDE·예제 화면은 TASK-009 CodexCode가 담당하여 보존.
+- 패키지: releases/v0.3.0/VS2017.AIAssistant-0.3.0.vsix, SHA256 A7F1C597BA0CCF7B18AC52DEB29BACE2D6B66E300B9A90C6A55EB5A3E7A88DF2. 0.2 파일 미변경.
+- 한계: 실제 Claude 계정·VS2019/2022 확장 지원·수동 마우스/키보드 전체 제스처·디스크 대화 복원 미검증/미구현. 최종 배포는 TASK-009 완료 확인 후 별도 기록.

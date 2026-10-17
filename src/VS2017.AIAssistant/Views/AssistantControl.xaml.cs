@@ -1,5 +1,6 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
@@ -7,6 +8,7 @@ using Microsoft.VisualStudio.Shell;
 using Microsoft.Win32;
 using VS2017.AIAssistant.Editing;
 using VS2017.AIAssistant.Providers;
+using VS2017.AIAssistant.Chat;
 
 namespace VS2017.AIAssistant.Views
 {
@@ -17,6 +19,7 @@ namespace VS2017.AIAssistant.Views
     /// author       : CodexCode
     /// create date  : 2026-10-17
     /// update date  : 2026-10-18 CodexCode : 실제 단일 파일 편집 워크플로와 취소 기능 연결.
+    /// update date  : 2026-10-18 CodexOrig : Chat 탭·누적 대화·첨부·영속 설정 연결.
     /// </summary>
     /// ---------------------------------------------------------------------
     public partial class AssistantControl : UserControl, IDisposable
@@ -39,6 +42,7 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexCode
         /// create date  : 2026-10-17
         /// update date  : 2026-10-18 CodexCode : 요청·미리보기 입력란의 테마 처리.
+        /// update date  : 2026-10-18 CodexOrig : Chat 컨텍스트·설정·창 이동 및 검증 흐름 갱신.
         /// </summary>
         /// ---------------------------------------------------------------------
         public AssistantControl()
@@ -51,6 +55,7 @@ namespace VS2017.AIAssistant.Views
                 control.SetResourceReference(BackgroundProperty, VsBrushes.ToolWindowBackgroundKey);
                 control.SetResourceReference(ForegroundProperty, VsBrushes.ToolWindowTextKey);
             }
+            InitializeChat();
         }
 
         /// ---------------------------------------------------------------------
@@ -76,12 +81,14 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 요청 중 UI 유지 및 실패·취소 처리.
+        /// update date  : 2026-10-18 CodexOrig : Chat 컨텍스트·설정·창 이동 및 검증 흐름 갱신.
         /// </summary>
         /// ---------------------------------------------------------------------
         private async void GenerateClicked(object sender, RoutedEventArgs e)
         {
             if (busy || documents == null || disposed) return;
             ClearProposal();
+            ChatSession chat = ActiveChat;
             try
             {
                 if (string.IsNullOrWhiteSpace(Instruction.Text)) throw new InvalidOperationException("수정 요청을 입력하세요.");
@@ -89,21 +96,32 @@ namespace VS2017.AIAssistant.Views
                 DocumentSnapshot source = pendingDocument.Capture();
                 TargetLabel.Text = "대상: " + source.FilePath + (source.HasUnsavedChanges ? " (미저장 편집 내용 포함)" : "");
                 OriginalPreview.Text = source.Content;
+                var context = new ChatRequestContext(RulesText.Text, ModelName.Text, chat.Messages.ToArray(), chat.Attachments.ToArray());
+                chat.Add("user", Instruction.Text + (context.Attachments.Length == 0 ? "" : "\n첨부: " + string.Join(", ", context.Attachments.Select(a => a.Name))));
+                ConversationScroll.ScrollToEnd();
                 busy = true;
                 requestCancellation = new CancellationTokenSource();
                 StatusLabel.Text = selectedProvider + " 수정안 생성 중…";
                 UpdateButtons();
-                EditProposal proposal = await provider.GenerateAsync(selectedProvider, ExecutablePath.Text, source, Instruction.Text, requestCancellation.Token);
+                var contextProvider = provider as IAiContextEditProvider;
+                if (contextProvider == null && (context.Attachments.Length > 0 || context.Instructions.Length > 0 || context.History.Length > 0))
+                    throw new InvalidOperationException("이 Provider는 대화 컨텍스트를 지원하지 않습니다.");
+                EditProposal proposal = contextProvider == null
+                    ? await provider.GenerateAsync(selectedProvider, ExecutablePath.Text, source, Instruction.Text, requestCancellation.Token)
+                    : await contextProvider.GenerateWithContextAsync(selectedProvider, ExecutablePath.Text, source, Instruction.Text, context, requestCancellation.Token);
                 if (disposed) return;
                 source.RequireUnchanged(pendingDocument.Capture());
                 pendingProposal = proposal;
+                chat.Add("assistant", proposal.Summary);
+                ConversationScroll.ScrollToEnd();
                 ProposedPreview.Text = proposal.ProposedText;
                 DiffPreview.Text = proposal.ChangePreview;
                 StatusLabel.Text = proposal.Summary + (proposal.HasChanges ? "\n변경 비교 후 적용을 승인하세요." : "\n적용할 변경이 없습니다.");
                 ReviewTabs.SelectedIndex = 0;
+                ReviewPanel.IsExpanded = proposal.HasChanges;
             }
-            catch (OperationCanceledException) { if (!disposed) StatusLabel.Text = "요청을 중지했습니다. 소스는 변경하지 않았습니다."; }
-            catch (Exception exception) { if (!disposed) StatusLabel.Text = "요청 실패: " + exception.Message; }
+            catch (OperationCanceledException) { if (!disposed) { StatusLabel.Text = "요청을 중지했습니다. 소스는 변경하지 않았습니다."; chat.Add("system", StatusLabel.Text); } }
+            catch (Exception exception) { if (!disposed) { StatusLabel.Text = "요청 실패: " + exception.Message; chat.Add("system", StatusLabel.Text); } }
             finally
             {
                 busy = false;
@@ -196,15 +214,18 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 재시작 없는 Provider 전환 구현.
+        /// update date  : 2026-10-18 CodexOrig : Chat 컨텍스트·설정·창 이동 및 검증 흐름 갱신.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void ProviderChanged(object sender, SelectionChangedEventArgs e)
         {
             if (ExecutablePath == null || ReviewApproval == null) return;
             executablePaths[selectedProvider] = ExecutablePath.Text;
+            SaveDraft();
             selectedProvider = Convert.ToString(ProviderChoice.SelectedValue);
             string path;
             ExecutablePath.Text = executablePaths.TryGetValue(selectedProvider, out path) ? path : "";
+            ShowChat();
             ClearProposal();
             UpdateButtons();
         }
@@ -242,6 +263,7 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 수정안 간 승인 재사용 방지.
+        /// update date  : 2026-10-18 CodexOrig : Chat 컨텍스트·설정·창 이동 및 검증 흐름 갱신.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void ClearProposal()
@@ -251,6 +273,7 @@ namespace VS2017.AIAssistant.Views
             ReviewApproval.IsChecked = false;
             DiffPreview.Clear();
             ProposedPreview.Clear();
+            if (ReviewPanel != null) ReviewPanel.IsExpanded = false;
         }
 
         /// ---------------------------------------------------------------------
@@ -260,6 +283,7 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 생성·중지·적용·저장·복구 상태 반영.
+        /// update date  : 2026-10-18 CodexOrig : Chat 컨텍스트·설정·창 이동 및 검증 흐름 갱신.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void UpdateButtons()
@@ -270,6 +294,9 @@ namespace VS2017.AIAssistant.Views
             BrowseButton.IsEnabled = !busy;
             Instruction.IsEnabled = !busy;
             StopButton.IsEnabled = busy;
+            AttachButton.IsEnabled = PasteButton.IsEnabled = NewChatButton.IsEnabled = !busy;
+            AttachmentList.IsEnabled = SettingsPanel.IsEnabled = !busy;
+            AccountCheckButton.IsEnabled = LoginButton.IsEnabled = SaveSettingsButton.IsEnabled = !busy;
             ReviewApproval.IsEnabled = !busy && pendingProposal != null && pendingProposal.HasChanges;
             ApplyButton.IsEnabled = ReviewApproval.IsEnabled && ReviewApproval.IsChecked == true;
             SaveButton.IsEnabled = !busy && session.CanSave;

@@ -1,4 +1,4 @@
-# v0.2.0 현재 파일 소스 수정
+﻿# v0.3.0 Chat과 현재 파일 소스 수정
 
 2026-10-18 추가된 Role.md의 “비주얼스튜디오에서 확장자로 실행된 코덱스나 클로드가 소스수정이 가능해야 한다”는 요구를 반영했다. 초기 MVP에서 수정 기능을 제외했던 문구도 이 요구에 맞춰 갱신했다.
 
@@ -6,18 +6,18 @@
 
 1. Windows 네이티브 Codex 또는 Claude Code CLI를 설치하고 해당 터미널에서 로그인한다.
 2. VS2017 15.9에서 기존 소스 파일을 텍스트 편집기로 연다. 새 문서는 먼저 파일로 저장한다.
-3. 도구 → AI Assistant에서 Provider와 CLI 실행 파일 `.exe` 경로를 선택한다. PATH에서 찾을 수 있으면 경로는 비워도 된다.
-4. 수정 요청을 입력하고 **수정안 생성**을 누른다. 현재 파일의 전체 편집 내용과 얻을 수 있는 프로젝트 언어·프레임워크 정보가 선택한 AI에 전달된다. 미저장 편집 내용도 포함된다.
+3. 도구 → AI Assistant에서 Chat을 열고 Codex/Claude Code 탭을 선택한다. 설정에서 CLI 실행 파일 `.exe` 경로를 선택하거나 계정 연결·연결 확인을 사용한다. PATH에서 찾을 수 있으면 경로는 비워도 된다.
+4. 수정 요청을 입력하고 **보내기**을 누른다. 현재 파일의 전체 편집 내용과 얻을 수 있는 프로젝트 언어·프레임워크 정보가 선택한 AI에 전달된다. 미저장 편집 내용도 포함된다.
 5. **변경 비교**, **원본**, **수정안** 탭에서 변경 위치와 결과를 확인한다.
 6. 적용 동의에 체크한 다음 **승인 후 적용**을 누른다. 편집기 버퍼가 변경되며 파일은 아직 자동 저장하지 않는다.
 7. 내용을 확인하고 **적용 내용 저장** 또는 편집기의 Ctrl+S로 저장한다.
 8. 마지막 AI 적용을 복구하려면 **직전 적용 되돌리기** 또는 편집기의 실행 취소(Ctrl+Z)를 사용한다. 복구한 버퍼의 저장은 Ctrl+S로 수행한다.
 
-CLI 경로는 도구 창 수명 동안 Provider별로 유지한다. 재시작 후에는 PATH를 사용하거나 경로를 다시 선택한다. `.cmd`/`.bat` 셸 래퍼는 실행하지 않으므로 네이티브 `.exe`를 선택해야 한다. 로그인/CLI 기능이 맞지 않으면 오류로 안내하며 권한 제한을 풀어서 자동 재시도하지 않는다.
+CLI 경로와 모델, 공통 instruction, 글자 크기는 설정 저장을 누르면 재시작 후에도 유지한다. 대화·첨부·작성 중 입력은 Provider별로 창 수명 동안 유지하며 새 대화로 초기화한다. 상세 사용법은 [USER_GUIDE.md](USER_GUIDE.md)를 참고한다. `.cmd`/`.bat` 셸 래퍼는 실행하지 않으므로 네이티브 `.exe`를 선택해야 한다. 로그인/CLI 기능이 맞지 않으면 오류로 안내하며 권한 제한을 풀어서 자동 재시도하지 않는다.
 
 ## 현재 범위
 
-| 항목 | v0.2.0 |
+| 항목 | v0.3.0 |
 |---|---|
 | 파일 범위 | 활성 텍스트 파일 한 개, 이미 디스크에 존재하는 파일 |
 | 요청 내용 | 전체 편집기 버퍼, 파일명, 제공 가능한 언어·프레임워크 정보 |
@@ -36,11 +36,11 @@ CLI 경로는 도구 창 수명 동안 Provider별로 유지한다. 재시작 �
 
 ## Provider 실행 방식
 
-Codex는 `codex exec --sandbox read-only --ignore-user-config --ephemeral --skip-git-repo-check --output-schema ... -`로 호출한다. 모델의 최종 출력이 수정 JSON이 되도록 schema를 전달하고 stdin에 요청을 쓴다. 이 방식은 [OpenAI Docs의 비대화형·구조화 출력 문서](https://developers.openai.com/codex/noninteractive)와 [CLI 옵션](https://developers.openai.com/codex/cli/reference)을 참고했다. 설치된 Codex `0.162.0-alpha.17.2`의 `exec --help`에서도 필요한 옵션을 확인했다. 사용자 CLI 설정은 로드하지 않으며 인증은 CLI의 기존 로그인에 따른다.
+Codex는 `codex exec --sandbox read-only --ignore-user-config --ephemeral --skip-git-repo-check --output-schema ... [--image ...] -- -`로 호출한다. 모델의 최종 출력이 수정 JSON이 되도록 schema를 전달하고 stdin에 요청을 쓴다. 이 방식은 [OpenAI Docs의 비대화형·구조화 출력 문서](https://developers.openai.com/codex/noninteractive)와 [CLI 옵션](https://developers.openai.com/codex/cli/reference)을 참고했다. 설치된 Codex `0.162.0-alpha.17.2`의 `exec --help`에서도 필요한 옵션을 확인했다. 사용자 CLI 설정은 로드하지 않으며 인증은 CLI의 기존 로그인에 따른다.
 
 Claude는 `--print --output-format json --json-schema ... --tools "" --disallowedTools "mcp__*" --strict-mcp-config --mcp-config ... --setting-sources "" --no-session-persistence`를 사용한다. stdout의 `structured_output`만 수정안으로 읽는다. 도구 제한, 빈 MCP 구성 및 구조화 응답은 [Anthropic CLI 문서](https://code.claude.com/docs/en/cli-reference)와 [프로그램 호출 문서](https://code.claude.com/docs/en/headless)에 근거한다. 실제 설치된 Claude의 지원 옵션·인증·모델 응답은 별도 검증해야 한다.
 
-두 Provider 모두 별도의 빈 작업 디렉터리에서 요청하고, 프로젝트 경로를 작업 디렉터리로 넘기지 않는다. 수정할 파일 경로를 AI 결과에서 받지 않으므로 결과가 다른 파일을 지정할 수 없다. 확장 자체는 프롬프트·전체 소스·AI stdout/stderr를 로그 파일에 저장하지 않는다. 임시 파일에는 고정 JSON schema와 빈 MCP 구성만 기록한다. CLI 자체의 인증·진단 정책은 해당 도구에 따른다.
+두 Provider 모두 별도의 빈 작업 디렉터리에서 요청하고, 프로젝트 경로를 작업 디렉터리로 넘기지 않는다. 수정할 파일 경로를 AI 결과에서 받지 않으므로 결과가 다른 파일을 지정할 수 없다. 확장 자체는 프롬프트·전체 소스·AI stdout/stderr를 로그 파일에 저장하지 않는다. 임시 파일에는 고정 JSON schema, 빈 MCP 구성 및 Codex가 읽을 첨부 이미지 스냅샷을 기록하고 요청 종료 시 정리한다. 이미지 파일은 임의 이름으로 저장하며 원본 첨부 경로를 CLI에 전달하지 않는다. Claude 이미지는 stdin의 stream-json 이미지 블록으로 전달한다. CLI 자체의 인증·진단 정책은 해당 도구에 따른다.
 
 stdout/stderr를 비동기로 동시에 읽고 Windows Job Object로 CLI와 하위 프로세스의 수명을 관리한다. 중지·제한 시간·출력 초과·IDE 도구 창 해제 시 프로세스를 정리한다.
 
@@ -63,7 +63,7 @@ powershell -NoProfile -NonInteractive -ExecutionPolicy Bypass -File .\tests\edit
     -CodexPath 'C:\path\to\codex.exe'
 ```
 
-2026-10-18 실제 VS2017 15.9.83의 설치된 v0.2.0 도구 창에서 Codex CLI를 호출하여 `GetValue`의 `return 1;` → `return 2;` 수정안 생성, 승인 전 원본 보존, 승인 후 실제 EnvDTE 버퍼 적용 및 IDE 저장까지 확인했다. 실제 IDE 25개와 기존 회귀 128개가 통과했다. Claude는 실제 IDE에서 테스트 CLI 응답의 적용까지 검증했으며 실제 Claude 계정 호출은 남아 있다. 재현 명령과 사례별 범위는 [IDE_TESTS.md](IDE_TESTS.md)를 참고한다.
+2026-10-18 TASK-005에서 실제 VS2017 15.9.83의 설치된 v0.2.0 도구 창에서 Codex CLI를 호출하여 `GetValue`의 `return 1;` → `return 2;` 수정안 생성, 승인 전 원본 보존, 승인 후 실제 EnvDTE 버퍼 적용 및 IDE 저장까지 확인했다. 실제 IDE 25개와 기존 회귀 128개가 통과했다. Claude는 실제 IDE에서 테스트 CLI 응답의 적용까지 검증했으며 실제 Claude 계정 호출은 남아 있다. 재현 명령과 사례별 범위는 [IDE_TESTS.md](IDE_TESTS.md)를 참고한다.
 
 ## 실제 IDE 체크리스트
 
@@ -82,3 +82,12 @@ powershell -NoProfile -NonInteractive -ExecutionPolicy Bypass -File .\tests\edit
 - [ ] 밝은/어두운 테마와 좁은 도킹 창의 승인 문구 가독성
 
 작업별 실제 실행 결과는 `MarkdownReport/CodexCode_TASK-005.md`에 기록했다. 도킹·테마 전환·반복 개폐·재시작·제거 및 특수 문서의 수동 검증은 별도다.
+
+## v0.3.0 추가 동작
+
+- Chat은 VS 문서 탭 영역에서 시작하고 VS의 도킹/분리 기능으로 이동할 수 있다. Chat을 선택해 ActiveDocument가 없어져도 마지막으로 활성화한 소스 문서를 사용하며, 닫힌 문서는 추적 대상에서 해제한다.
+- 파일을 Chat에 드롭하거나 ＋ 첨부로 선택한다. 프롬프트에서 Ctrl+V 또는 붙여넣기 버튼으로 PNG 이미지/파일을 첨부할 수 있다. 텍스트 붙여넣기는 기존 입력 기능을 유지한다. 첨부는 전송 후에도 유지되므로 제거할 때까지 다음 요청에도 포함된다.
+- 허용 범위: PNG/JPEG 2MB·1600만 픽셀, UTF-8/Unicode BOM 텍스트 100KB, 합계4개. 파일은 첨부 당시 내용으로 고정하고 디렉터리·지원하지 않는 바이너리는 거부한다.
+- 대화는 각 AI별로 화면에 최대100개 메시지를 누적한다. 후속 요청에는 해당 탭의 최근10개/24000자 대화와 현재 파일, 공통 instruction(8000자), 현재 첨부를 포함한다. 설정 저장은 LocalAppData/VS2017AIAssistant/settings.json을 사용하며 대화나 인증 토큰을 저장하지 않는다.
+- 계정 연결은 Codex login / Claude auth login으로 공식 CLI를 열고, 연결 확인은 login status / auth status 종료 코드를 사용한다. 실제 인증은 사용자가 CLI/브라우저에서 수행하며 확장에 암호를 입력하지 않는다.
+- 실제 Codex 합성 이미지/텍스트/이전 대화/instruction 검사는 tests/chat/Test-LiveChat.ps1로 재현한다. 실제 Claude 계정 호출은 미검증이며 기본 회귀에서 네이티브 CLI 인수·stream-json 이미지·응답 envelope를 검사한다.

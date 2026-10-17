@@ -1,0 +1,20 @@
+﻿{
+    "Succeeded":  true,
+    "CheckKind":  "LiveCodexImageTextHistoryRules",
+    "ProductVersion":  "0.3.0.0",
+    "AssemblySha256":  "28ACEEBE6A83AD63941F20CE38E77682DB40F30794DB4630564AC5AB7912C34C",
+    "CodexVersion":  "codex-cli 0.162.0-alpha.17.2",
+    "UserProjectSourceSent":  false,
+    "IdeRuntimeTest":  false,
+    "Checks":  {
+                   "ExactImageBasedEdit":  true,
+                   "RulesMarker":  true,
+                   "HistoryMarker":  true,
+                   "TextAttachmentMarker":  true,
+                   "OriginalDiskUnchanged":  true,
+                   "AccountConnected":  true
+               },
+    "Summary":  "Read digit 7. RULES_OK HISTORY_OK NOTE_OK.",
+    "OutputDirectory":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task009\\live-context-5d86a1c52ded4c46a796691277a822ee",
+    "CheckedAt":  "2026-10-18T02:54:22.7722652+09:00"
+}

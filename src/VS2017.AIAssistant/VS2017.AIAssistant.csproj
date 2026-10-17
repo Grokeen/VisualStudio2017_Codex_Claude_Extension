@@ -63,6 +63,9 @@
     <Compile Include="AiAssistantPackage.cs" />
     <Compile Include="Commands\OpenAssistantCommand.cs" />
     <Compile Include="Editing\DocumentSnapshot.cs" />
+    <Compile Include="Chat\ChatWorkspace.cs" />
+    <Compile Include="Providers\CliAccountService.cs" />
+    <Compile Include="Views\AssistantControl.Chat.cs" />
     <Compile Include="Editing\EditProposal.cs" />
     <Compile Include="Editing\SourceEditSession.cs" />
     <Compile Include="Providers\CliEditProvider.cs" />

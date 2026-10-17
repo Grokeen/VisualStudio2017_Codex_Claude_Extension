@@ -1,0 +1,80 @@
+﻿{
+    "SchemaVersion":  1,
+    "CheckKind":  "StaticSourceCompatibility",
+    "Succeeded":  true,
+    "ManifestPath":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\source.extension.vsixmanifest",
+    "ProjectPath":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\VS2017.AIAssistant.csproj",
+    "RequiredVersions":  [
+                             "2017"
+                         ],
+    "Matrix":  [
+                   {
+                       "VisualStudio":  "2017",
+                       "Required":  true,
+                       "Declared":  true,
+                       "RequestedArchitecture":  "x86",
+                       "MatchingRanges":  [
+                                              "[15.0.28307.0,16.0)"
+                                          ],
+                       "ManifestStatus":  "Declared"
+                   },
+                   {
+                       "VisualStudio":  "2019",
+                       "Required":  false,
+                       "Declared":  false,
+                       "RequestedArchitecture":  "x86",
+                       "MatchingRanges":  [
+
+                                          ],
+                       "ManifestStatus":  "NotDeclared"
+                   },
+                   {
+                       "VisualStudio":  "2022",
+                       "Required":  false,
+                       "Declared":  false,
+                       "RequestedArchitecture":  "amd64",
+                       "MatchingRanges":  [
+
+                                          ],
+                       "ManifestStatus":  "NotDeclared"
+                   }
+               ],
+    "Frameworks":  [
+                       "v4.6.2"
+                   ],
+    "PlatformTargets":  [
+                            "anycpu"
+                        ],
+    "Packages":  [
+                     {
+                         "Id":  "Microsoft.VisualStudio.Shell.15.0",
+                         "Version":  "15.9.28307"
+                     },
+                     {
+                         "Id":  "EnvDTE",
+                         "Version":  "8.0.2"
+                     },
+                     {
+                         "Id":  "Microsoft.VisualStudio.Threading",
+                         "Version":  "15.8.122"
+                     },
+                     {
+                         "Id":  "Newtonsoft.Json",
+                         "Version":  "13.0.3"
+                     },
+                     {
+                         "Id":  "Microsoft.VSSDK.BuildTools",
+                         "Version":  "15.9.3032"
+                     },
+                     {
+                         "Id":  "Microsoft.NETFramework.ReferenceAssemblies",
+                         "Version":  "1.0.3"
+                     }
+                 ],
+    "Failures":  [
+
+                 ],
+    "Warnings":  [
+                     "Static source checks only: MSBuild imports/conditions, dependencies, VSIX contents, and IDE loading still require build and installation tests."
+                 ]
+}

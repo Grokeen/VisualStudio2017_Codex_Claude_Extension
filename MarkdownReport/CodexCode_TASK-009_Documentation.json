@@ -1,0 +1,91 @@
+﻿{
+    "Succeeded":  true,
+    "LocalReferenceCount":  16,
+    "LocalReferences":  [
+                            {
+                                "File":  "README.md",
+                                "Target":  "releases/v0.3.0/VS2017.AIAssistant-0.3.0.vsix?raw=true",
+                                "Exists":  true
+                            },
+                            {
+                                "File":  "README.md",
+                                "Target":  "releases/v0.3.0/README.md",
+                                "Exists":  true
+                            },
+                            {
+                                "File":  "README.md",
+                                "Target":  "docs/USER_GUIDE.md",
+                                "Exists":  true
+                            },
+                            {
+                                "File":  "README.md",
+                                "Target":  "docs/assets/chat-0.3-preview.png",
+                                "Exists":  true
+                            },
+                            {
+                                "File":  "README.md",
+                                "Target":  "releases/v0.3.0/VS2017.AIAssistant-0.3.0.vsix?raw=true",
+                                "Exists":  true
+                            },
+                            {
+                                "File":  "README.md",
+                                "Target":  "releases/v0.3.0/README.md",
+                                "Exists":  true
+                            },
+                            {
+                                "File":  "README.md",
+                                "Target":  "docs/USER_GUIDE.md",
+                                "Exists":  true
+                            },
+                            {
+                                "File":  "README.md",
+                                "Target":  "docs/USER_GUIDE.md",
+                                "Exists":  true
+                            },
+                            {
+                                "File":  "README.md",
+                                "Target":  "MarkdownReport/CodexCode_TASK-009.md",
+                                "Exists":  true
+                            },
+                            {
+                                "File":  "README.md",
+                                "Target":  "docs/DEVELOPMENT.md",
+                                "Exists":  true
+                            },
+                            {
+                                "File":  "README.md",
+                                "Target":  "docs/DEVELOPMENT.md",
+                                "Exists":  true
+                            },
+                            {
+                                "File":  "README.md",
+                                "Target":  "docs/BUILD_AND_LICENSE.md",
+                                "Exists":  true
+                            },
+                            {
+                                "File":  "README.md",
+                                "Target":  "MarkdownReport/Update_History.md",
+                                "Exists":  true
+                            },
+                            {
+                                "File":  "docs\\USER_GUIDE.md",
+                                "Target":  "../releases/v0.3.0/README.md",
+                                "Exists":  true
+                            },
+                            {
+                                "File":  "docs\\USER_GUIDE.md",
+                                "Target":  "BUILD_AND_LICENSE.md",
+                                "Exists":  true
+                            },
+                            {
+                                "File":  "docs\\USER_GUIDE.md",
+                                "Target":  "DEVELOPMENT.md",
+                                "Exists":  true
+                            }
+                        ],
+    "VsixSha256":  "A7F1C597BA0CCF7B18AC52DEB29BACE2D6B66E300B9A90C6A55EB5A3E7A88DF2",
+    "DllSha256":  "28ACEEBE6A83AD63941F20CE38E77682DB40F30794DB4630564AC5AB7912C34C",
+    "FinalLiveChecks":  6,
+    "FinalIdeChecks":  35,
+    "CheckedAt":  "2026-10-18T02:57:20.9202192+09:00"
+}

@@ -94,18 +94,26 @@ EndGlobal
             @'
 namespace CodexOrig.TestEnvironment
 {
+    /// ---------------------------------------------------------------------
     /// <summary>
-    /// name: ProbeWindow; desc: .NET 4.6.2 WPF/XAML compilation probe.
-    /// author: CodexOrig; create date: 2026-10-18;
-    /// update date: 2026-10-18 CodexOrig: independent environment validation.
+    /// name         : ProbeWindow
+    /// desc         : .NET 4.6.2 WPF/XAML compilation probe.
+    /// author       : CodexOrig
+    /// create date  : 2026-10-18
+    /// update date  : 2026-10-18 CodexOrig : independent environment validation.
     /// </summary>
+    /// ---------------------------------------------------------------------
     public partial class ProbeWindow : System.Windows.Window
     {
+        /// ---------------------------------------------------------------------
         /// <summary>
-        /// name: ProbeWindow; desc: Compile the generated XAML InitializeComponent call.
-        /// author: CodexOrig; create date: 2026-10-18;
-        /// update date: 2026-10-18 CodexOrig: WPF constructor compilation probe.
+        /// name         : ProbeWindow
+        /// desc         : Compile the generated XAML InitializeComponent call.
+        /// author       : CodexOrig
+        /// create date  : 2026-10-18
+        /// update date  : 2026-10-18 CodexOrig : WPF constructor compilation probe.
         /// </summary>
+        /// ---------------------------------------------------------------------
         public ProbeWindow() { InitializeComponent(); }
     }
 }

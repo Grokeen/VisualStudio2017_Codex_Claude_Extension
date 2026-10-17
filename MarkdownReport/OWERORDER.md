@@ -96,3 +96,21 @@ IDE 자체의 안내 해소에는 사용자의 계정 로그인·정상 라이�
 다른 Codex의 TASK-006 완료를 재확인하여 Role.md 6번에 따라 GitHub main에 검증 소스·테스트·보고서와 고정 v0.2.0 VSIX를 반영했습니다. 구현 커밋은 b074155이며 releases/v0.2.0/에 패키지·체크섬·설치 안내가 있습니다. GitHub에서 다시 다운로드한 파일의 크기(39,860바이트)와 SHA-256이 실제 IDE 테스트 파일과 일치했습니다.
 
 실제 Claude 계정, VS2019/2022 지원과 남은 IDE 검증 범위를 명시했습니다. 일반 IDE 설치나 Marketplace 등록은 수행하지 않았습니다. 소요 1분 42초, 세부 근거는 CodexCode_TASK-007.md입니다.
+
+## TASK-009 — CodexCode / 2026-10-18 02:57:20 KST
+
+추가 Role.md의 README 규칙과 프로젝트3~8 요구를 확인했습니다. README는 일반 사용자가 가치를 이해하고 설치부터 사용할 수 있도록 전면 개편했습니다. 실제 제품 화면의 예제 대화 이미지와 상세 사용 안내, 계정 연결·첨부·누적 대화·instruction·승인/저장·되돌리기·문제 해결 절차를 포함했습니다.
+
+제품 구현은 TASK-008과 분담하고, 최종 DLL로 실제Codex 컨텍스트6개·편집71개·화면33개를 독립 재실행해 모두 통과했습니다. 실제 IDE35개 결과도 확인했습니다. 어두운 화면 헤더 및 Ctrl+V 검토 의견은 제품에 반영됐습니다. 다운로드 파일 해시와 문서 로컬 참조 16개 모두 정상입니다.
+
+README.md와 docs/USER_GUIDE.md에서 사용 방법을 확인할 수 있습니다. 최종 검증은 tests/review/Test-LiveChatContext.ps1로 재현하며 합성 데이터만 전송합니다. 실제 Claude 계정·VS2019/2022 지원 한계는 명시했습니다. 소요 25분 38초, 상세 CodexCode_TASK-009.md. CodexCode의 작업은 완료하여 최종 GitHub 배포는 합의한 CodexOrig에 인계했습니다.
+
+## TASK-008 — CodexOrig / 2026-10-18 02:58:58 KST
+
+Role.md의 추가 기능을 v0.3.0에 반영했습니다. Chat을 일반 문서 탭처럼 열고 도킹/분리할 수 있으며, Codex/Claude별로 대화·작성 중 입력·첨부를 보존합니다. 이미지/텍스트 파일을 놓거나 붙여넣고 후속 요청을 보낼 수 있습니다. instruction, AI별 CLI 경로/모델 및 글자 크기는 설정 저장 후 복원됩니다. 계정 연결은 공식 CLI 인증을 사용합니다.
+
+추가 지시에 따라 제가 생성한 C# 주석을 기존 작성자의 name/desc/author/create date/update date 줄바꿈과 콜론 열로 통일했고 생성용 C# 코드까지 확인했습니다. 기존 작성자의 주석 기록은 보존했습니다. README는 TASK-009가 개발자 대상 설명을 사용자 효용·설치·연결·첫 요청·반복 대화·첨부·승인/저장/복구 안내로 전면 개편했습니다.
+
+Debug/Release 빌드는 경고 없이 성공했고 회귀148개와 최종 패키지의 실제 VS2017 검사35개가 모두 통과했습니다. 실제 Codex가 합성 이미지와 규칙·이전 대화·텍스트를 반영하여 정확한 수정안을 생성했고 승인 전 원본도 보존했습니다. 같은 최종 DLL에 대한 독립 컨텍스트6개 및 편집71개/화면33개도 통과했습니다.
+
+실행은 releases/v0.3.0/README.md의 설치 안내를 따르시면 됩니다. 개발 재현은 tests/editing/Test-SourceEditing.ps1, tests/foundation/Test-FoundationPackage.ps1, tests/ide/Test-IdeIntegration.ps1을 사용합니다. 상세 변경/로그/한계/해시는 MarkdownReport/CodexOrig_TASK-008.md와 _Validation.json에 기록했습니다. 실제 Claude 계정과 VS2019/2022 지원은 남아 있습니다. 로컬 검증까지 26분 3초 소요됐으며 GitHub 반영 결과는 후속 완료 기록에 남깁니다.
