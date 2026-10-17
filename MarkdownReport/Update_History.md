@@ -1,4 +1,4 @@
-
+﻿
 
 
 
@@ -97,3 +97,8 @@
 - 문서/보고: docs/DEVELOPMENT.md·IDE_TESTS.md·SOURCE_EDITING.md, Project_Plan.md, CodexOrig_TASK-008* 및 협업/상관 보고. 사용자 README·USER_GUIDE·예제 화면은 TASK-009 CodexCode가 담당하여 보존.
 - 패키지: releases/v0.3.0/VS2017.AIAssistant-0.3.0.vsix, SHA256 A7F1C597BA0CCF7B18AC52DEB29BACE2D6B66E300B9A90C6A55EB5A3E7A88DF2. 0.2 파일 미변경.
 - 한계: 실제 Claude 계정·VS2019/2022 확장 지원·수동 마우스/키보드 전체 제스처·디스크 대화 복원 미검증/미구현. 최종 배포는 TASK-009 완료 확인 후 별도 기록.
+
+
+### TASK-008 최종 배포 완료 — 2026-10-18 03:00:29 KST
+
+전체 소요 27분 34초. TASK-009 종료 및 다른 활성 편집 없음 확인 후 9b3d930 커밋을 origin/main에 반영했습니다. 원격 다운로드 VSIX 66,118바이트 및 SHA-256 A7F1C597BA0CCF7B18AC52DEB29BACE2D6B66E300B9A90C6A55EB5A3E7A88DF2 일치를 확인했습니다. 사용자 요구 기능·README·C# 주석 형식 보정 및 회귀148/148·실제IDE35/35 검증 결과를 함께 배포했습니다.

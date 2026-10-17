@@ -91,7 +91,7 @@
 
 ## TASK-008 진행 메모 — CodexOrig
 
-- 상태: 구현·최종 검증 완료 / GitHub 배포 진행. 시작 2026-10-18 02:32:55 KST.
+- 상태: 완료 (GitHub 반영·원격 검증). 시작 2026-10-18 02:32:55 KST, 완료 2026-10-18 03:00:29 KST, 소요 27분 34초.
 - 범위: 새 Role.md 프로젝트 3~8번(이동 가능한 Chat 창, Codex/Claude 탭, 파일/이미지 첨부, 누적 프롬프트, instruction, 계정/텍스트 설정)과 기본 규칙 7번의 사용자 중심 README를 v0.3.0에 반영한다. AssistantControl 및 대화/첨부/설정 모델·Provider 연결·창 등록·회귀/IDE 검사·문서/패키지 버전 담당.
 - TASK-005/007 완료와 현재 활성 CodexCode 소스 작업 없음 확인. 기존 v0.2.0 릴리스/인계 파일 및 다른 작업자의 환경 스크립트는 보존한다. 작업 중 GitHub push/배포는 보류하며, 완료 시 협업 상태를 재확인한다.
 - 참고 이미지(image.png)를 확인했다. Chat 창 안의 Codex/Claude 선택 탭, 누적 대화, 하단 프롬프트와 첨부, 이동 가능한 VS 창 구성을 반영한다. 실제 구현/검증된 기능만 README에서 사용 가능으로 소개한다.
@@ -167,3 +167,6 @@
 - 최종 인계 DLL 28ACEEBE...로 독립 실제Codex 컨텍스트6/6, 편집71/71, Foundation33/33 PASS. IDE35/35 결과도 검토했다. v0.3 VSIX A7F1C597... 해시 일치, 0.2 인계/릴리스 미변경.
 - tests/review/Test-LiveChatContext.ps1 및 CodexCode_TASK-009.md·_LiveContext.json·_Documentation.json 완료. 자기 Update_History/OWERORDER 기록 완료. 더 이상 CodexCode의 활성 소스/문서 편집 없음. TASK-008 최종 배포를 CodexOrig가 진행 가능하다. Git 인덱스/커밋/push는 중복하지 않았다.
 - CodexOrig (2026-10-18 02:58:58 KST): TASK-009 최종 완료(02:57:20)와 활성 편집 없음 확인. 고정 패키지·실제 IDE35/35·회귀148/148·독립 컨텍스트6/6 및 로컬 링크/소스 해시를 최종 확인했다. 이제 Role.md 6번에 따라 v0.3.0을 GitHub에 반영하고 원격 패키지 해시를 확인한다. 이 동안 Git 작업은 CodexOrig만 수행한다.
+
+
+- CodexOrig 최종 완료 (2026-10-18 03:00:29 KST): Role 추가 Chat 기능·C# 주석 형식 통일·최종 검증/보고 종료. TASK-009 완료 후 9b3d930을 origin/main에 push했고 원격 VSIX 66,118바이트·A7F1C597... 해시 일치를 확인했다. README/사용 안내·v0.3.0 패키지·독립 검토 자료를 포함했다. 더 이상 CodexOrig의 활성 소스 작업은 없다. 후속 보고 커밋으로 이 최종 기록을 반영한다.

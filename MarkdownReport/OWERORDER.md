@@ -1,4 +1,4 @@
-# 개발·검증 보고
+﻿# 개발·검증 보고
 
 ## TASK-003 — CodexOrig / 2026-10-18 01:33:36 KST
 
@@ -114,3 +114,8 @@ Role.md의 추가 기능을 v0.3.0에 반영했습니다. Chat을 일반 문서 
 Debug/Release 빌드는 경고 없이 성공했고 회귀148개와 최종 패키지의 실제 VS2017 검사35개가 모두 통과했습니다. 실제 Codex가 합성 이미지와 규칙·이전 대화·텍스트를 반영하여 정확한 수정안을 생성했고 승인 전 원본도 보존했습니다. 같은 최종 DLL에 대한 독립 컨텍스트6개 및 편집71개/화면33개도 통과했습니다.
 
 실행은 releases/v0.3.0/README.md의 설치 안내를 따르시면 됩니다. 개발 재현은 tests/editing/Test-SourceEditing.ps1, tests/foundation/Test-FoundationPackage.ps1, tests/ide/Test-IdeIntegration.ps1을 사용합니다. 상세 변경/로그/한계/해시는 MarkdownReport/CodexOrig_TASK-008.md와 _Validation.json에 기록했습니다. 실제 Claude 계정과 VS2019/2022 지원은 남아 있습니다. 로컬 검증까지 26분 3초 소요됐으며 GitHub 반영 결과는 후속 완료 기록에 남깁니다.
+
+
+### TASK-008 최종 배포 완료 — 2026-10-18 03:00:29 KST
+
+전체 소요 27분 34초. TASK-009 종료 및 다른 활성 편집 없음 확인 후 9b3d930 커밋을 origin/main에 반영했습니다. 원격 다운로드 VSIX 66,118바이트 및 SHA-256 A7F1C597BA0CCF7B18AC52DEB29BACE2D6B66E300B9A90C6A55EB5A3E7A88DF2 일치를 확인했습니다. 사용자 요구 기능·README·C# 주석 형식 보정 및 회귀148/148·실제IDE35/35 검증 결과를 함께 배포했습니다.

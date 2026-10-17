@@ -1,4 +1,4 @@
-# TASK-008 — v0.3.0 Chat 기능과 주석 형식 통일
+﻿# TASK-008 — v0.3.0 Chat 기능과 주석 형식 통일
 
 - 작업자: CodexOrig
 - 시작: 2026-10-18 02:32:55 KST
@@ -99,3 +99,11 @@ powershell -NoProfile -NonInteractive -STA -ExecutionPolicy Bypass -File .\tests
 ## 남은 범위
 
 실제 Claude 계정, VS2019/2022 패키지, 다중 파일 수정, 프로젝트별 디스크 대화 기록, 수동 제스처·설치 제거·장시간 사용성 검증은 별도이다. 다른 작업자가 진행 중일 때는 Role.md에 따라 GitHub에 배포하지 않는다. 최종 배포 결과는 TASK-009 완료 확인 후 아래에 추가한다.
+
+## 최종 완료 및 GitHub 반영 — 2026-10-18 03:00:29 KST
+
+- 전체 작업 시간: 2026-10-18 02:32:55 ~ 03:00:29 KST, 소요 27분 34초.
+- TASK-009의 02:57:20 KST 최종 종료 및 활성 편집 없음 확인 후 배포했다.
+- 기능/문서/설치 파일 커밋: `9b3d930ba69a3ef1791e72efe06ef5baff7ee9ff`, origin/main push 성공.
+- GitHub 다운로드 URL에서 VSIX를 다시 받아 66,118바이트와 SHA-256 `A7F1C597BA0CCF7B18AC52DEB29BACE2D6B66E300B9A90C6A55EB5A3E7A88DF2`가 실제 IDE 검증한 고정 파일과 일치함을 확인했다.
+- 기존 v0.2.0 파일을 보존했고, 최종 원본 해시와 주석 형식·로컬 문서 링크·Git diff 검사를 통과했다. 정상 사용자 프로필에 확장을 자동 설치하거나 Marketplace에 공개하지 않았다.
