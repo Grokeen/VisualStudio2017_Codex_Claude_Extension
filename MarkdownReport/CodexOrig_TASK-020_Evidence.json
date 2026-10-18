@@ -3,7 +3,7 @@
   "Author": "CodexOrig",
   "Task": "TASK-020",
   "StartedAt": "2026-10-18T18:16:40+09:00",
-  "VerifiedAt": "2026-10-18T23:32:22.3582026+09:00",
+  "VerifiedAt": "2026-10-18T23:35:04.3010241+09:00",
   "ProductVersion": "0.9.0",
   "FrozenCandidate": 11,
   "Status": "Final candidate verification complete; publication is recorded separately in the deployment evidence",
@@ -4841,7 +4841,7 @@
   },
   "DocumentationLinks": {
     "documents": 12,
-    "checkedLinks": 77,
+    "checkedLinks": 78,
     "missing": []
   },
   "ActiveDesktopReadOnlyObservation": {

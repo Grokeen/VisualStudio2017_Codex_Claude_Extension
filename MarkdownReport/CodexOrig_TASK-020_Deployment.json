@@ -1,0 +1,81 @@
+{
+  "SchemaVersion": 1,
+  "Task": "TASK-020",
+  "Author": "CodexOrig",
+  "ProductVersion": "0.9.0",
+  "ProductCommit": "6174d0b61fe44e65a95f27fbeaa0697153690b5a",
+  "Branch": "main",
+  "Repository": "https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension",
+  "VerifiedAt": "2026-10-18T23:33:48.4148940+09:00",
+  "Comparison": "Downloaded eight files from immutable GitHub raw commit URLs; exact byte count and SHA256 match",
+  "Artifacts": [
+    {
+      "Path": "releases/v0.9.0/VS2017.AIAssistant-0.9.0.vsix",
+      "Bytes": 2428202,
+      "Sha256": "34451B22F380BDDF8472A2F0D395C50F2278ED131053AABCEEBB9FEF1A198F74",
+      "RemoteSha256": "34451B22F380BDDF8472A2F0D395C50F2278ED131053AABCEEBB9FEF1A198F74",
+      "Matched": true,
+      "RemoteUrl": "https://raw.githubusercontent.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/6174d0b61fe44e65a95f27fbeaa0697153690b5a/releases/v0.9.0/VS2017.AIAssistant-0.9.0.vsix"
+    },
+    {
+      "Path": "releases/v0.9.0/VS2019.AIAssistant-0.9.0.vsix",
+      "Bytes": 2430087,
+      "Sha256": "9C42828E22D21E96DB4C2E8EFF6D28A9D287CB17F4B86661B105636874A94420",
+      "RemoteSha256": "9C42828E22D21E96DB4C2E8EFF6D28A9D287CB17F4B86661B105636874A94420",
+      "Matched": true,
+      "RemoteUrl": "https://raw.githubusercontent.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/6174d0b61fe44e65a95f27fbeaa0697153690b5a/releases/v0.9.0/VS2019.AIAssistant-0.9.0.vsix"
+    },
+    {
+      "Path": "releases/v0.9.0/VS2022.AIAssistant-0.9.0.vsix",
+      "Bytes": 2430244,
+      "Sha256": "2AA9B12CFC5647F85DCE01AC236B62482640925F0DD34A5389C5A01F45C8C746",
+      "RemoteSha256": "2AA9B12CFC5647F85DCE01AC236B62482640925F0DD34A5389C5A01F45C8C746",
+      "Matched": true,
+      "RemoteUrl": "https://raw.githubusercontent.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/6174d0b61fe44e65a95f27fbeaa0697153690b5a/releases/v0.9.0/VS2022.AIAssistant-0.9.0.vsix"
+    },
+    {
+      "Path": "VisualStudio_AIChat_ExtentionTest.exe",
+      "Bytes": 35840,
+      "Sha256": "63B62B31D313B589573E9FE6ED5F285C2D17BFD371F672F9FE67E23E89971385",
+      "RemoteSha256": "63B62B31D313B589573E9FE6ED5F285C2D17BFD371F672F9FE67E23E89971385",
+      "Matched": true,
+      "RemoteUrl": "https://raw.githubusercontent.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/6174d0b61fe44e65a95f27fbeaa0697153690b5a/VisualStudio_AIChat_ExtentionTest.exe"
+    },
+    {
+      "Path": "output/pdf/VisualStudio_AI_Assistant_설치_사용설명서.pdf",
+      "Bytes": 1089143,
+      "Sha256": "EAE9BDD2CA1602677FEAF6BD1F50C19C8F7E29068D33B1DC06215D998C60B30A",
+      "RemoteSha256": "EAE9BDD2CA1602677FEAF6BD1F50C19C8F7E29068D33B1DC06215D998C60B30A",
+      "Matched": true,
+      "RemoteUrl": "https://raw.githubusercontent.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/6174d0b61fe44e65a95f27fbeaa0697153690b5a/output/pdf/VisualStudio_AI_Assistant_%EC%84%A4%EC%B9%98_%EC%82%AC%EC%9A%A9%EC%84%A4%EB%AA%85%EC%84%9C.pdf"
+    },
+    {
+      "Path": "output/VisualStudio_AI_Assistant_고객전달용.zip",
+      "Bytes": 1543397,
+      "Sha256": "52573BD0E9CB4D288A9AB7B21167E2CA769FEA67217E1B9F71901D2DA1D47085",
+      "RemoteSha256": "52573BD0E9CB4D288A9AB7B21167E2CA769FEA67217E1B9F71901D2DA1D47085",
+      "Matched": true,
+      "RemoteUrl": "https://raw.githubusercontent.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/6174d0b61fe44e65a95f27fbeaa0697153690b5a/output/VisualStudio_AI_Assistant_%EA%B3%A0%EA%B0%9D%EC%A0%84%EB%8B%AC%EC%9A%A9.zip"
+    },
+    {
+      "Path": "InstallCLI.bat",
+      "Bytes": 10233,
+      "Sha256": "81BAE40E698B7E16B4A15093248453C7A79EF5D564306FC9CE9416255D91D5CB",
+      "RemoteSha256": "81BAE40E698B7E16B4A15093248453C7A79EF5D564306FC9CE9416255D91D5CB",
+      "Matched": true,
+      "RemoteUrl": "https://raw.githubusercontent.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/6174d0b61fe44e65a95f27fbeaa0697153690b5a/InstallCLI.bat"
+    },
+    {
+      "Path": "HowToInstallCLI.md",
+      "Bytes": 20265,
+      "Sha256": "6990AF5ED77868C12C80D05FFFB7003DECD02AA0F5E6BC0F970996569B979164",
+      "RemoteSha256": "6990AF5ED77868C12C80D05FFFB7003DECD02AA0F5E6BC0F970996569B979164",
+      "Matched": true,
+      "RemoteUrl": "https://raw.githubusercontent.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/6174d0b61fe44e65a95f27fbeaa0697153690b5a/HowToInstallCLI.md"
+    }
+  ],
+  "AllMatched": true,
+  "WorkersCompletedBeforePush": "2026-10-18T23:30:56+09:00",
+  "EarlierSevenReleasesPreserved": true,
+  "InstallerOrLoginExecuted": false
+}

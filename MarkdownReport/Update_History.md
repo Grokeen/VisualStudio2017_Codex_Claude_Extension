@@ -266,3 +266,7 @@ v0.8.0을 eee7cb3f00e6fab40411f366f628468e4087fc15로 origin/main에 배포했�
 CodexOrig. 시작18:16:40, 최종 검증 완료23:31:54, 총 경과5시간 15분 14초(활성화 대기 포함). 후보11 소스90입력/3SKU 각32내장파일 SHA불변. 6빌드0경고·실제VS2017/2019/2022 각100·기본16묶음2회·Native67·실제loopback SVN/격리배포8·Task021229·Task022245·실행기12에 더해 활성Default GPU56/actualhover55/PDF50 전부PASS. 실제포인터/키보드/팝업수명·네이티브PDF를확인했고원래실패원문보존,설치실행/Claude추론0. 최종테스트초점시작은자기neutral/header native hit-test만클릭해기존가림/전경guard유지,제품소스수정없음. .gitattributes의binary와원본MD/bat -text로고정asset rawbytes보존.
 
 TASK022의23:30:56 전원편집종료명시신호와TASK023/Orig3종료확인후이제Git단독배포를진행한다. 최종증거CodexOrig_TASK-020_Evidence.json·보고CodexOrig_TASK-020.md,재현최상위VisualStudio_AIChat_ExtentionTest.exe --all --vsix releases/v0.9.0/VS2017.AIAssistant-0.9.0.vsix. 실제Claude CLI계정·운영DB·외부TFVC·운영배포는미검증으로유지한다. 배포SHA/완료시각/원격동일성은별도최종배포기록에추가한다.
+
+### TASK-020 배포·원격검증 완료 — 2026-10-18 23:34:37 KST
+
+v0.9.0 제품commit 6174d0b61fe44e65a95f27fbeaa0697153690b5a 을origin/main에push했다. immutable GitHub raw에서3VSIX/rootexe/PDF/고객ZIP/bat/MD 총8개를재다운로드해크기·SHA256모두일치,원래7릴리스보존. 총경과5시간17분57초(입력대기포함). TASK022전원종료23:30:56후배포/진단·개인로그제외/남은필수작업0. CodexOrig_TASK-020_Deployment.json에정확한원격URL·해시·확인시각저장. 최종파일/문서·검증/배포완료.

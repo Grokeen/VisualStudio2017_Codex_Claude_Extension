@@ -22,4 +22,6 @@
 
 [사용 안내](../../docs/USER_GUIDE.md) · [검증·감사 대응](../../MarkdownReport/CodexOrig_TASK-020.md) · [패키지 SHA256](SHA256SUMS.txt)
 
+세 버전 실제 IDE에서 각각100개, 기본16묶음 두 번, 실제 마우스55개·PDF50개·기본 GPU56개를 통과했습니다. GitHub에서 다시 받은 설치 파일·실행기·설명서 등8개 파일의 바이트와 SHA256도 확인했습니다. [배포 근거](../../MarkdownReport/CodexOrig_TASK-020_Deployment.json)에서 확인할 수 있습니다.
+
 실제 Claude CLI 계정·운영 SQL Server·외부 TFVC·운영 배포는 검증되지 않았습니다. 실제 Codex, 로컬 SVN 서버와 격리 배포 검사와 구분합니다. 이전 v0.2~v0.8 배포 파일은 보존했습니다. 문서 worker exe/config는 각 VSIX에 포함됩니다.
