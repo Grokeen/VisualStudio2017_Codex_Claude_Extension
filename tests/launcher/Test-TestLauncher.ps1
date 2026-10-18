@@ -6,6 +6,7 @@ desc         : 실행기 CLI·실패 전파·선택 VSIX·하위 프로세스 �
 author       : CodexCode
 create date  : 2026-10-18
 update date  : 2026-10-18 CodexCode : 실제 제품 파일과 기존 검사 스크립트는 변경하지 않는다.
+update date  : 2026-10-18 CodexOrig : TASK-018 드롭다운·이미지 요구 및 기본14개 검사 반영.
 -------------------------------------------------------------------------
 #>
 [CmdletBinding()]
@@ -65,7 +66,7 @@ function Assert-LauncherProbe {
 }
 
 $result = Invoke-LauncherProbe $launcherOriginal '--list'
-Assert-LauncherProbe 'CLI lists thirteen default and two opt-in suites' ($result.ExitCode -eq 0 -and ([regex]::Matches($result.Output,'\tdefault')).Count -eq 13 -and ([regex]::Matches($result.Output,'\topt-in')).Count -eq 2) $result
+Assert-LauncherProbe 'CLI lists fourteen default and two opt-in suites' ($result.ExitCode -eq 0 -and ([regex]::Matches($result.Output,'\tdefault')).Count -eq 14 -and ([regex]::Matches($result.Output,'\topt-in')).Count -eq 2) $result
 $result = Invoke-LauncherProbe $launcherOriginal '--run compatibility'
 Assert-LauncherProbe 'Real compatibility suite succeeds through launcher' ($result.ExitCode -eq 0 -and $result.Output.Contains('44/44 passed.')) $result
 $result = Invoke-LauncherProbe $fixtureExe '--run unknown-suite'
@@ -85,7 +86,7 @@ Add-Type -AssemblyName System.IO.Compression.FileSystem
 $chosenVsix = Join-Path $fixtureDir 'chosen.vsix'
 $archive = [IO.Compression.ZipFile]::Open($chosenVsix,[IO.Compression.ZipArchiveMode]::Create)
 try { $entry=$archive.CreateEntry('VS2017.AIAssistant.dll'); $stream=$entry.Open(); try { $bytes=[Text.Encoding]::UTF8.GetBytes('CHOSEN_PACKAGE'); $stream.Write($bytes,0,$bytes.Length) } finally { $stream.Dispose() } } finally { $archive.Dispose() }
-$decoyRelease = Join-Path $fixtureDir 'releases\v0.7.0'; $null=New-Item -ItemType Directory -Path $decoyRelease -Force
+$decoyRelease = Join-Path $fixtureDir 'releases\v0.8.0'; $null=New-Item -ItemType Directory -Path $decoyRelease -Force
 [IO.File]::WriteAllText((Join-Path $decoyRelease 'VS2017.AIAssistant.dll'),'WRONG_DEFAULT',$utf8)
 [IO.File]::WriteAllText((Join-Path $fixtureMarkdownDir 'Test-MarkdownWorkspace.ps1'), 'param([string]$AssemblyPath)' + "`r`n" + '[IO.File]::ReadAllText($AssemblyPath)' + "`r`n", $utf8)
 $result = Invoke-LauncherProbe $fixtureExe '--run markdown --vsix chosen.vsix'

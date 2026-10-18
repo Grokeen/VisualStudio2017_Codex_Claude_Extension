@@ -93,6 +93,7 @@ namespace VS2017.AIAssistant.Views
         /// update date  : 2026-10-18 CodexCode : Role 추가 사용자 흐름 구현.
         /// update date  : 2026-10-18 CodexOrig : TASK-014 대화 목록 배치 복원과 본문 확인 이벤트 연결.
         /// update date  : 2026-10-18 CodexOrig : TASK-016 문서 첨부·모델 설정·AI 역할 협업과 실패 복구 흐름 연결.
+        /// update date  : 2026-10-18 CodexCode : TASK-017 이미지 분석 기반 드롭다운·안내·대화 지정 흐름 개선.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void InitializeExperience(AssistantSettings settings)
@@ -106,6 +107,10 @@ namespace VS2017.AIAssistant.Views
             string isolated = Environment.GetEnvironmentVariable("VS2017_AI_SETTINGS_PATH");
             if (string.IsNullOrEmpty(root) && !string.IsNullOrEmpty(isolated)) root = Path.Combine(Path.GetDirectoryName(Path.GetFullPath(isolated)), "workspace");
             workspaceStore = new MarkdownWorkspaceStore(root);
+            InitializeFanMenu();
+            collaborationStore = new ConversationCollaborationStore(workspaceStore.RootPath);
+            foreach (string name in new[] { "Claude", "Codex" })
+                try { collaborationStore.ConfigureNaming(name, Environment.UserName); } catch (Exception error) { workspaceWarnings.Add("AI 이름 준비 실패: " + error.Message); }
             foreach (string name in new[] { "Claude", "Codex" })
             {
                 List<ConversationRecord> records;
@@ -113,9 +118,10 @@ namespace VS2017.AIAssistant.Views
                 catch (Exception error) { records = new List<ConversationRecord>(); StatusLabel.Text = "대화 복원 실패: " + error.Message; }
                 if (records.Count == 0)
                 {
-                    try { records.Add(workspaceStore.Create(name)); }
+                    try { var route = collaborationStore.RouteNewConversation(name, Environment.UserName, () => workspaceStore.Create(name), r => workspaceStore.Close(r)); records.Add(ResolveAssignedRecord(route.Agent, route.CreatedRecord)); }
                     catch (Exception error) { records.Add(new ConversationRecord { Id = Guid.NewGuid().ToString("N"), Provider = name, CreatedAt = DateTimeOffset.Now, UpdatedAt = DateTimeOffset.Now }); StatusLabel.Text = "대화 저장 준비 실패: " + error.Message; }
                 }
+                foreach (var record in records.OrderBy(r => r.CreatedAt)) try { collaborationStore.EnsureAgent(record); } catch (Exception error) { workspaceWarnings.Add("AI 이름 복원 실패: " + error.Message); }
                 conversationRecords[name] = records; activeRecords[name] = records[0];
             }
             try
@@ -146,7 +152,6 @@ namespace VS2017.AIAssistant.Views
             activityTimer.Tick += (sender, args) => RefreshActivityTime();
             statusDescriptor = DependencyPropertyDescriptor.FromProperty(TextBlock.TextProperty, typeof(TextBlock)); statusDescriptor.AddValueChanged(StatusLabel, StatusChanged);
             ClaudeTabLogo.Source = LoadBrand("Claude"); CodexTabLogo.Source = LoadBrand("Codex");
-            collaborationStore = new ConversationCollaborationStore(workspaceStore.RootPath);
             Loaded += ReadScmIdentity;
             experienceReady = true; InitializeConversationTracking(settings); RefreshExperience();
             if (workspaceWarnings.Count > 0) StatusLabel.Text = "일부 대화를 복원하지 못했습니다. 최근 알림에서 확인하세요.\n" + string.Join("\n", workspaceWarnings);
@@ -240,13 +245,21 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : Role 추가 사용자 흐름 구현.
+        /// update date  : 2026-10-18 CodexCode : TASK-017 이미지 분석 기반 드롭다운·안내·대화 지정 흐름 개선.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void CreateConversation()
         {
             if (!experienceReady || busy || disposed) return;
-            try { if (!PersistCurrentConversation()) return; var record = workspaceStore.Create(selectedProvider); conversationRecords[selectedProvider].Insert(0, record); activeRecords[selectedProvider] = record; ClearProposal(); ShowChat(); UpdateButtons(); HistoryToggle.IsChecked = true; HistoryToggled(this, new RoutedEventArgs()); StatusLabel.Text = "새 대화를 열었습니다. 이전 대화는 왼쪽 목록에 보관됩니다."; }
-            catch (Exception error) { StatusLabel.Text = "새 대화 생성 실패: " + error.Message; }
+            try {
+                CloseDropdown(); if (!PersistCurrentConversation()) return;
+                var route = collaborationStore.RouteNewConversation(selectedProvider, verifiedScmAccount ?? Environment.UserName, () => workspaceStore.Create(selectedProvider), r => workspaceStore.Close(r));
+                var record = ResolveAssignedRecord(route.Agent, route.CreatedRecord);
+                var records = conversationRecords[selectedProvider]; records.RemoveAll(r => r.Id == record.Id); records.Insert(0, record);
+                activeRecords[selectedProvider] = record; ClearProposal(); ShowChat(); UpdateButtons();
+                HistoryToggle.IsChecked = true; HistoryToggled(this, new RoutedEventArgs());
+                StatusLabel.Text = route.ReusedExisting ? "A~Z를 모두 사용하여 " + route.Agent.Name + " 대화로 이동했습니다. 기록은 그대로 유지됩니다." : "새 AI 대화를 열었습니다. 이전 대화는 왼쪽 목록에 보관됩니다.";
+            } catch (Exception error) { StatusLabel.Text = "새 대화 생성 실패: " + error.Message; }
         }
 
         /// ---------------------------------------------------------------------
@@ -294,23 +307,27 @@ namespace VS2017.AIAssistant.Views
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : Role 추가 사용자 흐름 구현.
         /// update date  : 2026-10-18 CodexOrig : TASK-016 문서 첨부·모델 설정·AI 역할 협업과 실패 복구 흐름 연결.
+        /// update date  : 2026-10-18 CodexCode : TASK-017 이미지 분석 기반 드롭다운·안내·대화 지정 흐름 개선.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void CloseChatClicked(object sender, RoutedEventArgs e)
         {
             if (busy || disposed) return; var record = ConversationList.SelectedItem as ConversationRecord; if (record == null) return;
-            try
-            {
-                if (!PersistCurrentConversation()) return;
-                var records = conversationRecords[selectedProvider];
-                var replacement = records.Count == 1 ? workspaceStore.Create(selectedProvider) : null;
+            try {
+                CloseDropdown(); if (!PersistCurrentConversation()) return;
+                var records = conversationRecords[selectedProvider]; ConversationRecord replacement = null; bool replacementWasClosed = false;
+                if (records.Count == 1) {
+                    var route = collaborationStore.RouteNewConversation(selectedProvider, verifiedScmAccount ?? Environment.UserName, () => workspaceStore.Create(selectedProvider), r => workspaceStore.Close(r));
+                    var target = route.Agent;
+                    if (target.ConversationId == record.Id) target = collaborationStore.ListAssignableAgents(selectedProvider).First(a => a.ConversationId != record.Id);
+                    replacementWasClosed = route.CreatedRecord != null || !target.IsOpen; replacement = ResolveAssignedRecord(target, route.CreatedRecord);
+                }
                 try { workspaceStore.Close(record); }
-                catch { if (replacement != null) try { workspaceStore.Close(replacement); } catch (Exception) { } throw; }
+                catch { if (replacement != null && replacementWasClosed) try { workspaceStore.Close(replacement); collaborationStore.SetConversationOpen(replacement.Id, replacement.Provider, false); } catch (Exception) { } throw; }
                 records.Remove(record); chats.Remove(record.Id); if (replacement != null) records.Add(replacement);
                 try { collaborationStore.EnsureAgent(record); collaborationStore.SetConversationOpen(record.Id, record.Provider, false); } catch (Exception error) { StatusLabel.Text = "AI 보관 상태 저장 실패: " + error.Message; }
                 activeRecords[selectedProvider] = records[0]; ClearProposal(); ShowChat(); UpdateButtons(); StatusLabel.Text = "대화를 닫았습니다. 불러오기에서 Markdown을 다시 열 수 있습니다.";
-            }
-            catch (Exception error) { StatusLabel.Text = "대화 닫기 실패: " + error.Message; }
+            } catch (Exception error) { StatusLabel.Text = "대화 닫기 실패: " + error.Message; }
         }
 
         /// ---------------------------------------------------------------------
@@ -463,9 +480,10 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : Role 추가 사용자 흐름 구현.
+        /// update date  : 2026-10-18 CodexCode : TASK-017 이미지 분석 기반 드롭다운·안내·대화 지정 흐름 개선.
         /// </summary>
         /// ---------------------------------------------------------------------
-        private void OptionsHovered(object sender, MouseEventArgs e) { OptionsToggle.IsChecked = true; OpenFan(); }
+        private void OptionsHovered(object sender, MouseEventArgs e) { OpenFanMenu(); }
         /// ---------------------------------------------------------------------
         /// <summary>
         /// name         : OptionsClicked
@@ -483,12 +501,12 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : Role 추가 사용자 흐름 구현.
+        /// update date  : 2026-10-18 CodexCode : TASK-017 이미지 분석 기반 드롭다운·안내·대화 지정 흐름 개선.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void OpenFan()
         {
-            if (busy || disposed) return; FanPanel.Visibility = Visibility.Visible;
-            foreach (var button in new[] { SettingsButton, HelpButton }) { var move = new TranslateTransform(); button.RenderTransform = move; move.BeginAnimation(TranslateTransform.XProperty, new DoubleAnimation(70, 0, TimeSpan.FromMilliseconds(190))); move.BeginAnimation(TranslateTransform.YProperty, new DoubleAnimation(-25, 0, TimeSpan.FromMilliseconds(190))); }
+            OpenFanMenu();
         }
         /// ---------------------------------------------------------------------
         /// <summary>
@@ -497,9 +515,10 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : Role 추가 사용자 흐름 구현.
+        /// update date  : 2026-10-18 CodexCode : TASK-017 이미지 분석 기반 드롭다운·안내·대화 지정 흐름 개선.
         /// </summary>
         /// ---------------------------------------------------------------------
-        private void CloseFan() { FanPanel.Visibility = Visibility.Collapsed; OptionsToggle.IsChecked = false; }
+        private void CloseFan() { CloseFanMenu(); }
         /// ---------------------------------------------------------------------
         /// <summary>
         /// name         : OptionsMouseLeft
@@ -507,21 +526,23 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : Role 추가 사용자 흐름 구현.
+        /// update date  : 2026-10-18 CodexCode : TASK-017 이미지 분석 기반 드롭다운·안내·대화 지정 흐름 개선.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void OptionsMouseLeft(object sender, MouseEventArgs e)
-        { var point = Mouse.GetPosition(OptionsToggle); if (point.X >= 0 && point.Y >= 0 && point.X <= OptionsToggle.ActualWidth && point.Y <= OptionsToggle.ActualHeight) return; if (!FanPanel.IsKeyboardFocusWithin) CloseFan(); }
+        { ScheduleFanClose(); }
 
         /// ---------------------------------------------------------------------
         /// <summary>
-        /// name         : PermissionsClicked
+        /// name         : OpenWorkspaceActions
         /// desc         : 작업 권한과 대상 프로젝트를 실제 서비스 창에 전달한다.
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : Role 추가 사용자 흐름 구현.
+        /// update date  : 2026-10-18 CodexCode : TASK-017 이미지 분석 기반 드롭다운·안내·대화 지정 흐름 개선.
         /// </summary>
         /// ---------------------------------------------------------------------
-        private void PermissionsClicked(object sender, RoutedEventArgs e)
+        private void OpenWorkspaceActions(object sender, RoutedEventArgs e)
         {
             if (busy || disposed) return; string directory = "";
             try { var navigation = documents as ISourceNavigationService; if (navigation != null) directory = navigation.GetProjectDirectory(); else if (documents != null) directory = Path.GetDirectoryName(documents.GetActiveDocument().Capture().FilePath); } catch (Exception) { }
@@ -550,16 +571,20 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : Role 추가 사용자 흐름 구현.
+        /// update date  : 2026-10-18 CodexCode : TASK-017 이미지 분석 기반 드롭다운·안내·대화 지정 흐름 개선.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void CliHelpClicked(object sender, RoutedEventArgs e)
         {
-            var dialog = new AssistantDialog(this, "⚙ CLI 환경 설정", "설치 → 실행 파일 선택 → 계정 로그인 → 연결 확인 순서입니다."); var body = new StackPanel();
-            foreach (var step in new[] { new[] { "1  ⇩", "공식 Windows CLI 설치", "공식 설치 안내에서 Codex 또는 Claude의 Windows 네이티브 실행 파일을 설치하세요." }, new[] { "2  ▣", "실행 파일 선택", "설정의 ‘찾기’에서 codex.exe 또는 claude.exe를 선택하세요. PATH가 설정되어 있으면 비워도 됩니다." }, new[] { "3  ↗", "계정 연결", "‘계정 연결’을 누르고 열린 CLI·브라우저에서 직접 로그인하세요. 이 창에는 암호·토큰을 넣지 않습니다." }, new[] { "4  ✓", "연결 확인 후 저장", "‘연결 확인’이 성공하면 ‘설정 저장’을 누르세요. 모델·생각 모드는 하단에서 고를 수 있습니다." } })
-            { var words = new StackPanel(); words.Children.Add(new TextBlock { Text = step[0] + "  " + step[1], FontSize = 18, FontWeight = FontWeights.SemiBold }); words.Children.Add(new TextBlock { Text = step[2], TextWrapping = TextWrapping.Wrap, Margin = new Thickness(0, 8, 0, 0) }); body.Children.Add(new Border { Child = words, BorderBrush = Brushes.Gray, BorderThickness = new Thickness(1), CornerRadius = new CornerRadius(7), Padding = new Thickness(12), Margin = new Thickness(0, 0, 0, 12) }); }
-            var official = new Button { Content = "↗ " + selectedProvider + " 공식 설치 안내" };
+            var dialog = new AssistantDialog(this, "⚙ CLI 환경 설정", "카드를 선택하면 단계별 상세 그림을 볼 수 있습니다.");
+            dialog.SetGuide(
+                new GuideStep("1", "⇩", "공식 Windows CLI 설치", "사용할 AI의 Windows 네이티브 CLI를 준비하세요.", "아래 공식 설치 안내에서 현재 Windows 설치 방법을 확인하세요.", "확장에서는 codex.exe 또는 claude.exe를 사용합니다. 설치와 이용 조건은 해당 서비스에서 확인합니다."),
+                new GuideStep("2", "▣", "실행 파일 선택", "설정의 찾기에서 실행 파일을 지정하세요.", "설정 → 계정에서 ‘찾기’를 눌러 codex.exe 또는 claude.exe를 선택합니다.", "PATH에 네이티브 실행 파일이 있으면 경로를 비워도 됩니다. .cmd 또는 .bat 래퍼는 선택하지 않습니다."),
+                new GuideStep("3", "↗", "계정 연결", "공식 CLI 또는 브라우저에서 직접 로그인하세요.", "설정의 ‘계정 연결’을 눌러 해당 도구의 로그인 창을 엽니다.", "공식 창에서 인증을 마친 후 확장으로 돌아옵니다. 이 설명 창에는 암호나 토큰을 입력하지 않습니다."),
+                new GuideStep("4", "✓", "연결 확인 후 저장", "로그인 상태를 확인하고 설정을 저장하세요.", "‘연결 확인’을 눌러 실제 CLI 연결 결과를 확인합니다.", "성공하면 ‘설정 저장’을 누릅니다. 모델·생각 강도 드롭다운에서 지원하는 옵션을 고릅니다."));
+            var official = new Button { Content = "↗ " + selectedProvider + " 공식 설치 안내", Margin = new Thickness(0, 0, 8, 0) };
             official.Click += (s, a) => System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(selectedProvider == "Claude" ? "https://code.claude.com/docs/en/setup" : "https://developers.openai.com/codex/cli") { UseShellExecute = true });
-            body.Children.Add(official); dialog.Body.Content = new ScrollViewer { Content = body, VerticalScrollBarVisibility = ScrollBarVisibility.Auto }; dialog.ShowDialog();
+            dialog.Actions.Children.Insert(0, official); dialog.ShowDialog();
         }
 
         /// ---------------------------------------------------------------------
@@ -608,10 +633,12 @@ namespace VS2017.AIAssistant.Views
         /// update date  : 2026-10-18 CodexCode : Role 추가 사용자 흐름 구현.
         /// update date  : 2026-10-18 CodexOrig : TASK-014 진행 중 요청을 창 종료 시 중지 상태로 저장.
         /// update date  : 2026-10-18 CodexOrig : TASK-016 문서 첨부·모델 설정·AI 역할 협업과 실패 복구 흐름 연결.
+        /// update date  : 2026-10-18 CodexCode : TASK-017 이미지 분석 기반 드롭다운·안내·대화 지정 흐름 개선.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void DisposeExperience()
         {
+            CloseDropdown(); DisposeFanMenu();
             if (!experienceReady) return;
             var active = activeRecords[selectedProvider];
             if (active.State == ConversationRunState.Running) { active.State = ConversationRunState.Stopped; active.HasUnread = true; }

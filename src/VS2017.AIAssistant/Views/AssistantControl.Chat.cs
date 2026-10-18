@@ -101,10 +101,12 @@ namespace VS2017.AIAssistant.Views
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : 다른 Provider의 대화 전송 방지.
         /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
+        /// update date  : 2026-10-18 CodexCode : TASK-017 이미지 분석 기반 드롭다운·안내·대화 지정 흐름 개선.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void ShowChat()
         {
+            CloseDropdown();
             ConversationMessages.ItemsSource = ActiveChat.Messages;
             AttachmentList.ItemsSource = ActiveChat.Attachments;
             Instruction.Text = ActiveChat.Draft;

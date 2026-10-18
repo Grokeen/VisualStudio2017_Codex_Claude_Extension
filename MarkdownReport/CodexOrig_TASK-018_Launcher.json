@@ -1,0 +1,90 @@
+{
+  "Task": "TASK-018",
+  "Succeeded": true,
+  "DefaultSuites": 14,
+  "Passed": 14,
+  "Failed": 0,
+  "ExitCode": 0,
+  "Summary": "artifacts/tl/eb720fe92b/summary.txt",
+  "Log": "artifacts/tl/eb720fe92b/launcher.log",
+  "RootExeSHA256": "8F14A59DE451C715702E22B0F45193F6D5A702A7CEE533C470137E1632071353",
+  "PackageSHA256": "AE33A8D0AFA3223C46037C56E00DC848D017BA19CACD85072D08E85C11B4DFEB",
+  "Suites": [
+    {
+      "Id": "compatibility",
+      "ExitCode": 0,
+      "Passed": true
+    },
+    {
+      "Id": "build-entry",
+      "ExitCode": 0,
+      "Passed": true
+    },
+    {
+      "Id": "markdown",
+      "ExitCode": 0,
+      "Passed": true
+    },
+    {
+      "Id": "settings",
+      "ExitCode": 0,
+      "Passed": true
+    },
+    {
+      "Id": "workspace-actions",
+      "ExitCode": 0,
+      "Passed": true
+    },
+    {
+      "Id": "editing",
+      "ExitCode": 0,
+      "Passed": true
+    },
+    {
+      "Id": "foundation",
+      "ExitCode": 0,
+      "Passed": true
+    },
+    {
+      "Id": "experience",
+      "ExitCode": 0,
+      "Passed": true
+    },
+    {
+      "Id": "documents",
+      "ExitCode": 0,
+      "Passed": true
+    },
+    {
+      "Id": "collaboration",
+      "ExitCode": 0,
+      "Passed": true
+    },
+    {
+      "Id": "provider-options",
+      "ExitCode": 0,
+      "Passed": true
+    },
+    {
+      "Id": "provider-cli",
+      "ExitCode": 0,
+      "Passed": true
+    },
+    {
+      "Id": "scm-identity",
+      "ExitCode": 0,
+      "Passed": true
+    },
+    {
+      "Id": "image-requirements",
+      "ExitCode": 0,
+      "Passed": true
+    }
+  ],
+  "SmokePassed": 9,
+  "ExperiencePassed": 133,
+  "ImageRequirements": {
+    "Alphabet": 40,
+    "Guide": 23
+  }
+}

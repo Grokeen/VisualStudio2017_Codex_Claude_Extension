@@ -1,0 +1,20 @@
+﻿[
+    {
+        "Name":  "Alphabet",
+        "Result":  "artifacts\\az\\7ff21d10f7\\result.json",
+        "Passed":  40,
+        "AssemblySHA256":  "DC8E3B8CAFF3E935100E8B3F287E8716263F2996C0C9C202C4AE36C58440B36A"
+    },
+    {
+        "Name":  "Collaboration",
+        "Result":  "artifacts\\c\\dd39580a41\\result.json",
+        "Passed":  60,
+        "AssemblySHA256":  "DC8E3B8CAFF3E935100E8B3F287E8716263F2996C0C9C202C4AE36C58440B36A"
+    },
+    {
+        "Name":  "Guide",
+        "Result":  "artifacts\\tl\\eb720fe92b\\image-requirements\\guide\\result.json",
+        "Passed":  23,
+        "AssemblySHA256":  "DC8E3B8CAFF3E935100E8B3F287E8716263F2996C0C9C202C4AE36C58440B36A"
+    }
+]

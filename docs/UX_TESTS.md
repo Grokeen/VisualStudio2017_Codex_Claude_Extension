@@ -37,3 +37,7 @@ powershell -NoProfile -NonInteractive -ExecutionPolicy Bypass -File .\tests\ide\
 ## v0.7 입력·협업 회귀
 
 tests/review/Test-WorkspaceExperience.ps1와 AdvancedExperienceChecks.cs는 총101개 검사다. 모델 상세 팝업의 실제 슬라이더/저장·지원 수준에 따른 Fast 해제, 파일 clipboard의 비동기 본문, 동료 호출과 실제 결과 전달, 중지 및 보고서 잠금에 따른 원인 오류 보존, 전달 완료 후 대화 저장 실패, AI JSON/대화 Markdown 사이 롤백을 포함한다. Windows PowerShell 호스트에서는 DispatcherSynchronizationContext를 명시해 실제 WPF 이벤트 루프와 같은 스레드 복귀를 검사한다.
+
+## v0.8 이미지별 상호작용
+
+tests/review/Test-WorkspaceExperience.ps1은 모달에서 anchor Popup으로 바뀐 경로와 A~Z 실제 대화 라우팅을 검사한다. 안내 hover에서 다른 카드 dim·표면 이동·고정 hit 영역, 상세의 실제 ImageSource, 복귀 시 키보드 포커스, 설정 목차의 실제 스크롤·고정 footer, 옵션 fan의 반복 진입/공통 경계/Escape/타이머 정리를 포함한다. 표시 예제 화면은 docs/assets/*-0.8.png이며 합성 자료만 사용한다. tests/task017/Test-DialogGuide.ps1의 안내23개와 collaboration/Test-AlphabetAgentRouting.ps1의 이름40개는 루트의 image-requirements 기본 묶음에 포함된다.

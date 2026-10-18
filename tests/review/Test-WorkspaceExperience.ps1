@@ -6,6 +6,7 @@ desc         : 합성 문서와 지연 가능한 AI 응답으로 실제 WPF 입�
 author       : CodexCode
 create date  : 2026-10-18
 update date  : 2026-10-18 CodexCode : 개인 설정·인증·공유 빌드에 접근하지 않는 격리 검증 구성.
+update date  : 2026-10-18 CodexOrig : TASK-018 드롭다운·이미지 요구 및 기본14개 검사 반영.
 -------------------------------------------------------------------------
 .SYNOPSIS
     Run Windows PowerShell 5.1 -STA with a frozen product DLL.
@@ -834,6 +835,7 @@ namespace CodexCode.WorkspaceReview
                 CheckConversationFailureRecovery(control);
                 CheckLastConversationCapacityFailure(output);
                 CheckSidebar(control, owner, output);
+                CheckToolbarPlacement(control, owner);
                 foreach (var width in new[] { 420.0, 220.0 })
                 {
                     owner.Width = width; owner.UpdateLayout();
@@ -864,7 +866,7 @@ namespace CodexCode.WorkspaceReview
     }
 }
 '@
-    Add-Type -ReferencedAssemblies $referenceAssemblies -TypeDefinition ($experienceSource + [IO.File]::ReadAllText((Join-Path $PSScriptRoot 'AdvancedExperienceChecks.cs')))
+    Add-Type -ReferencedAssemblies $referenceAssemblies -TypeDefinition ($experienceSource + [IO.File]::ReadAllText((Join-Path $PSScriptRoot 'AdvancedExperienceChecks.cs')) + [IO.File]::ReadAllText((Join-Path $PSScriptRoot 'DropdownExperienceChecks.cs')))
     $experience = [CodexCode.WorkspaceReview.WorkspaceExperience]::Run($env:VS2017_AI_SETTINGS_PATH, $OutputDirectory)
     $report = [pscustomobject]@{
         Succeeded=$experience.Succeeded; CheckKind='IndependentWpfWorkspaceExperience'; Passed=$experience.Checks.Count

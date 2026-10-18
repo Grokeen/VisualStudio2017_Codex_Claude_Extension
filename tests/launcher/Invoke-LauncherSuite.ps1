@@ -7,11 +7,12 @@ author       : CodexCode
 create date  : 2026-10-18
 update date  : 2026-10-18 CodexCode : 고정 스크립트·루트 내부 경로·실패 종료 코드 검증.
 update date  : 2026-10-18 CodexOrig : TASK-016 문서·모델·AI 협업과 실제 비동기 UI 회귀 연결.
+update date  : 2026-10-18 CodexOrig : TASK-018 드롭다운·이미지 요구 및 기본14개 검사 반영.
 -------------------------------------------------------------------------
 #>
 [CmdletBinding()]
 param(
-    [Parameter(Mandatory=$true)][ValidateSet('compatibility','build-entry','markdown','settings','workspace-actions','editing','foundation','experience','documents','collaboration','provider-options','provider-cli','scm-identity','ide','live-codex')][string]$Suite,
+    [Parameter(Mandatory=$true)][ValidateSet('compatibility','build-entry','markdown','settings','workspace-actions','editing','foundation','experience','documents','collaboration','provider-options','provider-cli','scm-identity','image-requirements','ide','live-codex')][string]$Suite,
     [string]$AssemblyPath,
     [string]$VsixPath,
     [string]$OutputDirectory,
@@ -37,6 +38,7 @@ try {
         'provider-options' { $scriptRelativePath = 'tests\provider-options\Test-ProviderOptions.ps1'; $suiteArguments.ProductAssemblyPath = $AssemblyPath }
         'provider-cli' { $scriptRelativePath = 'tests\provider-options\Test-ProviderCliIntegration.ps1'; $suiteArguments.AssemblyPath = $AssemblyPath }
         'scm-identity' { $scriptRelativePath = 'tests\provider-options\Test-ScmIdentity.ps1'; $suiteArguments.ProductAssemblyPath = $AssemblyPath }
+        'image-requirements' { $scriptRelativePath = 'tests\review\Test-ImageRequirements.ps1'; $suiteArguments.AssemblyPath = $AssemblyPath; $suiteArguments.OutputDirectory = $OutputDirectory }
         'ide' { $scriptRelativePath = 'tests\ide\Test-IdeIntegration.ps1'; $suiteArguments.VsixPath = $VsixPath }
         'live-codex' { $scriptRelativePath = 'tests\review\Test-LiveChatContext.ps1'; $suiteArguments.AssemblyPath = $AssemblyPath; $suiteArguments.CodexPath = $CodexPath }
     }

@@ -1,0 +1,32 @@
+﻿{
+    "ProductVersion":  "0.8.0",
+    "VSIXSHA256":  "AE33A8D0AFA3223C46037C56E00DC848D017BA19CACD85072D08E85C11B4DFEB",
+    "VSIXBytes":  306771,
+    "Entries":  [
+                    {
+                        "Name":  "VS2017.AIAssistant.dll",
+                        "Bytes":  360960,
+                        "SHA256":  "DC8E3B8CAFF3E935100E8B3F287E8716263F2996C0C9C202C4AE36C58440B36A",
+                        "MatchesHandoff":  true
+                    },
+                    {
+                        "Name":  "VS2017.AIAssistant.DocumentReader.exe",
+                        "Bytes":  9728,
+                        "SHA256":  "5FAF1E32510DF9BD1FECA015E862F9B47499165B6D3090C015885A23171E07C7",
+                        "MatchesHandoff":  true
+                    },
+                    {
+                        "Name":  "VS2017.AIAssistant.DocumentReader.exe.config",
+                        "Bytes":  159,
+                        "SHA256":  "DBA0AC349FA98F542FE90CC4FBBE3033567DAC0515859D049854E81DEFAAAA51",
+                        "MatchesHandoff":  true
+                    }
+                ],
+    "SourceFiles":  39,
+    "SourceMismatches":  0,
+    "RoleSHA256":  "2689B00E8A29A8400AD717D8BC57D01AC2849C2F30AA9D3A8D5C2AE2B111E27F",
+    "RoleMatchesReviewed":  true,
+    "RoleReviewedSnapshot":  "Role.reviewed.latest.md",
+    "Supersedes":  "handoff and handoff2: focus correction followed by newly added tooltip requirement",
+    "CheckedAt":  "2026-10-18T17:27:28.2205586+09:00"
+}

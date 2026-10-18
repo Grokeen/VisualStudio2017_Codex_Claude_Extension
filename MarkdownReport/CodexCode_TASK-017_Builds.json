@@ -1,0 +1,16 @@
+﻿[
+    {
+        "Configuration":  "Debug",
+        "ExitCode":  0,
+        "Warnings":  0,
+        "Errors":  0,
+        "Log":  "artifacts\\task017\\build-debug-handoff3.log"
+    },
+    {
+        "Configuration":  "Release",
+        "ExitCode":  0,
+        "Warnings":  0,
+        "Errors":  0,
+        "Log":  "artifacts\\task017\\build-release-handoff3.log"
+    }
+]

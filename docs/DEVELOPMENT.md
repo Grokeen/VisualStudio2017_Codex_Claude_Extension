@@ -111,3 +111,11 @@ TASK-005에서는 별도 VS2017 인스턴스에 고정 v0.2.0을 설치하고 �
 문서 도우미는 net462 독립 exe이며 제품 빌드가 먼저 빌드해 DLL 옆과 VSIX 루트에 exe/config를 포함한다. tests/documents는 지정 DLL과 포장된 도우미로 실제 PDF/DOC/PPT 및 OpenXML·경계·취소를 검사한다. 협업60개, 모델65개, CLI15개, SCM 출처별 경계는 각 신규 검사 폴더에 있다. experience는 기존79개에 실제 모달·비동기 파일 붙여넣기·두 AI 호출·JSON/Markdown 롤백·원인 오류 보존 등을 추가했다. WPF 독립 검사는 실제 IDE와 같은 DispatcherSynchronizationContext로 비동기 UI 호출을 검사한다.
 
 루트 --all은 지정 VSIX의 DLL과 문서 도우미를 함께 추출한다. PDF/구형 Office의 지원은 설치된 Windows IFilter에 따르며 AnyCPU/x86 제품 경로 검증을 구분한다. 별도 SCM 검사는 작성자 설정과 서버 로그인 확인·GCM 저장 계정을 혼동하지 않는지 검사한다.
+
+## v0.8 이미지 요구와 실행기
+
+모델·생각 강도·Fast·권한·AI 지정은 입력 버튼에 연결된 WPF Popup이다. 외부 클릭/Escape로 닫히며 동시에 하나만 열린다. 대화 액션은 HistoryPanel 하단의 가로 스크롤 안에 있고 AgentButton은 고정 문구를 사용한다. 이름 서비스는 제공자마다 영구 A~Z 주소를 유지하며 27번째 새 요청은 기존 A의 대화·초안을 재사용한다. 닫기·재열기와 이전 초과 기록의 보관도 검사한다.
+
+안내는 hover 시 선택 카드만 강조하고 클릭 가능한 영역은 고정한다. 상세 절차 그림과 목록 복귀는 같은 본문 안에서 이루어진다. 설정·모델 창은 상단 목차, 주제 간 간격, 스크롤 밖 별도 색상의 동작 하단을 제공한다. 옵션 부채꼴은 공통 포인터 경계와 지연 닫기를 사용하며 반복 MouseEnter가 애니메이션을 재시작하지 않는다.
+
+루트 실행기는 기본14/선택2개 묶음이다. 신규 image-requirements는 tests/review/Test-ImageRequirements.ps1에서 명명40개와 안내·목차23개를 실행한다. tests/review/DropdownExperienceChecks.cs는 실제 WPF 버튼·PopupRoot·선택 결과·A 라우팅·hover/Escape/해제를 검사한다. 고립 UI 검사는 실제 SCM 조회를 비활성화하여 명명 시점 변동을 제거하고, 실제 SCM 동작은 별도63개 검사에서 확인한다. 제품 빌드는 단일 소유자가 수행하며 고정 VSIX/DLL을 이용해 후속 검사를 실행한다.

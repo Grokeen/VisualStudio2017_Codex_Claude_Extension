@@ -24,6 +24,7 @@ namespace CodexCode.WorkspaceReview
     /// author       : CodexOrig
     /// create date  : 2026-10-18
     /// update date  : 2026-10-18 CodexOrig : TASK-016 협업 호출 경계 fixture.
+    /// update date  : 2026-10-18 CodexOrig : TASK-018 이미지 요구와 드롭다운·A~Z 이름에 맞춰 검증 갱신.
     /// </summary>
     /// ---------------------------------------------------------------------
     internal sealed class CollaborationProvider : IAiContextEditProvider
@@ -135,30 +136,37 @@ namespace CodexCode.WorkspaceReview
                 new AssistantSettingsStore().Save(new AssistantSettings { HideWelcome = true });
                 var store = new MarkdownWorkspaceStore(); var main = store.Create("Codex"); var peer = store.Create("Codex");
                 var collaboration = new ConversationCollaborationStore(store.RootPath); collaboration.EnsureAgent(main); collaboration.EnsureAgent(peer);
-                collaboration.UpdateAgent(main.Id, "Codex", "Coordinator", "최종 검토", "fixture-team"); collaboration.UpdateAgent(peer.Id, "Codex", "Reviewer", "경계 조건 확인", "fixture-team");
+                collaboration.ConfigureNaming("Codex", "검증사용자");
+                collaboration.UpdateAgent(main.Id, "Codex", collaboration.GetAgent(main.Id, "Codex").Name, "최종 검토", "fixture-team"); collaboration.UpdateAgent(peer.Id, "Codex", collaboration.GetAgent(peer.Id, "Codex").Name, "경계 조건 확인", "fixture-team");
                 main.CollaboratorIds = new[] { peer.Id }; store.Save(main);
                 var document = new SyntheticDocument(Path.Combine(root, "Original.cs")); var documents = new SyntheticDocuments { Document = document }; var provider = new CollaborationProvider();
-                control = new AssistantControl(); control.Initialize(documents, provider); owner = new Window { Content = control, Width = 760, Height = 900 }; owner.Show(); owner.UpdateLayout();
+                control = new AssistantControl(); control.Initialize(documents, provider); typeof(AssistantControl).GetField("scmLookupStarted", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(control, true); collaboration.ConfigureNaming("Codex", "검증사용자"); owner = new Window { Content = control, Width = 760, Height = 900 }; owner.Show(); owner.UpdateLayout();
                 var tabs = (TabControl)control.FindName("ProviderChoice"); tabs.SelectedItem = tabs.Items.OfType<TabItem>().Single(t => Convert.ToString(t.Tag) == "Codex");
                 var list = (ListBox)control.FindName("ConversationList"); list.SelectedItem = list.Items.OfType<ConversationRecord>().Single(r => r.Id == main.Id); owner.UpdateLayout();
                 main = (ConversationRecord)list.SelectedItem;
-                Check(Convert.ToString(((Button)control.FindName("AgentButton")).Content).Contains("Coordinator"), "Each conversation displays its persisted unique AI identity and selected collaboration count");
-                InspectModal(() => Click((Button)control.FindName("ModelOptionsButton")), dialog => {
+                string coordinatorName = collaboration.GetAgent(main.Id, "Codex").Name, reviewerName = collaboration.GetAgent(peer.Id, "Codex").Name;
+                Check(coordinatorName.EndsWith("코덱스A") && reviewerName.EndsWith("코덱스B") && Convert.ToString(((Button)control.FindName("AgentButton")).Content).Contains("AI 지정하여 대화"), "Conversation AI identities follow the user/provider/A-Z format behind one fixed selection button");
+                InspectDropdown(control, "ModelOptionsButton", dialog => {
                     var model = Descendants(dialog).OfType<ComboBox>().Single(c => c.IsEditable); model.Text = "fixture-deep";
                     var slider = Descendants(dialog).OfType<Slider>().Single(); slider.Value = slider.Maximum;
                     var fast = Descendants(dialog).OfType<CheckBox>().Single(); fast.IsChecked = true;
                     Check(slider.Maximum == 6 && fast.IsEnabled, "Actual model popup exposes only advertised advanced levels and Fast support");
                     Capture(dialog, Path.Combine(output, "Model-options.png"));
-                    Click(Descendants(dialog).OfType<Button>().Single(b => Convert.ToString(b.Content) == "✓ 선택 저장"));
+                    Click(Descendants(dialog).OfType<Button>().Single(b => Convert.ToString(b.Content) == "✓ 선택 적용"));
                 });
                 Check(new AssistantSettingsStore().Load().CodexEffort == "ultra" && new AssistantSettingsStore().Load().CodexSpeed == "fast", "The real model popup saves provider-specific Ultra and Fast settings");
+                var speedToggle = (ToggleButton)control.FindName("FastToggle"); speedToggle.IsChecked = false;
+                InspectDropdown(control, "FastToggle", dialog => {
+                    Check(speedToggle.IsChecked == true && Descendants(dialog).OfType<CheckBox>().Single().IsChecked == true && new AssistantSettingsStore().Load().CodexSpeed == "fast",
+                        "Opening and dismissing the Fast dropdown preserves the saved speed and its visible toggle state");
+                });
                 var requestModel = (ComboBox)control.FindName("RequestModel"); requestModel.Text = "unknown-private"; owner.UpdateLayout();
                 Check(!((ToggleButton)control.FindName("FastToggle")).IsEnabled && ((ToggleButton)control.FindName("FastToggle")).IsChecked != true, "Changing to an unadvertised model clears unavailable Fast and advanced effort");
-                InspectModal(() => Click((Button)control.FindName("ModelOptionsButton")), dialog => {
+                InspectDropdown(control, "ModelOptionsButton", dialog => {
                     Descendants(dialog).OfType<ComboBox>().Single(c => c.IsEditable).Text = "fixture-deep";
                     var slider = Descendants(dialog).OfType<Slider>().Single(); slider.Value = slider.Maximum;
                     Descendants(dialog).OfType<CheckBox>().Single().IsChecked = true;
-                    Click(Descendants(dialog).OfType<Button>().Single(b => Convert.ToString(b.Content) == "✓ 선택 저장"));
+                    Click(Descendants(dialog).OfType<Button>().Single(b => Convert.ToString(b.Content) == "✓ 선택 적용"));
                 });
                 string rtf = Path.Combine(root, "Reference.rtf"); File.WriteAllText(rtf, "{\\rtf1\\ansi DOCUMENT-BODY-014}");
                 var data = new DataObject(DataFormats.FileDrop, new[] { rtf });
@@ -168,22 +176,23 @@ namespace CodexCode.WorkspaceReview
                 Check(attachment.IsDocument && attachment.Text.Contains("DOCUMENT-BODY-014") && File.Exists(rtf), "Clipboard document extraction supplies body text and preserves the original file");
                 var prompt = (TextBox)control.FindName("Instruction"); prompt.Text = "변경을 검토해 주세요"; Click((Button)control.FindName("GenerateButton"));
                 PumpUntil(() => provider.Calls.Count == 2 && ((Button)control.FindName("GenerateButton")).IsEnabled, 5000);
-                Check(provider.Calls[0].AgentContext.Contains("Reviewer") && provider.Calls[1].AgentContext.Contains("Coordinator") && provider.Calls[1].AgentContext.Contains("real fixture review result"), "A selected peer is actually invoked before the coordinator receives that real review result");
+                Check(provider.Calls[0].AgentContext.Contains(reviewerName) && provider.Calls[1].AgentContext.Contains(coordinatorName) && provider.Calls[1].AgentContext.Contains("real fixture review result"), "A selected peer is actually invoked before the coordinator receives that real review result");
                 Check(provider.Calls.All(c => c.Speed == "fast" && c.ReasoningEffort == "ultra" && c.Attachments.Length == 1 && c.AgentContext.Length <= 8000), "Every collaboration call receives the selected model options and captured attachment within the context bound: " + string.Join(";", provider.Calls.Select(c => c.Model + ":" + c.ReasoningEffort + ":" + c.Speed + ":" + c.Attachments.Length + ":" + c.AgentContext.Length)));
                 Check(document.ReplaceCount == 0 && document.SaveCount == 0 && File.ReadAllText(document.Path).Contains("return 1;"), "Neither peer nor coordinator proposals modify or save source before explicit approval");
-                Check(collaboration.ListOutbox(main.Id, "Codex").Single().State == CollaborationHandoffState.Delivered && File.ReadAllText(collaboration.ReportPath).Contains("Reviewer"), "Actual handoff states and results are persisted in the collaboration Markdown report");
+                Check(collaboration.ListOutbox(main.Id, "Codex").Single().State == CollaborationHandoffState.Delivered && File.ReadAllText(collaboration.ReportPath).Contains(reviewerName), "Actual handoff states and results are persisted in the collaboration Markdown report");
                 Check(store.LoadOpen("Codex").Single(r => r.Id == peer.Id).State == ConversationRunState.Completed && store.LoadOpen("Codex").Single(r => r.Id == peer.Id).HasUnread, "Peer completion is stored as unread in its own conversation");
                 Check(store.LoadOpen("Codex").Single(r => r.Id == main.Id).CollaboratorIds.SequenceEqual(new[] { peer.Id }), "Selected collaborators survive a Markdown round trip");
-                InspectModal(() => Click((Button)control.FindName("AgentButton")), dialog => {
-                    var name = Descendants(dialog).OfType<TextBox>().Single(t => t.MaxLength == 40); name.Text = "Coordinator-renamed";
+                InspectModal(() => { var picker = OpenDropdown(control, "AgentButton"); Click(Descendants(picker).OfType<Button>().Single(b => Convert.ToString(b.Content).Contains("역할·협업 설정"))); }, dialog => {
+                    var name = Descendants(dialog).OfType<TextBox>().Single(t => t.MaxLength == 40);
+                    Check(name.IsReadOnly && name.Text == coordinatorName, "AI role settings keep the required automatic A-Z name read-only");
                     var role = Descendants(dialog).OfType<TextBox>().Single(t => t.MaxLength == 1000); role.Text = "새 검토 역할";
                     Capture(dialog, Path.Combine(output, "Agent-options.png"));
                     Click(Descendants(dialog).OfType<Button>().Single(b => Convert.ToString(b.Content) == "✓ AI 설정 저장"));
                 });
-                Check(collaboration.GetAgent(main.Id, "Codex").Name == "Coordinator-renamed" && collaboration.GetAgent(main.Id, "Codex").Role == "새 검토 역할", "Actual AI settings popup saves name and role without changing conversation title");
+                Check(collaboration.GetAgent(main.Id, "Codex").Name == coordinatorName && collaboration.GetAgent(main.Id, "Codex").Role == "새 검토 역할", "AI role settings save the role while preserving the automatic name and conversation title");
                 var before = collaboration.GetAgent(main.Id, "Codex");
                 using (var lockRecord = new FileStream(store.GetPath(main), FileMode.Open, FileAccess.ReadWrite, FileShare.None)) {
-                    bool failed = false; try { PrivateCall(control, "SaveAgentConfiguration", main, before, "Should-rollback", "new role", "new team", new string[0]); } catch (TargetInvocationException) { failed = true; }
+                    bool failed = false; try { PrivateCall(control, "SaveAgentConfiguration", main, before, before.Name, "new role", "new team", new string[0]); } catch (TargetInvocationException) { failed = true; }
                     Check(failed && collaboration.GetAgent(main.Id, "Codex").Name == before.Name && collaboration.GetAgent(main.Id, "Codex").Team == before.Team && main.CollaboratorIds.Contains(peer.Id), "A locked conversation file rolls AI identity, team and participant selection back together");
                 }
                 provider.FailAt = provider.Calls.Count + 1;
@@ -205,12 +214,20 @@ namespace CodexCode.WorkspaceReview
                 Check(activeChat.Attachments.Count == 0 && ((TextBlock)control.FindName("StatusLabel")).Text.Contains("첨부 실패"), "A failed document batch leaves no partial attachments and re-enables the composer");
                 var cancellation = (Task)PrivateCall(control, "AttachFilesFromUiAsync", new object[] { new[] { rtf } }); Click((Button)control.FindName("StopButton")); PumpUntil(() => cancellation.IsCompleted, 5000);
                 Check(activeChat.Attachments.Count == 0 && ((Button)control.FindName("GenerateButton")).IsEnabled, "Stopping document extraction leaves the input usable without partial attachments");
-                InspectModal(() => Click((Button)control.FindName("PermissionsButton")), dialog => {
-                    Click(Descendants(dialog).OfType<Button>().Single(b => Convert.ToString(b.Content) == "⚿ 전체 권한"));
+                InspectDropdown(control, "PermissionsButton", dropdown => {
+                    Click(Descendants(dropdown).OfType<Button>().Single(b => Convert.ToString(b.Content).EndsWith("전체 권한")));
+                });
+                CheckGuideAndSettingsImages(control, output);
+                CheckTooltipTheme(control, output);
+                CheckFanMenuStability(control, owner);
+                var permissionSettings = new AssistantSettingsStore().Load();
+                Check(permissionSettings.AllowSourceControl && permissionSettings.AllowDatabaseSchema && permissionSettings.AllowDeployment, "The permission dropdown persists all three extension action permissions");
+                InspectModal(() => { var dropdown = OpenDropdown(control, "PermissionsButton"); Click(Descendants(dropdown).OfType<Button>().Single(b => Convert.ToString(b.Content).Contains("DB·형상관리·배포 작업 열기"))); }, dialog => {
                     var permissions = Descendants(dialog).OfType<CheckBox>().Where(c => Convert.ToString(c.Content).EndsWith("허용")).ToArray();
                     Check(permissions.Length >= 2 && permissions.All(c => c.IsChecked == true), "Full permission preset selects the extension workspace action permissions");
                     Check(!Descendants(dialog).OfType<Button>().Single(b => Convert.ToString(b.Content) == "▶ 확인한 작업 실행").IsEnabled, "Full workspace permissions still require an exact plan and individual execution approval");
                 });
+                CheckAlphabetRouting(output);
             }
             finally {
                 if (locked != null) locked.Dispose(); if (control != null) control.Dispose(); if (owner != null) owner.Close();

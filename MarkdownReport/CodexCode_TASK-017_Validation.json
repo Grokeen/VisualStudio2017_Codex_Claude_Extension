@@ -1,0 +1,103 @@
+﻿{
+    "Task":  "TASK-017",
+    "Agent":  "CodexCode",
+    "StartedAt":  "2026-10-18T16:56:53+09:00",
+    "CompletedAt":  "2026-10-18T17:30:19.6725811+09:00",
+    "DurationSeconds":  2007,
+    "ProductVersion":  "0.8.0",
+    "ProductAssemblySHA256":  "DC8E3B8CAFF3E935100E8B3F287E8716263F2996C0C9C202C4AE36C58440B36A",
+    "VsixSHA256":  "AE33A8D0AFA3223C46037C56E00DC848D017BA19CACD85072D08E85C11B4DFEB",
+    "VsixBytes":  306771,
+    "ImagesDirectlyInspected":  [
+                                    "image-7.png",
+                                    "image-8.png",
+                                    "image-9.png",
+                                    "image-10.png",
+                                    "image-11.png",
+                                    "image-12.png",
+                                    "image-13.png",
+                                    "image-14.png",
+                                    "image-15.png",
+                                    "image-16.png"
+                                ],
+    "Builds":  {
+                   "value":  [
+                                 {
+                                     "Configuration":  "Debug",
+                                     "ExitCode":  0,
+                                     "Warnings":  0,
+                                     "Errors":  0,
+                                     "Log":  "artifacts\\task017\\build-debug-handoff3.log"
+                                 },
+                                 {
+                                     "Configuration":  "Release",
+                                     "ExitCode":  0,
+                                     "Warnings":  0,
+                                     "Errors":  0,
+                                     "Log":  "artifacts\\task017\\build-release-handoff3.log"
+                                 }
+                             ],
+                   "Count":  2
+               },
+    "FinalProductTests":  [
+                              {
+                                  "Evidence":  "CodexCode_TASK-017_Alphabet.json",
+                                  "Name":  "AlphabetAgentRouting",
+                                  "Failed":  0,
+                                  "Passed":  40
+                              },
+                              {
+                                  "Evidence":  "CodexCode_TASK-017_Collaboration.json",
+                                  "Name":  "ExistingCollaboration",
+                                  "Failed":  0,
+                                  "Passed":  60
+                              },
+                              {
+                                  "Evidence":  "CodexCode_TASK-017_Guide.json",
+                                  "Name":  "DialogGuide",
+                                  "Failed":  0,
+                                  "Passed":  23
+                              }
+                          ],
+    "FinalProductAssertions":  123,
+    "NewAlphabetAndGuideCases":  63,
+    "IndependentFanSourceTest":  {
+                                     "Evidence":  "CodexCode_TASK-017_FanIndependent.json",
+                                     "FinalProductAssemblyTest":  false,
+                                     "Failed":  0,
+                                     "Passed":  14
+                                 },
+    "ProductSourceFiles":  39,
+    "ProductSourceMismatches":  0,
+    "PackageEntriesMatch":  true,
+    "RoleMatchesReviewed":  true,
+    "PreviousReleasesChanged":  0,
+    "VisualQaImages":  3,
+    "VisualQaFromFinalProduct":  true,
+    "AllSubagentsEditingComplete":  true,
+    "ProductEditingComplete":  true,
+    "PublicApiChanged":  "ConfigureNaming and A-Z assignment; existing conversation and handoff IDs preserved",
+    "DeploymentOwner":  "CodexOrig TASK-018",
+    "IntegrationEvidence":  "CodexOrig_TASK-018.md",
+    "Limitations":  [
+                        "VS2017 15.9+ VSIX only",
+                        "Existing detailed model and native permission guards retained",
+                        "No live Claude/Fast billing or external production environment test claimed"
+                    ],
+    "RoleSHA256":  "2689B00E8A29A8400AD717D8BC57D01AC2849C2F30AA9D3A8D5C2AE2B111E27F",
+    "ComponentProvenance":  "CodexCode_TASK-017_ComponentProvenance.json",
+    "FinalHandoff":  "artifacts/task017/handoff3",
+    "FocusRegressionCorrected":  true,
+    "LatestTooltipRequirementImplemented":  true,
+    "FinalProductUI":  {
+                           "NativeTooltipAssertions":  2,
+                           "Evidence":  "artifacts/task018/ui-final3/result.json",
+                           "Failed":  0,
+                           "Passed":  133
+                       },
+    "FinalLauncher":  {
+                          "Evidence":  "artifacts/tl/eb720fe92b/summary.txt",
+                          "Failed":  0,
+                          "Passed":  14
+                      }
+}

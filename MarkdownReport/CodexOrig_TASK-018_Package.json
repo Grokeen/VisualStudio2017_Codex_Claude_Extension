@@ -1,0 +1,30 @@
+{
+  "Task": "TASK-018",
+  "Package": "releases/v0.8.0/VS2017.AIAssistant-0.8.0.vsix",
+  "Bytes": 306771,
+  "SHA256": "AE33A8D0AFA3223C46037C56E00DC848D017BA19CACD85072D08E85C11B4DFEB",
+  "Entries": [
+    {
+      "Entry": "VS2017.AIAssistant.dll",
+      "Bytes": 360960,
+      "SHA256": "DC8E3B8CAFF3E935100E8B3F287E8716263F2996C0C9C202C4AE36C58440B36A",
+      "MatchesHandoff": true
+    },
+    {
+      "Entry": "VS2017.AIAssistant.DocumentReader.exe",
+      "Bytes": 9728,
+      "SHA256": "5FAF1E32510DF9BD1FECA015E862F9B47499165B6D3090C015885A23171E07C7",
+      "MatchesHandoff": true
+    },
+    {
+      "Entry": "VS2017.AIAssistant.DocumentReader.exe.config",
+      "Bytes": 159,
+      "SHA256": "DBA0AC349FA98F542FE90CC4FBBE3033567DAC0515859D049854E81DEFAAAA51",
+      "MatchesHandoff": true
+    }
+  ],
+  "RoleSHA256": "2689B00E8A29A8400AD717D8BC57D01AC2849C2F30AA9D3A8D5C2AE2B111E27F",
+  "SourceFiles": 39,
+  "OldReleasesChanged": 0,
+  "RootExeSHA256": "8F14A59DE451C715702E22B0F45193F6D5A702A7CEE533C470137E1632071353"
+}

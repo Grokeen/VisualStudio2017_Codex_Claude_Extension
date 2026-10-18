@@ -27,6 +27,10 @@ namespace VS2017.AIAssistant.Chat
         public string Name { get; set; }
         public string Role { get; set; }
         public string Team { get; set; }
+        public string Letter { get; set; } = "";
+        public string UserName { get; set; } = "";
+        public string LegacyName { get; set; } = "";
+        public bool IsLegacyArchive { get; set; }
         public bool IsOpen { get; set; }
         public long Revision { get; set; }
         public DateTimeOffset UpdatedAt { get; set; }
@@ -57,6 +61,51 @@ namespace VS2017.AIAssistant.Chat
         public CollaborationHandoffState State { get; set; }
         public DateTimeOffset OccurredAt { get; set; }
         public string Detail { get; set; }
+    }
+
+    /// ---------------------------------------------------------------------
+    /// <summary>
+    /// name         : AgentRouteResult
+    /// desc         : 새 대화를 생성했는지 또는 영구 A 담당자로 이동해야 하는지 구분한다.
+    /// author       : CodexCode
+    /// create date  : 2026-10-18
+    /// update date  : 2026-10-18 CodexCode : 26명 도달 시 생성 콜백 없이 기존 주소만 반환.
+    /// </summary>
+    /// ---------------------------------------------------------------------
+    public sealed class AgentRouteResult
+    {
+        public ConversationAgentIdentity Agent { get; internal set; }
+        public ConversationRecord CreatedRecord { get; internal set; }
+        public bool ReusedExisting { get; internal set; }
+    }
+
+    /// ---------------------------------------------------------------------
+    /// <summary>
+    /// name         : AgentRouteException
+    /// desc         : Markdown 생성 이후 AI 등록 실패 시 생성된 기록과 복구 상태를 호출자에게 전달한다.
+    /// author       : CodexCode
+    /// create date  : 2026-10-18
+    /// update date  : 2026-10-18 CodexCode : 서로 다른 파일 저장의 실패 경계를 숨기지 않고 기록 손실 방지.
+    /// </summary>
+    /// ---------------------------------------------------------------------
+    public sealed class AgentRouteException : IOException
+    {
+        public ConversationRecord CreatedRecord { get; private set; }
+        public bool RollbackSucceeded { get; private set; }
+        public Exception RollbackError { get; private set; }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : AgentRouteException
+        /// desc         : 생성 기록과 원래 오류·복구 오류를 함께 보존한다.
+        /// author       : CodexCode
+        /// create date  : 2026-10-18
+        /// update date  : 2026-10-18 CodexCode : 복구 성공과 부분 생성 상태를 구분하는 오류 구성.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        internal AgentRouteException(ConversationRecord record, Exception error, bool recovered, Exception rollback)
+            : base(recovered ? "AI 등록에 실패하여 새 대화는 보관 상태로 복구했습니다. " + error.Message : "대화 파일은 생성됐지만 AI 등록에 실패했습니다. 생성된 대화를 확인하세요. " + error.Message + (rollback == null ? "" : " 복구 오류: " + rollback.Message), error)
+        { CreatedRecord = record; RollbackSucceeded = recovered; RollbackError = rollback; }
     }
 
     /// ---------------------------------------------------------------------
@@ -119,6 +168,22 @@ namespace VS2017.AIAssistant.Chat
             public int Version { get; set; } = 1;
             public List<ConversationAgentIdentity> Agents { get; set; } = new List<ConversationAgentIdentity>();
             public List<CollaborationHandoff> Handoffs { get; set; } = new List<CollaborationHandoff>();
+            public List<NamingConfiguration> Naming { get; set; } = new List<NamingConfiguration>();
+        }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : NamingConfiguration
+        /// desc         : AI 제공자별 사용자 표시명과 영구 알파벳 이름 적용 여부를 보존한다.
+        /// author       : CodexCode
+        /// create date  : 2026-10-18
+        /// update date  : 2026-10-18 CodexCode : 계정 인증 여부는 이 표시 설정에서 추정하지 않음.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        private sealed class NamingConfiguration
+        {
+            public string Provider { get; set; }
+            public string UserName { get; set; }
         }
 
         /// ---------------------------------------------------------------------
@@ -163,12 +228,165 @@ namespace VS2017.AIAssistant.Chat
                     }
                     if (name == null) throw new InvalidOperationException("고유한 담당자 이름을 만들 수 없습니다.");
                     agent = new ConversationAgentIdentity { ConversationId = record.Id, Provider = record.Provider, Name = name, Role = "", Team = "기본 협업팀", IsOpen = record.IsOpen, Revision = 1, UpdatedAt = DateTimeOffset.Now };
+                    var naming = data.Naming.FirstOrDefault(n => n.Provider == record.Provider);
+                    if (naming != null) AssignLetter(data, agent, naming.UserName);
                     data.Agents.Add(agent);
                 }
                 else if (agent.IsOpen != record.IsOpen) { agent.IsOpen = record.IsOpen; Touch(agent); }
                 return Copy(agent);
             }, true);
         }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : ConfigureNaming
+        /// desc         : 기존 주소·역할·이력을 보존하며 제공자별 사용자명과 영구 A~Z 이름을 적용한다.
+        /// author       : CodexCode
+        /// create date  : 2026-10-18
+        /// update date  : 2026-10-18 CodexCode : 기존 이름은 별도 보존하고 26명 초과 기록은 읽기 보관으로 유지.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        public ConversationAgentIdentity[] ConfigureNaming(string provider, string userName)
+        {
+            ValidateProvider(provider); ValidateLabel(userName, 256, false); userName = userName.Trim();
+            return Access(data => { ApplyNaming(data, provider, userName); return data.Agents.Where(a => a.Provider == provider).Select(Copy).ToArray(); }, true);
+        }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : ListAssignableAgents
+        /// desc         : 지정한 AI 제공자의 A~Z 담당자를 닫힘 상태와 함께 알파벳 순서로 반환한다.
+        /// author       : CodexCode
+        /// create date  : 2026-10-18
+        /// update date  : 2026-10-18 CodexCode : 과거 초과 기록은 삭제하지 않고 새 지정 목록에서만 제외.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        public ConversationAgentIdentity[] ListAssignableAgents(string provider)
+        { ValidateProvider(provider); return Access(data => data.Agents.Where(a => a.Provider == provider && !a.IsLegacyArchive && a.Letter.Length == 1).OrderBy(a => a.Letter, StringComparer.Ordinal).Select(Copy).ToArray(), false); }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : GetPrimaryAgent
+        /// desc         : 지정한 AI 제공자의 영구 A 주소를 반환하여 닫힌 대화도 다시 열 수 있게 한다.
+        /// author       : CodexCode
+        /// create date  : 2026-10-18
+        /// update date  : 2026-10-18 CodexCode : A가 닫혀도 B 등 다른 담당자로 임의 대체하지 않음.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        public ConversationAgentIdentity GetPrimaryAgent(string provider)
+        { ValidateProvider(provider); return Access(data => Copy(data.Agents.FirstOrDefault(a => a.Provider == provider && a.Letter == "A" && !a.IsLegacyArchive)), false); }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : RouteNewConversation
+        /// desc         : 빈 영구 슬롯일 때만 대화를 생성하고 26명 도달 시 기존 A 주소를 반환한다.
+        /// author       : CodexCode
+        /// create date  : 2026-10-18
+        /// update date  : 2026-10-18 CodexCode : Markdown 생성 후 메타데이터 실패는 명시 복구 콜백과 결과 오류로 전달.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        public AgentRouteResult RouteNewConversation(string provider, string accountName, Func<ConversationRecord> create, Action<ConversationRecord> rollbackCreated = null)
+        {
+            ValidateProvider(provider); if (create == null) throw new ArgumentNullException(nameof(create));
+            string user = String.IsNullOrWhiteSpace(accountName) ? Environment.UserName : accountName.Trim(); ValidateLabel(user, 256, false);
+            ConversationRecord created = null; bool writeRequired = false;
+            try
+            {
+                return Access(data => {
+                    if (!data.Naming.Any(n => n.Provider == provider)) { ApplyNaming(data, provider, user); writeRequired = true; }
+                    if (NextLetter(data, provider) == null)
+                    {
+                        var first = data.Agents.First(a => a.Provider == provider && a.Letter == "A" && !a.IsLegacyArchive);
+                        return new AgentRouteResult { Agent = Copy(first), CreatedRecord = null, ReusedExisting = true };
+                    }
+                    if (data.Agents.Count >= 1000) throw new InvalidOperationException("협업 담당자 기록 한도에 도달했습니다.");
+                    var candidate = create(); if (candidate == null) throw new InvalidOperationException("새 대화 생성 결과가 없습니다.");
+                    ValidateAddress(candidate.Id, candidate.Provider);
+                    if (candidate.Provider != provider || !candidate.IsOpen || FindAgent(data, candidate.Id, candidate.Provider, false) != null) throw new InvalidOperationException("생성 콜백은 선택한 AI의 새 열린 대화만 반환해야 합니다.");
+                    created = candidate;
+                    var agent = new ConversationAgentIdentity { ConversationId = candidate.Id, Provider = provider, Name = "", Role = "", Team = "기본 협업팀", IsOpen = true, Revision = 1, UpdatedAt = DateTimeOffset.Now };
+                    AssignLetter(data, agent, data.Naming.First(n => n.Provider == provider).UserName); data.Agents.Add(agent); writeRequired = true;
+                    return new AgentRouteResult { Agent = Copy(agent), CreatedRecord = candidate, ReusedExisting = false };
+                }, true, () => writeRequired);
+            }
+            catch (Exception error)
+            {
+                if (created == null) throw;
+                bool recovered = false; Exception rollbackError = null;
+                if (rollbackCreated != null) { try { rollbackCreated(created); recovered = true; } catch (Exception rollback) { rollbackError = rollback; } }
+                throw new AgentRouteException(created, error, recovered, rollbackError);
+            }
+        }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : BuildAlphabetName
+        /// desc         : 사용자 표시명·한국어 AI 이름·알파벳 한 자리를 40자 안에서 조합한다.
+        /// author       : CodexCode
+        /// create date  : 2026-10-18
+        /// update date  : 2026-10-18 CodexCode : 이름만으로 인증 상태를 주장하지 않고 Unicode 문자 경계를 보존.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        public static string BuildAlphabetName(string userName, string provider, string letter)
+        {
+            ValidateProvider(provider); ValidateLabel(userName, 256, false);
+            if (letter == null || !Regex.IsMatch(letter, @"\A[A-Z]\z")) throw new ArgumentException("AI 문자는 A~Z 한 자리여야 합니다.");
+            string suffix = (provider == "Claude" ? "클로드" : "코덱스") + letter; string user = userName.Trim(); int room = 40 - suffix.Length;
+            if (user.Length > room) { if (char.IsHighSurrogate(user[room - 1])) room--; user = user.Substring(0, room).TrimEnd(); }
+            return user + suffix;
+        }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : ApplyNaming
+        /// desc         : 기존 할당을 유지하고 아직 문자가 없는 기록에만 남은 A~Z 슬롯을 부여한다.
+        /// author       : CodexCode
+        /// create date  : 2026-10-18
+        /// update date  : 2026-10-18 CodexCode : 사용자 표시명이 바뀌어도 주소와 영구 문자는 유지.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        private static void ApplyNaming(CollaborationData data, string provider, string user)
+        {
+            var configuration = data.Naming.FirstOrDefault(n => n.Provider == provider);
+            if (configuration == null) { configuration = new NamingConfiguration { Provider = provider }; data.Naming.Add(configuration); }
+            configuration.UserName = user;
+            foreach (var agent in data.Agents.Where(a => a.Provider == provider))
+            {
+                string oldName = agent.Name; string oldUser = agent.UserName; string oldLegacy = agent.LegacyName; bool oldArchive = agent.IsLegacyArchive;
+                if (agent.LegacyName.Length == 0) agent.LegacyName = agent.Name;
+                if (agent.Letter.Length == 0 && !agent.IsLegacyArchive) AssignLetter(data, agent, user);
+                else { agent.UserName = user; if (agent.Letter.Length == 1 && !agent.IsLegacyArchive) agent.Name = BuildAlphabetName(user, provider, agent.Letter); }
+                if (oldName != agent.Name || oldUser != agent.UserName || oldLegacy != agent.LegacyName || oldArchive != agent.IsLegacyArchive) Touch(agent);
+            }
+        }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : AssignLetter
+        /// desc         : 빈 영구 문자를 배정하고 초과한 과거 기록은 이름 원문을 유지하여 보관한다.
+        /// author       : CodexCode
+        /// create date  : 2026-10-18
+        /// update date  : 2026-10-18 CodexCode : 닫힌 담당자의 슬롯도 사용 중으로 취급.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        private static void AssignLetter(CollaborationData data, ConversationAgentIdentity agent, string user)
+        {
+            string letter = NextLetter(data, agent.Provider); agent.UserName = user;
+            if (letter == null) { agent.IsLegacyArchive = true; if (agent.LegacyName.Length == 0) agent.LegacyName = agent.Name; return; }
+            agent.Letter = letter; agent.IsLegacyArchive = false; agent.Name = BuildAlphabetName(user, agent.Provider, letter);
+        }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : NextLetter
+        /// desc         : 열림 여부와 관계없이 이미 배정된 문자를 제외하고 다음 문자를 찾는다.
+        /// author       : CodexCode
+        /// create date  : 2026-10-18
+        /// update date  : 2026-10-18 CodexCode : 마지막 Z 이후에는 AA나 중복 A를 생성하지 않음.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        private static string NextLetter(CollaborationData data, string provider)
+        { for (char letter = 'A'; letter <= 'Z'; letter++) if (!data.Agents.Any(a => a.Provider == provider && !a.IsLegacyArchive && a.Letter == letter.ToString())) return letter.ToString(); return null; }
 
         /// ---------------------------------------------------------------------
         /// <summary>
@@ -221,6 +439,7 @@ namespace VS2017.AIAssistant.Chat
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : Unicode 정규화와 대소문자 차이로 중복을 우회하지 못하게 검사.
+        /// update date  : 2026-10-18 CodexCode : 고정 A~Z 이름의 역할 저장은 과거 보관 별칭과 구분하여 허용.
         /// </summary>
         /// ---------------------------------------------------------------------
         public ConversationAgentIdentity UpdateAgent(string id, string provider, string name, string role, string team, long? expectedRevision = null)
@@ -229,7 +448,10 @@ namespace VS2017.AIAssistant.Chat
             return Access(data => {
                 var agent = FindAgent(data, id, provider);
                 if (expectedRevision.HasValue && expectedRevision != agent.Revision) throw new InvalidOperationException("다른 창에서 담당자 정보가 바뀌었습니다. 다시 불러온 뒤 수정하세요.");
-                if (data.Agents.Any(a => a != agent && Same(a.Name, name))) throw new InvalidOperationException("이미 사용 중인 담당자 이름입니다.");
+                if (agent.IsLegacyArchive) throw new InvalidOperationException("과거 보관 대화입니다. AI 지정하여 대화에서 A 담당자를 선택하세요.");
+                bool canonical = data.Naming.Any(n => n.Provider == provider);
+                if (canonical && name.Trim() != agent.Name) throw new InvalidOperationException("AI 이름은 사용자명·AI 이름·A~Z 문자로 고정됩니다. 역할과 팀만 수정할 수 있습니다.");
+                if (!canonical && data.Agents.Any(a => a != agent && Same(a.Name, name))) throw new InvalidOperationException("이미 사용 중인 담당자 이름입니다.");
                 agent.Name = name.Trim(); agent.Role = role.Trim(); agent.Team = team.Trim(); Touch(agent); return Copy(agent);
             }, true);
         }
@@ -504,12 +726,12 @@ namespace VS2017.AIAssistant.Chat
         /// update date  : 2026-10-18 CodexCode : 중단된 소유자의 잠금도 최신 파일을 검사한 뒤 인계.
         /// </summary>
         /// ---------------------------------------------------------------------
-        private T Access<T>(Func<CollaborationData, T> action, bool write)
+        private T Access<T>(Func<CollaborationData, T> action, bool write, Func<bool> shouldWrite = null)
         {
             using (var mutex = new Mutex(false, mutexName))
             {
                 bool acquired = false;
-                try { try { acquired = mutex.WaitOne(TimeSpan.FromSeconds(5)); } catch (AbandonedMutexException) { acquired = true; } if (!acquired) throw new IOException("다른 창에서 협업 정보를 저장하고 있습니다. 잠시 후 다시 시도하세요."); var data = Read(); T value = action(data); if (write) Write(data); return value; }
+                try { try { acquired = mutex.WaitOne(TimeSpan.FromSeconds(5)); } catch (AbandonedMutexException) { acquired = true; } if (!acquired) throw new IOException("다른 창에서 협업 정보를 저장하고 있습니다. 잠시 후 다시 시도하세요."); var data = Read(); T value = action(data); if (write && (shouldWrite == null || shouldWrite())) Write(data); return value; }
                 finally { if (acquired) mutex.ReleaseMutex(); }
             }
         }
@@ -604,13 +826,27 @@ namespace VS2017.AIAssistant.Chat
         /// ---------------------------------------------------------------------
         private static void ValidateData(CollaborationData data)
         {
-            if (data == null || data.Version != 1 || data.Agents == null || data.Handoffs == null || data.Agents.Count > 1000 || data.Handoffs.Count > 500) throw new InvalidDataException("협업 기록의 버전이나 개수가 올바르지 않습니다.");
-            var addresses = new HashSet<string>(StringComparer.Ordinal); var names = new HashSet<string>(StringComparer.Ordinal); var ids = new HashSet<string>(StringComparer.Ordinal);
+            if (data == null || data.Version != 1 || data.Agents == null || data.Handoffs == null || data.Naming == null || data.Naming.Count > 2 || data.Agents.Count > 1000 || data.Handoffs.Count > 500) throw new InvalidDataException("협업 기록의 버전이나 개수가 올바르지 않습니다.");
+            var configurations = new Dictionary<string, NamingConfiguration>(StringComparer.Ordinal);
+            foreach (var naming in data.Naming)
+            {
+                if (naming == null) throw new InvalidDataException("AI 이름 설정이 누락되었습니다."); ValidateProvider(naming.Provider); ValidateLabel(naming.UserName, 256, false);
+                if (configurations.ContainsKey(naming.Provider)) throw new InvalidDataException("AI 이름 설정이 중복되었습니다."); configurations.Add(naming.Provider, naming);
+            }
+            var addresses = new HashSet<string>(StringComparer.Ordinal); var names = new HashSet<string>(StringComparer.Ordinal); var ids = new HashSet<string>(StringComparer.Ordinal); var slots = new HashSet<string>(StringComparer.Ordinal);
             foreach (var agent in data.Agents)
             {
                 if (agent == null) throw new InvalidDataException("담당자 정보가 누락되었습니다.");
                 ValidateAddress(agent.ConversationId, agent.Provider); ValidateLabel(agent.Name, 40, false); ValidateRole(agent.Role); ValidateLabel(agent.Team, 80, false);
-                if (!addresses.Add(agent.Provider + "/" + agent.ConversationId) || !names.Add(Key(agent.Name)) || agent.Revision < 1 || agent.UpdatedAt == default(DateTimeOffset)) throw new InvalidDataException("담당자 정보가 중복되었거나 올바르지 않습니다.");
+                if (agent.Letter == null || agent.UserName == null || agent.LegacyName == null || agent.LegacyName.Length > 40 || agent.LegacyName.Any(char.IsControl)) throw new InvalidDataException("AI 이름 이력이 올바르지 않습니다.");
+                NamingConfiguration naming; bool configured = configurations.TryGetValue(agent.Provider, out naming);
+                if (configured)
+                {
+                    if (agent.UserName != naming.UserName || (agent.IsLegacyArchive ? agent.Letter != "" || agent.LegacyName.Length == 0 : !Regex.IsMatch(agent.Letter, @"\A[A-Z]\z") || agent.Name != BuildAlphabetName(naming.UserName, agent.Provider, agent.Letter) || !slots.Add(agent.Provider + "/" + agent.Letter))) throw new InvalidDataException("AI 이름과 영구 문자 설정이 일치하지 않습니다.");
+                }
+                else if (agent.Letter != "" || agent.UserName != "" || agent.IsLegacyArchive) throw new InvalidDataException("AI 이름 설정이 누락되었습니다.");
+                string nameScope = agent.IsLegacyArchive ? "archive/" + agent.Provider + "/" + agent.ConversationId : configured ? "named" : "legacy";
+                if (!addresses.Add(agent.Provider + "/" + agent.ConversationId) || !names.Add(nameScope + "/" + Key(agent.Name)) || agent.Revision < 1 || agent.UpdatedAt == default(DateTimeOffset)) throw new InvalidDataException("담당자 정보가 중복되었거나 올바르지 않습니다.");
             }
             foreach (var item in data.Handoffs)
             {
@@ -680,7 +916,7 @@ namespace VS2017.AIAssistant.Chat
         /// </summary>
         /// ---------------------------------------------------------------------
         private static void RequireOpen(ConversationAgentIdentity agent)
-        { if (!agent.IsOpen) throw new InvalidOperationException("닫힌 대화를 먼저 다시 열어 주세요."); }
+        { if (agent.IsLegacyArchive) throw new InvalidOperationException("과거 보관 대화입니다. AI 지정하여 대화에서 A 담당자를 선택하세요."); if (!agent.IsOpen) throw new InvalidOperationException("닫힌 대화를 먼저 다시 열어 주세요."); }
 
         /// ---------------------------------------------------------------------
         /// <summary>
@@ -692,7 +928,19 @@ namespace VS2017.AIAssistant.Chat
         /// </summary>
         /// ---------------------------------------------------------------------
         private static void ValidateAddress(string id, string provider)
-        { ValidateId(id); if (provider != "Codex" && provider != "Claude") throw new ArgumentException("AI 주소가 올바르지 않습니다."); }
+        { ValidateId(id); ValidateProvider(provider); }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : ValidateProvider
+        /// desc         : 영구 문자 슬롯을 구분하는 내부 AI 제공자 키를 검사한다.
+        /// author       : CodexCode
+        /// create date  : 2026-10-18
+        /// update date  : 2026-10-18 CodexCode : 표시 이름이나 경로를 제공자 주소로 사용하지 않음.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        private static void ValidateProvider(string provider)
+        { if (provider != "Codex" && provider != "Claude") throw new ArgumentException("AI 주소가 올바르지 않습니다."); }
 
         /// ---------------------------------------------------------------------
         /// <summary>
@@ -815,7 +1063,7 @@ namespace VS2017.AIAssistant.Chat
         /// </summary>
         /// ---------------------------------------------------------------------
         private static ConversationAgentIdentity Copy(ConversationAgentIdentity value)
-        { return value == null ? null : new ConversationAgentIdentity { ConversationId = value.ConversationId, Provider = value.Provider, Name = value.Name, Role = value.Role, Team = value.Team, IsOpen = value.IsOpen, Revision = value.Revision, UpdatedAt = value.UpdatedAt }; }
+        { return value == null ? null : new ConversationAgentIdentity { ConversationId = value.ConversationId, Provider = value.Provider, Name = value.Name, Role = value.Role, Team = value.Team, Letter = value.Letter, UserName = value.UserName, LegacyName = value.LegacyName, IsLegacyArchive = value.IsLegacyArchive, IsOpen = value.IsOpen, Revision = value.Revision, UpdatedAt = value.UpdatedAt }; }
         /// ---------------------------------------------------------------------
         /// <summary>
         /// name         : Copy

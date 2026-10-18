@@ -11,3 +11,5 @@
 Fast는 Codex에서 --config service_tier='fast' 및 features.fast_mode=true, Claude에서는 --settings의 fastMode로 전달한다. Claude 기본 속도는 fastMode=false를 명시한다. 지원 모델·최소 CLI 버전과 계정 권한이 필요하다. [Codex 공식 속도 안내](https://learn.chatgpt.com/docs/agent-configuration/speed), [모델 목록 계약](https://learn.chatgpt.com/docs/app-server), [Claude Fast 안내](https://code.claude.com/docs/en/fast-mode)를 기준으로 확인했다. UI에서 특정 모델을 모든 계정에 제공한다고 보장하지 않는다.
 
 AI 이름·역할·이번 요청의 실제 협업 결과는 별도의 agent_context로 stdin JSON에 담고 최대 8,000자로 제한한다. 협업 참여자는 동일 원본·첨부로 차례로 호출하며 중간 수정안은 적용하지 않는다. 모델·강도·Fast가 CLI의 파일 쓰기·도구·승인 권한을 확대하지 않는다.
+
+v0.8에서는 같은 옵션 계약을 버튼에 연결된 드롭다운으로 선택한다. 강도 게이지에는 해당 모델이 지원하는 단계만 표시하고 Fast는 지원 여부에 따라 비활성화한다. 자동 A~Z 이름과 역할 설정은 agent_context의 표시·라우팅에 사용하며 CLI의 읽기/도구 제한과 코드 적용 승인 조건은 유지한다.

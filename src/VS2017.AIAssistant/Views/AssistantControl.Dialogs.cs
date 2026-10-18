@@ -145,6 +145,7 @@ namespace VS2017.AIAssistant.Views
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : 저장 성공 후 닫기·취소·Esc·연결 확인 중 닫기 처리.
         /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
+        /// update date  : 2026-10-18 CodexCode : TASK-017 이미지 분석 기반 드롭다운·안내·대화 지정 흐름 개선.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void SettingsClicked(object sender, RoutedEventArgs e)
@@ -159,6 +160,7 @@ namespace VS2017.AIAssistant.Views
             SettingsPanel.Content = null; saveParent.Children.Remove(SaveSettingsButton);
             activeSettingsDialog = dialog; SettingsProviderLabel.Text = "현재 AI: " + selectedProvider;
             dialog.Body.Content = SettingsContent; dialog.Actions.Children.Insert(0, SaveSettingsButton);
+            dialog.SetSections(SettingsContent, new DialogSection("⚙", "계정", AccountSection), new DialogSection("☷", "모델", ModelSection), new DialogSection("✎", "규칙", InstructionSection), new DialogSection("◐", "화면", DisplaySection));
             SaveSettingsButton.IsDefault = true;
             try
             {

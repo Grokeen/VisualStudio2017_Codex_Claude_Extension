@@ -1,0 +1,61 @@
+{
+  "Task": "TASK-018",
+  "Author": "CodexOrig",
+  "Status": "verified-awaiting-publish",
+  "StartedAt": "2026-10-18T16:57:06+09:00",
+  "LocalCompletedAt": "2026-10-18T17:35:02.3140390+09:00",
+  "ElapsedMinutes": 37.94,
+  "RoleSHA256": "2689B00E8A29A8400AD717D8BC57D01AC2849C2F30AA9D3A8D5C2AE2B111E27F",
+  "Package": "releases/v0.8.0/VS2017.AIAssistant-0.8.0.vsix",
+  "PackageSHA256": "AE33A8D0AFA3223C46037C56E00DC848D017BA19CACD85072D08E85C11B4DFEB",
+  "DLLSHA256": "DC8E3B8CAFF3E935100E8B3F287E8716263F2996C0C9C202C4AE36C58440B36A",
+  "PackageBytes": 306771,
+  "RootExeSHA256": "8F14A59DE451C715702E22B0F45193F6D5A702A7CEE533C470137E1632071353",
+  "Build": {
+    "Debug": "PASS",
+    "Errors": 0,
+    "Release": "PASS",
+    "Warnings": 0
+  },
+  "WorkspaceExperience": {
+    "Failed": 0,
+    "Passed": 133,
+    "Evidence": "CodexOrig_TASK-018_Experience.json"
+  },
+  "ActualIDE": {
+    "Failed": 0,
+    "Evidence": "CodexOrig_TASK-018_IDE.json",
+    "LiveSQLDraft": true,
+    "LiveCodex": true,
+    "NativeCollaboration": true,
+    "Passed": 80
+  },
+  "Launcher": {
+    "Failed": 0,
+    "ExitCode": 0,
+    "Passed": 14,
+    "SmokePassed": 9,
+    "Evidence": "CodexOrig_TASK-018_Launcher.json"
+  },
+  "NewImageCases": {
+    "IncludedInDefaultSuites": true,
+    "Guide": 23,
+    "Alphabet": 40
+  },
+  "SourceHashMatches": 39,
+  "EmbeddedBinaryMatches": 3,
+  "PriorReleaseChanges": 0,
+  "ReferenceImagesDirectlyInspected": 17,
+  "ProductPreviewImagesDirectlyInspected": 14,
+  "OtherAgentCompletedAt": "2026-10-18T17:31:38+09:00",
+  "PhysicalMouseAutomation": false,
+  "UserProjectSourceSent": false,
+  "PersonalSettingsRead": false,
+  "Limitations": [
+    "Current package is VS2017 15.9+",
+    "VS2019/2022 packages pending",
+    "Live Claude authentication and billed Fast requests not tested",
+    "Operational DB/SVN/TFVC/deployment not tested"
+  ],
+  "Evidence": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\ide\\run-26b41a291a3e42c1adb111206dfe47be"
+}

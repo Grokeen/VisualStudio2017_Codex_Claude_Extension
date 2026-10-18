@@ -183,3 +183,27 @@
 ### TASK-014/016 최종 배포 완료 — 2026-10-18 14:38:46 KST
 
 TASK015와전원종료14:34:25확인후검증된v0.6.0·v0.7.0을 da337035378fefec8a3b73f883c68aa20028372f로 origin/main에반영했다. 원격0.6 VSIX184770바이트/5528C0A1…,0.7 VSIX275314바이트/DB9C5D70…,루트exe33792바이트/D1015F87…를다시내려받아모두로컬SHA일치를확인했다. 최종UI101·실제IDE73·신규서비스250+추가x86문서47·루트전체13/13·스모크9/9 PASS. 제품소스36개/Role원문/이전릴리스보존,Project_Plan및배포JSON갱신완료. 이제제품수정없이최종배포보고만후속커밋으로반영하고작업을종료한다. 설치환경의VS2017/2019/2022세버전존재도확인했으며현재확장패키지는VS2017용이다.
+
+## TASK-017 — CodexCode / 2026-10-18 17:18:40 KST
+
+- 작업 시간: 2026-10-18 16:56:53 ~ 2026-10-18 17:18:40 KST, 소요 21분 47초.
+- 요청/분석: 최신 Role 첨부 image7~16을 직접 분석, 모델/강도/Fast/권한 dropdown·게이지, 안내 카드 hover/상세 그림, 대화 목록 하단버튼·AI지정목록, 사용자명+AI+A~Z/26후A, 반복hover오류, 설정 목차/아이콘/간격/footer 개선.
+- 제품: Views/AssistantControl.Dropdowns.cs·Fan.cs 신규, AssistantControl.xaml·Options.cs·Experience.cs·Dialogs.cs·Chat.cs·xaml.cs·AssistantDialogs.cs·AssistantTheme.xaml 수정. Chat/ConversationCollaboration.cs 영구26슬롯·LegacyName/기존대화주소보존·archive분리·원자실패복구. csproj/AssemblyInfo/manifest0.8.0. source/계정경계/문서도우미 유지.
+- 검증: VS2017 MSBuild Debug/Release 경고0오류0. 최종 DLL AC221CC9...로 명명40/40·기존협업60/60·안내23/23 PASS, 부채꼴독립소스14/14 별도PASS. 기존28기록/동시30생성26파일·4A반환·잠금복구·320px·실제그림/목차/focus 검증. PNG직접검토3개/하위agent5개.
+- 패키지: VSIX306372바이트 SHA A876F24C24E02957B530C679BC7454689435F45F1BF85F8C5468C04F97FA2B68. 내장DLL/worker/config 일치,제품소스39개hash불일치0·Role원문1E03808D...일치·기존v0.2~0.7보존.
+- 보고: CodexCode_TASK-017.md 이미지분석표 및 _Validation/_Package/_Builds/_Alphabet/_Collaboration/_Guide/_FanIndependent.json. 재현 tests/collaboration/Test-AlphabetAgentRouting.ps1 및 tests/task017/Test-DialogGuide.ps1 고정DLL참조. 기존review/ide/launcher·README/가이드/최종UI화면·루트14묶음/실제IDE·릴리스/Git는TASK018 CodexOrig분담.
+- 종료: 모든하위작업자/루트편집·테스트종료후고정인계,전원작업종료전배포금지유지. 현재VS2017용,실제Claude/Fast과금·외부운영DB/SCM/배포·VS2019/2022패키지범위별도.
+
+### TASK-017 최종 회귀 보정·추가 툴팁 완료 — 2026-10-18 17:30:19 KST
+
+총 33분 26초 (16:56:53 시작). 17:18:40의1차기록후전체UI검사에서안내목록focus복귀누락을재현해본문교체후UIInput순서·실연결확인으로보정했습니다. UI예약은전환/동기대기가아니므로근거를단한곳VSTHRD001 local주석에남겼고호출자VerifyAccess를추가했습니다. 작업중Role17:20:18의tooltip추가요구도감지해AssistantTheme.xaml공통ToolTip검정톤·줄바꿈·크기/여백·열림효과를추가했습니다. 최신Role2689B00E...원문보존.
+
+최종산출물은handoff3이며앞1·2후보는배포물로사용하지않습니다. VSIX306771바이트 SHA AE33A8D0AFA3223C46037C56E00DC848D017BA19CACD85072D08E85C11B4DFEB, DLL DC8E3B8CAFF3E935100E8B3F287E8716263F2996C0C9C202C4AE36C58440B36A. DebugRelease경고0오류0·최종40/60/23근거를루트14검사출력에서해시와함께확인해보고JSON갱신했습니다. UI133/133(실제tooltip2포함)·기본14/14 PASS. 제품39소스불일치0/최신Role/기존릴리스보존. CodexCode_TASK-017.md와Validation/Package/ComponentProvenance/구성요소JSON을최종값으로갱신하고모든편집을종료합니다. 실제IDE/화면/최종Git은TASK018계속진행합니다.
+
+## TASK-018 — 이미지 요구 통합 검증·v0.8.0 배포 준비 (2026-10-18 17:35:49 KST)
+
+담당 CodexOrig, 시작2026-10-18 16:57:06, 로컬검증완료2026-10-18 17:35:49, 소요38.73분. Role의17개첨부이미지를직접분석했고작업중추가된tooltip요구도반영했다. TASK017제품고정본을참조해기존review/ide/launcher/ux를실제dropdown/A~Z명명/목차·상세/hover/툴팁에맞춰갱신,루트기본14번째image-requirements와실행기exe를빌드했다. README·USER_GUIDE·DEVELOPMENT·IDE_TESTS·UX_TESTS·CLI_OPTIONS/합성제품화면14개와releases/v0.8.0을작성했다.
+
+최종제품 DebugRelease오류0·경고0, WPF133/133·실제VS2017 80/80(실제Codex C#·SQL/native협업)·루트기본14/14·실행기9/9·A~Z40/40·안내23/23 PASS. 제품39소스와ZIP내장3항목/최신Role2689.../이전0.2~0.7릴리스보존확인. VSIX306771바이트/AE33A8D0..., DLL DC8E3B8C...,루트exe8F14A59D.... 경로 tests/review/DropdownExperienceChecks.cs·AdvancedExperienceChecks.cs·Test-ImageRequirements.ps1,tests/ide/IdeTests.cs,tests/launcher,tests/ux,docs,releases/v0.8.0 및CodexOrig_TASK-018.md/Validation·IDE·Experience·Launcher·Package·SourceHashes JSON. 안내포커스회귀를검출·제품소유자가해결했고실제IDE재생성검사는변할수있는SCM이름prefix대신영구AI주소/역할/참여자보존을확인한다. 일시파일IO/초기복원실패근거도보존했고성공집계에포함하지않았다.
+
+TASK017전원편집종료17:31:38확인후우리문서/보고/참조검사마감중이다. 이후단독GitHub배포와원격VSIX·실행기SHA확인예정. 현재VS2017패키지,VS2019/2022패키지·실제Claude/Fast과금·외부운영DB/SCM/배포검증은후속범위다.

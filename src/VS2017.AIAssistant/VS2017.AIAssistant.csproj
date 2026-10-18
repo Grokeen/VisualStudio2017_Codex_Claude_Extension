@@ -80,6 +80,8 @@
     <Compile Include="Views\AssistantControl.Experience.cs" />
     <Compile Include="Views\AssistantControl.Conversations.cs" />
     <Compile Include="Views\AssistantControl.Options.cs" />
+    <Compile Include="Views\AssistantControl.Dropdowns.cs" />
+    <Compile Include="Views\AssistantControl.Fan.cs" />
     <Compile Include="Providers\CliAccountService.cs" />
     <Compile Include="Views\AssistantControl.Chat.cs" />
     <Compile Include="Views\AssistantControl.Dialogs.cs" />

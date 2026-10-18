@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Linq;
 using System.Windows;
@@ -18,6 +18,7 @@ using VS2017.AIAssistant.Views;
 /// author       : CodexOrig
 /// create date  : 2026-10-18
 /// update date  : 2026-10-18 CodexOrig : 테스트 자체 창과 설정 파일만 조작하는 격리 검증.
+/// update date  : 2026-10-18 CodexOrig : TASK-018 이미지 요구와 드롭다운·A~Z 이름에 맞춰 검증 갱신.
 /// </summary>
 /// ---------------------------------------------------------------------
 internal static class DialogChecks
@@ -183,7 +184,7 @@ internal static class DialogChecks
     /// ---------------------------------------------------------------------
     private static int CountText(DependencyObject root, string value)
     {
-        int count = root is TextBlock && ((TextBlock)root).Text == value ? 1 : 0;
+        int count = root is TextBlock && ((TextBlock)root).Text.EndsWith(value, StringComparison.Ordinal) ? 1 : 0;
         for (int i = 0; i < VisualTreeHelper.GetChildrenCount(root); i++) count += CountText(VisualTreeHelper.GetChild(root, i), value);
         return count;
     }

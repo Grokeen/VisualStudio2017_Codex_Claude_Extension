@@ -319,12 +319,14 @@ namespace VS2017.AIAssistant.Views
         /// update date  : 2026-10-18 CodexOrig : 설정 팝업·안내 진입 버튼도 작업 중 비활성화.
         /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// update date  : 2026-10-18 CodexOrig : TASK-016 문서 첨부·모델 설정·AI 역할 협업과 실패 복구 흐름 연결.
+        /// update date  : 2026-10-18 CodexCode : TASK-017 이미지 분석 기반 드롭다운·안내·대화 지정 흐름 개선.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void UpdateButtons()
         {
             GenerateButton.IsEnabled = !busy && documents != null && provider != null;
             ProviderChoice.IsEnabled = !busy;
+            if (busy) { CloseDropdown(); CloseFan(); }
             ExecutablePath.IsEnabled = !busy;
             BrowseButton.IsEnabled = !busy;
             Instruction.IsEnabled = !busy;

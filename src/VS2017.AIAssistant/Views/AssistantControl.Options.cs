@@ -28,36 +28,47 @@ namespace VS2017.AIAssistant.Views
         private ConversationCollaborationStore collaborationStore;
         private AssistantDialog optionsDialog;
         private bool refreshingOptions;
-        private string verifiedScmAccount, scmDescription = "형상관리 로그인 확인 전";
+        private string verifiedScmAccount, scmDescription = "형상관리 로그인 확인 전 · Windows 사용자 이름 사용";
         private CancellationTokenSource scmCancellation;
-        private bool scmLookupStarted;
+        private bool scmLookupStarted, scmLookupCompleted;
 
         /// ---------------------------------------------------------------------
         /// <summary>
         /// name         : ReadScmIdentity
-        /// desc         : 로그인 확인된 형상관리 계정으로만 자동 기본 이름에 접두사를 부여한다.
+        /// desc         : 확인한 형상관리 출처에 따라 사용자명·AI·문자 형식의 이름을 갱신한다.
         /// author       : CodexOrig
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : Git 작성자 설정과 인증 계정 구분·수동 이름 보존.
+        /// update date  : 2026-10-18 CodexCode : TASK-017 이미지 분석 기반 드롭다운·안내·대화 지정 흐름 개선.
         /// </summary>
         /// ---------------------------------------------------------------------
         private async void ReadScmIdentity(object sender, RoutedEventArgs e)
         {
-            if (disposed || scmLookupStarted || !(documents is ISourceNavigationService)) return;
-            scmLookupStarted = true; scmCancellation = new CancellationTokenSource();
+            await RefreshScmIdentityAsync(false);
+        }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : RefreshScmIdentityAsync
+        /// desc         : 소스 선택 전 실패는 재시도하고 명시적 계정 재확인에서 이름을 갱신한다.
+        /// author       : CodexCode
+        /// create date  : 2026-10-18
+        /// update date  : 2026-10-18 CodexCode : TASK-017 최초 Chat 실행 순서와 로그인 이후 갱신 지원.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        private async Task RefreshScmIdentityAsync(bool force)
+        {
+            if (disposed || scmLookupStarted || (!force && scmLookupCompleted) || !(documents is ISourceNavigationService)) return;
+            scmLookupStarted = true; var lookup = new CancellationTokenSource(); scmCancellation = lookup;
             try {
-                var identity = await new ScmIdentityService().ReadAsync(((ISourceNavigationService)documents).GetProjectDirectory(), scmCancellation.Token);
+                var identity = await new ScmIdentityService().ReadAsync(((ISourceNavigationService)documents).GetProjectDirectory(), lookup.Token);
                 if (disposed) return;
                 scmDescription = identity.Description; verifiedScmAccount = (identity.AuthenticationVerified || identity.HasStoredAccount) ? identity.AccountName : null;
-                if (!string.IsNullOrEmpty(verifiedScmAccount)) foreach (var record in conversationRecords.Values.SelectMany(r => r)) {
-                    var agent = collaborationStore.EnsureAgent(record, verifiedScmAccount);
-                    if (agent.Revision == 1 && agent.Name == ConversationCollaborationStore.BuildDefaultName(record))
-                        collaborationStore.UpdateAgent(record.Id, record.Provider, ConversationCollaborationStore.BuildDefaultName(record, verifiedScmAccount), agent.Role, agent.Team, agent.Revision);
-                }
-                RefreshAgentIdentity();
+                foreach (string providerName in new[] { "Claude", "Codex" }) collaborationStore.ConfigureNaming(providerName, verifiedScmAccount ?? Environment.UserName);
+                scmLookupCompleted = true; RefreshAgentIdentity();
             } catch (OperationCanceledException) { }
-            catch (Exception) { if (!disposed) { scmDescription = "형상관리 로그인 확인 불가 · AI 이름은 직접 지정할 수 있습니다."; RefreshAgentIdentity(); } }
-            finally { scmCancellation.Dispose(); scmCancellation = null; }
+            catch (Exception) { if (!disposed) { scmDescription = "형상관리 로그인 확인 불가 · Windows 사용자 이름 사용"; RefreshAgentIdentity(); } }
+            finally { lookup.Dispose(); if (scmCancellation == lookup) scmCancellation = null; scmLookupStarted = false; }
         }
 
         /// ---------------------------------------------------------------------
@@ -133,46 +144,12 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexOrig
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : 지원 목록을 따르는 고급 옵션과 명시적 설정 저장.
+        /// update date  : 2026-10-18 CodexCode : TASK-017 이미지 분석 기반 드롭다운·안내·대화 지정 흐름 개선.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void ModelOptionsClicked(object sender, RoutedEventArgs e)
         {
-            if (busy || disposed) return;
-            var catalog = ProviderModelCatalog.ForProvider(selectedProvider);
-            var dialog = new AssistantDialog(this, "☷ 모델과 응답 방식", "모델을 고르고 생각 강도와 응답 속도를 조절하세요.") { Height = 570 };
-            optionsDialog = dialog;
-            var panel = new StackPanel();
-            var choice = new ComboBox { IsEditable = true, IsTextSearchEnabled = false, Text = ModelName.Text, Margin = new Thickness(0, 5, 0, 12) };
-            choice.Items.Add(""); foreach (var model in catalog.Models) choice.Items.Add(model.Id);
-            var levelText = new TextBlock { FontSize = 17, Margin = new Thickness(0, 8, 0, 5) };
-            var slider = new Slider { Minimum = 0, TickFrequency = 1, IsSnapToTickEnabled = true, SmallChange = 1, LargeChange = 1, Margin = new Thickness(4, 8, 4, 15), ToolTip = "생각 강도" };
-            var fast = new CheckBox { Content = "ϟ Fast · 빠른 응답", Margin = new Thickness(0, 12, 0, 8) };
-            var detail = new TextBlock { TextWrapping = TextWrapping.Wrap, Foreground = Brushes.Silver };
-            string[] levels = new string[0];
-            Action refresh = () => {
-                var model = catalog.Find(choice.Text); levels = new[] { "auto" }.Concat(model == null ? new[] { "low", "medium", "high" } : model.Efforts.ToArray()).ToArray();
-                slider.Maximum = levels.Length - 1; slider.Value = Math.Max(0, Array.IndexOf(levels, efforts[selectedProvider]));
-                levelText.Text = EffortLabel(levels[(int)slider.Value]);
-                fast.IsEnabled = model != null && model.SupportsFast; fast.IsChecked = fast.IsEnabled && speeds[selectedProvider] == "fast";
-                detail.Text = (model == null ? "CLI 기본 또는 직접 입력 모델입니다. 고급 강도와 Fast는 지원 확인 후 사용할 수 있습니다." : model.DisplayName + " · 기본 강도 " + EffortLabel(model.DefaultEffort) + (model.MinimumCliVersion == null ? "" : " · CLI " + model.MinimumCliVersion + " 이상")) + "\n\nFast는 사용량이 증가하며 계정·요금제에서 허용되어야 합니다. 생각 강도는 응답에 들이는 추론량이며 정확도를 보장하는 수치가 아닙니다." + (string.IsNullOrEmpty(catalog.Warning) ? "" : "\n\n" + catalog.Warning);
-            };
-            choice.AddHandler(System.Windows.Controls.Primitives.TextBoxBase.TextChangedEvent, new TextChangedEventHandler((s, a) => refresh()));
-            slider.ValueChanged += (s, a) => { if (levels.Length > 0) levelText.Text = EffortLabel(levels[Math.Min(levels.Length - 1, (int)slider.Value)]); };
-            panel.Children.Add(OptionSection("상세 모델 · 직접 입력 가능", choice));
-            var thinking = new StackPanel(); thinking.Children.Add(levelText); thinking.Children.Add(slider); panel.Children.Add(OptionSection("생각 강도", thinking));
-            var speed = new StackPanel(); speed.Children.Add(fast); speed.Children.Add(detail); panel.Children.Add(OptionSection("응답 속도와 사용량", speed));
-            dialog.Body.Content = new ScrollViewer { Content = panel, VerticalScrollBarVisibility = ScrollBarVisibility.Auto };
-            var save = new Button { Content = "✓ 선택 저장", Margin = new Thickness(0, 0, 8, 0), IsDefault = true };
-            save.Click += (s, a) => { try {
-                var option = new ProviderExecutionOptions(selectedProvider, choice.Text, levels[(int)slider.Value], fast.IsChecked == true ? "fast" : "standard", catalog);
-                var settings = settingsStore.Load();
-                if (selectedProvider == "Codex") { settings.CodexModel = option.Model; settings.CodexEffort = option.ReasoningEffort; settings.CodexSpeed = option.Speed; }
-                else { settings.ClaudeModel = option.Model; settings.ClaudeEffort = option.ReasoningEffort; settings.ClaudeSpeed = option.Speed; }
-                settingsStore.Save(settings); models[selectedProvider] = option.Model; efforts[selectedProvider] = option.ReasoningEffort; speeds[selectedProvider] = option.Speed;
-                ModelName.Text = option.Model; RefreshExperience(); dialog.DialogResult = true;
-            } catch (Exception error) { dialog.Message.Text = error.Message; } };
-            dialog.Actions.Children.Insert(0, save); refresh();
-            try { dialog.ShowDialog(); } finally { optionsDialog = null; }
+            ShowModelDropdown(ModelOptionsButton);
         }
 
         /// ---------------------------------------------------------------------
@@ -182,12 +159,12 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexOrig
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : 모델·역할·권한 공통 구역 구성.
+        /// update date  : 2026-10-18 CodexCode : TASK-017 이미지 분석 기반 드롭다운·안내·대화 지정 흐름 개선.
         /// </summary>
         /// ---------------------------------------------------------------------
         internal static Border OptionSection(string title, UIElement content)
         {
-            var body = new StackPanel(); body.Children.Add(new TextBlock { Text = title, Foreground = Brushes.Gainsboro, FontWeight = FontWeights.SemiBold, Margin = new Thickness(0, 0, 0, 8), TextWrapping = TextWrapping.Wrap }); body.Children.Add(content);
-            return new Border { Background = new SolidColorBrush(Color.FromRgb(35, 35, 35)), BorderBrush = new SolidColorBrush(Color.FromRgb(65, 65, 65)), BorderThickness = new Thickness(1), CornerRadius = new CornerRadius(8), Padding = new Thickness(12), Margin = new Thickness(0, 0, 0, 12), Child = body };
+            return AssistantDialog.CreateSection("▣", title, content);
         }
 
         /// ---------------------------------------------------------------------
@@ -197,6 +174,7 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexOrig
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : 별도 협업 저장소를 이름·역할의 단일 원본으로 사용.
+        /// update date  : 2026-10-18 CodexCode : TASK-017 이미지 분석 기반 드롭다운·안내·대화 지정 흐름 개선.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void RefreshAgentIdentity()
@@ -204,9 +182,9 @@ namespace VS2017.AIAssistant.Views
             if (!experienceReady || collaborationStore == null) return;
             try {
                 var record = activeRecords[selectedProvider]; var agent = collaborationStore.EnsureAgent(record, verifiedScmAccount);
-                AgentButton.Content = "♙ " + agent.Name + (record.CollaboratorIds.Length == 0 ? "" : " · 협업 " + record.CollaboratorIds.Length);
-                AgentButton.ToolTip = agent.Team + "\n" + (agent.Role.Length == 0 ? "이름·역할·협업 참여자를 설정하세요." : agent.Role) + "\n" + scmDescription;
-            } catch (Exception error) { AgentButton.Content = "♙ AI 설정"; AgentButton.ToolTip = "담당자 저장 실패: " + error.Message; }
+                AgentButton.Content = "♙ AI 지정하여 대화 ⌄";
+                CurrentAgentLabel.Text = agent.Name; AgentButton.ToolTip = agent.Name + "\n" + agent.Team + "\n" + (agent.Role.Length == 0 ? "이름·역할·협업 참여자를 설정하세요." : agent.Role) + "\n" + scmDescription;
+            } catch (Exception error) { AgentButton.Content = "♙ AI 지정하여 대화 ⌄"; AgentButton.ToolTip = "담당자 저장 실패: " + error.Message; }
         }
 
         /// ---------------------------------------------------------------------
@@ -216,6 +194,7 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexOrig
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : 최대 3명 순차 협업과 Markdown 보고 열기 제공.
+        /// update date  : 2026-10-18 CodexCode : TASK-017 이미지 분석 기반 드롭다운·안내·대화 지정 흐름 개선.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void AgentClicked(object sender, RoutedEventArgs e)
@@ -223,28 +202,29 @@ namespace VS2017.AIAssistant.Views
             if (busy || disposed) return;
             try {
                 var record = activeRecords[selectedProvider]; var agent = collaborationStore.EnsureAgent(record);
-                var dialog = new AssistantDialog(this, "♙ 대화 AI와 협업", "AI마다 이름과 역할을 지정하고 함께 검토할 대화를 고르세요.") { Height = 680 };
+                var dialog = new AssistantDialog(this, "♙ 대화 AI와 협업", "자동 지정된 이름을 확인하고 역할·팀과 함께 검토할 AI를 고르세요.") { Height = 680 };
                 optionsDialog = dialog;
-                var name = new TextBox { Text = agent.Name, MaxLength = 40 };
+                var name = new TextBox { Text = agent.Name, MaxLength = 40, IsReadOnly = true, ToolTip = "사용자명 + AI 이름 + A~Z · 자동 지정" };
                 var role = new TextBox { Text = agent.Role, MaxLength = 1000, AcceptsReturn = true, TextWrapping = TextWrapping.Wrap, MinHeight = 75, VerticalScrollBarVisibility = ScrollBarVisibility.Auto };
                 var team = new TextBox { Text = agent.Team, MaxLength = 80 };
                 var panel = new StackPanel(); panel.Children.Add(new TextBlock { Text = scmDescription, TextWrapping = TextWrapping.Wrap, Foreground = Brushes.Silver, Margin = new Thickness(0, 0, 0, 12) }); panel.Children.Add(OptionSection("AI 이름 · 모든 대화에서 고유", name)); panel.Children.Add(OptionSection("담당 역할", role)); panel.Children.Add(OptionSection("협업팀 · 팀 변경은 먼저 저장하세요", team));
                 var participants = new StackPanel(); var selections = new Dictionary<CheckBox, ConversationRecord>();
                 foreach (var peer in conversationRecords[selectedProvider].Where(r => r.Id != record.Id && r.IsOpen)) {
-                    var identity = collaborationStore.EnsureAgent(peer); if (identity.Team != agent.Team) continue;
+                    var identity = collaborationStore.EnsureAgent(peer); if (identity.IsLegacyArchive || identity.Team != agent.Team) continue;
                     var check = new CheckBox { Content = identity.Name + " · " + peer.Title, IsChecked = record.CollaboratorIds.Contains(peer.Id), Margin = new Thickness(0, 4, 0, 6), ToolTip = identity.Role };
                     selections[check] = peer; participants.Children.Add(check);
                 }
                 participants.Children.Add(new TextBlock { Text = "최대 3명 · 같은 AI 제공자의 열린 대화. 보내기를 누르면 참여자별 실제 AI 호출 후 현재 AI가 결과를 종합합니다. 호출 횟수와 사용량이 늘어납니다. 선택을 모두 해제하면 단독 요청입니다.", TextWrapping = TextWrapping.Wrap, Foreground = Brushes.Silver, Margin = new Thickness(0, 10, 0, 0) });
                 panel.Children.Add(OptionSection("함께 검토할 AI", participants));
-                dialog.Body.Content = new ScrollViewer { Content = panel, VerticalScrollBarVisibility = ScrollBarVisibility.Auto };
+                var scroll = new ScrollViewer { Content = panel, VerticalScrollBarVisibility = ScrollBarVisibility.Auto }; dialog.Body.Content = scroll;
+                dialog.SetSections(scroll, new DialogSection("♙", "이름", name), new DialogSection("✎", "역할", role), new DialogSection("▣", "팀", team), new DialogSection("♧", "협업", participants));
                 var save = new Button { Content = "✓ AI 설정 저장", IsDefault = true, Margin = new Thickness(0, 0, 8, 0) };
                 save.Click += (s, a) => { try {
                     var chosen = selections.Where(p => p.Key.IsChecked == true).Select(p => p.Value.Id).ToArray(); if (chosen.Length > 3) throw new InvalidOperationException("협업 참여자는 최대 3명입니다.");
                     if (team.Text.Trim() != agent.Team && chosen.Length > 0) throw new InvalidOperationException("참여자를 해제한 뒤 새 팀을 저장하고 다시 선택하세요.");
                     agent = SaveAgentConfiguration(record, agent, name.Text, role.Text, team.Text, chosen);
                     RefreshAgentIdentity(); dialog.DialogResult = true;
-                } catch (Exception error) { TryCollaborationCleanup(() => agent = collaborationStore.GetAgent(record.Id, record.Provider), "AI 설정 다시 읽기 실패"); dialog.Message.Text = error.Message; } };
+                } catch (Exception error) { TryCollaborationCleanup(() => { agent = collaborationStore.GetAgent(record.Id, record.Provider); name.Text = agent.Name; }, "AI 설정 다시 읽기 실패"); dialog.Message.Text = error.Message; } };
                 var report = new Button { Content = "▤ 협업 기록", Margin = new Thickness(0, 0, 8, 0) };
                 report.Click += (s, a) => { try { collaborationStore.ExportMarkdown(agent.Team); var navigation = documents as ISourceNavigationService; if (navigation == null) throw new InvalidOperationException("편집기 연결 후 기록을 열 수 있습니다."); navigation.NavigateTo(collaborationStore.ReportPath, 1); } catch (Exception error) { dialog.Message.Text = error.Message; } };
                 dialog.Actions.Children.Insert(0, report); dialog.Actions.Children.Insert(0, save);

@@ -1,0 +1,38 @@
+﻿{
+    "Succeeded":  true,
+    "Passed":  23,
+    "Failed":  0,
+    "Checks":  [
+                   "Existing onboarding preferences and actions remain available",
+                   "Footer has its own dark tone and top divider",
+                   "Four overview cards expose meaningful guide topics",
+                   "Hover promotes one card while dimming the other cards",
+                   "Hovered surface moves forward and has greater drawing depth",
+                   "Hover leaves the button hit rectangle in its original position",
+                   "Leaving cards restores every overview card",
+                   "Keyboard focus receives the same guide emphasis",
+                   "Enter opens a detail screen containing a real procedure image",
+                   "Detail replaces overview in the same dialog body",
+                   "Detail contains actionable topic-specific explanation",
+                   "Opening detail places focus on the return button",
+                   "Detail retains the user\u0027s onboarding display preference",
+                   "Returning restores overview and focus to the original card",
+                   "Space also opens the focused card detail",
+                   "Narrow guide detail remains readable without horizontal scrolling",
+                   "Closing releases card animation clocks",
+                   "Clicking the fixed table of contents scrolls to the actual lower section",
+                   "Table of contents remains fixed outside the scrolling body",
+                   "Section navigation preserves unsaved editor values",
+                   "Shared sections include icons and increased spacing",
+                   "Table of contents can return to the first section",
+                   "Narrow navigation wraps while footer spans the dialog width"
+               ],
+    "Errors":  [
+
+               ],
+    "AssemblyPath":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\tl\\eb720fe92b\\ProductReference\\VS2017.AIAssistant.dll",
+    "AssemblySha256":  "DC8E3B8CAFF3E935100E8B3F287E8716263F2996C0C9C202C4AE36C58440B36A",
+    "NetworkRequested":  false,
+    "PersonalCredentialsRead":  false,
+    "CheckedAt":  "2026-10-18T17:28:18.0332451+09:00"
+}

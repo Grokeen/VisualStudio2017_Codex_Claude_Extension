@@ -1,4 +1,4 @@
-﻿# 실제 VS2017 통합 테스트
+# 실제 VS2017 통합 테스트
 
 작성: CodexCode / 2026-10-18. TASK-005의 기존 검증 대상은 v0.2.0, VS2017 Community 15.9.83, .NET Framework 4.6.2이다. 기존 편집 55개·Foundation 29개·호환성 44개에 더해 **실제 IDE 25/25 PASS**를 확인했다. 실제 Claude 계정 호출 및 VS2019/2022 지원 검증은 포함하지 않는다.
 
@@ -103,3 +103,9 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\tests\ide\Test-IdeIntegrat
 실제 VS2017에서 SIDEBAR7개에 ADVANCED8개를 추가했다. fixture만 사용하면70개, 실제 Codex의 소스 수정·SQL 요청을 포함하면73개다. ADVANCED는 비동기 문서 본문 첨부, AI 이름·참여자 표시, 실제 native peer→coordinator 호출·전달, 승인 전 IDE 버퍼/디스크 유지, peer 완료/읽지않음, 실제 협업 보고, 모델/Fast UI, 재생성시 참여자·이름 복원을 검사한다.
 
 최종 VSIX를 직접 설치하고 그 패키지에서 추출한 DLL을 참조한다. IDE에서 소스 탭을 연 뒤 UI 표시를 검사할 때는 테스트 소유 도구 프레임을 다시 표시한 뒤 실제 배치를 갱신한다. 제품의 숨김 동작이나 승인 조건을 테스트에 맞춰 바꾸지 않는다. 결과는 [TASK-016](../MarkdownReport/CodexOrig_TASK-016.md)과 해당 IDE JSON을 참고한다.
+
+## v0.8.0 이미지 요구 (TASK-018)
+
+기존73개에 IMAGES7개를 추가한다. 실제 IDE에서 하단 가로 스크롤, 모델 버튼에 붙은 Popup·게이지·목차, Escape 닫기, 권한3종과 상세 작업 메뉴, AI 선택의 실제 대화 라우팅, hover 반복 시 한 번만 열리는 부채꼴과 실제 도구 설명의 테마·줄바꿈을 확인한다. 실제 Codex를 지정하면80개, fixture만 실행하면77개다. 검사 helper는 지정 VSIX의 추출 DLL을 참조하며 제품을 재빌드하지 않는다. 실제 합성 C#·SQL 요청과 승인 전 보존 검사는 유지한다.
+
+최종 결과와 이미지별 요구의 대응은 [TASK-018](../MarkdownReport/CodexOrig_TASK-018.md)에 기록한다. 물리 마우스·다중 모니터 검사는 별도이며 이 자동 검사는 실제 호스트의 WPF routed event와 시각 트리를 사용한다.
