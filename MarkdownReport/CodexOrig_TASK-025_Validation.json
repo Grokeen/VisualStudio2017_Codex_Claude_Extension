@@ -1,0 +1,1174 @@
+{
+  "SchemaVersion": 1,
+  "Task": "TASK-025",
+  "Author": "CodexOrig",
+  "Version": "0.10.0",
+  "Status": "Verified; publishing pending",
+  "StartedAt": "2026-10-19T00:25:48+09:00",
+  "Candidate": {
+    "At": "2026-10-19T03:12:44.3264484+09:00",
+    "Candidate": "candidate8",
+    "SourceCount": 120,
+    "ManifestSha256": "08AE13DE57637766A994868ACBDEB27A8F2FC587CD1786895EDCAD47FF7B0787",
+    "RoleSha256": "DE232D862F2B59E069470776CA8AB0F2F54AE7460F426759D7698CB32181C828",
+    "Packages": [
+      {
+        "Year": "2017",
+        "DllSha256": "A2A10A3922CC3FD47F5AA10E15FFF7FCB70A44494D4B26BEE22610B3C4C2172E",
+        "VsixSha256": "698876F45360499F7A50B55D71E2979BE0504B12BF0ED02ADFACC055F1576A46"
+      },
+      {
+        "Year": "2019",
+        "DllSha256": "45F4E4D06E4CCDBAF3FB28CE54E9ED3FB6B2DF46BE69F6E8B23F686741D06420",
+        "VsixSha256": "3E3D313BCAF7AAEE6A0C8EDB1A076B26DD905F97FCF0307DB9201F8C7DDC7FB2"
+      },
+      {
+        "Year": "2022",
+        "DllSha256": "06C41981F4D0049C07AC1BAA753E9A0DD3DC7FFB67BF385176F123D3A6419049",
+        "VsixSha256": "294CE1E7B574C703F26C852C3C1674EECE56FC0EA0B07324CE5EEFBE35561563"
+      }
+    ],
+    "Builds": [
+      {
+        "Version": "2017",
+        "Configuration": "Debug",
+        "ExitCode": 0,
+        "Warnings": 0,
+        "Log": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task025\\build-candidate8-2017-Debug.log"
+      },
+      {
+        "Version": "2017",
+        "Configuration": "Release",
+        "ExitCode": 0,
+        "Warnings": 0,
+        "Log": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task025\\build-candidate8-2017-Release.log"
+      },
+      {
+        "Version": "2019",
+        "Configuration": "Debug",
+        "ExitCode": 0,
+        "Warnings": 0,
+        "Log": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task025\\build-candidate8-2019-Debug.log"
+      },
+      {
+        "Version": "2019",
+        "Configuration": "Release",
+        "ExitCode": 0,
+        "Warnings": 0,
+        "Log": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task025\\build-candidate8-2019-Release.log"
+      },
+      {
+        "Version": "2022",
+        "Configuration": "Debug",
+        "ExitCode": 0,
+        "Warnings": 0,
+        "Log": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task025\\build-candidate8-2022-Debug.log"
+      },
+      {
+        "Version": "2022",
+        "Configuration": "Release",
+        "ExitCode": 0,
+        "Warnings": 0,
+        "Log": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task025\\build-candidate8-2022-Release.log"
+      }
+    ],
+    "SourceMarkdownPassed": 111,
+    "ActualUiExpected": 231,
+    "ActualUiVerified": true
+  },
+  "ProductInputs": [
+    {
+      "Path": "docs/assets/cli-manual/01-overview.png",
+      "Sha256": "86738234B9A201914E6BED1776C32A2B007AE8171F50EEA974C3B4BAC3E76B49",
+      "Bytes": 55500
+    },
+    {
+      "Path": "docs/assets/cli-manual/02-package.png",
+      "Sha256": "CDCAEFF48497A3DD181230D4358428C22F5D86DDDE375CD5FF1BD07DFBA4C753",
+      "Bytes": 38432
+    },
+    {
+      "Path": "docs/assets/cli-manual/03-vsix.png",
+      "Sha256": "D0088EDD998D516763D50D0030B39206EB778778B7DBF219705CC9F72D67C6D8",
+      "Bytes": 41222
+    },
+    {
+      "Path": "docs/assets/cli-manual/04-run-batch.png",
+      "Sha256": "B5D5B679B0D56026D73F9323140E6894325A4F116984E3F655CB74DE075A91D9",
+      "Bytes": 51300
+    },
+    {
+      "Path": "docs/assets/cli-manual/05-success.png",
+      "Sha256": "F9845411A901B6B687D873FBD7E93E693ABC52D716D4A912CB691652FFCF775F",
+      "Bytes": 57223
+    },
+    {
+      "Path": "docs/assets/cli-manual/06-login.png",
+      "Sha256": "859D753C9240ED86525075F43A66A4823ADDE2F6F19A3D13F435695E0448020C",
+      "Bytes": 54992
+    },
+    {
+      "Path": "docs/assets/cli-manual/07-paths.png",
+      "Sha256": "70BFA267082C8A6D2DD5A62065B821921BBC011C56ABAA01F2EC401EF4CCD043",
+      "Bytes": 46859
+    },
+    {
+      "Path": "docs/assets/cli-manual/08-attachments.png",
+      "Sha256": "650733944817B5185BEE9C999D699E73643BDCCC0FB060B08515D073317AC9A9",
+      "Bytes": 36284
+    },
+    {
+      "Path": "docs/assets/cli-manual/09-troubleshooting.png",
+      "Sha256": "44F4CB8F53CE709B1F126806E577B5219A2C44A8DF22578DE8513CD157832629",
+      "Bytes": 40243
+    },
+    {
+      "Path": "docs/assets/cli-manual/10-options.png",
+      "Sha256": "D6C1443DA8C7118BFF1C10CEC72028F6ABCDD3027D9FB99217897A0BF8A89BB7",
+      "Bytes": 45287
+    },
+    {
+      "Path": "docs/assets/cli-manual/11-install-methods.png",
+      "Sha256": "06A6494284E5B65E161CADEE74F2B3C8B62F4923244A1EAEA4B9C984626A08D0",
+      "Bytes": 40794
+    },
+    {
+      "Path": "docs/assets/cli-manual/12-checklist.png",
+      "Sha256": "E49084EC2B5EC85B2640F598E152828000DDAD9D67A085B17EC97E0ACE0D48E4",
+      "Bytes": 37931
+    },
+    {
+      "Path": "docs/assets/cli-manual/ui-chat.png",
+      "Sha256": "242A2B0809D62C354D5F1E88FA479D3EB335C155C1B57F7BA09793FFE29E0AAC",
+      "Bytes": 52822
+    },
+    {
+      "Path": "docs/assets/cli-manual/ui-guide.png",
+      "Sha256": "321C6221992E58B812B762B605A0F61E8B59DD6074796BC63FF2DC8E55D69625",
+      "Bytes": 36260
+    },
+    {
+      "Path": "docs/assets/cli-manual/ui-models.png",
+      "Sha256": "DF3391A04A18C38316D4456711E385A0906A1E5862D15C4A52856164E9B44712",
+      "Bytes": 19293
+    },
+    {
+      "Path": "docs/assets/cli-manual/ui-permissions.png",
+      "Sha256": "85C9417A1C6CD433FCA2AE35BF1860B77F52A9FB07B09FF9E2D1EEA89B49F891",
+      "Bytes": 27586
+    },
+    {
+      "Path": "docs/assets/cli-manual/ui-review.png",
+      "Sha256": "D3838D4919B3BCAFA6E2BEC4E03E376408BAF821245060124F472D1FDEFDA014",
+      "Bytes": 64180
+    },
+    {
+      "Path": "docs/assets/cli-manual/ui-settings.png",
+      "Sha256": "26B64806A1482F83B7110001AA1C7CC62BEA3D383182FE7A53034BF160AA262B",
+      "Bytes": 55233
+    },
+    {
+      "Path": "docs/assets/guide-media/01-connect.gif",
+      "Sha256": "59E48449823353475F5204971C0B5C5B3F926DFF7F1F6A239B3AE8C47B956149",
+      "Bytes": 252810
+    },
+    {
+      "Path": "docs/assets/guide-media/01-connect.png",
+      "Sha256": "D70A981083C73399C346D54E520B466958BADD5DD15C925461520071250055A5",
+      "Bytes": 15425
+    },
+    {
+      "Path": "docs/assets/guide-media/02-request.gif",
+      "Sha256": "B08A43114E1E12128BCE6EA32C6CDAF5A1D4ABD5BEDA3C16A24BC9A50FC31CE2",
+      "Bytes": 211883
+    },
+    {
+      "Path": "docs/assets/guide-media/02-request.png",
+      "Sha256": "B83E1AE93DC9482135D844F1B7F22921B1E9D07C8CC57C40F9D5691EFCB09C3F",
+      "Bytes": 15662
+    },
+    {
+      "Path": "docs/assets/guide-media/03-review.gif",
+      "Sha256": "92D4ACC8F2314D9DA0EE8350FE71CE48C2DB633499D3B3E8CD4898C8B7D57EDA",
+      "Bytes": 123205
+    },
+    {
+      "Path": "docs/assets/guide-media/03-review.png",
+      "Sha256": "07DA9122FF6570B2627E8F7A6C0E3AC8D1DBE4FE90EDAFDC3FE22F78D7BF365E",
+      "Bytes": 16370
+    },
+    {
+      "Path": "docs/assets/guide-media/04-guide.gif",
+      "Sha256": "C82293FB4C5D0074BF29D074BBB7419D6FD4821B4E485A5C907B0497CB5A0692",
+      "Bytes": 200648
+    },
+    {
+      "Path": "docs/assets/guide-media/04-guide.png",
+      "Sha256": "FD365AFA59DB76AB110F8BA5F4FA1C392CD8EC8625CD67EE7ED4FE5CFAE8F0C6",
+      "Bytes": 25621
+    },
+    {
+      "Path": "docs/assets/guide-media/05-install.gif",
+      "Sha256": "816F5FA2786BA404BA88066224B8A8F85760980F8564F80E9762E08090A078C3",
+      "Bytes": 197738
+    },
+    {
+      "Path": "docs/assets/guide-media/05-install.png",
+      "Sha256": "BAC8E2E956FD37CC431653D555F9784A8C31A59D738649433851DACD283C5871",
+      "Bytes": 27286
+    },
+    {
+      "Path": "HowToInstallCLI.md",
+      "Sha256": "6990AF5ED77868C12C80D05FFFB7003DECD02AA0F5E6BC0F970996569B979164",
+      "Bytes": 20265
+    },
+    {
+      "Path": "InstallCLI.bat",
+      "Sha256": "81BAE40E698B7E16B4A15093248453C7A79EF5D564306FC9CE9416255D91D5CB",
+      "Bytes": 10233
+    },
+    {
+      "Path": "output/pdf/VisualStudio_AI_Assistant_설치_사용설명서.pdf",
+      "Sha256": "EAE9BDD2CA1602677FEAF6BD1F50C19C8F7E29068D33B1DC06215D998C60B30A",
+      "Bytes": 1089143
+    },
+    {
+      "Path": "src/VS2017.AIAssistant.DocumentReader/App.config",
+      "Sha256": "DBA0AC349FA98F542FE90CC4FBBE3033567DAC0515859D049854E81DEFAAAA51",
+      "Bytes": 159
+    },
+    {
+      "Path": "src/VS2017.AIAssistant.DocumentReader/Properties/AssemblyInfo.cs",
+      "Sha256": "1B67151A709EA78991557E3A16315F1CF1BB17D2ACB5185100A4FFF669AD7D69",
+      "Bytes": 267
+    },
+    {
+      "Path": "src/VS2017.AIAssistant.DocumentReader/VS2017.AIAssistant.DocumentReader.csproj",
+      "Sha256": "909B5CDD5C4C125FF324F4E112890C102B574435A1AB8E9B0672D83EB0C427B3",
+      "Bytes": 1151
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/AiAssistantPackage.cs",
+      "Sha256": "7DB704AB058019732C95EA4B919EC3223D200F9890262171017F89CBCD1D09CB",
+      "Bytes": 2458
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Assets/Claude.png",
+      "Sha256": "C7D8415B1EDBA67E5337D3684B480B563826F07BE9E28E10CCC14BF92037EF6D",
+      "Bytes": 39563
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Assets/Codex.png",
+      "Sha256": "8D5575EE667FF715CD3E3074D5296EDC68D5AADD89720D203E13131B68B22A04",
+      "Bytes": 1841
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Assets/MarkdownnHighlighting.xshd",
+      "Sha256": "7359736F9AABBD44C275EB82C45FD82AF593C3AD22A694C408E33CCB1B5B984A",
+      "Bytes": 1637
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Assets/ThirdParty/AvalonEdit/LICENSE.txt",
+      "Sha256": "7CFE74F11EAEF7A239E7C63D33595F924E7922FB3E3F3651014389620B228A07",
+      "Bytes": 1075
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Assets/THIRD-PARTY-NOTICES.md",
+      "Sha256": "CA3B136DF19E7DFFB611106D1728AAC40D4BEF8A12370ED7C01E54EF5D300105",
+      "Bytes": 2490
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Chat/AssistantSettingsTransaction.cs",
+      "Sha256": "56639555F425A32A747EC792F58FD0364505C0FBAA9FCBCEC31C841D3FBF7092",
+      "Bytes": 11716
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Chat/ChatWorkspace.cs",
+      "Sha256": "68CB357CB386432E87C3D23F47AF52C54E267D04B6AE49D4C3C9DCC7F33902AF",
+      "Bytes": 27001
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Chat/ConversationCollaboration.cs",
+      "Sha256": "9B84DF381FB2D09E6D46F08926AF6FEABC5D9171DB68EDF0CB51B5BC58365817",
+      "Bytes": 75491
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Chat/DocumentAttachmentReader.cs",
+      "Sha256": "605DF02064BA365914CF662C234B867A9DFE05069FE688EC343626C033C8DC3E",
+      "Bytes": 39711
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Chat/DocumentFilterWorker.cs",
+      "Sha256": "E1D52D2610C52B9393DC9B32465A1ABB75427E3DC8E8F75B69D62E539264F4EE",
+      "Bytes": 9632
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Chat/DocumentWorkerLauncher.cs",
+      "Sha256": "5F604DCE83697D60E5DD5668915379683BDA502E83DF3F0D0B0C3589842558C9",
+      "Bytes": 15489
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Chat/MandatoryInstructionStore.cs",
+      "Sha256": "180F376604EF13EC26FBD2D35038BBBB7BE034C8D5BFE6920B398A3F38330130",
+      "Bytes": 11669
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Chat/MarkdownWorkspaceStore.cs",
+      "Sha256": "2465AE378EE9AB1A91CBA814AAFE947B9A2890FAFC556B8C05FEA0632449C2E7",
+      "Bytes": 45345
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Commands/AssistantCommands.vsct",
+      "Sha256": "7133B59D773FDD20BEAA1E714DABBB728016692759A0F17B6EA94F9357C7FA31",
+      "Bytes": 1124
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Commands/OpenAssistantCommand.cs",
+      "Sha256": "263F4B13199B6021284380F238C7066A5CDB920034D36AE010013E4C690F0369",
+      "Bytes": 4379
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Editing/DocumentSnapshot.cs",
+      "Sha256": "184511525B968B067725FB04629ABF0B042F4817C2C32407033A2FCD0551399D",
+      "Bytes": 16064
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Editing/EditProposal.cs",
+      "Sha256": "5132A29DFF41BCB966F7C54DE0286315841F0C82E9DA0A626AF1EEEDA5AB7D1B",
+      "Bytes": 13165
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Editing/IExternalEditingDocumentService.cs",
+      "Sha256": "D8A7E61C72DE6B2ED1D8F0C2C551640495A05AAF692A0FBA25E2FB00E28DBB13",
+      "Bytes": 1400
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Editing/IFullAccessDocumentService.cs",
+      "Sha256": "A2750F9CB57CABE4BD18DE6E8833BF2FFFEA5CF22C1AE2D57F78CC910B6BD071",
+      "Bytes": 1292
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Editing/SourceEditSession.cs",
+      "Sha256": "8689541A21D28948F4344298CE6EDA65C0280D4703875F7E63B14E77B43D19AE",
+      "Bytes": 4293
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Properties/AssemblyInfo.cs",
+      "Sha256": "6C7A57D7AF6E13CEB70D06270C509103EB160C35E1D0BEADD2A9F77B22497BA9",
+      "Bytes": 596
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Providers/AgentFileTracker.cs",
+      "Sha256": "3E58B25E71A1529FC4BB3B5E09F87953402F173AB9E4661D42EDD79370275A00",
+      "Bytes": 15186
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Providers/AgentProtocolEvents.cs",
+      "Sha256": "A1AAA2F66DF8352AED19CEC516A6A944781C7B700411B2221A0D734EB7172C3B",
+      "Bytes": 19150
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Providers/ClaudeRuntimeRunner.cs",
+      "Sha256": "8D66FA6C0B21416C47E25A22740C2C2D5D8FA04411D47517D6E6E9B942F5EA30",
+      "Bytes": 9941
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Providers/CliAccountService.cs",
+      "Sha256": "1E14F22A1150DD0067507215EEE8BB1F0CA395C74C33D19CAAF81421D0100D6B",
+      "Bytes": 5153
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Providers/CliEditProvider.cs",
+      "Sha256": "12E922FD3D8E2B89B091B1BB64982F23B750DD07535E76A5A7FA34741201454F",
+      "Bytes": 34897
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Providers/CodexRuntimeRunner.cs",
+      "Sha256": "04DC678BC91570BBA1929B2CFF28B347194371743BF9AC379C7FCE3036598CFD",
+      "Bytes": 19326
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Providers/NativeCliDiscovery.cs",
+      "Sha256": "A5C763E5072408BDF3ECC34150DF959578333131F9F1BA5CA6E10903E9C26DD4",
+      "Bytes": 5779
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Providers/NativeJsonSession.cs",
+      "Sha256": "5810DF5D2DAE18F4C9E76DB57041F57CC9C724A865252EA0F8E4FCC173805E8E",
+      "Bytes": 14539
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Providers/ProcessJob.cs",
+      "Sha256": "BA715B1D467121C3483176AAA04AFB5DD454D9172AF920F6C7F968C1F50E8D44",
+      "Bytes": 4772
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Providers/ProviderExecutionOptions.cs",
+      "Sha256": "98926727866565A5A4021BCF1C24DCDAF14CBA88E61EF03B60BF3D99AFF68165",
+      "Bytes": 39845
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Providers/ProviderRuntime.cs",
+      "Sha256": "DD1BAE440B7B34546FD1BE9AB52160993D9AC5CC2CFF34DD1873DAC0438D8755",
+      "Bytes": 12079
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Providers/ProviderRuntimeService.cs",
+      "Sha256": "66EB7C78679F29493820E3F7A3DD264E53069A6E2E0B42097F246F516D71B371",
+      "Bytes": 16321
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Services/CliGuideService.cs",
+      "Sha256": "1AB7F5AEF02D23CBFB5B1FE4DDA5A1ED38E31306C0678354FCBE7A2B6EFE1218",
+      "Bytes": 27122
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Services/ScmIdentityService.cs",
+      "Sha256": "28CD8005F37C0B59EE75B45334C2A831EC9913B856F374C56D9D9C8307CF44B4",
+      "Bytes": 25411
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Services/VisualStudioDocumentService.cs",
+      "Sha256": "96B3E804B34BC2D90ACE702DD2D66E8489734A854D8A070D09B393DFBCC02921",
+      "Bytes": 26292
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Services/VisualStudioExternalEditingScope.cs",
+      "Sha256": "7AED6C16B8A3A8A042D83B352CB1A0B4B5B4B53B2AE62F4D4CF2764B29E1088E",
+      "Bytes": 15362
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Services/WorkspaceActionService.cs",
+      "Sha256": "AB5AA4BAD97B04FA57A7C4904FE8456B04BCA555B745886B9AFCB424A3E38F2C",
+      "Bytes": 38097
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/source.extension.vsixmanifest",
+      "Sha256": "4C59001445CEBDBEDA4581EE9D178D0C8AEDA518CD0140343EAF5183E811C081",
+      "Bytes": 1299
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/ToolWindows/AssistantToolWindow.cs",
+      "Sha256": "956E97CBC7DE404C4DBBC26868FE731FD429D28E6DACB3A54EE68C37C6C294EA",
+      "Bytes": 3976
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Views/AssistantControl.AccountLogin.cs",
+      "Sha256": "0614E9E14826509152525B93746F70C0313A85931F87DBD18A2AAFD658DD51C1",
+      "Bytes": 24732
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Views/AssistantControl.Changes.cs",
+      "Sha256": "C7FC42B6BFB242C8CAC85E98D15D10ED4B56DE6EA9A88DC5D007B303A939B425",
+      "Bytes": 29611
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Views/AssistantControl.Chat.cs",
+      "Sha256": "E84C1F8088BD6EC6F11BD4E93FF99778938A83AC3C9A5A355240CA25FB6A159A",
+      "Bytes": 33051
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Views/AssistantControl.Conversations.cs",
+      "Sha256": "517441CBEA4616FB5CAE004908464FFA67787663AB6E7EB5B0AD58099E91771C",
+      "Bytes": 11013
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Views/AssistantControl.Dialogs.cs",
+      "Sha256": "FE437CC2CDE3175F1350D42F50F2D9A28A9BE3C7D30A5E38D042EFFF88D7A4E3",
+      "Bytes": 18241
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Views/AssistantControl.Dropdowns.cs",
+      "Sha256": "5DB28674CA839638E5A0FF56EFCC8F98329CDD0893D3687CF930B154D54F4DB6",
+      "Bytes": 22790
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Views/AssistantControl.Experience.cs",
+      "Sha256": "0EBCF5EB2678D9B15971EC652376C8E1979C490CD4CBAC9729823FDB51EDA71B",
+      "Bytes": 53326
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Views/AssistantControl.Fan.cs",
+      "Sha256": "104E3F5F54621736D6987390B8129790B0584A3ED5527235FE1E1983F6178336",
+      "Bytes": 31456
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Views/AssistantControl.HistoryOverlay.cs",
+      "Sha256": "752F6442270F07011629E86276B7F7893D734EDA9C0AC74D7D10A0A918609190",
+      "Bytes": 9258
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Views/AssistantControl.Markdown.cs",
+      "Sha256": "233318AB4245A3F93C8BB5B64E568D8C6530B651A17913441A073C9AC4FD8990",
+      "Bytes": 13468
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Views/AssistantControl.Options.cs",
+      "Sha256": "E8323169ACA34761363DFC6DBF5971DF2FCDF3F113185C8C1AC2E3C0D601E626",
+      "Bytes": 29011
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Views/AssistantControl.Progress.cs",
+      "Sha256": "012E396C969F851796D209F18C2D529608CE1C9882D624993FC57E21EFC57826",
+      "Bytes": 6536
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Views/AssistantControl.ProgressPresentation.cs",
+      "Sha256": "2DC30CF24D6511CC4836C44E3CCF5D63F83205D1E463765749B8E540317408B0",
+      "Bytes": 8471
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Views/AssistantControl.Runtime.cs",
+      "Sha256": "131CACBFF2AFC6BCE88A9AEDD72727D42D6C9C89A72319B61CEAD7E21966A5FC",
+      "Bytes": 34730
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Views/AssistantControl.Theme.cs",
+      "Sha256": "AD8B61C8A8793CA71326312A3BB44E3E028B59E5E666DC90AB9DC5D7B436461C",
+      "Bytes": 16382
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Views/AssistantControl.Thinking.cs",
+      "Sha256": "AABFFAF502818935D50EEF202E8F5646A2F1A56B794EE52357428E480C2E3F76",
+      "Bytes": 8283
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Views/AssistantControl.Viewport.cs",
+      "Sha256": "09558A0BDD4B2741B5E50C9FB8EA0A8403C8F3C9EACDEB9067E885DE1987AEF5",
+      "Bytes": 18250
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Views/AssistantControl.xaml",
+      "Sha256": "3801E9C722B16243218828E929F008276C4A1F9538F41FC8BAF43075CC520983",
+      "Bytes": 29548
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Views/AssistantControl.xaml.cs",
+      "Sha256": "39692A58B8876CBF135CF119BC38E6EDCB446AB4135755858765BDE05FD8CE4A",
+      "Bytes": 26552
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Views/AssistantDialogs.cs",
+      "Sha256": "4E7B6DAD90EB1208CB3C977B9614969A1D0841D78D850B726601C4F6E80BD84F",
+      "Bytes": 51704
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Views/AssistantGuideDetails.cs",
+      "Sha256": "7AE143F18E1B76E53DC2C22A6874F9D5F778D3535B2FBCA48D20084D603FF70B",
+      "Bytes": 6838
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Views/AssistantGuideMedia.cs",
+      "Sha256": "9D38D101CF39DB133CDD4B4283524E909A7385D0F47FAFA942F070EB2C926A10",
+      "Bytes": 11186
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Views/AssistantHelpContent.cs",
+      "Sha256": "1E0BB12B90A45EBA0C2AE900721D02BCC5CE9C12DCC9AEEF8886EFBA3CD421A4",
+      "Bytes": 22968
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Views/AssistantPalette.cs",
+      "Sha256": "8A515C30719F37E02E493D46A74180335FD69634ABF139D30D6F37FA2B30F840",
+      "Bytes": 10084
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Views/AssistantTheme.xaml",
+      "Sha256": "2FFE5EC8B15753410C93AA405F1A0F3F0C0FB0E156B6146586787EE9CE67A1AF",
+      "Bytes": 43841
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Views/AssistantThemePolicy.cs",
+      "Sha256": "BB3536A0ADF6DEDACE97610653B8835CD1BEEB69D37F290C325B26BE078B9E7A",
+      "Bytes": 4183
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Views/ChangeDiffPopup.cs",
+      "Sha256": "4D17E3C1AEB0AF0A89003E540F22A15E359FD5000C5126824ED3608BE3EC721D",
+      "Bytes": 16935
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Views/CliGuideDialog.cs",
+      "Sha256": "12EA7BDA3CD5F674F67DB13ED59B91A22A5C1E1163234A247614AAC5046BAEA0",
+      "Bytes": 31998
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Views/DiffPreviewPresenter.cs",
+      "Sha256": "70590A73C541B4078887093A792AF81784CD59EA6CB1C2AB1A617811D4AEA4E0",
+      "Bytes": 18904
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Views/MarkdownAnimatedImage.cs",
+      "Sha256": "A4E4C273DE839A5EF9AC8E066FF807FE823ED909452687D004160C88E18FF7F8",
+      "Bytes": 26465
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Views/MarkdownEditor.cs",
+      "Sha256": "267A40A54D3B7F25A47DE3CF9284046FB21AF68D9DEDD71BC6CF569AB688EF3F",
+      "Bytes": 62252
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Views/MarkdownEditor.Documents.cs",
+      "Sha256": "DEC513A9D64FF7F1FED10139C3B353326BEB26DF76D7637F62AF036A9D54BC97",
+      "Bytes": 19135
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Views/MarkdownnCodeHighlighting.cs",
+      "Sha256": "BD1E2EB7E6289138D61A18E0862EEE31027C49E947EC274C633BE526E8488EB3",
+      "Bytes": 31401
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Views/MarkdownnEditing.cs",
+      "Sha256": "CFFA1B943917B9BD7C1084A1F7AA486A68E74A28BD6DD69A3790BC9B6B4F9375",
+      "Bytes": 7200
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Views/MarkdownPreview.cs",
+      "Sha256": "B58A3A98CD9ADDED3E19AE83EA1FCEED60B662484FF3584F1F4EA1FC6B5659C4",
+      "Bytes": 10549
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Views/MarkdownRendering.cs",
+      "Sha256": "E9658E9692F68B1C7F7FBD76A3A2D4D6C49F4C6F08BB5330EACE56311604F2FD",
+      "Bytes": 45343
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Views/MarkdownRendering.Html.cs",
+      "Sha256": "556EBAC8CBE614AA7FD377D5F7AB3C508D39202DAC894CF4AFC466A5DD5F48BF",
+      "Bytes": 12886
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Views/ProgressNotice.cs",
+      "Sha256": "14690B6063236852678E5CC45DA4A19DCB4DCD02480A4169AD112A41FDAC1FC0",
+      "Bytes": 48060
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Views/WorkspaceActionsDialog.cs",
+      "Sha256": "2CDD1A3B3F583D888751D1421A925930AB0B7BACE7612C5B2FBB88B835DB9890",
+      "Bytes": 30340
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/VS2017.AIAssistant.csproj",
+      "Sha256": "A5FE7C9CC83D9826D182E4A4C277C3E148B67124FAD1AF3BB83C84E60DF7E38D",
+      "Bytes": 12611
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/VSPackage.resx",
+      "Sha256": "FF640F2D91CDE55865B3F5626CA2667E897F9E68892B5725D5197C7F29C91541",
+      "Bytes": 646
+    },
+    {
+      "Path": "src/VS2019.AIAssistant/source.extension.vsixmanifest",
+      "Sha256": "0D2B9F7AF4DD3884F37BB95C608D7D68D29BA92185E0A20A1D850F4B4B188F27",
+      "Bytes": 1250
+    },
+    {
+      "Path": "src/VS2019.AIAssistant/VS2019.AIAssistant.csproj",
+      "Sha256": "941D5F1A7F255ACE0D24B3E92B47AEC8056F4411C373FB090DD4532702809A98",
+      "Bytes": 20060
+    },
+    {
+      "Path": "src/VS2022.AIAssistant/source.extension.vsixmanifest",
+      "Sha256": "FEC14BC3996DEF6F661EEE95AFC402A69D46438839827140FE50CF84DF0E539C",
+      "Bytes": 1331
+    },
+    {
+      "Path": "src/VS2022.AIAssistant/VS2022.AIAssistant.csproj",
+      "Sha256": "3974FF28BAD847589FFC8FC585627C9BCCB9FF5404898B025534E50B883BF054",
+      "Bytes": 20092
+    }
+  ],
+  "Tests": [
+    {
+      "Name": "Actual product new functionality",
+      "Passed": 231,
+      "Failed": 0,
+      "ExitCode": 0,
+      "Evidence": "artifacts/task024/candidate8-functional/summary.json",
+      "Product": "C8 VS2017 DLL",
+      "Scope": "111 Markdown +35 hover +31 guide +24 account +30 root UI; offscreen"
+    },
+    {
+      "Name": "Native pointer popup",
+      "Passed": 28,
+      "Failed": 0,
+      "ExitCode": 0,
+      "Evidence": "artifacts/task024/candidate8-native-diagnostic/result.json",
+      "Product": "C8 VS2017 DLL",
+      "Scope": "Real pointer and wheel; added observations only; prior C7 18/1 unresolved cause preserved"
+    },
+    {
+      "Name": "Actual window GIF lifetime",
+      "Passed": 24,
+      "Failed": 0,
+      "ExitCode": 0,
+      "Evidence": "artifacts/task024/candidate8-playback/result.json",
+      "Product": "C8 VS2017 DLL",
+      "Scope": "Frame advancement, hide/reopen/close/dispose"
+    },
+    {
+      "Name": "Launcher executable smoke",
+      "Passed": 15,
+      "Failed": 0,
+      "ExitCode": 0,
+      "Evidence": "artifacts/ls/bcdaee3a4b/results.json",
+      "Product": "Unchanged final launcher executable",
+      "Scope": "CLI errors/assets/traversal/job cleanup/idle GUI"
+    },
+    {
+      "Name": "Theme",
+      "Passed": 31,
+      "Failed": 0,
+      "ExitCode": 0,
+      "Evidence": "artifacts/task024/candidate8-2017-theme/result.json",
+      "Product": "C8 VS2017",
+      "Scope": "Repeated SKU verification; do not sum as unique count"
+    },
+    {
+      "Name": "Independent file/HTML boundaries",
+      "Passed": 23,
+      "Failed": 0,
+      "ExitCode": 0,
+      "Evidence": "artifacts/task024/candidate8-2017-audit/result.json",
+      "Product": "C8 VS2017",
+      "Scope": "Repeated SKU verification; do not sum as unique count"
+    },
+    {
+      "Name": "Media/package byte consistency",
+      "Passed": 10,
+      "Failed": 0,
+      "ExitCode": 0,
+      "Evidence": "artifacts/task024/candidate8-2017-bundle/result.json",
+      "Product": "C8 VS2017",
+      "Scope": "Repeated SKU verification; do not sum as unique count"
+    },
+    {
+      "Name": "Theme",
+      "Passed": 31,
+      "Failed": 0,
+      "ExitCode": 0,
+      "Evidence": "artifacts/task024/candidate8-2019-theme/result.json",
+      "Product": "C8 VS2019",
+      "Scope": "Repeated SKU verification; do not sum as unique count"
+    },
+    {
+      "Name": "Independent file/HTML boundaries",
+      "Passed": 23,
+      "Failed": 0,
+      "ExitCode": 0,
+      "Evidence": "artifacts/task024/candidate8-2019-audit/result.json",
+      "Product": "C8 VS2019",
+      "Scope": "Repeated SKU verification; do not sum as unique count"
+    },
+    {
+      "Name": "Media/package byte consistency",
+      "Passed": 10,
+      "Failed": 0,
+      "ExitCode": 0,
+      "Evidence": "artifacts/task024/candidate8-2019-bundle/result.json",
+      "Product": "C8 VS2019",
+      "Scope": "Repeated SKU verification; do not sum as unique count"
+    },
+    {
+      "Name": "Theme",
+      "Passed": 31,
+      "Failed": 0,
+      "ExitCode": 0,
+      "Evidence": "artifacts/task024/candidate8-2022-theme/result.json",
+      "Product": "C8 VS2022",
+      "Scope": "Repeated SKU verification; do not sum as unique count"
+    },
+    {
+      "Name": "Independent file/HTML boundaries",
+      "Passed": 23,
+      "Failed": 0,
+      "ExitCode": 0,
+      "Evidence": "artifacts/task024/candidate8-2022-audit/result.json",
+      "Product": "C8 VS2022",
+      "Scope": "Repeated SKU verification; do not sum as unique count"
+    },
+    {
+      "Name": "Media/package byte consistency",
+      "Passed": 10,
+      "Failed": 0,
+      "ExitCode": 0,
+      "Evidence": "artifacts/task024/candidate8-2022-bundle/result.json",
+      "Product": "C8 VS2022",
+      "Scope": "Repeated SKU verification; do not sum as unique count"
+    },
+    {
+      "Name": "Default launcher integration",
+      "Passed": 16,
+      "Failed": 0,
+      "ExitCode": 0,
+      "Evidence": "artifacts/tl/5ebff5ac5c/summary.txt",
+      "Product": "C8 VS2017 VSIX",
+      "Scope": "16 suites; includes Task021/022/024/theme/audit23/documentUI117"
+    },
+    {
+      "Name": "Auditor unchanged document cases",
+      "Passed": 21,
+      "Failed": 0,
+      "ExitCode": 0,
+      "Evidence": "artifacts/audit-codexorig2-followup-c8/same21-2017-result.json",
+      "Product": "C8 VS2017 DLL",
+      "Scope": "Direct independent auditor evidence; repeated SKU conditions not a unique aggregate"
+    },
+    {
+      "Name": "Auditor original F4 case",
+      "Passed": 1,
+      "Failed": 0,
+      "ExitCode": 0,
+      "Evidence": "artifacts/audit-codexorig2-followup-c8/original-f4-2017-result.json",
+      "Product": "C8 VS2017 DLL",
+      "Scope": "Direct independent auditor evidence; repeated SKU conditions not a unique aggregate"
+    },
+    {
+      "Name": "Auditor independent column boundaries",
+      "Passed": 6,
+      "Failed": 0,
+      "ExitCode": 0,
+      "Evidence": "artifacts/audit-codexorig2-followup-c8/boundary-2017-result.json",
+      "Product": "C8 VS2017 DLL",
+      "Scope": "Direct independent auditor evidence; repeated SKU conditions not a unique aggregate"
+    },
+    {
+      "Name": "Auditor actual product document UI",
+      "Passed": 117,
+      "Failed": 0,
+      "ExitCode": 0,
+      "Evidence": "artifacts/audit-codexorig2-followup-c8/document-ui-2017-result.json",
+      "Product": "C8 VS2017 DLL",
+      "Scope": "Direct independent auditor evidence; repeated SKU conditions not a unique aggregate"
+    },
+    {
+      "Name": "Auditor unchanged document cases",
+      "Passed": 21,
+      "Failed": 0,
+      "ExitCode": 0,
+      "Evidence": "artifacts/audit-codexorig2-followup-c8/same21-2019-result.json",
+      "Product": "C8 VS2019 DLL",
+      "Scope": "Direct independent auditor evidence; repeated SKU conditions not a unique aggregate"
+    },
+    {
+      "Name": "Auditor original F4 case",
+      "Passed": 1,
+      "Failed": 0,
+      "ExitCode": 0,
+      "Evidence": "artifacts/audit-codexorig2-followup-c8/original-f4-2019-result.json",
+      "Product": "C8 VS2019 DLL",
+      "Scope": "Direct independent auditor evidence; repeated SKU conditions not a unique aggregate"
+    },
+    {
+      "Name": "Auditor independent column boundaries",
+      "Passed": 6,
+      "Failed": 0,
+      "ExitCode": 0,
+      "Evidence": "artifacts/audit-codexorig2-followup-c8/boundary-2019-result.json",
+      "Product": "C8 VS2019 DLL",
+      "Scope": "Direct independent auditor evidence; repeated SKU conditions not a unique aggregate"
+    },
+    {
+      "Name": "Auditor actual product document UI",
+      "Passed": 117,
+      "Failed": 0,
+      "ExitCode": 0,
+      "Evidence": "artifacts/audit-codexorig2-followup-c8/document-ui-2019-result.json",
+      "Product": "C8 VS2019 DLL",
+      "Scope": "Direct independent auditor evidence; repeated SKU conditions not a unique aggregate"
+    },
+    {
+      "Name": "Auditor unchanged document cases",
+      "Passed": 21,
+      "Failed": 0,
+      "ExitCode": 0,
+      "Evidence": "artifacts/audit-codexorig2-followup-c8/same21-2022-result.json",
+      "Product": "C8 VS2022 DLL",
+      "Scope": "Direct independent auditor evidence; repeated SKU conditions not a unique aggregate"
+    },
+    {
+      "Name": "Auditor original F4 case",
+      "Passed": 1,
+      "Failed": 0,
+      "ExitCode": 0,
+      "Evidence": "artifacts/audit-codexorig2-followup-c8/original-f4-2022-result.json",
+      "Product": "C8 VS2022 DLL",
+      "Scope": "Direct independent auditor evidence; repeated SKU conditions not a unique aggregate"
+    },
+    {
+      "Name": "Auditor independent column boundaries",
+      "Passed": 6,
+      "Failed": 0,
+      "ExitCode": 0,
+      "Evidence": "artifacts/audit-codexorig2-followup-c8/boundary-2022-result.json",
+      "Product": "C8 VS2022 DLL",
+      "Scope": "Direct independent auditor evidence; repeated SKU conditions not a unique aggregate"
+    },
+    {
+      "Name": "Auditor actual product document UI",
+      "Passed": 117,
+      "Failed": 0,
+      "ExitCode": 0,
+      "Evidence": "artifacts/audit-codexorig2-followup-c8/document-ui-2022-result.json",
+      "Product": "C8 VS2022 DLL",
+      "Scope": "Direct independent auditor evidence; repeated SKU conditions not a unique aggregate"
+    }
+  ],
+  "PreservedOriginalAssets": 47,
+  "PreservedOriginalAssetsChanged": 0,
+  "Limits": [
+    "Actual Claude CLI account authentication not verified; browser/app login is separate",
+    "Operational SQL Server/TFVC/production deployment not verified; isolated fixtures do not prove those environments",
+    "Static native HTML preview does not execute script/CSS/iframe or automatically load remote media",
+    "Document UI renders are offscreen STA product tests and are distinct from actual IDE tests"
+  ],
+  "GitHubPublished": false,
+  "VerificationCompletedAt": "2026-10-19T03:24:02.5162297+09:00",
+  "ElapsedIncludingCoordination": "02:58:14.5162297",
+  "ActualIdeVerified": true,
+  "ActualIdeResults": [
+    {
+      "SKU": "2017",
+      "Succeeded": true,
+      "Passed": 133,
+      "Failed": 0,
+      "ExitCode": 0,
+      "VsixSha256": "698876F45360499F7A50B55D71E2979BE0504B12BF0ED02ADFACC055F1576A46",
+      "ProductDllSha256": "A2A10A3922CC3FD47F5AA10E15FFF7FCB70A44494D4B26BEE22610B3C4C2172E",
+      "Evidence": "artifacts/ide/run-b9c07a3d1f654d319efc966b31d14138",
+      "Cleanup": {
+        "ProcessId": 51464,
+        "RootSuffix": "CodexCodeTestb9c07a3d",
+        "ResultPreserved": true,
+        "ExitedNormally": true,
+        "ForcedOwnedProcessCleanup": false,
+        "CheckedAt": "2026-10-19T03:19:57.1941785+09:00"
+      },
+      "Checks": null
+    },
+    {
+      "SKU": "2019",
+      "Succeeded": true,
+      "Passed": 133,
+      "Failed": 0,
+      "ExitCode": 0,
+      "VsixSha256": "3E3D313BCAF7AAEE6A0C8EDB1A076B26DD905F97FCF0307DB9201F8C7DDC7FB2",
+      "ProductDllSha256": "45F4E4D06E4CCDBAF3FB28CE54E9ED3FB6B2DF46BE69F6E8B23F686741D06420",
+      "Evidence": "artifacts/ide/run-24ac52acf7034e3285301d1d280fc2c4",
+      "Cleanup": {
+        "ProcessId": 22300,
+        "RootSuffix": "CodexCodeTest24ac52ac",
+        "ResultPreserved": true,
+        "ExitedNormally": true,
+        "ForcedOwnedProcessCleanup": false,
+        "CheckedAt": "2026-10-19T03:21:32.5896354+09:00"
+      },
+      "Checks": null
+    },
+    {
+      "SKU": "2022",
+      "Succeeded": true,
+      "Passed": 133,
+      "Failed": 0,
+      "ExitCode": 0,
+      "VsixSha256": "294CE1E7B574C703F26C852C3C1674EECE56FC0EA0B07324CE5EEFBE35561563",
+      "ProductDllSha256": "06C41981F4D0049C07AC1BAA753E9A0DD3DC7FFB67BF385176F123D3A6419049",
+      "Evidence": "artifacts/ide/run-640301da2b2e482ca7be3e982c17d6c9",
+      "Cleanup": {
+        "ProcessId": 48984,
+        "RootSuffix": "CodexCodeTest640301da",
+        "ResultPreserved": true,
+        "ExitedNormally": false,
+        "ForcedOwnedProcessCleanup": true,
+        "CheckedAt": "2026-10-19T03:23:20.3453705+09:00"
+      },
+      "Checks": null
+    }
+  ],
+  "AuditClosure": "MarkdownReport/CodexOrig2_TASK-028_Followup_C8_Evidence.json",
+  "CollaboratorsCompleted": [
+    "TASK024 2026-10-19T03:22:59+09:00",
+    "Orig4 TASK026 2026-10-19T02:54:26+09:00",
+    "Orig3 C8 doc 2026-10-19T03:14:25+09:00",
+    "Orig5 research 2026-10-19T03:15:05+09:00",
+    "Orig2 C8 audit 2026-10-19T03:19:27+09:00"
+  ],
+  "RequirementVerification": [
+    {
+      "Id": 1,
+      "Requirement": "2017/2019/2022 공통 색상과 링크 아이콘",
+      "Implementation": "C8 구현 반영",
+      "Verification": "C8 기능231·세 SKU 테마/문서UI·전체16·실제 IDE133 검증",
+      "Evidence": [
+        "MarkdownReport/CodexOrig_TASK-025.md",
+        "MarkdownReport/CodexOrig2_TASK-028_Followup_C8_Evidence.json"
+      ],
+      "AuditFindings": []
+    },
+    {
+      "Id": 2,
+      "Requirement": "읽기 쉬운 변경 팝업과 스크롤",
+      "Implementation": "C8 구현 반영",
+      "Verification": "C8 기능231·세 SKU 테마/문서UI·전체16·실제 IDE133 검증",
+      "Evidence": [
+        "MarkdownReport/CodexOrig_TASK-025.md",
+        "MarkdownReport/CodexOrig2_TASK-028_Followup_C8_Evidence.json"
+      ],
+      "AuditFindings": []
+    },
+    {
+      "Id": 3,
+      "Requirement": "답변 Markdown/로컬 소스 링크",
+      "Implementation": "C8 구현 반영",
+      "Verification": "C8 기능231·세 SKU 테마/문서UI·전체16·실제 IDE133 검증",
+      "Evidence": [
+        "MarkdownReport/CodexOrig_TASK-025.md",
+        "MarkdownReport/CodexOrig2_TASK-028_Followup_C8_Evidence.json"
+      ],
+      "AuditFindings": []
+    },
+    {
+      "Id": 4,
+      "Requirement": "참고 프로젝트 Markdown 편집·미리보기 추출",
+      "Implementation": "C8 구현 반영",
+      "Verification": "C8 기능231·세 SKU 테마/문서UI·전체16·실제 IDE133 검증",
+      "Evidence": [
+        "MarkdownReport/CodexOrig_TASK-025.md",
+        "MarkdownReport/CodexOrig2_TASK-028_Followup_C8_Evidence.json"
+      ],
+      "AuditFindings": [
+        "R3-01",
+        "R3-02",
+        "R3-03",
+        "R3-03F1",
+        "R3-03F2",
+        "R3-03F3",
+        "SC024-02",
+        "R3-03F4"
+      ]
+    },
+    {
+      "Id": 5,
+      "Requirement": "마우스 아래 팝업 우선 스크롤",
+      "Implementation": "C8 구현 반영",
+      "Verification": "C8 기능231·세 SKU 테마/문서UI·전체16·실제 IDE133 검증",
+      "Evidence": [
+        "MarkdownReport/CodexOrig_TASK-025.md",
+        "MarkdownReport/CodexOrig2_TASK-028_Followup_C8_Evidence.json"
+      ],
+      "AuditFindings": []
+    },
+    {
+      "Id": 6,
+      "Requirement": "작은 창 목록 배경 구분",
+      "Implementation": "C8 구현 반영",
+      "Verification": "C8 기능231·세 SKU 테마/문서UI·전체16·실제 IDE133 검증",
+      "Evidence": [
+        "MarkdownReport/CodexOrig_TASK-025.md",
+        "MarkdownReport/CodexOrig2_TASK-028_Followup_C8_Evidence.json"
+      ],
+      "AuditFindings": []
+    },
+    {
+      "Id": 7,
+      "Requirement": "README 다수 GIF/설명 화면 재사용",
+      "Implementation": "C8 구현 반영",
+      "Verification": "C8 기능231·세 SKU 테마/문서UI·전체16·실제 IDE133 검증",
+      "Evidence": [
+        "MarkdownReport/CodexOrig_TASK-025.md",
+        "MarkdownReport/CodexOrig2_TASK-028_Followup_C8_Evidence.json"
+      ],
+      "AuditFindings": []
+    },
+    {
+      "Id": 8,
+      "Requirement": "접이식 설정 설명과 이미지/GIF",
+      "Implementation": "C8 구현 반영",
+      "Verification": "C8 기능231·세 SKU 테마/문서UI·전체16·실제 IDE133 검증",
+      "Evidence": [
+        "MarkdownReport/CodexOrig_TASK-025.md",
+        "MarkdownReport/CodexOrig2_TASK-028_Followup_C8_Evidence.json"
+      ],
+      "AuditFindings": []
+    },
+    {
+      "Id": 9,
+      "Requirement": "Markdown 도움말과 이미지/GIF",
+      "Implementation": "C8 구현 반영",
+      "Verification": "C8 기능231·세 SKU 테마/문서UI·전체16·실제 IDE133 검증",
+      "Evidence": [
+        "MarkdownReport/CodexOrig_TASK-025.md",
+        "MarkdownReport/CodexOrig2_TASK-028_Followup_C8_Evidence.json"
+      ],
+      "AuditFindings": []
+    },
+    {
+      "Id": 10,
+      "Requirement": "도움말 우측 상단 고정 뒤로",
+      "Implementation": "C8 구현 반영",
+      "Verification": "C8 기능231·세 SKU 테마/문서UI·전체16·실제 IDE133 검증",
+      "Evidence": [
+        "MarkdownReport/CodexOrig_TASK-025.md",
+        "MarkdownReport/CodexOrig2_TASK-028_Followup_C8_Evidence.json"
+      ],
+      "AuditFindings": []
+    },
+    {
+      "Id": 11,
+      "Requirement": "CLI 진입 버튼 색상 구분",
+      "Implementation": "C8 구현 반영",
+      "Verification": "C8 기능231·세 SKU 테마/문서UI·전체16·실제 IDE133 검증",
+      "Evidence": [
+        "MarkdownReport/CodexOrig_TASK-025.md",
+        "MarkdownReport/CodexOrig2_TASK-028_Followup_C8_Evidence.json"
+      ],
+      "AuditFindings": []
+    },
+    {
+      "Id": 12,
+      "Requirement": "중앙 Bold 돋보기 입력 버튼",
+      "Implementation": "C8 구현 반영",
+      "Verification": "C8 기능231·세 SKU 테마/문서UI·전체16·실제 IDE133 검증",
+      "Evidence": [
+        "MarkdownReport/CodexOrig_TASK-025.md",
+        "MarkdownReport/CodexOrig2_TASK-028_Followup_C8_Evidence.json"
+      ],
+      "AuditFindings": []
+    },
+    {
+      "Id": 13,
+      "Requirement": "입력란의 동일 동작 버튼 두 개 제거",
+      "Implementation": "C8 구현 반영",
+      "Verification": "C8 기능231·세 SKU 테마/문서UI·전체16·실제 IDE133 검증",
+      "Evidence": [
+        "MarkdownReport/CodexOrig_TASK-025.md",
+        "MarkdownReport/CodexOrig2_TASK-028_Followup_C8_Evidence.json"
+      ],
+      "AuditFindings": []
+    },
+    {
+      "Id": 14,
+      "Requirement": "독립 계정 로그인 화면 및 직접 ID/비밀번호 공식지원 조사",
+      "Implementation": "C8 구현 반영",
+      "Verification": "공식 CLI 로그인 UI24/24·지원 조사/대안 반영·실제 Claude 계정 미검증",
+      "Evidence": [
+        "MarkdownReport/CodexOrig_TASK-025.md",
+        "MarkdownReport/CodexOrig2_TASK-028_Followup_C8_Evidence.json"
+      ],
+      "AuditFindings": []
+    },
+    {
+      "Id": 15,
+      "Requirement": "Visual Studio 우선 자동/Windows fallback/수동 Light-Dark",
+      "Implementation": "C8 구현 반영",
+      "Verification": "C8 기능231·세 SKU 테마/문서UI·전체16·실제 IDE133 검증",
+      "Evidence": [
+        "MarkdownReport/CodexOrig_TASK-025.md",
+        "MarkdownReport/CodexOrig2_TASK-028_Followup_C8_Evidence.json"
+      ],
+      "AuditFindings": []
+    }
+  ],
+  "FinalLauncherSha256": "5AC1FE5C37D8ECC346D87E1C37CD4270E59D2DEF2E083B86F4CCD76C8A26BDE5",
+  "CurrentRoleSha256": "7284CC50FA5CA06C8617206146AA9755FE739008E0FDBCAE435B06D8751F25C8"
+}

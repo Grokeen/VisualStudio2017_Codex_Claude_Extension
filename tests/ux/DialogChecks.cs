@@ -19,6 +19,7 @@ using VS2017.AIAssistant.Views;
 /// create date  : 2026-10-18
 /// update date  : 2026-10-18 CodexOrig : 테스트 자체 창과 설정 파일만 조작하는 격리 검증.
 /// update date  : 2026-10-18 CodexOrig : TASK-018 이미지 요구와 드롭다운·A~Z 이름에 맞춰 검증 갱신.
+///                2026-10-19 CodexOrig : TASK-025 기존 검정 안내 회귀를 명시적 Dark 모드로 분리.
 /// </summary>
 /// ---------------------------------------------------------------------
 internal static class DialogChecks
@@ -31,6 +32,7 @@ internal static class DialogChecks
     /// create date  : 2026-10-18
     /// update date  : 2026-10-18 CodexOrig : 네 단계 안내·플래그 병합·팝업 위치·저장 실패 검증.
     /// update date  : 2026-10-18 CodexOrig : 공통 Markdown 잠금 실패 시 JSON·Markdown 원문 복구와 검정 팔레트 검증.
+    ///                2026-10-19 CodexOrig : 최신 자동/Light 테마 검사와 별도로 Dark 설정을 고정.
     /// </summary>
     /// ---------------------------------------------------------------------
     internal static void Run(string directory, Action<string, bool> check)
@@ -41,7 +43,7 @@ internal static class DialogChecks
         Environment.SetEnvironmentVariable("VS2017_AI_SETTINGS_PATH", Path.Combine(directory, "dialog-settings.json"));
         Environment.SetEnvironmentVariable("VS2017_AI_WORKSPACE_PATH", Path.Combine(directory, "workspace"));
         var store = new AssistantSettingsStore();
-        var saved = new AssistantSettings { CodexPath = "codex-original.exe", ClaudePath = "claude-original.exe", CodexModel = "model-a", ClaudeModel = "model-b", Instructions = "기존 규칙 유지", FontSize = 16 };
+        var saved = new AssistantSettings { CodexPath = "codex-original.exe", ClaudePath = "claude-original.exe", CodexModel = "model-a", ClaudeModel = "model-b", Instructions = "기존 규칙 유지", FontSize = 16, ThemeMode = "dark" };
         store.Save(saved);
         Window host = null;
         try

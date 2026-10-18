@@ -56,10 +56,13 @@ namespace VS2017.AIAssistant.Views
         /// update date  : 2026-10-18 CodexOrig : 손상된 설정은 기본값으로 복구하고 안내.
         /// update date  : 2026-10-18 CodexOrig : 중앙 설정 팝업과 첫 사용 안내 연결.
         /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
+        ///                2026-10-19 CodexOrig4 : 편집·첨부 영역은 테마 공통 표면과 본문 색으로 통일.
+        ///                2026-10-19 CodexOrig4 : 모델·규칙·첨부 배경과 글자를 공통 팔레트로 연결.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void InitializeChat()
         {
+            Dispatcher.VerifyAccess();
             AssistantSettings settings;
             try { settings = settingsStore.Load(); }
             catch (Exception) { settings = new AssistantSettings(); StatusLabel.Text = "설정을 읽지 못해 기본값을 사용합니다. 설정 저장으로 다시 구성할 수 있습니다."; }
@@ -70,8 +73,8 @@ namespace VS2017.AIAssistant.Views
             TextSizeChoice.SelectedValue = settings.FontSize.ToString(System.Globalization.CultureInfo.InvariantCulture);
             foreach (Control control in new Control[] { ModelName, RulesText, AttachmentList })
             {
-                control.SetResourceReference(BackgroundProperty, VsBrushes.ToolWindowBackgroundKey);
-                control.SetResourceReference(ForegroundProperty, VsBrushes.ToolWindowTextKey);
+                control.SetResourceReference(BackgroundProperty, "AssistantSurfaceBrush");
+                control.SetResourceReference(ForegroundProperty, "AssistantForegroundBrush");
             }
             DataObject.AddPastingHandler(Instruction, PromptPasting);
             CommandManager.AddPreviewCanExecuteHandler(Instruction, PasteCanExecute);

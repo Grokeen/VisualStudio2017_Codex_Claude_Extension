@@ -91,6 +91,7 @@ namespace VS2017.AIAssistant.Views
     /// ---------------------------------------------------------------------
     public class AssistantDialog : Window
     {
+        private readonly AssistantControl guideSource;
         public WrapPanel Actions { get; private set; }
         public TextBlock Message { get; private set; }
         public ContentControl Body { get; private set; }
@@ -108,6 +109,8 @@ namespace VS2017.AIAssistant.Views
         /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// update date  : 2026-10-18 CodexCode : WPF UI 검사와 VS COM 소유 창 조회의 스레드 경계를 분리.
         ///                2026-10-18 CodexCode : TASK-022 닫기 명령의 실제 내용 영역을 양축 중앙 정렬.
+        ///                2026-10-19 CodexCode : TASK-024 안내창은 IDE 밝은 테마와 관계없이 검정 배경·밝은 글자를 유지.
+        ///                2026-10-19 CodexCode : Role15 추가에 따라 공통 의미 색상 리소스로 테마 선택을 즉시 반영.
         /// </summary>
         /// ---------------------------------------------------------------------
         public AssistantDialog(AssistantControl source, string title, string description)
@@ -119,8 +122,9 @@ namespace VS2017.AIAssistant.Views
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
             ShowInTaskbar = false; ResizeMode = ResizeMode.CanResize; FontSize = 14;
             Resources.MergedDictionaries.Add(source.Resources);
-            SetResourceReference(BackgroundProperty, VsBrushes.ToolWindowBackgroundKey);
-            SetResourceReference(ForegroundProperty, VsBrushes.ToolWindowTextKey);
+            guideSource = source;
+            SetResourceReference(BackgroundProperty, "AssistantBackgroundBrush");
+            SetResourceReference(ForegroundProperty, "AssistantForegroundBrush");
             var owner = GetWindow(source);
             if (owner != null) Owner = owner;
             else if (ThreadHelper.CheckAccess())
@@ -135,7 +139,7 @@ namespace VS2017.AIAssistant.Views
                     new WindowInteropHelper(this).Owner = handle;
             }
             var layout = new Grid();
-            layout.SetResourceReference(Panel.BackgroundProperty, VsBrushes.ToolWindowBackgroundKey);
+            layout.SetResourceReference(Panel.BackgroundProperty, "AssistantBackgroundBrush");
             layout.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
             layout.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
             layout.RowDefinitions.Add(new RowDefinition());
@@ -156,7 +160,8 @@ namespace VS2017.AIAssistant.Views
             var close = new Button { Content = "× 닫기", HorizontalContentAlignment = HorizontalAlignment.Center, VerticalContentAlignment = VerticalAlignment.Center, IsCancel = true, MinWidth = 84, Margin = new Thickness(8, 0, 0, 0) };
             close.Click += (sender, args) => Close();
             Actions.Children.Add(close); footer.Children.Add(Actions);
-            Footer = new Border { Child = footer, Background = Gray(32), BorderBrush = Gray(63), BorderThickness = new Thickness(0, 1, 0, 0), Padding = new Thickness(20, 14, 20, 16), Margin = new Thickness(0, 16, 0, 0) };
+            Footer = new Border { Child = footer, BorderThickness = new Thickness(0, 1, 0, 0), Padding = new Thickness(20, 14, 20, 16), Margin = new Thickness(0, 16, 0, 0) };
+            Footer.SetResourceReference(Border.BackgroundProperty, "AssistantSurfaceBrush"); Footer.SetResourceReference(Border.BorderBrushProperty, "AssistantBorderBrush");
             Grid.SetRow(Footer, 3); layout.Children.Add(Footer); Content = layout;
             Loaded += (sender, args) => { if (SystemParameters.ClientAreaAnimation) BeginAnimation(OpacityProperty, new DoubleAnimation(0, 1, TimeSpan.FromMilliseconds(180))); };
             Closed += (sender, args) => BeginAnimation(OpacityProperty, null);
@@ -200,14 +205,17 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 검정 계열 구역에 내부 16·구역 간 20 픽셀 적용.
+        ///                2026-10-19 CodexCode : TASK-024 Role15 구역 바탕·경계·제목을 동적 의미 색상으로 연결.
         /// </summary>
         /// ---------------------------------------------------------------------
         public static Border CreateSection(string icon, string title, UIElement content)
         {
             var body = new StackPanel();
-            body.Children.Add(new TextBlock { Text = (icon ?? "") + "  " + title, Foreground = Brushes.Gainsboro, FontWeight = FontWeights.SemiBold, Margin = new Thickness(0, 0, 0, 12), TextWrapping = TextWrapping.Wrap });
+            var heading = new TextBlock { Text = (icon ?? "") + "  " + title, FontWeight = FontWeights.SemiBold, Margin = new Thickness(0, 0, 0, 12), TextWrapping = TextWrapping.Wrap };
+            heading.SetResourceReference(TextBlock.ForegroundProperty, "AssistantForegroundBrush"); body.Children.Add(heading);
             if (content != null) body.Children.Add(content);
-            return new Border { Background = Gray(35), BorderBrush = Gray(65), BorderThickness = new Thickness(1), CornerRadius = new CornerRadius(8), Padding = new Thickness(16), Margin = new Thickness(0, 0, 0, 20), Child = body };
+            var section = new Border { BorderThickness = new Thickness(1), CornerRadius = new CornerRadius(8), Padding = new Thickness(16), Margin = new Thickness(0, 0, 0, 20), Child = body };
+            section.SetResourceReference(Border.BackgroundProperty, "AssistantSurfaceBrush"); section.SetResourceReference(Border.BorderBrushProperty, "AssistantBorderBrush"); return section;
         }
 
         /// ---------------------------------------------------------------------
@@ -217,13 +225,27 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 외부 실행 없이 카드 hover·키보드 선택·목록 복귀 제공.
+        ///                2026-10-19 CodexCode : TASK-024 상세 Markdown 링크를 원래 도구 창의 명시적 탐색으로 연결.
         /// </summary>
         /// ---------------------------------------------------------------------
         public void SetGuide(params GuideStep[] steps)
         {
             Navigation.Children.Clear(); Navigation.Visibility = Visibility.Collapsed;
-            Body.Content = new GuideGallery((steps ?? new GuideStep[0]).Where(x => x != null).ToArray());
+            Body.Content = new GuideGallery((steps ?? new GuideStep[0]).Where(x => x != null).ToArray(), guideSource);
         }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : NavigateGuideLink
+        /// desc         : 사용자가 선택한 안내 링크만 원래 도구 창의 검증된 탐색 경계에 전달한다.
+        /// author       : CodexCode
+        /// create date  : 2026-10-19
+        /// update date  : 2026-10-19 CodexCode : TASK-024 안내 표시 중 자동 외부 탐색 없음.
+        ///                2026-10-19 CodexCode : SDK15·17 분석기에서도 실제 WPF Dispatcher 진입을 검증.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        internal void NavigateGuideLink(MarkdownLinkEventArgs args)
+        { Dispatcher.VerifyAccess(); if (args != null) guideSource.NavigateMarkdownLink(args); }
 
         /// ---------------------------------------------------------------------
         /// <summary>
@@ -250,6 +272,7 @@ namespace VS2017.AIAssistant.Views
         {
             private readonly List<Button> cards = new List<Button>();
             private readonly ScrollViewer overview;
+            private readonly AssistantControl guideSource;
 
             /// ---------------------------------------------------------------------
             /// <summary>
@@ -259,10 +282,29 @@ namespace VS2017.AIAssistant.Views
             /// create date  : 2026-10-18
             /// update date  : 2026-10-18 CodexCode : 버튼 내부 표면만 이동하여 반복 진입 이벤트 방지.
             ///                2026-10-18 CodexCode : TASK-022 긴 설명 카드의 읽기 정렬은 유지하고 표면은 내용 영역에 맞춤.
+            ///                2026-10-19 CodexOrig : TASK-025 WPF Dispatcher를 검증하는 대상 생성자로의 위임 계약 명시.
             /// </summary>
             /// ---------------------------------------------------------------------
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "VSTHRD010", Justification = "Delegates directly to the overload that verifies the WPF Dispatcher before constructing the guide; no VS-only service is required by the standalone guide fixture.")]
             public GuideGallery(GuideStep[] steps)
+                : this(steps, null) { }
+
+            /// ---------------------------------------------------------------------
+            /// <summary>
+            /// name         : GuideGallery
+            /// desc         : 원래 도구 창 참조와 안내 카드를 함께 보관하여 상세 링크 탐색을 연결한다.
+            /// author       : CodexCode
+            /// create date  : 2026-10-19
+            /// update date  : 2026-10-19 CodexCode : TASK-024 기존 단일 인수 생성자와 카드 자동화 이름 보존.
+            ///                2026-10-19 CodexCode : Role15 카드 바탕·테두리·글자를 동적 리소스로 연결.
+            ///                2026-10-19 CodexCode : SDK15 이벤트 콜백 안에서 실제 Dispatcher 진입을 명시 검증.
+            ///                2026-10-19 CodexOrig : TASK-025 위임 생성자도 공유하는 실제 WPF UI 스레드 검증.
+            /// </summary>
+            /// ---------------------------------------------------------------------
+            public GuideGallery(GuideStep[] steps, AssistantControl source)
             {
+                Dispatcher.VerifyAccess();
+                guideSource = source;
                 HorizontalContentAlignment = HorizontalAlignment.Stretch; VerticalContentAlignment = VerticalAlignment.Stretch;
                 var list = new StackPanel { Margin = new Thickness(3, 4, 3, 4) };
                 overview = new ScrollViewer { Content = list, VerticalScrollBarVisibility = ScrollBarVisibility.Auto, HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled };
@@ -271,9 +313,11 @@ namespace VS2017.AIAssistant.Views
                     var words = new StackPanel();
                     words.Children.Add(new TextBlock { Text = step.Number + "  " + step.Icon + "  " + step.Title, FontSize = 17, FontWeight = FontWeights.SemiBold, TextWrapping = TextWrapping.Wrap });
                     words.Children.Add(new TextBlock { Text = step.Summary, TextWrapping = TextWrapping.Wrap, Margin = new Thickness(0, 8, 0, 0) });
-                    words.Children.Add(new TextBlock { Text = "자세히 보기  →", FontSize = 12, Foreground = Brushes.Silver, Margin = new Thickness(0, 10, 0, 0) });
-                    var surface = new Border { Background = Gray(37), BorderBrush = Gray(80), BorderThickness = new Thickness(1), CornerRadius = new CornerRadius(8), Padding = new Thickness(14), Child = words, IsHitTestVisible = false, RenderTransform = new TranslateTransform() };
-                    var button = new Button { Content = surface, DataContext = step, HorizontalContentAlignment = HorizontalAlignment.Stretch, VerticalContentAlignment = VerticalAlignment.Stretch, Padding = new Thickness(0), BorderThickness = new Thickness(0), Background = Brushes.Transparent, Foreground = Brushes.Gainsboro, Margin = new Thickness(0, 0, 0, 16), ToolTip = step.Title + " 상세 설명" };
+                    var prompt = new TextBlock { Text = "자세히 보기  →", FontSize = 12, Margin = new Thickness(0, 10, 0, 0) }; prompt.SetResourceReference(TextBlock.ForegroundProperty, "AssistantMutedForegroundBrush"); words.Children.Add(prompt);
+                    var surface = new Border { BorderThickness = new Thickness(1), CornerRadius = new CornerRadius(8), Padding = new Thickness(14), Child = words, IsHitTestVisible = false, RenderTransform = new TranslateTransform() };
+                    surface.SetResourceReference(Border.BackgroundProperty, "AssistantSurfaceBrush"); surface.SetResourceReference(Border.BorderBrushProperty, "AssistantBorderBrush");
+                    var button = new Button { Content = surface, DataContext = step, HorizontalContentAlignment = HorizontalAlignment.Stretch, VerticalContentAlignment = VerticalAlignment.Stretch, Padding = new Thickness(0), BorderThickness = new Thickness(0), Background = Brushes.Transparent, Margin = new Thickness(0, 0, 0, 16), ToolTip = step.Title + " 상세 설명" };
+                    button.SetResourceReference(Control.ForegroundProperty, "AssistantForegroundBrush");
                     var hit = new FrameworkElementFactory(typeof(Border)); hit.SetValue(Border.BackgroundProperty, Brushes.Transparent);
                     var cardContent = new FrameworkElementFactory(typeof(ContentPresenter));
                     cardContent.SetBinding(FrameworkElement.HorizontalAlignmentProperty, new System.Windows.Data.Binding("HorizontalContentAlignment") { RelativeSource = System.Windows.Data.RelativeSource.TemplatedParent });
@@ -285,7 +329,7 @@ namespace VS2017.AIAssistant.Views
                     button.MouseLeave += (sender, args) => Highlight(button.IsKeyboardFocusWithin ? button : null);
                     button.GotKeyboardFocus += (sender, args) => Highlight(button);
                     button.LostKeyboardFocus += (sender, args) => Highlight(button.IsMouseOver ? button : null);
-                    button.Click += (sender, args) => { if (!Dispatcher.CheckAccess()) throw new InvalidOperationException("안내는 WPF UI 스레드에서만 열 수 있습니다."); ShowDetail(step, button); };
+                    button.Click += (sender, args) => { Dispatcher.VerifyAccess(); ShowDetail(step, button); };
                     cards.Add(button); list.Children.Add(button);
                 }
                 Content = overview; Unloaded += (sender, args) => StopAnimations();
@@ -325,22 +369,31 @@ namespace VS2017.AIAssistant.Views
             /// create date  : 2026-10-18
             /// update date  : 2026-10-18 CodexCode : 중첩 모달이나 외부 실행 없이 같은 본문에서 전환.
             ///                2026-10-18 CodexCode : TASK-022 목록 복귀 버튼의 배치와 내부 글자 정렬을 분리.
+            ///                2026-10-19 CodexCode : TASK-024 우상단 복귀는 스크롤 밖에 고정하고 원문은 Markdown으로 표시.
+            ///                2026-10-19 CodexCode : SDK15 복귀·링크 콜백도 독립적인 Dispatcher 계약으로 검증.
             /// </summary>
             /// ---------------------------------------------------------------------
             private void ShowDetail(GuideStep step, Button source)
             {
                 if (!Dispatcher.CheckAccess()) throw new InvalidOperationException("상세 안내는 WPF UI 스레드에서만 열 수 있습니다.");
                 Highlight(null); var detail = new StackPanel();
-                var back = new Button { Content = "← 안내 목록으로", HorizontalContentAlignment = HorizontalAlignment.Center, VerticalContentAlignment = VerticalAlignment.Center, HorizontalAlignment = HorizontalAlignment.Left, Margin = new Thickness(0, 0, 0, 16) };
-                back.Click += (sender, args) => { if (!Dispatcher.CheckAccess()) throw new InvalidOperationException("안내 목록은 WPF UI 스레드에서만 복원할 수 있습니다."); Content = overview; FocusAfterLayout(source); };
-                detail.Children.Add(back);
+                var page = new Grid();
+                page.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+                page.RowDefinitions.Add(new RowDefinition());
+                var back = new Button { Content = "← 안내 목록으로", HorizontalContentAlignment = HorizontalAlignment.Center, VerticalContentAlignment = VerticalAlignment.Center, HorizontalAlignment = HorizontalAlignment.Right, Margin = new Thickness(0, 0, 0, 12), Padding = new Thickness(12, 7, 12, 7) };
+                back.SetResourceReference(StyleProperty, "GuideActionButton");
+                back.Click += (sender, args) => { Dispatcher.VerifyAccess(); Content = overview; FocusAfterLayout(source); };
+                page.Children.Add(back);
                 detail.Children.Add(new TextBlock { Text = step.Number + "  " + step.Icon + "  " + step.Title, FontSize = 21, FontWeight = FontWeights.SemiBold, TextWrapping = TextWrapping.Wrap, Margin = new Thickness(0, 0, 0, 16) });
-                var image = new Image { Source = Illustration(step), Stretch = Stretch.Uniform, MaxHeight = 210, Margin = new Thickness(0, 0, 0, 16) };
-                AutomationProperties.SetName(image, step.Title + " 절차 그림"); detail.Children.Add(image);
+                detail.Children.Add(AssistantGuideMedia.CreateIllustration(AssistantGuideMedia.KeyForTitle(step.Title), step.Title, Illustration(step)));
                 detail.Children.Add(new TextBlock { Text = step.Summary, TextWrapping = TextWrapping.Wrap, FontWeight = FontWeights.SemiBold, Margin = new Thickness(0, 0, 0, 16) });
                 IEnumerable<string> paragraphs = step.Details.Count == 0 ? (IEnumerable<string>)new[] { step.Summary } : step.Details;
-                foreach (string paragraph in paragraphs) detail.Children.Add(new TextBlock { Text = paragraph, TextWrapping = TextWrapping.Wrap, Margin = new Thickness(0, 0, 0, 14) });
-                Content = new ScrollViewer { Content = detail, VerticalScrollBarVisibility = ScrollBarVisibility.Auto, HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled };
+                var preview = new MarkdownPreview { Markdown = String.Join("\n\n", paragraphs), UseInternalScrolling = false, AssetBaseDirectory = AssistantGuideMedia.GetAssetDirectory() };
+                AutomationProperties.SetName(preview, step.Title + " 상세 본문");
+                preview.LinkRequested += (sender, args) => { Dispatcher.VerifyAccess(); if (guideSource != null) guideSource.NavigateMarkdownLink(args); else AssistantGuideMedia.NavigateLink(this, args); };
+                detail.Children.Add(preview);
+                var scroll = new ScrollViewer { Content = detail, VerticalScrollBarVisibility = ScrollBarVisibility.Auto, HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled };
+                Grid.SetRow(scroll, 1); page.Children.Add(scroll); Content = page;
                 FocusAfterLayout(back);
             }
 
@@ -482,6 +535,7 @@ namespace VS2017.AIAssistant.Views
         /// update date  : 2026-10-18 CodexCode : TASK-021 연결·요청·검토·저장과 직접 실행·실패 복구 설명 보강.
         /// update date  : 2026-10-18 CodexCode : 기반 생성자의 WPF 스레드 검사와 조건부 VS COM 조회 계약을 명시.
         ///                2026-10-18 CodexCode : TASK-022 연결·시작 명령 버튼의 내부 내용 중앙 정렬.
+        ///                2026-10-19 CodexCode : TASK-024 Role15 보조 설명도 동적 테마 글자색 사용.
         /// </summary>
         /// ---------------------------------------------------------------------
         public GettingStartedDialog(AssistantControl source, bool hidden)
@@ -533,7 +587,8 @@ namespace VS2017.AIAssistant.Views
                     "9. 안내 다시 보기: 우클릭의 ‘최근 알림’에서 사라진 결과를 읽고, ‘사용 안내’에서 절차를 다시 볼 수 있습니다. ‘다시 보지 않기’는 자동 안내만 조절하며 수동 안내는 계속 열 수 있습니다."));
             HideNextTime = new CheckBox { Content = "다시 보지 않기", IsChecked = hidden, Margin = new Thickness(0, 0, 0, 8) };
             var preference = new StackPanel(); preference.Children.Add(HideNextTime);
-            preference.Children.Add(new TextBlock { Text = "언제든 상단 ‘사용 안내’ 또는 우클릭 메뉴에서 다시 열 수 있습니다.", TextWrapping = TextWrapping.Wrap, Foreground = Brushes.Silver, FontSize = 12, Margin = new Thickness(0, 0, 0, 10) });
+            var preferenceNote = new TextBlock { Text = "언제든 상단 ‘사용 안내’ 또는 우클릭 메뉴에서 다시 열 수 있습니다.", TextWrapping = TextWrapping.Wrap, FontSize = 12, Margin = new Thickness(0, 0, 0, 10) };
+            preferenceNote.SetResourceReference(TextBlock.ForegroundProperty, "AssistantMutedForegroundBrush"); preference.Children.Add(preferenceNote);
             FooterContent.Content = preference;
             ConnectButton = new Button { Content = "⚙ 계정 설정 열기", HorizontalContentAlignment = HorizontalAlignment.Center, VerticalContentAlignment = VerticalAlignment.Center, Margin = new Thickness(0, 0, 8, 0) };
             StartButton = new Button { Content = "✓ 시작하기", HorizontalContentAlignment = HorizontalAlignment.Center, VerticalContentAlignment = VerticalAlignment.Center, IsDefault = true, Style = (Style)FindResource("PrimaryButton") };

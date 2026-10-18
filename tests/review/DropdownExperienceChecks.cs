@@ -139,6 +139,7 @@
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : TASK-018 image12·15·16 사용자 결과 확인.
         ///                2026-10-18 CodexOrig : TASK-020 현재 모델·권한·색상·부채꼴 검사 계약 반영.
+        ///                2026-10-19 CodexOrig : 상세 설명의 Markdown 원문과 실제 렌더 문서, 동봉 그림을 함께 검사.
         /// </summary>
         /// ---------------------------------------------------------------------
         private static void CheckGuideAndSettingsImages(AssistantControl control, string output)
@@ -154,8 +155,12 @@
                 Check(selected.TranslatePoint(new Point(0, 0), dialog.Body) == originalPosition && !((Border)selected.Content).IsHitTestVisible,
                     "Guide animation keeps its clickable area fixed so moving content cannot trigger a hover loop");
                 Capture(dialog, Path.Combine(output, "Guide-hover.png")); Click(selected); dialog.UpdateLayout();
-                Check(Descendants(dialog.Body).OfType<Image>().Any(i => i.Source != null && i.ActualHeight > 20) && Descendants(dialog.Body).OfType<TextBlock>().Count(t => t.Text.Length > 15) >= 3,
-                    "Clicking a guide card opens a real illustration and detailed instructions in the same window");
+                var preview = Descendants(dialog.Body).OfType<MarkdownPreview>().Single();
+                var step = (GuideStep)selected.DataContext;
+                Check(Descendants(dialog.Body).OfType<Image>().Any(i => i.Source != null && i.ActualHeight > 20) &&
+                    preview.Markdown == String.Join("\n\n", step.Details) &&
+                    new System.Windows.Documents.TextRange(preview.TextView.Document.ContentStart, preview.TextView.Document.ContentEnd).Text.Length > 30,
+                    "Clicking a guide card opens its packaged illustration and renders the complete detailed Markdown in the same window");
                 Capture(dialog, Path.Combine(output, "Guide-detail.png"));
                 Click(Descendants(dialog.Body).OfType<Button>().Single(b => Convert.ToString(b.Content) == "← 안내 목록으로"));
                 PumpUntil(() => Descendants(dialog.Body).OfType<Button>().Count(b => b.DataContext is GuideStep) == 4 && selected.IsKeyboardFocusWithin, 1500);

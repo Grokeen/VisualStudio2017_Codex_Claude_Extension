@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -18,6 +18,7 @@ using System.Windows.Threading;
 /// desc         : 실제 메뉴 template·fallback·명령 대상과 고정 제품의 Popup·본문 메뉴 통합을 검증한다.
 /// author       : CodexCode
 /// create date  : 2026-10-18
+/// update date  : 2026-10-19 CodexOrig : TASK025 Markdown 본문·고정 복귀·명시 Dark 팔레트의 최신 UI 계약 검증.
 /// update date  : 2026-10-18 CodexCode : 원본 문서·클립보드 변경·CLI·실계정 없이 우클릭 흰 배경 회귀 검사.
 /// </summary>
 /// ---------------------------------------------------------------------
@@ -102,7 +103,8 @@ public static class MenuChecks
                 var lightMenu = new Style(typeof(ContextMenu)); lightMenu.Setters.Add(new Setter(Control.BackgroundProperty, Brushes.White)); window.Resources[typeof(ContextMenu)] = lightMenu;
                 if (showWindows) { window.Show(); Pump(); }
                 var actualMessages = (ItemsControl)product.FindName("ConversationMessages"); actualMessages.ApplyTemplate(); actualMessages.UpdateLayout();
-                var messageBox = Descendants<TextBox>(actualMessages).FirstOrDefault(box => box.Name == "MessageBody");
+                var messagePreview = Descendants<ContentControl>(actualMessages).FirstOrDefault(box => box.Name == "MessageBody" && box.GetType().Name == "MarkdownPreview");
+                var messageBox = messagePreview == null ? null : messagePreview.GetType().GetProperty("TextView").GetValue(messagePreview,null) as RichTextBox;
                 Check(messageBox != null && messageBox.ContextMenu != null && HasHeader(messageBox.ContextMenu, "설정") && HasHeader(messageBox.ContextMenu, "사용 안내"), "Loaded message text replaces its style fallback with the full main context menu");
                 if (showWindows)
                 {

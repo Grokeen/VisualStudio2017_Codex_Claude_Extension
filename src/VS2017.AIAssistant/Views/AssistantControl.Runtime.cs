@@ -48,6 +48,7 @@ namespace VS2017.AIAssistant.Views
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : TASK-020 실제 연결·사용량·전체 액세스 UI.
         ///                2026-10-18 CodexOrig : 완료 사용량 순서 보존·연결 조회 실패와 실제 토큰 분리.
+        ///                2026-10-19 CodexCode : 중복 입력 단추를 숨긴 뒤 주 모델 단추에 실시간 사용량 툴팁 연결.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void InitializeRuntime()
@@ -58,6 +59,9 @@ namespace VS2017.AIAssistant.Views
             catch (Exception error) when (error is IOException || error is ArgumentException || error is InvalidOperationException || error is UnauthorizedAccessException || error is TimeoutException) { agentFullAccess = false; }
             runtimeToolTip = new ToolTip { Content = "CLI가 실제 보고한 사용량을 연결 후 표시합니다." };
             TokenUsageButton.ToolTip = runtimeToolTip;
+            // TASK-024 : 같은 모델 창을 여는 중복 단추를 숨기고 주 모델 단추의 툴팁에서 실시간 사용량을 유지한다.
+            ModelOptionsButton.ToolTip = runtimeToolTip;
+            ModelOptionsButton.MouseEnter += RuntimeTokenUsageHovered;
             runtimeRefreshTimer = new DispatcherTimer(DispatcherPriority.Background, Dispatcher) { Interval = TimeSpan.FromMilliseconds(650) };
             runtimeRefreshTimer.Tick += RuntimeRefreshTick;
             Loaded += RuntimeLoaded;
@@ -459,6 +463,7 @@ namespace VS2017.AIAssistant.Views
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : TASK-020 실제 연결·사용량·전체 액세스 UI.
         ///                2026-10-18 CodexOrig : 완료 사용량 순서 보존·연결 조회 실패와 실제 토큰 분리.
+        ///                2026-10-19 CodexCode : 주 모델 단추의 사용량 포인터 구독도 해제.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void DisposeRuntime()
@@ -467,6 +472,7 @@ namespace VS2017.AIAssistant.Views
             if (runtimeRefreshTimer != null) { runtimeRefreshTimer.Stop(); runtimeRefreshTimer.Tick -= RuntimeRefreshTick; runtimeRefreshTimer = null; }
             if (runtimeProvider != null) { runtimeProvider.UsageUpdated -= RuntimeUsageUpdated; runtimeProvider.ProgressUpdated -= RuntimeProgressUpdated; }
             Loaded -= RuntimeLoaded; ExecutablePath.TextChanged -= RuntimePathChanged;
+            ModelOptionsButton.MouseEnter -= RuntimeTokenUsageHovered;
         }
     }
 }

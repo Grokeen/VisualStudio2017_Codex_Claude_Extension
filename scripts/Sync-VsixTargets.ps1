@@ -6,6 +6,7 @@ desc         : 공통 제품 소스를 링크하는 VS2019/2022 전용 프로젝
 author       : CodexOrig
 create date  : 2026-10-18
 update date  : 2026-10-18 CodexOrig : TASK-020 감사 F01, 32비트 SDK15와 64비트 SDK17 분리.
+               2026-10-19 CodexOrig : TASK-025 공통 프로젝트 내부 Content도 버전별 링크 경로로 연결.
 -------------------------------------------------------------------------
 #>
 [CmdletBinding()]
@@ -46,10 +47,13 @@ foreach($target in @('2019','2022')) {
     $null=$sdkPath.AppendChild($tools)
     $firstSdkImport=$project.SelectSingleNode('//m:Import[contains(@Project,"Microsoft.VsSDK.targets")]',$namespace)
     $null=$firstSdkImport.ParentNode.InsertBefore($sdkPath,$firstSdkImport)
-    foreach($kind in @('Compile','Page','Resource','VSCTCompile','EmbeddedResource','None')) {
+    foreach($kind in @('Compile','Page','Resource','VSCTCompile','EmbeddedResource','None','Content')) {
         foreach($item in $project.SelectNodes('//m:'+ $kind +'[@Include]',$namespace)) {
             $relative=$item.GetAttribute('Include')
             if($relative -eq 'source.extension.vsixmanifest' -or $relative.StartsWith('$(')) {continue}
+            # 저장소 루트의 공용 문서·GIF는 각 SKU에서 같은 상대 경로를 유지한다.
+            # 공통 제품 안의 Content(예: 라이선스)는 다른 SKU에서 공통 소스로 연결한다.
+            if($kind -eq 'Content' -and ($relative.Replace('/','\').StartsWith('..\..\') -or [IO.Path]::IsPathRooted($relative))) {continue}
             $item.SetAttribute('Include','..\VS2017.AIAssistant\'+$relative)
             if(!$item.SelectSingleNode('m:Link',$namespace)){
                 $link=$project.CreateElement('Link',$project.DocumentElement.NamespaceURI)

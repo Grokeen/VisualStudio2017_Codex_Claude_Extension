@@ -275,6 +275,7 @@ namespace VS2017.AIAssistant.Chat
     /// update date  : 2026-10-18 CodexOrig : TASK-014 대화 목록 폭·표시 여부를 이전 설정과 호환되게 보관.
     /// update date  : 2026-10-18 CodexOrig : TASK-016 문서 첨부·모델 설정·AI 역할 협업과 실패 복구 흐름 연결.
     ///                2026-10-18 CodexOrig : TASK-020 명시적인 네이티브 전체 액세스 설정 추가.
+    ///                2026-10-19 CodexOrig4 : 화면 테마 auto/light/dark 설정을 이전 파일과 호환되게 보존.
     /// </summary>
     /// ---------------------------------------------------------------------
     public sealed class AssistantSettings
@@ -285,6 +286,8 @@ namespace VS2017.AIAssistant.Chat
         public string ClaudeModel { get; set; } = "";
         public string Instructions { get; set; } = "";
         public double FontSize { get; set; } = 14;
+        // TASK-024 CodexCode : 비밀 없는 표시 선택만 저장하며 이전 JSON은 IDE 우선 자동 모드를 따른다.
+        public string ThemeMode { get; set; } = "auto";
         // 이전 설정 파일에 항목이 없으면 첫 실행 안내를 표시한다.
         public bool HideWelcome { get; set; }
         public string CodexEffort { get; set; } = "auto";
@@ -404,12 +407,14 @@ namespace VS2017.AIAssistant.Chat
         /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// update date  : 2026-10-18 CodexOrig : TASK-014 대화 목록 폭의 유한 범위 검사 추가.
         /// update date  : 2026-10-18 CodexOrig : TASK-016 문서 첨부·모델 설정·AI 역할 협업과 실패 복구 흐름 연결.
+        ///                2026-10-19 CodexOrig4 : 테마 모드의 허용값을 검사하여 잘못된 저장값을 거부.
         /// </summary>
         /// ---------------------------------------------------------------------
         private static void Validate(AssistantSettings settings)
         {
             if (settings == null || double.IsNaN(settings.HistoryWidth) || settings.HistoryWidth < 140 || settings.HistoryWidth > 420 || double.IsNaN(settings.FontSize) || settings.FontSize < 10 || settings.FontSize > 28 ||
                 settings.Instructions == null || settings.Instructions.Length > 8000 ||
+                !new[] { "auto", "light", "dark" }.Contains(settings.ThemeMode) ||
                 !new[] { "standard", "fast" }.Contains(settings.CodexSpeed) || !new[] { "standard", "fast" }.Contains(settings.ClaudeSpeed) ||
                 new[] { settings.CodexPath, settings.ClaudePath, settings.CodexModel, settings.ClaudeModel }.Any(s => s == null || s.Length > 4096))
                 throw new InvalidDataException("저장된 설정 형식이나 값이 올바르지 않습니다.");

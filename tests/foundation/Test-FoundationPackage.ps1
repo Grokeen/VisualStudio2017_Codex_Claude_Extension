@@ -8,6 +8,7 @@ create date  : 2026-10-17
 update date  : 2026-10-18 CodexCode : 소스 편집 UI의 기본 승인 상태와 전체 화면 렌더링 검증.
 update date  : 2026-10-18 CodexOrig : 고정 DLL·VSIX 지정과 밝은/어두운 호스트의 제품 검정 팔레트 검증.
                2026-10-18 CodexOrig : IDE SDK 제외를 유지하며 WebView2 managed 3개와 native loader 3개만 동봉 허용.
+               2026-10-19 CodexOrig : Markdown 편집기 한 DLL·MIT 및 고객 GIF/PNG 동봉 검사.
 -------------------------------------------------------------------------
 .SYNOPSIS
     Requires a completed build and Windows PowerShell 5.1 (full Framework, STA).
@@ -64,8 +65,14 @@ try {
     $extraDlls = @($archive.Entries | Where-Object {
         $_.FullName -like '*.dll' -and $_.FullName -ne 'VS2017.AIAssistant.dll'
     })
-    $allowedRuntimeDlls = @('Microsoft.Web.WebView2.Core.dll','Microsoft.Web.WebView2.Wpf.dll','Microsoft.Web.WebView2.WinForms.dll','runtimes/win-x86/native/WebView2Loader.dll','runtimes/win-x64/native/WebView2Loader.dll','runtimes/win-arm64/native/WebView2Loader.dll')
-    Assert-FoundationCondition ($extraDlls.Count -eq $allowedRuntimeDlls.Count -and @($extraDlls | Where-Object { $_.FullName -notin $allowedRuntimeDlls }).Count -eq 0 -and @($extraDlls.FullName | Select-Object -Unique).Count -eq $allowedRuntimeDlls.Count) 'Only the six required WebView2 runtime DLLs are bundled; IDE SDK DLLs remain excluded'
+    $allowedRuntimeDlls = @('ICSharpCode.AvalonEdit.dll','Microsoft.Web.WebView2.Core.dll','Microsoft.Web.WebView2.Wpf.dll','Microsoft.Web.WebView2.WinForms.dll','runtimes/win-x86/native/WebView2Loader.dll','runtimes/win-x64/native/WebView2Loader.dll','runtimes/win-arm64/native/WebView2Loader.dll')
+    Assert-FoundationCondition ($extraDlls.Count -eq $allowedRuntimeDlls.Count -and @($extraDlls | Where-Object { $_.FullName -notin $allowedRuntimeDlls }).Count -eq 0 -and @($extraDlls.FullName | Select-Object -Unique).Count -eq $allowedRuntimeDlls.Count) 'Only AvalonEdit and six WebView2 runtime DLLs are bundled; IDE SDK DLLs remain excluded'
+    Assert-FoundationCondition ($null -ne $archive.GetEntry('Resources/ThirdParty/AvalonEdit/LICENSE.txt')) 'AvalonEdit MIT license is included'
+    foreach ($name in @('01-connect','02-request','03-review','04-guide','05-install')) {
+        foreach ($extension in @('gif','png')) {
+            Assert-FoundationCondition ($null -ne $archive.GetEntry("Resources/GuideMedia/$name.$extension")) "Customer guide media is included: $name.$extension"
+        }
+    }
     $manifestReader = New-Object IO.StreamReader($archive.GetEntry('extension.vsixmanifest').Open())
     try { [xml]$manifest = $manifestReader.ReadToEnd() } finally { $manifestReader.Dispose() }
     Assert-FoundationCondition ($manifest.PackageManifest.Assets.Asset.Path -eq 'VS2017.AIAssistant.pkgdef') 'VsPackage asset resolves to the packaged pkgdef'
@@ -129,6 +136,7 @@ try {
 
     $controlType = $extensionAssembly.GetType('VS2017.AIAssistant.Views.AssistantControl', $true)
     $control = [Activator]::CreateInstance($controlType)
+    $controlType.GetMethod('RestoreThemeMode', [Reflection.BindingFlags]'Instance,NonPublic').Invoke($control, [object[]]@('dark'))
     Assert-FoundationCondition ($null -ne $control.Content) 'Compiled WPF view initializes'
     Assert-FoundationCondition ($null -ne $control.FindName('ProviderChoice')) 'Source editing provider selector exists'
     Assert-FoundationCondition ($control.FindName('ReviewApproval').IsChecked -eq $false) 'Editing approval starts unchecked'
@@ -147,7 +155,7 @@ try {
             $control.UpdateLayout()
             # 실제 WPF 메시지 루프처럼 테마·바인딩·렌더 무효화를 처리한 뒤 캡처한다.
             $control.Dispatcher.Invoke([Action]{}, [Windows.Threading.DispatcherPriority]::Render)
-            Assert-FoundationCondition ($control.Background.Color.R -lt 60 -and $control.Foreground.Color.R -gt 200) "$theme IDE host preserves consistent black palette at width $width"
+            Assert-FoundationCondition ($control.Background.Color.R -lt 60 -and $control.Foreground.Color.R -gt 200) "$theme IDE host preserves the explicitly selected Dark palette at width $width"
             Assert-FoundationCondition ($control.FindName('ReviewApproval').Content.Foreground -eq $control.Foreground) "$theme approval label remains readable at width $width"
             Assert-FoundationCondition ($control.FindName('SettingsPanel').Foreground -eq $control.Foreground -and $control.FindName('ReviewPanel').Foreground -eq $control.Foreground) "$theme settings and review headers remain readable at width $width"
             $bitmap = New-Object Windows.Media.Imaging.RenderTargetBitmap($width, $height, 96, 96, [Windows.Media.PixelFormats]::Pbgra32)

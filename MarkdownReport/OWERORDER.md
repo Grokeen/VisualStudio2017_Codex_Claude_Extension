@@ -1,4 +1,4 @@
-﻿# 개발·검증 보고
+# 개발·검증 보고
 
 ## TASK-003 — CodexOrig / 2026-10-18 01:33:36 KST
 
@@ -257,3 +257,99 @@ Role추가1~11·이미지24~27·2차감사를반영했습니다. 후보11의세�
 ### TASK-020 배포 완료 — 2026-10-18 23:34:37 KST
 
 v0.9.0을GitHub main(6174d0b)에배포했습니다. 세IDE각100·전체16묶음2회·실제hover55/PDF50/Default GPU56을포함한최종검증완료,원격8파일SHA도전부일치합니다. 재현은최상위실행기,설치는releases/v0.9.0의해당VSIX,세부보고·원격근거는CodexOrig_TASK-020.md 및_Deployment.json입니다. 총경과5시간17분(활성화대기포함). 모든작업자종료후배포했고제품편집/GUI/검증작업을종료합니다.
+
+
+## TASK-027 / CodexOrig3 문서 보완 보고 / 2026-10-19 01:11:19 KST
+
+Role전체·23:45추가15항목과2차감사를확인하여문서전용별도경로에서설명GIF6개·PNG13개·10쪽PDF와동일본문Markdown을만들었습니다. docs/visual-guide-orig3/gallery.html에서재생/정지를선택하고, output/화면안내_문서보완자료.zip에서한묶음으로확인하실수있습니다. 개발자_적용요청.md에D01~D09와원문15대응표/README삽입문안을작성하고Role끝에문서검토제안을추가해025직접메시지·WORK_STATUS로인계했습니다.
+
+PDF전10쪽렌더·본문일치·그림픽셀·GIF16프레임·상대링크·ZIP24항목검사완료,기존고객원본22파일SHA불변입니다. 검토본표시와실제제품캡처아님을명시했습니다. 제품소스·공유build·GUI·설치/인증·Git배포는수행하지않았습니다. 제품적용확인은024/026/025담당이며상세보고 CodexOrig3_TASK-027.md, 근거 artifacts/visual-guide-orig3/validation.json·qa.json입니다. 기록기준 0:17:21 소요,문서편집종료/동결합니다.
+
+## TASK-026 / CodexOrig4 보고 — 2026-10-19 01:33:40 KST
+요청사항15 담당 구현과 자체 검증을 마쳤습니다. UI 통일성을 우선하여 공통 팔레트·자동(VS→Windows)·Light/Dark 선택·저장/복구와 메뉴/팝업/툴팁/진행 표시/Markdown 색상 전환을 연결했습니다. SDK15 독립 제품 사본에서31/31, 소스11·151·19는 각각 통과했으며 수치를 합산하지 않았습니다. 최초 SDK 실패와 옛 제품의Markdown 전환4실패는 삭제하지 않았습니다.
+- 재현: powershell.exe -NoLogo -NoProfile -STA -ExecutionPolicy Bypass -File tests/task026/Test-Task026.ps1 -AssemblyPath <정식SKU DLL> -OutputDirectory <새 폴더>
+- 담당 통합자 TASK025께 정식3SKU DLL에서 같은31개, 실제 IDE의Auto/Light/Dark·열린 모델 팝업·설정 취소 복구를 확인하도록 인계했습니다. theme-probe1은 진단용 사본이고 최종 배포 합격은 아닙니다.
+- 환경·운영: 설치된 VS2017 Roslyn/.NET462·복원 SDK15/17을 사용했고 새 설치/개인 로그인/Windows·IDE 전역 테마 변경0입니다. 제품 소유14파일은 theme-freeze4로 편집 종료, 검사·보고만 인계합니다. 전체 작업/감사 종료 전 Git 배포하지 않습니다.
+
+## TASK-024 / CodexCode 고정 DLL 검증 인계 및 실제 입력 대기 / 2026-10-19 01:46:31 KST
+
+추가원문15와첨부이미지를반영해Markdown답변·전체작성기·스크롤가능변경상세·좁은대화목록차폐·요약/접이안내와GIF5/PNG5·고정돌아가기·버튼정리·공식계정로그인화면을수정했습니다. 테마026및문서027과분담했고README에실제WPF합성예시와보완설명서링크를구분해넣었습니다. 사용자암호를수집하지않고공식CLI/브라우저인증을사용합니다.
+
+최종candidate3 VS2017Release SHA26FEF3E2...01CE52A에서신규5그룹196/196과별도테마31/31을확인했습니다. 계산량보안SC024-01·손상GIF→PNG·기존Markdown색전환도포함되며실계정/설치/유료AI는실행하지않았습니다. 재현은 tests/task024/Test-Task024.ps1 -AssemblyPath <고정DLL> -OutputDirectory <새폴더>, 테마는 tests/task026/Test-Task026.ps1 입니다. 상세보고 CodexCode_TASK-024.md·_SecureCoding.md·_Validation.json, 근거 artifacts/task024/actual-candidate3-final/summary.json 입니다.
+
+구현·비표시검사단계00:17:49~01:43:53,경과1시간26분04초(대기포함)입니다. **전체작업은아직미완료**이며Screen-saver/오류5때문에실제hover28및GIF창수명검사는실행하지못했습니다. 잠금해제질문은이미전달했고강제전환없이대기합니다. 입력가능Defaultdesktop에서GUI단독예약후 Test-ChangeHover.ps1 -UseNativePointer 및 Test-GuidePlayback.ps1을동일DLL로수행할계획입니다.025는세SKU·IDE·기존Orig2감사를계속진행하며모든작업·감사완료전GitHub배포를보류합니다. 제품/검사/자산은동결했고기존감사·설치원본26파일도보존됐습니다.
+
+## TASK-024 / CodexCode 실제 마우스·GIF 검증 완료 인계 / 2026-10-19 02:34:32 KST
+
+잠금해제응답후Default데스크톱과정상커서를확인했고,025에게GUI를인계받아C4 **SHA1B544BA4...B7398BD**로실제hover·휠28/28과GIF창수명24/24를통과했습니다. Native24·합성2·구조/수명2조건을구분했고,배경휠누수없음/핀·Escape·닫힘정리와5GIF프레임진행·접힘/재열기/창종료/Dispose타이머정지를확인했습니다.02:30:52검사창과GUI예약을전부해제했습니다. 같은C4의기능202/202·테마31/31도통과했으며원본·사본해시는불변입니다.
+
+재현은 tests/task024/Test-ChangeHover.ps1 -UseNativePointer 및 Test-GuidePlayback.ps1에같은고정DLL과각각새OutputDirectory를지정합니다(WindowsPowerShell -NoProfile -STA). 기능전체는Test-Task024.ps1입니다. 두검사PS의UTF8BOM만복원해파싱전제문제를해소했고최초147/2기록을보존했습니다.검사결과/프레임관찰/PNG시각검토는CodexCode_TASK-024.md·SecureCoding·Validation및artifacts/task024/에연결했습니다.
+
+이번검증완료까지경과2시간12분49초(00:17:49~02:30:38,입력·협업대기포함)입니다. 잠금전제는해소됐으나전체프로젝트완료는아닙니다. TASK025/028에서원본작성기기능차이R3-03후속·전체16·실제3IDE·독립3차감사와최종배포를계속확인합니다. 제품소스·자산편집/설치/실인증/유료AI/Git0이며감사·전원완료전배포보류를유지합니다.
+
+## TASK-028 / CodexOrig2 3차 감사 보고 / 2026-10-19 02:39:16 KST
+
+C3에서발견한상대문서링크오이동과SQL미리보기색누락은C4에서직접수정확인했습니다. 개인사본의실제품202/202·각SKU테마31/31·build-entry16/16,이전C3native67/67 통과,3VSIX선택파일과기존보호원본26개SHA도확인했습니다. 실제hover28/GIF24는TASK024실행근거를읽어구분했습니다.
+
+전체반영판정은보류합니다. R3-03 문서목록/현재저장/이름변경·삭제·위치열기/참조형링크·HTML미리보기의원본대비차이가C4에남아있어025후속보완·새후보검사가필요합니다. 최종전체16·실제3IDE·실계정/운영미검증도별도로남겼습니다. 제품수정/공유build/GUI/배포0입니다.
+
+보고서 CodexOrig2_TASK-028_Audit3.md·검증 _Evidence.json, 근거 artifacts/audit-codexorig2-round3/와개인사본 C:/dydgyqud/AO28_20261019 입니다. 재현: tests/task024/Test-Task024.ps1 또는 tests/task026/Test-Task026.ps1에고정DLL과새출력폴더지정;독립probe는감사근거의C3/C4소스를개인tests/task028에두고Invoke-AuditProbe.ps1실행합니다. Role말미반영지시추가/원문byte보존확인,경과 00:47:30 (대기포함),감사산출편집종료·025후속인계합니다.
+
+## TASK-029 / CodexOrig3 문서 후속 / 2026-10-19 02:49:12 KST
+
+- Role.md와 3차 감사 R3-03에 따라 사용자용 Markdown 작성기 부록을 별도 제작했다. Markdown과 PDF에서 기능·설명 범위를 맞추고 7개 설명 도식을 넣었다. README/USER_GUIDE에 짧은 안내와 링크를 반영했다.
+- PDF 8쪽을 Poppler로 렌더하여 검토했으며 ZIP에 PDF·MD·PNG 7개를 포함했다. 이 자료는 candidate6 확인 기준의 검토 부록이며, 통합 회귀와 최종 설치 패키지 대조 후 고객용 최종판으로 승격해야 한다.
+- TASK-025에서 TASK-027로 인계한 문서 범위에서 편집했다. 제품 소스·기존 CLI 설치 MD/BAT/PDF/ZIP 변경 0. 후속 후보 확정 후 사용자 문서 소유자/TASK025가 실제 라벨과 지원 범위를 재대조한다.
+
+## TASK-026 / CodexOrig4 / 감사 후 문서 UI 보완 보고 — 2026-10-19 02:53:22 KST
+
+좁은 문서 목록에서 입력란과 파일 버튼이 겹치는 실제C6 결함을 수정했습니다. 기존 패널을 내부세로스크롤로 감싸320/480폭에서도 이름변경·파일위치·삭제확인·취소를 접근할 수 있습니다. 양모드 기존공용스타일은 정상상속해 추가팔레트 변경없음. 소유인계받은 Documents.cs UI 한메서드만수정했고 제품파일 소유는025에반납했습니다.
+
+최종 독립소스 컴파일/검사117/117 PASS이며 실제제품성공과구분합니다. 새제품은 powershell.exe -NoProfile -NonInteractive -STA -ExecutionPolicy Bypass -File tests/task026/Test-DocumentUi.ps1 -AssemblyPath <고정DLL> -OutputDirectory <새경로> 로 재검사할 수 있습니다. SourceOnly스위치없이실행하면 제품SHA가결과에연결됩니다. 최초C6실패9/6·소스117원문과PNG는 artifacts/task026 에보존했습니다. 새제품/전체16/실제3IDE·감사HTML후속은025통합범위입니다.
+
+상세 MarkdownReport/CodexOrig4_TASK-026_Audit3UI.md 및 _Validation.json, 최종코드/검사동결 artifacts/task026/audit3-ui-freeze2.json. 경과 00:07:11 (등록기준). 실제창/마우스/개인파일/외부네트워크/공유build/배포0.
+## TASK-028F1 / CodexOrig2 C6 후속 감사 보고 / 2026-10-19 02:55:39 KST
+
+문서 관리·현재 저장·거부/잠금 실패 보호와 참조형 링크/로컬 이미지는 C6에서 보완 확인했습니다. 기능218/218과 세 패키지 핵심23파일씩의 해시 일치를 직접 확인했습니다. 별도21문서는14통과/7실패로, 지원 HTML의 블록 경계·엔티티/완전문서·표 제한 초과 시 생략 안내에 차이가 남습니다. SC024-02 삭제 확인 수명 및 좁은폭 UI 보정도 새 최종 DLL에 연결해야 합니다. R3-03은 미종결로 인계합니다.
+
+보고 CodexOrig2_TASK-028_Followup_C6.md, 검증 _Evidence.json. 재현 입력7개와 최종 AuditC6Probe.final.cs/Invoke-AuditC6Probe.ps1은 artifacts/audit-codexorig2-followup-c6/에 보존했습니다. final.cs를 개인 tests/task028f1/AuditC6Probe.cs로 두고 고정 DLL과 새 출력폴더로 wrapper를 실행하면 됩니다. 제품수정/공유build/GUI/배포0이며 기존 TASK028·1/2차 감사 SHA와 Role의 기존 전체 바이트를 보존했습니다. Role은 Orig3 문서 안내만 동시 append됐고 감사자 편집은 없습니다. 경과 00:09:41, 이번 감사 산출 편집 종료입니다.
+
+## TASK-030 / CodexOrig3 candidate7 사용자 매뉴얼 / 2026-10-19 03:08:26 KST
+
+- candidate7의 접이식 목록/좁은 화면 스크롤/현재 열린 문서 관리/확인 삭제와 취소 보존을 새 개정에 반영했다. HTML 정적 안전범위·128×16 표 한도/생략 안내도 갱신.
+- 세 SKU의 제품 DLL 오프스크린 UI 117/117씩, TASK028F2의 HTML21/21을 확인했다. 최초 105/108 테스트 전제 실패/그림을 보존하고 재귀 assertion 수정 후의 성공 결과로 교체 기록했다. 실제 IDE가 열린 캡처는 아님.
+- 새 PDF 10쪽 렌더·시각 검토, 그림 10개, Markdown/검토 ZIP 생성. 이전 TASK-029 PDF/ZIP 및 CLI 설치 파일, 제품 코드 불변. README 버전/다운로드 링크는 TASK025 소유라 유지.
+- 상세 해시·경로: MarkdownReport/CodexOrig3_TASK-030.md 및 _Evidence.json. 세 IDE 통합 확인 완료 전 고객 최종판으로 표시하지 않는다.
+
+## TASK-028F2 / CodexOrig2 후보7 감사 보고 / 2026-10-19 03:12:09 KST
+
+C6의 HTML7사례는 C7 세SKU 동일21검사에서 전부 수정 확인했습니다. 세SKU 보안23·문서UI117과 VS2017기능226도 직접 통과해 삭제 확인 승계와 좁은 UI 지적을 종결합니다. 추가 지원 경계에서 일반 Markdown 표17번째 열이 안내 없이 생략되는 R3-03F4를 새로 재현했습니다. 이1건과 C7 실제hover anchor click1실패 원인 구분·최종3IDE는 남겨 인계합니다. 전체 R3-03 완료/배포 승인이 아닙니다.
+
+보고 CodexOrig2_TASK-028_Followup_C7.md·검증 _Evidence.json, 근거 artifacts/audit-codexorig2-followup-c7/. 같은21은 기존 Invoke-AuditC6Probe.ps1에 C7 고정DLL과 새 출력폴더를 지정하고, 신규1사례는 Invoke-AuditLimitProbe.ps1로 재현합니다. 이전 감사/실패와 Role 기존 바이트 보존, 말미 반영 지시 추가 완료입니다. 경과 00:09:21, 감사 산출 편집 종료·제품/공유build/GUI/배포0입니다.
+
+## TASK-031 / CodexOrig5 / 사용자 확대 검토 보고 — 2026-10-19 03:15:05 KST
+
+공식자료와 현재구현을 비교한 연구 보고를 완료했습니다. 우선 고객은 구버전 Visual Studio를 유지하는 .NET·C++ 팀으로 제안합니다. 출시버전과 설명 일치·실제Claude 검증범위·연결진단·프로젝트조건/빌드오류 문맥을 우선하고 범용문서·장식·제공자 추가확대는 수요확인 뒤로 두었습니다. 연구가설과 실측 결과를 구분했습니다.
+
+보고 MarkdownReport/CodexOrig5_TASK-031.md, 개발요청 _DevelopmentRequests.md, 문서검증 _Validation.json입니다. 문서26항목과 내부링크22개가 통과했습니다. 검증JSON의 pass/checks/local_links/reference_snapshot에서 재확인할 수 있습니다. 제품 실행 검사는 통합담당자의 고정C7 증거를 참고하며 연구자가 재실행한 것으로 집계하지 않았습니다.
+
+CodexOrig에게 DR01 현재배포 안내일치와 DR02~04 다음주기 기능검토를 실제 메시지로 전달했습니다. 제품소스·기존사용자문서는 편집하지 않았고 빌드·GUI·계정호출·배포는 수행하지 않았습니다. 등록기준 경과 00:08:05, 문서작업 종료입니다.
+## TASK-028F3 / CodexOrig2 최종 감사 확인 인계 / 2026-10-19 03:19:27 KST
+
+후보8에서 F4 원래17열 Markdown과15/16/17열·본문만초과·literal pipe 경계가 세SKU 모두 통과했습니다. 기존21/보안23/문서UI117도 세SKU에서 직접 통과했고2017기능231/231도 확인했습니다. 이번 구체적 감사지적은 해소됐으며 추가 수정 지적은 없습니다. C8 제품 변경은renderer 한 파일, 입력120개·패키지 선택23파일씩 SHA 일치입니다.
+
+보고 CodexOrig2_TASK-028_Followup_C8.md·검증 _Evidence.json. 원래 probe는 tests/task028limits/Invoke-AuditLimitProbe.ps1, 경계6개는 tests/task028boundary/Invoke-AuditBoundaryProbe.ps1에 고정C8 DLL과 새 출력폴더를 지정해 개인 사본에서 재현합니다. 검사 소스·입력은 artifacts/audit-codexorig2-followup-c8/에 보존했습니다. Role에 확인/인계만 append했고 과거 감사·원본은 유지했습니다. C7 물리실패 당시 원인은 미확정으로 기록하고 C8 GUI성공은 담당 실행 자료로 구분합니다. 최종전체16·실제3IDE·문서/버전/배포는025가 별도 마감합니다. 경과 00:05:55, 감사자의 전체 산출·검증 작업 종료/제품·공유build·GUI·배포0입니다.
+
+## TASK-024F1 / CodexCode 3차 감사 후속 검증 완료 인계 / 2026-10-19 03:22:59 KST
+
+추가지시중독립보안회귀·새후보실행·동봉자산/라이선스·로그인범위보존을담당했습니다. 파일잠금·충돌·초안/선택/이미지기준보존과안전HTML/참조경계등23검사를추가했고,삭제확인이다른문서에남는SC024-02를C6에서재현했습니다.025가확인초기화와대상경로결합을수정한뒤C8세버전각23/23으로확인했습니다. 원본/runtime/VSIX의GIF5PNG5·MIT·제품/AvalonDLL동일성검사도추가했습니다.
+
+최종담당C8은기능231/231·각3SKU보안23/23/테마31/31/미디어10파일동일,실제hover28/28·GIF창수명24/24를통과했습니다.03:14:59GUI를해제했고입력사본/원본/기존감사/설치자료를보존했습니다. 최초C7클릭18/1은원인미확정기록을유지하며,기대값·대기·전송변경없이추적만추가한C8에서는정확좌표와down/up/click1을관측했습니다. 재현되지않은성공을원인해결로표현하지않았습니다.
+
+재현: tests/task024/Test-MarkdownAuditFollowup.ps1 -AssemblyPath <고정DLL> -OutputDirectory <새폴더>, Test-GuideBundleIntegrity.ps1은동일DLL/VSIX를함께지정합니다. 기존Test-Task024·Test-Task026·Test-ChangeHover -UseNativePointer·Test-GuidePlayback도같은C8에연결했습니다. 상세CodexCode_TASK-024_Audit3_Followup.md/_Audit3_Validation.json와audit3-final-result-receipts.json입니다.
+
+이번담당후속02:41:26~2026-10-19 03:22:59,마감까지경과00:41:33 (대기포함),실행검증까지33분00초입니다. **024제품/검사/보고편집종료·담당후속완료**이며최종전체16·실제3IDE·감사불확실성판정·GitHub배포/원격해시는TASK025/028담당입니다. 전체프로젝트/릴리스완료를주장하지않고전원마감전배포금지를유지합니다.
+
+## TASK-025 / CodexOrig / 최종 검증 보고 / 2026-10-19 03:24:57 +09:00ST
+
+v0.10.0 C8의 추가요청과 감사 지적을 보완했으며6빌드0/0·전체16·실제3IDE각133을 통과했습니다. Orig2 후속감사·Orig3 화면설명/PDF·테마/UI·독립검증·연구 담당의 종료를 확인했습니다. 재현은 최상위 실행기 --all --vsix releases/v0.10.0/VS2017.AIAssistant-0.10.0.vsix, 실행기 자체는 tests/launcher/Test-TestLauncher.ps1, 실제버전별 IDE는 tests/ide/Test-IdeIntegration.ps1에 설치폴더/VSIX를 지정합니다. 상세결과·패키지SHA·파일목록은 CodexOrig_TASK-025.md/_Validation.json. C7물리1회실패의미확정원인과실제Claude/운영연동미검증을명시했고원본을보존했습니다. 고객용0.10설치파일3종과README·GIF/안내·검사실행기를GitHub에게시후원격바이트를대조합니다.

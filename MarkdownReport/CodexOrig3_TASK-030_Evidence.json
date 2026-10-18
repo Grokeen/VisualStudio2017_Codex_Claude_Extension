@@ -1,0 +1,304 @@
+{
+  "Task": "TASK-030",
+  "CheckedAtKst": "2026-10-19 03:08:32",
+  "Candidate": "candidate7",
+  "SourceManifestSha256": "489FEC7A9D019E25120A62468F2E903BF66E1807DAD2F48D86D53C23E3214902",
+  "Packages": [
+    {
+      "Year": "2017",
+      "DllSha256": "9749270FFFA7053C2E4EC2FCCAF0D9DE2DEE09FA77FAD45228947CF3E064935F",
+      "VsixSha256": "8B85E27CB3A79DA2FC3687EB4313B842167CDE03534BEF2F01582A98B5D2BB7F"
+    },
+    {
+      "Year": "2019",
+      "DllSha256": "A7A4A5AA714FF168BBEE0A4BE949443C68D58620AA0D03CFED41D8B37A71C236",
+      "VsixSha256": "12B5CB9E5EDC3665B50BAF9C7B37D1743B5DB2C086C43A8DD2152586BD06A256"
+    },
+    {
+      "Year": "2022",
+      "DllSha256": "9A9DA74D84B3831D490052B97382BC09ACB5C7E6F50C3D7B7895FCB1005DFEA0",
+      "VsixSha256": "6D07724D297CFA1EBB802DB88F19BE9E40C52850C7AC4A15A96DE486B208AD66"
+    }
+  ],
+  "Builds": [
+    {
+      "Version": "2017",
+      "Configuration": "Debug",
+      "ExitCode": 0,
+      "Warnings": 0,
+      "Log": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task025\\build-candidate7-2017-Debug.log"
+    },
+    {
+      "Version": "2017",
+      "Configuration": "Release",
+      "ExitCode": 0,
+      "Warnings": 0,
+      "Log": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task025\\build-candidate7-2017-Release.log"
+    },
+    {
+      "Version": "2019",
+      "Configuration": "Debug",
+      "ExitCode": 0,
+      "Warnings": 0,
+      "Log": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task025\\build-candidate7-2019-Debug.log"
+    },
+    {
+      "Version": "2019",
+      "Configuration": "Release",
+      "ExitCode": 0,
+      "Warnings": 0,
+      "Log": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task025\\build-candidate7-2019-Release.log"
+    },
+    {
+      "Version": "2022",
+      "Configuration": "Debug",
+      "ExitCode": 0,
+      "Warnings": 0,
+      "Log": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task025\\build-candidate7-2022-Debug.log"
+    },
+    {
+      "Version": "2022",
+      "Configuration": "Release",
+      "ExitCode": 0,
+      "Warnings": 0,
+      "Log": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task025\\build-candidate7-2022-Release.log"
+    }
+  ],
+  "DocumentUi": [
+    {
+      "Year": "2017",
+      "ResultPath": "artifacts/task025/document-ui-candidate7-fixture-fixed/result.json",
+      "Passed": 117,
+      "Failed": 0,
+      "Succeeded": true,
+      "ProductAssemblySha256": "9749270FFFA7053C2E4EC2FCCAF0D9DE2DEE09FA77FAD45228947CF3E064935F",
+      "SourceOnly": false,
+      "WindowShown": false,
+      "ActualIdeTested": false
+    },
+    {
+      "Year": "2019",
+      "ResultPath": "artifacts/task025/document-ui-candidate7-2019/result.json",
+      "Passed": 117,
+      "Failed": 0,
+      "Succeeded": true,
+      "ProductAssemblySha256": "A7A4A5AA714FF168BBEE0A4BE949443C68D58620AA0D03CFED41D8B37A71C236",
+      "SourceOnly": false,
+      "WindowShown": false,
+      "ActualIdeTested": false
+    },
+    {
+      "Year": "2022",
+      "ResultPath": "artifacts/task025/document-ui-candidate7-2022/result.json",
+      "Passed": 117,
+      "Failed": 0,
+      "Succeeded": true,
+      "ProductAssemblySha256": "9A9DA74D84B3831D490052B97382BC09ACB5C7E6F50C3D7B7895FCB1005DFEA0",
+      "SourceOnly": false,
+      "WindowShown": false,
+      "ActualIdeTested": false
+    }
+  ],
+  "IndependentHtmlAudit": [
+    {
+      "Year": "2017",
+      "ResultPath": "artifacts/audit-codexorig2-followup-c7/probe-2017-result.json",
+      "Passed": 21,
+      "Failed": 0,
+      "Succeeded": true,
+      "ProductAssemblySha256": "9749270FFFA7053C2E4EC2FCCAF0D9DE2DEE09FA77FAD45228947CF3E064935F"
+    },
+    {
+      "Year": "2019",
+      "ResultPath": "artifacts/audit-codexorig2-followup-c7/probe-2019-result.json",
+      "Passed": 21,
+      "Failed": 0,
+      "Succeeded": true,
+      "ProductAssemblySha256": "A7A4A5AA714FF168BBEE0A4BE949443C68D58620AA0D03CFED41D8B37A71C236"
+    },
+    {
+      "Year": "2022",
+      "ResultPath": "artifacts/audit-codexorig2-followup-c7/probe-2022-result.json",
+      "Passed": 21,
+      "Failed": 0,
+      "Succeeded": true,
+      "ProductAssemblySha256": "9A9DA74D84B3831D490052B97382BC09ACB5C7E6F50C3D7B7895FCB1005DFEA0"
+    }
+  ],
+  "AuditReport": "MarkdownReport/CodexOrig2_TASK-028_Followup_C7.md",
+  "InitialUiFailure": "artifacts/visualguide-orig3/candidate7-document-ui/result.json (105/108; obsolete top-level Table lookup; preserved)",
+  "CorrectedUiCheckCodeSha256": "A626AF86047F608B729D57F33DD58F9B28543D615D14A33EE480B01EEE0AF97E",
+  "RenderCapture": {
+    "ActualIdeTested": false,
+    "SourceDllSha256": "9749270FFFA7053C2E4EC2FCCAF0D9DE2DEE09FA77FAD45228947CF3E064935F",
+    "ScreenshotFiles": [
+      "images/08-candidate7-wide.png",
+      "images/09-candidate7-narrow.png"
+    ],
+    "OutputRoot": "C:/Temp/MarkdownManualC7-fixed",
+    "Result": "117/117",
+    "WindowShown": false
+  },
+  "Pdf": {
+    "Path": "output/pdf/Markdown작성기_사용설명서_C7.pdf",
+    "RenderDirectory": "tmp/pdfs/markdown-manual-c7-review3",
+    "Pages": 10,
+    "VisualReview": "10/10 pages rendered; contact sheet and page 10 reviewed"
+  },
+  "ZipEntries": [
+    {
+      "Path": "Markdown작성기_C7_검토자료/Markdown작성기_사용설명서_C7.pdf",
+      "Length": 459185
+    },
+    {
+      "Path": "Markdown작성기_C7_검토자료/README.txt",
+      "Length": 688
+    },
+    {
+      "Path": "Markdown작성기_C7_검토자료/Markdown/Markdown작성기_사용설명서_C7.md",
+      "Length": 8845
+    },
+    {
+      "Path": "Markdown작성기_C7_검토자료/Markdown/images/01-entry.png",
+      "Length": 31976
+    },
+    {
+      "Path": "Markdown작성기_C7_검토자료/Markdown/images/02-views.png",
+      "Length": 21180
+    },
+    {
+      "Path": "Markdown작성기_C7_검토자료/Markdown/images/03-tools.png",
+      "Length": 29346
+    },
+    {
+      "Path": "Markdown작성기_C7_검토자료/Markdown/images/04-files.png",
+      "Length": 32535
+    },
+    {
+      "Path": "Markdown작성기_C7_검토자료/Markdown/images/05-save.png",
+      "Length": 31756
+    },
+    {
+      "Path": "Markdown작성기_C7_검토자료/Markdown/images/06-links.png",
+      "Length": 33581
+    },
+    {
+      "Path": "Markdown작성기_C7_검토자료/Markdown/images/07-scope.png",
+      "Length": 38033
+    },
+    {
+      "Path": "Markdown작성기_C7_검토자료/Markdown/images/08-candidate7-wide.png",
+      "Length": 38846
+    },
+    {
+      "Path": "Markdown작성기_C7_검토자료/Markdown/images/09-candidate7-narrow.png",
+      "Length": 30205
+    },
+    {
+      "Path": "Markdown작성기_C7_검토자료/Markdown/images/10-scroll-and-actions.png",
+      "Length": 44579
+    }
+  ],
+  "FileHashes": [
+    {
+      "Path": "docs/visual-guide-orig3/markdown-editor/revision-c7/Markdown작성기_사용설명서_C7.md",
+      "Length": 8845,
+      "Sha256": "168895E4350FA973465537B966A8E1695F58B7E80901D4AB578B12B7A39D130C"
+    },
+    {
+      "Path": "docs/visual-guide-orig3/markdown-editor/revision-c7/README.md",
+      "Length": 1114,
+      "Sha256": "8531BCF6A4DB0B767DE9E51B0217EF8346C52C959DC48B463F07725B494C30C1"
+    },
+    {
+      "Path": "docs/USER_GUIDE.md",
+      "Length": 36369,
+      "Sha256": "E5D6D32D8A97596EECEA825710BA178CA0764088C44AAA2BC882E89C9AF3EDB5"
+    },
+    {
+      "Path": "README.md",
+      "Length": 14482,
+      "Sha256": "FDD00CA1204204DB985FC4EE7A347BAB30F9D483D3A36D4D43D5FE2FA8B16D2D"
+    },
+    {
+      "Path": "MarkdownReport/Role.md",
+      "Length": 31145,
+      "Sha256": "200EF1F7186768B1687A600FAA05C51DE1C31685C7844D0CADF2898775271D98"
+    },
+    {
+      "Path": "MarkdownReport/CodexOrig3_TASK-030.md",
+      "Length": 4569,
+      "Sha256": "3CACE5C1D2D066864ED8AB251AEE8CE6B60D39416C9A5A294D24B7D68AEDB368"
+    },
+    {
+      "Path": "output/pdf/Markdown작성기_사용설명서_C7.pdf",
+      "Length": 459185,
+      "Sha256": "EF6C8A3B5BE274F6FDAB77FBA6E07221F9E33B13E85B574380625EB0E3AF5453"
+    },
+    {
+      "Path": "output/Markdown작성기_C7_사용설명서_검토용.zip",
+      "Length": 674859,
+      "Sha256": "019E8BF35FB07A5E36D48EFC2E162EC9C35A0C7DDB1CC5747BA6B6B7DC542F64"
+    },
+    {
+      "Path": "docs\\visual-guide-orig3\\markdown-editor\\revision-c7\\images\\01-entry.png",
+      "Length": 31976,
+      "Sha256": "5CB33D0BA5501DEBBE4CC3DD5D326799089F9F6CD2F9E0641EBBF1DF958B229A"
+    },
+    {
+      "Path": "docs\\visual-guide-orig3\\markdown-editor\\revision-c7\\images\\02-views.png",
+      "Length": 21180,
+      "Sha256": "37F68D9BEBBD237640614761E895DC56415D3EDE5F49F1C15658B7DC065FD0FF"
+    },
+    {
+      "Path": "docs\\visual-guide-orig3\\markdown-editor\\revision-c7\\images\\03-tools.png",
+      "Length": 29346,
+      "Sha256": "C3031E77C75FC083B9F22D3D1C4989EB7786A385AC2BA9ACFE7973C9E85BC807"
+    },
+    {
+      "Path": "docs\\visual-guide-orig3\\markdown-editor\\revision-c7\\images\\04-files.png",
+      "Length": 32535,
+      "Sha256": "EA4A59987931127FE27A70AE4448567BEC282D1C8465F65D55726C956A0D8DA2"
+    },
+    {
+      "Path": "docs\\visual-guide-orig3\\markdown-editor\\revision-c7\\images\\05-save.png",
+      "Length": 31756,
+      "Sha256": "EA2D2BB34CA46C6A15D6003102130E53B265E817B6E0870BFD5A7707EB62B0D4"
+    },
+    {
+      "Path": "docs\\visual-guide-orig3\\markdown-editor\\revision-c7\\images\\06-links.png",
+      "Length": 33581,
+      "Sha256": "1550EF8D203B0BD3B0125AFE927FC118F1A4C32D63851261C70F6EBE517EBD41"
+    },
+    {
+      "Path": "docs\\visual-guide-orig3\\markdown-editor\\revision-c7\\images\\07-scope.png",
+      "Length": 38033,
+      "Sha256": "EE53E42BB8964E8407207F0FE9D81A6A24C88E16891645245C2852B966B7511A"
+    },
+    {
+      "Path": "docs\\visual-guide-orig3\\markdown-editor\\revision-c7\\images\\08-candidate7-wide.png",
+      "Length": 38846,
+      "Sha256": "F9FE323C7AC661EA363C8114567491A0AFDE2EBC79DE2DEF3C79FEF50EBE6D72"
+    },
+    {
+      "Path": "docs\\visual-guide-orig3\\markdown-editor\\revision-c7\\images\\09-candidate7-narrow.png",
+      "Length": 30205,
+      "Sha256": "735C79E8379C728869A09832F068CFF42FF8084A337B2D1484766B6B094DF683"
+    },
+    {
+      "Path": "docs\\visual-guide-orig3\\markdown-editor\\revision-c7\\images\\10-scroll-and-actions.png",
+      "Length": 44579,
+      "Sha256": "06D268B3FC21969D285C49125B6D095019FEE59952747A66022309840C766B10"
+    }
+  ],
+  "Scope": {
+    "ReadmeVersionOrDownloadChanged": false,
+    "ProductCodeModified": false,
+    "ActualIdeVerified": false,
+    "OriginalTask029ArtifactsChanged": false,
+    "GuiWindowOpened": false,
+    "SharedBuildUsed": false
+  },
+  "RoleSha256": "200EF1F7186768B1687A600FAA05C51DE1C31685C7844D0CADF2898775271D98",
+  "UiHarnessSha256": "A626AF86047F608B729D57F33DD58F9B28543D615D14A33EE480B01EEE0AF97E"
+}

@@ -1,0 +1,1201 @@
+{
+  "Task": "TASK-026",
+  "Owner": "CodexOrig4",
+  "ImplementationStatus": "ThemeImplementationValidated_IntegrationHandoff",
+  "ProductFreeze": "artifacts/task026/theme-freeze4.json",
+  "Policy": {
+    "Succeeded": true,
+    "Passed": 11,
+    "Failed": 0,
+    "Checks": [
+      {
+        "Name": "Auto: light IDE overrides dark Windows",
+        "Passed": true,
+        "Expected": "light",
+        "Actual": "light"
+      },
+      {
+        "Name": "Auto: dark IDE overrides light Windows",
+        "Passed": true,
+        "Expected": "dark",
+        "Actual": "dark"
+      },
+      {
+        "Name": "Auto: no IDE falls back to light Windows",
+        "Passed": true,
+        "Expected": "light",
+        "Actual": "light"
+      },
+      {
+        "Name": "Auto: no IDE falls back to dark Windows",
+        "Passed": true,
+        "Expected": "dark",
+        "Actual": "dark"
+      },
+      {
+        "Name": "Manual Light overrides dark IDE and Windows",
+        "Passed": true,
+        "Expected": "light",
+        "Actual": "light"
+      },
+      {
+        "Name": "Manual Dark overrides light IDE and Windows",
+        "Passed": true,
+        "Expected": "dark",
+        "Actual": "dark"
+      },
+      {
+        "Name": "Legacy missing mode follows IDE",
+        "Passed": true,
+        "Expected": "light",
+        "Actual": "light"
+      },
+      {
+        "Name": "Unknown mode safely follows IDE",
+        "Passed": true,
+        "Expected": "dark",
+        "Actual": "dark"
+      },
+      {
+        "Name": "Case independent manual mode",
+        "Passed": true,
+        "Expected": "light",
+        "Actual": "light"
+      },
+      {
+        "Name": "Transparent host placeholder falls back to Windows",
+        "Passed": true,
+        "Expected": "dark",
+        "Actual": "dark"
+      },
+      {
+        "Name": "Blue IDE uses its light tool-window background",
+        "Passed": true,
+        "Expected": "light",
+        "Actual": "light"
+      }
+    ],
+    "SourceOnly": true,
+    "ProductAssemblyTested": false,
+    "SourceSha256": "BB3536A0ADF6DEDACE97610653B8835CD1BEEB69D37F290C325B26BE078B9E7A",
+    "AssemblySha256": "B10562D92B9CEAF4E2265C195C93BF0DD37E317215322964C6DEE7EC4BF8B432",
+    "WindowShown": false,
+    "WindowsThemeChanged": false,
+    "IdeThemeChanged": false,
+    "CheckedAt": "2026-10-19T01:00:34.9524337+09:00"
+  },
+  "Palette": {
+    "Succeeded": true,
+    "Passed": 151,
+    "Failed": 0,
+    "Checks": [
+      {
+        "Name": "Dark AssistantForegroundBrush / AssistantBackgroundBrush",
+        "Passed": true,
+        "Detail": "Contrast=15.038"
+      },
+      {
+        "Name": "Dark AssistantMutedForegroundBrush / AssistantBackgroundBrush",
+        "Passed": true,
+        "Detail": "Contrast=8.841"
+      },
+      {
+        "Name": "Dark AssistantLinkBrush / AssistantBackgroundBrush",
+        "Passed": true,
+        "Detail": "Contrast=9.492"
+      },
+      {
+        "Name": "Dark AssistantForegroundBrush / AssistantSurfaceBrush",
+        "Passed": true,
+        "Detail": "Contrast=13.021"
+      },
+      {
+        "Name": "Dark AssistantMutedForegroundBrush / AssistantSurfaceBrush",
+        "Passed": true,
+        "Detail": "Contrast=7.655"
+      },
+      {
+        "Name": "Dark AssistantLinkBrush / AssistantSurfaceBrush",
+        "Passed": true,
+        "Detail": "Contrast=8.218"
+      },
+      {
+        "Name": "Dark AssistantForegroundBrush / AssistantPopupBackgroundBrush",
+        "Passed": true,
+        "Detail": "Contrast=13.994"
+      },
+      {
+        "Name": "Dark AssistantMutedForegroundBrush / AssistantPopupBackgroundBrush",
+        "Passed": true,
+        "Detail": "Contrast=8.227"
+      },
+      {
+        "Name": "Dark AssistantLinkBrush / AssistantPopupBackgroundBrush",
+        "Passed": true,
+        "Detail": "Contrast=8.832"
+      },
+      {
+        "Name": "Dark AssistantForegroundBrush / AssistantCodeBackgroundBrush",
+        "Passed": true,
+        "Detail": "Contrast=12.409"
+      },
+      {
+        "Name": "Dark AssistantMutedForegroundBrush / AssistantCodeBackgroundBrush",
+        "Passed": true,
+        "Detail": "Contrast=7.295"
+      },
+      {
+        "Name": "Dark AssistantLinkBrush / AssistantCodeBackgroundBrush",
+        "Passed": true,
+        "Detail": "Contrast=7.832"
+      },
+      {
+        "Name": "Dark AssistantForegroundBrush / AssistantSelectionBrush",
+        "Passed": true,
+        "Detail": "Contrast=8.719"
+      },
+      {
+        "Name": "Dark AssistantMutedForegroundBrush / AssistantSelectionBrush",
+        "Passed": true,
+        "Detail": "Contrast=5.126"
+      },
+      {
+        "Name": "Dark AssistantLinkBrush / AssistantSelectionBrush",
+        "Passed": true,
+        "Detail": "Contrast=5.503"
+      },
+      {
+        "Name": "Dark AssistantForegroundBrush / AssistantControlBackgroundBrush",
+        "Passed": true,
+        "Detail": "Contrast=12.367"
+      },
+      {
+        "Name": "Dark AssistantMutedForegroundBrush / AssistantControlBackgroundBrush",
+        "Passed": true,
+        "Detail": "Contrast=7.27"
+      },
+      {
+        "Name": "Dark AssistantLinkBrush / AssistantControlBackgroundBrush",
+        "Passed": true,
+        "Detail": "Contrast=7.806"
+      },
+      {
+        "Name": "Dark AssistantForegroundBrush / AssistantHoverBrush",
+        "Passed": true,
+        "Detail": "Contrast=9.425"
+      },
+      {
+        "Name": "Dark AssistantMutedForegroundBrush / AssistantHoverBrush",
+        "Passed": true,
+        "Detail": "Contrast=5.541"
+      },
+      {
+        "Name": "Dark AssistantLinkBrush / AssistantHoverBrush",
+        "Passed": true,
+        "Detail": "Contrast=5.948"
+      },
+      {
+        "Name": "Dark AssistantForegroundBrush / AssistantPressedBrush",
+        "Passed": true,
+        "Detail": "Contrast=7.947"
+      },
+      {
+        "Name": "Dark AssistantMutedForegroundBrush / AssistantPressedBrush",
+        "Passed": true,
+        "Detail": "Contrast=4.672"
+      },
+      {
+        "Name": "Dark AssistantLinkBrush / AssistantPressedBrush",
+        "Passed": true,
+        "Detail": "Contrast=5.016"
+      },
+      {
+        "Name": "Dark semantic AssistantAddedBrush",
+        "Passed": true,
+        "Detail": "Contrast=8.887"
+      },
+      {
+        "Name": "Dark semantic AssistantRemovedBrush",
+        "Passed": true,
+        "Detail": "Contrast=6.789"
+      },
+      {
+        "Name": "Dark semantic AssistantWarningBrush",
+        "Passed": true,
+        "Detail": "Contrast=8.523"
+      },
+      {
+        "Name": "Dark semantic AssistantErrorBrush",
+        "Passed": true,
+        "Detail": "Contrast=9.016"
+      },
+      {
+        "Name": "Dark primary label / AssistantPrimaryBrush",
+        "Passed": true,
+        "Detail": "Contrast=11.944"
+      },
+      {
+        "Name": "Dark primary label / AssistantPrimaryHoverBrush",
+        "Passed": true,
+        "Detail": "Contrast=15.878"
+      },
+      {
+        "Name": "Light AssistantForegroundBrush / AssistantBackgroundBrush",
+        "Passed": true,
+        "Detail": "Contrast=14.521"
+      },
+      {
+        "Name": "Light AssistantMutedForegroundBrush / AssistantBackgroundBrush",
+        "Passed": true,
+        "Detail": "Contrast=6.515"
+      },
+      {
+        "Name": "Light AssistantLinkBrush / AssistantBackgroundBrush",
+        "Passed": true,
+        "Detail": "Contrast=6.547"
+      },
+      {
+        "Name": "Light AssistantForegroundBrush / AssistantSurfaceBrush",
+        "Passed": true,
+        "Detail": "Contrast=15.431"
+      },
+      {
+        "Name": "Light AssistantMutedForegroundBrush / AssistantSurfaceBrush",
+        "Passed": true,
+        "Detail": "Contrast=6.923"
+      },
+      {
+        "Name": "Light AssistantLinkBrush / AssistantSurfaceBrush",
+        "Passed": true,
+        "Detail": "Contrast=6.957"
+      },
+      {
+        "Name": "Light AssistantForegroundBrush / AssistantPopupBackgroundBrush",
+        "Passed": true,
+        "Detail": "Contrast=15.431"
+      },
+      {
+        "Name": "Light AssistantMutedForegroundBrush / AssistantPopupBackgroundBrush",
+        "Passed": true,
+        "Detail": "Contrast=6.923"
+      },
+      {
+        "Name": "Light AssistantLinkBrush / AssistantPopupBackgroundBrush",
+        "Passed": true,
+        "Detail": "Contrast=6.957"
+      },
+      {
+        "Name": "Light AssistantForegroundBrush / AssistantCodeBackgroundBrush",
+        "Passed": true,
+        "Detail": "Contrast=13.725"
+      },
+      {
+        "Name": "Light AssistantMutedForegroundBrush / AssistantCodeBackgroundBrush",
+        "Passed": true,
+        "Detail": "Contrast=6.158"
+      },
+      {
+        "Name": "Light AssistantLinkBrush / AssistantCodeBackgroundBrush",
+        "Passed": true,
+        "Detail": "Contrast=6.189"
+      },
+      {
+        "Name": "Light AssistantForegroundBrush / AssistantSelectionBrush",
+        "Passed": true,
+        "Detail": "Contrast=12.513"
+      },
+      {
+        "Name": "Light AssistantMutedForegroundBrush / AssistantSelectionBrush",
+        "Passed": true,
+        "Detail": "Contrast=5.614"
+      },
+      {
+        "Name": "Light AssistantLinkBrush / AssistantSelectionBrush",
+        "Passed": true,
+        "Detail": "Contrast=5.642"
+      },
+      {
+        "Name": "Light AssistantForegroundBrush / AssistantControlBackgroundBrush",
+        "Passed": true,
+        "Detail": "Contrast=13.759"
+      },
+      {
+        "Name": "Light AssistantMutedForegroundBrush / AssistantControlBackgroundBrush",
+        "Passed": true,
+        "Detail": "Contrast=6.173"
+      },
+      {
+        "Name": "Light AssistantLinkBrush / AssistantControlBackgroundBrush",
+        "Passed": true,
+        "Detail": "Contrast=6.203"
+      },
+      {
+        "Name": "Light AssistantForegroundBrush / AssistantHoverBrush",
+        "Passed": true,
+        "Detail": "Contrast=12.842"
+      },
+      {
+        "Name": "Light AssistantMutedForegroundBrush / AssistantHoverBrush",
+        "Passed": true,
+        "Detail": "Contrast=5.761"
+      },
+      {
+        "Name": "Light AssistantLinkBrush / AssistantHoverBrush",
+        "Passed": true,
+        "Detail": "Contrast=5.79"
+      },
+      {
+        "Name": "Light AssistantForegroundBrush / AssistantPressedBrush",
+        "Passed": true,
+        "Detail": "Contrast=11.424"
+      },
+      {
+        "Name": "Light AssistantMutedForegroundBrush / AssistantPressedBrush",
+        "Passed": true,
+        "Detail": "Contrast=5.126"
+      },
+      {
+        "Name": "Light AssistantLinkBrush / AssistantPressedBrush",
+        "Passed": true,
+        "Detail": "Contrast=5.151"
+      },
+      {
+        "Name": "Light semantic AssistantAddedBrush",
+        "Passed": true,
+        "Detail": "Contrast=5.482"
+      },
+      {
+        "Name": "Light semantic AssistantRemovedBrush",
+        "Passed": true,
+        "Detail": "Contrast=6.099"
+      },
+      {
+        "Name": "Light semantic AssistantWarningBrush",
+        "Passed": true,
+        "Detail": "Contrast=6.374"
+      },
+      {
+        "Name": "Light semantic AssistantErrorBrush",
+        "Passed": true,
+        "Detail": "Contrast=6.591"
+      },
+      {
+        "Name": "Light primary label / AssistantPrimaryBrush",
+        "Passed": true,
+        "Detail": "Contrast=8.849"
+      },
+      {
+        "Name": "Light primary label / AssistantPrimaryHoverBrush",
+        "Passed": true,
+        "Detail": "Contrast=10.492"
+      },
+      {
+        "Name": "Light main surface is bright and nearly neutral",
+        "Passed": true,
+        "Detail": "#FFF7F8FA"
+      },
+      {
+        "Name": "Light publishes complete code colors before document refresh",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "Light publishes complete link colors before document refresh",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "Dark publishes complete code colors before document refresh",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "Dark publishes complete link colors before document refresh",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "Shared theme has no duplicate resource keys",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "AssistantTheme.xaml resolves AssistantBackgroundBrush",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "AssistantTheme.xaml resolves AssistantBorderBrush",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "AssistantTheme.xaml resolves AssistantControlBackgroundBrush",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "AssistantTheme.xaml resolves AssistantForegroundBrush",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "AssistantTheme.xaml resolves AssistantHoverBrush",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "AssistantTheme.xaml resolves AssistantLinkBrush",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "AssistantTheme.xaml resolves AssistantOnPrimaryBrush",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "AssistantTheme.xaml resolves AssistantPopupBackgroundBrush",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "AssistantTheme.xaml resolves AssistantPrimaryBrush",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "AssistantTheme.xaml resolves AssistantPrimaryHoverBrush",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "AssistantTheme.xaml resolves AssistantSelectionBrush",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "AssistantTheme.xaml resolves AssistantSurfaceBrush",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "AssistantTheme.xaml resolves AssistantTextContextMenu",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "AssistantTheme.xaml resolves AssistantTone19473FBrush",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "AssistantTheme.xaml resolves AssistantTone1E1E1EBrush",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "AssistantTheme.xaml resolves AssistantTone202020Brush",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "AssistantTheme.xaml resolves AssistantTone202226Brush",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "AssistantTheme.xaml resolves AssistantTone213D58Brush",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "AssistantTheme.xaml resolves AssistantTone22262CBrush",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "AssistantTheme.xaml resolves AssistantTone25292FBrush",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "AssistantTheme.xaml resolves AssistantTone2B2B2BBrush",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "AssistantTheme.xaml resolves AssistantTone414141Brush",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "AssistantTheme.xaml resolves AssistantTone414B59Brush",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "AssistantTheme.xaml resolves AssistantTone424A56Brush",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "AssistantTheme.xaml resolves AssistantTone454545Brush",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "AssistantTheme.xaml resolves AssistantTone454E5ABrush",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "AssistantTheme.xaml resolves AssistantTone464646Brush",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "AssistantTheme.xaml resolves AssistantTone477CAABrush",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "AssistantTheme.xaml resolves AssistantTone479B87Brush",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "AssistantTheme.xaml resolves AssistantTone4A4A4ABrush",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "AssistantTheme.xaml resolves AssistantTone505050Brush",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "AssistantTheme.xaml resolves AssistantTone555555Brush",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "AssistantTheme.xaml resolves AssistantTone5B5B5BBrush",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "AssistantTheme.xaml resolves AssistantTone606060Brush",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "AssistantTheme.xaml resolves AssistantTone666666Brush",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "AssistantTheme.xaml resolves AssistantTone888888Brush",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "AssistantTheme.xaml resolves AssistantTone8BC9F3Brush",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "AssistantTheme.xaml resolves AssistantTone8E8E8EBrush",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "AssistantTheme.xaml resolves AssistantTone8E9CF1Brush",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "AssistantTheme.xaml resolves AssistantTone9CD8FFBrush",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "AssistantTheme.xaml resolves AssistantToneA3A3A3Brush",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "AssistantTheme.xaml resolves AssistantToneA7B6FFBrush",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "AssistantTheme.xaml resolves AssistantToneB0B0B0Brush",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "AssistantTheme.xaml resolves AssistantToneB1B1B1Brush",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "AssistantTheme.xaml resolves AssistantToneBDE7FFBrush",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "AssistantTheme.xaml resolves AssistantToneC8CFFFBrush",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "AssistantTheme.xaml resolves AssistantToneD1FFF0Brush",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "AssistantTheme.xaml resolves AssistantToneD4D9E0Brush",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "AssistantTheme.xaml resolves AssistantToneD5D5D5Brush",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "AssistantTheme.xaml resolves AssistantToneD5ECFFBrush",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "AssistantTheme.xaml resolves AssistantToneDDDDDDBrush",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "AssistantTheme.xaml resolves AssistantToneEEEEEEBrush",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "AssistantTheme.xaml resolves AssistantToneEFEFEFBrush",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "AssistantTheme.xaml resolves AssistantToneF0F0F0Brush",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "AssistantTheme.xaml resolves AssistantToneF2F7FFBrush",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "AssistantTheme.xaml resolves AssistantToneFFFFFFBrush",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "AssistantTheme.xaml has no fixed palette colors",
+        "Passed": true,
+        "Detail": "FixedColorCount=0"
+      },
+      {
+        "Name": "AssistantControl.xaml resolves AssistantAddedBrush",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "AssistantControl.xaml resolves AssistantBackgroundBrush",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "AssistantControl.xaml resolves AssistantBorderBrush",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "AssistantControl.xaml resolves AssistantForegroundBrush",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "AssistantControl.xaml resolves AssistantMutedForegroundBrush",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "AssistantControl.xaml resolves AssistantOverlayBrush",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "AssistantControl.xaml resolves AssistantRemovedBrush",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "AssistantControl.xaml resolves AssistantSurfaceBrush",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "AssistantControl.xaml resolves AssistantTone1E1E1EBrush",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "AssistantControl.xaml resolves AssistantTone232323Brush",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "AssistantControl.xaml resolves AssistantTone292929Brush",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "AssistantControl.xaml resolves AssistantTone303030Brush",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "AssistantControl.xaml resolves AssistantTone373737Brush",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "AssistantControl.xaml resolves AssistantTone3D3D3DBrush",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "AssistantControl.xaml resolves AssistantTone444444Brush",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "AssistantControl.xaml resolves AssistantTone535353Brush",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "AssistantControl.xaml resolves AssistantTone6B6B6BBrush",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "AssistantControl.xaml resolves AssistantTone80AFFFBrush",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "AssistantControl.xaml resolves AssistantTone9A9A9ABrush",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "AssistantControl.xaml resolves AssistantToneA8A8A8Brush",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "AssistantControl.xaml resolves AssistantToneAAAAAABrush",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "AssistantControl.xaml resolves AssistantToneCBCBCBBrush",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "AssistantControl.xaml resolves AssistantToneD8D8D8Brush",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "AssistantControl.xaml resolves AssistantToneEB333333Brush",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "AssistantControl.xaml resolves AssistantToneEEEEEEBrush",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "AssistantControl.xaml resolves AssistantToneF2F2F2Brush",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "AssistantControl.xaml resolves AssistantWarningBrush",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "AssistantControl.xaml has no fixed palette colors",
+        "Passed": true,
+        "Detail": "FixedColorCount=0"
+      }
+    ],
+    "SourceOnly": true,
+    "ProductAssemblyTested": false,
+    "Inputs": [
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\AssistantThemePolicy.cs",
+        "Sha256": "BB3536A0ADF6DEDACE97610653B8835CD1BEEB69D37F290C325B26BE078B9E7A"
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\AssistantPalette.cs",
+        "Sha256": "8A515C30719F37E02E493D46A74180335FD69634ABF139D30D6F37FA2B30F840"
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\AssistantTheme.xaml",
+        "Sha256": "2FFE5EC8B15753410C93AA405F1A0F3F0C0FB0E156B6146586787EE9CE67A1AF"
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\AssistantControl.xaml",
+        "Sha256": "3801E9C722B16243218828E929F008276C4A1F9538F41FC8BAF43075CC520983"
+      }
+    ],
+    "WindowShown": false,
+    "CheckedAt": "2026-10-19T01:18:15.0086774+09:00"
+  },
+  "RuntimeSource": {
+    "Succeeded": true,
+    "Passed": 19,
+    "Failed": 0,
+    "Checks": [
+      {
+        "Name": "Saved dark mode initializes selection",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "Manual Light is applied",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "Detached menu follows Light resources",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "Detached tooltip follows Light resources",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "Detached popup child follows Light resources",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "Light selection matches displayed palette",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "Dark changes the displayed background",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "Existing menu switches to Dark with main UI",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "Existing tooltip switches to Dark with main UI",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "Existing popup child switches to Dark with main UI",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "Setting selection previews immediately",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "Auto uses a light host color",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "Auto refresh follows a dark host color",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "Manual Light persists despite dark host",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "Light thinking shimmer uses a dark readable highlight",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "Active shimmer changes with theme",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "Stopped shimmer releases its animation brush",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "Load attaches one system theme subscription",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "Unload releases system and SDK subscriptions",
+        "Passed": true,
+        "Detail": ""
+      }
+    ],
+    "SourceOnly": true,
+    "SdkAnalyzerEnabled": true,
+    "ProductAssemblyTested": false,
+    "AssemblySha256": "BA8B199CC64CBD1332618CB9655D23B8F200E94D71E9ECC0679192E821DF4858",
+    "ProductAssemblySha256": null,
+    "Inputs": [
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\AssistantThemePolicy.cs",
+        "Sha256": "BB3536A0ADF6DEDACE97610653B8835CD1BEEB69D37F290C325B26BE078B9E7A"
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\AssistantPalette.cs",
+        "Sha256": "8A515C30719F37E02E493D46A74180335FD69634ABF139D30D6F37FA2B30F840"
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\AssistantControl.Theme.cs",
+        "Sha256": "A475DD498C8C19322F502510E2B0EACC2F571B8563C6BD5245F6DAB883CF45C5"
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\AssistantControl.Thinking.cs",
+        "Sha256": "AABFFAF502818935D50EEF202E8F5646A2F1A56B794EE52357428E480C2E3F76"
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\AssistantTheme.xaml",
+        "Sha256": "2FFE5EC8B15753410C93AA405F1A0F3F0C0FB0E156B6146586787EE9CE67A1AF"
+      }
+    ],
+    "WindowShown": false,
+    "SyntheticHostColors": true,
+    "ActualIdeTested": false,
+    "WindowsThemeChanged": false,
+    "IdeThemeChanged": false,
+    "CheckedAt": "2026-10-19T01:14:32.9600123+09:00"
+  },
+  "ActualProduct": {
+    "Succeeded": true,
+    "Passed": 31,
+    "Failed": 0,
+    "Checks": [
+      {
+        "Name": "Saved dark mode initializes selection",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "Manual Light is applied",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "Detached menu follows Light resources",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "Detached tooltip follows Light resources",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "Detached popup child follows Light resources",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "Light selection matches displayed palette",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "Dark changes the displayed background",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "Existing menu switches to Dark with main UI",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "Existing tooltip switches to Dark with main UI",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "Existing popup child switches to Dark with main UI",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "Setting selection previews immediately",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "Auto uses a light host color",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "Auto refresh follows a dark host color",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "Manual Light persists despite dark host",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "Light thinking shimmer uses a dark readable highlight",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "Active shimmer changes with theme",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "Stopped shimmer releases its animation brush",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "Load attaches one system theme subscription",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "Unload releases system and SDK subscriptions",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "Existing Markdown code block follows light palette",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "Existing Markdown link follows light palette",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "Existing Markdown code block follows dark palette",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "Existing Markdown link follows dark palette",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "Existing actual AssistantDialog follows light",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "Existing actual WorkspaceActionsDialog follows light",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "Existing actual AssistantDialog follows dark",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "Existing actual WorkspaceActionsDialog follows dark",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "Actual settings snapshot includes Light mode",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "Actual explicit save persists Light",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "A new product control restores the saved Light selection",
+        "Passed": true,
+        "Detail": ""
+      },
+      {
+        "Name": "Snapshot restore returns the displayed selection",
+        "Passed": true,
+        "Detail": ""
+      }
+    ],
+    "SourceOnly": false,
+    "SdkAnalyzerEnabled": false,
+    "SdkReferenceAssetsPath": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\obj\\project.assets.json",
+    "SdkShellAssemblyPath": "C:\\Users\\ygree\\.nuget\\packages\\microsoft.visualstudio.shell.15.0\\15.9.28307\\lib\\net45\\Microsoft.VisualStudio.Shell.15.0.dll",
+    "ProductAssemblyTested": true,
+    "AssemblySha256": "4A200332A00CD1720AA6629730916828FBB5DBCFFB27F6D3A312D62629DB787C",
+    "ProductAssemblySha256": "4A200332A00CD1720AA6629730916828FBB5DBCFFB27F6D3A312D62629DB787C",
+    "Inputs": [],
+    "WindowShown": false,
+    "SyntheticHostColors": true,
+    "ActualIdeTested": false,
+    "WindowsThemeChanged": false,
+    "IdeThemeChanged": false,
+    "CheckedAt": "2026-10-19T01:30:59.3477522+09:00"
+  },
+  "ActualIde": null,
+  "SourceAndProductCountsCombined": false,
+  "DeploymentPerformed": false,
+  "UpdatedAt": "2026-10-19T01:33:40.2483876+09:00",
+  "InitialIntegrationBuild": {
+    "Succeeded": false,
+    "DiagnosticPath": "artifacts/task025/bootstrap1-sdk-diagnostics.json",
+    "ThemeOwnerFixes": "Dispatcher entry guards; cached Dispatcher and verified callback; nonblocking priority-specific post with one-line VSTHRD001 pragma",
+    "ResultNotCountedAsPass": true
+  },
+  "PriorProductPasses": [
+    "artifacts/task026/product-bootstrap2-first/result.json",
+    "artifacts/task026/product-bootstrap2-dialogs/result.json"
+  ],
+  "ProductEvidenceScope": "SDK15 actual product from isolated source copy; 14 theme input hashes match freeze4; final release and actual IDE are separate",
+  "ThemeInputHashesMatched": 14,
+  "PreservedFailedProductRun": "artifacts/task026/negative-old-palette/result.json",
+  "FinalCrossVersionProducts": [],
+  "RequiresIntegrationChecks": true
+}

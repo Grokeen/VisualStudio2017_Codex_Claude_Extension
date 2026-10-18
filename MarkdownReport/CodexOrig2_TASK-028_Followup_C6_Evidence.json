@@ -1,0 +1,2187 @@
+{
+  "SchemaVersion": 1,
+  "Task": "TASK-028F1",
+  "Auditor": "CodexOrig2",
+  "Role": "감사",
+  "ParentTask": "TASK-028",
+  "Candidate": "candidate6",
+  "AuditDocumentCompleted": true,
+  "R303Closed": false,
+  "AllRequirementsCompleted": false,
+  "ReleaseApproved": false,
+  "StartedAt": "2026-10-19T02:45:57.6162242+09:00",
+  "CompletedAt": "2026-10-19T02:55:39.3256267+09:00",
+  "Elapsed": "00:09:41.7094025",
+  "ResultsCutoff": "2026-10-19T02:52:00+09:00",
+  "Verdict": "R3-03 부분 해소. 문서 관리/저장/참조형 링크 보완 확인, HTML의 3개 지적 그룹과 타 담당자 삭제/좁은 UI 실패가 C6에 남음.",
+  "Report": {
+    "Path": "MarkdownReport/CodexOrig2_TASK-028_Followup_C6.md",
+    "SHA256": "B4234A3ED7041514CA0137283BD3A61E5AAC323713DE72C523AD4774DC96F52B"
+  },
+  "FrozenInputs": {
+    "Readiness": "artifacts/task025/candidate6-readiness.json",
+    "ManifestSHA256": "580E3C9F7700EDA1815D8AE30410FF37879A531D1CD175763BE49517923B1189",
+    "SourceCount": 120,
+    "Mismatch": 0,
+    "RoleSHA256": "EDF43D1A6D347C188F1DB4C2D7A21E7B4B5EBFD922289CC6086708A92820781D",
+    "CopiedRoleSHA256": "EDF43D1A6D347C188F1DB4C2D7A21E7B4B5EBFD922289CC6086708A92820781D",
+    "SourceEvidence": "artifacts/audit-codexorig2-followup-c6/source-integrity.json",
+    "PrivateCopy": "C:/dydgyqud/AO28_20261019/candidate6"
+  },
+  "DirectFunctional": {
+    "Succeeded": true,
+    "GroupsPassed": 5,
+    "GroupsTotal": 5,
+    "Passed": 218,
+    "Failed": 0,
+    "ProductAssemblyPath": "C:\\dydgyqud\\AO28_20261019\\candidate6\\2017\\Release\\VS2017.AIAssistant.dll",
+    "ProductAssemblySha256": "3C8083975BA43696C0946F54DD7D7B73759A0ABEEE6DEF9CD7FB3F04CDCCCD4A",
+    "ProductAfterSha256": "3C8083975BA43696C0946F54DD7D7B73759A0ABEEE6DEF9CD7FB3F04CDCCCD4A",
+    "SourceOnly": false,
+    "Results": [
+      {
+        "Name": "markdown",
+        "Succeeded": true,
+        "ExitCode": 0,
+        "Passed": 98,
+        "Failed": 0,
+        "ResultPath": "C:\\dydgyqud\\AO28_20261019\\evidence\\task024-c6\\markdown\\result.json",
+        "Log": "C:\\dydgyqud\\AO28_20261019\\evidence\\task024-c6\\markdown.log",
+        "Failure": null
+      },
+      {
+        "Name": "hover-viewport",
+        "Succeeded": true,
+        "ExitCode": 0,
+        "Passed": 35,
+        "Failed": 0,
+        "ResultPath": "C:\\dydgyqud\\AO28_20261019\\evidence\\task024-c6\\hover-viewport\\result.json",
+        "Log": "C:\\dydgyqud\\AO28_20261019\\evidence\\task024-c6\\hover-viewport.log",
+        "Failure": null
+      },
+      {
+        "Name": "guide",
+        "Succeeded": true,
+        "ExitCode": 0,
+        "Passed": 31,
+        "Failed": 0,
+        "ResultPath": "C:\\dydgyqud\\AO28_20261019\\evidence\\task024-c6\\guide\\result.json",
+        "Log": "C:\\dydgyqud\\AO28_20261019\\evidence\\task024-c6\\guide.log",
+        "Failure": null
+      },
+      {
+        "Name": "account",
+        "Succeeded": true,
+        "ExitCode": 0,
+        "Passed": 24,
+        "Failed": 0,
+        "ResultPath": "C:\\dydgyqud\\AO28_20261019\\evidence\\task024-c6\\account\\result.json",
+        "Log": "C:\\dydgyqud\\AO28_20261019\\evidence\\task024-c6\\account.log",
+        "Failure": null
+      },
+      {
+        "Name": "assistant-ui",
+        "Succeeded": true,
+        "ExitCode": 0,
+        "Passed": 30,
+        "Failed": 0,
+        "ResultPath": "C:\\dydgyqud\\AO28_20261019\\evidence\\task024-c6\\assistant-ui\\result.json",
+        "Log": "C:\\dydgyqud\\AO28_20261019\\evidence\\task024-c6\\assistant-ui.log",
+        "Failure": null
+      }
+    ],
+    "WindowShown": false,
+    "NativePointerVerified": false,
+    "LiveAuthenticationVerified": false,
+    "PaidAiInvoked": false,
+    "CheckedAt": "2026-10-19T02:46:42.9263072+09:00"
+  },
+  "IndependentProbe": {
+    "Succeeded": false,
+    "Passed": 14,
+    "Failed": 7,
+    "Checks": [
+      "Document list is explicit and top-level",
+      "Current save writes original path and preserves CRLF Unicode",
+      "Locked current save preserves disk draft and state",
+      "Rename collision traversal and extension reject without mutation",
+      "Rename updates path while preserving dirty draft and disk bytes",
+      "Delete denial and locked-file failure preserve current draft",
+      "Confirmed delete affects only current fixture",
+      "Missing folder preserves last valid list",
+      "reference-three-forms",
+      "reference-in-code-inert",
+      "html-table-basic",
+      "html-unsafe-content-inert",
+      "html-doctype-inert",
+      "Reference image definition uses explicit local document origin"
+    ],
+    "Errors": [
+      "html-nested-same-tag: Nested supported div tags render without literal markup",
+      "html-paragraph-then-table: HTML table begins after an ordinary paragraph without a blank line",
+      "html-sibling-roots: Adjacent supported paragraphs render without literal tags",
+      "html-named-entity: Static HTML named entity renders as text",
+      "html-full-document: Original full-document static HTML preview without script execution",
+      "html-column-limit-notice: A truncated 17th column must have an omission notice",
+      "html-row-limit-notice: A truncated 129th row must have an omission notice"
+    ],
+    "Mode": "AssistantUi",
+    "SourceOnly": false,
+    "ProductAssemblyPath": "C:\\dydgyqud\\AO28_20261019\\candidate6\\2017\\Release\\VS2017.AIAssistant.dll",
+    "ProductAssemblySha256": "3C8083975BA43696C0946F54DD7D7B73759A0ABEEE6DEF9CD7FB3F04CDCCCD4A",
+    "CopiedInputs": [
+      {
+        "RelativePath": "ICSharpCode.AvalonEdit.dll",
+        "Sha256": "B0032716709359F7361D5A2DDC8E2AD457A1448A093FB4900E0336312B0A10C7"
+      },
+      {
+        "RelativePath": "Microsoft.Web.WebView2.Core.dll",
+        "Sha256": "E6F54C8CE208E3797C427D01AD671B47CB25ABC85604753D6EC2546D0FFEF550"
+      },
+      {
+        "RelativePath": "Microsoft.Web.WebView2.WinForms.dll",
+        "Sha256": "CC3D2937C350A4F5E20399855BCAB4FE695A395308FEB2ED67394FAA6A1AE849"
+      },
+      {
+        "RelativePath": "Microsoft.Web.WebView2.Wpf.dll",
+        "Sha256": "6942B85A3388ECE45FEBDE5584D2BFC035D84315F2DD5A4A47913F01A0193800"
+      },
+      {
+        "RelativePath": "Resources\\CliGuide\\HowToInstallCLI.md",
+        "Sha256": "6990AF5ED77868C12C80D05FFFB7003DECD02AA0F5E6BC0F970996569B979164"
+      },
+      {
+        "RelativePath": "Resources\\CliGuide\\InstallCLI.bat",
+        "Sha256": "81BAE40E698B7E16B4A15093248453C7A79EF5D564306FC9CE9416255D91D5CB"
+      },
+      {
+        "RelativePath": "Resources\\CliGuide\\VisualStudio_AI_Assistant_설치_사용설명서.pdf",
+        "Sha256": "EAE9BDD2CA1602677FEAF6BD1F50C19C8F7E29068D33B1DC06215D998C60B30A"
+      },
+      {
+        "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\01-overview.png",
+        "Sha256": "86738234B9A201914E6BED1776C32A2B007AE8171F50EEA974C3B4BAC3E76B49"
+      },
+      {
+        "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\02-package.png",
+        "Sha256": "CDCAEFF48497A3DD181230D4358428C22F5D86DDDE375CD5FF1BD07DFBA4C753"
+      },
+      {
+        "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\03-vsix.png",
+        "Sha256": "D0088EDD998D516763D50D0030B39206EB778778B7DBF219705CC9F72D67C6D8"
+      },
+      {
+        "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\04-run-batch.png",
+        "Sha256": "B5D5B679B0D56026D73F9323140E6894325A4F116984E3F655CB74DE075A91D9"
+      },
+      {
+        "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\05-success.png",
+        "Sha256": "F9845411A901B6B687D873FBD7E93E693ABC52D716D4A912CB691652FFCF775F"
+      },
+      {
+        "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\06-login.png",
+        "Sha256": "859D753C9240ED86525075F43A66A4823ADDE2F6F19A3D13F435695E0448020C"
+      },
+      {
+        "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\07-paths.png",
+        "Sha256": "70BFA267082C8A6D2DD5A62065B821921BBC011C56ABAA01F2EC401EF4CCD043"
+      },
+      {
+        "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\08-attachments.png",
+        "Sha256": "650733944817B5185BEE9C999D699E73643BDCCC0FB060B08515D073317AC9A9"
+      },
+      {
+        "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\09-troubleshooting.png",
+        "Sha256": "44F4CB8F53CE709B1F126806E577B5219A2C44A8DF22578DE8513CD157832629"
+      },
+      {
+        "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\10-options.png",
+        "Sha256": "D6C1443DA8C7118BFF1C10CEC72028F6ABCDD3027D9FB99217897A0BF8A89BB7"
+      },
+      {
+        "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\11-install-methods.png",
+        "Sha256": "06A6494284E5B65E161CADEE74F2B3C8B62F4923244A1EAEA4B9C984626A08D0"
+      },
+      {
+        "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\12-checklist.png",
+        "Sha256": "E49084EC2B5EC85B2640F598E152828000DDAD9D67A085B17EC97E0ACE0D48E4"
+      },
+      {
+        "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\ui-chat.png",
+        "Sha256": "242A2B0809D62C354D5F1E88FA479D3EB335C155C1B57F7BA09793FFE29E0AAC"
+      },
+      {
+        "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\ui-guide.png",
+        "Sha256": "321C6221992E58B812B762B605A0F61E8B59DD6074796BC63FF2DC8E55D69625"
+      },
+      {
+        "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\ui-models.png",
+        "Sha256": "DF3391A04A18C38316D4456711E385A0906A1E5862D15C4A52856164E9B44712"
+      },
+      {
+        "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\ui-permissions.png",
+        "Sha256": "85C9417A1C6CD433FCA2AE35BF1860B77F52A9FB07B09FF9E2D1EEA89B49F891"
+      },
+      {
+        "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\ui-review.png",
+        "Sha256": "D3838D4919B3BCAFA6E2BEC4E03E376408BAF821245060124F472D1FDEFDA014"
+      },
+      {
+        "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\ui-settings.png",
+        "Sha256": "26B64806A1482F83B7110001AA1C7CC62BEA3D383182FE7A53034BF160AA262B"
+      },
+      {
+        "RelativePath": "Resources\\GuideMedia\\01-connect.gif",
+        "Sha256": "59E48449823353475F5204971C0B5C5B3F926DFF7F1F6A239B3AE8C47B956149"
+      },
+      {
+        "RelativePath": "Resources\\GuideMedia\\01-connect.png",
+        "Sha256": "D70A981083C73399C346D54E520B466958BADD5DD15C925461520071250055A5"
+      },
+      {
+        "RelativePath": "Resources\\GuideMedia\\02-request.gif",
+        "Sha256": "B08A43114E1E12128BCE6EA32C6CDAF5A1D4ABD5BEDA3C16A24BC9A50FC31CE2"
+      },
+      {
+        "RelativePath": "Resources\\GuideMedia\\02-request.png",
+        "Sha256": "B83E1AE93DC9482135D844F1B7F22921B1E9D07C8CC57C40F9D5691EFCB09C3F"
+      },
+      {
+        "RelativePath": "Resources\\GuideMedia\\03-review.gif",
+        "Sha256": "92D4ACC8F2314D9DA0EE8350FE71CE48C2DB633499D3B3E8CD4898C8B7D57EDA"
+      },
+      {
+        "RelativePath": "Resources\\GuideMedia\\03-review.png",
+        "Sha256": "07DA9122FF6570B2627E8F7A6C0E3AC8D1DBE4FE90EDAFDC3FE22F78D7BF365E"
+      },
+      {
+        "RelativePath": "Resources\\GuideMedia\\04-guide.gif",
+        "Sha256": "C82293FB4C5D0074BF29D074BBB7419D6FD4821B4E485A5C907B0497CB5A0692"
+      },
+      {
+        "RelativePath": "Resources\\GuideMedia\\04-guide.png",
+        "Sha256": "FD365AFA59DB76AB110F8BA5F4FA1C392CD8EC8625CD67EE7ED4FE5CFAE8F0C6"
+      },
+      {
+        "RelativePath": "Resources\\GuideMedia\\05-install.gif",
+        "Sha256": "816F5FA2786BA404BA88066224B8A8F85760980F8564F80E9762E08090A078C3"
+      },
+      {
+        "RelativePath": "Resources\\GuideMedia\\05-install.png",
+        "Sha256": "BAC8E2E956FD37CC431653D555F9784A8C31A59D738649433851DACD283C5871"
+      },
+      {
+        "RelativePath": "Resources\\ThirdParty\\AvalonEdit\\LICENSE.txt",
+        "Sha256": "7CFE74F11EAEF7A239E7C63D33595F924E7922FB3E3F3651014389620B228A07"
+      },
+      {
+        "RelativePath": "Resources\\ThirdParty\\WebView2\\LICENSE.txt",
+        "Sha256": "0AF8F1B807512AAE39C2AC1AA4D0CAE65CABECB6FD554B8439A5162A0D6ECA55"
+      },
+      {
+        "RelativePath": "Resources\\ThirdParty\\WebView2\\NOTICE.txt",
+        "Sha256": "106423785C5B7EBA0A8E61D1837F2132E9C828E20AD530F565D981C1DF60DD90"
+      },
+      {
+        "RelativePath": "runtimes\\win-arm64\\native\\WebView2Loader.dll",
+        "Sha256": "5A5CF33BDCE364D72CBB56D59E24E5CF77EE38976D4F8B392A151E0013215703"
+      },
+      {
+        "RelativePath": "runtimes\\win-x64\\native\\WebView2Loader.dll",
+        "Sha256": "C66E4A92FDC7A216118E43B7A5024EA2200E8C43F9310BF20D96A0084F82C5BC"
+      },
+      {
+        "RelativePath": "runtimes\\win-x86\\native\\WebView2Loader.dll",
+        "Sha256": "A08C57142946E5A554D9D5C018E27DCBB09248BE8AD44852667B96564BBCEEDA"
+      }
+    ],
+    "WindowShown": false,
+    "NetworkRequested": false,
+    "NativePointerUsed": false,
+    "AuthenticationExecuted": false,
+    "InstallerExecuted": false,
+    "CheckedAt": "2026-10-19T02:51:09.1993413+09:00"
+  },
+  "IndependentCases": {
+    "Cases": [
+      {
+        "Name": "Document list is explicit and top-level",
+        "Passed": true
+      },
+      {
+        "Name": "Current save writes original path and preserves CRLF Unicode",
+        "Passed": true
+      },
+      {
+        "Name": "Locked current save preserves disk draft and state",
+        "Passed": true
+      },
+      {
+        "Name": "Rename collision traversal and extension reject without mutation",
+        "Passed": true
+      },
+      {
+        "Name": "Rename updates path while preserving dirty draft and disk bytes",
+        "Passed": true
+      },
+      {
+        "Name": "Delete denial and locked-file failure preserve current draft",
+        "Passed": true
+      },
+      {
+        "Name": "Confirmed delete affects only current fixture",
+        "Passed": true
+      },
+      {
+        "Name": "Missing folder preserves last valid list",
+        "Passed": true
+      },
+      {
+        "Name": "reference-three-forms",
+        "Input": "[Documentation][ref] [ref][] [ref]\n\n[ref]: https://example.invalid/docs",
+        "Fixture": "C:\\dydgyqud\\AO28_20261019\\evidence\\audit-probe-c6-final\\reference-three-forms.md",
+        "Expected": "Three actual links and hidden definition",
+        "Passed": true,
+        "Plain": "↗ Documentation ↗ ref ↗ ref\r\n",
+        "ElapsedMilliseconds": 3,
+        "Tables": 0,
+        "Links": 3
+      },
+      {
+        "Name": "reference-in-code-inert",
+        "Input": "```\n[ref]: https://example.invalid/hidden\n```\n\n[ref]",
+        "Fixture": "C:\\dydgyqud\\AO28_20261019\\evidence\\audit-probe-c6-final\\reference-in-code-inert.md",
+        "Expected": "Fence definition must not create a link",
+        "Passed": true,
+        "Plain": "[ref]: https://example.invalid/hidden\r\n[ref]\r\n",
+        "ElapsedMilliseconds": 3,
+        "Tables": 0,
+        "Links": 0
+      },
+      {
+        "Name": "html-table-basic",
+        "Input": "<table><tr><th>Title</th><td><strong>Cell</strong></td></tr></table>",
+        "Fixture": "C:\\dydgyqud\\AO28_20261019\\evidence\\audit-probe-c6-final\\html-table-basic.md",
+        "Expected": "Native table",
+        "Passed": true,
+        "Plain": "Title\tCell\r\n",
+        "ElapsedMilliseconds": 7,
+        "Tables": 1,
+        "Links": 0
+      },
+      {
+        "Name": "html-nested-same-tag",
+        "Input": "<div>\n<div><p>Nested content</p></div>\n</div>",
+        "Fixture": "C:\\dydgyqud\\AO28_20261019\\evidence\\audit-probe-c6-final\\html-nested-same-tag.md",
+        "Expected": "Nested supported div tags render without literal markup",
+        "Passed": false,
+        "Plain": "<div> <div><p>Nested content</p></div> </div>\r\n",
+        "ElapsedMilliseconds": 1,
+        "Tables": 0,
+        "Links": 0
+      },
+      {
+        "Name": "html-paragraph-then-table",
+        "Input": "Intro\n<table><tr><td>Cell</td></tr></table>",
+        "Fixture": "C:\\dydgyqud\\AO28_20261019\\evidence\\audit-probe-c6-final\\html-paragraph-then-table.md",
+        "Expected": "HTML table begins after an ordinary paragraph without a blank line",
+        "Passed": false,
+        "Plain": "Intro <table><tr><td>Cell</td></tr></table>\r\n",
+        "ElapsedMilliseconds": 0,
+        "Tables": 0,
+        "Links": 0
+      },
+      {
+        "Name": "html-sibling-roots",
+        "Input": "<p>One</p><p>Two</p>",
+        "Fixture": "C:\\dydgyqud\\AO28_20261019\\evidence\\audit-probe-c6-final\\html-sibling-roots.md",
+        "Expected": "Adjacent supported paragraphs render without literal tags",
+        "Passed": false,
+        "Plain": "<p>One</p><p>Two</p>\r\n",
+        "ElapsedMilliseconds": 0,
+        "Tables": 0,
+        "Links": 0
+      },
+      {
+        "Name": "html-named-entity",
+        "Input": "<p>Copyright &copy; 2026 &amp; text</p>",
+        "Fixture": "C:\\dydgyqud\\AO28_20261019\\evidence\\audit-probe-c6-final\\html-named-entity.md",
+        "Expected": "Static HTML named entity renders as text",
+        "Passed": false,
+        "Plain": "<p>Copyright &copy; 2026 &amp; text</p>\r\n",
+        "ElapsedMilliseconds": 0,
+        "Tables": 0,
+        "Links": 0
+      },
+      {
+        "Name": "html-full-document",
+        "Input": "<!doctype html>\n<html><head><title>Title</title></head><body><p>Body</p></body></html>",
+        "Fixture": "C:\\dydgyqud\\AO28_20261019\\evidence\\audit-probe-c6-final\\html-full-document.md",
+        "Expected": "Original full-document static HTML preview without script execution",
+        "Passed": false,
+        "Plain": "<!doctype html> <html><head><title>Title</title></head><body><p>Body</p></body></html>\r\n",
+        "ElapsedMilliseconds": 0,
+        "Tables": 0,
+        "Links": 0
+      },
+      {
+        "Name": "html-unsafe-content-inert",
+        "Input": "<div><p>Safe</p><script>forbidden-script</script><iframe src='https://example.invalid'/><img src='https://example.invalid/image.png' alt='remote'/></div>",
+        "Fixture": "C:\\dydgyqud\\AO28_20261019\\evidence\\audit-probe-c6-final\\html-unsafe-content-inert.md",
+        "Expected": "Script/iframe execute nowhere and remote image creates no image control",
+        "Passed": true,
+        "Plain": "Safe\r\n[이미지: remote]\r\n",
+        "ElapsedMilliseconds": 1,
+        "Tables": 0,
+        "Links": 0
+      },
+      {
+        "Name": "html-doctype-inert",
+        "Input": "<div><!DOCTYPE x [<!ENTITY y SYSTEM 'file:///C:/no-such-audit-file'>]><p>&y;</p></div>",
+        "Fixture": "C:\\dydgyqud\\AO28_20261019\\evidence\\audit-probe-c6-final\\html-doctype-inert.md",
+        "Expected": "DTD input falls back to inert text",
+        "Passed": true,
+        "Plain": "<div><!DOCTYPE x [<!ENTITY y SYSTEM 'file:///C:/no-such-audit-file'>]><p>&y;</p></div>\r\n",
+        "ElapsedMilliseconds": 0,
+        "Tables": 0,
+        "Links": 0
+      },
+      {
+        "Name": "Reference image definition uses explicit local document origin",
+        "Passed": true
+      },
+      {
+        "Name": "html-column-limit-notice",
+        "Input": "<table><tr><td>Cell</td><td>Cell</td><td>Cell</td><td>Cell</td><td>Cell</td><td>Cell</td><td>Cell</td><td>Cell</td><td>Cell</td><td>Cell</td><td>Cell</td><td>Cell</td><td>Cell</td><td>Cell</td><td>Cell</td><td>Cell</td><td>TAIL_SENTINEL</td></tr></table>",
+        "Fixture": "C:\\dydgyqud\\AO28_20261019\\evidence\\audit-probe-c6-final\\html-column-limit-notice.md",
+        "Expected": "A truncated 17th column must have an omission notice",
+        "Passed": false,
+        "Plain": "Cell\tCell\tCell\tCell\tCell\tCell\tCell\tCell\tCell\tCell\tCell\tCell\tCell\tCell\tCell\tCell\r\n",
+        "ElapsedMilliseconds": 1,
+        "Tables": 1,
+        "Links": 0
+      },
+      {
+        "Name": "html-row-limit-notice",
+        "Input": "<table><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>Row</td></tr><tr><td>LAST_ROW_SENTINEL</td></tr></table>",
+        "Fixture": "C:\\dydgyqud\\AO28_20261019\\evidence\\audit-probe-c6-final\\html-row-limit-notice.md",
+        "Expected": "A truncated 129th row must have an omission notice",
+        "Passed": false,
+        "Plain": "Row\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\nRow\r\n",
+        "ElapsedMilliseconds": 11,
+        "Tables": 1,
+        "Links": 0
+      }
+    ],
+    "WindowShown": false,
+    "ExternalNavigationExecuted": false,
+    "NetworkRequested": false,
+    "FixtureFilesOnly": true
+  },
+  "ProbeInterpretation": "14 passed/7 failed among 21 independent document cases. Existing 218/218 is a separate suite; no sum or unique-total claim.",
+  "Findings": [
+    {
+      "ID": "R3-03F1",
+      "Priority": "P2",
+      "Kind": "Confirmed rendering defect in supported tags",
+      "Status": "OpenInCandidate6",
+      "DirectRuntimeVerification": true,
+      "Cases": [
+        "html-nested-same-tag",
+        "html-paragraph-then-table",
+        "html-sibling-roots"
+      ],
+      "Files": [
+        "artifacts/task025/candidate6/source/src/VS2017.AIAssistant/Views/MarkdownRendering.Html.cs:45",
+        "artifacts/task025/candidate6/source/src/VS2017.AIAssistant/Views/MarkdownRendering.Html.cs:52",
+        "artifacts/task025/candidate6/source/src/VS2017.AIAssistant/Views/MarkdownRendering.cs:394"
+      ],
+      "Remedy": "Handle nesting, fragments, and transitions between Markdown paragraphs and supported HTML blocks while retaining budgets."
+    },
+    {
+      "ID": "R3-03F2",
+      "Priority": "P2",
+      "Kind": "Confirmed remaining original-feature scope difference",
+      "Status": "OpenInCandidate6",
+      "DirectRuntimeVerification": true,
+      "Cases": [
+        "html-named-entity",
+        "html-full-document"
+      ],
+      "Files": [
+        "artifacts/task025/candidate6/source/src/VS2017.AIAssistant/Views/MarkdownRendering.Html.cs:24",
+        "artifacts/task025/candidate6/source/src/VS2017.AIAssistant/Views/MarkdownRendering.Html.cs:49",
+        "C:/dydgyqud/Markdown_Memo_Interchange/RemoteControlDemo/Features/Markdown/MarkdownnHtmlRenderer.cs:81"
+      ],
+      "Remedy": "Support safe static body/entity rendering or explicitly resolve the original feature scope. Do not enable scripting, CSS execution or external entities."
+    },
+    {
+      "ID": "R3-03F3",
+      "Priority": "P2",
+      "Kind": "Confirmed silent preview truncation",
+      "Status": "OpenInCandidate6",
+      "DirectRuntimeVerification": true,
+      "Cases": [
+        "html-column-limit-notice",
+        "html-row-limit-notice"
+      ],
+      "Files": [
+        "artifacts/task025/candidate6/source/src/VS2017.AIAssistant/Views/MarkdownRendering.Html.cs:116",
+        "artifacts/task025/candidate6/source/src/VS2017.AIAssistant/Views/MarkdownRendering.Html.cs:119"
+      ],
+      "Remedy": "Retain 16-column/128-row limits and set the common omission notice when actual content is truncated."
+    }
+  ],
+  "OriginalTransform": {
+    "ActualMarkdigTransform": true,
+    "OriginalAppUiExecuted": false,
+    "Evidence": "artifacts/audit-codexorig2-followup-c6/original-transform-comparison.json",
+    "SourceReviewed": "C:/dydgyqud/Markdown_Memo_Interchange/RemoteControlDemo/Features/Markdown/MarkdownnHtmlRenderer.cs"
+  },
+  "OtherExecutorEvidence": [
+    {
+      "Path": "artifacts/task024/audit-followup-candidate6-delete-transition/result.json",
+      "SHA256": "15E95F8E9758F6A703C963B0198CF51028BC9B53F0A29A32739F2A2D1B9EBDC7",
+      "AuditorExecuted": false,
+      "AuditorInspected": true,
+      "Record": {
+        "Succeeded": false,
+        "Passed": 22,
+        "Failed": 1,
+        "SourceOnly": false,
+        "ProductAssemblySha256": "3C8083975BA43696C0946F54DD7D7B73759A0ABEEE6DEF9CD7FB3F04CDCCCD4A",
+        "AssemblySha256": "3C8083975BA43696C0946F54DD7D7B73759A0ABEEE6DEF9CD7FB3F04CDCCCD4A",
+        "AssemblyPath": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task024\\audit-followup-candidate6-delete-transition\\VS2017.AIAssistant.dll",
+        "Checks": [
+          {
+            "name": "locked current save preserves draft, origin, list, selection and disk",
+            "passed": true
+          },
+          {
+            "name": "locked rename preserves both disk and unsaved editor state",
+            "passed": true
+          },
+          {
+            "name": "locked confirmed delete preserves unsaved state and calls confirmation once",
+            "passed": true
+          },
+          {
+            "name": "rename collision preserves existing destination and dirty selection",
+            "passed": true
+          },
+          {
+            "name": "save after unicode rename targets renamed file without losing draft",
+            "passed": true
+          },
+          {
+            "name": "folder browsing leaves active dirty document and asset origin intact",
+            "passed": true
+          },
+          {
+            "name": "failed folder selection retains previous list and dirty active document",
+            "passed": true
+          },
+          {
+            "name": "document list caps output and never includes nested or unrelated files",
+            "passed": true
+          },
+          {
+            "name": "missing confirmation never deletes a dirty current document",
+            "passed": true
+          },
+          {
+            "name": "new draft operations cannot choose or delete an implicit file",
+            "passed": true
+          },
+          {
+            "name": "disposed document APIs reject before touching any fixture file",
+            "passed": true
+          },
+          {
+            "name": "confirmed delete clears undo and preserves unrelated file bytes",
+            "passed": true
+          },
+          {
+            "name": "pending delete confirmation cannot migrate to another document",
+            "passed": false,
+            "error": "InvalidOperationException: A deletion confirmation remains active after opening a different document."
+          },
+          {
+            "name": "reference definitions do not leak to the replacement document",
+            "passed": true
+          },
+          {
+            "name": "retained reference click keeps its original immutable document origin",
+            "passed": true
+          },
+          {
+            "name": "HTML hyperlink waits for explicit delegated click",
+            "passed": true
+          },
+          {
+            "name": "static HTML preview and current save preserve exact source bytes",
+            "passed": true
+          },
+          {
+            "name": "HTML images allow an explicit local control and reject parent escape",
+            "passed": true
+          },
+          {
+            "name": "external XML entity text never exposes an owned secret file",
+            "passed": true
+          },
+          {
+            "name": "XML include elements never import a local text file",
+            "passed": true
+          },
+          {
+            "name": "HTML image script iframe and CSS make zero loopback requests during observation",
+            "passed": true
+          },
+          {
+            "name": "unsafe HTML href never creates a clickable command",
+            "passed": true
+          },
+          {
+            "name": "deep and oversized static HTML stays bounded without mutating source",
+            "passed": true
+          }
+        ],
+        "Timings": [
+          {
+            "name": "locked current save preserves draft, origin, list, selection and disk",
+            "elapsedMilliseconds": 387.505
+          },
+          {
+            "name": "locked rename preserves both disk and unsaved editor state",
+            "elapsedMilliseconds": 11.932400000000001
+          },
+          {
+            "name": "locked confirmed delete preserves unsaved state and calls confirmation once",
+            "elapsedMilliseconds": 13.7942
+          },
+          {
+            "name": "rename collision preserves existing destination and dirty selection",
+            "elapsedMilliseconds": 17.893700000000003
+          },
+          {
+            "name": "save after unicode rename targets renamed file without losing draft",
+            "elapsedMilliseconds": 31.5162
+          },
+          {
+            "name": "folder browsing leaves active dirty document and asset origin intact",
+            "elapsedMilliseconds": 16.4215
+          },
+          {
+            "name": "failed folder selection retains previous list and dirty active document",
+            "elapsedMilliseconds": 17.7438
+          },
+          {
+            "name": "document list caps output and never includes nested or unrelated files",
+            "elapsedMilliseconds": 147.1219
+          },
+          {
+            "name": "missing confirmation never deletes a dirty current document",
+            "elapsedMilliseconds": 14.2378
+          },
+          {
+            "name": "new draft operations cannot choose or delete an implicit file",
+            "elapsedMilliseconds": 7.8597
+          },
+          {
+            "name": "disposed document APIs reject before touching any fixture file",
+            "elapsedMilliseconds": 15.4541
+          },
+          {
+            "name": "confirmed delete clears undo and preserves unrelated file bytes",
+            "elapsedMilliseconds": 19.1523
+          },
+          {
+            "name": "pending delete confirmation cannot migrate to another document",
+            "elapsedMilliseconds": 22.499100000000002
+          },
+          {
+            "name": "reference definitions do not leak to the replacement document",
+            "elapsedMilliseconds": 8.156500000000001
+          },
+          {
+            "name": "retained reference click keeps its original immutable document origin",
+            "elapsedMilliseconds": 4.7497
+          },
+          {
+            "name": "HTML hyperlink waits for explicit delegated click",
+            "elapsedMilliseconds": 8.3965
+          },
+          {
+            "name": "static HTML preview and current save preserve exact source bytes",
+            "elapsedMilliseconds": 32.1109
+          },
+          {
+            "name": "HTML images allow an explicit local control and reject parent escape",
+            "elapsedMilliseconds": 17.5516
+          },
+          {
+            "name": "external XML entity text never exposes an owned secret file",
+            "elapsedMilliseconds": 4.4398
+          },
+          {
+            "name": "XML include elements never import a local text file",
+            "elapsedMilliseconds": 3.5102
+          },
+          {
+            "name": "HTML image script iframe and CSS make zero loopback requests during observation",
+            "elapsedMilliseconds": 497.6236
+          },
+          {
+            "name": "unsafe HTML href never creates a clickable command",
+            "elapsedMilliseconds": 2.2024
+          },
+          {
+            "name": "deep and oversized static HTML stays bounded without mutating source",
+            "elapsedMilliseconds": 4.0952
+          }
+        ],
+        "WindowShown": false,
+        "NativePointerUsed": false,
+        "ExternalNetworkUsed": false,
+        "LoopbackListenerUsed": true,
+        "LoopbackObservationMilliseconds": 500,
+        "LoopbackRequestsObserved": 0,
+        "UserDocumentsTouched": false,
+        "AccountUsed": false,
+        "InstallerStarted": false,
+        "CheckedAt": "2026-10-19T02:50:08.6676003+09:00"
+      }
+    },
+    {
+      "Path": "artifacts/task026/audit3-documents-clipping-repro/result.json",
+      "SHA256": "43EEAC9EF993559FA1C06F56E29DF1E8D910A1798B38C02C4ACAC3E9C820DCBD",
+      "AuditorExecuted": false,
+      "AuditorInspected": true,
+      "Record": {
+        "Succeeded": false,
+        "Passed": 9,
+        "Failed": 6,
+        "Checks": [
+          {
+            "Name": "dark document list text follows palette",
+            "Passed": true,
+            "Detail": "Actual=#FFEBEBEB"
+          },
+          {
+            "Name": "dark document browser follows palette",
+            "Passed": true,
+            "Detail": "Actual=#FFEBEBEB"
+          },
+          {
+            "Name": "dark narrow document list is inside browser",
+            "Passed": true,
+            "Detail": "BrowserHeight=170; List=11,102.84,451,50"
+          },
+          {
+            "Name": "dark narrow file name does not overlap documents",
+            "Passed": false,
+            "Detail": "ListBottom=152.84; NameTop=106.84"
+          },
+          {
+            "Name": "dark narrow browser overflow is scrollable",
+            "Passed": false,
+            "Detail": "No content scroll viewer"
+          },
+          {
+            "Name": "light document list text follows palette",
+            "Passed": true,
+            "Detail": "Actual=#FF20252B"
+          },
+          {
+            "Name": "light document browser follows palette",
+            "Passed": true,
+            "Detail": "Actual=#FF20252B"
+          },
+          {
+            "Name": "light narrow document list is inside browser",
+            "Passed": true,
+            "Detail": "BrowserHeight=170; List=11,102.84,451,50"
+          },
+          {
+            "Name": "light narrow file name does not overlap documents",
+            "Passed": false,
+            "Detail": "ListBottom=152.84; NameTop=106.84"
+          },
+          {
+            "Name": "light narrow browser overflow is scrollable",
+            "Passed": false,
+            "Detail": "No content scroll viewer"
+          },
+          {
+            "Name": "dark document list text follows palette",
+            "Passed": true,
+            "Detail": "Actual=#FFEBEBEB"
+          },
+          {
+            "Name": "dark document browser follows palette",
+            "Passed": true,
+            "Detail": "Actual=#FFEBEBEB"
+          },
+          {
+            "Name": "dark narrow document list is inside browser",
+            "Passed": true,
+            "Detail": "BrowserHeight=170; List=11,102.84,451,50"
+          },
+          {
+            "Name": "dark narrow file name does not overlap documents",
+            "Passed": false,
+            "Detail": "ListBottom=152.84; NameTop=106.84"
+          },
+          {
+            "Name": "dark narrow browser overflow is scrollable",
+            "Passed": false,
+            "Detail": "No content scroll viewer"
+          }
+        ],
+        "ProductAssemblySha256": "3C8083975BA43696C0946F54DD7D7B73759A0ABEEE6DEF9CD7FB3F04CDCCCD4A",
+        "SourceOnly": false,
+        "WindowShown": false,
+        "ActualIdeTested": false
+      }
+    },
+    {
+      "Path": "artifacts/task026/audit3-documents-layout-source2/result.json",
+      "SHA256": "C39040B597998C387C53056CD049565A48A2306C6D6B266CA6BFB5DEB1CB37A0",
+      "AuditorExecuted": false,
+      "AuditorInspected": true,
+      "Record": {
+        "Succeeded": true,
+        "Passed": 111,
+        "Failed": 0,
+        "Checks": [
+          {
+            "Name": "1-dark document list text follows palette",
+            "Passed": true,
+            "Detail": "Actual=#FFEBEBEB"
+          },
+          {
+            "Name": "1-dark document browser follows palette",
+            "Passed": true,
+            "Detail": "Actual=#FFEBEBEB"
+          },
+          {
+            "Name": "1-dark editor splitter follows palette",
+            "Passed": true,
+            "Detail": "Actual=#FF424242"
+          },
+          {
+            "Name": "1-dark HTML table remains rendered after palette change",
+            "Passed": true,
+            "Detail": ""
+          },
+          {
+            "Name": "1-dark existing HTML header follows code surface",
+            "Passed": true,
+            "Detail": "Actual=#FF24282F"
+          },
+          {
+            "Name": "1-dark existing HTML code follows code surface",
+            "Passed": true,
+            "Detail": "Actual=#FF24282F"
+          },
+          {
+            "Name": "1-dark existing HTML link follows link color",
+            "Passed": true,
+            "Detail": "Actual=#FF79C5F5"
+          },
+          {
+            "Name": "1-dark 320px file name does not overlap documents",
+            "Passed": true,
+            "Detail": "ListBottom=165.92; NameTop=169.92"
+          },
+          {
+            "Name": "1-dark 320px browser has a content scroll viewer",
+            "Passed": true,
+            "Detail": ""
+          },
+          {
+            "Name": "1-dark 320px file name reachable",
+            "Passed": true,
+            "Detail": "Bounds=4,94.08,266,27.96; Viewport=274,122.04"
+          },
+          {
+            "Name": "1-dark 320px 이름 변경 reachable",
+            "Passed": true,
+            "Detail": "Bounds=4,96.08,72.22,25.96; Viewport=274,122.04"
+          },
+          {
+            "Name": "1-dark 320px 파일 위치 reachable",
+            "Passed": true,
+            "Detail": "Bounds=81.22,96.08,72.22,25.96; Viewport=274,122.04"
+          },
+          {
+            "Name": "1-dark 320px 삭제 reachable",
+            "Passed": true,
+            "Detail": "Bounds=158.44,96.08,44,25.96; Viewport=274,122.04"
+          },
+          {
+            "Name": "1-dark 320px delete requires visible confirmation",
+            "Passed": true,
+            "Detail": ""
+          },
+          {
+            "Name": "1-dark 320px 삭제 확인 reachable",
+            "Passed": true,
+            "Detail": "Bounds=164.88,90.12,72.22,31.92; Viewport=274,122.04"
+          },
+          {
+            "Name": "1-dark 320px 취소 reachable",
+            "Passed": true,
+            "Detail": "Bounds=4,96.08,44,25.96; Viewport=274,122.04"
+          },
+          {
+            "Name": "1-dark 320px cancel preserves document",
+            "Passed": true,
+            "Detail": ""
+          },
+          {
+            "Name": "1-dark 480px file name does not overlap documents",
+            "Passed": true,
+            "Detail": "ListBottom=152.84; NameTop=156.84"
+          },
+          {
+            "Name": "1-dark 480px browser has a content scroll viewer",
+            "Passed": true,
+            "Detail": ""
+          },
+          {
+            "Name": "1-dark 480px file name reachable",
+            "Passed": true,
+            "Detail": "Bounds=4,94.08,426,27.96; Viewport=434,122.04"
+          },
+          {
+            "Name": "1-dark 480px 이름 변경 reachable",
+            "Passed": true,
+            "Detail": "Bounds=4,96.08,72.22,25.96; Viewport=434,122.04"
+          },
+          {
+            "Name": "1-dark 480px 파일 위치 reachable",
+            "Passed": true,
+            "Detail": "Bounds=81.22,96.08,72.22,25.96; Viewport=434,122.04"
+          },
+          {
+            "Name": "1-dark 480px 삭제 reachable",
+            "Passed": true,
+            "Detail": "Bounds=158.44,96.08,44,25.96; Viewport=434,122.04"
+          },
+          {
+            "Name": "1-dark 480px delete requires visible confirmation",
+            "Passed": true,
+            "Detail": ""
+          },
+          {
+            "Name": "1-dark 480px 삭제 확인 reachable",
+            "Passed": true,
+            "Detail": "Bounds=164.88,90.12,72.22,31.92; Viewport=434,122.04"
+          },
+          {
+            "Name": "1-dark 480px 취소 reachable",
+            "Passed": true,
+            "Detail": "Bounds=242.1,90.12,44,31.92; Viewport=434,122.04"
+          },
+          {
+            "Name": "1-dark 480px cancel preserves document",
+            "Passed": true,
+            "Detail": ""
+          },
+          {
+            "Name": "1-dark 900px file name does not overlap documents",
+            "Passed": true,
+            "Detail": "ListBottom=417.24; NameTop=421.24"
+          },
+          {
+            "Name": "1-dark 900px browser has a content scroll viewer",
+            "Passed": true,
+            "Detail": ""
+          },
+          {
+            "Name": "1-dark 900px file name reachable",
+            "Passed": true,
+            "Detail": "Bounds=4,384.28,180,27.96; Viewport=188,468.16"
+          },
+          {
+            "Name": "1-dark 900px 이름 변경 reachable",
+            "Passed": true,
+            "Detail": "Bounds=4,412.24,72.22,25.96; Viewport=188,468.16"
+          },
+          {
+            "Name": "1-dark 900px 파일 위치 reachable",
+            "Passed": true,
+            "Detail": "Bounds=81.22,412.24,72.22,25.96; Viewport=188,468.16"
+          },
+          {
+            "Name": "1-dark 900px 삭제 reachable",
+            "Passed": true,
+            "Detail": "Bounds=4,438.2,44,25.96; Viewport=188,468.16"
+          },
+          {
+            "Name": "1-dark 900px delete requires visible confirmation",
+            "Passed": true,
+            "Detail": ""
+          },
+          {
+            "Name": "1-dark 900px 삭제 확인 reachable",
+            "Passed": true,
+            "Detail": "Bounds=4,438.2,72.22,25.96; Viewport=188,468.16"
+          },
+          {
+            "Name": "1-dark 900px 취소 reachable",
+            "Passed": true,
+            "Detail": "Bounds=81.22,438.2,44,25.96; Viewport=188,468.16"
+          },
+          {
+            "Name": "1-dark 900px cancel preserves document",
+            "Passed": true,
+            "Detail": ""
+          },
+          {
+            "Name": "2-light document list text follows palette",
+            "Passed": true,
+            "Detail": "Actual=#FF20252B"
+          },
+          {
+            "Name": "2-light document browser follows palette",
+            "Passed": true,
+            "Detail": "Actual=#FF20252B"
+          },
+          {
+            "Name": "2-light editor splitter follows palette",
+            "Passed": true,
+            "Detail": "Actual=#FFC7CDD4"
+          },
+          {
+            "Name": "2-light HTML table remains rendered after palette change",
+            "Passed": true,
+            "Detail": ""
+          },
+          {
+            "Name": "2-light existing HTML header follows code surface",
+            "Passed": true,
+            "Detail": "Actual=#FFEEF2F7"
+          },
+          {
+            "Name": "2-light existing HTML code follows code surface",
+            "Passed": true,
+            "Detail": "Actual=#FFEEF2F7"
+          },
+          {
+            "Name": "2-light existing HTML link follows link color",
+            "Passed": true,
+            "Detail": "Actual=#FF165C98"
+          },
+          {
+            "Name": "2-light 320px file name does not overlap documents",
+            "Passed": true,
+            "Detail": "ListBottom=165.92; NameTop=169.92"
+          },
+          {
+            "Name": "2-light 320px browser has a content scroll viewer",
+            "Passed": true,
+            "Detail": ""
+          },
+          {
+            "Name": "2-light 320px file name reachable",
+            "Passed": true,
+            "Detail": "Bounds=4,94.08,266,27.96; Viewport=274,122.04"
+          },
+          {
+            "Name": "2-light 320px 이름 변경 reachable",
+            "Passed": true,
+            "Detail": "Bounds=4,96.08,72.22,25.96; Viewport=274,122.04"
+          },
+          {
+            "Name": "2-light 320px 파일 위치 reachable",
+            "Passed": true,
+            "Detail": "Bounds=81.22,96.08,72.22,25.96; Viewport=274,122.04"
+          },
+          {
+            "Name": "2-light 320px 삭제 reachable",
+            "Passed": true,
+            "Detail": "Bounds=158.44,96.08,44,25.96; Viewport=274,122.04"
+          },
+          {
+            "Name": "2-light 320px delete requires visible confirmation",
+            "Passed": true,
+            "Detail": ""
+          },
+          {
+            "Name": "2-light 320px 삭제 확인 reachable",
+            "Passed": true,
+            "Detail": "Bounds=164.88,90.12,72.22,31.92; Viewport=274,122.04"
+          },
+          {
+            "Name": "2-light 320px 취소 reachable",
+            "Passed": true,
+            "Detail": "Bounds=4,96.08,44,25.96; Viewport=274,122.04"
+          },
+          {
+            "Name": "2-light 320px cancel preserves document",
+            "Passed": true,
+            "Detail": ""
+          },
+          {
+            "Name": "2-light 480px file name does not overlap documents",
+            "Passed": true,
+            "Detail": "ListBottom=152.84; NameTop=156.84"
+          },
+          {
+            "Name": "2-light 480px browser has a content scroll viewer",
+            "Passed": true,
+            "Detail": ""
+          },
+          {
+            "Name": "2-light 480px file name reachable",
+            "Passed": true,
+            "Detail": "Bounds=4,94.08,426,27.96; Viewport=434,122.04"
+          },
+          {
+            "Name": "2-light 480px 이름 변경 reachable",
+            "Passed": true,
+            "Detail": "Bounds=4,96.08,72.22,25.96; Viewport=434,122.04"
+          },
+          {
+            "Name": "2-light 480px 파일 위치 reachable",
+            "Passed": true,
+            "Detail": "Bounds=81.22,96.08,72.22,25.96; Viewport=434,122.04"
+          },
+          {
+            "Name": "2-light 480px 삭제 reachable",
+            "Passed": true,
+            "Detail": "Bounds=158.44,96.08,44,25.96; Viewport=434,122.04"
+          },
+          {
+            "Name": "2-light 480px delete requires visible confirmation",
+            "Passed": true,
+            "Detail": ""
+          },
+          {
+            "Name": "2-light 480px 삭제 확인 reachable",
+            "Passed": true,
+            "Detail": "Bounds=164.88,90.12,72.22,31.92; Viewport=434,122.04"
+          },
+          {
+            "Name": "2-light 480px 취소 reachable",
+            "Passed": true,
+            "Detail": "Bounds=242.1,90.12,44,31.92; Viewport=434,122.04"
+          },
+          {
+            "Name": "2-light 480px cancel preserves document",
+            "Passed": true,
+            "Detail": ""
+          },
+          {
+            "Name": "2-light 900px file name does not overlap documents",
+            "Passed": true,
+            "Detail": "ListBottom=417.24; NameTop=421.24"
+          },
+          {
+            "Name": "2-light 900px browser has a content scroll viewer",
+            "Passed": true,
+            "Detail": ""
+          },
+          {
+            "Name": "2-light 900px file name reachable",
+            "Passed": true,
+            "Detail": "Bounds=4,384.28,180,27.96; Viewport=188,468.16"
+          },
+          {
+            "Name": "2-light 900px 이름 변경 reachable",
+            "Passed": true,
+            "Detail": "Bounds=4,412.24,72.22,25.96; Viewport=188,468.16"
+          },
+          {
+            "Name": "2-light 900px 파일 위치 reachable",
+            "Passed": true,
+            "Detail": "Bounds=81.22,412.24,72.22,25.96; Viewport=188,468.16"
+          },
+          {
+            "Name": "2-light 900px 삭제 reachable",
+            "Passed": true,
+            "Detail": "Bounds=4,438.2,44,25.96; Viewport=188,468.16"
+          },
+          {
+            "Name": "2-light 900px delete requires visible confirmation",
+            "Passed": true,
+            "Detail": ""
+          },
+          {
+            "Name": "2-light 900px 삭제 확인 reachable",
+            "Passed": true,
+            "Detail": "Bounds=4,438.2,72.22,25.96; Viewport=188,468.16"
+          },
+          {
+            "Name": "2-light 900px 취소 reachable",
+            "Passed": true,
+            "Detail": "Bounds=81.22,438.2,44,25.96; Viewport=188,468.16"
+          },
+          {
+            "Name": "2-light 900px cancel preserves document",
+            "Passed": true,
+            "Detail": ""
+          },
+          {
+            "Name": "3-dark document list text follows palette",
+            "Passed": true,
+            "Detail": "Actual=#FFEBEBEB"
+          },
+          {
+            "Name": "3-dark document browser follows palette",
+            "Passed": true,
+            "Detail": "Actual=#FFEBEBEB"
+          },
+          {
+            "Name": "3-dark editor splitter follows palette",
+            "Passed": true,
+            "Detail": "Actual=#FF424242"
+          },
+          {
+            "Name": "3-dark HTML table remains rendered after palette change",
+            "Passed": true,
+            "Detail": ""
+          },
+          {
+            "Name": "3-dark existing HTML header follows code surface",
+            "Passed": true,
+            "Detail": "Actual=#FF24282F"
+          },
+          {
+            "Name": "3-dark existing HTML code follows code surface",
+            "Passed": true,
+            "Detail": "Actual=#FF24282F"
+          },
+          {
+            "Name": "3-dark existing HTML link follows link color",
+            "Passed": true,
+            "Detail": "Actual=#FF79C5F5"
+          },
+          {
+            "Name": "3-dark 320px file name does not overlap documents",
+            "Passed": true,
+            "Detail": "ListBottom=165.92; NameTop=169.92"
+          },
+          {
+            "Name": "3-dark 320px browser has a content scroll viewer",
+            "Passed": true,
+            "Detail": ""
+          },
+          {
+            "Name": "3-dark 320px file name reachable",
+            "Passed": true,
+            "Detail": "Bounds=4,94.08,266,27.96; Viewport=274,122.04"
+          },
+          {
+            "Name": "3-dark 320px 이름 변경 reachable",
+            "Passed": true,
+            "Detail": "Bounds=4,96.08,72.22,25.96; Viewport=274,122.04"
+          },
+          {
+            "Name": "3-dark 320px 파일 위치 reachable",
+            "Passed": true,
+            "Detail": "Bounds=81.22,96.08,72.22,25.96; Viewport=274,122.04"
+          },
+          {
+            "Name": "3-dark 320px 삭제 reachable",
+            "Passed": true,
+            "Detail": "Bounds=158.44,96.08,44,25.96; Viewport=274,122.04"
+          },
+          {
+            "Name": "3-dark 320px delete requires visible confirmation",
+            "Passed": true,
+            "Detail": ""
+          },
+          {
+            "Name": "3-dark 320px 삭제 확인 reachable",
+            "Passed": true,
+            "Detail": "Bounds=164.88,90.12,72.22,31.92; Viewport=274,122.04"
+          },
+          {
+            "Name": "3-dark 320px 취소 reachable",
+            "Passed": true,
+            "Detail": "Bounds=4,96.08,44,25.96; Viewport=274,122.04"
+          },
+          {
+            "Name": "3-dark 320px cancel preserves document",
+            "Passed": true,
+            "Detail": ""
+          },
+          {
+            "Name": "3-dark 480px file name does not overlap documents",
+            "Passed": true,
+            "Detail": "ListBottom=152.84; NameTop=156.84"
+          },
+          {
+            "Name": "3-dark 480px browser has a content scroll viewer",
+            "Passed": true,
+            "Detail": ""
+          },
+          {
+            "Name": "3-dark 480px file name reachable",
+            "Passed": true,
+            "Detail": "Bounds=4,94.08,426,27.96; Viewport=434,122.04"
+          },
+          {
+            "Name": "3-dark 480px 이름 변경 reachable",
+            "Passed": true,
+            "Detail": "Bounds=4,96.08,72.22,25.96; Viewport=434,122.04"
+          },
+          {
+            "Name": "3-dark 480px 파일 위치 reachable",
+            "Passed": true,
+            "Detail": "Bounds=81.22,96.08,72.22,25.96; Viewport=434,122.04"
+          },
+          {
+            "Name": "3-dark 480px 삭제 reachable",
+            "Passed": true,
+            "Detail": "Bounds=158.44,96.08,44,25.96; Viewport=434,122.04"
+          },
+          {
+            "Name": "3-dark 480px delete requires visible confirmation",
+            "Passed": true,
+            "Detail": ""
+          },
+          {
+            "Name": "3-dark 480px 삭제 확인 reachable",
+            "Passed": true,
+            "Detail": "Bounds=164.88,90.12,72.22,31.92; Viewport=434,122.04"
+          },
+          {
+            "Name": "3-dark 480px 취소 reachable",
+            "Passed": true,
+            "Detail": "Bounds=242.1,90.12,44,31.92; Viewport=434,122.04"
+          },
+          {
+            "Name": "3-dark 480px cancel preserves document",
+            "Passed": true,
+            "Detail": ""
+          },
+          {
+            "Name": "3-dark 900px file name does not overlap documents",
+            "Passed": true,
+            "Detail": "ListBottom=417.24; NameTop=421.24"
+          },
+          {
+            "Name": "3-dark 900px browser has a content scroll viewer",
+            "Passed": true,
+            "Detail": ""
+          },
+          {
+            "Name": "3-dark 900px file name reachable",
+            "Passed": true,
+            "Detail": "Bounds=4,384.28,180,27.96; Viewport=188,468.16"
+          },
+          {
+            "Name": "3-dark 900px 이름 변경 reachable",
+            "Passed": true,
+            "Detail": "Bounds=4,412.24,72.22,25.96; Viewport=188,468.16"
+          },
+          {
+            "Name": "3-dark 900px 파일 위치 reachable",
+            "Passed": true,
+            "Detail": "Bounds=81.22,412.24,72.22,25.96; Viewport=188,468.16"
+          },
+          {
+            "Name": "3-dark 900px 삭제 reachable",
+            "Passed": true,
+            "Detail": "Bounds=4,438.2,44,25.96; Viewport=188,468.16"
+          },
+          {
+            "Name": "3-dark 900px delete requires visible confirmation",
+            "Passed": true,
+            "Detail": ""
+          },
+          {
+            "Name": "3-dark 900px 삭제 확인 reachable",
+            "Passed": true,
+            "Detail": "Bounds=4,438.2,72.22,25.96; Viewport=188,468.16"
+          },
+          {
+            "Name": "3-dark 900px 취소 reachable",
+            "Passed": true,
+            "Detail": "Bounds=81.22,438.2,44,25.96; Viewport=188,468.16"
+          },
+          {
+            "Name": "3-dark 900px cancel preserves document",
+            "Passed": true,
+            "Detail": ""
+          }
+        ],
+        "ProductAssemblySha256": null,
+        "UiAssemblySha256": "966E25000240B80BB7AEA13B204606AA50FCF16832F2D231694CC744ECD1C5B4",
+        "ThemeAssemblySha256": "3C8083975BA43696C0946F54DD7D7B73759A0ABEEE6DEF9CD7FB3F04CDCCCD4A",
+        "SourceOnly": true,
+        "WindowShown": false,
+        "ActualIdeTested": false
+      }
+    }
+  ],
+  "OtherExecutorFull16": {
+    "Executor": "TASK025",
+    "AuditorExecuted": false,
+    "Path": "artifacts/tl/0e5d65768c/summary.txt",
+    "SHA256": "AD0CC9298C30EBEB012A3217A0BA973C25C425F23E710722566BC12C80F67430",
+    "Text": "compatibility\texit=0\r\nbuild-entry\texit=0\r\nmarkdown\texit=0\r\nsettings\texit=0\r\nworkspace-actions\texit=0\r\nediting\texit=0\r\nfoundation\texit=0\r\nexperience\texit=0\r\ndocuments\texit=0\r\ncollaboration\texit=0\r\nprovider-options\texit=0\r\nprovider-cli\texit=0\r\nscm-identity\texit=0\r\nimage-requirements\texit=0\r\nimage-followup\texit=0\r\nnative-runtime\texit=0\r\n"
+  },
+  "Builds": {
+    "Executor": "TASK025",
+    "AuditorExecuted": false,
+    "Records": [
+      {
+        "Version": "2017",
+        "Configuration": "Debug",
+        "ExitCode": 0,
+        "Warnings": 0,
+        "Log": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task025\\build-candidate6-2017-Debug.log"
+      },
+      {
+        "Version": "2017",
+        "Configuration": "Release",
+        "ExitCode": 0,
+        "Warnings": 0,
+        "Log": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task025\\build-candidate6-2017-Release.log"
+      },
+      {
+        "Version": "2019",
+        "Configuration": "Debug",
+        "ExitCode": 0,
+        "Warnings": 0,
+        "Log": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task025\\build-candidate6-2019-Debug.log"
+      },
+      {
+        "Version": "2019",
+        "Configuration": "Release",
+        "ExitCode": 0,
+        "Warnings": 0,
+        "Log": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task025\\build-candidate6-2019-Release.log"
+      },
+      {
+        "Version": "2022",
+        "Configuration": "Debug",
+        "ExitCode": 0,
+        "Warnings": 0,
+        "Log": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task025\\build-candidate6-2022-Debug.log"
+      },
+      {
+        "Version": "2022",
+        "Configuration": "Release",
+        "ExitCode": 0,
+        "Warnings": 0,
+        "Log": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task025\\build-candidate6-2022-Release.log"
+      }
+    ]
+  },
+  "Packages": [
+    {
+      "Year": "2017",
+      "File": "VS2017.AIAssistant.vsix",
+      "Bytes": 3844169,
+      "SHA256": "97485DBA16C448ABCBF0364E677CD4D8D46D888DC6BBBB49774187453E440594",
+      "DLLSHA256": "3C8083975BA43696C0946F54DD7D7B73759A0ABEEE6DEF9CD7FB3F04CDCCCD4A",
+      "Target": [
+        {
+          "Id": "Microsoft.VisualStudio.Community",
+          "Version": "[15.0.28307.0,16.0)",
+          "Architecture": null
+        }
+      ],
+      "Payload": [
+        {
+          "Name": "VS2017.AIAssistant.dll",
+          "Bytes": 716800,
+          "SHA256": "3C8083975BA43696C0946F54DD7D7B73759A0ABEEE6DEF9CD7FB3F04CDCCCD4A",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "ICSharpCode.AvalonEdit.dll",
+          "Bytes": 621056,
+          "SHA256": "B0032716709359F7361D5A2DDC8E2AD457A1448A093FB4900E0336312B0A10C7",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Microsoft.Web.WebView2.Core.dll",
+          "Bytes": 698208,
+          "SHA256": "E6F54C8CE208E3797C427D01AD671B47CB25ABC85604753D6EC2546D0FFEF550",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Microsoft.Web.WebView2.WinForms.dll",
+          "Bytes": 38752,
+          "SHA256": "CC3D2937C350A4F5E20399855BCAB4FE695A395308FEB2ED67394FAA6A1AE849",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Microsoft.Web.WebView2.Wpf.dll",
+          "Bytes": 86368,
+          "SHA256": "6942B85A3388ECE45FEBDE5584D2BFC035D84315F2DD5A4A47913F01A0193800",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/ThirdParty/AvalonEdit/LICENSE.txt",
+          "Bytes": 1075,
+          "SHA256": "7CFE74F11EAEF7A239E7C63D33595F924E7922FB3E3F3651014389620B228A07",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/01-connect.gif",
+          "Bytes": 252810,
+          "SHA256": "59E48449823353475F5204971C0B5C5B3F926DFF7F1F6A239B3AE8C47B956149",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/02-request.gif",
+          "Bytes": 211883,
+          "SHA256": "B08A43114E1E12128BCE6EA32C6CDAF5A1D4ABD5BEDA3C16A24BC9A50FC31CE2",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/03-review.gif",
+          "Bytes": 123205,
+          "SHA256": "92D4ACC8F2314D9DA0EE8350FE71CE48C2DB633499D3B3E8CD4898C8B7D57EDA",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/04-guide.gif",
+          "Bytes": 200648,
+          "SHA256": "C82293FB4C5D0074BF29D074BBB7419D6FD4821B4E485A5C907B0497CB5A0692",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/05-install.gif",
+          "Bytes": 197738,
+          "SHA256": "816F5FA2786BA404BA88066224B8A8F85760980F8564F80E9762E08090A078C3",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/01-connect.png",
+          "Bytes": 15425,
+          "SHA256": "D70A981083C73399C346D54E520B466958BADD5DD15C925461520071250055A5",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/02-request.png",
+          "Bytes": 15662,
+          "SHA256": "B83E1AE93DC9482135D844F1B7F22921B1E9D07C8CC57C40F9D5691EFCB09C3F",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/03-review.png",
+          "Bytes": 16370,
+          "SHA256": "07DA9122FF6570B2627E8F7A6C0E3AC8D1DBE4FE90EDAFDC3FE22F78D7BF365E",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/04-guide.png",
+          "Bytes": 25621,
+          "SHA256": "FD365AFA59DB76AB110F8BA5F4FA1C392CD8EC8625CD67EE7ED4FE5CFAE8F0C6",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/05-install.png",
+          "Bytes": 27286,
+          "SHA256": "BAC8E2E956FD37CC431653D555F9784A8C31A59D738649433851DACD283C5871",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/ThirdParty/WebView2/LICENSE.txt",
+          "Bytes": 1487,
+          "SHA256": "0AF8F1B807512AAE39C2AC1AA4D0CAE65CABECB6FD554B8439A5162A0D6ECA55",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/ThirdParty/WebView2/NOTICE.txt",
+          "Bytes": 3894,
+          "SHA256": "106423785C5B7EBA0A8E61D1837F2132E9C828E20AD530F565D981C1DF60DD90",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "runtimes/win-x86/native/WebView2Loader.dll",
+          "Bytes": 124768,
+          "SHA256": "A08C57142946E5A554D9D5C018E27DCBB09248BE8AD44852667B96564BBCEEDA",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "runtimes/win-x64/native/WebView2Loader.dll",
+          "Bytes": 163680,
+          "SHA256": "C66E4A92FDC7A216118E43B7A5024EA2200E8C43F9310BF20D96A0084F82C5BC",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "runtimes/win-arm64/native/WebView2Loader.dll",
+          "Bytes": 150880,
+          "SHA256": "5A5CF33BDCE364D72CBB56D59E24E5CF77EE38976D4F8B392A151E0013215703",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "VS2017.AIAssistant.DocumentReader.exe",
+          "Bytes": 9728,
+          "SHA256": "7461C0838638E810655D85702F4D679C22F677D52A285C0CA5984E4E6AA42531",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "VS2017.AIAssistant.DocumentReader.exe.config",
+          "Bytes": 159,
+          "SHA256": "DBA0AC349FA98F542FE90CC4FBBE3033567DAC0515859D049854E81DEFAAAA51",
+          "MatchesOutput": true
+        }
+      ]
+    },
+    {
+      "Year": "2019",
+      "File": "VS2017.AIAssistant.vsix",
+      "Bytes": 3845928,
+      "SHA256": "EAFD2EA68C4C753DE00DE7682EA77AEB807A662D95FB0299EB76B8639D1E227A",
+      "DLLSHA256": "3A804410CE2CC11D9045BC86EFE99A6FFCC51C8F1DC379BEDB255980A712678F",
+      "Target": [
+        {
+          "Id": "Microsoft.VisualStudio.Community",
+          "Version": "[16.0,17.0)",
+          "Architecture": null
+        }
+      ],
+      "Payload": [
+        {
+          "Name": "VS2017.AIAssistant.dll",
+          "Bytes": 714240,
+          "SHA256": "3A804410CE2CC11D9045BC86EFE99A6FFCC51C8F1DC379BEDB255980A712678F",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "ICSharpCode.AvalonEdit.dll",
+          "Bytes": 621056,
+          "SHA256": "B0032716709359F7361D5A2DDC8E2AD457A1448A093FB4900E0336312B0A10C7",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Microsoft.Web.WebView2.Core.dll",
+          "Bytes": 698208,
+          "SHA256": "E6F54C8CE208E3797C427D01AD671B47CB25ABC85604753D6EC2546D0FFEF550",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Microsoft.Web.WebView2.WinForms.dll",
+          "Bytes": 38752,
+          "SHA256": "CC3D2937C350A4F5E20399855BCAB4FE695A395308FEB2ED67394FAA6A1AE849",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Microsoft.Web.WebView2.Wpf.dll",
+          "Bytes": 86368,
+          "SHA256": "6942B85A3388ECE45FEBDE5584D2BFC035D84315F2DD5A4A47913F01A0193800",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/ThirdParty/AvalonEdit/LICENSE.txt",
+          "Bytes": 1075,
+          "SHA256": "7CFE74F11EAEF7A239E7C63D33595F924E7922FB3E3F3651014389620B228A07",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/01-connect.gif",
+          "Bytes": 252810,
+          "SHA256": "59E48449823353475F5204971C0B5C5B3F926DFF7F1F6A239B3AE8C47B956149",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/02-request.gif",
+          "Bytes": 211883,
+          "SHA256": "B08A43114E1E12128BCE6EA32C6CDAF5A1D4ABD5BEDA3C16A24BC9A50FC31CE2",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/03-review.gif",
+          "Bytes": 123205,
+          "SHA256": "92D4ACC8F2314D9DA0EE8350FE71CE48C2DB633499D3B3E8CD4898C8B7D57EDA",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/04-guide.gif",
+          "Bytes": 200648,
+          "SHA256": "C82293FB4C5D0074BF29D074BBB7419D6FD4821B4E485A5C907B0497CB5A0692",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/05-install.gif",
+          "Bytes": 197738,
+          "SHA256": "816F5FA2786BA404BA88066224B8A8F85760980F8564F80E9762E08090A078C3",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/01-connect.png",
+          "Bytes": 15425,
+          "SHA256": "D70A981083C73399C346D54E520B466958BADD5DD15C925461520071250055A5",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/02-request.png",
+          "Bytes": 15662,
+          "SHA256": "B83E1AE93DC9482135D844F1B7F22921B1E9D07C8CC57C40F9D5691EFCB09C3F",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/03-review.png",
+          "Bytes": 16370,
+          "SHA256": "07DA9122FF6570B2627E8F7A6C0E3AC8D1DBE4FE90EDAFDC3FE22F78D7BF365E",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/04-guide.png",
+          "Bytes": 25621,
+          "SHA256": "FD365AFA59DB76AB110F8BA5F4FA1C392CD8EC8625CD67EE7ED4FE5CFAE8F0C6",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/05-install.png",
+          "Bytes": 27286,
+          "SHA256": "BAC8E2E956FD37CC431653D555F9784A8C31A59D738649433851DACD283C5871",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/ThirdParty/WebView2/LICENSE.txt",
+          "Bytes": 1487,
+          "SHA256": "0AF8F1B807512AAE39C2AC1AA4D0CAE65CABECB6FD554B8439A5162A0D6ECA55",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/ThirdParty/WebView2/NOTICE.txt",
+          "Bytes": 3894,
+          "SHA256": "106423785C5B7EBA0A8E61D1837F2132E9C828E20AD530F565D981C1DF60DD90",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "runtimes/win-x86/native/WebView2Loader.dll",
+          "Bytes": 124768,
+          "SHA256": "A08C57142946E5A554D9D5C018E27DCBB09248BE8AD44852667B96564BBCEEDA",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "runtimes/win-x64/native/WebView2Loader.dll",
+          "Bytes": 163680,
+          "SHA256": "C66E4A92FDC7A216118E43B7A5024EA2200E8C43F9310BF20D96A0084F82C5BC",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "runtimes/win-arm64/native/WebView2Loader.dll",
+          "Bytes": 150880,
+          "SHA256": "5A5CF33BDCE364D72CBB56D59E24E5CF77EE38976D4F8B392A151E0013215703",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "VS2017.AIAssistant.DocumentReader.exe",
+          "Bytes": 9728,
+          "SHA256": "67DABE6F7457EB20FC8B16FE4F92EFF23C9A31DFEE06D464E8D4272FE8FEB5CA",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "VS2017.AIAssistant.DocumentReader.exe.config",
+          "Bytes": 159,
+          "SHA256": "DBA0AC349FA98F542FE90CC4FBBE3033567DAC0515859D049854E81DEFAAAA51",
+          "MatchesOutput": true
+        }
+      ]
+    },
+    {
+      "Year": "2022",
+      "File": "VS2017.AIAssistant.vsix",
+      "Bytes": 3845863,
+      "SHA256": "750074ABE781D0FEBFBF354C035F46CC4AA17EEA903430EF6B66FA7A5AFE302B",
+      "DLLSHA256": "429C51F15628B932C8ACFEE2E745A6C025B5C3953E9F513EA9759A1AD15C58AA",
+      "Target": [
+        {
+          "Id": "Microsoft.VisualStudio.Community",
+          "Version": "[17.0,18.0)",
+          "Architecture": "amd64"
+        }
+      ],
+      "Payload": [
+        {
+          "Name": "VS2017.AIAssistant.dll",
+          "Bytes": 713216,
+          "SHA256": "429C51F15628B932C8ACFEE2E745A6C025B5C3953E9F513EA9759A1AD15C58AA",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "ICSharpCode.AvalonEdit.dll",
+          "Bytes": 621056,
+          "SHA256": "B0032716709359F7361D5A2DDC8E2AD457A1448A093FB4900E0336312B0A10C7",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Microsoft.Web.WebView2.Core.dll",
+          "Bytes": 698208,
+          "SHA256": "E6F54C8CE208E3797C427D01AD671B47CB25ABC85604753D6EC2546D0FFEF550",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Microsoft.Web.WebView2.WinForms.dll",
+          "Bytes": 38752,
+          "SHA256": "CC3D2937C350A4F5E20399855BCAB4FE695A395308FEB2ED67394FAA6A1AE849",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Microsoft.Web.WebView2.Wpf.dll",
+          "Bytes": 86368,
+          "SHA256": "6942B85A3388ECE45FEBDE5584D2BFC035D84315F2DD5A4A47913F01A0193800",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/ThirdParty/AvalonEdit/LICENSE.txt",
+          "Bytes": 1075,
+          "SHA256": "7CFE74F11EAEF7A239E7C63D33595F924E7922FB3E3F3651014389620B228A07",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/01-connect.gif",
+          "Bytes": 252810,
+          "SHA256": "59E48449823353475F5204971C0B5C5B3F926DFF7F1F6A239B3AE8C47B956149",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/02-request.gif",
+          "Bytes": 211883,
+          "SHA256": "B08A43114E1E12128BCE6EA32C6CDAF5A1D4ABD5BEDA3C16A24BC9A50FC31CE2",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/03-review.gif",
+          "Bytes": 123205,
+          "SHA256": "92D4ACC8F2314D9DA0EE8350FE71CE48C2DB633499D3B3E8CD4898C8B7D57EDA",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/04-guide.gif",
+          "Bytes": 200648,
+          "SHA256": "C82293FB4C5D0074BF29D074BBB7419D6FD4821B4E485A5C907B0497CB5A0692",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/05-install.gif",
+          "Bytes": 197738,
+          "SHA256": "816F5FA2786BA404BA88066224B8A8F85760980F8564F80E9762E08090A078C3",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/01-connect.png",
+          "Bytes": 15425,
+          "SHA256": "D70A981083C73399C346D54E520B466958BADD5DD15C925461520071250055A5",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/02-request.png",
+          "Bytes": 15662,
+          "SHA256": "B83E1AE93DC9482135D844F1B7F22921B1E9D07C8CC57C40F9D5691EFCB09C3F",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/03-review.png",
+          "Bytes": 16370,
+          "SHA256": "07DA9122FF6570B2627E8F7A6C0E3AC8D1DBE4FE90EDAFDC3FE22F78D7BF365E",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/04-guide.png",
+          "Bytes": 25621,
+          "SHA256": "FD365AFA59DB76AB110F8BA5F4FA1C392CD8EC8625CD67EE7ED4FE5CFAE8F0C6",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/05-install.png",
+          "Bytes": 27286,
+          "SHA256": "BAC8E2E956FD37CC431653D555F9784A8C31A59D738649433851DACD283C5871",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/ThirdParty/WebView2/LICENSE.txt",
+          "Bytes": 1487,
+          "SHA256": "0AF8F1B807512AAE39C2AC1AA4D0CAE65CABECB6FD554B8439A5162A0D6ECA55",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/ThirdParty/WebView2/NOTICE.txt",
+          "Bytes": 3894,
+          "SHA256": "106423785C5B7EBA0A8E61D1837F2132E9C828E20AD530F565D981C1DF60DD90",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "runtimes/win-x86/native/WebView2Loader.dll",
+          "Bytes": 124768,
+          "SHA256": "A08C57142946E5A554D9D5C018E27DCBB09248BE8AD44852667B96564BBCEEDA",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "runtimes/win-x64/native/WebView2Loader.dll",
+          "Bytes": 163680,
+          "SHA256": "C66E4A92FDC7A216118E43B7A5024EA2200E8C43F9310BF20D96A0084F82C5BC",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "runtimes/win-arm64/native/WebView2Loader.dll",
+          "Bytes": 150880,
+          "SHA256": "5A5CF33BDCE364D72CBB56D59E24E5CF77EE38976D4F8B392A151E0013215703",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "VS2017.AIAssistant.DocumentReader.exe",
+          "Bytes": 9728,
+          "SHA256": "CD9C9941964E2B212CFA9EC60C8DA8070B8FAEC93C83B5D6EF4B360F5B005A64",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "VS2017.AIAssistant.DocumentReader.exe.config",
+          "Bytes": 159,
+          "SHA256": "DBA0AC349FA98F542FE90CC4FBBE3033567DAC0515859D049854E81DEFAAAA51",
+          "MatchesOutput": true
+        }
+      ]
+    }
+  ],
+  "ProtectedCurrentAuditAndRole": [
+    {
+      "Path": "MarkdownReport/Role.md",
+      "BeforeSHA256": "EDF43D1A6D347C188F1DB4C2D7A21E7B4B5EBFD922289CC6086708A92820781D",
+      "AfterSHA256": "1508A4450ACC98F531770CF9639EA02A2931474F1DCA0754B05BBAA3D86BE782",
+      "Unchanged": false,
+      "OriginalPrefixPreserved": true,
+      "ConcurrentAppend": true
+    },
+    {
+      "Path": "MarkdownReport/CodexOrig2_TASK-028_Audit3.md",
+      "BeforeSHA256": "1BC2C86124BC29DFBE0309F8BA7F52568504619BDF27A45E9D6A42F7EF61F6DD",
+      "AfterSHA256": "1BC2C86124BC29DFBE0309F8BA7F52568504619BDF27A45E9D6A42F7EF61F6DD",
+      "Unchanged": true,
+      "OriginalPrefixPreserved": false,
+      "ConcurrentAppend": false
+    },
+    {
+      "Path": "MarkdownReport/CodexOrig2_TASK-028_Evidence.json",
+      "BeforeSHA256": "A27BEEC642D2F221AF7EC78AEE8B9F250A6B37C9D83DA959C52A05165C5916D6",
+      "AfterSHA256": "A27BEEC642D2F221AF7EC78AEE8B9F250A6B37C9D83DA959C52A05165C5916D6",
+      "Unchanged": true,
+      "OriginalPrefixPreserved": false,
+      "ConcurrentAppend": false
+    },
+    {
+      "Path": "MarkdownReport/CodexOrig2_TASK-023_Audit2.md",
+      "BeforeSHA256": "02A2CC83CCC0B8CB6CEBC93E0514BBF18CA84B3099CA95B8152051D07468BBD5",
+      "AfterSHA256": "02A2CC83CCC0B8CB6CEBC93E0514BBF18CA84B3099CA95B8152051D07468BBD5",
+      "Unchanged": true,
+      "OriginalPrefixPreserved": false,
+      "ConcurrentAppend": false
+    },
+    {
+      "Path": "MarkdownReport/CodexOrig2_TASK-023_Evidence.json",
+      "BeforeSHA256": "262228842E48D37DC0E7063638E2BCA82856CC933E9A0462247A0C6D52947EB1",
+      "AfterSHA256": "262228842E48D37DC0E7063638E2BCA82856CC933E9A0462247A0C6D52947EB1",
+      "Unchanged": true,
+      "OriginalPrefixPreserved": false,
+      "ConcurrentAppend": false
+    },
+    {
+      "Path": "MarkdownReport/CodexOrig2_TASK-019_Audit.md",
+      "BeforeSHA256": "82E1A9C78ABA9944EDBC5E3FA040619AA41CFFC70A64A4C81AE99DF4F23AE3C3",
+      "AfterSHA256": "82E1A9C78ABA9944EDBC5E3FA040619AA41CFFC70A64A4C81AE99DF4F23AE3C3",
+      "Unchanged": true,
+      "OriginalPrefixPreserved": false,
+      "ConcurrentAppend": false
+    },
+    {
+      "Path": "MarkdownReport/CodexOrig2_TASK-019_Evidence.json",
+      "BeforeSHA256": "060CDC426B9803B0D59FED958A9042651AA948261C37FE7895481D686A395C74",
+      "AfterSHA256": "060CDC426B9803B0D59FED958A9042651AA948261C37FE7895481D686A395C74",
+      "Unchanged": true,
+      "OriginalPrefixPreserved": false,
+      "ConcurrentAppend": false
+    }
+  ],
+  "ProtectedOriginalInstallAuditImages": [
+    {
+      "Path": "MarkdownReport/CodexOrig2_TASK-019_Audit.md",
+      "Expected": "82E1A9C78ABA9944EDBC5E3FA040619AA41CFFC70A64A4C81AE99DF4F23AE3C3",
+      "Actual": "82E1A9C78ABA9944EDBC5E3FA040619AA41CFFC70A64A4C81AE99DF4F23AE3C3",
+      "Unchanged": true
+    },
+    {
+      "Path": "InstallCLI.bat",
+      "Expected": "81BAE40E698B7E16B4A15093248453C7A79EF5D564306FC9CE9416255D91D5CB",
+      "Actual": "81BAE40E698B7E16B4A15093248453C7A79EF5D564306FC9CE9416255D91D5CB",
+      "Unchanged": true
+    },
+    {
+      "Path": "output/pdf/VisualStudio_AI_Assistant_설치_사용설명서.pdf",
+      "Expected": "EAE9BDD2CA1602677FEAF6BD1F50C19C8F7E29068D33B1DC06215D998C60B30A",
+      "Actual": "EAE9BDD2CA1602677FEAF6BD1F50C19C8F7E29068D33B1DC06215D998C60B30A",
+      "Unchanged": true
+    },
+    {
+      "Path": "MarkdownReport/CodexOrig2_TASK-023_Evidence.json",
+      "Expected": "262228842E48D37DC0E7063638E2BCA82856CC933E9A0462247A0C6D52947EB1",
+      "Actual": "262228842E48D37DC0E7063638E2BCA82856CC933E9A0462247A0C6D52947EB1",
+      "Unchanged": true
+    },
+    {
+      "Path": "HowToInstallCLI.md",
+      "Expected": "6990AF5ED77868C12C80D05FFFB7003DECD02AA0F5E6BC0F970996569B979164",
+      "Actual": "6990AF5ED77868C12C80D05FFFB7003DECD02AA0F5E6BC0F970996569B979164",
+      "Unchanged": true
+    },
+    {
+      "Path": "output/VisualStudio_AI_Assistant_고객전달용.zip",
+      "Expected": "52573BD0E9CB4D288A9AB7B21167E2CA769FEA67217E1B9F71901D2DA1D47085",
+      "Actual": "52573BD0E9CB4D288A9AB7B21167E2CA769FEA67217E1B9F71901D2DA1D47085",
+      "Unchanged": true
+    },
+    {
+      "Path": "MarkdownReport/CodexOrig2_TASK-019_Evidence.json",
+      "Expected": "060CDC426B9803B0D59FED958A9042651AA948261C37FE7895481D686A395C74",
+      "Actual": "060CDC426B9803B0D59FED958A9042651AA948261C37FE7895481D686A395C74",
+      "Unchanged": true
+    },
+    {
+      "Path": "MarkdownReport/CodexOrig2_TASK-023_Audit2.md",
+      "Expected": "02A2CC83CCC0B8CB6CEBC93E0514BBF18CA84B3099CA95B8152051D07468BBD5",
+      "Actual": "02A2CC83CCC0B8CB6CEBC93E0514BBF18CA84B3099CA95B8152051D07468BBD5",
+      "Unchanged": true
+    },
+    {
+      "Path": "docs/assets/cli-manual/01-overview.png",
+      "Expected": "86738234B9A201914E6BED1776C32A2B007AE8171F50EEA974C3B4BAC3E76B49",
+      "Actual": "86738234B9A201914E6BED1776C32A2B007AE8171F50EEA974C3B4BAC3E76B49",
+      "Unchanged": true
+    },
+    {
+      "Path": "docs/assets/cli-manual/02-package.png",
+      "Expected": "CDCAEFF48497A3DD181230D4358428C22F5D86DDDE375CD5FF1BD07DFBA4C753",
+      "Actual": "CDCAEFF48497A3DD181230D4358428C22F5D86DDDE375CD5FF1BD07DFBA4C753",
+      "Unchanged": true
+    },
+    {
+      "Path": "docs/assets/cli-manual/03-vsix.png",
+      "Expected": "D0088EDD998D516763D50D0030B39206EB778778B7DBF219705CC9F72D67C6D8",
+      "Actual": "D0088EDD998D516763D50D0030B39206EB778778B7DBF219705CC9F72D67C6D8",
+      "Unchanged": true
+    },
+    {
+      "Path": "docs/assets/cli-manual/04-run-batch.png",
+      "Expected": "B5D5B679B0D56026D73F9323140E6894325A4F116984E3F655CB74DE075A91D9",
+      "Actual": "B5D5B679B0D56026D73F9323140E6894325A4F116984E3F655CB74DE075A91D9",
+      "Unchanged": true
+    },
+    {
+      "Path": "docs/assets/cli-manual/05-success.png",
+      "Expected": "F9845411A901B6B687D873FBD7E93E693ABC52D716D4A912CB691652FFCF775F",
+      "Actual": "F9845411A901B6B687D873FBD7E93E693ABC52D716D4A912CB691652FFCF775F",
+      "Unchanged": true
+    },
+    {
+      "Path": "docs/assets/cli-manual/06-login.png",
+      "Expected": "859D753C9240ED86525075F43A66A4823ADDE2F6F19A3D13F435695E0448020C",
+      "Actual": "859D753C9240ED86525075F43A66A4823ADDE2F6F19A3D13F435695E0448020C",
+      "Unchanged": true
+    },
+    {
+      "Path": "docs/assets/cli-manual/07-paths.png",
+      "Expected": "70BFA267082C8A6D2DD5A62065B821921BBC011C56ABAA01F2EC401EF4CCD043",
+      "Actual": "70BFA267082C8A6D2DD5A62065B821921BBC011C56ABAA01F2EC401EF4CCD043",
+      "Unchanged": true
+    },
+    {
+      "Path": "docs/assets/cli-manual/08-attachments.png",
+      "Expected": "650733944817B5185BEE9C999D699E73643BDCCC0FB060B08515D073317AC9A9",
+      "Actual": "650733944817B5185BEE9C999D699E73643BDCCC0FB060B08515D073317AC9A9",
+      "Unchanged": true
+    },
+    {
+      "Path": "docs/assets/cli-manual/09-troubleshooting.png",
+      "Expected": "44F4CB8F53CE709B1F126806E577B5219A2C44A8DF22578DE8513CD157832629",
+      "Actual": "44F4CB8F53CE709B1F126806E577B5219A2C44A8DF22578DE8513CD157832629",
+      "Unchanged": true
+    },
+    {
+      "Path": "docs/assets/cli-manual/10-options.png",
+      "Expected": "D6C1443DA8C7118BFF1C10CEC72028F6ABCDD3027D9FB99217897A0BF8A89BB7",
+      "Actual": "D6C1443DA8C7118BFF1C10CEC72028F6ABCDD3027D9FB99217897A0BF8A89BB7",
+      "Unchanged": true
+    },
+    {
+      "Path": "docs/assets/cli-manual/11-install-methods.png",
+      "Expected": "06A6494284E5B65E161CADEE74F2B3C8B62F4923244A1EAEA4B9C984626A08D0",
+      "Actual": "06A6494284E5B65E161CADEE74F2B3C8B62F4923244A1EAEA4B9C984626A08D0",
+      "Unchanged": true
+    },
+    {
+      "Path": "docs/assets/cli-manual/12-checklist.png",
+      "Expected": "E49084EC2B5EC85B2640F598E152828000DDAD9D67A085B17EC97E0ACE0D48E4",
+      "Actual": "E49084EC2B5EC85B2640F598E152828000DDAD9D67A085B17EC97E0ACE0D48E4",
+      "Unchanged": true
+    },
+    {
+      "Path": "docs/assets/cli-manual/ui-chat.png",
+      "Expected": "242A2B0809D62C354D5F1E88FA479D3EB335C155C1B57F7BA09793FFE29E0AAC",
+      "Actual": "242A2B0809D62C354D5F1E88FA479D3EB335C155C1B57F7BA09793FFE29E0AAC",
+      "Unchanged": true
+    },
+    {
+      "Path": "docs/assets/cli-manual/ui-guide.png",
+      "Expected": "321C6221992E58B812B762B605A0F61E8B59DD6074796BC63FF2DC8E55D69625",
+      "Actual": "321C6221992E58B812B762B605A0F61E8B59DD6074796BC63FF2DC8E55D69625",
+      "Unchanged": true
+    },
+    {
+      "Path": "docs/assets/cli-manual/ui-models.png",
+      "Expected": "DF3391A04A18C38316D4456711E385A0906A1E5862D15C4A52856164E9B44712",
+      "Actual": "DF3391A04A18C38316D4456711E385A0906A1E5862D15C4A52856164E9B44712",
+      "Unchanged": true
+    },
+    {
+      "Path": "docs/assets/cli-manual/ui-permissions.png",
+      "Expected": "85C9417A1C6CD433FCA2AE35BF1860B77F52A9FB07B09FF9E2D1EEA89B49F891",
+      "Actual": "85C9417A1C6CD433FCA2AE35BF1860B77F52A9FB07B09FF9E2D1EEA89B49F891",
+      "Unchanged": true
+    },
+    {
+      "Path": "docs/assets/cli-manual/ui-review.png",
+      "Expected": "D3838D4919B3BCAFA6E2BEC4E03E376408BAF821245060124F472D1FDEFDA014",
+      "Actual": "D3838D4919B3BCAFA6E2BEC4E03E376408BAF821245060124F472D1FDEFDA014",
+      "Unchanged": true
+    },
+    {
+      "Path": "docs/assets/cli-manual/ui-settings.png",
+      "Expected": "26B64806A1482F83B7110001AA1C7CC62BEA3D383182FE7A53034BF160AA262B",
+      "Actual": "26B64806A1482F83B7110001AA1C7CC62BEA3D383182FE7A53034BF160AA262B",
+      "Unchanged": true
+    }
+  ],
+  "PreservedHarnessFailures": [
+    "audit-probe.log: unsupported UndoStack member, no product assertions executed",
+    "audit-probe-run2.log: unused audit field warning treated as compile error, no product assertions executed",
+    "audit-probe-run3.log: expected InvalidDataException not handled by audit Reject helper; corrected only that helper",
+    "audit-probe-run4.log: 13 pass /5 HTML failures; preserved before adding image and truncation cases",
+    "audit-probe-final.log: final 14 pass/7 HTML failures, exit1 preserved",
+    "First finalization hash guard detected concurrent Orig3 TASK029 append to Role; original C6 Role bytes verified as unchanged prefix. Auditor did not edit Role."
+  ],
+  "AuditorActions": {
+    "ProductSourceEdited": false,
+    "SharedBuild": false,
+    "WindowShown": false,
+    "NativePointer": false,
+    "ExplorerStarted": false,
+    "BrowserStarted": false,
+    "RealCliAuthentication": false,
+    "PaidAi": false,
+    "GitCommitPush": false,
+    "RoleEdited": false,
+    "ExistingAuditsEdited": false,
+    "OnlyPrivateFixtureDeletion": true
+  },
+  "Remaining": [
+    "R3-03F1/2/3 fixes or explicit original-scope resolution on a new frozen candidate",
+    "SC024-02 pending delete confirmation lifetime fix with actual new DLL verification",
+    "TASK026 narrow document UI fix must be checked in final DLL; source111 is not C6 success",
+    "Final candidate full integration and real IDE/required GUI checks",
+    "Existing real Claude/operating service limits remain"
+  ]
+}

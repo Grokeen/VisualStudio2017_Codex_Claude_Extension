@@ -7,6 +7,7 @@ author       : CodexCode
 create date  : 2026-10-18
 update date  : 2026-10-18 CodexCode : 실제 계정·네트워크 탐색 없이 각 결과·로그·묶음 요약과 DLL 해시를 보존.
 update date  : 2026-10-18 CodexCode : 버튼 중앙·대화 viewport·진행 카드·검정 메뉴·필수 규칙·설치 설명서를 순차 검증.
+               2026-10-19 CodexOrig : TASK-025 AvalonEdit·안내 GIF·라이선스도 고정 입력으로 보존.
 -------------------------------------------------------------------------
 #>
 [CmdletBinding()]
@@ -182,7 +183,7 @@ $frozenHash = (Get-FileHash -LiteralPath $frozenAssembly -Algorithm SHA256).Hash
 if ($frozenHash -ne $originalHash) { throw '입력 DLL 복사 중 내용이 변경되었습니다. 고정 후보를 다시 지정하세요.' }
 $frozenDependencies = @()
 $assemblyDirectory = Split-Path -Parent $resolvedAssembly
-foreach ($dependency in @('Microsoft.Web.WebView2.Core.dll', 'Microsoft.Web.WebView2.Wpf.dll', 'WebView2Loader.dll', 'runtimes', 'Resources\CliGuide')) {
+foreach ($dependency in @('ICSharpCode.AvalonEdit.dll', 'Microsoft.Web.WebView2.Core.dll', 'Microsoft.Web.WebView2.Wpf.dll', 'WebView2Loader.dll', 'runtimes', 'Resources')) {
     $frozenDependencies += @(Copy-Task022Dependency -SourceRoot $assemblyDirectory -DestinationRoot $inputDirectory -RelativePath $dependency)
 }
 $suites = @(

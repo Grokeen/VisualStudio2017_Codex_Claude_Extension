@@ -11,6 +11,10 @@ Retrieved on 2026-10-18. OpenAI's [design guidelines and mark usage terms](https
 
 The installation guide viewer uses Microsoft.Web.WebView2 1.0.4191.47 from the official NuGet package. Its original LICENSE.txt and NOTICE.txt are included in the extension under Resources/ThirdParty/WebView2. The SDK assemblies and native loaders are redistributed without modification. The WebView2 Runtime is a separate installed component; see Microsoft's [WPF setup documentation](https://learn.microsoft.com/en-us/microsoft-edge/webview2/get-started/wpf).
 
+The Markdown editor uses [AvalonEdit 6.3.1.120](https://www.nuget.org/packages/AvalonEdit/6.3.1.120), targeting .NET Framework 4.6.2. The unmodified `ICSharpCode.AvalonEdit.dll` and its [MIT license at the package's source commit](https://github.com/icsharpcode/AvalonEdit/blob/862415d51eddc9eac93f462dbc522ffbf929cd52/LICENSE) are included; the license is installed as `Resources/ThirdParty/AvalonEdit/LICENSE.txt`.
+
+The Markdown editing helpers, highlighting definition, and native preview structure are adapted from the user's `Markdown_Memo_Interchange/RemoteControlDemo/Features/Markdown` sources. Their original project remains unchanged. The extension adapts only Markdown authoring and preview behavior, with separate host navigation and bounded local image loading.
+
 SHA-256:
 
 ```text

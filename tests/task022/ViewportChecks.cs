@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -18,6 +18,7 @@ using VS2017.AIAssistant.Views;
 /// desc         : 고정 제품 DLL을 바깥 ScrollViewer에 호스팅하여 입력 고정·읽기 위치·dark 기록을 검증한다.
 /// author       : CodexCode
 /// create date  : 2026-10-18
+/// update date  : 2026-10-19 CodexOrig : TASK025 Markdown 본문·고정 복귀·명시 Dark 팔레트의 최신 UI 계약 검증.
 /// update date  : 2026-10-18 CodexCode : 실제 문서·CLI·계정 조회 없이 합성 대화만 렌더링.
 /// </summary>
 /// ---------------------------------------------------------------------
@@ -43,7 +44,7 @@ public static class ViewportChecks
         {
             ViewPolicyChecks.RunMath(); Checks.AddRange(ViewPolicyChecks.Checks);
             Check(Environment.GetEnvironmentVariable("VS2017_AI_DISABLE_RUNTIME_DISCOVERY") == "1", "Runtime discovery is disabled before any control is created");
-            new AssistantSettingsStore().Save(new AssistantSettings { HideWelcome = true, ShowHistory = false, HistoryWidth = 180 });
+            new AssistantSettingsStore().Save(new AssistantSettings { HideWelcome = true, ShowHistory = false, HistoryWidth = 180, ThemeMode = "dark" });
             control = new AssistantControl { Foreground = Brushes.Gainsboro, Background = new SolidColorBrush(Color.FromRgb(23, 23, 23)), Margin = new Thickness(6) };
             typeof(AssistantControl).GetField("scmLookupStarted", Private).SetValue(control, true);
             var chat = (ChatSession)typeof(AssistantControl).GetProperty("ActiveChat", Private).GetValue(control, null);
@@ -60,10 +61,10 @@ public static class ViewportChecks
             Check(Inside(composer, control) && Inside(Named<TextBox>(control, "Instruction"), control), "The composer and prompt stay visible with long conversation content");
             var messages = Named<ItemsControl>(control, "ConversationMessages");
             DependencyObject first = messages.ItemContainerGenerator.ContainerFromIndex(0);
-            var body = Descendants<TextBox>(first).First(box => box.Name == "MessageBody");
+            var body = Descendants<MarkdownPreview>(first).First(box => box.Name == "MessageBody");
             var bubble = Descendants<Border>(first).First(border => border.Name == "MessageBubble");
             var progress = Descendants<FrameworkElement>(first).First(item => item.Name == "ProgressMessage");
-            Check(body.Text == "VIEWPORT_NORMAL_MESSAGE" && bubble.Visibility == Visibility.Visible && progress.Visibility == Visibility.Collapsed && progress.GetType().GetProperty("Notice").GetValue(progress, null) == null, "The progress converter leaves ordinary assistant content visible and does not expose an empty progress card");
+            Check(body.Markdown == "VIEWPORT_NORMAL_MESSAGE" && new System.Windows.Documents.TextRange(body.TextView.Document.ContentStart,body.TextView.Document.ContentEnd).Text.Contains("VIEWPORT_NORMAL_MESSAGE") && bubble.Visibility == Visibility.Visible && progress.Visibility == Visibility.Collapsed && progress.GetType().GetProperty("Notice").GetValue(progress, null) == null, "The progress converter leaves ordinary Markdown assistant content visible and does not expose an empty progress card");
             Call(control, "PresentExecutedChanges", new[] { new ChangeCardFile(Path.Combine(directory, "synthetic.cs"), 1, 1, "@@ original 1 @@\n-old\n+new", 1) }, "SYNTHETIC_VERIFIED_RESULT");
             Named<Expander>(control, "ReviewPanel").IsExpanded = true; Pump(); Pump();
             Check(outer.ScrollableHeight <= 2 && Inside(composer, control) && scroll.ScrollableHeight > scroll.ViewportHeight, "Expanded change review grows only the inner conversation extent and cannot push the composer outside");

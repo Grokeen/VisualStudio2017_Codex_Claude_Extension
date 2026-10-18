@@ -27,6 +27,7 @@ using VS2017.AIAssistant.Views;
 /// author       : CodexCode
 /// create date  : 2026-10-18
 /// update date  : 2026-10-18 CodexCode : 실제 AI·계정·명령 실행 없이 검토/실행 결과 표시 경계를 검사.
+///                2026-10-19 CodexOrig : TASK-025 입력란 중복 버튼 제거 뒤 보이는 액션 배치만 검사.
 /// </summary>
 /// ---------------------------------------------------------------------
 public static class ImageFollowupChecks
@@ -42,6 +43,8 @@ public static class ImageFollowupChecks
     /// create date  : 2026-10-18
     /// update date  : 2026-10-18 CodexCode : 원격 조회 차단·가상 결과 주입·폭별 PNG와 실패 보존.
     /// update date  : 2026-10-18 CodexCode : 여러 실행 파일의 두 번째 선택 뒤 첫 파일 왕복·행 재구성 회귀를 검증.
+    ///                2026-10-19 CodexOrig : 단일 모델 컨트롤·돋보기와 좁은 폭의 실제 표시 액션 순서 확인.
+    ///                2026-10-19 CodexOrig : 중립 diff는 의미 팔레트, 중복 툴팁은 공통 비교 팝업 연결로 검사.
     /// </summary>
     /// ---------------------------------------------------------------------
     public static void Run(string directory)
@@ -50,7 +53,7 @@ public static class ImageFollowupChecks
         try
         {
             Assert(Environment.GetEnvironmentVariable("VS2017_AI_DISABLE_RUNTIME_DISCOVERY")=="1","Runtime account and model discovery is explicitly disabled for the UI fixture");
-            new AssistantSettingsStore().Save(new AssistantSettings{HideWelcome=true,ShowHistory=false});
+            new AssistantSettingsStore().Save(new AssistantSettings{HideWelcome=true,ShowHistory=false,ThemeMode="dark"});
             string path=Path.Combine(directory,"sample.cs"),before="anchor-start\nvalue-old\nanchor-end",after="anchor-start\nvalue-new\nextra-added\nanchor-end";
             File.WriteAllText(path,before);
             var documents=new FixtureDocuments(path,before);var provider=new NeverRunProvider();
@@ -61,14 +64,14 @@ public static class ImageFollowupChecks
             var tabSurface=(Border)first.Template.FindName("B",first);
             Assert(tabSurface.Margin.Right>=14,"Provider tabs have at least fourteen pixels of explicit separation");
             Assert(Transparent(tabSurface.Background)&&Transparent(Named<Control>(control,"OptionsToggle").Background)&&Transparent(Named<Control>(control,"HistoryToggle").Background),"Tabs, settings menu and history toggle blend into their background");
-            Assert(new[]{"AttachButton","PermissionsButton","ModelOptionsButton","TokenUsageButton"}.All(n=>Transparent(Named<Control>(control,n).Background)),"Composer secondary controls use the shared borderless surface appearance");
+            Assert(new[]{"AttachButton","PermissionsButton","ModelOptionsButton"}.All(n=>Transparent(Named<Control>(control,n).Background)),"Composer secondary controls use the shared borderless surface appearance");
             Assert(Transparent(Named<TextBox>(control,"Instruction").Background)&&Named<TextBox>(control,"Instruction").BorderThickness==new Thickness(0),"Prompt background and border blend into the enclosing composer surface");
             foreach(int width in new[]{200,320,680})
             {
                 control.Width=width;owner.Width=width+45;owner.UpdateLayout();Pump();
                 var composer=Named<Border>(control,"ComposerSurface");var start=Named<WrapPanel>(control,"ComposerStartActions");var end=Named<WrapPanel>(control,"ComposerEndActions");
-                Assert(Math.Abs(control.ActualWidth-width)<1&&composer.ActualWidth<=width&&new[]{"AttachButton","PermissionsButton","ModelOptionsButton","FastToggle","TokenUsageButton","GenerateButton","StopButton"}.All(n=>Inside(Named<FrameworkElement>(control,n),composer)),"All composer actions stay inside the requested "+width+"px surface");
-                Assert(Named<Button>(control,"AttachButton").Parent==start&&Named<Button>(control,"PermissionsButton").Parent==start&&Ordered(start.Children.OfType<FrameworkElement>().ToArray(),composer)&&new[]{"ModelOptionsButton","FastToggle","TokenUsageButton","GenerateButton"}.All(n=>Named<FrameworkElement>(control,n).Parent==end)&&Ordered(end.Children.OfType<FrameworkElement>().ToArray(),composer),"Leading attachment/permission and trailing model/speed/usage/send retain their reading order at "+width+"px");
+                Assert(Math.Abs(control.ActualWidth-width)<1&&composer.ActualWidth<=width&&new[]{"AttachButton","PermissionsButton","ModelOptionsButton","GenerateButton","StopButton"}.Select(n=>Named<FrameworkElement>(control,n)).Where(element=>element.Visibility==Visibility.Visible).All(element=>Inside(element,composer)),"All visible composer actions stay inside the requested "+width+"px surface");
+                Assert(Named<Button>(control,"AttachButton").Parent==start&&Named<Button>(control,"PermissionsButton").Parent==start&&Ordered(start.Children.OfType<FrameworkElement>().Where(element=>element.Visibility==Visibility.Visible).ToArray(),composer)&&new[]{"ModelOptionsButton","GenerateButton"}.All(n=>Named<FrameworkElement>(control,n).Parent==end)&&Ordered(end.Children.OfType<FrameworkElement>().Where(element=>element.Visibility==Visibility.Visible).ToArray(),composer),"Attachment/permission and the single model control/send retain their reading order at "+width+"px");
                 Assert(start.TranslatePoint(new Point(),composer).Y<=end.TranslatePoint(new Point(),composer).Y+1&&end.HorizontalAlignment==HorizontalAlignment.Right,"Trailing actions remain on the right or wrap below the leading group at "+width+"px");
                 Snapshot(control,Path.Combine(directory,"composer-"+width+".png"));
             }
@@ -90,19 +93,20 @@ public static class ImageFollowupChecks
             Present(control,documents,proposal);var rich=Named<RichTextBox>(control,"ColoredDiffPreview");var paragraphs=rich.Document.Blocks.OfType<Paragraph>().ToArray();
             Assert(paragraphs.Where(p=>Text(p).StartsWith("+")).All(p=>ColorOf(p)=="#FF57CC8A")&&paragraphs.Any(p=>Text(p)=="+value-new"),"Actual added rows are rendered green in the RichTextBox document");
             Assert(paragraphs.Where(p=>Text(p).StartsWith("-")).All(p=>ColorOf(p)=="#FFFF7373")&&paragraphs.Any(p=>Text(p)=="-value-old"),"Actual removed rows are rendered red in the RichTextBox document");
-            Assert(paragraphs.Where(p=>Text(p).StartsWith(" ")||Text(p).StartsWith("@@")).All(p=>ColorOf(p)=="#FFD3D3D3"),"Context anchors and hunk headers remain gray rather than change colors");
+            string neutral=((SolidColorBrush)control.FindResource("AssistantForegroundBrush")).Color.ToString();
+            Assert(paragraphs.Where(p=>Text(p).StartsWith(" ")||Text(p).StartsWith("@@")).All(p=>ColorOf(p)==neutral&&ColorOf(p)!="#FF57CC8A"&&ColorOf(p)!="#FFFF7373"),"Context anchors and hunk headers follow the neutral theme color rather than change colors");
             Assert(Named<TextBlock>(control,"AddedLinesLabel").Text=="+2"&&Named<TextBlock>(control,"RemovedLinesLabel").Text=="−1"&&Named<TextBlock>(control,"FileAddedLinesLabel").Text=="+2"&&Named<TextBlock>(control,"FileRemovedLinesLabel").Text=="−1","Total and per-file counters show the proposal's actual additions and removals");
             Assert(Named<TextBox>(control,"DiffPreview").Text==proposal.ChangePreview,"Colored rendering preserves the existing DiffPreview.Text contract");
-            string history=Convert.ToString(Named<Button>(control,"SourceLink").ToolTip);
+            string history=HistoryOf(Named<Button>(control,"SourceLink"));
             Assert(history.Contains("-value-old")&&history.Contains("+value-new")&&history.Contains("FIRST-REVIEW")&&history.Contains("검토할 수정안")&&history.Contains(DateTimeOffset.Now.ToString("yyyy-MM-dd"))&&Regex.IsMatch(history,@"\d{2}:\d{2}:\d{2}"),"Source hover shows actual before/after snippets, proposal state and local date/time");
-            Assert(paragraphs.Where(p=>Text(p).StartsWith("+")||Text(p).StartsWith("-")).All(p=>Convert.ToString(p.ToolTip)==history),"Changed RichTextBox paragraphs expose the same concrete hover history");
+            Assert(paragraphs.Where(p=>Text(p).StartsWith("+")||Text(p).StartsWith("-")).All(p=>!ToolTipService.GetIsEnabled(p)) && HasChangePopup(rich,history),"Changed rows suppress duplicate text tooltips and their RichTextBox popup retains the same concrete history");
             Named<Button>(control,"SourceLink").RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
             Assert(documents.LastPath==path&&documents.LastLine==proposal.FirstChangedLine,"The proposal source link navigates to its actual file and recorded change line");
             Snapshot(control,Path.Combine(directory,"proposal-colored-diff.png"));
             var second=Proposal(documents.Capture(),before,"anchor-start\nvalue-second\nanchor-end","SECOND-REVIEW");Present(control,documents,second);
-            string combined=Convert.ToString(Named<Button>(control,"SourceLink").ToolTip);
+            string combined=HistoryOf(Named<Button>(control,"SourceLink"));
             Assert(combined.Contains("FIRST-REVIEW")&&combined.Contains("SECOND-REVIEW")&&combined.Contains("+value-second")&&combined.Contains("+value-new"),"A later proposal for the same file retains both real review records");
-            Call(control,"UpdateChangeCard");Assert(Regex.Matches(Convert.ToString(Named<Button>(control,"SourceLink").ToolTip),"SECOND-REVIEW").Count==1,"Refreshing the same proposal does not invent duplicate history events");
+            Call(control,"UpdateChangeCard");Assert(Regex.Matches(HistoryOf(Named<Button>(control,"SourceLink")),"SECOND-REVIEW").Count==1,"Refreshing the same proposal does not invent duplicate history events");
             var signs=Proposal(new DocumentSnapshot(path,"-- old","fixture","test",false,false),"-- old","++ new","SIGNS-INSIDE-HUNK");Present(control,documents,signs);
             var signRows=rich.Document.Blocks.OfType<Paragraph>().ToArray();
             Assert(signRows.Any(p=>Text(p)=="--- old"&&ColorOf(p)=="#FFFF7373")&&signRows.Any(p=>Text(p)=="+++ new"&&ColorOf(p)=="#FF57CC8A"),"Hunk content beginning with triple signs is still a real red removal and green addition");
@@ -116,7 +120,7 @@ public static class ImageFollowupChecks
             Assert(rows.Length==1,"Additional executed files appear as individually selectable file rows");
             rows[0].RaiseEvent(new RoutedEventArgs(Button.ClickEvent));Pump();
             Assert(Named<TextBox>(control,"DiffPreview").Text==otherDiff&&Named<TextBlock>(control,"FileAddedLinesLabel").Text=="+3"&&Named<TextBlock>(control,"TargetLabel").Text.StartsWith(Path.GetFileName(otherPath),StringComparison.Ordinal)&&Convert.ToString(Named<TextBlock>(control,"TargetLabel").ToolTip).Contains(otherPath),"Selecting an execution row changes the diff and counters while identifying the filename with its full path available");
-            Assert(Convert.ToString(Named<Button>(control,"SourceLink").ToolTip).Contains("실제 파일 변경")&&Convert.ToString(Named<Button>(control,"SourceLink").ToolTip).Contains("FIXTURE-VERIFIED-RUN"),"Execution hover identifies the verified execution state and real supplied diff");
+            Assert(HistoryOf(Named<Button>(control,"SourceLink")).Contains("실제 파일 변경")&&HistoryOf(Named<Button>(control,"SourceLink")).Contains("FIXTURE-VERIFIED-RUN"),"Execution hover identifies the verified execution state and real supplied diff");
             Named<Button>(control,"SourceLink").RaiseEvent(new RoutedEventArgs(Button.ClickEvent));Assert(documents.LastPath==otherPath&&documents.LastLine==3,"Selected executed file links navigate to that file's recorded line");
             var returnRows=Named<StackPanel>(control,"ExecutedFilesPanel").Children.OfType<Button>().ToArray();
             bool firstRowAvailable=returnRows.Length==1&&Convert.ToString(returnRows[0].ToolTip).Contains(path)&&!Convert.ToString(returnRows[0].ToolTip).Contains(otherPath),firstSelectionRestored=false,secondSelectionRestored=false;
@@ -312,6 +316,40 @@ public static class ImageFollowupChecks
     /// </summary>
     /// ---------------------------------------------------------------------
     private static string ColorOf(Paragraph paragraph){var run=paragraph.Inlines.OfType<Run>().First();return ((SolidColorBrush)run.Foreground).Color.ToString();}
+
+    /// ---------------------------------------------------------------------
+    /// <summary>
+    /// name         : HasChangePopup
+    /// desc         : 실제 비교 표면에 연결된 공통 팝업과 동일한 수정 기록을 확인한다.
+    /// author       : CodexOrig
+    /// create date  : 2026-10-19
+    /// update date  : 2026-10-19 CodexOrig : 물리 hover 성공과 구분하여 연결·기록 유지 상태만 조회.
+    /// </summary>
+    /// ---------------------------------------------------------------------
+    private static bool HasChangePopup(FrameworkElement target,string expectedHistory)
+    {
+        object table=typeof(ChangeDiffPopup).GetField("Attached",BindingFlags.NonPublic|BindingFlags.Static).GetValue(null);
+        object[] values={target,null};
+        bool found=(bool)table.GetType().GetMethod("TryGetValue").Invoke(table,values);
+        return found && Equals(typeof(ChangeDiffPopup).GetField("history",Private).GetValue(values[1]),expectedHistory);
+    }
+
+    /// ---------------------------------------------------------------------
+    /// <summary>
+    /// name         : HistoryOf
+    /// desc         : 짧은 탐색 Tooltip과 구분하여 공통 비교 팝업에 보존된 실제 수정 기록을 조회한다.
+    /// author       : CodexOrig
+    /// create date  : 2026-10-19
+    /// update date  : 2026-10-19 CodexOrig : 기록 내용과 중복 방지 검사 의미를 새 UI에서도 유지.
+    /// </summary>
+    /// ---------------------------------------------------------------------
+    private static string HistoryOf(FrameworkElement target)
+    {
+        object table=typeof(ChangeDiffPopup).GetField("Attached",BindingFlags.NonPublic|BindingFlags.Static).GetValue(null);
+        object[] values={target,null};
+        if(!(bool)table.GetType().GetMethod("TryGetValue").Invoke(table,values))throw new InvalidOperationException("Missing change popup.");
+        return Convert.ToString(typeof(ChangeDiffPopup).GetField("history",Private).GetValue(values[1]));
+    }
     /// ---------------------------------------------------------------------
     /// <summary>
     /// name         : Pump

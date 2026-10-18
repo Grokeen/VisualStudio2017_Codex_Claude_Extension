@@ -1,0 +1,353 @@
+{
+  "task": "TASK-031",
+  "author": "CodexOrig5",
+  "at_kst": "2026-10-19T03:14:18.0468252+09:00",
+  "state": "document_review_complete",
+  "pass": true,
+  "checks": [
+    {
+      "file": "CodexOrig5_TASK-031.md",
+      "pass": true,
+      "check": "utf8_readable"
+    },
+    {
+      "file": "CodexOrig5_TASK-031.md",
+      "pass": true,
+      "check": "no_replacement_character"
+    },
+    {
+      "file": "CodexOrig5_TASK-031.md",
+      "pass": true,
+      "check": "no_unfinished_placeholder"
+    },
+    {
+      "file": "CodexOrig5_TASK-031.md",
+      "pass": true,
+      "check": "markdown_table_columns",
+      "tables": 8
+    },
+    {
+      "file": "CodexOrig5_TASK-031_DevelopmentRequests.md",
+      "pass": true,
+      "check": "utf8_readable"
+    },
+    {
+      "file": "CodexOrig5_TASK-031_DevelopmentRequests.md",
+      "pass": true,
+      "check": "no_replacement_character"
+    },
+    {
+      "file": "CodexOrig5_TASK-031_DevelopmentRequests.md",
+      "pass": true,
+      "check": "no_unfinished_placeholder"
+    },
+    {
+      "file": "CodexOrig5_TASK-031_DevelopmentRequests.md",
+      "pass": true,
+      "check": "markdown_table_columns",
+      "tables": 0
+    },
+    {
+      "pass": true,
+      "check": "internal_links_exist",
+      "link_count": 22
+    },
+    {
+      "pass": true,
+      "check": "coverage:GitHub Copilot"
+    },
+    {
+      "pass": true,
+      "check": "coverage:Codex IDE"
+    },
+    {
+      "pass": true,
+      "check": "coverage:Claude Code"
+    },
+    {
+      "pass": true,
+      "check": "coverage:Cursor"
+    },
+    {
+      "pass": true,
+      "check": "coverage:Windsurf"
+    },
+    {
+      "pass": true,
+      "check": "coverage:Tabnine"
+    },
+    {
+      "pass": true,
+      "check": "coverage:불필요"
+    },
+    {
+      "pass": true,
+      "check": "coverage:30일 60일 90일"
+    },
+    {
+      "pass": true,
+      "check": "coverage:검증 방법"
+    },
+    {
+      "pass": true,
+      "check": "coverage:시장 규모"
+    },
+    {
+      "pass": true,
+      "check": "request:DR01"
+    },
+    {
+      "pass": true,
+      "check": "request:DR02"
+    },
+    {
+      "pass": true,
+      "check": "request:DR03"
+    },
+    {
+      "pass": true,
+      "check": "request:DR04"
+    },
+    {
+      "pass": true,
+      "check": "request_acceptance_criteria"
+    },
+    {
+      "pass": true,
+      "check": "candidate_hash_matches_report"
+    },
+    {
+      "pass": true,
+      "check": "candidate_builds_confirmed_from_existing_record"
+    }
+  ],
+  "local_links": [
+    {
+      "exists": true,
+      "from": "CodexOrig5_TASK-031.md",
+      "target": "Role.md"
+    },
+    {
+      "exists": true,
+      "from": "CodexOrig5_TASK-031.md",
+      "target": "Project_Plan.md"
+    },
+    {
+      "exists": true,
+      "from": "CodexOrig5_TASK-031.md",
+      "target": "CodexOrig_TASK-025.md"
+    },
+    {
+      "exists": true,
+      "from": "CodexOrig5_TASK-031.md",
+      "target": "CodexOrig2_TASK-028_Followup_C7.md"
+    },
+    {
+      "exists": true,
+      "from": "CodexOrig5_TASK-031.md",
+      "target": "../artifacts/task025/candidate7-readiness.json"
+    },
+    {
+      "exists": true,
+      "from": "CodexOrig5_TASK-031.md",
+      "target": "CodexOrig2_TASK-028_Followup_C7.md"
+    },
+    {
+      "exists": true,
+      "from": "CodexOrig5_TASK-031.md",
+      "target": "../src/VS2017.AIAssistant/Providers/NativeCliDiscovery.cs"
+    },
+    {
+      "exists": true,
+      "from": "CodexOrig5_TASK-031.md",
+      "target": "../docs/CLI_OPTIONS.md"
+    },
+    {
+      "exists": true,
+      "from": "CodexOrig5_TASK-031.md",
+      "target": "../src/VS2017.AIAssistant/Providers/ProviderRuntimeService.cs"
+    },
+    {
+      "exists": true,
+      "from": "CodexOrig5_TASK-031.md",
+      "target": "../src/VS2017.AIAssistant/Editing/SourceEditSession.cs"
+    },
+    {
+      "exists": true,
+      "from": "CodexOrig5_TASK-031.md",
+      "target": "../docs/CLI_OPTIONS.md"
+    },
+    {
+      "exists": true,
+      "from": "CodexOrig5_TASK-031.md",
+      "target": "../src/VS2017.AIAssistant/Providers/AgentFileTracker.cs"
+    },
+    {
+      "exists": true,
+      "from": "CodexOrig5_TASK-031.md",
+      "target": "../src/VS2017.AIAssistant/Services/VisualStudioDocumentService.cs"
+    },
+    {
+      "exists": true,
+      "from": "CodexOrig5_TASK-031.md",
+      "target": "../src/VS2017.AIAssistant/Chat/ChatWorkspace.cs"
+    },
+    {
+      "exists": true,
+      "from": "CodexOrig5_TASK-031.md",
+      "target": "../src/VS2017.AIAssistant/Chat/MarkdownWorkspaceStore.cs"
+    },
+    {
+      "exists": true,
+      "from": "CodexOrig5_TASK-031.md",
+      "target": "../docs/visual-guide-orig3/markdown-editor/revision-c7/Markdown작성기_사용설명서_C7.md"
+    },
+    {
+      "exists": true,
+      "from": "CodexOrig5_TASK-031.md",
+      "target": "../src/VS2017.AIAssistant/Services/WorkspaceActionService.cs"
+    },
+    {
+      "exists": true,
+      "from": "CodexOrig5_TASK-031.md",
+      "target": "CodexOrig_TASK-025.md"
+    },
+    {
+      "exists": true,
+      "from": "CodexOrig5_TASK-031.md",
+      "target": "../src/VS2017.AIAssistant/Chat/MandatoryInstructionStore.cs"
+    },
+    {
+      "exists": true,
+      "from": "CodexOrig5_TASK-031.md",
+      "target": "CodexOrig5_TASK-031_DevelopmentRequests.md"
+    },
+    {
+      "exists": true,
+      "from": "CodexOrig5_TASK-031.md",
+      "target": "CodexOrig5_TASK-031_Validation.json"
+    },
+    {
+      "exists": true,
+      "from": "CodexOrig5_TASK-031_DevelopmentRequests.md",
+      "target": "CodexOrig5_TASK-031.md"
+    }
+  ],
+  "reference_snapshot": [
+    {
+      "path": "MarkdownReport/CodexOrig5_TASK-031.md",
+      "bytes": 27463,
+      "sha256": "688F30A1CF3FCEE2B4ECB3CF85B90A169CBDD93BF321B36BDCC411B1A89AB762"
+    },
+    {
+      "path": "MarkdownReport/CodexOrig5_TASK-031_DevelopmentRequests.md",
+      "bytes": 5489,
+      "sha256": "F16F83932E727384FA40B29FF72ACCEB7E91547F975B962A7582D9A55B89DC7E"
+    },
+    {
+      "path": "MarkdownReport/Role.md",
+      "bytes": 33650,
+      "sha256": "DE232D862F2B59E069470776CA8AB0F2F54AE7460F426759D7698CB32181C828"
+    },
+    {
+      "path": "MarkdownReport/CodexOrig_TASK-025.md",
+      "bytes": 12012,
+      "sha256": "F49347870123555A9E6AAF3FAE1A51FFF67D2B8F9D707251B6BFC0F9809415F8"
+    },
+    {
+      "path": "MarkdownReport/CodexOrig2_TASK-028_Followup_C7.md",
+      "bytes": 11676,
+      "sha256": "4B835236FE8F7629BB4F4D4724E79FF46A67074C1EE49E65BD7DE7387B9D31DB"
+    },
+    {
+      "path": "README.md",
+      "bytes": 14599,
+      "sha256": "6661161DF0EAA018FAA792C7C5C25C518E9F06E67B8300A8E1DA075D5F4460A0"
+    },
+    {
+      "path": "docs/CLI_OPTIONS.md",
+      "bytes": 5122,
+      "sha256": "709B4A9CB97DF833D04576702A25209259E7143F4A4219F891CC7B1789B22587"
+    },
+    {
+      "path": "src/VS2017.AIAssistant/Providers/AgentFileTracker.cs",
+      "bytes": 15186,
+      "sha256": "3E58B25E71A1529FC4BB3B5E09F87953402F173AB9E4661D42EDD79370275A00"
+    },
+    {
+      "path": "src/VS2017.AIAssistant/Services/VisualStudioDocumentService.cs",
+      "bytes": 26292,
+      "sha256": "96B3E804B34BC2D90ACE702DD2D66E8489734A854D8A070D09B393DFBCC02921"
+    },
+    {
+      "path": "src/VS2017.AIAssistant/Chat/ChatWorkspace.cs",
+      "bytes": 27001,
+      "sha256": "68CB357CB386432E87C3D23F47AF52C54E267D04B6AE49D4C3C9DCC7F33902AF"
+    },
+    {
+      "path": "src/VS2017.AIAssistant/Chat/MarkdownWorkspaceStore.cs",
+      "bytes": 45345,
+      "sha256": "2465AE378EE9AB1A91CBA814AAFE947B9A2890FAFC556B8C05FEA0632449C2E7"
+    },
+    {
+      "path": "src/VS2017.AIAssistant/Chat/MandatoryInstructionStore.cs",
+      "bytes": 11669,
+      "sha256": "180F376604EF13EC26FBD2D35038BBBB7BE034C8D5BFE6920B398A3F38330130"
+    },
+    {
+      "path": "src/VS2017.AIAssistant/Editing/SourceEditSession.cs",
+      "bytes": 4293,
+      "sha256": "8689541A21D28948F4344298CE6EDA65C0280D4703875F7E63B14E77B43D19AE"
+    },
+    {
+      "path": "artifacts/task025/candidate7-readiness.json",
+      "bytes": 2510,
+      "sha256": "8AD6E3739668DB7511C22C0B7C7935239B79A53A09F34E9F776BDE9A1030335E"
+    }
+  ],
+  "official_sources_opened": [
+    "https://learn.microsoft.com/en-us/visualstudio/ide/copilot-agent-mode?view=visualstudio",
+    "https://learn.chatgpt.com/docs/codex/ide",
+    "https://code.claude.com/docs/en/ide-integrations",
+    "https://cursor.com/docs/agent/overview",
+    "https://docs.devin.ai/windsurf/plugins/getting-started",
+    "https://docs.tabnine.com/main/welcome/readme/supported-ides",
+    "https://learn.chatgpt.com/docs/app-server",
+    "https://learn.microsoft.com/en-us/lifecycle/products/visual-studio-2017",
+    "https://learn.microsoft.com/en-us/lifecycle/products/visual-studio-2019",
+    "https://learn.microsoft.com/en-us/visualstudio/extensibility/walkthrough-publishing-a-visual-studio-extension?view=vs-2022"
+  ],
+  "sources_accessed_date": "2026-10-19",
+  "candidate": "candidate7",
+  "candidate_snapshot_at_kst": "2026-10-19T03:10:00+09:00",
+  "direct_message": {
+    "tool": "send_message_to_thread",
+    "sent": true,
+    "recipient_title": "CodexOrig / 통합 개발자",
+    "note": "Tool returned target thread ID with isError=false. Delivery is not implementation acceptance or completion.",
+    "thread_id": "01a149fc-63c5-79c0-bc83-def5d9a36284"
+  },
+  "execution_scope": {
+    "paid_model_requests": false,
+    "remote_publish": false,
+    "competitor_benchmarks_run": false,
+    "product_builds": false,
+    "product_source_edits": false,
+    "documentation_checks_only": true,
+    "gui_control": false,
+    "regression_tests_run_by_researcher": false
+  },
+  "validation_environment": {
+    "successful_method": "PowerShell .NET UTF8, regex, SHA256 and JSON checks",
+    "initial_python_command": "Unavailable Windows python alias; no Python validation executed"
+  },
+  "limits": [
+    "No user interviews or adoption analytics collected.",
+    "Product test results were read from named fixed candidate records, not rerun by researcher.",
+    "External documents reflect retrieval on 2026-10-19.",
+    "Concurrent writers may update referenced development records after this snapshot."
+  ],
+  "completed_at_kst": "2026-10-19T03:15:05.8452880+09:00",
+  "registered_start_kst": "2026-10-19T03:07:00.0000000+09:00",
+  "elapsed_since_registration": "00:08:05"
+}

@@ -7,6 +7,7 @@ author       : CodexCode
 create date  : 2026-10-18
 update date  : 2026-10-18 CodexCode : 실제 제품 파일과 기존 검사 스크립트는 변경하지 않는다.
 update date  : 2026-10-18 CodexOrig : TASK-018 드롭다운·이미지 요구 및 기본14개 검사 반영.
+               2026-10-19 CodexOrig : TASK-025 선택 패키지의 편집기·GIF/PNG·라이선스와 새 경로 공격 검증.
 -------------------------------------------------------------------------
 #>
 [CmdletBinding()]
@@ -87,25 +88,32 @@ $chosenVsix = Join-Path $fixtureDir 'chosen.vsix'
 $archive = [IO.Compression.ZipFile]::Open($chosenVsix,[IO.Compression.ZipArchiveMode]::Create)
 try { $entry=$archive.CreateEntry('VS2017.AIAssistant.dll'); $stream=$entry.Open(); try { $bytes=[Text.Encoding]::UTF8.GetBytes('CHOSEN_PACKAGE'); $stream.Write($bytes,0,$bytes.Length) } finally { $stream.Dispose() } } finally { $archive.Dispose() }
 $archive = [IO.Compression.ZipFile]::Open($chosenVsix,[IO.Compression.ZipArchiveMode]::Update)
-try { foreach ($name in @('Resources/CliGuide/%EC%84%A4%EB%AA%85%EC%84%9C.pdf','Microsoft.Web.WebView2.Core.dll','runtimes/win-x64/native/WebView2Loader.dll')) { $entry=$archive.CreateEntry($name); $writer=New-Object IO.StreamWriter($entry.Open()); try {$writer.Write('VIEWER_ASSET')}finally{$writer.Dispose()} } } finally { $archive.Dispose() }
-$decoyRelease = Join-Path $fixtureDir 'releases\v0.9.0'; $null=New-Item -ItemType Directory -Path $decoyRelease -Force
+try { foreach ($name in @('Resources/CliGuide/%EC%84%A4%EB%AA%85%EC%84%9C.pdf','Microsoft.Web.WebView2.Core.dll','runtimes/win-x64/native/WebView2Loader.dll','Resources/GuideMedia/01-connect.gif','Resources/GuideMedia/01-connect.png','ICSharpCode.AvalonEdit.dll','Resources/ThirdParty/AvalonEdit/LICENSE.txt')) { $entry=$archive.CreateEntry($name); $writer=New-Object IO.StreamWriter($entry.Open()); try {$writer.Write('VIEWER_ASSET')}finally{$writer.Dispose()} } } finally { $archive.Dispose() }
+$decoyRelease = Join-Path $fixtureDir 'releases\v0.10.0'; $null=New-Item -ItemType Directory -Path $decoyRelease -Force
 [IO.File]::WriteAllText((Join-Path $decoyRelease 'VS2017.AIAssistant.dll'),'WRONG_DEFAULT',$utf8)
 $assetProbe = @'
 param([string]$AssemblyPath)
 [IO.File]::ReadAllText($AssemblyPath)
 $root=[IO.Path]::GetDirectoryName($AssemblyPath)
-foreach($name in @('Resources/CliGuide/설명서.pdf','Microsoft.Web.WebView2.Core.dll','runtimes/win-x64/native/WebView2Loader.dll')) { if([IO.File]::ReadAllText((Join-Path $root $name)) -ne 'VIEWER_ASSET'){throw 'Viewer asset mismatch'} }
+foreach($name in @('Resources/CliGuide/설명서.pdf','Microsoft.Web.WebView2.Core.dll','runtimes/win-x64/native/WebView2Loader.dll','Resources/GuideMedia/01-connect.gif','Resources/GuideMedia/01-connect.png','ICSharpCode.AvalonEdit.dll','Resources/ThirdParty/AvalonEdit/LICENSE.txt')) { if([IO.File]::ReadAllText((Join-Path $root $name)) -ne 'VIEWER_ASSET'){throw 'Viewer asset mismatch'} }
 Write-Output 'VIEWER_ASSETS_PASS'
+Write-Output 'GUIDE_MEDIA_PASS'
 '@
 [IO.File]::WriteAllText((Join-Path $fixtureMarkdownDir 'Test-MarkdownWorkspace.ps1'), $assetProbe, $utf8)
 $result = Invoke-LauncherProbe $fixtureExe '--run markdown --vsix chosen.vsix'
 Assert-LauncherProbe 'Explicit VSIX payload wins over release DLL decoy' ($result.ExitCode -eq 0 -and $result.Output.Contains('CHOSEN_PACKAGE') -and !$result.Output.Contains('WRONG_DEFAULT')) $result
 Assert-LauncherProbe 'Viewer dependencies and OPC Unicode paths extracted for isolated tests' ($result.ExitCode -eq 0 -and $result.Output.Contains('VIEWER_ASSETS_PASS')) $result
-foreach($attack in @('traversal','duplicate')) {
+Assert-LauncherProbe 'Guide GIF and PNG are extracted alongside the selected product' ($result.ExitCode -eq 0 -and $result.Output.Contains('GUIDE_MEDIA_PASS')) $result
+foreach($attack in @('traversal','duplicate','media-traversal','media-duplicate')) {
     $badVsix=Join-Path $fixtureDir ($attack+'.vsix')
     $archive=[IO.Compression.ZipFile]::Open($badVsix,[IO.Compression.ZipArchiveMode]::Create)
     try {
-        $names=if($attack -eq 'traversal'){@('VS2017.AIAssistant.dll','Resources/CliGuide/%2e%2e/%2e%2e/%2e%2e/outside.txt')}else{@('VS2017.AIAssistant.dll','Resources/CliGuide/Guide.pdf','Resources/CliGuide/%47uide.pdf')}
+        $names=switch($attack) {
+            'traversal' {@('VS2017.AIAssistant.dll','Resources/CliGuide/%2e%2e/%2e%2e/%2e%2e/outside.txt')}
+            'duplicate' {@('VS2017.AIAssistant.dll','Resources/CliGuide/Guide.pdf','Resources/CliGuide/%47uide.pdf')}
+            'media-traversal' {@('VS2017.AIAssistant.dll','Resources/GuideMedia/%2e%2e/%2e%2e/%2e%2e/outside.txt')}
+            'media-duplicate' {@('VS2017.AIAssistant.dll','Resources/GuideMedia/01-connect.gif','Resources/GuideMedia/%30%31-connect.gif')}
+        }
         foreach($name in $names){$entry=$archive.CreateEntry($name);$writer=New-Object IO.StreamWriter($entry.Open());try{$writer.Write('TEST')}finally{$writer.Dispose()}}
     }finally{$archive.Dispose()}
     $badResult=Invoke-LauncherProbe $fixtureExe ('--run markdown --vsix '+$attack+'.vsix')

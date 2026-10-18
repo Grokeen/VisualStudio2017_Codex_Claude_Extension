@@ -238,14 +238,14 @@ internal static class TestLauncher
         if (explicitVsix) options.Vsix = ResolveFile(options.Vsix, ".vsix");
         if (suites.Any(s => s.Vsix) || (suites.Any(s => s.Assembly) && string.IsNullOrWhiteSpace(options.Assembly)))
         {
-            if (string.IsNullOrWhiteSpace(options.Vsix)) options.Vsix = File.Exists(Path.Combine(Root, "releases/v0.9.0/VS2017.AIAssistant-0.9.0.vsix")) ? "releases/v0.9.0/VS2017.AIAssistant-0.9.0.vsix" : "src/VS2017.AIAssistant/bin/Release/VS2017.AIAssistant.vsix";
+            if (string.IsNullOrWhiteSpace(options.Vsix)) options.Vsix = File.Exists(Path.Combine(Root, "releases/v0.10.0/VS2017.AIAssistant-0.10.0.vsix")) ? "releases/v0.10.0/VS2017.AIAssistant-0.10.0.vsix" : "src/VS2017.AIAssistant/bin/Release/VS2017.AIAssistant.vsix";
             if (suites.Any(s => s.Vsix) || File.Exists(Path.Combine(Root, options.Vsix))) options.Vsix = ResolveFile(options.Vsix, ".vsix");
         }
         if (suites.Any(s => s.Assembly))
         {
             if (string.IsNullOrWhiteSpace(options.Assembly))
             {
-                if (!explicitVsix && File.Exists(Path.Combine(Root, "releases/v0.9.0/VS2017.AIAssistant.dll"))) options.Assembly = "releases/v0.9.0/VS2017.AIAssistant.dll";
+                if (!explicitVsix && File.Exists(Path.Combine(Root, "releases/v0.10.0/VS2017.AIAssistant.dll"))) options.Assembly = "releases/v0.10.0/VS2017.AIAssistant.dll";
                 else if (!string.IsNullOrWhiteSpace(options.Vsix) && File.Exists(options.Vsix))
                 {
                     string destination = Path.Combine(output, "ProductReference"); Directory.CreateDirectory(destination);
@@ -284,6 +284,7 @@ internal static class TestLauncher
     /// author       : CodexOrig
     /// create date  : 2026-10-18
     /// update date  : 2026-10-18 CodexOrig : OPC 한글 경로 복호화·경계/중복/용량 검사.
+    ///                2026-10-19 CodexOrig : TASK-025 동봉 안내 GIF·PNG를 같은 경계 안에서 추출.
     /// </summary>
     /// ---------------------------------------------------------------------
     private static void ExtractViewerAssets(ZipArchive zip, string destination)
@@ -294,9 +295,9 @@ internal static class TestLauncher
         foreach (var entry in zip.Entries)
         {
             string name = Uri.UnescapeDataString(entry.FullName).Replace('\\', '/');
-            bool managed = name == "Microsoft.Web.WebView2.Core.dll" || name == "Microsoft.Web.WebView2.Wpf.dll" || name == "Microsoft.Web.WebView2.WinForms.dll";
+            bool managed = name == "ICSharpCode.AvalonEdit.dll" || name == "Microsoft.Web.WebView2.Core.dll" || name == "Microsoft.Web.WebView2.Wpf.dll" || name == "Microsoft.Web.WebView2.WinForms.dll";
             bool native = name == "runtimes/win-x86/native/WebView2Loader.dll" || name == "runtimes/win-x64/native/WebView2Loader.dll" || name == "runtimes/win-arm64/native/WebView2Loader.dll";
-            if (!managed && !native && !name.StartsWith("Resources/CliGuide/", StringComparison.Ordinal) && !name.StartsWith("Resources/ThirdParty/WebView2/", StringComparison.Ordinal)) continue;
+            if (!managed && !native && !name.StartsWith("Resources/CliGuide/", StringComparison.Ordinal) && !name.StartsWith("Resources/GuideMedia/", StringComparison.Ordinal) && !name.StartsWith("Resources/ThirdParty/WebView2/", StringComparison.Ordinal) && !name.StartsWith("Resources/ThirdParty/AvalonEdit/", StringComparison.Ordinal)) continue;
             if (name.EndsWith("/", StringComparison.Ordinal)) continue;
             string path = Path.GetFullPath(Path.Combine(root, name.Replace('/', Path.DirectorySeparatorChar)));
             if (name.IndexOf(':') >= 0 || !path.StartsWith(root, StringComparison.OrdinalIgnoreCase) || !names.Add(path) || names.Count > 128 || entry.Length > 8388608)
@@ -472,7 +473,7 @@ internal sealed class LauncherForm : Form
         layout.RowStyles.Add(new RowStyle(SizeType.Percent, 100)); layout.RowStyles.Add(new RowStyle(SizeType.AutoSize)); Controls.Add(layout);
         layout.Controls.Add(new Label { Text = "실행할 검사를 고르세요 · IDE·실제 AI 검사는 직접 선택할 때만 실행됩니다.", AutoSize = true, Padding = new Padding(0, 0, 0, 8) }, 0, 0);
         foreach (var suite in TestLauncher.Suites) suites.Items.Add(suite, false); layout.Controls.Add(suites, 0, 1);
-        layout.Controls.Add(new Label { Text = "DLL / VSIX 경로 (비우면 배포 v0.9.0 → 기존 Release 산출물, 자동 빌드 없음)", AutoSize = true, Padding = new Padding(0, 8, 0, 0) }, 0, 2);
+        layout.Controls.Add(new Label { Text = "DLL / VSIX 경로 (비우면 배포 v0.10.0 → 기존 Release 산출물, 자동 빌드 없음)", AutoSize = true, Padding = new Padding(0, 8, 0, 0) }, 0, 2);
         var paths = new TableLayoutPanel { Dock = DockStyle.Fill, AutoSize = true, ColumnCount = 2, RowCount = 3 }; paths.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 95)); paths.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
         paths.Controls.Add(new Label { Text = "제품 DLL", AutoSize = true }, 0, 0); paths.Controls.Add(assembly, 1, 0); paths.Controls.Add(new Label { Text = "제품 VSIX", AutoSize = true }, 0, 1); paths.Controls.Add(vsix, 1, 1); paths.Controls.Add(new Label { Text = "Codex .exe", AutoSize = true }, 0, 2); paths.Controls.Add(codex, 1, 2); layout.Controls.Add(paths, 0, 3);
         assembly.Text = options.Assembly ?? ""; vsix.Text = options.Vsix ?? ""; codex.Text = options.Codex ?? "";

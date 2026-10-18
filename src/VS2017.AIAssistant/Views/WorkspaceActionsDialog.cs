@@ -4,7 +4,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using VsBrushes = Microsoft.VisualStudio.Shell.VsBrushes;
 using VS2017.AIAssistant.Services;
 
 namespace VS2017.AIAssistant.Views
@@ -17,6 +16,7 @@ namespace VS2017.AIAssistant.Views
     /// create date  : 2026-10-18
     /// update date  : 2026-10-18 CodexCode : 권한별 차단·정확한 명령 미리보기·취소·스키마 공유 분리.
     /// update date  : 2026-10-18 CodexOrig : TASK-016 문서 첨부·모델 설정·AI 역할 협업과 실패 복구 흐름 연결.
+    ///                2026-10-19 CodexOrig4 : 작업 탭·본문·권한 설명도 주 화면의 동적 팔레트와 통일.
     /// </summary>
     /// ---------------------------------------------------------------------
     public sealed class WorkspaceActionsDialog : AssistantDialog
@@ -94,10 +94,10 @@ namespace VS2017.AIAssistant.Views
             AddField(databaseBody, "SQL 작성 요청 · 현재 편집기 SQL 파일을 열고 필요한 조건을 적으세요.", queryRequest);
             databaseBody.Children.Add(new TextBlock { Text = "아래 버튼을 누르면 표시된 스키마와 요청을 선택된 AI의 입력란에 넣습니다. AI 전송은 입력란의 보내기로 직접 실행합니다.", TextWrapping = TextWrapping.Wrap, Margin = new Thickness(0, 8, 0, 8) });
             databaseBody.Children.Add(shareSchema);
-            tabs.SetResourceReference(Control.BackgroundProperty, VsBrushes.ToolWindowBackgroundKey);
-            tabs.SetResourceReference(Control.ForegroundProperty, VsBrushes.ToolWindowTextKey);
-            commandBody.SetResourceReference(Panel.BackgroundProperty, VsBrushes.ToolWindowBackgroundKey);
-            databaseBody.SetResourceReference(Panel.BackgroundProperty, VsBrushes.ToolWindowBackgroundKey);
+            tabs.SetResourceReference(Control.BackgroundProperty, "AssistantSurfaceBrush");
+            tabs.SetResourceReference(Control.ForegroundProperty, "AssistantForegroundBrush");
+            commandBody.SetResourceReference(Panel.BackgroundProperty, "AssistantSurfaceBrush");
+            databaseBody.SetResourceReference(Panel.BackgroundProperty, "AssistantSurfaceBrush");
             tabs.Items.Add(ThemedTab("⚒ 형상 관리 · 배포", Scroll(commandBody)));
             tabs.Items.Add(ThemedTab("▤ DB 쿼리 작성", Scroll(databaseBody)));
             var layout = new DockPanel();
@@ -108,7 +108,9 @@ namespace VS2017.AIAssistant.Views
                 presets.Children.Add(button);
             }
             var presetBody = new StackPanel(); presetBody.Children.Add(presets);
-            presetBody.Children.Add(new TextBlock { Text = "승인 요청: 모두 해제 · 내 대신 승인: 형상관리·DB 허용 · 전체 권한: 배포까지 허용. 권한 저장으로 적용됩니다. 실제 작업은 실행 계획 확인과 개별 동의 후 실행합니다.", TextWrapping = TextWrapping.Wrap, Foreground = System.Windows.Media.Brushes.Silver });
+            var permissionDescription = new TextBlock { Text = "승인 요청: 모두 해제 · 내 대신 승인: 형상관리·DB 허용 · 전체 권한: 배포까지 허용. 권한 저장으로 적용됩니다. 실제 작업은 실행 계획 확인과 개별 동의 후 실행합니다.", TextWrapping = TextWrapping.Wrap };
+            permissionDescription.SetResourceReference(TextBlock.ForegroundProperty, "AssistantMutedForegroundBrush");
+            presetBody.Children.Add(permissionDescription);
             var section = AssistantControl.OptionSection("확장 작업 권한", presetBody); DockPanel.SetDock(section, Dock.Top); layout.Children.Add(section); layout.Children.Add(tabs); Body.Content = layout;
             Actions.Children.Insert(0, cancel); run.Style = (Style)FindResource("PrimaryButton");
             Actions.Children.Insert(0, savePermissions);
@@ -188,13 +190,14 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 다크 팝업의 흰 패널·보이지 않는 레이블 방지.
+        ///                2026-10-19 CodexOrig4 : 작업 탭의 배경과 본문도 공통 팔레트로 통일.
         /// </summary>
         /// ---------------------------------------------------------------------
         private static TabItem ThemedTab(string title, UIElement content)
         {
             var item = new TabItem { Header = title, Content = content };
-            item.SetResourceReference(Control.BackgroundProperty, VsBrushes.ToolWindowBackgroundKey);
-            item.SetResourceReference(Control.ForegroundProperty, VsBrushes.ToolWindowTextKey); return item;
+            item.SetResourceReference(Control.BackgroundProperty, "AssistantSurfaceBrush");
+            item.SetResourceReference(Control.ForegroundProperty, "AssistantForegroundBrush"); return item;
         }
 
         /// ---------------------------------------------------------------------

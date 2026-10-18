@@ -81,8 +81,6 @@ namespace VS2017.AIAssistant.Views
         private bool showAllExecutedFiles;
         private readonly Dictionary<string, List<string>> changeHoverHistory = new Dictionary<string, List<string>>(StringComparer.OrdinalIgnoreCase);
         private readonly Dictionary<string, string> lastExecutionHistory = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
-        private static readonly Brush AddedChangeBrush = new SolidColorBrush(Color.FromRgb(87, 204, 138));
-        private static readonly Brush RemovedChangeBrush = new SolidColorBrush(Color.FromRgb(255, 115, 115));
 
         /// ---------------------------------------------------------------------
         /// <summary>
@@ -189,6 +187,7 @@ namespace VS2017.AIAssistant.Views
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : TASK-021 추가 초록·제거 빨강 및 hover 변경 기록 반영.
         /// update date  : 2026-10-18 CodexCode : 선택 파일을 제외한 나머지 행을 구성해 첫 파일로도 다시 돌아갈 수 있게 함.
+        ///                2026-10-19 CodexCode : TASK024 대화·파일 카드 재배치 전 이전 hover 비교를 닫음.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void RefreshChangePresentation()
@@ -207,6 +206,7 @@ namespace VS2017.AIAssistant.Views
             bool proposalVisible = pendingVisible || appliedVisible;
             bool actualVisible = executedConversationId == conversation && executedFiles.Length > 0 && !pending;
             ChangeCard.Visibility = proposalVisible || actualVisible ? Visibility.Visible : Visibility.Collapsed;
+            ChangeDiffPopup.CloseWithin(ChangeCard);
             if (!proposalVisible && !actualVisible) { ColoredDiffPreview.Document.Blocks.Clear(); return; }
             ChangeCardFile[] files = actualVisible ? executedFiles : new[] { ProposalCardFile(pendingVisible ? pendingProposal : appliedCardProposal) };
             if (!actualVisible)
@@ -218,7 +218,7 @@ namespace VS2017.AIAssistant.Views
             bool countsComplete = files.All(f => f.HasLineCounts), anyKnown = files.Any(f => f.HasLineCounts);
             AddedLinesLabel.Text = anyKnown ? "+" + files.Where(f => f.HasLineCounts).Sum(f => (long)f.AddedLines) + (countsComplete ? "" : " · 일부 미제공") : "추가 줄 수 미제공";
             RemovedLinesLabel.Text = anyKnown ? "−" + files.Where(f => f.HasLineCounts).Sum(f => (long)f.RemovedLines) + (countsComplete ? "" : " · 일부 미제공") : "제거 줄 수 미제공";
-            AddedLinesLabel.Foreground = anyKnown ? AddedChangeBrush : Brushes.Silver; RemovedLinesLabel.Foreground = anyKnown ? RemovedChangeBrush : Brushes.Silver;
+            AddedLinesLabel.SetResourceReference(TextBlock.ForegroundProperty, anyKnown ? "AssistantAddedBrush" : "AssistantMutedForegroundBrush"); RemovedLinesLabel.SetResourceReference(TextBlock.ForegroundProperty, anyKnown ? "AssistantRemovedBrush" : "AssistantMutedForegroundBrush");
             ExecutedFilesPanel.Children.Clear();
             var selectedFile = actualVisible ? files.FirstOrDefault(f => String.Equals(f.FilePath, selectedExecutedFilePath, StringComparison.OrdinalIgnoreCase)) ?? files[0] : files[0];
             ShowChangeFile(selectedFile, actualVisible);
@@ -273,16 +273,20 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : TASK-021 카드 행 선택과 실제 소스 줄 이동 연결.
+        ///                2026-10-19 CodexCode : TASK024 장문 Tooltip을 스크롤 가능한 비교 Dropdown으로 대체.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void ShowChangeFile(ChangeCardFile file, bool executed)
         {
             reviewFilePath = file.FilePath; reviewLine = file.FirstChangedLine; TargetLabel.Text = VisibleChangePath(file.FilePath);
             string history = ChangeHistoryText(file);
-            SourceLink.ToolTip = history; TargetLabel.ToolTip = history;
+            string hint = file.FilePath + "\n변경 비교: 마우스를 올리거나 Alt+아래 · 클릭은 소스 이동";
+            SourceLink.ToolTip = hint; TargetLabel.ToolTip = hint;
+            ChangeDiffPopup.Attach(SourceLink, file, history); ToolTipService.SetIsEnabled(TargetLabel, false);
             FileAddedLinesLabel.Text = file.HasLineCounts ? "+" + file.AddedLines : "줄 수"; FileRemovedLinesLabel.Text = file.HasLineCounts ? "−" + file.RemovedLines : "미제공";
-            FileAddedLinesLabel.Foreground = file.HasLineCounts ? AddedChangeBrush : Brushes.Silver; FileRemovedLinesLabel.Foreground = file.HasLineCounts ? RemovedChangeBrush : Brushes.Silver;
-            FileAddedLinesLabel.ToolTip = FileRemovedLinesLabel.ToolTip = history;
+            FileAddedLinesLabel.SetResourceReference(TextBlock.ForegroundProperty, file.HasLineCounts ? "AssistantAddedBrush" : "AssistantMutedForegroundBrush"); FileRemovedLinesLabel.SetResourceReference(TextBlock.ForegroundProperty, file.HasLineCounts ? "AssistantRemovedBrush" : "AssistantMutedForegroundBrush");
+            FileAddedLinesLabel.ToolTip = FileRemovedLinesLabel.ToolTip = "실제 변경 줄 수 · 파일에 마우스를 올려 비교 보기";
+            ChangeDiffPopup.Attach(ColoredDiffPreview, file, history);
             RenderColoredDiff(file.DiffText, history);
             if (executed) DiffPreview.Text = file.DiffText;
         }
@@ -295,6 +299,7 @@ namespace VS2017.AIAssistant.Views
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : TASK-021 이미지18·19 파일별 행 구현.
         /// update date  : 2026-10-18 CodexCode : 파일 선택 시 다른 행을 재구성해 현재 파일 중복과 첫 파일 접근 누락 방지.
+        ///                2026-10-19 CodexCode : TASK024 클릭 선택은 보존하고 hover는 유한 비교 popup으로 연결.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void AddExecutedFileRow(ChangeCardFile file)
@@ -303,13 +308,14 @@ namespace VS2017.AIAssistant.Views
             var counts = new TextBlock { VerticalAlignment = VerticalAlignment.Center };
             if (file.HasLineCounts)
             {
-                counts.Inlines.Add(new Run("+" + file.AddedLines + " ") { Foreground = AddedChangeBrush });
-                counts.Inlines.Add(new Run("−" + file.RemovedLines) { Foreground = RemovedChangeBrush });
+                var added = new Run("+" + file.AddedLines + " "); added.SetResourceReference(TextElement.ForegroundProperty, "AssistantAddedBrush"); counts.Inlines.Add(added);
+                var removed = new Run("−" + file.RemovedLines); removed.SetResourceReference(TextElement.ForegroundProperty, "AssistantRemovedBrush"); counts.Inlines.Add(removed);
             }
-            else counts.Inlines.Add(new Run("줄 수 미제공") { Foreground = Brushes.Silver });
+            else { var unknown = new Run("줄 수 미제공"); unknown.SetResourceReference(TextElement.ForegroundProperty, "AssistantMutedForegroundBrush"); counts.Inlines.Add(unknown); }
             DockPanel.SetDock(counts, Dock.Right); row.Children.Add(counts);
             row.Children.Add(new TextBlock { Text = VisibleChangePath(file.FilePath), TextTrimming = TextTrimming.CharacterEllipsis, Margin = new Thickness(0, 0, 8, 0), VerticalAlignment = VerticalAlignment.Center });
-            var button = new Button { Content = row, HorizontalContentAlignment = HorizontalAlignment.Stretch, ToolTip = ChangeHistoryText(file), Style = (Style)FindResource("SurfaceButton") };
+            var button = new Button { Content = row, HorizontalContentAlignment = HorizontalAlignment.Stretch, ToolTip = file.FilePath + "\n마우스: 변경 비교 · 클릭: 파일 선택", Style = (Style)FindResource("SurfaceButton") };
+            ChangeDiffPopup.Attach(button, file, ChangeHistoryText(file));
             button.Click += (sender, args) => { selectedExecutedFilePath = file.FilePath; RefreshChangePresentation(); ReviewPanel.IsExpanded = true; ReviewTabs.SelectedIndex = 0; };
             ExecutedFilesPanel.Children.Add(button);
         }
@@ -382,11 +388,13 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : TASK-021 텍스트 선택·복사와 긴 응답의 표시량 제한 유지.
+        ///                2026-10-19 CodexCode : TASK024 장문 중복 Tooltip 대신 공통 비교 Popup으로 상세 제공.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void RenderColoredDiff(string diff, string history)
         {
             var document = new FlowDocument { PagePadding = new Thickness(0), FontFamily = new FontFamily("Consolas"), FontSize = 12 };
+            document.SetResourceReference(TextElement.ForegroundProperty, "AssistantForegroundBrush"); document.SetResourceReference(TextElement.BackgroundProperty, "AssistantCodeBackgroundBrush");
             int characters = 0, count = 0; bool inHunk = false;
             foreach (string line in (diff ?? "").Replace("\r\n", "\n").Split('\n'))
             {
@@ -400,8 +408,9 @@ namespace VS2017.AIAssistant.Views
                 if (line.StartsWith("@@", StringComparison.Ordinal)) inHunk = true;
                 bool added = line.StartsWith("+", StringComparison.Ordinal) && !fileHeader;
                 bool removed = line.StartsWith("-", StringComparison.Ordinal) && !fileHeader;
-                var text = new Run(shown) { Foreground = added ? AddedChangeBrush : removed ? RemovedChangeBrush : Brushes.LightGray };
-                var paragraph = new Paragraph(text) { Margin = new Thickness(0), LineHeight = 18, ToolTip = history };
+                var text = new Run(shown); text.SetResourceReference(TextElement.ForegroundProperty, added ? "AssistantAddedBrush" : removed ? "AssistantRemovedBrush" : "AssistantForegroundBrush");
+                var paragraph = new Paragraph(text) { Margin = new Thickness(0), LineHeight = 18, ToolTip = "마우스를 올려 변경 비교 · Alt+아래로 고정" };
+                ToolTipService.SetIsEnabled(paragraph, false);
                 if (added || removed) paragraph.Background = new SolidColorBrush(added ? Color.FromArgb(28, 87, 204, 138) : Color.FromArgb(28, 255, 115, 115));
                 document.Blocks.Add(paragraph);
             }

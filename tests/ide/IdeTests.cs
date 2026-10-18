@@ -33,9 +33,10 @@ namespace CodexCode.IdeIntegration
     /// update date  : 2026-10-18 CodexOrig : TASK-016 문서 첨부·모델 설정·AI 역할 협업과 실패 복구 흐름 연결.
     /// update date  : 2026-10-18 CodexOrig : TASK-018 이미지 요구와 드롭다운·A~Z 이름에 맞춰 검증 갱신.
     ///                2026-10-18 CodexOrig : TASK-020 최종 버전·선택·전체 액세스 검사 계약 반영.
+    ///                2026-10-19 CodexOrig : TASK-025 실제 IDE의 Markdown·테마·좁은 목록 검사 분리 연결.
     /// </summary>
     /// ---------------------------------------------------------------------
-    internal static class IdeTests
+    internal static partial class IdeTests
     {
         private static readonly List<object> results = new List<object>();
         private static string progressPath;
@@ -55,6 +56,7 @@ namespace CodexCode.IdeIntegration
         /// update date  : 2026-10-18 CodexOrig : TASK-016 문서 첨부·모델 설정·AI 역할 협업과 실패 복구 흐름 연결.
         ///                2026-10-18 CodexOrig : TASK-020 최종 버전·선택·전체 액세스 검사 계약 반영.
         ///                2026-10-18 CodexOrig : 실제 IDE의 진행 카드와 소유 WPF Window 연결 상태를 관찰 기록.
+        ///                2026-10-19 CodexOrig : 새 Markdown 링크·공통 테마·목록 overlay·돋보기 실제 호스트 검증.
         /// </summary>
         /// ---------------------------------------------------------------------
         internal static async Task RunAsync(Package product, DTE dte, TestConfig config)
@@ -319,7 +321,7 @@ namespace CodexCode.IdeIntegration
             Check("ADVANCED-05 peer completion and unread status are saved separately in the IDE", peerRecord.State == ConversationRunState.Completed && peerRecord.HasUnread);
             Check("ADVANCED-06 actual collaboration report contains the real participants and result", File.Exists(collaboration.ReportPath) && File.ReadAllText(collaboration.ReportPath).Contains(peerIdentity.Name) && collaboration.ListOutbox(coordinator.Id, "Codex").Single().Reply.Length > 0);
             frame.Show(); await Task.Delay(150); view.UpdateLayout();
-            Check("ADVANCED-07 model details and capability-controlled Fast are present in the real host", Button(view, "ModelOptionsButton").IsVisible && ((ToggleButton)view.FindName("FastToggle")).IsVisible && !((ToggleButton)view.FindName("FastToggle")).IsEnabled);
+            Check("ADVANCED-07 model details expose Fast and usage through one visible control", Button(view, "ModelOptionsButton").IsVisible && ((ToggleButton)view.FindName("FastToggle")).Visibility == Visibility.Collapsed && Button(view, "TokenUsageButton").Visibility == Visibility.Collapsed && Button(view, "ModelOptionsButton").ToolTip is ToolTip);
             using (var restoredAdvanced = new AssistantControl()) {
                 ProductUi.SelectProvider(restoredAdvanced, "Codex");
                 var restoredRecords = ((ListBox)restoredAdvanced.FindName("ConversationList")).Items.OfType<ConversationRecord>().ToArray();
@@ -329,6 +331,7 @@ namespace CodexCode.IdeIntegration
                 Check("ADVANCED-08 recreated IDE controls restore AI identity and selected collaborators", restoredRecord.CollaboratorIds.Contains(colleague.Id) && restoredIdentity.Letter == identity.Letter && restoredIdentity.Role == "최종 검토" && restoredIdentity.Name.EndsWith("코덱스" + identity.Letter));
             }
             await CheckImageUiAsync(view);
+            await CheckLatestUiAsync(view, dte, frame, sourcePath, otherPath, config.OutputDirectory);
             dte.Documents.SaveAll();
             ProductUi.SelectProvider(view, "Codex");
             var flags = BindingFlags.Instance | BindingFlags.NonPublic;
@@ -338,13 +341,13 @@ namespace CodexCode.IdeIntegration
             Text(view, "Instruction").Text = "Run the isolated native fixture command and report actual files and usage.";
             await GenerateAsync(view, 30000);
             Check("FULL-04 actual IDE full runner executes file writes and test command", File.Exists(Path.Combine(config.OutputDirectory, "actual-command-passed.txt")) && File.ReadAllText(Path.Combine(config.OutputDirectory, "NativeFixture.txt")) == "new");
-            string immediateUsage = Convert.ToString(((ToolTip)((Button)view.FindName("TokenUsageButton")).ToolTip).Content);
+            string immediateUsage = Convert.ToString(((ToolTip)((Button)view.FindName("ModelOptionsButton")).ToolTip).Content);
             Check("FULL-08 completed request immediately exposes its final reported usage", immediateUsage.Contains("24 tokens"));
             File.AppendAllText(progressPath, "Native UI provider=" + Convert.ToString(((TabItem)((TabControl)view.FindName("ProviderChoice")).SelectedItem).Tag) + "; immediate usage=" + immediateUsage.Replace("\n", " | ") + "\r\n");
             await Task.Delay(200);
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-            File.AppendAllText(progressPath, "Native UI settled usage=" + Convert.ToString(((ToolTip)((Button)view.FindName("TokenUsageButton")).ToolTip).Content).Replace("\n", " | ") + "\r\n");
-            Check("FULL-05 actual IDE usage tooltip displays reported tokens", Convert.ToString(((ToolTip)((Button)view.FindName("TokenUsageButton")).ToolTip).Content).Contains("24") && Convert.ToString(((ToolTip)((Button)view.FindName("TokenUsageButton")).ToolTip).Content).Contains("tokens"));
+            File.AppendAllText(progressPath, "Native UI settled usage=" + Convert.ToString(((ToolTip)((Button)view.FindName("ModelOptionsButton")).ToolTip).Content).Replace("\n", " | ") + "\r\n");
+            Check("FULL-05 actual IDE visible model tooltip displays reported tokens", Convert.ToString(((ToolTip)((Button)view.FindName("ModelOptionsButton")).ToolTip).Content).Contains("24") && Convert.ToString(((ToolTip)((Button)view.FindName("ModelOptionsButton")).ToolTip).Content).Contains("tokens"));
             Check("FULL-06 actual IDE records public progress and completed state", ((ItemsControl)view.FindName("ConversationMessages")).Items.Cast<ChatMessage>().Any(message => message.Role == "system" && message.Text.Contains("명령 실행")) && ((ConversationRecord)((ListBox)view.FindName("ConversationList")).SelectedItem).State == ConversationRunState.Completed);
             view.UpdateLayout();
             var actualProgressViews = Visuals(view).OfType<FrameworkElement>().Where(element => element.GetType().Name == "ProgressNoticePresenter").ToArray();

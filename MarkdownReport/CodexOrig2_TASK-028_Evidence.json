@@ -1,0 +1,1225 @@
+{
+  "SchemaVersion": 1,
+  "Task": "TASK-028",
+  "Auditor": "CodexOrig2",
+  "Role": "감사",
+  "AuditDocumentCompleted": true,
+  "ProductRequirementsFullySatisfied": false,
+  "ReleaseApproved": false,
+  "StartedAt": "2026-10-19T01:51:45.8801832+09:00",
+  "CompletedAt": "2026-10-19T02:39:16.8201323+09:00",
+  "ElapsedIncludingWait": "00:47:30.9399491",
+  "ResultsCutoff": "2026-10-19T02:35:36+09:00",
+  "Verdict": "부분 반영. R3-01/02 C4 수정 직접 확인. R3-03 미해소 및 최종 통합 확인 필요.",
+  "Request": "MarkdownReport/CodexOrig_TASK-025_AuditRequest.md",
+  "OriginalUserRequirements": 15,
+  "SeparateOrig3Proposals": 5,
+  "Report": {
+    "Path": "MarkdownReport/CodexOrig2_TASK-028_Audit3.md",
+    "SHA256": "1BC2C86124BC29DFBE0309F8BA7F52568504619BDF27A45E9D6A42F7EF61F6DD"
+  },
+  "RoleAppend": {
+    "Path": "MarkdownReport/Role.md",
+    "ReviewedSHA256": "0EF513021D252BE48441D7813D98A05CD615E493420B9F0A72C4D39E4C0B976C",
+    "BeforeSHA256": "0EF513021D252BE48441D7813D98A05CD615E493420B9F0A72C4D39E4C0B976C",
+    "AfterSHA256": "EDF43D1A6D347C188F1DB4C2D7A21E7B4B5EBFD922289CC6086708A92820781D",
+    "OriginalByteLength": 25549,
+    "OriginalBytePrefixPreserved": true,
+    "Heading": "3차 감사 결과 확인·반영 지시",
+    "At": "2026-10-19T02:39:16.8201323+09:00"
+  },
+  "Snapshots": [
+    {
+      "Candidate": 3,
+      "ManifestSHA256": "37711B833067202ED58BE5C7591309B38CCA0BC61577FB487536AAC4FA4D6D0D",
+      "Inputs": 118,
+      "Mismatch": 0,
+      "Evidence": "artifacts/audit-codexorig2-round3/source-integrity.json"
+    },
+    {
+      "Candidate": 4,
+      "ManifestSHA256": "61A51827910C1511CE8AD10DFE18CE9D1FF255527A33DCA662DAC430F42D9796",
+      "Inputs": 117,
+      "Mismatch": 0,
+      "Evidence": "artifacts/audit-codexorig2-round3/source-integrity-c4.json",
+      "Difference": "C4 manifest omits the previous installation PDF; independent protected-file check confirms its bytes unchanged."
+    }
+  ],
+  "Findings": [
+    {
+      "ID": "R3-01",
+      "Priority": "P2",
+      "Kind": "Confirmed behavior defect",
+      "Status": "FixedVerifiedInCandidate4",
+      "DirectlyReproduced": true,
+      "DirectlyRechecked": true,
+      "Title": "Explicit document relative link navigates to same-name project file",
+      "Reproduction": "Open documents/readme.md with [Sibling](chapter.cs#L7); create same-name documents/chapter.cs and project/chapter.cs; dispatch actual Hyperlink.Click through AssistantControl handler with recording ISourceNavigationService.",
+      "Before": "C:\\dydgyqud\\AO28_20261019\\evidence\\audit-probe2\\project\\chapter.cs",
+      "After": "C:\\dydgyqud\\AO28_20261019\\evidence\\audit-probe-c4\\documents\\chapter.cs",
+      "Line": 7,
+      "Files": [
+        "candidate3/source/src/VS2017.AIAssistant/Views/AssistantControl.Markdown.cs:120",
+        "candidate4/source/src/VS2017.AIAssistant/Views/AssistantControl.Markdown.cs:121",
+        "candidate4/source/src/VS2017.AIAssistant/Views/MarkdownRendering.cs:32"
+      ]
+    },
+    {
+      "ID": "R3-02",
+      "Priority": "P2",
+      "Kind": "Confirmed port omission",
+      "Status": "FixedVerifiedInCandidate4",
+      "DirectlyReproduced": true,
+      "DirectlyRechecked": true,
+      "Title": "SQL/source preview omitted original token colors",
+      "Reproduction": "Render fenced SQL SELECT name FROM Users WHERE Id = 1; -- note in actual MarkdownPreview; enumerate body Runs and foreground colors excluding language header.",
+      "Before": {
+        "Runs": 1,
+        "Colors": 1
+      },
+      "After": {
+        "Runs": 9,
+        "Colors": 4
+      },
+      "Files": [
+        "candidate3/source/src/VS2017.AIAssistant/Views/MarkdownRendering.cs:104",
+        "candidate4/source/src/VS2017.AIAssistant/Views/MarkdownRendering.cs:181",
+        "C:/dydgyqud/Markdown_Memo_Interchange/RemoteControlDemo/Features/Markdown/MarkdownnRenderer.cs:147"
+      ]
+    },
+    {
+      "ID": "R3-03",
+      "Priority": "P2",
+      "Kind": "Confirmed functional scope difference",
+      "Status": "OpenInCandidate4",
+      "DirectSourceComparison": true,
+      "DirectRuntimePreviewComparison": true,
+      "Title": "Provided authoring and preview functionality is not fully ported",
+      "MissingAuthoring": [
+        "Document folder/list",
+        "Save current document without SaveAs prompt",
+        "Rename/delete/open location"
+      ],
+      "PreviewDifferences": [
+        "Reference-style link plus image remains literal with zero Hyperlinks",
+        "Raw HTML table remains literal"
+      ],
+      "OriginalMarkdigTransformExecuted": true,
+      "OriginalApplicationUiExecuted": false,
+      "UnsafeHtmlOrRemoteAutoLoadRequested": false,
+      "Files": [
+        "candidate4/source/src/VS2017.AIAssistant/Views/MarkdownEditor.cs:178",
+        "candidate4/source/src/VS2017.AIAssistant/Views/MarkdownEditor.cs:205",
+        "C:/dydgyqud/Markdown_Memo_Interchange/RemoteControlDemo/Features/Markdown/MarkdownnPane.cs:686",
+        "C:/dydgyqud/Markdown_Memo_Interchange/RemoteControlDemo/Features/Markdown/MarkdownnPane.cs:724"
+      ]
+    }
+  ],
+  "DirectExecution": {
+    "Candidate3Functional": {
+      "Succeeded": true,
+      "GroupsPassed": 5,
+      "GroupsTotal": 5,
+      "Passed": 196,
+      "Failed": 0,
+      "ProductAssemblyPath": "C:\\dydgyqud\\AO28_20261019\\candidate3\\2017\\Release\\VS2017.AIAssistant.dll",
+      "ProductAssemblySha256": "26FEF3E2BCCA746985E87599F54029E8F8DC17877D9BFBBCA46A6F2FB01CE52A",
+      "ProductAfterSha256": "26FEF3E2BCCA746985E87599F54029E8F8DC17877D9BFBBCA46A6F2FB01CE52A",
+      "SourceOnly": false,
+      "Results": [
+        {
+          "Name": "markdown",
+          "Succeeded": true,
+          "ExitCode": 0,
+          "Passed": 78,
+          "Failed": 0,
+          "ResultPath": "C:\\dydgyqud\\AO28_20261019\\evidence\\task024\\markdown\\result.json",
+          "Log": "C:\\dydgyqud\\AO28_20261019\\evidence\\task024\\markdown.log",
+          "Failure": null
+        },
+        {
+          "Name": "hover-viewport",
+          "Succeeded": true,
+          "ExitCode": 0,
+          "Passed": 35,
+          "Failed": 0,
+          "ResultPath": "C:\\dydgyqud\\AO28_20261019\\evidence\\task024\\hover-viewport\\result.json",
+          "Log": "C:\\dydgyqud\\AO28_20261019\\evidence\\task024\\hover-viewport.log",
+          "Failure": null
+        },
+        {
+          "Name": "guide",
+          "Succeeded": true,
+          "ExitCode": 0,
+          "Passed": 31,
+          "Failed": 0,
+          "ResultPath": "C:\\dydgyqud\\AO28_20261019\\evidence\\task024\\guide\\result.json",
+          "Log": "C:\\dydgyqud\\AO28_20261019\\evidence\\task024\\guide.log",
+          "Failure": null
+        },
+        {
+          "Name": "account",
+          "Succeeded": true,
+          "ExitCode": 0,
+          "Passed": 24,
+          "Failed": 0,
+          "ResultPath": "C:\\dydgyqud\\AO28_20261019\\evidence\\task024\\account\\result.json",
+          "Log": "C:\\dydgyqud\\AO28_20261019\\evidence\\task024\\account.log",
+          "Failure": null
+        },
+        {
+          "Name": "assistant-ui",
+          "Succeeded": true,
+          "ExitCode": 0,
+          "Passed": 28,
+          "Failed": 0,
+          "ResultPath": "C:\\dydgyqud\\AO28_20261019\\evidence\\task024\\assistant-ui\\result.json",
+          "Log": "C:\\dydgyqud\\AO28_20261019\\evidence\\task024\\assistant-ui.log",
+          "Failure": null
+        }
+      ],
+      "WindowShown": false,
+      "NativePointerVerified": false,
+      "LiveAuthenticationVerified": false,
+      "PaidAiInvoked": false,
+      "CheckedAt": "2026-10-19T01:52:02.6563741+09:00"
+    },
+    "Candidate4Functional": {
+      "Succeeded": true,
+      "GroupsPassed": 5,
+      "GroupsTotal": 5,
+      "Passed": 202,
+      "Failed": 0,
+      "ProductAssemblyPath": "C:\\dydgyqud\\AO28_20261019\\candidate4\\2017\\Release\\VS2017.AIAssistant.dll",
+      "ProductAssemblySha256": "1B544BA40419D20C2BD58D2FFED144E97CA9FCF00F604A590DD87C301B7398BD",
+      "ProductAfterSha256": "1B544BA40419D20C2BD58D2FFED144E97CA9FCF00F604A590DD87C301B7398BD",
+      "SourceOnly": false,
+      "Results": [
+        {
+          "Name": "markdown",
+          "Succeeded": true,
+          "ExitCode": 0,
+          "Passed": 82,
+          "Failed": 0,
+          "ResultPath": "C:\\dydgyqud\\AO28_20261019\\evidence\\task024-c4\\markdown\\result.json",
+          "Log": "C:\\dydgyqud\\AO28_20261019\\evidence\\task024-c4\\markdown.log",
+          "Failure": null
+        },
+        {
+          "Name": "hover-viewport",
+          "Succeeded": true,
+          "ExitCode": 0,
+          "Passed": 35,
+          "Failed": 0,
+          "ResultPath": "C:\\dydgyqud\\AO28_20261019\\evidence\\task024-c4\\hover-viewport\\result.json",
+          "Log": "C:\\dydgyqud\\AO28_20261019\\evidence\\task024-c4\\hover-viewport.log",
+          "Failure": null
+        },
+        {
+          "Name": "guide",
+          "Succeeded": true,
+          "ExitCode": 0,
+          "Passed": 31,
+          "Failed": 0,
+          "ResultPath": "C:\\dydgyqud\\AO28_20261019\\evidence\\task024-c4\\guide\\result.json",
+          "Log": "C:\\dydgyqud\\AO28_20261019\\evidence\\task024-c4\\guide.log",
+          "Failure": null
+        },
+        {
+          "Name": "account",
+          "Succeeded": true,
+          "ExitCode": 0,
+          "Passed": 24,
+          "Failed": 0,
+          "ResultPath": "C:\\dydgyqud\\AO28_20261019\\evidence\\task024-c4\\account\\result.json",
+          "Log": "C:\\dydgyqud\\AO28_20261019\\evidence\\task024-c4\\account.log",
+          "Failure": null
+        },
+        {
+          "Name": "assistant-ui",
+          "Succeeded": true,
+          "ExitCode": 0,
+          "Passed": 30,
+          "Failed": 0,
+          "ResultPath": "C:\\dydgyqud\\AO28_20261019\\evidence\\task024-c4\\assistant-ui\\result.json",
+          "Log": "C:\\dydgyqud\\AO28_20261019\\evidence\\task024-c4\\assistant-ui.log",
+          "Failure": null
+        }
+      ],
+      "WindowShown": false,
+      "NativePointerVerified": false,
+      "LiveAuthenticationVerified": false,
+      "PaidAiInvoked": false,
+      "CheckedAt": "2026-10-19T02:33:37.9293548+09:00"
+    },
+    "Candidate4Themes": [
+      {
+        "Succeeded": true,
+        "Passed": 31,
+        "Failed": 0,
+        "AssemblyPath": "C:\\dydgyqud\\AO28_20261019\\candidate4\\2017\\Release\\VS2017.AIAssistant.dll",
+        "AssemblySha256": "1B544BA40419D20C2BD58D2FFED144E97CA9FCF00F604A590DD87C301B7398BD",
+        "SourceOnly": false,
+        "WindowShown": false,
+        "ActualIdeTested": false,
+        "ResultPath": "C:\\dydgyqud\\AO28_20261019\\evidence\\theme2017-c4\\runtime\\result.json",
+        "CheckedAt": "2026-10-19T02:33:50.2937435+09:00"
+      },
+      {
+        "Succeeded": true,
+        "Passed": 31,
+        "Failed": 0,
+        "AssemblyPath": "C:\\dydgyqud\\AO28_20261019\\candidate4\\2019\\Release\\VS2017.AIAssistant.dll",
+        "AssemblySha256": "004BF8A11755C797053D83145A4CEE2C89187C79F40AE087A8BA6894FB13EA75",
+        "SourceOnly": false,
+        "WindowShown": false,
+        "ActualIdeTested": false,
+        "ResultPath": "C:\\dydgyqud\\AO28_20261019\\evidence\\theme2019-c4\\runtime\\result.json",
+        "CheckedAt": "2026-10-19T02:33:50.5268332+09:00"
+      },
+      {
+        "Succeeded": true,
+        "Passed": 31,
+        "Failed": 0,
+        "AssemblyPath": "C:\\dydgyqud\\AO28_20261019\\candidate4\\2022\\Release\\VS2017.AIAssistant.dll",
+        "AssemblySha256": "CF52603BD1EA5B6F751EDDF30194F0B3870BDC7A926F1FC0B6AA61DE8B76B974",
+        "SourceOnly": false,
+        "WindowShown": false,
+        "ActualIdeTested": false,
+        "ResultPath": "C:\\dydgyqud\\AO28_20261019\\evidence\\theme2022-c4\\runtime\\result.json",
+        "CheckedAt": "2026-10-19T02:33:50.742641+09:00"
+      }
+    ],
+    "Candidate3Native": {
+      "Passed": 67,
+      "Failed": 0,
+      "RealServiceAccount": false
+    },
+    "BuildEntry": {
+      "CheckedAt": "2026-10-19T02:34:35.6452248+09:00",
+      "PowerShell": "5.1.26100.9711",
+      "Passed": 16,
+      "Total": 16,
+      "Tests": [
+        {
+          "Name": "Batch default engine, Korean/special path, unrelated cwd",
+          "Passed": true,
+          "Detail": {
+            "ExitCode": 0,
+            "Output": "{\r\n    \"VisualStudioVersion\":  \"2017\",\r\n    \"Configuration\":  \"Release\",\r\n    \"MSBuildPath\":  \"C:\\\\dydgyqud\\\\AO28_20261019\\\\artifacts\\\\build-entry\\\\run-b7f68266d23540539befcba122198d60\\\\한글 \\u0026 공백! (경로)\\\\VS 2017\\\\MSBuild\\\\15.0\\\\Bin\\\\MSBuild.exe\",\r\n    \"MSBuildVersion\":  \"15.9.0.0\",\r\n    \"BuildScript\":  \"C:\\\\dydgyqud\\\\AO28_20261019\\\\artifacts\\\\build-entry\\\\run-b7f68266d23540539befcba122198d60\\\\한글 \\u0026 공백! (경로)\\\\scripts\\\\build.ps1\",\r\n    \"LaunchesIde\":  false,\r\n    \"ChecksIdeLicense\":  false\r\n}\r\n",
+            "Error": ""
+          }
+        },
+        {
+          "Name": "Plan does not run build or IDE",
+          "Passed": true,
+          "Detail": {
+            "VisualStudioVersion": "2017",
+            "Configuration": "Release",
+            "MSBuildPath": "C:\\dydgyqud\\AO28_20261019\\artifacts\\build-entry\\run-b7f68266d23540539befcba122198d60\\한글 & 공백! (경로)\\VS 2017\\MSBuild\\15.0\\Bin\\MSBuild.exe",
+            "MSBuildVersion": "15.9.0.0",
+            "BuildScript": "C:\\dydgyqud\\AO28_20261019\\artifacts\\build-entry\\run-b7f68266d23540539befcba122198d60\\한글 & 공백! (경로)\\scripts\\build.ps1",
+            "LaunchesIde": false,
+            "ChecksIdeLicense": false
+          }
+        },
+        {
+          "Name": "VS2019 engine selection",
+          "Passed": true,
+          "Detail": {
+            "ExitCode": 0,
+            "Output": "{\r\n    \"VisualStudioVersion\":  \"2019\",\r\n    \"Configuration\":  \"Debug\",\r\n    \"MSBuildPath\":  \"C:\\\\dydgyqud\\\\AO28_20261019\\\\artifacts\\\\build-entry\\\\run-b7f68266d23540539befcba122198d60\\\\한글 \\u0026 공백! (경로)\\\\VS 2019\\\\MSBuild\\\\Current\\\\Bin\\\\MSBuild.exe\",\r\n    \"MSBuildVersion\":  \"16.9.0.0\",\r\n    \"BuildScript\":  \"C:\\\\dydgyqud\\\\AO28_20261019\\\\artifacts\\\\build-entry\\\\run-b7f68266d23540539befcba122198d60\\\\한글 \\u0026 공백! (경로)\\\\scripts\\\\build.ps1\",\r\n    \"LaunchesIde\":  false,\r\n    \"ChecksIdeLicense\":  false\r\n}\r\n",
+            "Error": ""
+          }
+        },
+        {
+          "Name": "VS2022 engine selection",
+          "Passed": true,
+          "Detail": {
+            "ExitCode": 0,
+            "Output": "{\r\n    \"VisualStudioVersion\":  \"2022\",\r\n    \"Configuration\":  \"Debug\",\r\n    \"MSBuildPath\":  \"C:\\\\dydgyqud\\\\AO28_20261019\\\\artifacts\\\\build-entry\\\\run-b7f68266d23540539befcba122198d60\\\\한글 \\u0026 공백! (경로)\\\\VS 2022\\\\MSBuild\\\\Current\\\\Bin\\\\MSBuild.exe\",\r\n    \"MSBuildVersion\":  \"17.9.0.0\",\r\n    \"BuildScript\":  \"C:\\\\dydgyqud\\\\AO28_20261019\\\\artifacts\\\\build-entry\\\\run-b7f68266d23540539befcba122198d60\\\\한글 \\u0026 공백! (경로)\\\\scripts\\\\build.ps1\",\r\n    \"LaunchesIde\":  false,\r\n    \"ChecksIdeLicense\":  false\r\n}\r\n",
+            "Error": ""
+          }
+        },
+        {
+          "Name": "Native discovery arguments preserve range/products/components",
+          "Passed": true,
+          "Detail": [
+            "-latest",
+            "-version",
+            "[17.0,18.0)",
+            "-products",
+            "Microsoft.VisualStudio.Product.Community",
+            "Microsoft.VisualStudio.Product.Professional",
+            "Microsoft.VisualStudio.Product.Enterprise",
+            "-requires",
+            "Microsoft.Component.MSBuild",
+            "Microsoft.VisualStudio.Component.VSSDK",
+            "-format",
+            "json",
+            "-utf8"
+          ]
+        },
+        {
+          "Name": "Empty PS5 inventory fails without fallback",
+          "Passed": true,
+          "Detail": {
+            "ExitCode": 1,
+            "Output": "",
+            "Error": "C:\\dydgyqud\\AO28_20261019\\artifacts\\build-entry\\run-b7f68266d23540539befcba122198d60\\한글 & 공백! (경로)\\scripts\\Invoke-VsixB\r\nuild.ps1 : VS2017 with MSBuild and the Visual Studio SDK was not found. No version fallback is performed.\r\n    + CategoryInfo          : NotSpecified: (:) [Write-Error], WriteErrorException\r\n    + FullyQualifiedErrorId : Microsoft.PowerShell.Commands.WriteErrorException,Invoke-VsixBuild.ps1\r\n \r\n"
+          }
+        },
+        {
+          "Name": "Unexpected inventory version is rejected",
+          "Passed": true,
+          "Detail": {
+            "ExitCode": 1,
+            "Output": "",
+            "Error": "C:\\dydgyqud\\AO28_20261019\\artifacts\\build-entry\\run-b7f68266d23540539befcba122198d60\\한글 & 공백! (경로)\\scripts\\Invoke-VsixB\r\nuild.ps1 : The selected Visual Studio instance is incomplete or has an unexpected version.\r\n    + CategoryInfo          : NotSpecified: (:) [Write-Error], WriteErrorException\r\n    + FullyQualifiedErrorId : Microsoft.PowerShell.Commands.WriteErrorException,Invoke-VsixBuild.ps1\r\n \r\n"
+          }
+        },
+        {
+          "Name": "Incomplete instance is rejected",
+          "Passed": true,
+          "Detail": {
+            "ExitCode": 1,
+            "Output": "",
+            "Error": "C:\\dydgyqud\\AO28_20261019\\artifacts\\build-entry\\run-b7f68266d23540539befcba122198d60\\한글 & 공백! (경로)\\scripts\\Invoke-VsixB\r\nuild.ps1 : The selected Visual Studio instance is incomplete or has an unexpected version.\r\n    + CategoryInfo          : NotSpecified: (:) [Write-Error], WriteErrorException\r\n    + FullyQualifiedErrorId : Microsoft.PowerShell.Commands.WriteErrorException,Invoke-VsixBuild.ps1\r\n \r\n"
+          }
+        },
+        {
+          "Name": "Native discovery failure is returned",
+          "Passed": true,
+          "Detail": {
+            "ExitCode": 1,
+            "Output": "",
+            "Error": "C:\\dydgyqud\\AO28_20261019\\artifacts\\build-entry\\run-b7f68266d23540539befcba122198d60\\한글 & 공백! (경로)\\scripts\\Invoke-VsixB\r\nuild.ps1 : vswhere failed (23): \r\n    + CategoryInfo          : NotSpecified: (:) [Write-Error], WriteErrorException\r\n    + FullyQualifiedErrorId : Microsoft.PowerShell.Commands.WriteErrorException,Invoke-VsixBuild.ps1\r\n \r\n"
+          }
+        },
+        {
+          "Name": "Malformed inventory is rejected",
+          "Passed": true,
+          "Detail": {
+            "ExitCode": 1,
+            "Output": "",
+            "Error": "C:\\dydgyqud\\AO28_20261019\\artifacts\\build-entry\\run-b7f68266d23540539befcba122198d60\\한글 & 공백! (경로)\\scripts\\Invoke-VsixB\r\nuild.ps1 : 잘못된 개체가 전달되었습니다. ':' 또는 '}'가 필요합니다. (7): {broken\r\n    + CategoryInfo          : NotSpecified: (:) [Write-Error], WriteErrorException\r\n    + FullyQualifiedErrorId : Microsoft.PowerShell.Commands.WriteErrorException,Invoke-VsixBuild.ps1\r\n \r\n"
+          }
+        },
+        {
+          "Name": "Explicit engine bypasses unavailable discovery",
+          "Passed": true,
+          "Detail": {
+            "ExitCode": 0,
+            "Output": "{\r\n    \"VisualStudioVersion\":  \"2017\",\r\n    \"Configuration\":  \"Release\",\r\n    \"MSBuildPath\":  \"C:\\\\dydgyqud\\\\AO28_20261019\\\\artifacts\\\\build-entry\\\\run-b7f68266d23540539befcba122198d60\\\\한글 \\u0026 공백! (경로)\\\\VS 2017\\\\MSBuild\\\\15.0\\\\Bin\\\\MSBuild.exe\",\r\n    \"MSBuildVersion\":  \"15.9.0.0\",\r\n    \"BuildScript\":  \"C:\\\\dydgyqud\\\\AO28_20261019\\\\artifacts\\\\build-entry\\\\run-b7f68266d23540539befcba122198d60\\\\한글 \\u0026 공백! (경로)\\\\scripts\\\\build.ps1\",\r\n    \"LaunchesIde\":  false,\r\n    \"ChecksIdeLicense\":  false\r\n}\r\n",
+            "Error": ""
+          }
+        },
+        {
+          "Name": "Wrong MSBuild file major version is rejected",
+          "Passed": true,
+          "Detail": {
+            "ExitCode": 1,
+            "Output": "",
+            "Error": "C:\\dydgyqud\\AO28_20261019\\artifacts\\build-entry\\run-b7f68266d23540539befcba122198d60\\한글 & 공백! (경로)\\scripts\\Invoke-VsixB\r\nuild.ps1 : VS2017 requires MSBuild 15.x; selected file is 17.9.0.0.\r\n    + CategoryInfo          : NotSpecified: (:) [Write-Error], WriteErrorException\r\n    + FullyQualifiedErrorId : Microsoft.PowerShell.Commands.WriteErrorException,Invoke-VsixBuild.ps1\r\n \r\n"
+          }
+        },
+        {
+          "Name": "Missing engine is rejected",
+          "Passed": true,
+          "Detail": {
+            "ExitCode": 1,
+            "Output": "",
+            "Error": "C:\\dydgyqud\\AO28_20261019\\artifacts\\build-entry\\run-b7f68266d23540539befcba122198d60\\한글 & 공백! (경로)\\scripts\\Invoke-VsixB\r\nuild.ps1 : MSBuild.exe was not found: missing.exe\r\n    + CategoryInfo          : NotSpecified: (:) [Write-Error], WriteErrorException\r\n    + FullyQualifiedErrorId : Microsoft.PowerShell.Commands.WriteErrorException,Invoke-VsixBuild.ps1\r\n \r\n"
+          }
+        },
+        {
+          "Name": "Batch forwards configuration/path and preserves build output",
+          "Passed": true,
+          "Detail": {
+            "ExitCode": 0,
+            "Output": "VS2017 MSBuild 15.9.0.0: C:\\dydgyqud\\AO28_20261019\\artifacts\\build-entry\\run-b7f68266d23540539befcba122198d60\\한글 & 공백! (경로)\\VS 2017\\MSBuild\\15.0\\Bin\\MSBuild.exe\nBUILD_OUTPUT_SENTINEL\r\n",
+            "Error": ""
+          }
+        },
+        {
+          "Name": "Batch preserves failure status and error output",
+          "Passed": true,
+          "Detail": {
+            "ExitCode": 1,
+            "Output": "VS2017 MSBuild 15.9.0.0: C:\\dydgyqud\\AO28_20261019\\artifacts\\build-entry\\run-b7f68266d23540539befcba122198d60\\한글 & 공백! (경로)\\VS 2017\\MSBuild\\15.0\\Bin\\MSBuild.exe\nBUILD_OUTPUT_SENTINEL\r\n",
+            "Error": "C:\\dydgyqud\\AO28_20261019\\artifacts\\build-entry\\run-b7f68266d23540539befcba122198d60\\한글 & 공백! (경로)\\scripts\\Invoke-VsixB\r\nuild.ps1 : BUILD_FAILURE_SENTINEL\r\n    + CategoryInfo          : NotSpecified: (:) [Write-Error], WriteErrorException\r\n    + FullyQualifiedErrorId : Microsoft.PowerShell.Commands.WriteErrorException,Invoke-VsixBuild.ps1\r\n \r\n"
+          }
+        },
+        {
+          "Name": "Unsupported year fails parameter validation",
+          "Passed": true,
+          "Detail": {
+            "ExitCode": 1,
+            "Output": "",
+            "Error": "C:\\dydgyqud\\AO28_20261019\\artifacts\\build-entry\\run-b7f68266d23540539befcba122198d60\\�ѱ� & ����! (���)\\scripts\\Invoke\r\n-VsixBuild.ps1 : 'VisualStudioVersion' �Ű� ������ ���� �μ��� ��ȿ���� �˻��� �� �����ϴ�. \"2026\" �μ��� ValidateSet \r\nƯ���� ������ \"2017,2019,2022\" ���տ� ������ �ʽ��ϴ�. ���տ� ���� �μ��� �����ϰ� ����� �ٽ� �õ��Ͻʽÿ�.\r\n    + CategoryInfo          : InvalidData: (:) [Invoke-VsixBuild.ps1], ParentContainsErrorRecordException\r\n    + FullyQualifiedErrorId : ParameterArgumentValidationError,Invoke-VsixBuild.ps1\r\n \r\n"
+          }
+        }
+      ]
+    },
+    "ProbeBefore": {
+      "SqlBodyRunCount": 1,
+      "SqlBodyColorCount": 1,
+      "ReferenceLinkCount": 0,
+      "ReferenceLinkPlainText": "[Documentation][ref]\r\n[ref]: https://example.invalid/docs\r\n",
+      "ReferenceLinkWithImageCount": 0,
+      "ReferenceLinkWithImagePlainText": "[Documentation][ref]\r\n[ref]: https://example.invalid/docs\r\n[이미지: preview]\r\n",
+      "RawHtmlPlainText": "<table><tr><td>Cell</td></tr></table>\r\n",
+      "LoadedDocumentOrigin": "C:\\dydgyqud\\AO28_20261019\\evidence\\audit-probe2\\documents",
+      "ExpectedSiblingPath": "C:\\dydgyqud\\AO28_20261019\\evidence\\audit-probe2\\documents\\chapter.cs",
+      "ActualNavigationPath": "C:\\dydgyqud\\AO28_20261019\\evidence\\audit-probe2\\project\\chapter.cs",
+      "ActualNavigationLine": 7,
+      "MailtoRenderedAsLink": false,
+      "WindowShown": false,
+      "ExternalNavigationExecuted": false
+    },
+    "ProbeAfter": {
+      "SqlBodyRunCount": 9,
+      "SqlBodyColorCount": 4,
+      "ReferenceLinkCount": 0,
+      "ReferenceLinkPlainText": "[Documentation][ref]\r\n[ref]: https://example.invalid/docs\r\n",
+      "ReferenceLinkWithImageCount": 0,
+      "ReferenceLinkWithImagePlainText": "[Documentation][ref]\r\n[ref]: https://example.invalid/docs\r\n[이미지: preview]\r\n",
+      "RawHtmlPlainText": "<table><tr><td>Cell</td></tr></table>\r\n",
+      "LoadedDocumentOrigin": "C:\\dydgyqud\\AO28_20261019\\evidence\\audit-probe-c4\\documents",
+      "ExpectedSiblingPath": "C:\\dydgyqud\\AO28_20261019\\evidence\\audit-probe-c4\\documents\\chapter.cs",
+      "ActualNavigationPath": "C:\\dydgyqud\\AO28_20261019\\evidence\\audit-probe-c4\\documents\\chapter.cs",
+      "ActualNavigationLine": 7,
+      "MailtoRenderedAsLink": false,
+      "WindowShown": false,
+      "ExternalNavigationExecuted": false
+    },
+    "ProbeFactsAreNotProductFeatureCount": true,
+    "RawEvidence": "artifacts/audit-codexorig2-round3/direct-results.json"
+  },
+  "OtherExecutorEvidence": [
+    {
+      "Path": "artifacts/task024/change-hover-candidate4-unlocked-first/result.json",
+      "SHA256": "96DB9BBDFE46D2BF12859EB89CD2F8B895D660DF08FECB4DEA69A4A3978399F6",
+      "Executor": "TASK024 / CodexCode",
+      "AuditorExecuted": false,
+      "AuditorInspectedRecord": true,
+      "Succeeded": true,
+      "Passed": 28,
+      "ProductAssemblySha256": "1B544BA40419D20C2BD58D2FFED144E97CA9FCF00F604A590DD87C301B7398BD"
+    },
+    {
+      "Path": "artifacts/task024/playback-candidate4-unlocked-first/result.json",
+      "SHA256": "C8DAD56BD22DB8B6CA6F01EA51075FC6A716B99629848D0E45B4AF345252D275",
+      "Executor": "TASK024 / CodexCode",
+      "AuditorExecuted": false,
+      "AuditorInspectedRecord": true,
+      "Succeeded": true,
+      "Passed": 24,
+      "ProductAssemblySha256": "1B544BA40419D20C2BD58D2FFED144E97CA9FCF00F604A590DD87C301B7398BD"
+    }
+  ],
+  "Builds": {
+    "Executor": "TASK025",
+    "AuditorExecuted": false,
+    "Candidate4": [
+      {
+        "Version": "2017",
+        "Configuration": "Debug",
+        "ExitCode": 0,
+        "Warnings": 0,
+        "Log": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task025\\build-candidate4-2017-Debug.log"
+      },
+      {
+        "Version": "2017",
+        "Configuration": "Release",
+        "ExitCode": 0,
+        "Warnings": 0,
+        "Log": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task025\\build-candidate4-2017-Release.log"
+      },
+      {
+        "Version": "2019",
+        "Configuration": "Debug",
+        "ExitCode": 0,
+        "Warnings": 0,
+        "Log": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task025\\build-candidate4-2019-Debug.log"
+      },
+      {
+        "Version": "2019",
+        "Configuration": "Release",
+        "ExitCode": 0,
+        "Warnings": 0,
+        "Log": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task025\\build-candidate4-2019-Release.log"
+      },
+      {
+        "Version": "2022",
+        "Configuration": "Debug",
+        "ExitCode": 0,
+        "Warnings": 0,
+        "Log": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task025\\build-candidate4-2022-Debug.log"
+      },
+      {
+        "Version": "2022",
+        "Configuration": "Release",
+        "ExitCode": 0,
+        "Warnings": 0,
+        "Log": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task025\\build-candidate4-2022-Release.log"
+      }
+    ]
+  },
+  "Packages": [
+    {
+      "Year": "2017",
+      "File": "VS2017.AIAssistant.vsix",
+      "Bytes": 3832050,
+      "SHA256": "786145EF5F01B6A527BFCF119D48631730783D031E2389E80EC9ACA6F4AABAF3",
+      "DLLSHA256": "1B544BA40419D20C2BD58D2FFED144E97CA9FCF00F604A590DD87C301B7398BD",
+      "Target": [
+        {
+          "Id": "Microsoft.VisualStudio.Community",
+          "Version": "[15.0.28307.0,16.0)",
+          "Architecture": null
+        }
+      ],
+      "Payload": [
+        {
+          "Name": "VS2017.AIAssistant.dll",
+          "Bytes": 702976,
+          "SHA256": "1B544BA40419D20C2BD58D2FFED144E97CA9FCF00F604A590DD87C301B7398BD",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "ICSharpCode.AvalonEdit.dll",
+          "Bytes": 621056,
+          "SHA256": "B0032716709359F7361D5A2DDC8E2AD457A1448A093FB4900E0336312B0A10C7",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Microsoft.Web.WebView2.Core.dll",
+          "Bytes": 698208,
+          "SHA256": "E6F54C8CE208E3797C427D01AD671B47CB25ABC85604753D6EC2546D0FFEF550",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Microsoft.Web.WebView2.WinForms.dll",
+          "Bytes": 38752,
+          "SHA256": "CC3D2937C350A4F5E20399855BCAB4FE695A395308FEB2ED67394FAA6A1AE849",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Microsoft.Web.WebView2.Wpf.dll",
+          "Bytes": 86368,
+          "SHA256": "6942B85A3388ECE45FEBDE5584D2BFC035D84315F2DD5A4A47913F01A0193800",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/ThirdParty/AvalonEdit/LICENSE.txt",
+          "Bytes": 1075,
+          "SHA256": "7CFE74F11EAEF7A239E7C63D33595F924E7922FB3E3F3651014389620B228A07",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/01-connect.gif",
+          "Bytes": 252810,
+          "SHA256": "59E48449823353475F5204971C0B5C5B3F926DFF7F1F6A239B3AE8C47B956149",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/02-request.gif",
+          "Bytes": 211883,
+          "SHA256": "B08A43114E1E12128BCE6EA32C6CDAF5A1D4ABD5BEDA3C16A24BC9A50FC31CE2",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/03-review.gif",
+          "Bytes": 123205,
+          "SHA256": "92D4ACC8F2314D9DA0EE8350FE71CE48C2DB633499D3B3E8CD4898C8B7D57EDA",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/04-guide.gif",
+          "Bytes": 200648,
+          "SHA256": "C82293FB4C5D0074BF29D074BBB7419D6FD4821B4E485A5C907B0497CB5A0692",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/05-install.gif",
+          "Bytes": 197738,
+          "SHA256": "816F5FA2786BA404BA88066224B8A8F85760980F8564F80E9762E08090A078C3",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/01-connect.png",
+          "Bytes": 15425,
+          "SHA256": "D70A981083C73399C346D54E520B466958BADD5DD15C925461520071250055A5",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/02-request.png",
+          "Bytes": 15662,
+          "SHA256": "B83E1AE93DC9482135D844F1B7F22921B1E9D07C8CC57C40F9D5691EFCB09C3F",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/03-review.png",
+          "Bytes": 16370,
+          "SHA256": "07DA9122FF6570B2627E8F7A6C0E3AC8D1DBE4FE90EDAFDC3FE22F78D7BF365E",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/04-guide.png",
+          "Bytes": 25621,
+          "SHA256": "FD365AFA59DB76AB110F8BA5F4FA1C392CD8EC8625CD67EE7ED4FE5CFAE8F0C6",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/05-install.png",
+          "Bytes": 27286,
+          "SHA256": "BAC8E2E956FD37CC431653D555F9784A8C31A59D738649433851DACD283C5871",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/ThirdParty/WebView2/LICENSE.txt",
+          "Bytes": 1487,
+          "SHA256": "0AF8F1B807512AAE39C2AC1AA4D0CAE65CABECB6FD554B8439A5162A0D6ECA55",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/ThirdParty/WebView2/NOTICE.txt",
+          "Bytes": 3894,
+          "SHA256": "106423785C5B7EBA0A8E61D1837F2132E9C828E20AD530F565D981C1DF60DD90",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "runtimes/win-x86/native/WebView2Loader.dll",
+          "Bytes": 124768,
+          "SHA256": "A08C57142946E5A554D9D5C018E27DCBB09248BE8AD44852667B96564BBCEEDA",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "runtimes/win-x64/native/WebView2Loader.dll",
+          "Bytes": 163680,
+          "SHA256": "C66E4A92FDC7A216118E43B7A5024EA2200E8C43F9310BF20D96A0084F82C5BC",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "runtimes/win-arm64/native/WebView2Loader.dll",
+          "Bytes": 150880,
+          "SHA256": "5A5CF33BDCE364D72CBB56D59E24E5CF77EE38976D4F8B392A151E0013215703",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "VS2017.AIAssistant.DocumentReader.exe",
+          "Bytes": 9728,
+          "SHA256": "25419EA1219F4F51793F7EE63A3947A449C7165A3A970663539A567F3B81228D",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "VS2017.AIAssistant.DocumentReader.exe.config",
+          "Bytes": 159,
+          "SHA256": "DBA0AC349FA98F542FE90CC4FBBE3033567DAC0515859D049854E81DEFAAAA51",
+          "MatchesOutput": true
+        }
+      ]
+    },
+    {
+      "Year": "2019",
+      "File": "VS2017.AIAssistant.vsix",
+      "Bytes": 3833575,
+      "SHA256": "1DC6CEE1510526EC498C408E3B790B0529B09B9781569AF8722EA77191395C4F",
+      "DLLSHA256": "004BF8A11755C797053D83145A4CEE2C89187C79F40AE087A8BA6894FB13EA75",
+      "Target": [
+        {
+          "Id": "Microsoft.VisualStudio.Community",
+          "Version": "[16.0,17.0)",
+          "Architecture": null
+        }
+      ],
+      "Payload": [
+        {
+          "Name": "VS2017.AIAssistant.dll",
+          "Bytes": 700416,
+          "SHA256": "004BF8A11755C797053D83145A4CEE2C89187C79F40AE087A8BA6894FB13EA75",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "ICSharpCode.AvalonEdit.dll",
+          "Bytes": 621056,
+          "SHA256": "B0032716709359F7361D5A2DDC8E2AD457A1448A093FB4900E0336312B0A10C7",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Microsoft.Web.WebView2.Core.dll",
+          "Bytes": 698208,
+          "SHA256": "E6F54C8CE208E3797C427D01AD671B47CB25ABC85604753D6EC2546D0FFEF550",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Microsoft.Web.WebView2.WinForms.dll",
+          "Bytes": 38752,
+          "SHA256": "CC3D2937C350A4F5E20399855BCAB4FE695A395308FEB2ED67394FAA6A1AE849",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Microsoft.Web.WebView2.Wpf.dll",
+          "Bytes": 86368,
+          "SHA256": "6942B85A3388ECE45FEBDE5584D2BFC035D84315F2DD5A4A47913F01A0193800",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/ThirdParty/AvalonEdit/LICENSE.txt",
+          "Bytes": 1075,
+          "SHA256": "7CFE74F11EAEF7A239E7C63D33595F924E7922FB3E3F3651014389620B228A07",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/01-connect.gif",
+          "Bytes": 252810,
+          "SHA256": "59E48449823353475F5204971C0B5C5B3F926DFF7F1F6A239B3AE8C47B956149",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/02-request.gif",
+          "Bytes": 211883,
+          "SHA256": "B08A43114E1E12128BCE6EA32C6CDAF5A1D4ABD5BEDA3C16A24BC9A50FC31CE2",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/03-review.gif",
+          "Bytes": 123205,
+          "SHA256": "92D4ACC8F2314D9DA0EE8350FE71CE48C2DB633499D3B3E8CD4898C8B7D57EDA",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/04-guide.gif",
+          "Bytes": 200648,
+          "SHA256": "C82293FB4C5D0074BF29D074BBB7419D6FD4821B4E485A5C907B0497CB5A0692",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/05-install.gif",
+          "Bytes": 197738,
+          "SHA256": "816F5FA2786BA404BA88066224B8A8F85760980F8564F80E9762E08090A078C3",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/01-connect.png",
+          "Bytes": 15425,
+          "SHA256": "D70A981083C73399C346D54E520B466958BADD5DD15C925461520071250055A5",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/02-request.png",
+          "Bytes": 15662,
+          "SHA256": "B83E1AE93DC9482135D844F1B7F22921B1E9D07C8CC57C40F9D5691EFCB09C3F",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/03-review.png",
+          "Bytes": 16370,
+          "SHA256": "07DA9122FF6570B2627E8F7A6C0E3AC8D1DBE4FE90EDAFDC3FE22F78D7BF365E",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/04-guide.png",
+          "Bytes": 25621,
+          "SHA256": "FD365AFA59DB76AB110F8BA5F4FA1C392CD8EC8625CD67EE7ED4FE5CFAE8F0C6",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/05-install.png",
+          "Bytes": 27286,
+          "SHA256": "BAC8E2E956FD37CC431653D555F9784A8C31A59D738649433851DACD283C5871",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/ThirdParty/WebView2/LICENSE.txt",
+          "Bytes": 1487,
+          "SHA256": "0AF8F1B807512AAE39C2AC1AA4D0CAE65CABECB6FD554B8439A5162A0D6ECA55",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/ThirdParty/WebView2/NOTICE.txt",
+          "Bytes": 3894,
+          "SHA256": "106423785C5B7EBA0A8E61D1837F2132E9C828E20AD530F565D981C1DF60DD90",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "runtimes/win-x86/native/WebView2Loader.dll",
+          "Bytes": 124768,
+          "SHA256": "A08C57142946E5A554D9D5C018E27DCBB09248BE8AD44852667B96564BBCEEDA",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "runtimes/win-x64/native/WebView2Loader.dll",
+          "Bytes": 163680,
+          "SHA256": "C66E4A92FDC7A216118E43B7A5024EA2200E8C43F9310BF20D96A0084F82C5BC",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "runtimes/win-arm64/native/WebView2Loader.dll",
+          "Bytes": 150880,
+          "SHA256": "5A5CF33BDCE364D72CBB56D59E24E5CF77EE38976D4F8B392A151E0013215703",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "VS2017.AIAssistant.DocumentReader.exe",
+          "Bytes": 9728,
+          "SHA256": "F590AD5EB7BF3BF0DC717E113062BB5B6A60E0D568B1D23FFDDDE338491AD1F8",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "VS2017.AIAssistant.DocumentReader.exe.config",
+          "Bytes": 159,
+          "SHA256": "DBA0AC349FA98F542FE90CC4FBBE3033567DAC0515859D049854E81DEFAAAA51",
+          "MatchesOutput": true
+        }
+      ]
+    },
+    {
+      "Year": "2022",
+      "File": "VS2017.AIAssistant.vsix",
+      "Bytes": 3833200,
+      "SHA256": "33796E29943612E929A9A78369542D407E8F211E4ABA4DB825CD50FE7D0ECBBF",
+      "DLLSHA256": "CF52603BD1EA5B6F751EDDF30194F0B3870BDC7A926F1FC0B6AA61DE8B76B974",
+      "Target": [
+        {
+          "Id": "Microsoft.VisualStudio.Community",
+          "Version": "[17.0,18.0)",
+          "Architecture": "amd64"
+        }
+      ],
+      "Payload": [
+        {
+          "Name": "VS2017.AIAssistant.dll",
+          "Bytes": 699392,
+          "SHA256": "CF52603BD1EA5B6F751EDDF30194F0B3870BDC7A926F1FC0B6AA61DE8B76B974",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "ICSharpCode.AvalonEdit.dll",
+          "Bytes": 621056,
+          "SHA256": "B0032716709359F7361D5A2DDC8E2AD457A1448A093FB4900E0336312B0A10C7",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Microsoft.Web.WebView2.Core.dll",
+          "Bytes": 698208,
+          "SHA256": "E6F54C8CE208E3797C427D01AD671B47CB25ABC85604753D6EC2546D0FFEF550",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Microsoft.Web.WebView2.WinForms.dll",
+          "Bytes": 38752,
+          "SHA256": "CC3D2937C350A4F5E20399855BCAB4FE695A395308FEB2ED67394FAA6A1AE849",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Microsoft.Web.WebView2.Wpf.dll",
+          "Bytes": 86368,
+          "SHA256": "6942B85A3388ECE45FEBDE5584D2BFC035D84315F2DD5A4A47913F01A0193800",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/ThirdParty/AvalonEdit/LICENSE.txt",
+          "Bytes": 1075,
+          "SHA256": "7CFE74F11EAEF7A239E7C63D33595F924E7922FB3E3F3651014389620B228A07",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/01-connect.gif",
+          "Bytes": 252810,
+          "SHA256": "59E48449823353475F5204971C0B5C5B3F926DFF7F1F6A239B3AE8C47B956149",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/02-request.gif",
+          "Bytes": 211883,
+          "SHA256": "B08A43114E1E12128BCE6EA32C6CDAF5A1D4ABD5BEDA3C16A24BC9A50FC31CE2",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/03-review.gif",
+          "Bytes": 123205,
+          "SHA256": "92D4ACC8F2314D9DA0EE8350FE71CE48C2DB633499D3B3E8CD4898C8B7D57EDA",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/04-guide.gif",
+          "Bytes": 200648,
+          "SHA256": "C82293FB4C5D0074BF29D074BBB7419D6FD4821B4E485A5C907B0497CB5A0692",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/05-install.gif",
+          "Bytes": 197738,
+          "SHA256": "816F5FA2786BA404BA88066224B8A8F85760980F8564F80E9762E08090A078C3",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/01-connect.png",
+          "Bytes": 15425,
+          "SHA256": "D70A981083C73399C346D54E520B466958BADD5DD15C925461520071250055A5",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/02-request.png",
+          "Bytes": 15662,
+          "SHA256": "B83E1AE93DC9482135D844F1B7F22921B1E9D07C8CC57C40F9D5691EFCB09C3F",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/03-review.png",
+          "Bytes": 16370,
+          "SHA256": "07DA9122FF6570B2627E8F7A6C0E3AC8D1DBE4FE90EDAFDC3FE22F78D7BF365E",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/04-guide.png",
+          "Bytes": 25621,
+          "SHA256": "FD365AFA59DB76AB110F8BA5F4FA1C392CD8EC8625CD67EE7ED4FE5CFAE8F0C6",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/05-install.png",
+          "Bytes": 27286,
+          "SHA256": "BAC8E2E956FD37CC431653D555F9784A8C31A59D738649433851DACD283C5871",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/ThirdParty/WebView2/LICENSE.txt",
+          "Bytes": 1487,
+          "SHA256": "0AF8F1B807512AAE39C2AC1AA4D0CAE65CABECB6FD554B8439A5162A0D6ECA55",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/ThirdParty/WebView2/NOTICE.txt",
+          "Bytes": 3894,
+          "SHA256": "106423785C5B7EBA0A8E61D1837F2132E9C828E20AD530F565D981C1DF60DD90",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "runtimes/win-x86/native/WebView2Loader.dll",
+          "Bytes": 124768,
+          "SHA256": "A08C57142946E5A554D9D5C018E27DCBB09248BE8AD44852667B96564BBCEEDA",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "runtimes/win-x64/native/WebView2Loader.dll",
+          "Bytes": 163680,
+          "SHA256": "C66E4A92FDC7A216118E43B7A5024EA2200E8C43F9310BF20D96A0084F82C5BC",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "runtimes/win-arm64/native/WebView2Loader.dll",
+          "Bytes": 150880,
+          "SHA256": "5A5CF33BDCE364D72CBB56D59E24E5CF77EE38976D4F8B392A151E0013215703",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "VS2017.AIAssistant.DocumentReader.exe",
+          "Bytes": 9728,
+          "SHA256": "D5A418965063325C0921968F16319EB49E91059C6776E7E53948A19D63554A0D",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "VS2017.AIAssistant.DocumentReader.exe.config",
+          "Bytes": 159,
+          "SHA256": "DBA0AC349FA98F542FE90CC4FBBE3033567DAC0515859D049854E81DEFAAAA51",
+          "MatchesOutput": true
+        }
+      ]
+    }
+  ],
+  "PreservedOriginals": [
+    {
+      "Path": "MarkdownReport/CodexOrig2_TASK-019_Audit.md",
+      "Expected": "82E1A9C78ABA9944EDBC5E3FA040619AA41CFFC70A64A4C81AE99DF4F23AE3C3",
+      "Actual": "82E1A9C78ABA9944EDBC5E3FA040619AA41CFFC70A64A4C81AE99DF4F23AE3C3",
+      "Unchanged": true
+    },
+    {
+      "Path": "InstallCLI.bat",
+      "Expected": "81BAE40E698B7E16B4A15093248453C7A79EF5D564306FC9CE9416255D91D5CB",
+      "Actual": "81BAE40E698B7E16B4A15093248453C7A79EF5D564306FC9CE9416255D91D5CB",
+      "Unchanged": true
+    },
+    {
+      "Path": "output/pdf/VisualStudio_AI_Assistant_설치_사용설명서.pdf",
+      "Expected": "EAE9BDD2CA1602677FEAF6BD1F50C19C8F7E29068D33B1DC06215D998C60B30A",
+      "Actual": "EAE9BDD2CA1602677FEAF6BD1F50C19C8F7E29068D33B1DC06215D998C60B30A",
+      "Unchanged": true
+    },
+    {
+      "Path": "MarkdownReport/CodexOrig2_TASK-023_Evidence.json",
+      "Expected": "262228842E48D37DC0E7063638E2BCA82856CC933E9A0462247A0C6D52947EB1",
+      "Actual": "262228842E48D37DC0E7063638E2BCA82856CC933E9A0462247A0C6D52947EB1",
+      "Unchanged": true
+    },
+    {
+      "Path": "HowToInstallCLI.md",
+      "Expected": "6990AF5ED77868C12C80D05FFFB7003DECD02AA0F5E6BC0F970996569B979164",
+      "Actual": "6990AF5ED77868C12C80D05FFFB7003DECD02AA0F5E6BC0F970996569B979164",
+      "Unchanged": true
+    },
+    {
+      "Path": "output/VisualStudio_AI_Assistant_고객전달용.zip",
+      "Expected": "52573BD0E9CB4D288A9AB7B21167E2CA769FEA67217E1B9F71901D2DA1D47085",
+      "Actual": "52573BD0E9CB4D288A9AB7B21167E2CA769FEA67217E1B9F71901D2DA1D47085",
+      "Unchanged": true
+    },
+    {
+      "Path": "MarkdownReport/CodexOrig2_TASK-019_Evidence.json",
+      "Expected": "060CDC426B9803B0D59FED958A9042651AA948261C37FE7895481D686A395C74",
+      "Actual": "060CDC426B9803B0D59FED958A9042651AA948261C37FE7895481D686A395C74",
+      "Unchanged": true
+    },
+    {
+      "Path": "MarkdownReport/CodexOrig2_TASK-023_Audit2.md",
+      "Expected": "02A2CC83CCC0B8CB6CEBC93E0514BBF18CA84B3099CA95B8152051D07468BBD5",
+      "Actual": "02A2CC83CCC0B8CB6CEBC93E0514BBF18CA84B3099CA95B8152051D07468BBD5",
+      "Unchanged": true
+    },
+    {
+      "Path": "docs/assets/cli-manual/01-overview.png",
+      "Expected": "86738234B9A201914E6BED1776C32A2B007AE8171F50EEA974C3B4BAC3E76B49",
+      "Actual": "86738234B9A201914E6BED1776C32A2B007AE8171F50EEA974C3B4BAC3E76B49",
+      "Unchanged": true
+    },
+    {
+      "Path": "docs/assets/cli-manual/02-package.png",
+      "Expected": "CDCAEFF48497A3DD181230D4358428C22F5D86DDDE375CD5FF1BD07DFBA4C753",
+      "Actual": "CDCAEFF48497A3DD181230D4358428C22F5D86DDDE375CD5FF1BD07DFBA4C753",
+      "Unchanged": true
+    },
+    {
+      "Path": "docs/assets/cli-manual/03-vsix.png",
+      "Expected": "D0088EDD998D516763D50D0030B39206EB778778B7DBF219705CC9F72D67C6D8",
+      "Actual": "D0088EDD998D516763D50D0030B39206EB778778B7DBF219705CC9F72D67C6D8",
+      "Unchanged": true
+    },
+    {
+      "Path": "docs/assets/cli-manual/04-run-batch.png",
+      "Expected": "B5D5B679B0D56026D73F9323140E6894325A4F116984E3F655CB74DE075A91D9",
+      "Actual": "B5D5B679B0D56026D73F9323140E6894325A4F116984E3F655CB74DE075A91D9",
+      "Unchanged": true
+    },
+    {
+      "Path": "docs/assets/cli-manual/05-success.png",
+      "Expected": "F9845411A901B6B687D873FBD7E93E693ABC52D716D4A912CB691652FFCF775F",
+      "Actual": "F9845411A901B6B687D873FBD7E93E693ABC52D716D4A912CB691652FFCF775F",
+      "Unchanged": true
+    },
+    {
+      "Path": "docs/assets/cli-manual/06-login.png",
+      "Expected": "859D753C9240ED86525075F43A66A4823ADDE2F6F19A3D13F435695E0448020C",
+      "Actual": "859D753C9240ED86525075F43A66A4823ADDE2F6F19A3D13F435695E0448020C",
+      "Unchanged": true
+    },
+    {
+      "Path": "docs/assets/cli-manual/07-paths.png",
+      "Expected": "70BFA267082C8A6D2DD5A62065B821921BBC011C56ABAA01F2EC401EF4CCD043",
+      "Actual": "70BFA267082C8A6D2DD5A62065B821921BBC011C56ABAA01F2EC401EF4CCD043",
+      "Unchanged": true
+    },
+    {
+      "Path": "docs/assets/cli-manual/08-attachments.png",
+      "Expected": "650733944817B5185BEE9C999D699E73643BDCCC0FB060B08515D073317AC9A9",
+      "Actual": "650733944817B5185BEE9C999D699E73643BDCCC0FB060B08515D073317AC9A9",
+      "Unchanged": true
+    },
+    {
+      "Path": "docs/assets/cli-manual/09-troubleshooting.png",
+      "Expected": "44F4CB8F53CE709B1F126806E577B5219A2C44A8DF22578DE8513CD157832629",
+      "Actual": "44F4CB8F53CE709B1F126806E577B5219A2C44A8DF22578DE8513CD157832629",
+      "Unchanged": true
+    },
+    {
+      "Path": "docs/assets/cli-manual/10-options.png",
+      "Expected": "D6C1443DA8C7118BFF1C10CEC72028F6ABCDD3027D9FB99217897A0BF8A89BB7",
+      "Actual": "D6C1443DA8C7118BFF1C10CEC72028F6ABCDD3027D9FB99217897A0BF8A89BB7",
+      "Unchanged": true
+    },
+    {
+      "Path": "docs/assets/cli-manual/11-install-methods.png",
+      "Expected": "06A6494284E5B65E161CADEE74F2B3C8B62F4923244A1EAEA4B9C984626A08D0",
+      "Actual": "06A6494284E5B65E161CADEE74F2B3C8B62F4923244A1EAEA4B9C984626A08D0",
+      "Unchanged": true
+    },
+    {
+      "Path": "docs/assets/cli-manual/12-checklist.png",
+      "Expected": "E49084EC2B5EC85B2640F598E152828000DDAD9D67A085B17EC97E0ACE0D48E4",
+      "Actual": "E49084EC2B5EC85B2640F598E152828000DDAD9D67A085B17EC97E0ACE0D48E4",
+      "Unchanged": true
+    },
+    {
+      "Path": "docs/assets/cli-manual/ui-chat.png",
+      "Expected": "242A2B0809D62C354D5F1E88FA479D3EB335C155C1B57F7BA09793FFE29E0AAC",
+      "Actual": "242A2B0809D62C354D5F1E88FA479D3EB335C155C1B57F7BA09793FFE29E0AAC",
+      "Unchanged": true
+    },
+    {
+      "Path": "docs/assets/cli-manual/ui-guide.png",
+      "Expected": "321C6221992E58B812B762B605A0F61E8B59DD6074796BC63FF2DC8E55D69625",
+      "Actual": "321C6221992E58B812B762B605A0F61E8B59DD6074796BC63FF2DC8E55D69625",
+      "Unchanged": true
+    },
+    {
+      "Path": "docs/assets/cli-manual/ui-models.png",
+      "Expected": "DF3391A04A18C38316D4456711E385A0906A1E5862D15C4A52856164E9B44712",
+      "Actual": "DF3391A04A18C38316D4456711E385A0906A1E5862D15C4A52856164E9B44712",
+      "Unchanged": true
+    },
+    {
+      "Path": "docs/assets/cli-manual/ui-permissions.png",
+      "Expected": "85C9417A1C6CD433FCA2AE35BF1860B77F52A9FB07B09FF9E2D1EEA89B49F891",
+      "Actual": "85C9417A1C6CD433FCA2AE35BF1860B77F52A9FB07B09FF9E2D1EEA89B49F891",
+      "Unchanged": true
+    },
+    {
+      "Path": "docs/assets/cli-manual/ui-review.png",
+      "Expected": "D3838D4919B3BCAFA6E2BEC4E03E376408BAF821245060124F472D1FDEFDA014",
+      "Actual": "D3838D4919B3BCAFA6E2BEC4E03E376408BAF821245060124F472D1FDEFDA014",
+      "Unchanged": true
+    },
+    {
+      "Path": "docs/assets/cli-manual/ui-settings.png",
+      "Expected": "26B64806A1482F83B7110001AA1C7CC62BEA3D383182FE7A53034BF160AA262B",
+      "Actual": "26B64806A1482F83B7110001AA1C7CC62BEA3D383182FE7A53034BF160AA262B",
+      "Unchanged": true
+    }
+  ],
+  "Limits": {
+    "Characters": 131072,
+    "Nodes": 6000,
+    "Depth": 8,
+    "ScanWork": 8388608,
+    "Images": 24,
+    "CodeHighlightBudgetMilliseconds": 80,
+    "CompleteCommonMarkHtmlParity": false
+  },
+  "VerificationHolds": [
+    "R3-03 follow-up implementation and frozen new-candidate checks",
+    "Final complete 16-suite integration",
+    "Final three real IDE behavior and theme/popup/cancel checks",
+    "Direct ID/password feasibility and official CLI alternative evidence not independently verified here",
+    "Real Claude credentials/inference and operating DB/TFVC/deployment remain unverified"
+  ],
+  "PreservedFailures": [
+    "C3 first VS2022 isolated theme resolver load failure, resolved with matching IDE SDK references",
+    "TASK024 C4 Guide/Account PS5 UTF8 BOM parsing failures before product execution, then fresh 202/202",
+    "Earlier screen-saver precondition failures, then TASK024 unlocked C4 native/GIF success",
+    "C3 initial defect observations retained alongside C4 fixes"
+  ],
+  "AuditorActions": {
+    "ProductSourceEdited": false,
+    "SharedBuild": false,
+    "GuiWindowShown": false,
+    "NativePointerUsed": false,
+    "RealAuthentication": false,
+    "Installation": false,
+    "PaidInference": false,
+    "GitCommitPush": false,
+    "ExistingAuditsEdited": false,
+    "RoleAppendAuthorized": true
+  }
+}

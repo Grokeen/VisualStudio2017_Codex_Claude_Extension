@@ -24,6 +24,8 @@ namespace VS2017.AIAssistant.Views
         private readonly CliGuideService service;
         private readonly Grid viewerHost;
         private readonly TextBox markdown;
+        private readonly MarkdownPreview markdownPreview;
+        private readonly ScrollViewer markdownScroll;
         private readonly Button installer;
         private WebView2 browser;
         private bool closed, loading, pdfLoaded;
@@ -36,6 +38,9 @@ namespace VS2017.AIAssistant.Views
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 고정 설명·PDF 기본 앱·텍스트 대체·설치 동작을 일관된 하단에 배치.
         ///                2026-10-18 CodexCode : 기반 생성자의 WPF 검사와 조건부 VS COM 조회 계약을 명시.
+        ///                2026-10-19 CodexCode : TASK-024 대체 설명서는 Markdown으로 읽고 설치 버튼 색을 안내와 구분.
+        ///                2026-10-19 CodexCode : Role15 안내 바탕·원문·보조 설명을 선택한 테마에 동적으로 연결.
+        ///                2026-10-19 CodexCode : SDK15 링크 콜백 내부에서 실제 WPF Dispatcher 진입 검증.
         /// </summary>
         /// ---------------------------------------------------------------------
         public CliGuideDialog(AssistantControl source, CliGuideService service = null)
@@ -45,14 +50,24 @@ namespace VS2017.AIAssistant.Views
         {
             this.source = source; this.service = service ?? new CliGuideService();
             Width = Math.Min(980, MaxWidth); Height = Math.Min(790, MaxHeight);
-            viewerHost = new Grid { Background = new SolidColorBrush(Color.FromRgb(30, 30, 30)) };
-            markdown = new TextBox { IsReadOnly = true, Text = this.service.ReadMarkdownFallback(), TextWrapping = TextWrapping.Wrap, AcceptsReturn = true, VerticalScrollBarVisibility = ScrollBarVisibility.Auto, HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled, Background = new SolidColorBrush(Color.FromRgb(30, 30, 30)), Foreground = Brushes.Gainsboro, BorderThickness = new Thickness(0), Padding = new Thickness(12), FontSize = 14 };
-            viewerHost.Children.Add(markdown); Body.Content = viewerHost;
-            FooterContent.Content = new TextBlock { Text = CliGuideService.Overview, TextWrapping = TextWrapping.Wrap, Foreground = Brushes.Silver, FontSize = 12, Margin = new Thickness(0, 0, 0, 10) };
+            viewerHost = new Grid();
+            viewerHost.SetResourceReference(Panel.BackgroundProperty, "AssistantBackgroundBrush");
+            markdown = new TextBox { IsReadOnly = true, Text = this.service.ReadMarkdownFallback(), TextWrapping = TextWrapping.Wrap, AcceptsReturn = true, VerticalScrollBarVisibility = ScrollBarVisibility.Auto, HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled, BorderThickness = new Thickness(0), Padding = new Thickness(12), FontSize = 14 };
+            markdown.SetResourceReference(Control.BackgroundProperty, "AssistantBackgroundBrush"); markdown.SetResourceReference(Control.ForegroundProperty, "AssistantForegroundBrush");
+            // 읽기 전용 원문 사본은 보존하고 실제 설명은 공용 Markdown 뷰어에 표시한다.
+            markdown.Visibility = Visibility.Collapsed;
+            markdownPreview = new MarkdownPreview { Markdown = markdown.Text, AssetBaseDirectory = this.service.AssetsDirectory, UseInternalScrolling = false, Margin = new Thickness(12) };
+            markdownPreview.LinkRequested += (sender, args) => { Dispatcher.VerifyAccess(); source.NavigateMarkdownLink(args); };
+            System.Windows.Automation.AutomationProperties.SetName(markdownPreview, "CLI Markdown 설명서");
+            markdownScroll = new ScrollViewer { Content = markdownPreview, VerticalScrollBarVisibility = ScrollBarVisibility.Auto, HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled };
+            viewerHost.Children.Add(markdown); viewerHost.Children.Add(markdownScroll); Body.Content = viewerHost;
+            var overview = new Expander { Header = "설치 순서와 주의사항", IsExpanded = false, Content = new TextBlock { Text = CliGuideService.Overview, TextWrapping = TextWrapping.Wrap, FontSize = 12, Margin = new Thickness(0, 8, 0, 8) }, Margin = new Thickness(0, 0, 0, 10) };
+            ((TextBlock)overview.Content).SetResourceReference(TextBlock.ForegroundProperty, "AssistantMutedForegroundBrush");
+            overview.SetResourceReference(StyleProperty, "AssistantExpander"); FooterContent.Content = overview;
             var retry = ActionButton("↻ PDF 보기", "로컬 PDF를 WebView로 다시 표시"); retry.Click += RetryClicked;
-            var text = ActionButton("¶ 텍스트 안내", "WebView 없이 Markdown 원문 읽기"); text.Click += TextClicked;
+            var text = ActionButton("¶ 텍스트 안내", "WebView 없이 Markdown 설명서 읽기"); text.Click += TextClicked;
             var external = ActionButton("↗ 기본 PDF 앱", "사용자 기본 PDF 앱으로 설명서만 열기"); external.Click += ExternalPdfClicked;
-            installer = ActionButton("⇩ CLI 설치", "설치 내용을 확인한 뒤 원본 배치 실행"); installer.Style = TryFindResource("PrimaryButton") as Style; installer.Click += InstallClicked;
+            installer = ActionButton("⇩ CLI 설치", "설치 내용을 확인한 뒤 원본 배치 실행"); installer.SetResourceReference(StyleProperty, "InstallActionButton"); installer.Click += InstallClicked;
             Actions.Children.Insert(0, retry); Actions.Children.Insert(1, text); Actions.Children.Insert(2, external); Actions.Children.Insert(3, installer);
             this.service.InstallationChanged += InstallationChanged;
             Loaded += GuideLoaded; Closed += GuideClosed;
@@ -67,10 +82,14 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 좁은 화면에서는 공통 WrapPanel에서 줄바꿈.
+        ///                2026-10-19 CodexCode : TASK-024 읽기 동작 스타일과 설치 동작 스타일 구분.
         /// </summary>
         /// ---------------------------------------------------------------------
         private static Button ActionButton(string text, string tip)
-        { return new Button { Content = text, ToolTip = tip, HorizontalContentAlignment = HorizontalAlignment.Center, VerticalContentAlignment = VerticalAlignment.Center, Margin = new Thickness(0, 0, 8, 6), Padding = new Thickness(10, 6, 10, 6) }; }
+        {
+            var button = new Button { Content = text, ToolTip = tip, HorizontalContentAlignment = HorizontalAlignment.Center, VerticalContentAlignment = VerticalAlignment.Center, Margin = new Thickness(0, 0, 8, 6), Padding = new Thickness(10, 6, 10, 6) };
+            button.SetResourceReference(StyleProperty, "GuideActionButton"); return button;
+        }
 
         /// ---------------------------------------------------------------------
         /// <summary>
@@ -103,6 +122,7 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 기존 브라우저 로그인 프로필을 재사용하지 않고 외부 문서 탐색·다운로드·권한 요청을 차단.
+        ///                2026-10-19 CodexCode : TASK-024 Role15 WebView 초기 바탕은 현재 선택한 테마에서 읽음.
         /// </summary>
         /// ---------------------------------------------------------------------
         private async System.Threading.Tasks.Task ShowPdfAsync()
@@ -111,7 +131,9 @@ namespace VS2017.AIAssistant.Views
             try
             {
                 string pdf = service.GetPdfPath(); DisposeBrowser();
-                var view = new WebView2 { DefaultBackgroundColor = System.Drawing.Color.FromArgb(30, 30, 30) };
+                var background = TryFindResource("AssistantBackgroundBrush") as SolidColorBrush;
+                var color = background == null ? Color.FromRgb(30, 30, 30) : background.Color;
+                var view = new WebView2 { DefaultBackgroundColor = System.Drawing.Color.FromArgb(color.A, color.R, color.G, color.B) };
                 browser = view; pdfLoaded = false; viewerHost.Children.Add(view);
                 var environment = await CoreWebView2Environment.CreateAsync(null, service.GetBrowserDataDirectory(), new CoreWebView2EnvironmentOptions { Language = "ko-KR" });
                 RequireUiThread(); if (closed || !ReferenceEquals(browser, view)) return;
@@ -130,7 +152,7 @@ namespace VS2017.AIAssistant.Views
                 core.AddWebResourceRequestedFilter("http://*", CoreWebView2WebResourceContext.All);
                 core.AddWebResourceRequestedFilter("https://*", CoreWebView2WebResourceContext.All);
                 core.WebResourceRequested += NetworkRequested;
-                markdown.Visibility = Visibility.Collapsed;
+                markdownScroll.Visibility = Visibility.Collapsed;
                 Message.Text = "동봉된 로컬 PDF 설명서입니다. 외부 링크는 이 안내창에서 열지 않습니다.";
                 core.Navigate(new Uri(pdf).AbsoluteUri);
             }
@@ -246,9 +268,10 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 문서 누락도 기본 절차로 안내.
+        ///                2026-10-19 CodexCode : TASK-024 원문은 그대로 보존하고 실제 화면은 Markdown 서식으로 표시.
         /// </summary>
         /// ---------------------------------------------------------------------
-        private void ShowFallback(string message) { RequireUiThread(); DisposeBrowser(); markdown.Text = service.ReadMarkdownFallback(); markdown.Visibility = Visibility.Visible; Message.Text = message; }
+        private void ShowFallback(string message) { RequireUiThread(); DisposeBrowser(); markdown.Text = service.ReadMarkdownFallback(); markdownPreview.Markdown = markdown.Text; markdownScroll.Visibility = Visibility.Visible; Message.Text = message; }
         /// ---------------------------------------------------------------------
         /// <summary>
         /// name         : ExternalPdfClicked
@@ -379,9 +402,9 @@ namespace VS2017.AIAssistant.Views
 #pragma warning restore VSTHRD010
             {
                 Width = Math.Min(560, MaxWidth); Height = Math.Min(460, MaxHeight);
-                Body.Content = new ScrollViewer { VerticalScrollBarVisibility = ScrollBarVisibility.Auto, Content = new TextBlock { Text = CliGuideService.Confirmation, TextWrapping = TextWrapping.Wrap, Foreground = Brushes.Gainsboro } };
+                Body.Content = new ScrollViewer { VerticalScrollBarVisibility = ScrollBarVisibility.Auto, Content = new TextBlock { Text = CliGuideService.Confirmation, TextWrapping = TextWrapping.Wrap } };
                 var cancel = ActionButton("× 취소", "설치를 시작하지 않고 안내로 돌아가기"); cancel.IsCancel = true; cancel.IsDefault = true; cancel.Click += (sender, args) => { DialogResult = false; };
-                var install = ActionButton("⇩ 설치", "일반 사용자 권한으로 원본 설치 배치 실행"); install.Style = TryFindResource("PrimaryButton") as Style; install.Click += (sender, args) => { DialogResult = true; };
+                var install = ActionButton("⇩ 설치", "일반 사용자 권한으로 원본 설치 배치 실행"); install.SetResourceReference(StyleProperty, "InstallActionButton"); install.Click += (sender, args) => { DialogResult = true; };
                 Actions.Children.Clear(); Actions.Children.Add(cancel); Actions.Children.Add(install);
             }
         }

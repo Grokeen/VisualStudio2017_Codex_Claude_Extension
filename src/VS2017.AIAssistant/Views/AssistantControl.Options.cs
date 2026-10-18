@@ -197,6 +197,7 @@ namespace VS2017.AIAssistant.Views
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : 최대 3명 순차 협업과 Markdown 보고 열기 제공.
         /// update date  : 2026-10-18 CodexCode : TASK-017 이미지 분석 기반 드롭다운·안내·대화 지정 흐름 개선.
+        ///                2026-10-19 CodexOrig4 : 협업 안내 보조 텍스트를 동적 공통 팔레트로 통일.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void AgentClicked(object sender, RoutedEventArgs e)
@@ -209,14 +210,14 @@ namespace VS2017.AIAssistant.Views
                 var name = new TextBox { Text = agent.Name, MaxLength = 40, IsReadOnly = true, ToolTip = "사용자명 + AI 이름 + A~Z · 자동 지정" };
                 var role = new TextBox { Text = agent.Role, MaxLength = 1000, AcceptsReturn = true, TextWrapping = TextWrapping.Wrap, MinHeight = 75, VerticalScrollBarVisibility = ScrollBarVisibility.Auto };
                 var team = new TextBox { Text = agent.Team, MaxLength = 80 };
-                var panel = new StackPanel(); panel.Children.Add(new TextBlock { Text = scmDescription, TextWrapping = TextWrapping.Wrap, Foreground = Brushes.Silver, Margin = new Thickness(0, 0, 0, 12) }); panel.Children.Add(OptionSection("AI 이름 · 모든 대화에서 고유", name)); panel.Children.Add(OptionSection("담당 역할", role)); panel.Children.Add(OptionSection("협업팀 · 팀 변경은 먼저 저장하세요", team));
+                var panel = new StackPanel(); panel.Children.Add(CreateThemedDescription(scmDescription, new Thickness(0, 0, 0, 12))); panel.Children.Add(OptionSection("AI 이름 · 모든 대화에서 고유", name)); panel.Children.Add(OptionSection("담당 역할", role)); panel.Children.Add(OptionSection("협업팀 · 팀 변경은 먼저 저장하세요", team));
                 var participants = new StackPanel(); var selections = new Dictionary<CheckBox, ConversationRecord>();
                 foreach (var peer in conversationRecords[selectedProvider].Where(r => r.Id != record.Id && r.IsOpen)) {
                     var identity = collaborationStore.EnsureAgent(peer); if (identity.IsLegacyArchive || identity.Team != agent.Team) continue;
                     var check = new CheckBox { Content = identity.Name + " · " + peer.Title, IsChecked = record.CollaboratorIds.Contains(peer.Id), Margin = new Thickness(0, 4, 0, 6), ToolTip = identity.Role };
                     selections[check] = peer; participants.Children.Add(check);
                 }
-                participants.Children.Add(new TextBlock { Text = "최대 3명 · 같은 AI 제공자의 열린 대화. 보내기를 누르면 참여자별 실제 AI 호출 후 현재 AI가 결과를 종합합니다. 호출 횟수와 사용량이 늘어납니다. 선택을 모두 해제하면 단독 요청입니다.", TextWrapping = TextWrapping.Wrap, Foreground = Brushes.Silver, Margin = new Thickness(0, 10, 0, 0) });
+                participants.Children.Add(CreateThemedDescription("최대 3명 · 같은 AI 제공자의 열린 대화. 보내기를 누르면 참여자별 실제 AI 호출 후 현재 AI가 결과를 종합합니다. 호출 횟수와 사용량이 늘어납니다. 선택을 모두 해제하면 단독 요청입니다.", new Thickness(0, 10, 0, 0)));
                 panel.Children.Add(OptionSection("함께 검토할 AI", participants));
                 var scroll = new ScrollViewer { Content = panel, VerticalScrollBarVisibility = ScrollBarVisibility.Auto }; dialog.Body.Content = scroll;
                 dialog.SetSections(scroll, new DialogSection("♙", "이름", name), new DialogSection("✎", "역할", role), new DialogSection("▣", "팀", team), new DialogSection("♧", "협업", participants));
@@ -232,6 +233,22 @@ namespace VS2017.AIAssistant.Views
                 dialog.Actions.Children.Insert(0, report); dialog.Actions.Children.Insert(0, save);
                 try { dialog.ShowDialog(); } finally { optionsDialog = null; }
             } catch (Exception error) { StatusLabel.Text = "AI 설정 실패: " + error.Message; }
+        }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : CreateThemedDescription
+        /// desc         : 설정과 협업 창의 보조 설명이 테마 전환 뒤에도 같은 대비를 유지하게 한다.
+        /// author       : CodexOrig4
+        /// create date  : 2026-10-19
+        /// update date  : 2026-10-19 CodexOrig4 : 고정 Silver 색을 공통 보조 텍스트 자원으로 교체.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        private static TextBlock CreateThemedDescription(string text, Thickness margin)
+        {
+            var description = new TextBlock { Text = text, TextWrapping = TextWrapping.Wrap, Margin = margin };
+            description.SetResourceReference(TextBlock.ForegroundProperty, "AssistantMutedForegroundBrush");
+            return description;
         }
 
         /// ---------------------------------------------------------------------

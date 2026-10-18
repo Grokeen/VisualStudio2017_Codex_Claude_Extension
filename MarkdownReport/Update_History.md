@@ -1,4 +1,4 @@
-﻿
+
 
 
 
@@ -270,3 +270,105 @@ TASK022의23:30:56 전원편집종료명시신호와TASK023/Orig3종료확인후
 ### TASK-020 배포·원격검증 완료 — 2026-10-18 23:34:37 KST
 
 v0.9.0 제품commit 6174d0b61fe44e65a95f27fbeaa0697153690b5a 을origin/main에push했다. immutable GitHub raw에서3VSIX/rootexe/PDF/고객ZIP/bat/MD 총8개를재다운로드해크기·SHA256모두일치,원래7릴리스보존. 총경과5시간17분57초(입력대기포함). TASK022전원종료23:30:56후배포/진단·개인로그제외/남은필수작업0. CodexOrig_TASK-020_Deployment.json에정확한원격URL·해시·확인시각저장. 최종파일/문서·검증/배포완료.
+
+
+## TASK-027 / CodexOrig3 문서·GIF·PDF 보완 완료 / 2026-10-19 01:11:19 KST
+
+- 작업기록: 2026-10-19 00:53:58 ~ 01:11:19 KST, 기록기준 경과 0:17:21, 제작시작00:59. Role전체·23:45추가15·2차감사 R2-01~04를 검토했다.
+- 별도설명용GIF6개/PNG13개·10쪽PDF·동일원문MD·재생/정지갤러리·개발자적용요청D01~D09/원문15대응표·README삽입문안제작. Role끝에사용자원문과구별한문서검토제안5개추가.
+- 경로: docs/visual-guide-orig3/, output/pdf/화면안내_보완가이드.pdf, output/화면안내_문서보완자료.zip, MarkdownReport/CodexOrig3_TASK-027.md. 검증보조 artifacts/visual-guide-orig3/.
+- 검증: 전10쪽Poppler렌더시각검토·MD본문/표/캡션/PDF대조·정지그림픽셀동일·GIF각16고유프레임/9.84초·로컬링크와갤러리25참조·ZIP24 CRC/바이트일치·개인식별문구/PNG메타데이터확인. 기존설치원본22파일gitHEAD SHA일치.
+- 협업: 025직접메시지전달·공유상태인계완료,024직접2회active writer오류미전달을명시. 제품소스/README/정식guide-media/원래설치MD/PDF·batch·ZIP수정0. build/GUI/Git배포0. 산출물은새화면대조전검토본이며제품합격판정대신개발자적용요청으로인계.
+
+## TASK-026 / CodexOrig4 / 요청15 테마 구현·자체 검증 인계 — 2026-10-19 01:33:40 KST
+- 작업 등록: 2026-10-19 00:45:42 KST → 검증 인계: 2026-10-19 01:33:40 KST. 등록부터 경과: 47분 58초 (협업·빌드 대기 포함).
+- Role 전체·23:45 추가15·감사019/023 확인 후 TASK024로부터 테마 본체14파일을 넘겨받아 단독 담당. 사용자 UI 통일성 최우선 지시 반영. Auto는 VS 테마 우선/Windows 앱 모드 대체, 설정 Light·Dark 수동 선택/즉시 미리보기/명시 저장·취소 복구 구현.
+- 공통 팔레트와 버튼 상태·메뉴·툴팁·부채꼴·모델/권한 팝업·작업 도구·Thinking 대비를 통일. 선택 이벤트가 이전 값을 읽던 문제, Light에서 어두운 팝업 배경이 남던 문제, 이미 렌더된 Markdown 코드/링크가 옛 색을 붙잡던 게시 순서 문제를 회귀와 함께 보정.
+- 소스: src/VS2017.AIAssistant/Views/AssistantThemePolicy.cs, AssistantPalette.cs, AssistantControl.Theme.cs, AssistantTheme.xaml, AssistantControl.xaml, AssistantControl.Chat/Dialogs/Experience/Fan/Thinking/Options/Dropdowns.cs, WorkspaceActionsDialog.cs, Chat/ChatWorkspace.cs. 실제 동결 목록은 artifacts/task026/theme-freeze4.json 14개.
+- 검증: 소스 정책11·팔레트151·실제 SDK 분석을 켠 WPF fixture19 PASS(합산 금지). 실제 제품 bootstrap2 추가회귀27PASS/Markdown4FAIL 원문 보존 후 보정. TASK025의 독립 제품 사본 DLL 4A200332...DB787C에서 최신31/31 PASS, 동결4와 소스14/14 해시 일치를 Orig4가 재확인. 정식 패키지/실제 IDE 합격으로 확대하지 않음.
+- 보고서/재현: MarkdownReport/CodexOrig4_TASK-026.md, _Validation.json, tests/task026/Test-Task026.ps1 -AssemblyPath <DLL> -OutputDirectory <새 경로>. 제품 코드 0추가 편집으로 TASK025에 정식6빌드·세 IDE 확인·감사 인계. 다른 작업자 진행 중이므로 Git commit/push/배포0.
+
+## TASK-024 / CodexCode 구현·고정 DLL 검사 단계 완료, 실제 입력 검사 대기 / 2026-10-19 01:46:31 KST
+
+- 단계시간: 2026-10-19 00:17:49~01:43:53 KST, 경과1시간26분04초(협업·빌드·입력대기포함). 이 기록은 전체TASK024 종료나 배포 완료가 아니다.
+- Role23:45원문15·이미지28~38·제공WPF Markdown프로젝트와1·2차감사를대조. 답변Markdown/로컬파일행이동, 실제AvalonEdit작성·미리보기·문서dirty보호/원문복사, 읽을수있는변경hover·가장가까운휠, 좁은목록차폐, 접이안내·고정돌아가기·의미별버튼, 중앙굵은돋보기·중복모델단추정리·별도공식계정인증을구현. 테마본체는026,보완문서는027,통합은025와소유분리했다.
+- 경로: src/VS2017.AIAssistant/Views/Markdown*.cs·AssistantControl.Markdown/Viewport/HistoryOverlay/AccountLogin/Runtime.cs·ChangeDiffPopup/DiffPreviewPresenter/AssistantGuide*/AssistantDialogs/CliGuideDialog.cs·Services/VisualStudioDocumentService.cs, tests/task024/, docs/assets/guide-media/, README.md. 원본참조프로젝트편집0. 정확목록은root-freeze3및최종candidate3/source-hashes.json.
+- 정식후보 **TASK025candidate3/2017/Release DLL SHA26FEF3E2BCCA746985E87599F54029E8F8DC17877D9BFBBCA46A6F2FB01CE52A**, 5/5그룹 **196/196** (Markdown78/Hover35/Guide31/Account24/RootUi28), 이어테마wrapper **31/31**, 둘다exit0/SourceOnly=false/원본hash불변. 서로고유총계로합산하지않음. actual-candidate3-final/summary.json·theme-candidate3-final/result.json에근거.
+- 보안SC024-01 미닫힌inline기호재검색계산량을8Mi scan-work+실패run한번소비로수정,최종Markdown78에서검증. 손상GIF의PNG재시도와Markdown기존색전환회귀도새DLL에서PASS. 첫SDK1오류35경고/encoder실패/과거bootstrapfixture실패/candidate1packaging실패/candidate2SDK17경고원문보존.
+- 실제제품WPF합성20프레임으로GIF5·PNG5완성·전프레임시각검토/README와제품공유. 별도Orig3도식6종은링크로구분. 기존감사4개·설치MD/BAT/PDF/ZIP4개·원래PNG18개불변(preserved-originals-final.json).
+- **미종결:** Screen-saver/GetCursorPos오류5(01:20·01:40),native28/실제Window GIFPlayback미실행. 사용자잠금해제질문1회전달·강제desktop/설정변경0·GUI예약0. 세SKU/실제IDE/전체실행기/기존Orig2독립3차감사와Git은025통합. 전원/감사완료전배포0. 상세CodexCode_TASK-024.md·_SecureCoding.md·_Validation.json. 제품/검사/자산전원동결유지,해제응답또는새결함시남은검사를계속한다.
+
+## TASK-024 / CodexCode 잠금 해제 후 C4 실제 입력·GIF 검사 완료 / 2026-10-19 02:34:32 KST
+
+- 재개02:27:33, 실제검증완료02:30:38 KST. 시작00:17:49부터경과 **2시간12분49초**(협업·빌드·화면잠금/사용자응답대기포함). 전체요구·감사종결시간은아니다.
+- 사용자‘해제했고화면활성유지’응답수신후02:28Default/cursor정상확인. 025의02:30:09 GUI인계기준으로자기검사창만사용,02:30:52모든창종료·GUI예약해제. 이전Screen-saver/Error5실패전제/질문1회기록보존,강제desktop전환/OS설정변경0.
+- 현재후보 **TASK025candidate4/2017/Release DLL SHA1B544BA40419D20C2BD58D2FFED144E97CA9FCF00F604A590DD87C301B7398BD**, 기능5그룹 **202/202**(Markdown82/Hover35/Guide31/Account24/RootUi30), 별도테마 **31/31**. TASK028의문서상대소스링크및코드미리보기색상지적을025가수정한새후보로확인했고C3의196기록은보존한다.
+- **실제 ChangeHover28/28**: Native태그24·합성2·구조1·수명1구분. 실제포인터/양방향native휠·배경누수차단·pin/Escape/AltDown·anchor/ownerunload정리확인. **실제Window GIFPlayback24/24**: 생략0,OS애니메이션원래true,5GIF각4frame·최소1.1초프레임진행/PNG5정지·접기/재열기/back/창닫기/Dispose타이머정지확인. 전체4.4초loop횟수관찰을주장하지않음. 시험5그림동시배치PNG직접시각검토.
+- 근거 artifacts/task024/actual-candidate4-encoding-fixed/summary.json, theme-candidate4-after-unlock/result.json, change-hover-candidate4-unlocked-first/result.json, playback-candidate4-unlocked-first/result.json. 4묶음은고유총계로합산하지않고동일DLL·고정입력/사본불변이다.
+- 검사보정은 tests/task024/GuideReadability.ps1·AccountLogin.ps1 **BOM복원만**. 025의source-only참조수정후BOM누락으로C4첫시도가147PASS/2FAIL파싱중단,원본/로그를보존하고디코드코드동일·PS11개AST0확인후새폴더202/202재실행. 제품소스/자산/공유build수정0. 보정전사본/영수증test-encoding-resume-before/.
+- CodexCode_TASK-024.md·SecureCoding·Validation갱신,입력전제대기해소/담당실제검사완료. **전체Completed=false**: TASK025/028의원본작성기전체이식R3-03후보및전체16·실제3IDE·3차감사후속미종결. 해당차이를문서제한공개만으로완료처리하지않는다. 최종전원종료/감사확인전배포보류,024Git0·설치/인증/유료AI0.
+
+## TASK-028 / CodexOrig2 / 3차 독립 감사 완료·후속 인계 — 2026-10-19 02:39:16 KST
+
+- 작업 2026-10-19 01:51:45 ~ 2026-10-19 02:39:16 KST, 경과 00:47:30 (대기 포함). 사용자원문15와Orig3제안5,첨부28~38,제공Markdown프로젝트,기존감사 대조. 제품구현/공유build/배포는 수행하지 않음.
+- C3 발견R3-01 상대링크 잘못된파일이동·R3-02 코드색누락은 C4 SHA1B544BA4...B7398BD에서독립수정확인. C4실제품202/202·세SKU테마각31/31·build-entry16/16, C3native67/67 직접PASS. TASK024nativehover28/GIF24 자료확인과구분. C4패키지선택23파일씩 SHA일치/기존26보호파일불변.
+- R3-03 원본작성기 문서관리·현재저장·참조형/HTML미리보기 차이는C4 미해소. 025가후속보완/새후보재검증,최종전체16/실제3IDE를 마무리하도록인계. 감사문서완료와제품전체완료/배포를구분한다.
+- 산출 MarkdownReport/CodexOrig2_TASK-028_Audit3.md, _Evidence.json, artifacts/audit-codexorig2-round3/. Role.md끝에날짜있는3차감사확인·반영지시만append하고기존전체byteprefix보존확인. 과거감사/설치MD/BAT/PDF/ZIP/제공프로젝트편집0. 담당감사보고편집종료,GUI·제품·Git작업0.
+
+## 2026-10-19 2026-10-19 02:49:12 KST — TASK-029 CodexOrig3 사용자 안내 부록
+
+3차 감사 R3-03 후속 Markdown 작성기 사용 설명서(Markdown/PDF)와 일곱 설명 도식, 검토용 휴대 ZIP을 작성했다. README/USER_GUIDE에 요약 안내와 링크를 반영했다. PDF 8쪽을 렌더해 시각 검토했고, ZIP 내 PDF·MD·그림 파일을 확인했다. candidate6 소스 대조 기준으로 표시하고 최종 패키지 검증을 완료로 주장하지 않았다. 기존 CLI 설치자료와 제품 코드는 변경하지 않았다. 상세: CodexOrig3_TASK-029.md.
+
+## TASK-026 / CodexOrig4 / 3차 감사 문서 UI 보완 — 2026-10-19 02:53:22 KST
+
+- 협업 등록 기준 2026-10-19 02:46:11 ~ 2026-10-19 02:53:22 KST, 경과 00:07:11. Role.md 3차 감사 R3-03과 요청15에 따라 새 문서 UI의 모드·좁은 폭 통일성을 검토했다.
+- C6 실제 제품480폭에서 목록·이름 입력·파일 버튼 겹침과 잘림을 재현(강화 검사9PASS/6FAIL). TASK025 파일 인계 후 src/VS2017.AIAssistant/Views/MarkdownEditor.Documents.cs의 InitializeDocumentBrowser만 세로 스크롤로 보완. 기존 API·파일/확인/보안 규칙·주석 유지, UTF8BOM 저장. 공용 AssistantTheme.xaml 변경0; 편집기 splitter의 AssistantBorderBrush 동적화는025가 반영.
+- 신규 tests/task026/DocumentUiChecks.cs + Test-DocumentUi.ps1을 별도STA/csc로 실행. 최종 소스117/117 PASS(artifacts/task026/audit3-documents-layout-source3/result.json, SourceOnly=true). 320/480/900폭,Dark→Light→Dark,파일 동작·삭제확인/취소 접근과 파일 보존,HTML표·코드·링크색 갱신,파일항목 위 합성휠 이동을 검사하고 양모드PNG 직접 검토. 최초실패 보존.
+- 코드동결/025소유반납, 제품파일 SHA E9DE88E3D4164989E2775989BB805665A44E22824A5317459A5B6DBDD678BFFD. artifacts/task026/audit3-ui-freeze2.json 및 MarkdownReport/CodexOrig4_TASK-026_Audit3UI.md·_Validation.json에 범위·근거·최종제품 미실행 구분. 최종DLL117/테마31/전체16/실제3IDE는025통합에 연결. 공용build0/실제GUI0/Git배포0.
+## TASK-028F1 / CodexOrig2 / R3-03 candidate6 후속 감사 — 2026-10-19 02:55:39 KST
+
+- 시간 2026-10-19 02:45:57 ~ 2026-10-19 02:55:39 KST, 경과 00:09:41. C6 개인 고정 사본120입력/실제2017DLL의 문서관리·현재저장·참조/HTML 및 한도를 검증했습니다.
+- 실제 기능218/218, 별도 문서21개 중14PASS/7FAIL. 파일관리와 참조형 링크 보완을 확인했고, HTML 블록 경계3·엔티티/완전문서2·표한도 절단무안내2는 R3-03F1~F3/P2로 인계했습니다. 새 사례 실패를 숨기거나 기존 통과에 합산하지 않았습니다.
+- 경로 MarkdownReport/CodexOrig2_TASK-028_Followup_C6.md/_Evidence.json, artifacts/audit-codexorig2-followup-c6/. 3SKU 선택 핵심23파일씩 패키지 바이트 일치, 보호26파일 및 기존감사 해시 불변. Role의 Orig3 TASK029 동시 append는 원래 전체 바이트 접두부 보존을 별도 확인했습니다. 최초 하네스 준비 실패도 보존했습니다.
+- TASK024 삭제 확인 수명 및 TASK026 좁은폭 실패/소스 보정은 타 담당자 자료 확인으로 구분. 후속 수정 포함 새 후보 검증 필요, R3-03 부분 해소입니다. 제품수정·공유build·GUI·실계정·설치·배포0, 기존 감사와 Role 편집0. 이번 감사 산출 편집 종료/통합 담당자 인계.
+
+## 2026-10-19 2026-10-19 03:08:26 KST — TASK-030 candidate7 화면 문서 개정
+
+TASK-029 검토판을 보존한 별도 C7 Markdown/PDF/ZIP을 만들고 화면 안내 그림10개를 추가했다. C7 제품 DLL 오프스크린 UI 렌더(넓은/좁은 화면)는 개인 경로를 배제해 다시 캡처했다. 보정된 문서 UI는 3 SKU 117/117씩, 별도 HTML 후속 감사는 21/21 통과했다. 최초 105/108 검사 전제 오류는 원문 증거로 보존했다. PDF 10쪽 렌더/시각 확인. README/USER_GUIDE의 작성기 부분만 갱신하고 README 버전/다운로드는 수정하지 않았다. 실제 IDE 통합 검증과 분리. 증거: CodexOrig3_TASK-030.md/_Evidence.json.
+
+## TASK-028F2 / CodexOrig2 C7 후속 독립 감사 — 2026-10-19 03:12:09 KST
+
+- 2026-10-19 03:02:47 ~ 2026-10-19 03:12:09 KST, 경과 00:09:21. 입력120개 고정/동일21사례를3SKU에서 직접21/21, 독립23/23, 문서UI117/117, 2017기능226/226 통과했습니다. C6 HTML7실패·삭제 확인·좁은 UI 수정 확인과 새 Markdown 표17열 무안내1실패(R3-03F4)를 구분했습니다. 이전 전체 실패 원문 보존/고유 총계 합산 없음.
+- 산출 MarkdownReport/CodexOrig2_TASK-028_Followup_C7.md/_Evidence.json, 근거 artifacts/audit-codexorig2-followup-c7/. 소스·제품·공유build·GUI·로그인·설치·배포0입니다. 기존 감사8파일과 보호26파일 불변, Role은 기존 전체 바이트 보존 후 이번 확인/반영 지시만 append했습니다.
+- C7 root16/실행기15/GIF24는 자료 확인이며, 첫 물리hover18PASS/1FAIL 및 최종3IDE/배포는 통합 담당자 후속입니다. R3-03F4 미해소·전체 판정 보류로 인계하며 이번 감사 산출 편집을 종료합니다.
+
+## TASK-031 / CodexOrig5 / 사용자 확대 연구 — 2026-10-19 03:15:05 KST
+
+- 작업 등록 기준 2026-10-19 03:07:00 ~ 2026-10-19 03:15:05 KST, 경과 00:08:05. Role.md와 C7 개발·감사·소스 검토, 공식10개 페이지 기반 경쟁6제품 비교, 개선11건/축소·보류8건 및 사용자 실험·30/60/90일 계획 작성.
+- 산출 경로 MarkdownReport/CodexOrig5_TASK-031.md, CodexOrig5_TASK-031_DevelopmentRequests.md, CodexOrig5_TASK-031_Validation.json. 내부링크22·문서26검사 PASS, 참조14파일 SHA기록. 최초Python 별칭 실행불가는 PowerShell/.NET 문서검사로 대체; 제품 회귀 재실행 아님.
+- 사용자 허가에 따라 CodexOrig 대화에 구체적 개발요청4건 실제 전달 성공. DR01현재마감/DR02~04다음주기 구분. 구현·수락·배포 완료는 주장하지 않음. 제품·공유build·GUI·유료호출·배포 변경0, 공용기록에 자기항목만 추가. TASK030초기등록은 Orig3번호중복으로 TASK031정정.
+## TASK-028F3 / CodexOrig2 C8 F4 수정 확인 완료 — 2026-10-19 03:19:27 KST
+
+- 2026-10-19 03:13:31 ~ 2026-10-19 03:19:27 KST, 경과 00:05:55. C8 입력120개와 세DLL/VSIX를 고정하고 원래 F4각1/1·새경계각6/6·동일21/보안23/문서UI117 각SKU PASS, 2017기능231/231 직접 PASS했습니다.
+- R3-03F4와 기존 구체적 기능/HTML 지적의 수정·유지를 확인했으며 추가 제품 수정 지적은 없습니다. 표시16열 상한/초과 안내/원문 보존 유지. C7 실패와 과거 감사10파일·보호원본26파일 SHA 보존, Role 기존 전체 바이트를 유지한 append 확인입니다.
+- 산출 MarkdownReport/CodexOrig2_TASK-028_Followup_C8.md/_Evidence.json, artifacts/audit-codexorig2-followup-c8/. 실제 GUI28/GIF24는 TASK024 자료로 구분하고 과거C7 원인 미확정 기록을 유지합니다. 최종3IDE·전체16·문서/버전/배포는025 인계, 실제 Claude/운영 검증 한계는 유지합니다. 감사 작업 종료·제품/공유build/GUI/설치/유료AI/Git배포0.
+
+## TASK-024F1 / CodexCode 3차 감사 담당 후속 검증 마감 / 2026-10-19 03:22:59 KST
+
+- 작업02:41:26~2026-10-19 03:22:59, 보고마감까지경과00:41:33 (공유빌드·GUI·진단대기포함). 마지막실행검증03:14:26까지33분00초. 제품구현025·문서UI026·사용자문서027·독립감사028과소유분리,024제품소스/README/GUIDE편집0.
+- 새 tests/task024/MarkdownAuditFollowupChecks.cs + Test-MarkdownAuditFollowup.ps1 **독립23조건** 추가. locked저장/rename/delete·충돌/확인거부·dirty/선택/목록/이미지기준보존·Unicode현재저장·Dispose/삭제undo정리·문서별참조/HTML소스보존·DTD/XInclude·500msloopback0요청확인. 소스fixture첫21/1은상대SourcePath검사oracle보정으로보존.
+- **SC024-02** C6정식DLL에서삭제확인상태가다른문서로승계되는실제UI이벤트결함22/1을새로재현·025전달. 025가성공전환초기화+표시당시경로결합을보정,소스23/23→C7/C8세SKU각23/23으로독립수정확인. 기존22성공/새23실패/수정후성공을분리보존.
+- 새 Test-GuideBundleIntegrity.ps1으로원본고정GIF5/PNG5·runtime·VSIX동일SHA/GIF4frame·PNG1frame600x420·MIT·제품/AvalonDLL을검사. **C8 각3SKU 독립23/23·테마31/31·번들10/10** 통과. C8 2017 **5그룹231/231**(111/35/31/24/30),실제 **native28/28**(native24+합성2+구조1+수명1),실제Window **GIF24/24**(생략0/프레임진행·접힘·종료/Dispose정리) PASS. 고유총계로합산하지않음/입력·사본불변.
+- C8 DLL:2017 A2A10A3922CC3FD47F5AA10E15FFF7FCB70A44494D4B26BEE22610B3C4C2172E,2019 45F4E4D06E4CCDBAF3FB28CE54E9ED3FB6B2DF46BE69F6E8B23F686741D06420,2022 06C41981F4D0049C07AC1BAA753E9A0DD3DC7FFB67BF385176F123D3A6419049. 12결과SHA영수증 artifacts/task024/audit3-final-result-receipts.json/후보입력120은025candidate8-readiness에연결.
+- **최초C7물리18PASS/1FAIL의anchor Click계수원인은미확정**. ChangeHoverChecks.cs에down/up/click·cursor/HWND/capture관찰만추가(기대28/고정대기/SendInput/제품popup불변),C8에서는정확좌표·DownPressed→UpReleased→Click1·capture해제확인/미재현으로기록. 원래CS는동결SHA B7310B2D...D6C28와정확일치하게복원보존. 새로운관찰성공을최초원인규명/제품수정으로과장하지않음. 진단추가test파일도freeze3-final에포함.
+- 03:14:59모든자기검사창종료·포인터복원·GUI해제. C8실제GIF PNG직접시각검토(5그림동시배치시험구성/실제제품갤러리와구분). 로그인공식CLI/직접ID암호입력·상태/실요청구분및실계정/운영DB·TFVC·운영배포미검증공개를검토. 기존보호26파일/완료감사4파일SHA불변(audit3-final-preservation.json).
+- CodexCode_TASK-024.md·SecureCoding·Validation 및 CodexCode_TASK-024_Audit3_Followup.md·Audit3_Validation 갱신. **024담당작업/검사/보고편집모두지금종료·소유반납·공유build/제품수정/Git/실설치/실인증/유료AI0**. 최초C7불확실성판정·최종전체16/실제3IDE/감사/배포는025·028통합에남으며담당완료를프로젝트배포완료로표시하지않는다.
+
+## TASK-025 / CodexOrig / v0.10.0 최종 통합 검증
+
+- 시작: 2026-10-19 00:25:48 KST. 검증 마감: 2026-10-19 03:24:57 +09:00ST. 경과: 02:59:09.2681250 (협업·감사 대기 포함).
+- Role 23:45 추가15항목·이미지와 3차감사 지적을 통합. Markdown 작성/미리보기·문서관리/삭제확인·HTML/참조링크·코드색·테마·스크롤·설정/안내GIF·계정화면·입력아이콘을 반영. 사용자 지시대로 약90% 시점에 기존 Orig2 대화에 감사 요청, 새 화면 설명은 Orig3 대화에 실제 전달하고 안내서/PDF/README 보완 완료.
+- 경로: src/VS2017.AIAssistant/Views/Markdown*, AssistantControl.Markdown.cs, 프로젝트3종/Sync-VsixTargets, tests/task024·task026·ide·launcher, README/USER_GUIDE, releases/v0.10.0, MarkdownReport/CodexOrig_TASK-025*. 제품 candidate8 120입력 고정.
+- 결과: 6빌드 오류0/경고0, 기본전체16/16, 기능231/231, SKU별테마31·독립23·문서UI117·감사문서21·원재현1·경계6, 실제마우스28·GIF24, 실행기15, 실제 VS2017/2019/2022 각각133/133·exit0. 중복 조건을 고유총계로 합산하지 않음.
+- C7 native 첫18/1은 원인미확정 보존. 관찰만 추가한 같은 팝업코드의 C8 28PASS와 구분. 2022 검사IDE는 결과 기록 후 늦게 종료되어 전용PID/RootSuffix 검증 후만 정리, 정상/강제 종료를 별도JSON 기록. 일반 사용자 IDE는 종료하지 않음.
+- 최초 실패/감사·Role원문·CLI원본/고객ZIP·보호47파일 보존. 실제Claude계정·운영DB/TFVC/운영배포 미검증 유지. Orig4·Orig3·Orig5·Orig2·024 전원 종료 신호 확인 후 배포 진행. 공개 후 원격 SHA는 별도 Deployment.json에 기록.

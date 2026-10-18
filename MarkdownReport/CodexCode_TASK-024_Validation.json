@@ -1,0 +1,523 @@
+﻿{
+    "Task":  "TASK-024",
+    "Author":  "CodexCode",
+    "StartedAt":  "2026-10-19T00:17:49.0314241+09:00",
+    "UpdatedAt":  "2026-10-19T03:22:59.6812582+09:00",
+    "Completed":  true,
+    "ProductSourcesFrozen":  true,
+    "MediaFrozen":  true,
+    "FinalProductAssemblySha256":  "A2A10A3922CC3FD47F5AA10E15FFF7FCB70A44494D4B26BEE22610B3C4C2172E",
+    "FinalProductSuiteComplete":  true,
+    "BootstrapAssemblySha256":  "FDF46F5BE8CC283EF1D49A243789898689905F849614BABCC2F2DFF4E3C6F836",
+    "BootstrapResults":  [
+                             {
+                                 "Group":  "Markdown",
+                                 "Path":  "artifacts/task024/actual-bootstrap2-first/markdown/result.json",
+                                 "Failed":  0,
+                                 "Passed":  75
+                             },
+                             {
+                                 "Group":  "HoverViewport",
+                                 "Path":  "artifacts/task024/actual-bootstrap2-first/hover-viewport/result.json",
+                                 "Failed":  0,
+                                 "Passed":  35
+                             },
+                             {
+                                 "Group":  "Guide",
+                                 "Path":  "artifacts/task024/actual-bootstrap2-first/guide/result.json",
+                                 "Failed":  0,
+                                 "Passed":  30
+                             },
+                             {
+                                 "Group":  "Account",
+                                 "Path":  "artifacts/task024/actual-bootstrap2-first/account/result.json",
+                                 "Failed":  0,
+                                 "Passed":  24
+                             },
+                             {
+                                 "Group":  "RootUi",
+                                 "Path":  "artifacts/task024/assistant-ui-bootstrap2-logical-tree/result.json",
+                                 "Failed":  0,
+                                 "Passed":  27
+                             }
+                         ],
+    "SourceOnlyNewRegression":  [
+                                    {
+                                        "Group":  "MarkdownScanWork",
+                                        "Path":  "artifacts/task024/markdown-source-freeze3/result.json",
+                                        "Failed":  0,
+                                        "Passed":  78
+                                    },
+                                    {
+                                        "Group":  "GuideCorruptGifPng",
+                                        "Path":  "artifacts/task024/guide-corrupt-after/result.json",
+                                        "Failed":  0,
+                                        "Passed":  31
+                                    }
+                                ],
+    "Media":  {
+                  "PngFiles":  5,
+                  "Manifest":  "artifacts/task024/guide-media-freeze1.json",
+                  "SyntheticProductUi":  true,
+                  "LiveAuthentication":  false,
+                  "Frames":  20,
+                  "Scenes":  5,
+                  "InstallerExecuted":  false,
+                  "GifFiles":  5
+              },
+    "RetainedFailures":  [
+                             "artifacts/task025/build-bootstrap1.log",
+                             "artifacts/task024/encoder-smoke1",
+                             "artifacts/task024/actual-bootstrap2-first/summary.json",
+                             "artifacts/task024/assistant-ui-bootstrap2-routed-event/result.json",
+                             "artifacts/task024/private/security-inline-probe/evidence.json",
+                             "artifacts/task024/guide-corrupt-before/result.json",
+                             "artifacts/task024/change-hover-bootstrap2-first/result.json",
+                             "artifacts/task025/build-candidate1-2019-Debug.log",
+                             "artifacts/task025/build-candidate2-2022-Debug.log",
+                             "artifacts/task024/actual-candidate4-after-unlock/summary.json",
+                             "artifacts/task024/audit-followup-source-first/result.json",
+                             "artifacts/task024/audit-followup-candidate6-delete-transition/result.json",
+                             "artifacts/task024/candidate7-native/result.json"
+                         ],
+    "NativePreflight":  {
+                            "WindowShown":  false,
+                            "GlobalSettingsChanged":  false,
+                            "NativePointerUsed":  false,
+                            "HoverExecuted":  false,
+                            "Win32Error":  5,
+                            "At":  "2026-10-19T01:20:40.0075066+09:00",
+                            "CursorAvailable":  false,
+                            "InputDesktop":  "Screen-saver",
+                            "UserUnlockQuestionSent":  true,
+                            "ThreadDesktop":  "Default"
+                        },
+    "DeploymentPerformed":  false,
+    "FinalIntegrationOwner":  "TASK-025",
+    "ThemeOwner":  "TASK-026",
+    "SupplementalGuideOwner":  "TASK-027",
+    "LatestNativePreflight":  {
+                                  "At":  "2026-10-19T02:28:02.8695654+09:00",
+                                  "CursorAvailable":  true,
+                                  "CursorError":  0,
+                                  "InputDesktop":  "Default",
+                                  "WindowShown":  false,
+                                  "PointerMoved":  false,
+                                  "DesktopChanged":  false
+                              },
+    "PreservationReceipt":  "artifacts/task024/preserved-originals-final.json",
+    "OriginalRequests":  15,
+    "SeparateOrig3DocumentProposals":  5,
+    "FinalNative":  {
+                        "Passed":  28,
+                        "Failed":  0,
+                        "Result":  "artifacts/task024/candidate8-native-diagnostic/result.json",
+                        "ProductAssemblySha256":  "A2A10A3922CC3FD47F5AA10E15FFF7FCB70A44494D4B26BEE22610B3C4C2172E",
+                        "WindowShown":  true,
+                        "NativePointerUsed":  true,
+                        "NativeWheelExecuted":  true,
+                        "SyntheticWheelExecuted":  true,
+                        "NativeTaggedChecks":  24,
+                        "SyntheticTaggedChecks":  2,
+                        "StructureChecks":  1,
+                        "LifecycleChecks":  1,
+                        "FrozenTreeUnchanged":  true
+                    },
+    "FinalPlayback":  {
+                          "Passed":  24,
+                          "Failed":  0,
+                          "Result":  "artifacts/task024/candidate8-playback/result.json",
+                          "ProductAssemblySha256":  "A2A10A3922CC3FD47F5AA10E15FFF7FCB70A44494D4B26BEE22610B3C4C2172E",
+                          "WindowShown":  true,
+                          "ClientAreaAnimation":  true,
+                          "AnimationAdvanceVerified":  true,
+                          "FixedInputsUnchanged":  true,
+                          "FullLoopCountVerified":  false,
+                          "CheckedAt":  "2026-10-19T03:14:26.1214956+09:00"
+                      },
+    "ImplementationAndHeadlessStageComplete":  true,
+    "FinalCandidate":  "TASK025/candidate8/2017/Release",
+    "FinalFunctionalSuite":  {
+                                 "Succeeded":  true,
+                                 "GroupsPassed":  5,
+                                 "GroupsTotal":  5,
+                                 "Passed":  231,
+                                 "Failed":  0,
+                                 "ProductAssemblyPath":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task025\\candidate8\\2017\\Release\\VS2017.AIAssistant.dll",
+                                 "ProductAssemblySha256":  "A2A10A3922CC3FD47F5AA10E15FFF7FCB70A44494D4B26BEE22610B3C4C2172E",
+                                 "ProductAfterSha256":  "A2A10A3922CC3FD47F5AA10E15FFF7FCB70A44494D4B26BEE22610B3C4C2172E",
+                                 "SourceOnly":  false,
+                                 "Results":  [
+                                                 {
+                                                     "Name":  "markdown",
+                                                     "Succeeded":  true,
+                                                     "ExitCode":  0,
+                                                     "Passed":  111,
+                                                     "Failed":  0,
+                                                     "ResultPath":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task024\\candidate8-functional\\markdown\\result.json",
+                                                     "Log":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task024\\candidate8-functional\\markdown.log",
+                                                     "Failure":  null
+                                                 },
+                                                 {
+                                                     "Name":  "hover-viewport",
+                                                     "Succeeded":  true,
+                                                     "ExitCode":  0,
+                                                     "Passed":  35,
+                                                     "Failed":  0,
+                                                     "ResultPath":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task024\\candidate8-functional\\hover-viewport\\result.json",
+                                                     "Log":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task024\\candidate8-functional\\hover-viewport.log",
+                                                     "Failure":  null
+                                                 },
+                                                 {
+                                                     "Name":  "guide",
+                                                     "Succeeded":  true,
+                                                     "ExitCode":  0,
+                                                     "Passed":  31,
+                                                     "Failed":  0,
+                                                     "ResultPath":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task024\\candidate8-functional\\guide\\result.json",
+                                                     "Log":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task024\\candidate8-functional\\guide.log",
+                                                     "Failure":  null
+                                                 },
+                                                 {
+                                                     "Name":  "account",
+                                                     "Succeeded":  true,
+                                                     "ExitCode":  0,
+                                                     "Passed":  24,
+                                                     "Failed":  0,
+                                                     "ResultPath":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task024\\candidate8-functional\\account\\result.json",
+                                                     "Log":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task024\\candidate8-functional\\account.log",
+                                                     "Failure":  null
+                                                 },
+                                                 {
+                                                     "Name":  "assistant-ui",
+                                                     "Succeeded":  true,
+                                                     "ExitCode":  0,
+                                                     "Passed":  30,
+                                                     "Failed":  0,
+                                                     "ResultPath":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task024\\candidate8-functional\\assistant-ui\\result.json",
+                                                     "Log":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task024\\candidate8-functional\\assistant-ui.log",
+                                                     "Failure":  null
+                                                 }
+                                             ],
+                                 "WindowShown":  false,
+                                 "NativePointerVerified":  false,
+                                 "LiveAuthenticationVerified":  false,
+                                 "PaidAiInvoked":  false,
+                                 "CheckedAt":  "2026-10-19T03:13:43.9164410+09:00",
+                                 "Summary":  "artifacts/task024/candidate8-functional/summary.json"
+                             },
+    "FinalThemeSuite":  {
+                            "Passed":  31,
+                            "Failed":  0,
+                            "SourceOnly":  false,
+                            "Summary":  "artifacts/task024/candidate8-2017-theme/result.json",
+                            "AssemblySha256":  "A2A10A3922CC3FD47F5AA10E15FFF7FCB70A44494D4B26BEE22610B3C4C2172E",
+                            "WindowShown":  false,
+                            "ActualIdeTested":  false
+                        },
+    "SecureCodingFinding":  {
+                                "Id":  "SC024-01",
+                                "Status":  "Fixed; SC024-01 regression verified in candidate8 Markdown111",
+                                "MarkdownChecksPassed":  111,
+                                "Result":  "artifacts/task024/candidate8-functional/markdown/result.json",
+                                "RendererSha256":  "E9658E9692F68B1C7F7FBD76A3A2D4D6C49F4C6F08BB5330EACE56311604F2FD",
+                                "InitialFixedRendererSha256":  "540A2A6404DB7172EAB872F243781AEB9F25BD6816524DCB012037764DEEF09B"
+                            },
+    "FinalSourceSnapshot":  "artifacts/task025/candidate8/source-hashes.json",
+    "FinalIntegrationMinimumSdkFixes":  "artifacts/task025/integration-source-freeze1.json",
+    "Pending":  [
+
+                ],
+    "HeadlessStageVerifiedAt":  "2026-10-19T01:43:53.5833119+09:00",
+    "ElapsedToHeadlessStage":  "01:26:04.5518878",
+    "LatestNativePreflightEvidence":  "artifacts/task024/desktop-preflight-resume-0228.json",
+    "OwnSourceAndDocumentationEditingStoppedAt":  "2026-10-19T03:22:59.6812582+09:00",
+    "PreviousCandidate3":  {
+                               "AssemblySha256":  "26FEF3E2BCCA746985E87599F54029E8F8DC17877D9BFBBCA46A6F2FB01CE52A",
+                               "Functional":  {
+                                                  "Passed":  196,
+                                                  "Failed":  0,
+                                                  "GroupsPassed":  5,
+                                                  "GroupsTotal":  5,
+                                                  "SourceOnly":  false,
+                                                  "Summary":  "artifacts/task024/actual-candidate3-final/summary.json",
+                                                  "ProductAssemblySha256":  "26FEF3E2BCCA746985E87599F54029E8F8DC17877D9BFBBCA46A6F2FB01CE52A",
+                                                  "ProductAfterSha256":  "26FEF3E2BCCA746985E87599F54029E8F8DC17877D9BFBBCA46A6F2FB01CE52A",
+                                                  "CheckedAt":  "2026-10-19T01:43:36.1384501+09:00",
+                                                  "Results":  [
+                                                                  {
+                                                                      "Name":  "markdown",
+                                                                      "Succeeded":  true,
+                                                                      "ExitCode":  0,
+                                                                      "Passed":  78,
+                                                                      "Failed":  0,
+                                                                      "ResultPath":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task024\\actual-candidate3-final\\markdown\\result.json",
+                                                                      "Log":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task024\\actual-candidate3-final\\markdown.log",
+                                                                      "Failure":  null
+                                                                  },
+                                                                  {
+                                                                      "Name":  "hover-viewport",
+                                                                      "Succeeded":  true,
+                                                                      "ExitCode":  0,
+                                                                      "Passed":  35,
+                                                                      "Failed":  0,
+                                                                      "ResultPath":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task024\\actual-candidate3-final\\hover-viewport\\result.json",
+                                                                      "Log":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task024\\actual-candidate3-final\\hover-viewport.log",
+                                                                      "Failure":  null
+                                                                  },
+                                                                  {
+                                                                      "Name":  "guide",
+                                                                      "Succeeded":  true,
+                                                                      "ExitCode":  0,
+                                                                      "Passed":  31,
+                                                                      "Failed":  0,
+                                                                      "ResultPath":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task024\\actual-candidate3-final\\guide\\result.json",
+                                                                      "Log":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task024\\actual-candidate3-final\\guide.log",
+                                                                      "Failure":  null
+                                                                  },
+                                                                  {
+                                                                      "Name":  "account",
+                                                                      "Succeeded":  true,
+                                                                      "ExitCode":  0,
+                                                                      "Passed":  24,
+                                                                      "Failed":  0,
+                                                                      "ResultPath":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task024\\actual-candidate3-final\\account\\result.json",
+                                                                      "Log":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task024\\actual-candidate3-final\\account.log",
+                                                                      "Failure":  null
+                                                                  },
+                                                                  {
+                                                                      "Name":  "assistant-ui",
+                                                                      "Succeeded":  true,
+                                                                      "ExitCode":  0,
+                                                                      "Passed":  28,
+                                                                      "Failed":  0,
+                                                                      "ResultPath":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task024\\actual-candidate3-final\\assistant-ui\\result.json",
+                                                                      "Log":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task024\\actual-candidate3-final\\assistant-ui.log",
+                                                                      "Failure":  null
+                                                                  }
+                                                              ]
+                                              },
+                               "Theme":  {
+                                             "Passed":  31,
+                                             "Failed":  0,
+                                             "SourceOnly":  false,
+                                             "Summary":  "artifacts/task024/theme-candidate3-final/result.json",
+                                             "AssemblySha256":  "26FEF3E2BCCA746985E87599F54029E8F8DC17877D9BFBBCA46A6F2FB01CE52A",
+                                             "WindowShown":  false,
+                                             "ActualIdeTested":  false
+                                         },
+                               "SourceSnapshot":  "artifacts/task025/candidate3/source-hashes.json"
+                           },
+    "TestEncodingRepair":  {
+                               "Receipt":  "artifacts/task024/test-encoding-resume-before/receipt.json",
+                               "Scripts":  [
+                                               "GuideReadability.ps1",
+                                               "AccountLogin.ps1"
+                                           ],
+                               "DecodedCodeUnchanged":  true,
+                               "AstErrors":  0,
+                               "AstEvidence":  "artifacts/task024/ast-resume-encoding.json"
+                           },
+    "AssignedRuntimeValidationComplete":  true,
+    "LatestRuntimeValidationCompletedAt":  "2026-10-19T02:30:38.4698500+09:00",
+    "ElapsedUntilLatestRuntimeValidation":  "02:12:49.4384259",
+    "GuiLeaseReleasedAt":  "2026-10-19T02:30:52+09:00",
+    "ThirdAuditC4IndependentConfirmation":  {
+                                                "Owner":  "TASK028/CodexOrig2",
+                                                "At":  "2026-10-19T02:34:28+09:00",
+                                                "Scope":  "R3-01/R3-02 confirmed resolved for candidate4; R3-03 remains open",
+                                                "Evidence":  "MarkdownReport/WORK_STATUS.md",
+                                                "OwnAuditExecution":  false
+                                            },
+    "Audit3FollowupActive":  false,
+    "Audit3FollowupValidation":  "MarkdownReport/CodexCode_TASK-024_Audit3_Validation.json",
+    "PreviousCandidate4":  {
+                               "Candidate":  "TASK025/candidate4/2017/Release",
+                               "AssemblySha256":  "1B544BA40419D20C2BD58D2FFED144E97CA9FCF00F604A590DD87C301B7398BD",
+                               "Functional":  {
+                                                  "Passed":  202,
+                                                  "Failed":  0,
+                                                  "GroupsPassed":  5,
+                                                  "GroupsTotal":  5,
+                                                  "SourceOnly":  false,
+                                                  "Summary":  "artifacts/task024/actual-candidate4-encoding-fixed/summary.json",
+                                                  "ProductAssemblySha256":  "1B544BA40419D20C2BD58D2FFED144E97CA9FCF00F604A590DD87C301B7398BD",
+                                                  "ProductAfterSha256":  "1B544BA40419D20C2BD58D2FFED144E97CA9FCF00F604A590DD87C301B7398BD",
+                                                  "CheckedAt":  "2026-10-19T02:29:27.6652280+09:00",
+                                                  "Results":  [
+                                                                  {
+                                                                      "Name":  "markdown",
+                                                                      "Succeeded":  true,
+                                                                      "ExitCode":  0,
+                                                                      "Passed":  82,
+                                                                      "Failed":  0,
+                                                                      "ResultPath":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task024\\actual-candidate4-encoding-fixed\\markdown\\result.json",
+                                                                      "Log":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task024\\actual-candidate4-encoding-fixed\\markdown.log",
+                                                                      "Failure":  null
+                                                                  },
+                                                                  {
+                                                                      "Name":  "hover-viewport",
+                                                                      "Succeeded":  true,
+                                                                      "ExitCode":  0,
+                                                                      "Passed":  35,
+                                                                      "Failed":  0,
+                                                                      "ResultPath":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task024\\actual-candidate4-encoding-fixed\\hover-viewport\\result.json",
+                                                                      "Log":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task024\\actual-candidate4-encoding-fixed\\hover-viewport.log",
+                                                                      "Failure":  null
+                                                                  },
+                                                                  {
+                                                                      "Name":  "guide",
+                                                                      "Succeeded":  true,
+                                                                      "ExitCode":  0,
+                                                                      "Passed":  31,
+                                                                      "Failed":  0,
+                                                                      "ResultPath":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task024\\actual-candidate4-encoding-fixed\\guide\\result.json",
+                                                                      "Log":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task024\\actual-candidate4-encoding-fixed\\guide.log",
+                                                                      "Failure":  null
+                                                                  },
+                                                                  {
+                                                                      "Name":  "account",
+                                                                      "Succeeded":  true,
+                                                                      "ExitCode":  0,
+                                                                      "Passed":  24,
+                                                                      "Failed":  0,
+                                                                      "ResultPath":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task024\\actual-candidate4-encoding-fixed\\account\\result.json",
+                                                                      "Log":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task024\\actual-candidate4-encoding-fixed\\account.log",
+                                                                      "Failure":  null
+                                                                  },
+                                                                  {
+                                                                      "Name":  "assistant-ui",
+                                                                      "Succeeded":  true,
+                                                                      "ExitCode":  0,
+                                                                      "Passed":  30,
+                                                                      "Failed":  0,
+                                                                      "ResultPath":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task024\\actual-candidate4-encoding-fixed\\assistant-ui\\result.json",
+                                                                      "Log":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task024\\actual-candidate4-encoding-fixed\\assistant-ui.log",
+                                                                      "Failure":  null
+                                                                  }
+                                                              ]
+                                              },
+                               "Theme":  {
+                                             "Passed":  31,
+                                             "Failed":  0,
+                                             "SourceOnly":  false,
+                                             "Summary":  "artifacts/task024/theme-candidate4-after-unlock/result.json",
+                                             "AssemblySha256":  "1B544BA40419D20C2BD58D2FFED144E97CA9FCF00F604A590DD87C301B7398BD",
+                                             "WindowShown":  false,
+                                             "ActualIdeTested":  false
+                                         },
+                               "Native":  {
+                                              "Executed":  true,
+                                              "Succeeded":  true,
+                                              "Passed":  28,
+                                              "Failed":  0,
+                                              "Result":  "artifacts/task024/change-hover-candidate4-unlocked-first/result.json",
+                                              "AssemblySha256":  "1B544BA40419D20C2BD58D2FFED144E97CA9FCF00F604A590DD87C301B7398BD",
+                                              "WindowShown":  true,
+                                              "NativePointerUsed":  true,
+                                              "HoverExecuted":  true,
+                                              "NativeWheelExecuted":  true,
+                                              "SyntheticWheelExecuted":  true,
+                                              "NativeTaggedChecks":  24,
+                                              "SyntheticTaggedChecks":  2,
+                                              "StructureChecks":  1,
+                                              "LifecycleChecks":  1,
+                                              "PreconditionBlocked":  false,
+                                              "FrozenTreeUnchanged":  true,
+                                              "CheckedAt":  "2026-10-19T02:30:25.6609209+09:00"
+                                          },
+                               "Playback":  {
+                                                "Executed":  true,
+                                                "Succeeded":  true,
+                                                "Passed":  24,
+                                                "Failed":  0,
+                                                "Result":  "artifacts/task024/playback-candidate4-unlocked-first/result.json",
+                                                "ProductAssemblySha256":  "1B544BA40419D20C2BD58D2FFED144E97CA9FCF00F604A590DD87C301B7398BD",
+                                                "WindowShown":  true,
+                                                "ClientAreaAnimation":  true,
+                                                "AnimationAdvanceVerified":  true,
+                                                "Skipped":  [
+
+                                                            ],
+                                                "FullAnimationLoopVerified":  false,
+                                                "FixedInputsUnchanged":  true,
+                                                "Screenshot":  "artifacts/task024/playback-candidate4-unlocked-first/guide-playback.png",
+                                                "ScreenshotVisuallyReviewed":  true,
+                                                "ScreenshotIsSyntheticFiveImageTestLayout":  true,
+                                                "Observations":  [
+                                                                     {
+                                                                         "Stage":  "five-gif",
+                                                                         "Image":  0,
+                                                                         "FrameCount":  4,
+                                                                         "SourceChanges":  1,
+                                                                         "ElapsedMilliseconds":  1123.092
+                                                                     },
+                                                                     {
+                                                                         "Stage":  "five-gif",
+                                                                         "Image":  1,
+                                                                         "FrameCount":  4,
+                                                                         "SourceChanges":  1,
+                                                                         "ElapsedMilliseconds":  1123.092
+                                                                     },
+                                                                     {
+                                                                         "Stage":  "five-gif",
+                                                                         "Image":  2,
+                                                                         "FrameCount":  4,
+                                                                         "SourceChanges":  1,
+                                                                         "ElapsedMilliseconds":  1123.092
+                                                                     },
+                                                                     {
+                                                                         "Stage":  "five-gif",
+                                                                         "Image":  3,
+                                                                         "FrameCount":  4,
+                                                                         "SourceChanges":  1,
+                                                                         "ElapsedMilliseconds":  1123.092
+                                                                     },
+                                                                     {
+                                                                         "Stage":  "five-gif",
+                                                                         "Image":  4,
+                                                                         "FrameCount":  4,
+                                                                         "SourceChanges":  1,
+                                                                         "ElapsedMilliseconds":  1123.092
+                                                                     },
+                                                                     {
+                                                                         "Stage":  "settings-reopened",
+                                                                         "Image":  0,
+                                                                         "FrameCount":  4,
+                                                                         "SourceChanges":  1,
+                                                                         "ElapsedMilliseconds":  1114.9388000000001
+                                                                     },
+                                                                     {
+                                                                         "Stage":  "gallery-detail",
+                                                                         "Image":  0,
+                                                                         "FrameCount":  4,
+                                                                         "SourceChanges":  1,
+                                                                         "ElapsedMilliseconds":  1105.2955
+                                                                     }
+                                                                 ],
+                                                "CheckedAt":  "2026-10-19T02:30:38.4698500+09:00"
+                                            },
+                               "SourceSnapshot":  "artifacts/task025/candidate4/source-hashes.json"
+                           },
+    "CompletionScope":  "CodexCode assigned component work and audit3 follow-up verification; project integration and deployment remain TASK025 responsibility",
+    "OwnWorkComplete":  true,
+    "ProjectIntegrationComplete":  false,
+    "SeparateIntegrationPending":  [
+                                       "TASK025 final whole16 and actual three IDE verification",
+                                       "TASK028 final candidate8 audit judgment and initial candidate7 uncertainty record",
+                                       "TASK025 final release and remote artifact hashes after all owners finish"
+                                   ],
+    "ResidualUncertainty":  [
+                                {
+                                    "Candidate":  "candidate7",
+                                    "Finding":  "First native anchor-click assertion failed after18 passed",
+                                    "Cause":  "Unconfirmed; not reproduced in observed candidate8 native run",
+                                    "OriginalResult":  "artifacts/task024/candidate7-native/result.json",
+                                    "OriginalExactSource":  "artifacts/task024/candidate7-native-first-source.cs",
+                                    "DiagnosticChangeReceipt":  "artifacts/task024/candidate7-native-diagnostic-change-receipt.json",
+                                    "AssertionsAndTimingUnchanged":  true
+                                }
+                            ],
+    "LatestRuntimeVerificationAt":  "2026-10-19T03:14:26.1214956+09:00",
+    "OwnWorkCompletedAt":  "2026-10-19T03:22:59.6812582+09:00"
+}

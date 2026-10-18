@@ -1,0 +1,22 @@
+{
+  "Task": "TASK026-Audit3-UI",
+  "Author": "CodexOrig4",
+  "Status": "SourceValidated_FinalProductPending",
+  "SourcePassed": 117,
+  "SourceFailed": 0,
+  "SourceResult": "artifacts/task026/audit3-documents-layout-source3/result.json",
+  "NegativeProductResult": "artifacts/task026/audit3-documents-clipping-repro/result.json",
+  "NegativeProductPassed": 9,
+  "NegativeProductFailed": 6,
+  "ProductFileSha256": "E9DE88E3D4164989E2775989BB805665A44E22824A5317459A5B6DBDD678BFFD",
+  "ProductChanges": [
+    "InitializeDocumentBrowser scroll container only"
+  ],
+  "ActualFinalProducts": [],
+  "ActualIdeTested": false,
+  "WindowShown": false,
+  "SharedBuildRun": false,
+  "Deployed": false,
+  "Freeze": "artifacts/task026/audit3-ui-freeze2.json",
+  "CheckedAtKst": "2026-10-19 02:52:07"
+}

@@ -8,6 +8,7 @@ create date  : 2026-10-18
 update date  : 2026-10-18 CodexCode : 개인 설정·인증·공유 빌드에 접근하지 않는 격리 검증 구성.
 update date  : 2026-10-18 CodexOrig : TASK-018 드롭다운·이미지 요구 및 기본14개 검사 반영.
                2026-10-18 CodexOrig : TASK-020 최종 UI 계약과 프로토콜 경계 검증 갱신.
+               2026-10-19 CodexOrig : TASK-025 기존 화면 회귀는 명시적 Dark 모드로 실행.
 -------------------------------------------------------------------------
 .SYNOPSIS
     Run Windows PowerShell 5.1 -STA with a frozen product DLL.
@@ -401,6 +402,7 @@ namespace CodexCode.WorkspaceReview
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 오른쪽 둥근 사용자 말풍선·왼쪽 무테 AI 본문과 복사 기능 검사.
+        ///                2026-10-19 CodexOrig : Markdown 본문에서도 실제 RichTextBox 선택 복사와 원문 바인딩을 검사.
         /// </summary>
         /// ---------------------------------------------------------------------
         private static void CheckMessagePresentation(AssistantControl control)
@@ -417,12 +419,16 @@ namespace CodexCode.WorkspaceReview
                 assistant.BorderThickness == new Thickness(0) && assistant.Padding == new Thickness(0) &&
                 assistant.TranslatePoint(new Point(0, 0), messages).X < user.TranslatePoint(new Point(0, 0), messages).X,
                 "AI replies appear as an unframed left-hand body distinct from the user bubble");
-            var userText = Descendants(user).OfType<TextBox>().Single(x => x.Name == "MessageBody");
-            var aiText = Descendants(assistant).OfType<TextBox>().Single(x => x.Name == "MessageBody");
+            var userPreview = Descendants(user).OfType<MarkdownPreview>().Single(x => x.Name == "MessageBody");
+            var aiPreview = Descendants(assistant).OfType<MarkdownPreview>().Single(x => x.Name == "MessageBody");
+            var userText = userPreview.TextView;
+            var aiText = aiPreview.TextView;
             PumpUntil(() => userText.IsLoaded && aiText.IsLoaded, 2000);
             Check(userText.IsReadOnly && aiText.IsReadOnly && userText.ContextMenu != null && aiText.ContextMenu != null &&
-                aiText.ContextMenu.Items.OfType<MenuItem>().Any(x => x.Command == ApplicationCommands.Copy),
-                "Both message styles preserve selectable read-only text and the actual copy command");
+                aiText.ContextMenu.Items.OfType<MenuItem>().Any(x => x.Command == ApplicationCommands.Copy && x.CommandTarget == aiText) &&
+                userPreview.Markdown == ((ChatMessage)user.DataContext).Text && aiPreview.Markdown == ((ChatMessage)assistant.DataContext).Text &&
+                aiText.ContextMenu.Items.OfType<MenuItem>().Any(x => Convert.ToString(x.Header).Contains("Markdown 원문")),
+                "Both Markdown message styles preserve their source, selectable read-only text and the targeted copy command");
         }
 
         /// ---------------------------------------------------------------------
@@ -652,7 +658,7 @@ namespace CodexCode.WorkspaceReview
             try
             {
                 var app = Application.Current ?? new Application(); app.ShutdownMode = ShutdownMode.OnExplicitShutdown;
-                new AssistantSettingsStore(settingsPath).Save(new AssistantSettings { HideWelcome = true });
+                new AssistantSettingsStore(settingsPath).Save(new AssistantSettings { HideWelcome = true, ThemeMode = "dark" });
                 var fixtureStore = new MarkdownWorkspaceStore();
                 var seededConversation = fixtureStore.Create("Claude");
                 seededConversation.CreatedAt = new DateTimeOffset(2024, 2, 3, 4, 5, 0, TimeSpan.FromHours(9));

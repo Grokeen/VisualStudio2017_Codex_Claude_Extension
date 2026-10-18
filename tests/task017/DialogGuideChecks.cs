@@ -31,6 +31,7 @@ public static class DialogGuideChecks
     /// author       : CodexCode
     /// create date  : 2026-10-18
     /// update date  : 2026-10-18 CodexCode : 고정 DLL 또는 독립 소스 검증 어셈블리를 동일하게 검사.
+    ///                2026-10-19 CodexOrig : 의미 팔레트와 실제 Markdown·동봉 그림으로 바뀐 상세 화면을 검증.
     /// </summary>
     /// ---------------------------------------------------------------------
     public static void Run(string directory)
@@ -46,7 +47,7 @@ public static class DialogGuideChecks
             dialog.Show(); dialog.Activate(); Pump();
             var guide = (GettingStartedDialog)dialog;
             Assert(guide.HideNextTime.IsChecked == true && guide.StartButton.IsDefault && guide.ConnectButton != null, "Existing onboarding preferences and actions remain available");
-            Assert(dialog.Footer.Background is SolidColorBrush && ((SolidColorBrush)dialog.Footer.Background).Color.R == 32 && dialog.Footer.BorderThickness.Top == 1, "Footer has its own dark tone and top divider");
+            Assert(dialog.Footer.Background is SolidColorBrush && ((SolidColorBrush)dialog.Footer.Background).Color == ((SolidColorBrush)source.FindResource("AssistantSurfaceBrush")).Color && dialog.Footer.BorderThickness.Top == 1, "Footer follows the selected dark surface palette and keeps its top divider");
             var cards = Descendants<Button>(dialog.Body).Where(x=>x.DataContext is GuideStep).ToArray();
             Assert(cards.Length == 4, "Four overview cards expose meaningful guide topics");
             var first = cards[0]; var surface = (Border)first.Content; var original = first.TranslatePoint(new Point(0,0),dialog);
@@ -60,9 +61,9 @@ public static class DialogGuideChecks
             first.Focus(); Pump();
             Assert(first.IsKeyboardFocused && ((Border)cards[1].Content).Opacity < .6, "Keyboard focus receives the same guide emphasis");
             first.RaiseEvent(new KeyEventArgs(Keyboard.PrimaryDevice,PresentationSource.FromVisual(first),0,Key.Enter){RoutedEvent=Keyboard.KeyDownEvent}); Pump();
-            Assert(Descendants<Image>(dialog.Body).Any(x=>x.Source is DrawingImage), "Enter opens a detail screen containing a real procedure image");
+            Assert(Descendants<Image>(dialog.Body).Any(x=>x.Source != null), "Enter opens a detail screen containing a packaged procedure image or its drawing fallback");
             Assert(!Descendants<Button>(dialog.Body).Any(x=>x.DataContext is GuideStep), "Detail replaces overview in the same dialog body");
-            Assert(Descendants<TextBlock>(dialog.Body).Any(x=>x.Text.Contains("공식 CLI") && x.Text.Contains("로그인")), "Detail contains actionable topic-specific explanation");
+            Assert(Descendants<MarkdownPreview>(dialog.Body).Any(x=>x.Markdown.Contains("공식 CLI") && x.Markdown.Contains("로그인") && new System.Windows.Documents.TextRange(x.TextView.Document.ContentStart,x.TextView.Document.ContentEnd).Text.Contains("로그인")), "Detail renders actionable topic-specific Markdown explanation");
             var back = Descendants<Button>(dialog.Body).Single(x=>Convert.ToString(x.Content).Contains("안내 목록으로"));
             Assert(back.IsKeyboardFocused, "Opening detail places focus on the return button");
             Assert(guide.HideNextTime.IsChecked == true && guide.HideNextTime.IsVisible, "Detail retains the user's onboarding display preference");

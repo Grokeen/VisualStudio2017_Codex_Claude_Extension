@@ -176,13 +176,15 @@ namespace VS2017.AIAssistant.Services
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 사용자 클릭에 의한 파일 탐색 구현.
         /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
+        ///                2026-10-19 CodexCode : Markdown 파일 링크를 항상 텍스트 뷰로 열어 OS 실행 연결 차단.
         /// </summary>
         /// ---------------------------------------------------------------------
         public void NavigateTo(string filePath, int line)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
             if (dte == null || !File.Exists(filePath)) throw new InvalidOperationException("소스 파일을 찾을 수 없습니다.");
-            var window = dte.ItemOperations.OpenFile(Path.GetFullPath(filePath)); window.Activate();
+            // TASK-024 : Markdown의 파일 링크도 실행 파일 연결 대신 항상 IDE 텍스트 편집기로 탐색한다.
+            var window = dte.ItemOperations.OpenFile(Path.GetFullPath(filePath), EnvDTE.Constants.vsViewKindTextView); window.Activate();
             var selection = dte.ActiveDocument.Selection as TextSelection;
             if (selection != null) selection.GotoLine(Math.Max(1, line), true);
         }

@@ -8,6 +8,7 @@ create date  : 2026-10-18
 update date  : 2026-10-18 CodexCode : 고정 스크립트·루트 내부 경로·실패 종료 코드 검증.
 update date  : 2026-10-18 CodexOrig : TASK-016 문서·모델·AI 협업과 실제 비동기 UI 회귀 연결.
 update date  : 2026-10-18 CodexOrig : TASK-018 드롭다운·이미지 요구 및 기본14개 검사 반영.
+               2026-10-19 CodexOrig : TASK-025 신규 UI·Markdown·안내 검사를 기본 묶음에 순차 연결.
 -------------------------------------------------------------------------
 #>
 [CmdletBinding()]
@@ -62,6 +63,22 @@ try {
     if ($Suite -eq 'image-followup') {
         $followupDirectory = Join-Path $OutputDirectory 'task022'
         & (Join-Path $launcherRoot 'tests\task022\Test-Task022.ps1') -AssemblyPath $AssemblyPath -OutputDirectory $followupDirectory
+        if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+        if (!$?) { exit 1 }
+        $latestDirectory = Join-Path $OutputDirectory 'task024'
+        & (Join-Path $launcherRoot 'tests\task024\Test-Task024.ps1') -AssemblyPath $AssemblyPath -OutputDirectory $latestDirectory
+        if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+        if (!$?) { exit 1 }
+        $themeDirectory = Join-Path $OutputDirectory 'task026'
+        & (Join-Path $launcherRoot 'tests\task026\Test-Task026.ps1') -AssemblyPath $AssemblyPath -OutputDirectory $themeDirectory
+        if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+        if (!$?) { exit 1 }
+        $auditDirectory = Join-Path $OutputDirectory 'audit-followup'
+        & (Join-Path $launcherRoot 'tests\task024\Test-MarkdownAuditFollowup.ps1') -AssemblyPath $AssemblyPath -OutputDirectory $auditDirectory
+        if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+        if (!$?) { exit 1 }
+        $documentUiDirectory = Join-Path $OutputDirectory 'document-ui'
+        & (Join-Path $launcherRoot 'tests\task026\Test-DocumentUi.ps1') -AssemblyPath $AssemblyPath -OutputDirectory $documentUiDirectory
         if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
         if (!$?) { exit 1 }
     }

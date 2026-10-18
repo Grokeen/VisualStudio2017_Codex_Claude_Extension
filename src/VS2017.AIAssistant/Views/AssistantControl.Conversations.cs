@@ -47,6 +47,7 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexOrig
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : 창 크기 변경으로 사용자가 저장한 목록 폭을 덮어쓰지 않음.
+        ///                2026-10-19 CodexCode : 좁은 목록 overlay의 scrim과 포커스 수명을 같은 배치에서 갱신.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void ApplyHistoryLayout()
@@ -65,6 +66,7 @@ namespace VS2017.AIAssistant.Views
             System.Windows.Controls.Grid.SetRowSpan(HistoryPanel, narrow ? 1 : 3);
             if (narrow) HistoryPanel.HorizontalAlignment = HorizontalAlignment.Left;
             HistorySplitter.Visibility = visible && !narrow ? Visibility.Visible : Visibility.Collapsed;
+            UpdateHistoryOverlay();
         }
 
         /// ---------------------------------------------------------------------

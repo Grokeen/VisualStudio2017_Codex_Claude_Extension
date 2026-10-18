@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -33,6 +33,7 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 창 크기 제한·키보드 순환·테마와 선택 오류 구역 추가.
+        ///                2026-10-19 CodexOrig4 : 열린 모델·권한 팝업의 표면·본문·오류를 주 화면 팔레트에 동적으로 연결.
         /// </summary>
         /// ---------------------------------------------------------------------
         private bool ShowDropdown(FrameworkElement anchor, string title, UIElement content, UIElement navigation = null, UIElement footer = null)
@@ -52,11 +53,14 @@ namespace VS2017.AIAssistant.Views
             var scroll = new ScrollViewer { Content = content, VerticalScrollBarVisibility = ScrollBarVisibility.Auto, HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled };
             Grid.SetRow(scroll, 2); panel.Children.Add(scroll);
             if (footer != null) { Grid.SetRow(footer, 3); panel.Children.Add(footer); }
-            dropdownMessage = new TextBlock { TextWrapping = TextWrapping.Wrap, Foreground = Brushes.LightSalmon, Margin = new Thickness(0, 10, 0, 0) };
+            dropdownMessage = new TextBlock { TextWrapping = TextWrapping.Wrap, Margin = new Thickness(0, 10, 0, 0) };
+            dropdownMessage.SetResourceReference(TextBlock.ForegroundProperty, "AssistantErrorBrush");
             Grid.SetRow(dropdownMessage, 4); panel.Children.Add(dropdownMessage);
-            var surface = new Border { Background = new SolidColorBrush(Color.FromRgb(37, 37, 37)), BorderBrush = new SolidColorBrush(Color.FromRgb(78, 78, 78)), BorderThickness = new Thickness(1), CornerRadius = new CornerRadius(12), Padding = new Thickness(16), Width = Math.Min(370, SystemParameters.WorkArea.Width - 24), Child = panel };
+            var surface = new Border { BorderThickness = new Thickness(1), CornerRadius = new CornerRadius(12), Padding = new Thickness(16), Width = Math.Min(370, SystemParameters.WorkArea.Width - 24), Child = panel };
             surface.Resources.MergedDictionaries.Add(Resources);
-            surface.SetResourceReference(ForegroundProperty, Microsoft.VisualStudio.Shell.VsBrushes.ToolWindowTextKey);
+            surface.SetResourceReference(Border.BackgroundProperty, "AssistantPopupBackgroundBrush");
+            surface.SetResourceReference(Border.BorderBrushProperty, "AssistantPopupBorderBrush");
+            surface.SetResourceReference(ForegroundProperty, "AssistantForegroundBrush");
             KeyboardNavigation.SetTabNavigation(surface, KeyboardNavigationMode.Cycle);
             surface.PreviewKeyDown += (s, e) => { if (e.Key == Key.Escape) { CloseDropdown(); anchor.Focus(); e.Handled = true; } };
             dropdownPopup = new Popup { PlacementTarget = anchor, Placement = PlacementMode.Top, VerticalOffset = -7, AllowsTransparency = true, StaysOpen = false, PopupAnimation = PopupAnimation.Fade, Child = surface };
@@ -87,6 +91,7 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 이미지의 버튼 연결 선택 창과 잘못된 모델 조합 차단.
+        ///                2026-10-19 CodexOrig4 : 강도·모델설명·고정 하단 영역도 같은 동적 팔레트 사용.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void ShowModelDropdown(FrameworkElement anchor)
@@ -96,10 +101,12 @@ namespace VS2017.AIAssistant.Views
             var model = new ComboBox { IsEditable = true, IsTextSearchEnabled = false, Text = ModelName.Text, Margin = new Thickness(0, 4, 0, 16), MinWidth = 160 };
             model.Items.Add(""); foreach (var entry in catalog.Models) model.Items.Add(entry.Id);
             panel.Children.Add(new TextBlock { Text = "☷ 상세 모델 · 직접 입력 가능", FontWeight = FontWeights.SemiBold }); panel.Children.Add(model);
-            var label = new TextBlock { FontSize = 19, Foreground = new SolidColorBrush(Color.FromRgb(159, 181, 255)), Margin = new Thickness(0, 4, 0, 8) };
+            var label = new TextBlock { FontSize = 19, Margin = new Thickness(0, 4, 0, 8) };
+            label.SetResourceReference(TextBlock.ForegroundProperty, "AssistantLinkBrush");
             var gauge = new Slider { Minimum = 0, SmallChange = 1, LargeChange = 1, TickFrequency = 1, IsSnapToTickEnabled = true, TickPlacement = TickPlacement.BottomRight, ToolTip = "생각 강도 · 화살표 키로 조절", Margin = new Thickness(4, 4, 4, 20), Style = (Style)FindResource("EffortGauge") };
             var fast = new CheckBox { Content = "ϟ Fast · 빠른 응답", Margin = new Thickness(0, 8, 0, 10) };
-            var details = new TextBlock { TextWrapping = TextWrapping.Wrap, Foreground = Brushes.Silver, FontSize = 12, Margin = new Thickness(0, 0, 0, 16) };
+            var details = new TextBlock { TextWrapping = TextWrapping.Wrap, FontSize = 12, Margin = new Thickness(0, 0, 0, 16) };
+            details.SetResourceReference(TextBlock.ForegroundProperty, "AssistantMutedForegroundBrush");
             string[] levels = new string[0]; bool updating = false;
             Action refresh = () => {
                 updating = true;
@@ -127,7 +134,8 @@ namespace VS2017.AIAssistant.Views
                     ModelName.Text = option.Model; CloseDropdown(); RefreshExperience();
                 } catch (Exception error) { if (dropdownMessage != null) dropdownMessage.Text = error.Message; }
             };
-            var footer = new Border { Background = new SolidColorBrush(Color.FromRgb(27, 27, 27)), Padding = new Thickness(10), Margin = new Thickness(0, 12, 0, 0), CornerRadius = new CornerRadius(6), Child = apply };
+            var footer = new Border { Padding = new Thickness(10), Margin = new Thickness(0, 12, 0, 0), CornerRadius = new CornerRadius(6), Child = apply };
+            footer.SetResourceReference(Border.BackgroundProperty, "AssistantSurfaceBrush");
             var navigation = new WrapPanel { Margin = new Thickness(0, 0, 0, 12) };
             foreach (var item in new[] { new { Title = "☷ 모델", Target = (FrameworkElement)model }, new { Title = "◉ 강도", Target = (FrameworkElement)gauge }, new { Title = "ϟ 속도", Target = (FrameworkElement)fast } }) {
                 var target = item.Target; var jump = new Button { Content = item.Title, Margin = new Thickness(0, 0, 6, 6), Padding = new Thickness(7, 4, 7, 4) };
@@ -159,6 +167,7 @@ namespace VS2017.AIAssistant.Views
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 이미지9의 드롭다운과 실제 작업 개별 승인 경계 유지.
         /// update date  : 2026-10-18 CodexCode : TASK-021 추가 이미지 요구와 감사 보완 흐름 반영.
+        ///                2026-10-19 CodexOrig4 : 권한 설명을 동적 보조 텍스트 자원으로 통일.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void PermissionsClicked(object sender, RoutedEventArgs e)
@@ -180,7 +189,8 @@ namespace VS2017.AIAssistant.Views
                     } catch (Exception error) { workspacePolicy = previousPolicy; if (dropdownMessage != null) dropdownMessage.Text = error.Message; }
                 }; body.Children.Add(pick);
             }
-            body.Children.Add(new TextBlock { Text = "승인 요청: AI가 수정안을 제안하고 사용자가 비교·적용·저장합니다.\n작업 도구 허용: 같은 검토 방식에 DB 스키마·형상관리 도구를 추가합니다.\n전체 액세스: AI가 소스를 직접 수정하고 명령·빌드·테스트를 이어서 실행합니다. 현재 Windows 사용자에게 허용된 파일과 네트워크에 접근하며 관리자 권한을 자동 획득하지 않습니다.\n요청 중에는 ■ 중지로 실행을 취소할 수 있습니다. 실행된 파일 변경은 변경 카드에서 확인하세요. 다음 요청 전에 권한을 다시 낮출 수 있습니다.", TextWrapping = TextWrapping.Wrap, Foreground = Brushes.Silver, FontSize = 12, Margin = new Thickness(0, 4, 0, 16) });
+            var permissionDescription = CreateThemedDescription("승인 요청: AI가 수정안을 제안하고 사용자가 비교·적용·저장합니다.\n작업 도구 허용: 같은 검토 방식에 DB 스키마·형상관리 도구를 추가합니다.\n전체 액세스: AI가 소스를 직접 수정하고 명령·빌드·테스트를 이어서 실행합니다. 현재 Windows 사용자에게 허용된 파일과 네트워크에 접근하며 관리자 권한을 자동 획득하지 않습니다.\n요청 중에는 ■ 중지로 실행을 취소할 수 있습니다. 실행된 파일 변경은 변경 카드에서 확인하세요. 다음 요청 전에 권한을 다시 낮출 수 있습니다.", new Thickness(0, 4, 0, 16));
+            permissionDescription.FontSize = 12; body.Children.Add(permissionDescription);
             var actions = new Button { Content = "⚒ DB·형상관리·배포 작업 열기" };
             actions.Click += (s, a) => { CloseDropdown(); OpenWorkspaceActions(s, a); }; body.Children.Add(actions);
             ShowDropdown(PermissionsButton, "⚿ 작업 권한", body);
@@ -206,7 +216,8 @@ namespace VS2017.AIAssistant.Views
                     var button = new Button { Content = (activeRecords[selectedProvider].Id == agent.ConversationId ? "✓ " : "○ ") + agent.Name, ToolTip = agent.Role, HorizontalContentAlignment = HorizontalAlignment.Left, Margin = new Thickness(0, 0, 0, 7) };
                     button.Click += (s, a) => { if (ActivateAssignedAgent(target)) CloseDropdown(); }; body.Children.Add(button);
                 }
-                body.Children.Add(new TextBlock { Text = "선택한 AI의 대화로 이동합니다. AI마다 역할·기록을 유지하며 A~Z를 모두 사용하면 A에게 이어서 지시합니다.", TextWrapping = TextWrapping.Wrap, FontSize = 12, Foreground = Brushes.Silver, Margin = new Thickness(0, 10, 0, 14) });
+                var agentDescription = CreateThemedDescription("선택한 AI의 대화로 이동합니다. AI마다 역할·기록을 유지하며 A~Z를 모두 사용하면 A에게 이어서 지시합니다.", new Thickness(0, 10, 0, 14));
+                agentDescription.FontSize = 12; body.Children.Add(agentDescription);
                 var configure = new Button { Content = "⚙ 역할·협업 설정" }; configure.Click += (s, a) => { CloseDropdown(); AgentClicked(s, a); }; body.Children.Add(configure);
                 var refresh = new Button { Content = "↻ 계정 이름 다시 확인", Margin = new Thickness(0, 8, 0, 0) };
                 refresh.Click += RefreshScmClicked;

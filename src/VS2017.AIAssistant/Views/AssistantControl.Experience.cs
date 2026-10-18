@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
@@ -98,12 +98,13 @@ namespace VS2017.AIAssistant.Views
         /// update date  : 2026-10-18 CodexCode : TASK-017 이미지 분석 기반 드롭다운·안내·대화 지정 흐름 개선.
         /// update date  : 2026-10-18 CodexCode : TASK-021 추가 이미지 요구와 감사 보완 흐름 반영.
         /// update date  : 2026-10-18 CodexCode : TASK-022 최초 로드에서 필수 숨김 instruction 관리 사본 준비.
+        ///                2026-10-19 CodexOrig4 : 테마 선택을 초기화하여 IDE/Windows 자동 모드와 개인 선택 적용.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void InitializeExperience(AssistantSettings settings)
         {
-            Resources[VsBrushes.ToolWindowBackgroundKey] = new SolidColorBrush(Color.FromRgb(23, 23, 23));
-            Resources[VsBrushes.ToolWindowTextKey] = new SolidColorBrush(Color.FromRgb(235, 235, 235));
+            Dispatcher.VerifyAccess();
+            InitializeTheme(settings);
             Instruction.Background = Brushes.Transparent;
             efforts["Codex"] = ValidEffort(settings.CodexEffort); efforts["Claude"] = ValidEffort(settings.ClaudeEffort);
             speeds["Codex"] = settings.CodexSpeed; speeds["Claude"] = settings.ClaudeSpeed;
@@ -454,6 +455,7 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : Role 추가 사용자 흐름 구현.
+        ///                2026-10-19 CodexOrig4 : 오류·일반 상태 문구를 테마의 의미별 자원으로 통일.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void StatusChanged(object sender, EventArgs e)
@@ -461,7 +463,7 @@ namespace VS2017.AIAssistant.Views
             if (disposed || !experienceReady || string.IsNullOrEmpty(StatusLabel.Text)) return;
             notifications.Add(StatusLabel.Text); while (notifications.Count > 20) notifications.RemoveAt(0);
             toastVersion++; toastTimer.Stop(); ToastHost.BeginAnimation(OpacityProperty, null); ToastHost.Opacity = 1; ToastHost.Visibility = Visibility.Visible;
-            StatusLabel.Foreground = StatusLabel.Text.Contains("실패") || StatusLabel.Text.Contains("오류") ? Brushes.LightSalmon : Brushes.WhiteSmoke;
+            StatusLabel.SetResourceReference(TextBlock.ForegroundProperty, StatusLabel.Text.Contains("실패") || StatusLabel.Text.Contains("오류") ? "AssistantErrorBrush" : "AssistantForegroundBrush");
             ToastHost.BeginAnimation(OpacityProperty, new DoubleAnimation(0, 1, TimeSpan.FromMilliseconds(180))); toastTimer.Start();
         }
         /// ---------------------------------------------------------------------
@@ -593,6 +595,7 @@ namespace VS2017.AIAssistant.Views
         /// update date  : 2026-10-18 CodexCode : TASK-017 이미지 분석 기반 드롭다운·안내·대화 지정 흐름 개선.
         /// update date  : 2026-10-18 CodexCode : TASK-021 추가 이미지 요구와 감사 보완 흐름 반영.
         /// update date  : 2026-10-18 CodexCode : TASK-022 PDF WebView·설치 확인 화면 진입 및 중복 창 방지.
+        ///                2026-10-19 CodexCode : 청록색 설치 동작 스타일로 PDF·CLI 진입을 구분.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void CliHelpClicked(object sender, RoutedEventArgs e)
@@ -602,7 +605,7 @@ namespace VS2017.AIAssistant.Views
             if (activeCliSetupDialog != null) { activeCliSetupDialog.Activate(); return; }
             var dialog = new AssistantDialog(this, "⚙ CLI 환경 설정", "카드를 선택하면 단계별 상세 그림을 볼 수 있습니다.");
             dialog.SetGuide(AssistantHelpContent.CliSetupSteps(selectedProvider));
-            var manual = new Button { Content = "▤ PDF 설명서 · CLI 설치", Margin = new Thickness(0, 0, 8, 0), ToolTip = "동봉된 설치·사용 설명서와 설치 확인 화면을 엽니다." };
+            var manual = new Button { Content = "▤ PDF 설명서 · CLI 설치", Style = (Style)FindResource("InstallActionButton"), Margin = new Thickness(0, 0, 8, 0), ToolTip = "동봉된 설치·사용 설명서와 설치 확인 화면을 엽니다." };
             manual.Click += (buttonSender, args) =>
             {
                 Dispatcher.VerifyAccess();
@@ -671,13 +674,14 @@ namespace VS2017.AIAssistant.Views
         /// update date  : 2026-10-18 CodexOrig : TASK-016 문서 첨부·모델 설정·AI 역할 협업과 실패 복구 흐름 연결.
         /// update date  : 2026-10-18 CodexCode : TASK-017 이미지 분석 기반 드롭다운·안내·대화 지정 흐름 개선.
         /// update date  : 2026-10-18 CodexCode : TASK-022 진행 팝업·대화 viewport 수명 정리 연결.
+        ///                2026-10-19 CodexOrig4 : 테마 static 이벤트 및 Loaded/Unloaded 구독 해제.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void DisposeExperience()
         {
             // TASK-022: 진행 팝업과 대화 스크롤의 지연 콜백도 창 수명 안에서 해제한다.
             CloseDropdown(); CloseProgressNotices(); DisposeConversationViewport();
-            DisposeFanMenu(); DisposeRuntime(); UpdateThinkingAnimation(false);
+            DisposeFanMenu(); DisposeRuntime(); UpdateThinkingAnimation(false); DisposeTheme();
             if (!experienceReady) return;
             var active = activeRecords[selectedProvider];
             if (active.State == ConversationRunState.Running) { active.State = ConversationRunState.Stopped; active.HasUnread = true; }

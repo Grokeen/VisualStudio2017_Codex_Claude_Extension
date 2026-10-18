@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -37,6 +37,7 @@ namespace VS2017.AIAssistant.Views
         /// ---------------------------------------------------------------------
         private void InitializeDialogs(bool hidden)
         {
+            Dispatcher.VerifyAccess();
             hideWelcome = hidden; ContextMenu = CreateAssistantMenu(null);
             foreach (var box in new TextBoxBase[] { Instruction, ExecutablePath, ModelName, RulesText, DiffPreview, OriginalPreview, ProposedPreview, ColoredDiffPreview })
                 box.ContextMenu = CreateAssistantMenu(box);
@@ -56,6 +57,7 @@ namespace VS2017.AIAssistant.Views
         /// ---------------------------------------------------------------------
         private void ChildLoaded(object sender, RoutedEventArgs e)
         {
+            Dispatcher.VerifyAccess();
             var box = e.OriginalSource as TextBoxBase;
             if (box != null && box.ReadLocalValue(ContextMenuProperty) == DependencyProperty.UnsetValue) box.ContextMenu = CreateAssistantMenu(box);
         }
@@ -69,10 +71,12 @@ namespace VS2017.AIAssistant.Views
         /// update date  : 2026-10-18 CodexOrig : 팝업 메뉴에도 동일한 VS 테마 리소스 적용.
         /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// update date  : 2026-10-18 CodexCode : TASK-022 독립 Popup에도 명시한 검정 메뉴 템플릿 적용.
+        ///                2026-10-19 CodexOrig4 : TASK024 Markdown 편집·미리보기 우클릭 연결 이력과 공통 테마 메뉴 보존.
         /// </summary>
         /// ---------------------------------------------------------------------
         private ContextMenu CreateAssistantMenu(TextBoxBase box)
         {
+            Dispatcher.VerifyAccess();
             var menu = new ContextMenu(); menu.Resources.MergedDictionaries.Add(Resources);
             menu.Style = (Style)FindResource("AssistantContextMenu");
             if (box != null)
@@ -83,11 +87,20 @@ namespace VS2017.AIAssistant.Views
                 menu.Items.Add(new MenuItem { Header = "모두 선택", Command = ApplicationCommands.SelectAll, CommandTarget = box });
                 menu.Items.Add(new Separator());
             }
+            if (ReferenceEquals(box, Instruction) || ReferenceEquals(box, RulesText))
+            {
+                var markdown = new MenuItem { Header = "Markdown 작성 · 미리보기", Icon = new TextBlock { Text = "M↓", FontWeight = FontWeights.Bold } };
+                markdown.Click += (sender, args) => { Dispatcher.VerifyAccess(); OpenMarkdownEditor((TextBox)box, ReferenceEquals(box, RulesText) ? "✎ 공통 규칙 Markdown" : "✎ 요청 Markdown"); };
+                menu.Opened += (sender, args) => markdown.IsEnabled = !busy && !disposed;
+                menu.Items.Add(markdown); menu.Items.Add(new Separator());
+            }
             var settings = new MenuItem { Header = "설정", Icon = new TextBlock { Text = "⚙" } };
             var help = new MenuItem { Header = "사용 안내", Icon = new TextBlock { Text = "?" } };
+            var markdownDocument = new MenuItem { Header = "Markdown 문서 작성", Icon = new TextBlock { Text = "M↓", FontWeight = FontWeights.Bold } };
+            markdownDocument.Click += MarkdownDocumentClicked;
             settings.Click += SettingsClicked; help.Click += HelpClicked;
-            menu.Opened += (sender, args) => { settings.IsEnabled = help.IsEnabled = !busy && !disposed; };
-            menu.Items.Add(settings); menu.Items.Add(help);
+            menu.Opened += (sender, args) => { settings.IsEnabled = help.IsEnabled = markdownDocument.IsEnabled = !busy && !disposed; };
+            menu.Items.Add(settings); menu.Items.Add(help); menu.Items.Add(markdownDocument);
             var recent = new MenuItem { Header = "최근 알림", Icon = new TextBlock { Text = "ⓘ" } };
             recent.Click += RecentNotificationsClicked; menu.Items.Add(recent); return menu;
         }
@@ -109,6 +122,7 @@ namespace VS2017.AIAssistant.Views
             var timer = new DispatcherTimer(DispatcherPriority.ContextIdle, Dispatcher) { Interval = TimeSpan.FromMilliseconds(1) };
             timer.Tick += (timerSender, args) =>
             {
+                Dispatcher.VerifyAccess();
                 timer.Stop();
                 if (!disposed && !hideWelcome && IsVisible) ShowUsageGuide();
             };
@@ -125,6 +139,7 @@ namespace VS2017.AIAssistant.Views
         /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// update date  : 2026-10-18 CodexOrig : TASK-014 설정 저장 시 사용자가 조절한 대화 목록 배치를 보존.
         /// update date  : 2026-10-18 CodexOrig : TASK-016 문서 첨부·모델 설정·AI 역할 협업과 실패 복구 흐름 연결.
+        ///                2026-10-19 CodexOrig4 : 화면 모드 선택도 기존 명시 저장 및 취소 스냅샷에 포함.
         /// </summary>
         /// ---------------------------------------------------------------------
         private AssistantSettings CaptureSettings()
@@ -134,7 +149,7 @@ namespace VS2017.AIAssistant.Views
                 ClaudePath = selectedProvider == "Claude" ? ExecutablePath.Text : executablePaths["Claude"],
                 CodexModel = selectedProvider == "Codex" ? ModelName.Text : models["Codex"],
                 ClaudeModel = selectedProvider == "Claude" ? ModelName.Text : models["Claude"],
-                Instructions = RulesText.Text, FontSize = FontSize, HideWelcome = hideWelcome,
+                Instructions = RulesText.Text, FontSize = FontSize, ThemeMode = themeMode, HideWelcome = hideWelcome,
                 CodexEffort = efforts.ContainsKey("Codex") ? efforts["Codex"] : "auto", ClaudeEffort = efforts.ContainsKey("Claude") ? efforts["Claude"] : "auto",
                 CodexSpeed = speeds["Codex"], ClaudeSpeed = speeds["Claude"],
                 AllowSourceControl = workspacePolicy.AllowSourceControl, AllowDatabaseSchema = workspacePolicy.AllowDatabaseSchema, AllowDeployment = workspacePolicy.AllowDeployment,
@@ -152,10 +167,12 @@ namespace VS2017.AIAssistant.Views
         /// update date  : 2026-10-18 CodexOrig : 저장 성공 후 닫기·취소·Esc·연결 확인 중 닫기 처리.
         /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// update date  : 2026-10-18 CodexCode : TASK-017 이미지 분석 기반 드롭다운·안내·대화 지정 흐름 개선.
+        ///                2026-10-19 CodexOrig4 : 취소·Esc·창 닫기에서 테마 미리보기를 이전 선택으로 복구.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void SettingsClicked(object sender, RoutedEventArgs e)
         {
+            Dispatcher.VerifyAccess();
             if (busy || disposed) return;
             CloseFan();
             if (activeSettingsDialog != null) { activeSettingsDialog.Activate(); return; }
@@ -176,7 +193,7 @@ namespace VS2017.AIAssistant.Views
                     models["Codex"] = before.CodexModel; models["Claude"] = before.ClaudeModel;
                     ExecutablePath.Text = selectedProvider == "Codex" ? before.CodexPath : before.ClaudePath;
                     ModelName.Text = selectedProvider == "Codex" ? before.CodexModel : before.ClaudeModel;
-                    RulesText.Text = before.Instructions; FontSize = before.FontSize;
+                    RulesText.Text = before.Instructions; FontSize = before.FontSize; RestoreThemeMode(before.ThemeMode);
                     TextSizeChoice.SelectedValue = before.FontSize.ToString(System.Globalization.CultureInfo.InvariantCulture);
                     RefreshExperience();
                     StatusLabel.Text = "설정 변경을 취소했습니다.";
@@ -201,7 +218,7 @@ namespace VS2017.AIAssistant.Views
         /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// </summary>
         /// ---------------------------------------------------------------------
-        private void HelpClicked(object sender, RoutedEventArgs e) { if (!busy && !disposed) ShowUsageGuide(); }
+        private void HelpClicked(object sender, RoutedEventArgs e) { Dispatcher.VerifyAccess(); if (!busy && !disposed) ShowUsageGuide(); }
 
         /// ---------------------------------------------------------------------
         /// <summary>
@@ -215,6 +232,7 @@ namespace VS2017.AIAssistant.Views
         /// ---------------------------------------------------------------------
         private void ShowUsageGuide()
         {
+            Dispatcher.VerifyAccess();
             if (activeGuide != null) { activeGuide.Activate(); return; }
             var guide = new GettingStartedDialog(this, hideWelcome); activeGuide = guide;
             guide.Closing += (sender, args) =>
@@ -241,11 +259,14 @@ namespace VS2017.AIAssistant.Views
         /// update date  : 2026-10-18 CodexOrig : IDE 종료 시 안내 설정 쓰기는 생략.
         /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// update date  : 2026-10-18 CodexCode : TASK-022 설치 설명서 WebView와 상위 안내 창도 종료.
+        ///                2026-10-19 CodexCode : Markdown 작성 창도 소유 팝업과 함께 닫아 종료 후 초안 변경 방지.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void CloseDialogs()
         {
-            foreach (var dialog in new Window[] { activeCliManualDialog, activeCliSetupDialog, activeGuide, activeSettingsDialog })
+            Dispatcher.VerifyAccess();
+            CloseAccountLoginDialog();
+            foreach (var dialog in new Window[] { activeMarkdownDialog, activeCliManualDialog, activeCliSetupDialog, activeGuide, activeSettingsDialog })
             {
                 if (dialog == null) continue;
                 try { dialog.Close(); }

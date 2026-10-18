@@ -42,10 +42,12 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.4191.47" />
+    <PackageReference Include="AvalonEdit" Version="6.3.1.120" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Xml" />
@@ -134,6 +136,60 @@
     </Compile>
     <Compile Include="..\VS2017.AIAssistant\Views\ProgressNotice.cs">
       <Link>Views\ProgressNotice.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Views\MarkdownPreview.cs">
+      <Link>Views\MarkdownPreview.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Views\MarkdownRendering.cs">
+      <Link>Views\MarkdownRendering.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Views\MarkdownRendering.Html.cs">
+      <Link>Views\MarkdownRendering.Html.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Views\MarkdownEditor.cs">
+      <Link>Views\MarkdownEditor.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Views\MarkdownEditor.Documents.cs">
+      <Link>Views\MarkdownEditor.Documents.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Views\MarkdownnEditing.cs">
+      <Link>Views\MarkdownnEditing.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Views\MarkdownnCodeHighlighting.cs">
+      <Link>Views\MarkdownnCodeHighlighting.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Views\MarkdownAnimatedImage.cs">
+      <Link>Views\MarkdownAnimatedImage.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Views\AssistantControl.Markdown.cs">
+      <Link>Views\AssistantControl.Markdown.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Views\AssistantControl.AccountLogin.cs">
+      <Link>Views\AssistantControl.AccountLogin.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Views\AssistantPalette.cs">
+      <Link>Views\AssistantPalette.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Views\AssistantThemePolicy.cs">
+      <Link>Views\AssistantThemePolicy.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Views\AssistantControl.Theme.cs">
+      <Link>Views\AssistantControl.Theme.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Views\AssistantGuideDetails.cs">
+      <Link>Views\AssistantGuideDetails.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Views\AssistantGuideMedia.cs">
+      <Link>Views\AssistantGuideMedia.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Views\DiffPreviewPresenter.cs">
+      <Link>Views\DiffPreviewPresenter.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Views\ChangeDiffPopup.cs">
+      <Link>Views\ChangeDiffPopup.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Views\AssistantControl.HistoryOverlay.cs">
+      <Link>Views\AssistantControl.HistoryOverlay.cs</Link>
     </Compile>
     <Compile Include="..\VS2017.AIAssistant\Views\AssistantControl.Thinking.cs">
       <Link>Views\AssistantControl.Thinking.cs</Link>
@@ -237,6 +293,15 @@
     <None Include="..\VS2017.AIAssistant\Assets\THIRD-PARTY-NOTICES.md">
       <Link>Assets\THIRD-PARTY-NOTICES.md</Link>
     </None>
+    <EmbeddedResource Include="..\VS2017.AIAssistant\Assets\MarkdownnHighlighting.xshd">
+      <LogicalName>VS2017.AIAssistant.MarkdownnHighlighting.xshd</LogicalName>
+      <Link>Assets\MarkdownnHighlighting.xshd</Link>
+    </EmbeddedResource>
+    <Content Include="..\VS2017.AIAssistant\Assets\ThirdParty\AvalonEdit\LICENSE.txt">
+      <Link>Resources\ThirdParty\AvalonEdit\LICENSE.txt</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
     <Content Include="..\..\HowToInstallCLI.md">
       <Link>Resources\CliGuide\HowToInstallCLI.md</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -254,6 +319,16 @@
     </Content>
     <Content Include="..\..\docs\assets\cli-manual\*.png">
       <Link>Resources\CliGuide\docs\assets\cli-manual\%(Filename)%(Extension)</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="..\..\docs\assets\guide-media\*.gif">
+      <Link>Resources\GuideMedia\%(Filename)%(Extension)</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="..\..\docs\assets\guide-media\*.png">
+      <Link>Resources\GuideMedia\%(Filename)%(Extension)</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>

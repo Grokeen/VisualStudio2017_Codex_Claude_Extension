@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -14,6 +14,7 @@ namespace CodexCode.Task022
     /// desc         : 표시되지 않은 메모리 컨트롤의 중앙 배치 결과를 보관한다.
     /// author       : CodexCode
     /// create date  : 2026-10-18
+    /// update date  : 2026-10-19 CodexOrig : TASK025 Markdown 본문·고정 복귀·명시 Dark 팔레트의 최신 UI 계약 검증.
     /// update date  : 2026-10-18 CodexCode : TASK-022 실제 GUI 실행 없이 좌표 증거 기록.
     /// </summary>
     /// ---------------------------------------------------------------------
@@ -174,8 +175,10 @@ namespace CodexCode.Task022
                 var surface = (Border)cards[0].Content; var paragraphs = (StackPanel)surface.Child;
                 Check(result, paragraphs.Children.OfType<TextBlock>().All(text => text.TextAlignment == TextAlignment.Left), "Long help paragraphs retain reading alignment");
                 gallery.GetType().GetMethod("ShowDetail", flags).Invoke(gallery, new[] { cards[0].DataContext, cards[0] });
-                var detail = (StackPanel)((ScrollViewer)gallery.Content).Content;
-                CheckCommand(result, detail.Children.OfType<Button>().Single(), "Back-to-guide command content is centered");
+                var detail = (Grid)gallery.Content;
+                var back = detail.Children.OfType<Button>().Single();
+                CheckCommand(result, back, "Back-to-guide command content is centered");
+                Check(result, !detail.Children.OfType<ScrollViewer>().Single().IsAncestorOf(back), "Back-to-guide command stays outside the detail scroll surface");
                 Check(result, !source.IsLoaded && System.Windows.PresentationSource.FromVisual(source) == null && !dialog.IsLoaded && !guide.IsLoaded, "No source/dialog is loaded or attached to a presentation surface");
                 result.Succeeded = result.Failures.Count == 0;
             }

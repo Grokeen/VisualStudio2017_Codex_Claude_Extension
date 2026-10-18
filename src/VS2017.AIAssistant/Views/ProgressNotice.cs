@@ -310,6 +310,7 @@ namespace VS2017.AIAssistant.Views
         private readonly Button header;
         private readonly TextBlock title, summary, detailsSummary, archived, limit;
         private readonly ItemsControl rows;
+        private readonly ScrollViewer detailsScroll;
         private readonly Border popupBody;
         private readonly Popup popup;
         private readonly DispatcherTimer closeTimer;
@@ -325,6 +326,7 @@ namespace VS2017.AIAssistant.Views
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 마우스로 Popup에 진입할 시간을 주고 click·Escape 접근 지원.
         ///                2026-10-18 CodexCode : hover 중 native capture가 anchor 이탈을 만들지 않게 자체 수명 관리만 사용.
+        ///                2026-10-19 CodexCode : TASK024 제목 고정·유한 상세 영역과 휠 우선 소비 추가.
         /// </summary>
         /// ---------------------------------------------------------------------
         public ProgressNoticePresenter()
@@ -341,13 +343,21 @@ namespace VS2017.AIAssistant.Views
             Content = new Border { BorderBrush = new SolidColorBrush(Color.FromRgb(62, 68, 79)), BorderThickness = new Thickness(1), CornerRadius = new CornerRadius(8), Background = new SolidColorBrush(Color.FromRgb(33, 36, 42)), Child = header };
             var body = new StackPanel(); var top = new DockPanel();
             var close = new Button { Content = "×", Width = 26, Height = 26, Padding = new Thickness(0), Background = Brushes.Transparent, BorderThickness = new Thickness(0), Foreground = Brushes.Gainsboro, ToolTip = "작업 상세 닫기 (Escape)" }; DockPanel.SetDock(close, Dock.Right); top.Children.Add(close);
-            top.Children.Add(new TextBlock { Text = "공개 작업 내역", FontWeight = FontWeights.Bold, VerticalAlignment = VerticalAlignment.Center }); body.Children.Add(top);
-            detailsSummary = new TextBlock { TextWrapping = TextWrapping.Wrap, Foreground = new SolidColorBrush(Color.FromRgb(184, 202, 237)), Margin = new Thickness(0, 7, 0, 7) }; body.Children.Add(detailsSummary);
+            top.Children.Add(new TextBlock { Text = "공개 작업 내역", FontWeight = FontWeights.Bold, VerticalAlignment = VerticalAlignment.Center });
+            detailsSummary = new TextBlock { TextWrapping = TextWrapping.Wrap, Foreground = new SolidColorBrush(Color.FromRgb(184, 202, 237)), Margin = new Thickness(0, 7, 0, 7) };
             rows = new ItemsControl { ItemTemplate = StepTemplate() }; body.Children.Add(rows);
             archived = new TextBlock { TextWrapping = TextWrapping.Wrap }; body.Children.Add(archived);
             limit = new TextBlock { Text = "일부 작업은 표시 한도로 생략했습니다.", TextWrapping = TextWrapping.Wrap, Foreground = Brushes.Khaki, Margin = new Thickness(0, 5, 0, 0) }; body.Children.Add(limit);
-            popupBody = new Border { Background = new SolidColorBrush(Color.FromRgb(37, 39, 44)), BorderBrush = new SolidColorBrush(Color.FromRgb(81, 88, 103)), BorderThickness = new Thickness(1), CornerRadius = new CornerRadius(8), Padding = new Thickness(11), Child = new ScrollViewer { MaxHeight = 280, VerticalScrollBarVisibility = ScrollBarVisibility.Auto, HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled, Content = body } };
+            detailsScroll = new ScrollViewer { MaxHeight = 280, VerticalScrollBarVisibility = ScrollBarVisibility.Auto, HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled, Content = body };
+            var frame = new DockPanel(); DockPanel.SetDock(top, Dock.Top); frame.Children.Add(top); DockPanel.SetDock(detailsSummary, Dock.Top); frame.Children.Add(detailsSummary); frame.Children.Add(detailsScroll);
+            popupBody = new Border { Background = new SolidColorBrush(Color.FromRgb(37, 39, 44)), BorderBrush = new SolidColorBrush(Color.FromRgb(81, 88, 103)), BorderThickness = new Thickness(1), CornerRadius = new CornerRadius(8), Padding = new Thickness(11), Child = frame };
+            popupBody.PreviewMouseWheel += (sender, args) => HoverScrollPolicy.HandleWheel(popupBody, args, true);
             popupBody.SetValue(TextElement.ForegroundProperty, Brushes.Gainsboro);
+            PopupPalette.Attach(this, this); PopupPalette.Attach(popupBody, this);
+            header.SetResourceReference(Control.ForegroundProperty, "AssistantForegroundBrush"); title.SetResourceReference(TextBlock.ForegroundProperty, "AssistantForegroundBrush"); summary.SetResourceReference(TextBlock.ForegroundProperty, "AssistantMutedForegroundBrush");
+            detailsSummary.SetResourceReference(TextBlock.ForegroundProperty, "AssistantLinkBrush"); archived.SetResourceReference(TextBlock.ForegroundProperty, "AssistantForegroundBrush"); limit.SetResourceReference(TextBlock.ForegroundProperty, "AssistantMutedForegroundBrush");
+            close.SetResourceReference(Control.ForegroundProperty, "AssistantForegroundBrush"); popupBody.SetResourceReference(TextElement.ForegroundProperty, "AssistantForegroundBrush"); popupBody.SetResourceReference(Border.BackgroundProperty, "AssistantPopupBackgroundBrush"); popupBody.SetResourceReference(Border.BorderBrushProperty, "AssistantPopupBorderBrush");
+            ((Border)Content).SetResourceReference(Border.BackgroundProperty, "AssistantSurfaceBrush"); ((Border)Content).SetResourceReference(Border.BorderBrushProperty, "AssistantBorderBrush");
             // StaysOpen=false의 native capture는 anchor의 MouseLeave/재진입을 만들어 닫히는 창에 IsOpen만 남길 수 있다.
             // 포인터 이탈은 closeTimer, 키보드는 focus/Escape, 창 전환은 OwnerDeactivated에서 닫는다.
             popup = new Popup { PlacementTarget = header, Placement = PlacementMode.Bottom, AllowsTransparency = true, StaysOpen = true, PopupAnimation = PopupAnimation.Fade, Child = popupBody };
@@ -425,17 +435,35 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 일반 안내 heading을 반복하지 않는 세부 작업 행.
+        ///                2026-10-19 CodexCode : TASK024 긴 작업명은 유한 폭의 DockPanel 안에서 줄바꿈.
         /// </summary>
         /// ---------------------------------------------------------------------
         private static DataTemplate StepTemplate()
         {
             var root = new FrameworkElementFactory(typeof(StackPanel)); root.SetValue(MarginProperty, new Thickness(0, 5, 0, 7));
-            var heading = new FrameworkElementFactory(typeof(StackPanel)); heading.SetValue(StackPanel.OrientationProperty, Orientation.Horizontal);
-            var icon = new FrameworkElementFactory(typeof(TextBlock)); icon.SetBinding(TextBlock.TextProperty, new Binding("Glyph")); icon.SetValue(TextBlock.ForegroundProperty, IconBrush()); icon.SetValue(MarginProperty, new Thickness(0, 0, 7, 0)); heading.AppendChild(icon);
-            var title = new FrameworkElementFactory(typeof(TextBlock)); title.SetBinding(TextBlock.TextProperty, new Binding("Title")); title.SetValue(TextBlock.FontWeightProperty, FontWeights.SemiBold); title.SetBinding(TextBlock.ForegroundProperty, new Binding("Accent")); heading.AppendChild(title); root.AppendChild(heading);
+            var heading = new FrameworkElementFactory(typeof(DockPanel));
+            var icon = new FrameworkElementFactory(typeof(TextBlock)); icon.SetBinding(TextBlock.TextProperty, new Binding("Glyph")); icon.SetValue(TextBlock.ForegroundProperty, IconBrush()); icon.SetValue(MarginProperty, new Thickness(0, 0, 7, 0)); icon.SetValue(DockPanel.DockProperty, Dock.Left); heading.AppendChild(icon);
+            var title = new FrameworkElementFactory(typeof(TextBlock)); title.SetBinding(TextBlock.TextProperty, new Binding("Title")); title.SetValue(TextBlock.FontWeightProperty, FontWeights.SemiBold); title.SetValue(TextBlock.TextWrappingProperty, TextWrapping.Wrap); title.SetValue(StyleProperty, StepAccentStyle()); heading.AppendChild(title); root.AppendChild(heading);
             var detail = new FrameworkElementFactory(typeof(TextBlock)); detail.SetBinding(TextBlock.TextProperty, new Binding("Detail")); detail.SetValue(TextBlock.TextWrappingProperty, TextWrapping.Wrap); detail.SetValue(MarginProperty, new Thickness(21, 3, 0, 0)); root.AppendChild(detail);
-            var state = new FrameworkElementFactory(typeof(TextBlock)); state.SetBinding(TextBlock.TextProperty, new Binding("StatusText")); state.SetBinding(TextBlock.ForegroundProperty, new Binding("Accent")); state.SetValue(TextBlock.FontSizeProperty, 11.0); state.SetValue(MarginProperty, new Thickness(21, 3, 0, 0)); root.AppendChild(state);
+            var state = new FrameworkElementFactory(typeof(TextBlock)); state.SetBinding(TextBlock.TextProperty, new Binding("StatusText")); state.SetValue(StyleProperty, StepAccentStyle()); state.SetValue(TextBlock.FontSizeProperty, 11.0); state.SetValue(MarginProperty, new Thickness(21, 3, 0, 0)); root.AppendChild(state);
             return new DataTemplate(typeof(ProgressStep)) { VisualTree = root };
+        }
+
+        /// <summary>
+        /// name         : StepAccentStyle
+        /// desc         : 상태 의미는 유지하며 각 Light/Dark semantic brush를 동적으로 조회한다.
+        /// author       : CodexCode
+        /// create date  : 2026-10-19
+        /// update date  : 2026-10-19 CodexCode : 저장 모델의 고정 Accent 문자열을 실제 Light 렌더에 강제하지 않음.
+        /// </summary>
+        private static Style StepAccentStyle()
+        {
+            var style = new Style(typeof(TextBlock));
+            style.Setters.Add(new Setter(TextBlock.ForegroundProperty, new DynamicResourceExtension("AssistantMutedForegroundBrush")));
+            string[] states = { "started", "completed", "failed" }, keys = { "AssistantLinkBrush", "AssistantAddedBrush", "AssistantRemovedBrush" };
+            for (int index = 0; index < states.Length; index++)
+            { var trigger = new DataTrigger { Binding = new Binding("State"), Value = states[index] }; trigger.Setters.Add(new Setter(TextBlock.ForegroundProperty, new DynamicResourceExtension(keys[index]))); style.Triggers.Add(trigger); }
+            return style;
         }
 
         /// ---------------------------------------------------------------------
@@ -445,12 +473,15 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 로드되지 않았거나 모델 없는 과거 컨테이너에서는 열지 않음.
+        ///                2026-10-19 CodexCode : TASK024 작업영역 이내의 폭·상세 높이 적용.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void OpenDetails(bool keyboard)
         {
             if (!IsLoaded || Notice == null) return;
-            closeTimer.Stop(); popupBody.Width = Math.Max(160, Math.Min(370, Math.Max(160, ActualWidth)));
+            PopupPalette.Attach(this, this); PopupPalette.Attach(popupBody, this);
+            closeTimer.Stop(); popupBody.Width = Math.Max(160, Math.Min(420, Math.Min(SystemParameters.WorkArea.Width - 24, Math.Max(280, ActualWidth))));
+            detailsScroll.MaxHeight = Math.Max(80, Math.Min(320, SystemParameters.WorkArea.Height - 100));
             popup.IsOpen = true;
             if (keyboard) { pinned = true; popupBody.MoveFocus(new TraversalRequest(FocusNavigationDirection.First)); }
         }
@@ -490,6 +521,7 @@ namespace VS2017.AIAssistant.Views
         /// ---------------------------------------------------------------------
         private void PresenterLoaded(object sender, RoutedEventArgs args)
         {
+            PopupPalette.Attach(this, this); PopupPalette.Attach(popupBody, this);
             Subscribe();
             if (owner != null) { owner.Deactivated -= OwnerDeactivated; owner.PreviewMouseDown -= OwnerPointerPressed; }
             owner = Window.GetWindow(this);

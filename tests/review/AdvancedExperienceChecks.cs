@@ -76,6 +76,7 @@
     /// create date  : 2026-10-18
     /// update date  : 2026-10-18 CodexOrig : TASK-016 비동기 입력과 다중 AI 호출 검증.
     ///                2026-10-18 CodexOrig : TASK-020 현재 모델·권한·색상·부채꼴 검사 계약 반영.
+    ///                2026-10-19 CodexOrig : TASK-025 중복 버튼 제거 뒤 실제 모델 컨트롤의 Fast·사용량 경로 검증.
     /// </summary>
     /// ---------------------------------------------------------------------
     public static partial class WorkspaceExperience
@@ -125,6 +126,7 @@
         /// author       : CodexOrig
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : TASK-020 최종 사용량 손실·이전 이벤트 역전 재현.
+        ///                2026-10-19 CodexOrig : 표시되는 모델 버튼의 사용량 툴팁으로 검증.
         /// </summary>
         /// ---------------------------------------------------------------------
         private static void CheckRuntimeUsageIsolation(AssistantControl control, string root)
@@ -135,7 +137,7 @@
             PrivateCall(control, "RuntimeUsageUpdated", latest);
             var metadata = (Task)PrivateCall(control, "RefreshRuntimeAsync");
             PumpUntil(() => metadata.IsCompleted, 3000); metadata.GetAwaiter().GetResult();
-            var tip = (ToolTip)((Button)control.FindName("TokenUsageButton")).ToolTip;
+            var tip = (ToolTip)((Button)control.FindName("ModelOptionsButton")).ToolTip;
             bool metadataPreserved = Convert.ToString(tip.Content).Contains("24 tokens") && Convert.ToString(tip.Content).Contains("조회하지 못했습니다");
             string metadataDisplay = Convert.ToString(tip.Content);
             path.Text = originalPath;
@@ -157,6 +159,7 @@
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : TASK-016 독립 UI 검토 및 오류 복구 회귀.
         ///                2026-10-18 CodexOrig : TASK-020 현재 모델·권한·색상·부채꼴 검사 계약 반영.
+        ///                2026-10-19 CodexOrig : 단일 모델 드롭다운 재열기로 Fast 저장·복원 확인.
         /// </summary>
         /// ---------------------------------------------------------------------
         private static void CheckAdvancedFeatures(string output)
@@ -193,10 +196,9 @@
                     Click(Descendants(dialog).OfType<Button>().Single(b => Convert.ToString(b.Content) == "✓ 선택 적용"));
                 });
                 Check(new AssistantSettingsStore().Load().CodexEffort == "ultra" && new AssistantSettingsStore().Load().CodexSpeed == "fast", "The real model popup saves provider-specific Ultra and Fast settings");
-                var speedToggle = (ToggleButton)control.FindName("FastToggle"); speedToggle.IsChecked = false;
-                InspectDropdown(control, "FastToggle", dialog => {
-                    Check(speedToggle.IsChecked == true && Descendants(dialog).OfType<CheckBox>().Single().IsChecked == true && new AssistantSettingsStore().Load().CodexSpeed == "fast",
-                        "Opening and dismissing the Fast dropdown preserves the saved speed and its visible toggle state");
+                InspectDropdown(control, "ModelOptionsButton", dialog => {
+                    Check(Descendants(dialog).OfType<CheckBox>().Single().IsChecked == true && new AssistantSettingsStore().Load().CodexSpeed == "fast",
+                        "Reopening the visible model control preserves the saved Fast speed");
                 });
                 ((TextBox)control.FindName("ModelName")).Text = "unknown-private"; owner.UpdateLayout();
                 Check(!((ToggleButton)control.FindName("FastToggle")).IsEnabled && ((ToggleButton)control.FindName("FastToggle")).IsChecked != true, "Changing to an unadvertised model clears unavailable Fast and advanced effort");

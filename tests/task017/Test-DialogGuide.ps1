@@ -6,6 +6,7 @@ desc         : 고정 어셈블리의 안내와 설정 목차를 WPF STA에서 �
 author       : CodexCode
 create date  : 2026-10-18
 update date  : 2026-10-18 CodexCode : 격리 설정·PNG·결과 JSON을 별도 artifacts 폴더에 보관.
+               2026-10-19 CodexOrig : 기존 검정 안내 검사는 개인 설정과 분리한 명시적 Dark 모드를 사용.
 -------------------------------------------------------------------------
 #>
 [CmdletBinding()]
@@ -28,6 +29,7 @@ $resolve=[ResolveEventHandler]{param($sender,$eventArgs)$name=(New-Object Reflec
 $oldSettings=$env:VS2017_AI_SETTINGS_PATH;$oldWorkspace=$env:VS2017_AI_WORKSPACE_PATH
 try{
     $env:VS2017_AI_SETTINGS_PATH=Join-Path $OutputDirectory 'isolated-settings.json';$env:VS2017_AI_WORKSPACE_PATH=Join-Path $OutputDirectory 'isolated-workspace'
+    [IO.File]::WriteAllText($env:VS2017_AI_SETTINGS_PATH,'{"ThemeMode":"dark","HideWelcome":true,"ShowHistory":false}')
     [Reflection.Assembly]::LoadFrom($AssemblyPath) | Out-Null
     if($referencePaths.ContainsKey('Microsoft.VisualStudio.Shell.15.0')){[Reflection.Assembly]::LoadFrom($referencePaths['Microsoft.VisualStudio.Shell.15.0']) | Out-Null}
     $refs=@($AssemblyPath,'System.dll','System.Core.dll',[Windows.DependencyObject].Assembly.Location,[Windows.Media.Visual].Assembly.Location,[Windows.Window].Assembly.Location,[System.Xaml.XamlReader].Assembly.Location)

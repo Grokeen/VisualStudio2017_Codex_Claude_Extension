@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -36,6 +36,25 @@ internal static class EditingTests
     private static string root;
     private static string fixture;
     private static int passed, failed;
+
+    /// ---------------------------------------------------------------------
+    /// <summary>
+    /// name         : CreateControl
+    /// desc         : 요청 흐름 검사에 넓은 실제 레이아웃을 주어 미배치 폭 0의 목록 overlay와 구분한다.
+    /// author       : CodexOrig
+    /// create date  : 2026-10-19
+    /// update date  : 2026-10-19 CodexOrig : 제품 버튼 활성 상태는 강제 변경하지 않고 Measure·Arrange만 수행.
+    /// </summary>
+    /// ---------------------------------------------------------------------
+    private static AssistantControl CreateControl()
+    {
+        var control = new AssistantControl();
+        var size = new Size(1000, 900);
+        control.Measure(size);
+        control.Arrange(new Rect(size));
+        control.UpdateLayout();
+        return control;
+    }
 
     /// ---------------------------------------------------------------------
     /// <summary>
@@ -275,7 +294,7 @@ internal static class EditingTests
     {
         Check("WPF request review approve apply save restore workflow", () => {
             var doc = NewDocument(); string original = doc.Buffer;
-            using (var control = new AssistantControl())
+            using (var control = CreateControl())
             {
                 ProductUi.SelectProvider(control, "Codex");
                 control.Initialize(new TestDocuments(doc), new CliEditProvider(TimeSpan.FromSeconds(10)));
@@ -295,7 +314,7 @@ internal static class EditingTests
         });
         Check("WPF rejects conflict and resets approval on provider switch", () => {
             var doc = NewDocument();
-            using (var control = new AssistantControl())
+            using (var control = CreateControl())
             {
                 ProductUi.SelectProvider(control, "Codex");
                 control.Initialize(new TestDocuments(doc), new CliEditProvider(TimeSpan.FromSeconds(10)));
@@ -309,7 +328,7 @@ internal static class EditingTests
         });
         Check("WPF applies to captured file after active file switches", () => {
             var first = NewDocument(); var other = NewDocument(); var documents = new TestDocuments(first);
-            using (var control = new AssistantControl())
+            using (var control = CreateControl())
             {
                 control.Initialize(documents, new CliEditProvider(TimeSpan.FromSeconds(10)));
                 ((TextBox)control.FindName("ExecutablePath")).Text = fixture; ((TextBox)control.FindName("Instruction")).Text = "fixture:ok";
@@ -323,7 +342,7 @@ internal static class EditingTests
         });
         Check("WPF stop cancels request and allows a fresh request", () => {
             var doc = NewDocument();
-            using (var control = new AssistantControl())
+            using (var control = CreateControl())
             {
                 control.Initialize(new TestDocuments(doc), new CliEditProvider(TimeSpan.FromSeconds(10)));
                 ((TextBox)control.FindName("ExecutablePath")).Text = fixture; ((TextBox)control.FindName("Instruction")).Text = "fixture:hang";
@@ -406,7 +425,7 @@ internal static class EditingTests
             Expect<InvalidDataException>(() => store.Save(new AssistantSettings { FontSize = 500 }));
         });
         Check("WPF tabs retain drafts attachments paths and separate conversations", () => {
-            using (var control = new AssistantControl()) {
+            using (var control = CreateControl()) {
                 ProductUi.SelectProvider(control, "Codex");
                 ((TextBox)control.FindName("Instruction")).Text = "Codex 초안";
                 ((TextBox)control.FindName("ExecutablePath")).Text = fixture;
@@ -418,7 +437,7 @@ internal static class EditingTests
             }
         });
         Check("WPF repeated sends transmit rules attachment model and prior turns", () => {
-            using (var control = new AssistantControl()) {
+            using (var control = CreateControl()) {
                 control.Initialize(new TestDocuments(NewDocument()), new CliEditProvider(TimeSpan.FromSeconds(10)));
                 ((TextBox)control.FindName("ExecutablePath")).Text = fixture;
                 ((TextBox)control.FindName("RulesText")).Text = "테스트 규칙";
@@ -433,7 +452,7 @@ internal static class EditingTests
             }
         });
         Check("WPF Ctrl+V image event attaches without touching OS clipboard", () => {
-            using (var control = new AssistantControl()) {
+            using (var control = CreateControl()) {
                 var data = new DataObject(); data.SetData(DataFormats.Bitmap, bitmap);
                 var args = new DataObjectPastingEventArgs(data, false, DataFormats.Bitmap);
                 ((TextBox)control.FindName("Instruction")).RaiseEvent(args);
@@ -441,13 +460,13 @@ internal static class EditingTests
             }
         });
         Check("WPF settings survive control recreation", () => {
-            using (var control = new AssistantControl()) {
+            using (var control = CreateControl()) {
                 ((TextBox)control.FindName("RulesText")).Text = "저장 규칙";
                 ((TextBox)control.FindName("ExecutablePath")).Text = fixture;
                 ((ComboBox)control.FindName("TextSizeChoice")).SelectedValue = "18";
                 Click((Button)control.FindName("SaveSettingsButton"));
             }
-            using (var control = new AssistantControl()) {
+            using (var control = CreateControl()) {
                 Assert(control.FontSize == 18 && ((TextBox)control.FindName("RulesText")).Text == "저장 규칙" && ((TextBox)control.FindName("ExecutablePath")).Text == fixture);
             }
         });
@@ -469,7 +488,7 @@ internal static class EditingTests
             Assert(new CliAccountService().CheckAsync("Claude", fixture, CancellationToken.None).GetAwaiter().GetResult());
         });
         Check("WPF account status hides CLI account details", () => {
-            using (var control = new AssistantControl()) {
+            using (var control = CreateControl()) {
                 ((TextBox)control.FindName("ExecutablePath")).Text = fixture;
                 Click((Button)control.FindName("AccountCheckButton"));
                 PumpUntil(() => ((Button)control.FindName("AccountCheckButton")).IsEnabled, 15000);
@@ -731,6 +750,7 @@ internal static class EditingTests
     /// author       : CodexCode
     /// create date  : 2026-10-18
     /// update date  : 2026-10-18 CodexCode : 빈 화면뿐 아니라 승인 전 비교 화면도 렌더링.
+    ///                2026-10-19 CodexOrig : 변경 비교 캡처는 목록 overlay가 아닌 넓은 작업 화면에서 수행.
     /// </summary>
     /// ---------------------------------------------------------------------
     private static void RenderReview(AssistantControl control)
@@ -738,8 +758,8 @@ internal static class EditingTests
         Type brushes = Type.GetType("Microsoft.VisualStudio.Shell.VsBrushes, Microsoft.VisualStudio.Shell.15.0", true);
         control.Resources[brushes.GetProperty("ToolWindowBackgroundKey").GetValue(null)] = System.Windows.Media.Brushes.White;
         control.Resources[brushes.GetProperty("ToolWindowTextKey").GetValue(null)] = System.Windows.Media.Brushes.Black;
-        control.Measure(new Size(420, 1100)); control.Arrange(new Rect(0, 0, 420, 1100)); control.UpdateLayout();
-        var bitmap = new System.Windows.Media.Imaging.RenderTargetBitmap(420, 1100, 96, 96, System.Windows.Media.PixelFormats.Pbgra32);
+        control.Measure(new Size(780, 1100)); control.Arrange(new Rect(0, 0, 780, 1100)); control.UpdateLayout();
+        var bitmap = new System.Windows.Media.Imaging.RenderTargetBitmap(780, 1100, 96, 96, System.Windows.Media.PixelFormats.Pbgra32);
         bitmap.Render(control);
         var encoder = new System.Windows.Media.Imaging.PngBitmapEncoder(); encoder.Frames.Add(System.Windows.Media.Imaging.BitmapFrame.Create(bitmap));
         using (var image = File.Create(System.IO.Path.Combine(root, "review.png"))) encoder.Save(image);

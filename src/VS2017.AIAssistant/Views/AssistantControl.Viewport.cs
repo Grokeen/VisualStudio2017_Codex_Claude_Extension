@@ -136,10 +136,11 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : XAML 이벤트로 초기화하여 기존 생성자·다른 소유 파일 수정 불필요.
+        ///                2026-10-19 CodexCode : TASK024 목록 overlay도 실제 호스트 연결 뒤 복원.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void ConversationViewportLoaded(object sender, RoutedEventArgs args)
-        { if (!conversationViewportDisposed) { InvalidateMeasure(); FollowConversation(false); } }
+        { if (!conversationViewportDisposed) { InvalidateMeasure(); FollowConversation(false); UpdateHistoryOverlay(); } }
 
         /// ---------------------------------------------------------------------
         /// <summary>
@@ -216,17 +217,14 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 대화 맨 위의 휠이 VS 바깥 전체 스크롤로 전파되지 않게 처리.
+        ///                2026-10-19 CodexCode : TASK024 내부 비교가 휠을 먼저 소비하고 끝에서도 배경 추종을 변경하지 않음.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void ConversationViewportMouseWheel(object sender, MouseWheelEventArgs args)
         {
             if (ConversationScroll == null || disposed || conversationViewportDisposed) return;
+            if (HoverScrollPolicy.HandleNestedWheel(ConversationScroll, args)) return;
             if (args.Delta > 0) { conversationFollowingEnd = false; CancelConversationFollow(); }
-            for (DependencyObject node = args.OriginalSource as DependencyObject; node != null && !ReferenceEquals(node, ConversationScroll); node = node is Visual ? VisualTreeHelper.GetParent(node) : LogicalTreeHelper.GetParent(node))
-            {
-                var nested = node as ScrollViewer;
-                if (nested != null && nested.ScrollableHeight > 0) { UpdateThinkingPlacement(); return; }
-            }
             double lines = SystemParameters.WheelScrollLines;
             double distance = lines < 0 ? ConversationScroll.ViewportHeight : Math.Max(1, lines) * Math.Max(14, FontSize * 1.3);
             ConversationScroll.ScrollToVerticalOffset(ConversationScroll.VerticalOffset - args.Delta / 120.0 * distance);
@@ -268,10 +266,11 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 다시 도킹될 때 진행 상태를 이어받도록 영구 Dispose와 구별.
+        ///                2026-10-19 CodexCode : TASK024 목록 overlay와 파일 비교 popup의 임시 수명 정리.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void ConversationViewportUnloaded(object sender, RoutedEventArgs args)
-        { CancelConversationFollow(); }
+        { CancelConversationFollow(); DisposeHistoryOverlay(); ChangeDiffPopup.CloseWithin(this); }
 
         /// ---------------------------------------------------------------------
         /// <summary>
@@ -280,9 +279,10 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 기존 DisposeExperience에서 호출하는 단일 수명 정리 API.
+        ///                2026-10-19 CodexCode : TASK024 overlay 입력·레이아웃 구독과 파일 비교 popup도 해제.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void DisposeConversationViewport()
-        { conversationViewportDisposed = true; CancelConversationFollow(); UpdateThinkingAnimation(false); }
+        { conversationViewportDisposed = true; CancelConversationFollow(); UpdateThinkingAnimation(false); DisposeHistoryOverlay(); ChangeDiffPopup.CloseWithin(this); }
     }
 }

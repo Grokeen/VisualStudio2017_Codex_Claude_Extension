@@ -35,6 +35,7 @@ namespace VS2017.AIAssistant.Views
         /// update date  : 2026-10-18 CodexCode : SDK17에서 WPF 스레드 검사와 VS 전용 UI 요구를 분리.
         /// update date  : 2026-10-18 CodexCode : 상속 색에는 임시 로컬 브러시를 연결하고 종료 시 원래 값 출처 복원.
         /// update date  : 2026-10-18 CodexCode : TASK-022 바닥 footer와 위쪽 읽기 표시가 단일 sweep 시계를 공유.
+        ///                2026-10-19 CodexOrig4 : Light에서도 진행 표시의 전체 그라데이션이 읽히도록 보조/본문 팔레트 대비 사용.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void UpdateThinkingAnimation(bool active)
@@ -61,10 +62,15 @@ namespace VS2017.AIAssistant.Views
                     MappingMode = BrushMappingMode.RelativeToBoundingBox,
                     RelativeTransform = thinkingSweepTransform, SpreadMethod = GradientSpreadMethod.Pad
                 };
-                var gray = Color.FromRgb(132, 132, 132);
+                var muted = TryFindResource("AssistantMutedForegroundBrush") as SolidColorBrush;
+                var foreground = TryFindResource("AssistantForegroundBrush") as SolidColorBrush;
+                var surface = TryFindResource("AssistantBackgroundBrush") as SolidColorBrush;
+                bool light = surface != null && AssistantPalette.IsLight(surface.Color);
+                var gray = muted == null ? Color.FromRgb(132, 132, 132) : muted.Color;
+                var highlight = light ? (foreground == null ? Colors.Black : foreground.Color) : Colors.White;
                 thinkingSweepBrush.GradientStops.Add(new GradientStop(gray, 0));
                 thinkingSweepBrush.GradientStops.Add(new GradientStop(gray, .32));
-                thinkingSweepBrush.GradientStops.Add(new GradientStop(Colors.White, .5));
+                thinkingSweepBrush.GradientStops.Add(new GradientStop(highlight, .5));
                 thinkingSweepBrush.GradientStops.Add(new GradientStop(gray, .68));
                 thinkingSweepBrush.GradientStops.Add(new GradientStop(gray, 1));
                 thinkingSweepTransform.BeginAnimation(TranslateTransform.XProperty,

@@ -48,7 +48,7 @@ try {
         [AppDomain]::CurrentDomain.add_AssemblyResolve($menuResolver)
         $menuAssembly = [Reflection.Assembly]::LoadFrom($menuAssemblyPath)
         if ($menuReferences.ContainsKey('Microsoft.VisualStudio.Shell.15.0')) { [Reflection.Assembly]::LoadFrom($menuReferences['Microsoft.VisualStudio.Shell.15.0']) | Out-Null }
-        [IO.File]::WriteAllText($env:VS2017_AI_SETTINGS_PATH, '{"HideWelcome":true,"ShowHistory":false,"FontSize":14}', (New-Object Text.UTF8Encoding($true)))
+        [IO.File]::WriteAllText($env:VS2017_AI_SETTINGS_PATH, '{"HideWelcome":true,"ShowHistory":false,"FontSize":14,"ThemeMode":"dark"}', (New-Object Text.UTF8Encoding($true)))
         $menuControl = [Activator]::CreateInstance($menuAssembly.GetType('VS2017.AIAssistant.Views.AssistantControl', $true))
         $menuControl.GetType().GetField('scmLookupStarted', [Reflection.BindingFlags]'Instance,NonPublic').SetValue($menuControl, $true)
         $menuResources = $menuControl.Resources

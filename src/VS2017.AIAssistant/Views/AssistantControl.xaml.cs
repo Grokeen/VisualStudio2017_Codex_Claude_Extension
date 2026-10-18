@@ -47,10 +47,12 @@ namespace VS2017.AIAssistant.Views
         /// update date  : 2026-10-18 CodexOrig : Chat 컨텍스트·설정·창 이동 및 검증 흐름 갱신.
         /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// update date  : 2026-10-18 CodexOrig : TASK-016 문서 첨부·모델 설정·AI 역할 협업과 실패 복구 흐름 연결.
+        ///                2026-10-19 CodexOrig : TASK-025 생성 경계에서 WPF UI 스레드를 실제 검증.
         /// </summary>
         /// ---------------------------------------------------------------------
         public AssistantControl()
         {
+            Dispatcher.VerifyAccess();
             InitializeComponent();
             SetResourceReference(BackgroundProperty, VsBrushes.ToolWindowBackgroundKey);
             SetResourceReference(ForegroundProperty, VsBrushes.ToolWindowTextKey);
@@ -385,10 +387,12 @@ namespace VS2017.AIAssistant.Views
         /// update date  : 2026-10-18 CodexOrig : 종료 시 설정·사용 안내 팝업도 해제.
         /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// update date  : 2026-10-18 CodexOrig : TASK-016 문서 첨부·모델 설정·AI 역할 협업과 실패 복구 흐름 연결.
+        ///                2026-10-19 CodexOrig : TASK-025 팝업·테마 해제 전 WPF UI 스레드를 실제 검증.
         /// </summary>
         /// ---------------------------------------------------------------------
         public void Dispose()
         {
+            Dispatcher.VerifyAccess();
             ConversationScroll.RemoveHandler(System.Windows.Input.Mouse.PreviewMouseWheelEvent, new System.Windows.Input.MouseWheelEventHandler(ConversationViewed));
             DisposeExperience();
             disposed = true;

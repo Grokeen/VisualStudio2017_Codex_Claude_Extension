@@ -89,6 +89,7 @@ namespace VS2017.AIAssistant.Views
         /// update date  : 2026-10-18 CodexCode : TASK-021 사각 테두리 없는 환형 버튼에 명도·포커스·비활성 상태 제공.
         ///                2026-10-18 CodexOrig : 안내 구획의 중심 각도·가변 높이 글자 중앙 정렬.
         ///                2026-10-18 CodexCode : TASK-022 고정 caption 구역 안에 Grid와 양축 정렬로 아이콘·문구 중심 유지.
+        ///                2026-10-19 CodexOrig4 : 부채꼴의 기본·hover·pressed·focus를 공통 팔레트의 동적 자원에 연결.
         /// </summary>
         /// ---------------------------------------------------------------------
         private static void ConfigureFanButton(Button button, Geometry sector, double angle, string icon, string label, string accessibleName, int tabIndex)
@@ -99,8 +100,8 @@ namespace VS2017.AIAssistant.Views
             button.HorizontalContentAlignment = HorizontalAlignment.Center; button.VerticalContentAlignment = VerticalAlignment.Center;
             button.RenderTransform = Transform.Identity;
             button.Clip = sector; button.FocusVisualStyle = null;
-            button.Background = new SolidColorBrush(Color.FromRgb(36, 36, 36));
-            button.BorderBrush = new SolidColorBrush(Color.FromRgb(82, 82, 82));
+            button.SetResourceReference(Control.BackgroundProperty, "AssistantSurfaceBrush");
+            button.SetResourceReference(Control.BorderBrushProperty, "AssistantBorderBrush");
             button.SetBinding(Control.ForegroundProperty, new Binding("Foreground") {
                 RelativeSource = new RelativeSource(RelativeSourceMode.FindAncestor, typeof(AssistantControl), 1) });
             button.TabIndex = tabIndex;
@@ -137,13 +138,13 @@ namespace VS2017.AIAssistant.Views
             root.AppendChild(presenter);
             var template = new ControlTemplate(typeof(Button)) { VisualTree = root };
             var hover = new Trigger { Property = IsMouseOverProperty, Value = true };
-            hover.Setters.Add(new Setter(Shape.FillProperty, new SolidColorBrush(Color.FromRgb(57, 57, 57)), "FanSector"));
+            hover.Setters.Add(new Setter(Shape.FillProperty, new DynamicResourceExtension("AssistantHoverBrush"), "FanSector"));
             template.Triggers.Add(hover);
             var pressed = new Trigger { Property = Button.IsPressedProperty, Value = true };
-            pressed.Setters.Add(new Setter(Shape.FillProperty, new SolidColorBrush(Color.FromRgb(75, 75, 75)), "FanSector"));
+            pressed.Setters.Add(new Setter(Shape.FillProperty, new DynamicResourceExtension("AssistantPressedBrush"), "FanSector"));
             template.Triggers.Add(pressed);
             var focus = new Trigger { Property = IsKeyboardFocusWithinProperty, Value = true };
-            focus.Setters.Add(new Setter(Shape.StrokeProperty, new SolidColorBrush(Color.FromRgb(216, 224, 255)), "FanSector"));
+            focus.Setters.Add(new Setter(Shape.StrokeProperty, new DynamicResourceExtension("AssistantLinkBrush"), "FanSector"));
             focus.Setters.Add(new Setter(Shape.StrokeThicknessProperty, 2.0, "FanSector")); template.Triggers.Add(focus);
             var disabled = new Trigger { Property = IsEnabledProperty, Value = false };
             disabled.Setters.Add(new Setter(OpacityProperty, 0.4, "FanSurface")); template.Triggers.Add(disabled);
