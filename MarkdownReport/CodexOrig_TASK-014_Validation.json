@@ -1,0 +1,49 @@
+{
+  "Task": "TASK-014",
+  "Author": "CodexOrig",
+  "Status": "local-complete-awaiting-task015-016",
+  "StartedAt": "2026-10-18T13:46:29.0000000+09:00",
+  "LocalCompletedAt": "2026-10-18T14:07:42.7985374+09:00",
+  "Elapsed": "21분 13초",
+  "Package": "releases/v0.6.0/VS2017.AIAssistant-0.6.0.vsix",
+  "PackageBytes": 184770,
+  "PackageSHA256": "5528C0A15DC365A4933D3DB25FD593D947D71A154397784149979370796FD5CE",
+  "DLLSHA256": "54F59CB9B06546A78E0D43C93F8AF08F21F8696B45C332A7EA76C89A9102320A",
+  "Build": {
+    "Errors": 0,
+    "Warnings": 0,
+    "Release": "PASS",
+    "Debug": "PASS"
+  },
+  "WorkspaceExperience": {
+    "Passed": 79,
+    "Evidence": "MarkdownReport/CodexOrig_TASK-014_Experience.json",
+    "Failed": 0
+  },
+  "ActualIDE": {
+    "Passed": 65,
+    "Evidence": "MarkdownReport/CodexOrig_TASK-014_IDE.json",
+    "LiveCodex": true,
+    "LiveSQL": true,
+    "Failed": 0
+  },
+  "Launcher": {
+    "SmokeLog": "artifacts/task014-launcher-smoke-final.log",
+    "SmokePassed": 9,
+    "DefaultSuitesPassed": 8,
+    "Log": "artifacts/task014-launcher-all-final.log",
+    "Hash": "2EE48C7E7C248F08D4AB457B9B09F418202DFECB060D41DB310A035C973D6A1E"
+  },
+  "Suites": {
+    "Compatibility": 44,
+    "Editing": 92,
+    "Markdown": 52,
+    "Foundation": 33,
+    "WorkspaceActions": 48,
+    "Settings": 37,
+    "BuildEntry": 16,
+    "Experience": 79
+  },
+  "RoleEditedByAgent": false,
+  "LaterRoleSHA256": "D25E6ED1167A33AF028BEB0EF23EDCEE918A9118C583BA295993B70C1C310866"
+}

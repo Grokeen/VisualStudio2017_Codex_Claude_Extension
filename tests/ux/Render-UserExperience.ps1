@@ -9,7 +9,7 @@ update date  : 2026-10-18 CodexOrig : 개인 설정·대화·계정과 분리한
 -------------------------------------------------------------------------
 #>
 [CmdletBinding()]
-param([string]$AssemblyPath, [string]$OutputDirectory)
+param([string]$AssemblyPath, [string]$OutputDirectory, [string]$Version = '0.6')
 $ErrorActionPreference = 'Stop'
 if ($PSVersionTable.PSEdition -ne 'Desktop' -or [Threading.Thread]::CurrentThread.GetApartmentState() -ne 'STA') { throw 'Windows PowerShell 5.1 -STA로 실행하세요.' }
 $repositoryDir = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..\..'))
@@ -124,8 +124,8 @@ public static class CodexOrigPreview
     foreach ($entry in @(@('user','이 메서드가 어떤 일을 하는지 설명해 주세요.'),@('assistant','문자열 앞뒤 공백을 제거합니다. null 입력에 대한 처리가 필요합니다.'),@('user','null이면 빈 문자열을 반환하도록 바꿔 주세요. 기존 메서드 이름은 유지해 주세요.'),@('assistant','null 입력을 빈 문자열로 처리하는 변경을 준비했습니다. 파일의 변경 비교를 확인해 주세요.'))) {
         $message = New-Object VS2017.AIAssistant.Chat.ChatMessage; $message.Role=$entry[0]; $message.Text=$entry[1]; $record.Messages.Add($message)
     }
-    $store.Save($record); $store.Rename($record,'입력 검증 · null 처리')
-    $other = $store.Create('Claude'); $store.Rename($other,'SQL 조회 조건 정리')
+    $record.State='Completed'; $store.Save($record); $store.Rename($record,'입력 검증 · null 처리')
+    $other = $store.Create('Claude'); $other.State='Completed'; $other.HasUnread=$true; $store.Rename($other,'SQL 조회 조건 정리')
     $store.SaveInstructions("응답은 한국어로 작성합니다.`n기존 API와 들여쓰기를 유지합니다.")
     $control = New-Object VS2017.AIAssistant.Views.AssistantControl
     $control.FindName('DiffPreview').Text = "--- 변경 전`nreturn input.Trim();`n`n+++ 변경 후`nreturn (input ?? string.Empty).Trim();"
@@ -165,12 +165,12 @@ public static class CodexOrigPreview
     $control.FindName('AttachmentList').ItemsSource=@($attachment)
     $renderRoot=$control.FindName('LayoutRoot'); $renderRoot.Background=$control.Background
     $control.FindName('ReviewPanel').IsExpanded=$false
-    [CodexOrigPreview]::Save($renderRoot,(Join-Path $OutputDirectory 'chat-0.5-preview.png'))
+    [CodexOrigPreview]::Save($renderRoot,(Join-Path $OutputDirectory ('chat-' + $Version + '-preview.png')))
     $control.FindName('ReviewPanel').IsExpanded=$true
-    [CodexOrigPreview]::Save($renderRoot,(Join-Path $OutputDirectory 'review-0.5.png'))
-    [CodexOrigPreview]::CapturePopup($control.FindName('HelpButton'),$hostWindow,(Join-Path $OutputDirectory 'getting-started-0.5.png'))
-    [CodexOrigPreview]::CapturePopup($control.FindName('SettingsButton'),$hostWindow,(Join-Path $OutputDirectory 'settings-0.5.png'))
-    [CodexOrigPreview]::CapturePopup($control.FindName('CliHelpButton'),$hostWindow,(Join-Path $OutputDirectory 'cli-setup-0.5.png'))
+    [CodexOrigPreview]::Save($renderRoot,(Join-Path $OutputDirectory ('review-' + $Version + '.png')))
+    [CodexOrigPreview]::CapturePopup($control.FindName('HelpButton'),$hostWindow,(Join-Path $OutputDirectory ('getting-started-' + $Version + '.png')))
+    [CodexOrigPreview]::CapturePopup($control.FindName('SettingsButton'),$hostWindow,(Join-Path $OutputDirectory ('settings-' + $Version + '.png')))
+    [CodexOrigPreview]::CapturePopup($control.FindName('CliHelpButton'),$hostWindow,(Join-Path $OutputDirectory ('cli-setup-' + $Version + '.png')))
     [pscustomobject]@{ AssemblySHA256=(Get-FileHash -LiteralPath $AssemblyPath).Hash; SyntheticConversation=$true; OutputDirectory=$OutputDirectory; SettingsAndWorkspace=$previewRoot } | ConvertTo-Json | Set-Content (Join-Path $previewRoot 'render.json') -Encoding UTF8
     Write-Output $previewRoot
 }

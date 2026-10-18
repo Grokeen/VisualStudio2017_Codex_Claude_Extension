@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -86,6 +86,7 @@ namespace VS2017.AIAssistant.Views
         /// update date  : 2026-10-18 CodexCode : 요청 중 UI 유지 및 실패·취소 처리.
         /// update date  : 2026-10-18 CodexOrig : Chat 컨텍스트·설정·창 이동 및 검증 흐름 갱신.
         /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
+        /// update date  : 2026-10-18 CodexOrig : TASK-014 실제 요청 시작·성공·실패·취소를 대화별 상태로 기록.
         /// </summary>
         /// ---------------------------------------------------------------------
         private async void GenerateClicked(object sender, RoutedEventArgs e)
@@ -93,6 +94,7 @@ namespace VS2017.AIAssistant.Views
             if (busy || documents == null || disposed) return;
             ClearProposal();
             ChatSession chat = ActiveChat;
+            ConversationRecord record = activeRecords[selectedProvider];
             try
             {
                 if (string.IsNullOrWhiteSpace(Instruction.Text)) throw new InvalidOperationException("수정 요청을 입력하세요.");
@@ -105,6 +107,8 @@ namespace VS2017.AIAssistant.Views
                 chat.Add("user", Instruction.Text + (context.Attachments.Length == 0 ? "" : "\n첨부: " + string.Join(", ", context.Attachments.Select(a => a.Name))));
                 ConversationScroll.ScrollToEnd();
                 busy = true;
+                SetConversationState(record, ConversationRunState.Running);
+                if (!PersistCurrentConversation()) throw new InvalidOperationException("대화 기록을 저장한 뒤 다시 요청하세요.");
                 requestCancellation = new CancellationTokenSource();
                 StatusLabel.Text = selectedProvider + " 수정안 생성 중…";
                 UpdateButtons();
@@ -126,9 +130,10 @@ namespace VS2017.AIAssistant.Views
                 ReviewPanel.IsExpanded = proposal.HasChanges;
                 Instruction.Clear();
                 EmptyHint.Visibility = Visibility.Collapsed;
+                SetConversationState(record, ConversationRunState.Completed);
             }
-            catch (OperationCanceledException) { if (!disposed) { StatusLabel.Text = "요청을 중지했습니다. 소스는 변경하지 않았습니다."; chat.Add("system", StatusLabel.Text); } }
-            catch (Exception exception) { if (!disposed) { StatusLabel.Text = "요청 실패: " + exception.Message; chat.Add("system", StatusLabel.Text); } }
+            catch (OperationCanceledException) { if (!disposed) { SetConversationState(record, ConversationRunState.Stopped); StatusLabel.Text = "요청을 중지했습니다. 소스는 변경하지 않았습니다."; chat.Add("system", StatusLabel.Text); } }
+            catch (Exception exception) { if (!disposed) { SetConversationState(record, ConversationRunState.Failed); StatusLabel.Text = "요청 실패: " + exception.Message; chat.Add("system", StatusLabel.Text); } }
             finally
             {
                 busy = false;
@@ -227,6 +232,7 @@ namespace VS2017.AIAssistant.Views
         /// update date  : 2026-10-18 CodexCode : 재시작 없는 Provider 전환 구현.
         /// update date  : 2026-10-18 CodexOrig : Chat 컨텍스트·설정·창 이동 및 검증 흐름 갱신.
         /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
+        /// update date  : 2026-10-18 CodexOrig : TASK-014 직접 선택한 AI의 대화를 읽음 처리.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void ProviderChanged(object sender, SelectionChangedEventArgs e)
@@ -243,6 +249,7 @@ namespace VS2017.AIAssistant.Views
             string path;
             ExecutablePath.Text = executablePaths.TryGetValue(selectedProvider, out path) ? path : "";
             ShowChat();
+            MarkCurrentConversationRead();
             ClearProposal();
             UpdateButtons();
         }

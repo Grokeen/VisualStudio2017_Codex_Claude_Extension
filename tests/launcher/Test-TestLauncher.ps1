@@ -85,7 +85,7 @@ Add-Type -AssemblyName System.IO.Compression.FileSystem
 $chosenVsix = Join-Path $fixtureDir 'chosen.vsix'
 $archive = [IO.Compression.ZipFile]::Open($chosenVsix,[IO.Compression.ZipArchiveMode]::Create)
 try { $entry=$archive.CreateEntry('VS2017.AIAssistant.dll'); $stream=$entry.Open(); try { $bytes=[Text.Encoding]::UTF8.GetBytes('CHOSEN_PACKAGE'); $stream.Write($bytes,0,$bytes.Length) } finally { $stream.Dispose() } } finally { $archive.Dispose() }
-$decoyRelease = Join-Path $fixtureDir 'releases\v0.5.0'; $null=New-Item -ItemType Directory -Path $decoyRelease -Force
+$decoyRelease = Join-Path $fixtureDir 'releases\v0.6.0'; $null=New-Item -ItemType Directory -Path $decoyRelease -Force
 [IO.File]::WriteAllText((Join-Path $decoyRelease 'VS2017.AIAssistant.dll'),'WRONG_DEFAULT',$utf8)
 [IO.File]::WriteAllText((Join-Path $fixtureMarkdownDir 'Test-MarkdownWorkspace.ps1'), 'param([string]$AssemblyPath)' + "`r`n" + '[IO.File]::ReadAllText($AssemblyPath)' + "`r`n", $utf8)
 $result = Invoke-LauncherProbe $fixtureExe '--run markdown --vsix chosen.vsix'

@@ -8,6 +8,8 @@ using Task = System.Threading.Tasks.Task;
 using System.Web.Script.Serialization;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
+using System.Windows.Input;
 using EnvDTE;
 using Microsoft.VisualStudio.Shell;
 using VS2017.AIAssistant.Editing;
@@ -44,6 +46,7 @@ namespace CodexCode.IdeIntegration
         /// update date  : 2026-10-18 CodexOrig : Chat 컨텍스트·설정·창 이동 및 검증 흐름 갱신.
         /// update date  : 2026-10-18 CodexOrig : 격리된 실제 WPF 팝업 UX15를 IDE 호스트에서 검증.
         /// update date  : 2026-10-18 CodexOrig : AI 탭 Tag 선택·소스 링크·빈 SQL 승인 저장·Markdown 대화 복원 검증.
+        /// update date  : 2026-10-18 CodexOrig : TASK-014 실제 IDE에서 경계 드래그·접기·폭 복원·읽음 저장7개 검증.
         /// </summary>
         /// ---------------------------------------------------------------------
         internal static async Task RunAsync(Package product, DTE dte, TestConfig config)
@@ -199,6 +202,31 @@ namespace CodexCode.IdeIntegration
                 ProductUi.SelectProvider(restored, "Codex");
                 Check("WORK-07 recreated IDE control restores provider conversation tabs", ((ListBox)restored.FindName("ConversationList")).Items.Count == previousConversations + 1);
             }
+            frame.Show(); await Task.Delay(150); view.UpdateLayout();
+            var historyToggle = (ToggleButton)view.FindName("HistoryToggle");
+            historyToggle.IsChecked = true; historyToggle.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent)); view.UpdateLayout();
+            var splitter = (GridSplitter)view.FindName("HistorySplitter");
+            var historyColumn = (ColumnDefinition)view.FindName("HistoryColumn");
+            Check("SIDEBAR-01 actual IDE exposes a full-height resizable conversation boundary", splitter.IsVisible && Grid.GetRowSpan(splitter) == 3);
+            double previousWidth = historyColumn.ActualWidth;
+            splitter.RaiseEvent(new DragStartedEventArgs(0, 0) { RoutedEvent = Thumb.DragStartedEvent });
+            splitter.RaiseEvent(new DragDeltaEventArgs(20, 0) { RoutedEvent = Thumb.DragDeltaEvent }); view.UpdateLayout();
+            splitter.RaiseEvent(new DragCompletedEventArgs(20, 0, false) { RoutedEvent = Thumb.DragCompletedEvent }); view.UpdateLayout();
+            double resizedWidth = historyColumn.ActualWidth;
+            Check("SIDEBAR-02 real splitter drag expands the list inside VS2017", resizedWidth > previousWidth + 10);
+            splitter.RaiseEvent(new DragStartedEventArgs(0, 0) { RoutedEvent = Thumb.DragStartedEvent });
+            splitter.RaiseEvent(new DragDeltaEventArgs(-1000, 0) { RoutedEvent = Thumb.DragDeltaEvent }); view.UpdateLayout();
+            splitter.RaiseEvent(new DragCompletedEventArgs(-1000, 0, false) { RoutedEvent = Thumb.DragCompletedEvent }); view.UpdateLayout();
+            Check("SIDEBAR-03 dragging left collapses the actual IDE sidebar", historyToggle.IsChecked == false && historyColumn.ActualWidth < 1);
+            historyToggle.IsChecked = true; historyToggle.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent)); view.UpdateLayout();
+            Check("SIDEBAR-04 reopening restores the real resized width", Math.Abs(historyColumn.ActualWidth - resizedWidth) < 2);
+            Check("SIDEBAR-05 actual successful AI requests retain completed state in Markdown", new MarkdownWorkspaceStore().LoadOpen("Codex").Any(r => r.State == ConversationRunState.Completed));
+            var selectedRecord = (ConversationRecord)((ListBox)view.FindName("ConversationList")).SelectedItem;
+            selectedRecord.HasUnread = true;
+            ((ScrollViewer)view.FindName("ConversationScroll")).RaiseEvent(new MouseButtonEventArgs(Mouse.PrimaryDevice, Environment.TickCount, MouseButton.Left) { RoutedEvent = Mouse.PreviewMouseDownEvent });
+            Check("SIDEBAR-06 viewing the IDE conversation clears only its persisted unread marker", !selectedRecord.HasUnread && !new MarkdownWorkspaceStore().LoadOpen("Codex").Single(r => r.Id == selectedRecord.Id).HasUnread);
+            using (var restoredSidebar = new AssistantControl())
+                Check("SIDEBAR-07 recreated IDE control restores list preference and width", ((ToggleButton)restoredSidebar.FindName("HistoryToggle")).IsChecked == true && Math.Abs(new AssistantSettingsStore().Load().HistoryWidth - resizedWidth) < 2);
             var json = new JavaScriptSerializer();
             File.WriteAllText(Path.Combine(config.OutputDirectory, "result.json"), json.Serialize(new {
                 Succeeded = failed == 0, Passed = passed, Failed = failed, IdeRuntimeTest = true,

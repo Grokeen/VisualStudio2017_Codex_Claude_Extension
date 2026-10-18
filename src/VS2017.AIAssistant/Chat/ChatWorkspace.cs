@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
@@ -218,6 +218,7 @@ namespace VS2017.AIAssistant.Chat
     /// update date  : 2026-10-18 CodexOrig : Provider별 기본 설정 추가.
     /// update date  : 2026-10-18 CodexOrig : 이전 설정과 호환되는 첫 사용 안내 표시 선택 추가.
     /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
+    /// update date  : 2026-10-18 CodexOrig : TASK-014 대화 목록 폭·표시 여부를 이전 설정과 호환되게 보관.
     /// </summary>
     /// ---------------------------------------------------------------------
     public sealed class AssistantSettings
@@ -235,6 +236,8 @@ namespace VS2017.AIAssistant.Chat
         public bool AllowSourceControl { get; set; }
         public bool AllowDatabaseSchema { get; set; }
         public bool AllowDeployment { get; set; }
+        public double HistoryWidth { get; set; } = 220;
+        public bool ShowHistory { get; set; } = true;
     }
 
     /// ---------------------------------------------------------------------
@@ -316,11 +319,12 @@ namespace VS2017.AIAssistant.Chat
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : JSON으로 주입된 범위 밖 값 검사.
         /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
+        /// update date  : 2026-10-18 CodexOrig : TASK-014 대화 목록 폭의 유한 범위 검사 추가.
         /// </summary>
         /// ---------------------------------------------------------------------
         private static void Validate(AssistantSettings settings)
         {
-            if (settings == null || double.IsNaN(settings.FontSize) || settings.FontSize < 10 || settings.FontSize > 28 ||
+            if (settings == null || double.IsNaN(settings.HistoryWidth) || settings.HistoryWidth < 140 || settings.HistoryWidth > 420 || double.IsNaN(settings.FontSize) || settings.FontSize < 10 || settings.FontSize > 28 ||
                 settings.Instructions == null || settings.Instructions.Length > 8000 ||
                 new[] { settings.CodexPath, settings.ClaudePath, settings.CodexModel, settings.ClaudeModel }.Any(s => s == null || s.Length > 4096))
                 throw new InvalidDataException("저장된 설정 형식이나 값이 올바르지 않습니다.");

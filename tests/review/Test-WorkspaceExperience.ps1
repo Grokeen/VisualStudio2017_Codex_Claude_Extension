@@ -22,6 +22,7 @@ if ($PSVersionTable.PSEdition -ne 'Desktop' -or [Threading.Thread]::CurrentThrea
 }
 $repositoryDir = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..\..'))
 $AssemblyPath = (Resolve-Path -LiteralPath $AssemblyPath).Path
+$assemblySha256 = (Get-FileHash -LiteralPath $AssemblyPath -Algorithm SHA256).Hash
 if (!$OutputDirectory) { $OutputDirectory = Join-Path $repositoryDir ('artifacts\task012\experience-' + [guid]::NewGuid().ToString('N')) }
 $OutputDirectory = [IO.Path]::GetFullPath($OutputDirectory)
 $null = New-Item -ItemType Directory -Path $OutputDirectory -Force
@@ -71,6 +72,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
@@ -535,11 +537,109 @@ namespace CodexCode.WorkspaceReview
 
         /// ---------------------------------------------------------------------
         /// <summary>
+        /// name         : CheckSidebar
+        /// desc         : 실제 WPF 경계 이벤트와 기록 복원으로 폭·숨김·읽지 않음·상태를 검증한다.
+        /// author       : CodexOrig
+        /// create date  : 2026-10-18
+        /// update date  : 2026-10-18 CodexOrig : TASK-014 드래그·키보드·복원·구버전 호환 회귀.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        private static void CheckSidebar(AssistantControl control, Window owner, string output)
+        {
+            owner.Width = 900; owner.UpdateLayout();
+            var toggle = (ToggleButton)control.FindName("HistoryToggle");
+            toggle.IsChecked = true; toggle.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent)); owner.UpdateLayout();
+            var splitter = (GridSplitter)control.FindName("HistorySplitter");
+            var column = (ColumnDefinition)control.FindName("HistoryColumn");
+            double before = column.ActualWidth;
+            Check(splitter.IsVisible && splitter.Focusable && Grid.GetRowSpan(splitter) == 3,
+                "A keyboard-accessible drag boundary spans the conversation, review and composer height");
+            splitter.RaiseEvent(new DragStartedEventArgs(0, 0) { RoutedEvent = Thumb.DragStartedEvent });
+            splitter.RaiseEvent(new DragDeltaEventArgs(65, 0) { RoutedEvent = Thumb.DragDeltaEvent }); owner.UpdateLayout();
+            splitter.RaiseEvent(new DragCompletedEventArgs(65, 0, false) { RoutedEvent = Thumb.DragCompletedEvent }); owner.UpdateLayout();
+            double expanded = column.ActualWidth;
+            Check(expanded > before + 40 && expanded <= 420,
+                "Real GridSplitter drag events expand the conversation column while preserving the message pane");
+            var settings = new AssistantSettingsStore().Load();
+            Check(Math.Abs(settings.HistoryWidth - expanded) < 2 && settings.ShowHistory,
+                "Completing a resize persists the actual sidebar width and visibility");
+            splitter.RaiseEvent(new DragStartedEventArgs(0, 0) { RoutedEvent = Thumb.DragStartedEvent });
+            splitter.RaiseEvent(new DragDeltaEventArgs(-1000, 0) { RoutedEvent = Thumb.DragDeltaEvent }); owner.UpdateLayout();
+            splitter.RaiseEvent(new DragCompletedEventArgs(-1000, 0, false) { RoutedEvent = Thumb.DragCompletedEvent }); owner.UpdateLayout();
+            Check(toggle.IsChecked == false && ((FrameworkElement)control.FindName("HistoryPanel")).Visibility == Visibility.Collapsed && column.ActualWidth < 1,
+                "Dragging the boundary to the left edge collapses the sidebar and returns its space to the conversation");
+            Check(!new AssistantSettingsStore().Load().ShowHistory,
+                "The collapsed choice survives a settings reload");
+            toggle.IsChecked = true; toggle.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent)); owner.UpdateLayout();
+            Check(Math.Abs(column.ActualWidth - expanded) < 2,
+                "Reopening the sidebar restores its last useful width rather than the collapsed width");
+            splitter.RaiseEvent(new DragStartedEventArgs(0, 0) { RoutedEvent = Thumb.DragStartedEvent });
+            splitter.RaiseEvent(new DragDeltaEventArgs(30, 0) { RoutedEvent = Thumb.DragDeltaEvent }); owner.UpdateLayout();
+            splitter.RaiseEvent(new DragCompletedEventArgs(30, 0, true) { RoutedEvent = Thumb.DragCompletedEvent }); owner.UpdateLayout();
+            Check(Math.Abs(column.ActualWidth - expanded) < 2,
+                "Cancelling a resize restores the previous width without saving a partial drag");
+            using (var recreated = new AssistantControl())
+            {
+                Check(((ToggleButton)recreated.FindName("HistoryToggle")).IsChecked == true && new AssistantSettingsStore().Load().HistoryWidth == settings.HistoryWidth,
+                    "A recreated view restores the user's visible sidebar preference and saved width");
+            }
+            var list = (ListBox)control.FindName("ConversationList");
+            var record = (ConversationRecord)list.SelectedItem;
+            record.State = ConversationRunState.Completed; record.HasUnread = true; owner.UpdateLayout();
+            var indicator = Descendants(list).OfType<TextBlock>().Single(x => x.Name == "ConversationStatus" && x.DataContext == record);
+            Check(indicator.Text == "●" && ((SolidColorBrush)indicator.Foreground).Color == (Color)ColorConverter.ConvertFromString("#4A9EFF"),
+                "An unread completed response is shown as a live blue dot on its own conversation row");
+            ((ScrollViewer)control.FindName("ConversationScroll")).RaiseEvent(new MouseButtonEventArgs(Mouse.PrimaryDevice, Environment.TickCount, MouseButton.Left) { RoutedEvent = Mouse.PreviewMouseDownEvent });
+            owner.UpdateLayout();
+            Check(!record.HasUnread && record.State == ConversationRunState.Completed && indicator.Text == "✓",
+                "Confirming the current conversation clears its unread dot without losing its completion result");
+            var store = new MarkdownWorkspaceStore();
+            Check(!store.LoadOpen(record.Provider).Single(x => x.Id == record.Id).HasUnread,
+                "Reading a conversation also persists its cleared unread state");
+            indicator = Descendants(list).OfType<TextBlock>().Single(x => x.Name == "ConversationStatus" && x.DataContext == record);
+            record.State = ConversationRunState.Failed; owner.UpdateLayout();
+            Check(indicator.Text == "!" && record.StatusDescription.Contains("실패"),
+                "A failed conversation is distinguishable from an unread successful response");
+            record.State = ConversationRunState.Running; owner.UpdateLayout();
+            Check(indicator.Text == "◌" && indicator.HasAnimatedProperties,
+                "The running conversation row animates its real running state");
+            record.State = ConversationRunState.Stopped; owner.UpdateLayout();
+            PumpUntil(() => !indicator.HasAnimatedProperties, 1500);
+            Check(indicator.Text == "■" && !indicator.HasAnimatedProperties,
+                "Stopping a conversation releases its row animation and retains a stopped marker");
+            string scratch = System.IO.Path.Combine(output, "state-store");
+            var isolated = new MarkdownWorkspaceStore(scratch); var saved = isolated.Create("Claude");
+            saved.State = ConversationRunState.Completed; saved.HasUnread = true; isolated.Save(saved);
+            var loaded = isolated.LoadOpen("Claude").Single();
+            Check(loaded.State == ConversationRunState.Completed && loaded.HasUnread,
+                "Completed and unread state round-trip through Markdown without losing the response");
+            saved.State = ConversationRunState.Running; saved.HasUnread = false; isolated.Save(saved); loaded = isolated.LoadOpen("Claude").Single();
+            Check(loaded.State == ConversationRunState.Interrupted && loaded.HasUnread,
+                "A request left running by a previous process restores as interrupted and unread, never falsely running");
+            string file = isolated.GetPath(saved);
+            string legacy = Regex.Replace(File.ReadAllText(file), @"(?m)^(last_status|has_unread):.*\n", "");
+            File.WriteAllText(file, legacy, new UTF8Encoding(false)); loaded = isolated.LoadOpen("Claude").Single();
+            Check(loaded.State == ConversationRunState.Idle && !loaded.HasUnread,
+                "Older conversation Markdown without status metadata remains fully readable");
+            saved.State = ConversationRunState.Idle; isolated.Save(saved);
+            File.WriteAllText(file, File.ReadAllText(file).Replace("last_status: \"Idle\"", "last_status: \"MadeUp\""), new UTF8Encoding(false));
+            Check(isolated.LoadOpen("Claude").Length == 0 && isolated.LastLoadWarnings.Length == 1,
+                "Invalid status metadata is reported as a damaged record rather than displayed as a valid result");
+            record.State = ConversationRunState.Completed;
+            Capture(control, System.IO.Path.Combine(output, "Sidebar-expanded.png"));
+            toggle.IsChecked = false; toggle.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent)); owner.UpdateLayout();
+            Capture(control, System.IO.Path.Combine(output, "Sidebar-collapsed.png"));
+            toggle.IsChecked = true; toggle.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent)); owner.UpdateLayout();
+        }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
         /// name         : Run
         /// desc         : 격리된 실제 창에서 입력·첨부·변경 검토·새 대화 기능을 사용자 순서로 검사한다.
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 입력 이벤트·첨부 제거·소스 이동·승인과 저장의 실제 경계 검증.
+        /// update date  : 2026-10-18 CodexOrig : TASK-014 실제 숨김 응답·실패/중지·경계/상태 회귀 연결.
         /// </summary>
         /// ---------------------------------------------------------------------
         public static ExperienceResult Run(string settingsPath, string output)
@@ -600,6 +700,9 @@ namespace CodexCode.WorkspaceReview
                 model.Text = "synthetic-model";
                 mode.SelectedItem = mode.Items.OfType<ComboBoxItem>().Single(x => Convert.ToString(x.Tag) == "high");
                 var prompt = (TextBox)control.FindName("Instruction");
+                prompt.Text = ""; Click((Button)control.FindName("GenerateButton"));
+                Check(((ConversationRecord)((ListBox)control.FindName("ConversationList")).SelectedItem).State == ConversationRunState.Failed && provider.Calls == 0,
+                    "A real rejected request records failure without inventing an AI invocation");
                 prompt.Text = "한국어 조합 중인 요청";
                 var composition = new TextComposition(InputManager.Current, prompt, "가");
                 prompt.RaiseEvent(new TextCompositionEventArgs(Keyboard.PrimaryDevice, composition)
@@ -642,14 +745,23 @@ namespace CodexCode.WorkspaceReview
                 prompt.Text = "숫자를 2로 바꿔줘"; prompt.Focus();
                 var enter = new KeyEventArgs(Keyboard.PrimaryDevice, PresentationSource.FromVisual(prompt), Environment.TickCount, Key.Return)
                     { RoutedEvent = Keyboard.PreviewKeyDownEvent };
+                provider.Hold = true;
                 prompt.RaiseEvent(enter);
+                PumpUntil(() => provider.Pending != null, 2000);
+                owner.Hide(); provider.Pending.SetResult(provider.Proposal);
                 PumpUntil(() => provider.Calls == 1 && ((Button)control.FindName("StopButton")).IsEnabled == false, 2000);
+                var unseen = (ConversationRecord)((ListBox)control.FindName("ConversationList")).SelectedItem;
+                Check(unseen.State == ConversationRunState.Completed && unseen.HasUnread && new MarkdownWorkspaceStore().LoadOpen(unseen.Provider).Single(x => x.Id == unseen.Id).HasUnread,
+                    "A real response received while the conversation is hidden becomes unread and is persisted");
+                owner.Show(); owner.UpdateLayout(); provider.Hold = false;
                 Check(enter.Handled && provider.LastProvider == "Claude" && provider.LastInstruction == "숫자를 2로 바꿔줘",
                     "The routed Enter key sends the current prompt to the selected provider exactly once");
                 Check(provider.LastContext.Model == "synthetic-model" && provider.LastContext.Attachments.Length == 1,
                     "The actual request boundary receives the selected model and captured attachment");
                 Check(provider.LastContext.ReasoningEffort == "high",
                     "The actual request boundary receives the selected thinking mode");
+                Check(((ConversationRecord)((ListBox)control.FindName("ConversationList")).SelectedItem).State == ConversationRunState.Completed,
+                    "An actual successful proposal marks only its conversation completed");
                 CheckMessagePresentation(control);
                 Check(document.ReplaceCount == 0 && document.SaveCount == 0 && File.ReadAllText(document.Path).Contains("return 1;"),
                     "Receiving an AI proposal changes neither editor buffer nor disk before approval");
@@ -687,6 +799,9 @@ namespace CodexCode.WorkspaceReview
                 var requestWatch = Stopwatch.StartNew();
                 HandleKey(control, Key.Return, ModifierKeys.None);
                 PumpUntil(() => provider.Calls == 2 && ((Button)control.FindName("StopButton")).IsEnabled, 2000);
+                var runningRecord = (ConversationRecord)((ListBox)control.FindName("ConversationList")).SelectedItem;
+                Check(runningRecord.State == ConversationRunState.Running && !runningRecord.HasUnread,
+                    "A pending actual request has a running status without an unread completion");
                 var thinking = (FrameworkElement)control.FindName("ThinkingIndicator");
                 Check(thinking.IsVisible && thinking.HasAnimatedProperties,
                     "A pending AI request shows an animated thinking indicator even while toast feedback may fade");
@@ -703,6 +818,8 @@ namespace CodexCode.WorkspaceReview
                 PumpUntil(() => !((Button)control.FindName("StopButton")).IsEnabled && ((Button)control.FindName("GenerateButton")).IsEnabled, 2000);
                 Check(provider.Pending.Task.IsCanceled && document.ReplaceCount == 1 && document.SaveCount == 1,
                     "Stopping a pending request cancels its provider task without additional source edits or saves");
+                Check(runningRecord.State == ConversationRunState.Stopped,
+                    "Actual request cancellation records stopped rather than successful completion");
                 Check(!thinking.IsVisible && !thinking.HasAnimatedProperties,
                     "Stopping the request hides its thinking indicator and releases the repeated animation");
                 var activityTimer = (DispatcherTimer)typeof(AssistantControl).GetField("activityTimer", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(control);
@@ -716,6 +833,7 @@ namespace CodexCode.WorkspaceReview
                 CheckActivityConversationIsolation(control);
                 CheckConversationFailureRecovery(control);
                 CheckLastConversationCapacityFailure(output);
+                CheckSidebar(control, owner, output);
                 foreach (var width in new[] { 420.0, 220.0 })
                 {
                     owner.Width = width; owner.UpdateLayout();
@@ -749,7 +867,7 @@ namespace CodexCode.WorkspaceReview
     $report = [pscustomobject]@{
         Succeeded=$experience.Succeeded; CheckKind='IndependentWpfWorkspaceExperience'; Passed=$experience.Checks.Count
         Checks=$experience.Checks; Error=$experience.Error; ProductVersion=$productAssembly.GetName().Version.ToString()
-        AssemblySha256=(Get-FileHash -LiteralPath $AssemblyPath -Algorithm SHA256).Hash
+        AssemblySha256=$assemblySha256
         IdeRuntimeTest=$false; AccountLoginAttempted=$false; PersonalSettingsRead=$false
         OutputDirectory=$OutputDirectory; WorkspaceDirectory=$env:VS2017_AI_WORKSPACE_PATH; CheckedAt=(Get-Date).ToString('O')
     }

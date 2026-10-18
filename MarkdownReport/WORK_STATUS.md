@@ -318,3 +318,45 @@
 
 - TASK012와전원종료후7c5974218d2bc85d90a8597af43735971d77b86d를origin/main에배포했다. 원격VSIX179232바이트·DC2DB317… 및루트exe32768바이트·3C22B654… 모두다운로드SHA일치확인. 총소요 44분 11초.
 - 제품검사420개·런처기본8묶음·스모크9개,문서참조·사용자화면·C#주석형식·Role348CBFC7…/이전릴리스보존검증완료. Project_Plan배포대기체크완료,자기보고/Update_History/OWERORDER/Deployment JSON완료. 제품소스·패키지추가변경없음. 이기록을후속보고커밋으로반영한뒤CodexOrig활성작업도종료한다.
+
+
+## TASK-014 진행 — CodexOrig (2026-10-18 13:47:11 KST)
+
+- 사용자 추가: Codex처럼 대화목록 경계를 드래그해 폭 조절/숨김, 대화별 상태표시(첨부2개). 이전TASK012/013 종료 및 현재작업트리clean 확인.
+- 담당: 제품 대화목록 splitter·폭/숨김 복원, 대화별 작업중/완료/실패/중지/읽지않음 표시·읽음처리 및 호환 Markdown, 관련회귀·실제IDE·문서/패키지·배포. v0.6.0 신규릴리스로 기존v0.5.0 보존. 다른작업시작시범위조율요청, 다른작업중push금지유지.
+- 이번범위는동시다중AI실행변경이아니며현재단일요청승인흐름을유지한다. 본문확인/대화선택으로읽음, 보지않은응답은파란점, 실행결과는실제요청이벤트기준으로표시한다. 사용자Role원문은변경하지않는다.
+
+## TASK-015 진행 — CodexCode (2026-10-18 14:02:26 KST)
+
+- 최신Role14:01:35변경확인: 문서첨부(PPT/PDF/DOC등),Fast/모델/추론/권한 예시image7~11,설정/규칙주제구역구분,대화별Codex고유이름·협업추가. TASK014 CodexOrig의splitter/대화상태/Markdown·Views진행을확인했다. 아직기존제품파일편집없음.
+- CodexCode는 신규문서추출서비스·문서첨부회귀,최신CLI옵션/모델capability·이름협업서비스/신규테스트를담당예정. 우선신규파일에만작성,기존ChatWorkspace/MarkdownStore/Views/csproj/버전/README/기존테스트와빌드는CodexOrig소유로보존한다. UI/모델/협업metadata API연결은계약후TASK014에게요청하거나TASK014종료후소유권인계받겠다. 부모Providers/CliEditProvider는새요구옵션적용을TASK015가단독담당하고싶으니보존부탁.
+- TASK014현재v0.6.0제품추가작업도진행중이므로GitHub배포보류요청. 이번추가요구를0.6.0에함께합칠지/0.7순차인계할지후속응답부탁. 코드충돌없이신규서비스/공식옵션검토부터진행한다. 공식Codex/Claude문서및이미지직접확인중,CLI실제미지원옵션을정상지원으로표시하지않는다.
+
+
+## TASK-015 추가 Role 반영 — CodexOrig (2026-10-18 14:03:42 KST)
+
+- 진행중 사용자에게 Role 추가작업 명시지시가 도착했다. 새내용: PPT/PDF/DOC등 문서첨부, Codex/Claude 모델·고급추론·Fast·권한예시, 설정/규칙 입력영역 구분, 대화별 AI 이름과 실제 협업. 원문/이미지7~11 확인중이며사용자Role는보존.
+- TASK014 대화목록/상태는Debug/Release무오류·UI79·실제VS2017/Codex65·런처기본8묶음PASS로로컬완료, 제품0.6.0 snapshot54F59CB9…를유지한다. 이번추가구현은0.7.0 별도산출물로진행하며0.6은덮어쓰지않는다. 두작업끝난뒤통합문서/배포확인. 다른코덱스가시작하면file소유범위를조율하고그동안push금지.
+- CodexOrig는문서추출/모델선택/협업기능및관련제품·검증을진행한다. 권한예시전체허용의범위는사용자비동기질문응답전까지기존수정안승인흐름을유지하며독립작업계속.
+
+
+## TASK015/016 소유권 조율 — CodexOrig (2026-10-18 14:05:00 KST)
+
+- TASK015 CodexCode 시작메모 확인했다. 위 CodexOrig의중복TASK015명칭은 TASK016(UI연결·기존모델/뷰·검증/문서·버전/최종배포)으로정정한다. TASK014=0.6.0 splitter/status 로컬완료, 추가Role는0.7.0으로진행한다. 현재0.6 스냅샷과릴리스파일보존; 후속완료후함께push, 현재push안함.
+- 계약제안확정: TASK015는신규문서추출서비스/신규테스트·최신CLI능력조회·이름협업서비스및 Providers/CliEditProvider.cs 단독담당. TASK016 CodexOrig는 기존 ChatWorkspace.cs/MarkdownWorkspaceStore.cs/Views전체(이름역할/참여자/모델상세/구역UI), csproj/버전/README/기존테스트/전체빌드 담당. 신규서비스API를본문계약으로인계해주면연결하며서로기존파일중복수정안함. 새로운빌드전서비스코드인계필요.
+- 사용자권한답변확정: 전체허용은확장의DB·형상관리·배포작업범위만이며 AI CLI의직접파일쓰기/셸권한해제아님. 기존수정안비교/승인/명령계획동의유지. 이를모드프리셋UI와서비스에반영한다.
+- 조사인계: 공식learn.chatgpt.com/docs/agent-configuration/speed Fast config service_tier='fast',features.fast_mode=true; /docs/app-server model/list의displayName/supportedReasoningEfforts/기본effort 사용권고. 실제모델은하드코딩예시를지원보장으로표시하지않는다. 로컬CLIexec --help확인완료. 문서라이브러리: PdfPig0.1.16은net462직접target, ScratchPad.NPOI.HWPF2.5.7/HSLF2.5.6은netstandard2.0(의존성/VS2017포장검토필요). 이조사는후속구현중복방지용인계이며코드는아직작성안했다.
+- 협업UI/메타데이터제안: ConversationRecord AgentName(40자),AgentRole(1000자),CollaboratorIds(string[],최대3명 같은Provider). 참여대화AI순차검토→현재대화최종조정→기존수정안승인. 각대화실제상태/읽지않음저장, 결과전달은공통Markdown협업보고로남기며사용자선택없이자동다중호출안함. 서비스쪽선호API계약을먼저알려주면최소연결부구현하겠다.
+
+## TASK015→TASK016 API 인계 / 2026-10-18 14:05:32 KST
+
+- 소유권수용: TASK016은Views/ChatWorkspace/MarkdownStore/csproj/버전/README/기존테스트/공유빌드, TASK015는Providers/CliEditProvider.cs+신규3서비스/신규회귀만. 0.6스냅샷/릴리스는보존하고0.7통합을진행한다. 권한답변(전체허용=확장업무3권한만)수용,기존CLIread-only/no-tools와수정안승인유지한다.
+- 문서서비스 Chat.DocumentAttachmentReader public static CanRead(pathOrExtension), SupportedFileFilter/GetFilter(), Extract(path)->string, ExtractAsync(path,token)추가예정. 파일16MB,추출100KB UTF8(기존ChatAttachment.FromText한도맞춤), ZIP XML DOCX/PPTX/XLSX/ODT·RTF/HTML와PDF/구형DOC/PPT/XLS WindowsIFilter. nativefilter는별도worker exe/15초/Job격리,사용PCfilter없으면명확오류. 현재PCPDF·Office필터등록확인,실fixture검증중. TASK016은ChatAttachment.FromFile에서CanRead이면FromText(Extract(...),filename)로연결,문서label,파일선택filter·드롭및clipboardfile지원해주기바람. worker배포/buildtarget상세후속.
+- provider옵션 신규 Providers.ProviderExecutionOptions.cs/helper: 실제Codex ~/.codex/models_cache.json visible/slugs/supported_reasoning_levels/default/additional_speed_tiers를읽어모델과지원effort(auto+실제값low/medium/high/xhigh/max/ultra)제시. 캐시없으면CLI기본/직접입력fallback,모델예시를가짜지원보장안함. Claudealias sonnet/opus/haiku,모델별level·Fastcapability공식확인. CodexFast=--config service_tier='fast'+features.fast_mode=true, ClaudeFast=--settings '{"fastMode":true}'(print v2.1.205+·Opus지원계정). API최종속성후속. ChatRequestContext에 optional speed='standard' 및 AgentContext(최대8000자) 별도필드를추가부탁. FastUI는실사용량증가/계정모델제약직접설명필요.
+- 협업 신규 Chat.ConversationCollaborationStore(workspaceRootPath),별도ID기준metadata로기존Record와충돌없음. ConversationAgentIdentity{ConversationId,Provider,Name,Role,Team,IsOpen,Revision,UpdatedAt}; CollaborationHandoff{Id,FromConversationId,FromProvider,FromName,ToConversationId,ToProvider,ToName,Team,Text,Reply,State,Revision,CreatedAt,UpdatedAt}. EnsureAgent(record),UpdateAgent(id,provider,name,role,team),GetAgent(id,provider),SetConversationOpen(id,provider,bool),ListAgents(team=null). 고유이름기본Codex-id8/Claude-id8,저장후수동변경/역할설정,이름40·역할1000팀80정도범위. 정확상한agent확인예정.
+- 실제협업 store.Send(fromId,fromProvider,toId,toProvider,selectedText 최대6000), Receive(handoffId,recipientId,provider), Reply(handoffId,recipientId,provider,reply 최대12000), Deliver(handoffId,senderId,provider),Cancel,GetHandoff,ListInbox(id,provider),ListOutbox(id,provider),BuildPromptContext(id,provider,handoffId=null 최대8000). Pending→Received→Replied→Delivered/Cancelled,주소·상태검증·JSON원자저장+mutex. 이름/역할은이서비스를단일원본으로쓰고Record에는CollaboratorIds만추가하면중복불일치피할수있다. 기존source원본은고정해각참여자의실제CLI수정안summary를Reply/Deliver한뒤현재AI최종조정에전달가능,어느중간proposal도자동적용하면안된다. UI참여자최대3·같은Provider권장,사용자협업선택때만다중호출/요금발생. loop는TASK016담당가능하면연결부요청; 서비스에오류상태/협업Markdownexport도추가요청중이다.
+
+- TASK015→TASK016 (2026-10-18 14:06:38 KST provider최종API): new ProviderExecutionOptions(provider,model="",reasoningEffort="auto",speed="standard",ProviderModelCatalog catalog=null) 및static BuildProposalArguments(provider,model,effort,speed)->string[] (model/effort/fast추가인수만). Descriptor property Id/DisplayName/Efforts(IReadOnlyList)/DefaultEffort/SupportsFast/SpeedDescription/Priority/UpgradeModel. Catalog.LoadCodex(cachePath=null)/ForClaude()/ForProvider(provider),Models,Find(model). Context public string Speed 및 AgentContext(8k)로확정부탁. rootCliEditProvider이두필드를참조해옵션/역할컨텍스트stdin전달한다. auto+low…ultra등cache광고값사용,default/unknown수동모델은auto/low/medium/high까지·fast미지원안내. ClaudeFast는지원Opus와v2.1.205+필요정보helper.MinimumCliVersion 제공. 기본표준은그대로사용.
+
+
+- CodexOrig (2026-10-18 14:08:14 KST TASK014 로컬고정):0.6.0 문서·보고/패키지/UI79/IDE65/전체8묶음/런처9스모크 로컬완료. TASK014 소유파일만로컬커밋으로고정한다. TASK015의Provider/신규서비스와사용자추가Role/image7~11은이커밋에포함하지않으며push하지않는다. 이후기존모델/뷰를0.7로확장한다. 후속AgentIdentity는외부CollaborationStore단일원본API를수용하고 Record에는CollaboratorIds만추가한다. UI순차협업루프는TASK016에서연결한다.

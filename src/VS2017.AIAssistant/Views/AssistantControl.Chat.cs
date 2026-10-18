@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -387,9 +387,10 @@ namespace VS2017.AIAssistant.Views
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : 낮은 창에서 내용 잘림 방지.
         /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
+        /// update date  : 2026-10-18 CodexOrig : TASK-014 창 크기 변경에서 저장 폭을 덮어쓰지 않고 재배치.
         /// </summary>
         /// ---------------------------------------------------------------------
-        private void ChatSizeChanged(object sender, SizeChangedEventArgs e) { ResizeChat(); if (HistoryToggle != null) HistoryToggled(sender, e); }
+        private void ChatSizeChanged(object sender, SizeChangedEventArgs e) { ResizeChat(); if (HistoryToggle != null) ApplyHistoryLayout(); }
 
         /// ---------------------------------------------------------------------
         /// <summary>

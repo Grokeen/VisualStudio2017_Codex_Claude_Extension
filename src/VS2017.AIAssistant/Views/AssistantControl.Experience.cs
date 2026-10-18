@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
@@ -90,6 +90,7 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : Role 추가 사용자 흐름 구현.
+        /// update date  : 2026-10-18 CodexOrig : TASK-014 대화 목록 배치 복원과 본문 확인 이벤트 연결.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void InitializeExperience(AssistantSettings settings)
@@ -142,7 +143,7 @@ namespace VS2017.AIAssistant.Views
             activityTimer.Tick += (sender, args) => RefreshActivityTime();
             statusDescriptor = DependencyPropertyDescriptor.FromProperty(TextBlock.TextProperty, typeof(TextBlock)); statusDescriptor.AddValueChanged(StatusLabel, StatusChanged);
             ClaudeTabLogo.Source = LoadBrand("Claude"); CodexTabLogo.Source = LoadBrand("Codex");
-            experienceReady = true; RefreshExperience();
+            experienceReady = true; InitializeConversationTracking(settings); RefreshExperience();
             if (workspaceWarnings.Count > 0) StatusLabel.Text = "일부 대화를 복원하지 못했습니다. 최근 알림에서 확인하세요.\n" + string.Join("\n", workspaceWarnings);
         }
 
@@ -247,13 +248,15 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : Role 추가 사용자 흐름 구현.
+        /// update date  : 2026-10-18 CodexOrig : TASK-014 선택한 대화만 읽음 처리하고 다른 대화 상태 유지.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void ConversationSelected(object sender, SelectionChangedEventArgs e)
         {
             if (switchingConversation || !experienceReady || busy || disposed) return;
-            var next = ConversationList.SelectedItem as ConversationRecord; if (next == null || next == activeRecords[selectedProvider]) return;
-            if (!PersistCurrentConversation()) { RefreshConversationList(); return; } activeRecords[selectedProvider] = next; ClearProposal(); ShowChat(); UpdateButtons();
+            var next = ConversationList.SelectedItem as ConversationRecord; if (next == null) return;
+            if (next == activeRecords[selectedProvider]) { MarkCurrentConversationRead(); return; }
+            if (!PersistCurrentConversation()) { RefreshConversationList(); return; } activeRecords[selectedProvider] = next; MarkCurrentConversationRead(); ClearProposal(); ShowChat(); UpdateButtons();
         }
 
         /// ---------------------------------------------------------------------
@@ -325,14 +328,13 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : Role 추가 사용자 흐름 구현.
+        /// update date  : 2026-10-18 CodexOrig : TASK-014 드래그 경계 레이아웃과 목록 배치 저장 연결.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void HistoryToggled(object sender, RoutedEventArgs e)
         {
-            bool visible = HistoryToggle.IsChecked == true, narrow = ActualWidth < 480;
-            HistoryPanel.Visibility = visible ? Visibility.Visible : Visibility.Collapsed; HistoryPanel.Width = 145;
-            HistoryColumn.Width = new GridLength(visible && !narrow ? 153 : 0); Grid.SetColumnSpan(HistoryPanel, visible && narrow ? 2 : 1); HistoryPanel.HorizontalAlignment = HorizontalAlignment.Left;
-            if (visible) HistoryPanel.BeginAnimation(OpacityProperty, new DoubleAnimation(0, 1, TimeSpan.FromMilliseconds(180)));
+            ApplyHistoryLayout(); SaveHistoryLayout();
+            if (HistoryToggle.IsChecked == true) HistoryPanel.BeginAnimation(OpacityProperty, new DoubleAnimation(0, 1, TimeSpan.FromMilliseconds(180)));
         }
 
         /// ---------------------------------------------------------------------
@@ -591,11 +593,14 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : Role 추가 사용자 흐름 구현.
+        /// update date  : 2026-10-18 CodexOrig : TASK-014 진행 중 요청을 창 종료 시 중지 상태로 저장.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void DisposeExperience()
         {
             if (!experienceReady) return;
+            var active = activeRecords[selectedProvider];
+            if (active.State == ConversationRunState.Running) { active.State = ConversationRunState.Stopped; active.HasUnread = true; }
             PersistCurrentConversation();
             foreach (var record in conversationRecords.Values.SelectMany(r => r))
             {

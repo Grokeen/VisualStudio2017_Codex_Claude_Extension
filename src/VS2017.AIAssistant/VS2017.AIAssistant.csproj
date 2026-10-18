@@ -70,6 +70,7 @@
     <Compile Include="Services\WorkspaceActionService.cs" />
     <Compile Include="Views\WorkspaceActionsDialog.cs" />
     <Compile Include="Views\AssistantControl.Experience.cs" />
+    <Compile Include="Views\AssistantControl.Conversations.cs" />
     <Compile Include="Providers\CliAccountService.cs" />
     <Compile Include="Views\AssistantControl.Chat.cs" />
     <Compile Include="Views\AssistantControl.Dialogs.cs" />

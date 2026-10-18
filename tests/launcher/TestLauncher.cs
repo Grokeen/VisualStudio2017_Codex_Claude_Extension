@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
@@ -208,6 +208,7 @@ internal static class TestLauncher
     /// author       : CodexCode
     /// create date  : 2026-10-18
     /// update date  : 2026-10-18 CodexCode : 배포본 부재 시 기존 Release 산출물 사용, 자동 빌드 없음.
+    /// update date  : 2026-10-18 CodexOrig : TASK-014 v0.6.0 배포본을 기본 검사 대상으로 선택.
     /// </summary>
     /// ---------------------------------------------------------------------
     private static void PrepareInputs(TestSuite[] suites, LauncherOptions options, string output, Action<string> log)
@@ -216,14 +217,14 @@ internal static class TestLauncher
         if (explicitVsix) options.Vsix = ResolveFile(options.Vsix, ".vsix");
         if (suites.Any(s => s.Vsix) || (suites.Any(s => s.Assembly) && string.IsNullOrWhiteSpace(options.Assembly)))
         {
-            if (string.IsNullOrWhiteSpace(options.Vsix)) options.Vsix = File.Exists(Path.Combine(Root, "releases/v0.5.0/VS2017.AIAssistant-0.5.0.vsix")) ? "releases/v0.5.0/VS2017.AIAssistant-0.5.0.vsix" : "src/VS2017.AIAssistant/bin/Release/VS2017.AIAssistant.vsix";
+            if (string.IsNullOrWhiteSpace(options.Vsix)) options.Vsix = File.Exists(Path.Combine(Root, "releases/v0.6.0/VS2017.AIAssistant-0.6.0.vsix")) ? "releases/v0.6.0/VS2017.AIAssistant-0.6.0.vsix" : "src/VS2017.AIAssistant/bin/Release/VS2017.AIAssistant.vsix";
             if (suites.Any(s => s.Vsix) || File.Exists(Path.Combine(Root, options.Vsix))) options.Vsix = ResolveFile(options.Vsix, ".vsix");
         }
         if (suites.Any(s => s.Assembly))
         {
             if (string.IsNullOrWhiteSpace(options.Assembly))
             {
-                if (!explicitVsix && File.Exists(Path.Combine(Root, "releases/v0.5.0/VS2017.AIAssistant.dll"))) options.Assembly = "releases/v0.5.0/VS2017.AIAssistant.dll";
+                if (!explicitVsix && File.Exists(Path.Combine(Root, "releases/v0.6.0/VS2017.AIAssistant.dll"))) options.Assembly = "releases/v0.6.0/VS2017.AIAssistant.dll";
                 else if (!string.IsNullOrWhiteSpace(options.Vsix) && File.Exists(options.Vsix))
                 {
                     string destination = Path.Combine(output, "ProductReference"); Directory.CreateDirectory(destination);
@@ -294,6 +295,7 @@ internal static class TestLauncher
     /// author       : CodexCode
     /// create date  : 2026-10-18
     /// update date  : 2026-10-18 CodexCode : -STA·고정 wrapper·인수 인코딩·15분 제한 적용.
+    /// update date  : 2026-10-18 CodexOrig : TASK-014 PowerShell7의 모듈 경로를 넘기지 않아 Windows PowerShell5.1 기본 모듈 복원.
     /// </summary>
     /// ---------------------------------------------------------------------
     private static async Task<int> RunChildAsync(TestSuite suite, LauncherOptions options, string output, Action<string> log, CancellationToken cancellation)
@@ -305,6 +307,8 @@ internal static class TestLauncher
         if (suite.Vsix) { args.Add("-VsixPath"); args.Add(options.Vsix); }
         if (suite.Id == "live-codex") { args.Add("-CodexPath"); args.Add(options.Codex); }
         var info = new ProcessStartInfo(powershell, string.Join(" ", args.Select(Quote))) { UseShellExecute = false, CreateNoWindow = true, WorkingDirectory = Root, RedirectStandardInput = true, RedirectStandardOutput = true, RedirectStandardError = true, StandardOutputEncoding = Encoding.UTF8, StandardErrorEncoding = Encoding.UTF8 };
+        // PowerShell 7에서 실행해도 자식 Windows PowerShell 5.1은 자체 기본 모듈 경로를 구성한다.
+        info.EnvironmentVariables.Remove("PSModulePath");
         using (var child = new Process { StartInfo = info }) using (var job = new LauncherJob()) using (var deadline = CancellationTokenSource.CreateLinkedTokenSource(cancellation))
         {
             deadline.CancelAfter(TimeSpan.FromMinutes(15));
@@ -360,6 +364,7 @@ internal static class TestLauncher
 /// author       : CodexCode
 /// create date  : 2026-10-18
 /// update date  : 2026-10-18 CodexCode : 열기만으로 검사를 실행하지 않으며 실행 중 닫기는 취소 후 처리.
+/// update date  : 2026-10-18 CodexOrig : TASK-014 기본 배포 버전 안내를 v0.6.0으로 갱신.
 /// </summary>
 /// ---------------------------------------------------------------------
 internal sealed class LauncherForm : Form
@@ -379,6 +384,7 @@ internal sealed class LauncherForm : Form
     /// author       : CodexCode
     /// create date  : 2026-10-18
     /// update date  : 2026-10-18 CodexCode : 실제 IDE·AI 검사는 명시적으로 선택해야 실행.
+    /// update date  : 2026-10-18 CodexOrig : TASK-014 기본 배포 버전 안내를 v0.6.0으로 갱신.
     /// </summary>
     /// ---------------------------------------------------------------------
     internal LauncherForm(LauncherOptions options)
@@ -390,7 +396,7 @@ internal sealed class LauncherForm : Form
         layout.RowStyles.Add(new RowStyle(SizeType.Percent, 100)); layout.RowStyles.Add(new RowStyle(SizeType.AutoSize)); Controls.Add(layout);
         layout.Controls.Add(new Label { Text = "실행할 검사를 고르세요 · IDE·실제 AI 검사는 직접 선택할 때만 실행됩니다.", AutoSize = true, Padding = new Padding(0, 0, 0, 8) }, 0, 0);
         foreach (var suite in TestLauncher.Suites) suites.Items.Add(suite, false); layout.Controls.Add(suites, 0, 1);
-        layout.Controls.Add(new Label { Text = "DLL / VSIX 경로 (비우면 배포 v0.5.0 → 기존 Release 산출물, 자동 빌드 없음)", AutoSize = true, Padding = new Padding(0, 8, 0, 0) }, 0, 2);
+        layout.Controls.Add(new Label { Text = "DLL / VSIX 경로 (비우면 배포 v0.6.0 → 기존 Release 산출물, 자동 빌드 없음)", AutoSize = true, Padding = new Padding(0, 8, 0, 0) }, 0, 2);
         var paths = new TableLayoutPanel { Dock = DockStyle.Fill, AutoSize = true, ColumnCount = 2, RowCount = 3 }; paths.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 95)); paths.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
         paths.Controls.Add(new Label { Text = "제품 DLL", AutoSize = true }, 0, 0); paths.Controls.Add(assembly, 1, 0); paths.Controls.Add(new Label { Text = "제품 VSIX", AutoSize = true }, 0, 1); paths.Controls.Add(vsix, 1, 1); paths.Controls.Add(new Label { Text = "Codex .exe", AutoSize = true }, 0, 2); paths.Controls.Add(codex, 1, 2); layout.Controls.Add(paths, 0, 3);
         assembly.Text = options.Assembly ?? ""; vsix.Text = options.Vsix ?? ""; codex.Text = options.Codex ?? "";

@@ -1,6 +1,6 @@
 ﻿# 개발 및 수동 검증
 
-v0.5.0은 AI별 Markdown 대화 복원, 프로젝트 공통 instruction, 입력 영역의 모델·모드 선택, 첨부 미리보기, 변경 파일 링크와 권한별 프로젝트 작업을 추가했다. 공통 AssistantTheme.xaml은 IDE의 밝은/어두운 테마에 관계없이 검정 계열 팔레트를 유지한다. 설정·첫 사용 안내는 [UX 검증](UX_TESTS.md), 요청·승인·저장은 [소스 편집](SOURCE_EDITING.md), CLI 모드 전달은 [CLI 옵션](CLI_OPTIONS.md)을 참고한다.
+v0.6.0은 AI별 Markdown 대화 복원, 프로젝트 공통 instruction, 입력 영역의 모델·모드 선택, 첨부 미리보기, 변경 파일 링크와 권한별 프로젝트 작업을 추가했다. 공통 AssistantTheme.xaml은 IDE의 밝은/어두운 테마에 관계없이 검정 계열 팔레트를 유지한다. 설정·첫 사용 안내는 [UX 검증](UX_TESTS.md), 요청·승인·저장은 [소스 편집](SOURCE_EDITING.md), CLI 모드 전달은 [CLI 옵션](CLI_OPTIONS.md)을 참고한다.
 
 ## 호환성 기준
 
@@ -64,12 +64,12 @@ Foundation 검사는 VSIX 안의 DLL·pkgdef·메뉴·BAML을 확인하고 제�
 ```powershell
 .\VisualStudio_AIChat_ExtentionTest.exe --list
 .\VisualStudio_AIChat_ExtentionTest.exe --all
-.\VisualStudio_AIChat_ExtentionTest.exe --run editing --vsix .\releases\v0.5.0\VS2017.AIAssistant-0.5.0.vsix
+.\VisualStudio_AIChat_ExtentionTest.exe --run editing --vsix .\releases\v0.6.0\VS2017.AIAssistant-0.6.0.vsix
 ```
 
-기본8개는 compatibility·build-entry·markdown·settings·workspace-actions·editing·foundation·experience다. `ide`와 `live-codex`는 직접 선택할 때만 실행한다. `live-codex`에는 로그인된 네이티브 CLI를 `--codex C:\path\to\codex.exe`로 지정한다. 기본 전체 검사는 유료 AI 호출과 실제 IDE 설치·실행을 포함하지 않는다. 실제 IDE55개 fixture 검사는 `--run ide`, 실제 Codex를 함께 쓰는 IDE58개는 [IDE_TESTS.md](IDE_TESTS.md)의 PowerShell 명령을 사용한다.
+기본8개는 compatibility·build-entry·markdown·settings·workspace-actions·editing·foundation·experience다. `ide`와 `live-codex`는 직접 선택할 때만 실행한다. `live-codex`에는 로그인된 네이티브 CLI를 `--codex C:\path\to\codex.exe`로 지정한다. 기본 전체 검사는 유료 AI 호출과 실제 IDE 설치·실행을 포함하지 않는다. 실제 IDE62개 fixture 검사는 `--run ide`, 실제 Codex를 함께 쓰는 IDE65개는 [IDE_TESTS.md](IDE_TESTS.md)의 PowerShell 명령을 사용한다.
 
-제품 DLL·VSIX 경로는 저장소 안의 파일로 지정한다. 비워 두면 배포 v0.5.0 VSIX를 우선 선택하고 DLL을 실행별 폴더로 추출한다. 배포본이 없으면 기존 Release 산출물을 사용하며 런처가 제품을 자동 빌드하지는 않는다. WPF·SDK 검사에는 VS2017 개발 도구·4.6.2 targeting pack·복원된 SDK 참조가 필요하므로 새 체크아웃은 위 개발 PC 준비/빌드를 먼저 수행한다. 제품 VSIX를 설치해 쓰는 사용자에게 이 개발 도구가 필요한 것은 아니다.
+제품 DLL·VSIX 경로는 저장소 안의 파일로 지정한다. 비워 두면 배포 v0.6.0 VSIX를 우선 선택하고 DLL을 실행별 폴더로 추출한다. 배포본이 없으면 기존 Release 산출물을 사용하며 런처가 제품을 자동 빌드하지는 않는다. WPF·SDK 검사에는 VS2017 개발 도구·4.6.2 targeting pack·복원된 SDK 참조가 필요하므로 새 체크아웃은 위 개발 PC 준비/빌드를 먼저 수행한다. 제품 VSIX를 설치해 쓰는 사용자에게 이 개발 도구가 필요한 것은 아니다.
 
 CLI 종료 코드는 성공0, 검사 실패1, 잘못된 인수·검사 ID2, 취소130이다. 실행기를 다시 컴파일하려면 `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\Build-TestLauncher.ps1`을 실행한다. Windows의 .NET Framework 기본 C# 컴파일러로 루트 exe만 생성하며 제품 패키지를 바꾸지 않는다.
 

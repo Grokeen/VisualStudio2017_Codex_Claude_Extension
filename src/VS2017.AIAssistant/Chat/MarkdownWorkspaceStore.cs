@@ -1,5 +1,6 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -16,9 +17,10 @@ namespace VS2017.AIAssistant.Chat
     /// author       : CodexCode
     /// create date  : 2026-10-18
     /// update date  : 2026-10-18 CodexCode : 계정 정보와 첨부 파일을 저장 모델에서 제외.
+    /// update date  : 2026-10-18 CodexOrig : TASK-014 작업 결과·읽지 않음 상태와 즉시 바인딩 알림 추가.
     /// </summary>
     /// ---------------------------------------------------------------------
-    public sealed class ConversationRecord
+    public sealed class ConversationRecord : INotifyPropertyChanged
     {
         public string Id { get; set; }
         public string Provider { get; set; }
@@ -29,7 +31,42 @@ namespace VS2017.AIAssistant.Chat
         public DateTimeOffset UpdatedAt { get; set; }
         public List<ChatMessage> Messages { get; set; } = new List<ChatMessage>();
         public string Draft { get; set; } = "";
+        private ConversationRunState state;
+        private bool hasUnread;
+        public event PropertyChangedEventHandler PropertyChanged;
+        public ConversationRunState State { get { return state; } set { state = value; NotifyStatus(); } }
+        public bool HasUnread { get { return hasUnread; } set { hasUnread = value; NotifyStatus(); } }
+        public string StatusGlyph { get { return State == ConversationRunState.Running ? "◌" : State == ConversationRunState.Failed || State == ConversationRunState.Interrupted ? "!" : HasUnread ? "●" : State == ConversationRunState.Stopped ? "■" : State == ConversationRunState.Completed ? "✓" : "○"; } }
+        public string StatusColor { get { return State == ConversationRunState.Failed ? "#F28B82" : State == ConversationRunState.Interrupted || State == ConversationRunState.Stopped ? "#FDD663" : State == ConversationRunState.Running || HasUnread ? "#4A9EFF" : State == ConversationRunState.Completed ? "#81C995" : "#808080"; } }
+        public string StatusDescription { get { return (State == ConversationRunState.Running ? "작업 중" : State == ConversationRunState.Completed ? "완료" : State == ConversationRunState.Failed ? "요청 실패" : State == ConversationRunState.Stopped ? "중지됨" : State == ConversationRunState.Interrupted ? "이전 실행에서 중단됨" : "대기") + (HasUnread ? " · 읽지 않음" : ""); } }
+        public string AccessibleLabel { get { return Title + " · " + StatusDescription; } }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : NotifyStatus
+        /// desc         : 대화 상태와 읽음 표시를 목록 바인딩에 즉시 전달한다.
+        /// author       : CodexOrig
+        /// create date  : 2026-10-18
+        /// update date  : 2026-10-18 CodexOrig : TASK-014 대화별 상태·색상·접근성 알림.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        private void NotifyStatus()
+        {
+            foreach (string name in new[] { "State", "HasUnread", "StatusGlyph", "StatusColor", "StatusDescription", "AccessibleLabel" })
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        }
     }
+
+    /// ---------------------------------------------------------------------
+    /// <summary>
+    /// name         : ConversationRunState
+    /// desc         : 실제 요청 수명과 종료 결과를 대화별로 구분한다.
+    /// author       : CodexOrig
+    /// create date  : 2026-10-18
+    /// update date  : 2026-10-18 CodexOrig : 재시작 시 실행 중을 중단 상태로 복구.
+    /// </summary>
+    /// ---------------------------------------------------------------------
+    public enum ConversationRunState { Idle, Running, Completed, Failed, Stopped, Interrupted }
 
     /// ---------------------------------------------------------------------
     /// <summary>
@@ -135,6 +172,7 @@ namespace VS2017.AIAssistant.Chat
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 첫 질문 자동 제목 및 수동 제목 보존.
+        /// update date  : 2026-10-18 CodexOrig : TASK-014 종료 상태와 읽지 않음 선택 메타데이터를 이전 형식에 추가.
         /// </summary>
         /// ---------------------------------------------------------------------
         public void Save(ConversationRecord record)
@@ -158,7 +196,7 @@ namespace VS2017.AIAssistant.Chat
             body.Append("## 작성 중인 요청\n\n<!-- assistant-draft chars=").Append(record.Draft.Length.ToString(CultureInfo.InvariantCulture)).Append(" -->\n");
             body.Append(record.Draft).Append(DraftEnd);
             AtomicWrite(path, Header("conversation", record.Title, record.CreatedAt, record.UpdatedAt, record.Provider, record.Id, Compact(record.Messages.FirstOrDefault(m => m.Role == "user")?.Text ?? "", 160),
-                "provider: " + Quote(record.Provider) + "\nconversation_id: " + Quote(record.Id) + "\nis_open: " + (record.IsOpen ? "true" : "false") + "\nautomatic_title: " + (record.IsTitleAutomatic ? "true" : "false") + "\n") + body);
+                "provider: " + Quote(record.Provider) + "\nconversation_id: " + Quote(record.Id) + "\nis_open: " + (record.IsOpen ? "true" : "false") + "\nautomatic_title: " + (record.IsTitleAutomatic ? "true" : "false") + "\nlast_status: " + Quote(record.State.ToString()) + "\nhas_unread: " + (record.HasUnread ? "true" : "false") + "\n") + body);
         }
 
         /// ---------------------------------------------------------------------
@@ -279,6 +317,7 @@ namespace VS2017.AIAssistant.Chat
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 경계 위조·잘못된 역할·메시지 개수·후행 데이터 검사.
+        /// update date  : 2026-10-18 CodexOrig : TASK-014 이전 대화와 호환하며 실행 중 기록을 재시작 시 중단으로 복구.
         /// </summary>
         /// ---------------------------------------------------------------------
         private ConversationRecord ReadRecord(string path)
@@ -290,6 +329,14 @@ namespace VS2017.AIAssistant.Chat
                 Id = Required(header, "conversation_id"), Provider = Required(header, "provider"), Title = Required(header, "title"),
                 IsOpen = ReadBoolean(header, "is_open"), IsTitleAutomatic = ReadBoolean(header, "automatic_title"),
                 CreatedAt = ReadDate(header, "date"), UpdatedAt = ReadDate(header, "updated_at") };
+            if (header.ContainsKey("last_status"))
+            {
+                ConversationRunState state;
+                if (!Enum.TryParse(Required(header, "last_status"), out state) || !Enum.IsDefined(typeof(ConversationRunState), state)) throw new InvalidDataException("대화 상태가 올바르지 않습니다.");
+                record.State = state == ConversationRunState.Running ? ConversationRunState.Interrupted : state;
+            }
+            record.HasUnread = header.ContainsKey("has_unread") && ReadBoolean(header, "has_unread");
+            if (header.ContainsKey("last_status") && Required(header, "last_status") == "Running") record.HasUnread = true;
             int position = 0;
             while (position < body.Length && !DraftPattern.IsMatch(body, position))
             {
@@ -460,13 +507,14 @@ namespace VS2017.AIAssistant.Chat
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 저장 모델의 무한 증가와 불완전 데이터 차단.
+        /// update date  : 2026-10-18 CodexOrig : TASK-014 저장할 대화 상태가 정의된 값인지 검사.
         /// </summary>
         /// ---------------------------------------------------------------------
         private static void Validate(ConversationRecord record)
         {
             if (record == null) throw new ArgumentNullException(nameof(record));
             ValidateId(record.Id);
-            if (NormalizeProvider(record.Provider) != record.Provider || record.Title == null || record.Title.Length > 120 || record.Title.Any(char.IsControl) ||
+            if (!Enum.IsDefined(typeof(ConversationRunState), record.State) || NormalizeProvider(record.Provider) != record.Provider || record.Title == null || record.Title.Length > 120 || record.Title.Any(char.IsControl) ||
                 record.CreatedAt == default(DateTimeOffset) || record.Messages == null || record.Messages.Count > MaximumMessages || record.Draft == null || record.Draft.Length > 16000 ||
                 record.Messages.Any(m => m == null || (m.Role != "user" && m.Role != "assistant" && m.Role != "system") || m.Text == null || m.Text.Length > 2000000))
                 throw new InvalidDataException("대화 데이터의 형식이나 크기가 올바르지 않습니다.");
