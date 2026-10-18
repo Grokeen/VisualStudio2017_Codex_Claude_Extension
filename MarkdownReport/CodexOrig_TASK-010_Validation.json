@@ -31,5 +31,11 @@
   "RemainingCompactCodexOrigComments": 0,
   "UserProjectSourceSent": false,
   "ManualDragAndKeyGestureVerified": false,
-  "GitHubPublished": false
+  "GitHubPublished": true,
+  "PublishedCommit": "a260c3d4b700f7f20c38e823f6f3846324588cfb",
+  "RemotePackageSHA256": "2DD768237916AD7671B1829C279977D8BAC65684B59DFD3DC85DAD3C99523C53",
+  "RemotePackageBytes": 77112,
+  "RemotePackageVerified": true,
+  "DownloadUrl": "https://raw.githubusercontent.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/a260c3d4b700f7f20c38e823f6f3846324588cfb/releases/v0.4.0/VS2017.AIAssistant-0.4.0.vsix",
+  "CompletedAt": "2026-10-18T11:46:47.6130498+09:00"
 }

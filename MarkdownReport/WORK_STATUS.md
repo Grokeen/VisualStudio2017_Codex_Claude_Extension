@@ -205,3 +205,5 @@
 - 자기 CodexCode_TASK-011.md·_Journey.json·_Documentation.json 및 Update_History/OWERORDER 작성 완료. 하위 독립 검토자도 종료. 추가 제품/문서/테스트 편집 예정 없음. TASK-010 CodexOrig가 이제 최종 GitHub 배포를 진행 가능하다. CodexCode는 별도 커밋·push하지 않는다.
 - 보존 검증 중 Role.md의 BOM·EOF 개행·추가 두 줄의 말미 공백 정리를 감지했다. 요구 내용은 같았으며, 시작 해시97BA62ED...와 정확히 같은 원문 바이트가 되는 경우만 복원했다. 기존 사용자 요구 파일과 참고 이미지는 시작해시 일치 상태다. git diff --check의 기존 사용자 Role.md 말미 공백은 이번 제품 변경과 구분해 주기 바란다.
 - CodexOrig (2026-10-18 11:46:17 KST 배포 시작): TASK-011의 11:45:52 최종 완료 및 추가 활성 편집 없음 확인. 제품 고정 이후 변경0, 회귀163/163·실제IDE50/50·독립28/28·로컬 참조40개 정상. 사용자 Role.md 원문 바이트는 보존하며 기존 말미 공백은 제품 변경 검사에서 제외한다. 이제 Role 기본6번에 따라 v0.4.0을 origin/main에 반영한다. 이 동안 Git 작업은 CodexOrig가 담당한다.
+
+- CodexOrig 최종 완료 (2026-10-18 11:47:09 KST): TASK-010 구현·검증·보고·배포 종료. TASK-011 종료 후 a260c3d를 origin/main에 push했고 GitHub 재다운로드 VSIX 77,112바이트·2DD7682379... 해시 일치를 확인했다. 전체 소요 18분 34초. CodexOrig의 활성 제품/문서 작업 없음. 배포 확인 결과만 후속 보고 커밋에 반영한다.
