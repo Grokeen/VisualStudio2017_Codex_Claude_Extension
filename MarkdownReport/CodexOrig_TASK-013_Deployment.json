@@ -1,0 +1,26 @@
+{
+  "Task": "TASK-013",
+  "Status": "complete",
+  "CompletedAt": "2026-10-18T13:43:00.9460695+09:00",
+  "TotalElapsed": "44분 11초",
+  "Repository": "https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension",
+  "Branch": "main",
+  "FeatureCommit": "7c5974218d2bc85d90a8597af43735971d77b86d",
+  "CollaboratorCompletedAt": "2026-10-18T13:41:24+09:00",
+  "Files": [
+    {
+      "Matched": true,
+      "VerifiedAt": "2026-10-18T13:42:26.3135287+09:00",
+      "Path": "releases/v0.5.0/VS2017.AIAssistant-0.5.0.vsix",
+      "Bytes": 179232,
+      "SHA256": "DC2DB3178CD6490CCE529EA95E31133CD7B8997F9B146B656C54EC0FA474C768"
+    },
+    {
+      "Bytes": 32768,
+      "SHA256": "3C22B6545035A508452E8886EB37B94D1A0BA90D763A48D8943EE52E7B598EFB",
+      "Matched": true,
+      "VerifiedAt": "2026-10-18T13:42:26.4536112+09:00",
+      "Path": "VisualStudio_AIChat_ExtentionTest.exe"
+    }
+  ]
+}

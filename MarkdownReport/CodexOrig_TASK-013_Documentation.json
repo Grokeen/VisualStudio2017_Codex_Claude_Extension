@@ -1,5 +1,5 @@
 {
-  "CheckedAt": "2026-10-18T13:42:06.9274200+09:00",
+  "CheckedAt": "2026-10-18T13:43:18.6912128+09:00",
   "References": [
     {
       "Link": "releases/v0.5.0/VS2017.AIAssistant-0.5.0.vsix?raw=true",
@@ -260,6 +260,11 @@
       "Link": "CodexOrig_TASK-013_Documentation.json",
       "Exists": true,
       "File": "MarkdownReport\\CodexOrig_TASK-013.md"
+    },
+    {
+      "File": "MarkdownReport\\CodexOrig_TASK-013.md",
+      "Exists": true,
+      "Link": "CodexOrig_TASK-013_Deployment.json"
     }
   ],
   "Passed": true,

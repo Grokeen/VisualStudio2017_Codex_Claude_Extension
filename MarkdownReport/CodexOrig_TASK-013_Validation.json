@@ -2,7 +2,7 @@
   "Task": "TASK-013",
   "Author": "CodexOrig",
   "StartedAt": "2026-10-18T12:58:49+09:00",
-  "Status": "validated-awaiting-deployment",
+  "Status": "complete",
   "Package": "releases/v0.5.0/VS2017.AIAssistant-0.5.0.vsix",
   "PackageBytes": 179232,
   "PackageSHA256": "DC2DB3178CD6490CCE529EA95E31133CD7B8997F9B146B656C54EC0FA474C768",
@@ -239,8 +239,13 @@
     "SHA256": "3C22B6545035A508452E8886EB37B94D1A0BA90D763A48D8943EE52E7B598EFB",
     "Path": "VisualStudio_AIChat_ExtentionTest.exe",
     "DefaultSuitesFailed": 0,
-    "IndependentInvalidSuiteExitCode": 2
+    "IndependentInvalidSuiteExitCode": 2,
+    "SmokePassed": 9,
+    "SmokeEvidence": "MarkdownReport/CodexCode_TASK-012_Launcher.json"
   },
   "LocalCompletedAt": "2026-10-18T13:40:24.5813402+09:00",
-  "LocalElapsed": "41분 35초"
+  "LocalElapsed": "41분 35초",
+  "CompletedAt": "2026-10-18T13:43:00.9460695+09:00",
+  "TotalElapsed": "44분 11초",
+  "Deployment": "MarkdownReport/CodexOrig_TASK-013_Deployment.json"
 }

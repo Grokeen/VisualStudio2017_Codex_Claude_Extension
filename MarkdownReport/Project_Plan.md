@@ -7,7 +7,7 @@
 
 > 문서 버전: v1.1\
 > 작성일: 2026-10-17  
-> 프로젝트 상태: v0.5.0 Markdown 대화·공통 규칙·블랙 UI·프로젝트 작업·테스트 실행기 구현 및 실제 VS2017/Codex 검증 완료, GitHub 배포 대기\
+> 프로젝트 상태: v0.5.0 Markdown 대화·공통 규칙·블랙 UI·프로젝트 작업·테스트 실행기 구현 및 실제 VS2017/Codex 검증·GitHub 배포 및 원격 해시 확인 완료\
 > 개발 언어: C# / WPF  
 > 대상 IDE: Microsoft Visual Studio 2017 (15.x)  
 > AI Provider: OpenAI Codex / Anthropic Claude Code
@@ -48,7 +48,7 @@
 - [x] Debug/Release 빌드 경고·오류0, 최종 저장52·설정37·프로젝트 작업48·확장 UI56 검증
 - [x] 추가 대화 화면 최종 사본 편집92·Foundation33·호환성44·실제 VS2017/Codex58 PASS
 - [x] 최상위 VisualStudio_AIChat_ExtentionTest.exe·재현 소스/빌드 스크립트, 전체8묶음 및 독립9개 PASS
-- [ ] 작업자 종료 후 GitHub 배포 및 원격 패키지 해시 확정
+- [x] 작업자 종료 후 GitHub 배포 및 원격 패키지·루트 실행기 해시 확정 (TASK-013, 7c59742)
 
 현재 적용 범위는 VS2017 15.9이다. 대화는 프로젝트와 무관한 사용자별 LocalAppData Markdown 공간에 저장한다. 실제 Claude 계정과 VS2019/2022 패키지 지원, 선택 코드 추출, 다중 파일 자동 수정은 후속 범위다. SQL Server는 메타데이터만 읽으며 작성한 SQL을 DB에서 실행하지 않는다. 원격 SVN/TFVC·운영 DB·운영 배포 연결 검증은 남아 있다. Role의 tns는 TFS/TFVC로 해석했다. CLI의 직접 쓰기/셸 도구는 계속 제한하고, 소스는 한 파일의 수정안 승인·저장으로 적용하며 프로젝트 명령은 별도 검토 창에서 실행한다.
 
