@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -21,6 +21,7 @@ namespace VS2017.AIAssistant.Views
     /// author       : CodexOrig
     /// create date  : 2026-10-18
     /// update date  : 2026-10-18 CodexOrig : Role 3~8번의 사용자 입력 기능 구현.
+    /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
     /// </summary>
     /// ---------------------------------------------------------------------
     public partial class AssistantControl
@@ -32,8 +33,14 @@ namespace VS2017.AIAssistant.Views
         {
             get
             {
+                ConversationRecord record;
+                string key = activeRecords.TryGetValue(selectedProvider, out record) ? record.Id : selectedProvider;
                 ChatSession chat;
-                if (!chats.TryGetValue(selectedProvider, out chat)) chats[selectedProvider] = chat = new ChatSession();
+                if (!chats.TryGetValue(key, out chat))
+                {
+                    chats[key] = chat = new ChatSession();
+                    if (record != null) { foreach (var message in record.Messages) chat.Messages.Add(message); chat.Draft = record.Draft; }
+                }
                 return chat;
             }
         }
@@ -46,6 +53,7 @@ namespace VS2017.AIAssistant.Views
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : 손상된 설정은 기본값으로 복구하고 안내.
         /// update date  : 2026-10-18 CodexOrig : 중앙 설정 팝업과 첫 사용 안내 연결.
+        /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void InitializeChat()
@@ -55,7 +63,7 @@ namespace VS2017.AIAssistant.Views
             catch (Exception) { settings = new AssistantSettings(); StatusLabel.Text = "설정을 읽지 못해 기본값을 사용합니다. 설정 저장으로 다시 구성할 수 있습니다."; }
             executablePaths["Codex"] = settings.CodexPath; executablePaths["Claude"] = settings.ClaudePath;
             models["Codex"] = settings.CodexModel; models["Claude"] = settings.ClaudeModel;
-            ExecutablePath.Text = settings.CodexPath; RulesText.Text = settings.Instructions;
+            ExecutablePath.Text = settings.ClaudePath; RulesText.Text = settings.Instructions;
             FontSize = settings.FontSize;
             TextSizeChoice.SelectedValue = settings.FontSize.ToString(System.Globalization.CultureInfo.InvariantCulture);
             foreach (Control control in new Control[] { ModelName, RulesText, AttachmentList })
@@ -66,6 +74,7 @@ namespace VS2017.AIAssistant.Views
             DataObject.AddPastingHandler(Instruction, PromptPasting);
             CommandManager.AddPreviewCanExecuteHandler(Instruction, PasteCanExecute);
             CommandManager.AddPreviewExecutedHandler(Instruction, PasteExecuted);
+            InitializeExperience(settings);
             ShowChat();
             InitializeDialogs(settings.HideWelcome);
         }
@@ -77,6 +86,7 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexOrig
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : Provider별 작성 중 입력 분리.
+        /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void SaveDraft() { ActiveChat.Draft = Instruction.Text; models[selectedProvider] = ModelName.Text; }
@@ -88,6 +98,7 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexOrig
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : 다른 Provider의 대화 전송 방지.
+        /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void ShowChat()
@@ -98,6 +109,7 @@ namespace VS2017.AIAssistant.Views
             string model; ModelName.Text = models.TryGetValue(selectedProvider, out model) ? model : "";
             AccountLabel.Text = "연결 확인을 눌러 " + selectedProvider + " 계정 상태를 확인하세요.";
             ConversationScroll.ScrollToEnd();
+            RefreshExperience();
         }
 
         /// ---------------------------------------------------------------------
@@ -107,14 +119,13 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexOrig
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : 디스크나 다른 탭의 대화는 변경하지 않음.
+        /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void NewChatClicked(object sender, RoutedEventArgs e)
         {
             if (busy || disposed) return;
-            ActiveChat.Messages.Clear(); ActiveChat.Attachments.Clear(); ActiveChat.Draft = "";
-            Instruction.Clear(); ClearProposal(); UpdateButtons();
-            StatusLabel.Text = "새 대화를 시작했습니다. 소스 파일과 저장한 설정은 유지됩니다.";
+            CreateConversation();
         }
 
         /// ---------------------------------------------------------------------
@@ -124,6 +135,7 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexOrig
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : 4개 제한과 요청 중 변경 차단.
+        /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// </summary>
         /// ---------------------------------------------------------------------
         public void AttachFiles(string[] paths)
@@ -142,6 +154,7 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexOrig
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : 파일 선택 버튼 연결.
+        /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void AttachClicked(object sender, RoutedEventArgs e)
@@ -159,6 +172,7 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexOrig
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : 파일 드롭의 기본 텍스트 삽입 방지.
+        /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void AttachmentsDragOver(object sender, DragEventArgs e)
@@ -174,6 +188,7 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexOrig
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : 오류 시 부분 첨부 없이 안내.
+        /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void AttachmentsDropped(object sender, DragEventArgs e)
@@ -191,6 +206,7 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexOrig
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : 스크린샷 Ctrl+V와 파일 복사 지원.
+        /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// </summary>
         /// ---------------------------------------------------------------------
         private bool PasteAttachmentData(IDataObject data)
@@ -217,6 +233,7 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexOrig
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : Ctrl+V 및 컨텍스트 메뉴 붙여넣기 연결.
+        /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void PromptPasting(object sender, DataObjectPastingEventArgs e)
@@ -232,6 +249,7 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexOrig
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : 이미지·파일의 붙여넣기 명령 활성화.
+        /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void PasteCanExecute(object sender, CanExecuteRoutedEventArgs e)
@@ -252,6 +270,7 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexOrig
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : 일반 텍스트 붙여넣기는 기본 동작 유지.
+        /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void PasteExecuted(object sender, ExecutedRoutedEventArgs e)
@@ -272,6 +291,7 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexOrig
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : 기존 프롬프트의 선택 영역에 텍스트 삽입.
+        /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void PasteClicked(object sender, RoutedEventArgs e)
@@ -298,6 +318,7 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexOrig
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : 전송 전 첨부 취소 지원.
+        /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void RemoveAttachmentClicked(object sender, RoutedEventArgs e)
@@ -310,6 +331,7 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexOrig
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : 10~28 범위의 가독성 설정.
+        /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void TextSizeChanged(object sender, SelectionChangedEventArgs e)
@@ -326,6 +348,7 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexOrig
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : 좁거나 낮은 창에서도 설정 접근을 유지.
+        /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void SettingsExpanded(object sender, RoutedEventArgs e)
@@ -338,6 +361,7 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexOrig
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : 승인 UI의 스크롤 접근 보장.
+        /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void ReviewExpanded(object sender, RoutedEventArgs e)
@@ -350,6 +374,7 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexOrig
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : 창 높이에 맞춘 레이아웃 갱신.
+        /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void PanelCollapsed(object sender, RoutedEventArgs e) { ResizeChat(); }
@@ -361,9 +386,10 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexOrig
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : 낮은 창에서 내용 잘림 방지.
+        /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// </summary>
         /// ---------------------------------------------------------------------
-        private void ChatSizeChanged(object sender, SizeChangedEventArgs e) { ResizeChat(); }
+        private void ChatSizeChanged(object sender, SizeChangedEventArgs e) { ResizeChat(); if (HistoryToggle != null) HistoryToggled(sender, e); }
 
         /// ---------------------------------------------------------------------
         /// <summary>
@@ -372,13 +398,16 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexOrig
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : 펼친 패널에 필요한 최소 콘텐츠 높이 확보.
+        /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void ResizeChat()
         {
             if (LayoutRoot == null || SettingsPanel == null || ReviewPanel == null) return;
-            double minimum = SettingsPanel.IsExpanded ? 900 : ReviewPanel.IsExpanded ? 820 : 500;
-            LayoutRoot.Height = Math.Max(ActualHeight - 20, minimum);
+            double minimum = ReviewPanel.IsExpanded ? 780 : 530;
+            LayoutRoot.Height = double.NaN;
+            LayoutRoot.MinHeight = Math.Max(ActualHeight - 20, minimum);
+            ConversationScroll.MaxHeight = Math.Max(150, ActualHeight - (ReviewPanel.IsExpanded ? 550 : 290));
         }
 
         /// ---------------------------------------------------------------------
@@ -389,6 +418,7 @@ namespace VS2017.AIAssistant.Views
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : 계정 토큰이나 대화 원문은 저장하지 않음.
         /// update date  : 2026-10-18 CodexOrig : 안내 선택 보존·저장 후 팝업 닫기·오류 표시.
+        /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void SaveSettingsClicked(object sender, RoutedEventArgs e)
@@ -396,7 +426,7 @@ namespace VS2017.AIAssistant.Views
             if (busy || disposed) return;
             try
             {
-                settingsStore.Save(CaptureSettings());
+                AssistantSettingsTransaction.Save(settingsStore, workspaceStore, CaptureSettings());
                 SaveDraft(); executablePaths[selectedProvider] = ExecutablePath.Text;
                 StatusLabel.Text = "설정을 저장했습니다. 다음 실행에도 유지됩니다.";
                 if (activeSettingsDialog != null) activeSettingsDialog.DialogResult = true;
@@ -415,6 +445,7 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexOrig
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : 계정 연결 버튼 구현.
+        /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void LoginClicked(object sender, RoutedEventArgs e)
@@ -431,6 +462,7 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexOrig
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : 실패·취소·해제 후 UI 갱신 차단.
+        /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// </summary>
         /// ---------------------------------------------------------------------
         private async void AccountCheckClicked(object sender, RoutedEventArgs e)

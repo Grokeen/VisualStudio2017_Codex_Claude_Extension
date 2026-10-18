@@ -1,6 +1,6 @@
 ﻿# 개발 및 수동 검증
 
-v0.4.0은 v0.3의 Chat·소스 수정 기능에 우클릭 설정, 화면 중앙 설정 팝업, 공통 테마/아이콘 및 첫 사용 안내를 추가했다. Role 프로젝트8~11번의 사용 흐름은 [UX 검증](UX_TESTS.md), 기존 요청·승인·저장 동작은 [소스 편집](SOURCE_EDITING.md)을 참고한다. 설정 항목의 기존 컨트롤 이름은 유지하고 숨긴 SettingsPanel의 내용을 팝업으로 이동한다. 공통 AssistantTheme.xaml은 Chat과 두 팝업에서 같은 동적 VS 테마 리소스를 사용한다.
+v0.5.0은 AI별 Markdown 대화 복원, 프로젝트 공통 instruction, 입력 영역의 모델·모드 선택, 첨부 미리보기, 변경 파일 링크와 권한별 프로젝트 작업을 추가했다. 공통 AssistantTheme.xaml은 IDE의 밝은/어두운 테마에 관계없이 검정 계열 팔레트를 유지한다. 설정·첫 사용 안내는 [UX 검증](UX_TESTS.md), 요청·승인·저장은 [소스 편집](SOURCE_EDITING.md), CLI 모드 전달은 [CLI 옵션](CLI_OPTIONS.md)을 참고한다.
 
 ## 호환성 기준
 
@@ -51,11 +51,27 @@ powershell -NoProfile -NonInteractive -ExecutionPolicy Bypass -File .\scripts\Te
     -ProjectPath .\src\VS2017.AIAssistant\VS2017.AIAssistant.csproj
 ```
 
-Foundation 검사는 VSIX 안의 DLL·pkgdef·메뉴·BAML을 확인하고 빌드된 WPF 컨트롤을 별도 테스트 프로세스에서 생성한다. 밝은/어두운 테마와 320/200픽셀 폭에서 렌더링한 결과는 `artifacts/phase1/`에 저장한다. IDE SDK DLL을 VSIX에 중복 포함하지 않는지도 검사한다. Debug 산출물 검증은 `-Configuration Debug`를 지정한다.
+Foundation 검사는 VSIX 안의 DLL·pkgdef·메뉴·BAML을 확인하고 제품 WPF 컨트롤을 별도 프로세스에서 생성한다. 밝은/어두운 IDE 호스트 리소스와 320/200픽셀 폭에서도 검정 팔레트와 대비를 확인한다. IDE SDK DLL을 VSIX에 중복 포함하지 않는지도 검사한다. Debug 산출물 검증은 `-Configuration Debug`를 지정한다. 고정 사본 검증은 Foundation에 `-AssemblyPath`와 `-VsixPath`, 편집 검사에 `-AssemblyPath`를 지정하여 공유 bin의 재빌드와 격리한다. 개인 설정·대화 경로도 실행별로 격리한다.
 
 편집 회귀 테스트는 VSIX DLL을 참조하는 C# 실행 파일을 컴파일하고 실제 subprocess/파이프로 가짜 CLI를 호출한다. 승인·충돌·원복, Codex/Claude 인수 및 JSON, 한글/공백 경로, 출력 제한, 취소·타임아웃·하위 프로세스 종료와 실제 WPF 버튼 흐름을 검사한다. 산출물은 `artifacts/source-editing/run-*/`이다. 실제 계정 AI 호출이나 EnvDTE 실행을 대체하는 테스트로 보고하지 않는다. `-CompilerPath`로 VS2017의 `MSBuild/15.0/Bin/Roslyn/csc.exe`를 지정할 수 있다.
 
-호환성 도구는 CodexOrig의 독립 검사이며 상세 범위는 [VSIX_COMPATIBILITY.md](VSIX_COMPATIBILITY.md)를 참고한다. 자동 검증은 아래의 실제 IDE 검증과 함께 수행한다.
+호환성 도구는 CodexOrig의 독립 검사이며 상세 범위는 [VSIX_COMPATIBILITY.md](VSIX_COMPATIBILITY.md)를 참고한다. 추가 저장소·설정 트랜잭션 검사는 `tests/workspace/`, 프로젝트 작업 검사는 `tests/workspace-actions/`, 화면 흐름 검사는 `tests/review/Test-WorkspaceExperience.ps1`에 있다. 결과와 재현 명령은 [TASK-012](../MarkdownReport/CodexCode_TASK-012.md)와 [TASK-013](../MarkdownReport/CodexOrig_TASK-013.md)에 보존한다. 자동 검증은 아래 실제 IDE 검증과 함께 수행한다.
+
+## 최상위 테스트 실행기
+
+저장소 전체와 검사에 필요한 개발 도구를 준비한 뒤 루트의 `VisualStudio_AIChat_ExtentionTest.exe`를 더블클릭한다. 검정 GUI에서 항목을 체크하고 **선택 검사 실행**을 누르거나 **기본 전체 검사**를 선택한다. 로그를 같은 화면과 `artifacts/tl/<실행 ID>/`에서 확인하고 **중지**로 후속 검사를 중단할 수 있다.
+
+```powershell
+.\VisualStudio_AIChat_ExtentionTest.exe --list
+.\VisualStudio_AIChat_ExtentionTest.exe --all
+.\VisualStudio_AIChat_ExtentionTest.exe --run editing --vsix .\releases\v0.5.0\VS2017.AIAssistant-0.5.0.vsix
+```
+
+기본8개는 compatibility·build-entry·markdown·settings·workspace-actions·editing·foundation·experience다. `ide`와 `live-codex`는 직접 선택할 때만 실행한다. `live-codex`에는 로그인된 네이티브 CLI를 `--codex C:\path\to\codex.exe`로 지정한다. 기본 전체 검사는 유료 AI 호출과 실제 IDE 설치·실행을 포함하지 않는다. 실제 IDE55개 fixture 검사는 `--run ide`, 실제 Codex를 함께 쓰는 IDE58개는 [IDE_TESTS.md](IDE_TESTS.md)의 PowerShell 명령을 사용한다.
+
+제품 DLL·VSIX 경로는 저장소 안의 파일로 지정한다. 비워 두면 배포 v0.5.0 VSIX를 우선 선택하고 DLL을 실행별 폴더로 추출한다. 배포본이 없으면 기존 Release 산출물을 사용하며 런처가 제품을 자동 빌드하지는 않는다. WPF·SDK 검사에는 VS2017 개발 도구·4.6.2 targeting pack·복원된 SDK 참조가 필요하므로 새 체크아웃은 위 개발 PC 준비/빌드를 먼저 수행한다. 제품 VSIX를 설치해 쓰는 사용자에게 이 개발 도구가 필요한 것은 아니다.
+
+CLI 종료 코드는 성공0, 검사 실패1, 잘못된 인수·검사 ID2, 취소130이다. 실행기를 다시 컴파일하려면 `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\Build-TestLauncher.ps1`을 실행한다. Windows의 .NET Framework 기본 C# 컴파일러로 루트 exe만 생성하며 제품 패키지를 바꾸지 않는다.
 
 ## VS2017 설치 및 실행 검증
 

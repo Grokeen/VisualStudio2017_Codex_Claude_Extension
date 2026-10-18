@@ -6,13 +6,13 @@
 
 VS2017의 확장 개발 워크로드와 .NET Framework 4.6.2 targeting pack이 필요하다. 먼저 제품을 Release 빌드하고 `tests/editing/Test-SourceEditing.ps1`을 실행하여 CLI fixture를 생성한다.
 
-v0.3.0 현재 테스트의 기본 VSIX는 빌드한 `src/VS2017.AIAssistant/bin/Release/VS2017.AIAssistant.vsix`다. 새 체크아웃에서 직접 빌드한 패키지를 사용할 때는 `-VsixPath .\src\VS2017.AIAssistant\bin\Release\VS2017.AIAssistant.vsix`를 지정한다. 테스트는 참조 DLL과 VSIX 내 DLL의 SHA-256이 같아야 실행된다.
+기본 VSIX는 빌드한 `src/VS2017.AIAssistant/bin/Release/VS2017.AIAssistant.vsix`다. 배포 패키지를 검사하려면 `-VsixPath .\releases\v0.5.0\VS2017.AIAssistant-0.5.0.vsix`를 지정한다. 실행기는 지정 VSIX에서 DLL을 실행별 폴더로 추출하고 해시를 확인한 뒤, 그 DLL을 참조하여 보조 테스트 패키지를 빌드한다. 공유 Release 폴더를 재빌드해도 고정 VSIX의 검증은 영향을 받지 않는다.
 
 ```powershell
-# 무과금 CLI fixture를 사용한 실제 IDE 22개 검사
+# CLI fixture를 사용한 실제 IDE 검사 (유료 AI 호출 없음)
 powershell -NoProfile -ExecutionPolicy Bypass -File .\tests\ide\Test-IdeIntegration.ps1
 
-# 로그인된 실제 Codex를 포함한 실제 IDE 25개 검사: 합성 소스만 전송
+# 로그인된 실제 Codex와 SQL 작성 포함: 합성 소스·스키마만 전송
 powershell -NoProfile -ExecutionPolicy Bypass -File .\tests\ide\Test-IdeIntegration.ps1 `
     -LiveCodexPath 'C:\path\to\codex.exe'
 ```
@@ -81,3 +81,19 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\tests\ide\Test-IdeIntegrat
 기존35개(실제 Codex 포함)에 [UX-01~15](UX_TESTS.md)를 추가하여 실제 VS2017 프로세스에서 총50/50 PASS를 확인했다. IDE 실행기는 기본 Chat의 자동 안내를 테스트 설정으로 숨기고, 격리된 제품 컨트롤의 실제 Loaded에서 처음 사용을 재현한다. 개인 설정 파일·클립보드·사용자 프로젝트를 테스트 데이터로 사용하지 않는다. 결과는 MarkdownReport/CodexOrig_TASK-010_IDE.json에 보존했다.
 
 실제 Codex를 지정하지 않으면 기존32개와 UX15개로47개를 실행한다. UX PNG는 실행별 artifacts/ide/run-*/ux/에 저장한다. 제품 DLL과 VSIX의 DLL 해시가 일치하지 않으면 테스트를 시작하지 않는다. 팝업 검사는 실제 WPF 창·Click 이벤트·CenterScreen 좌표를 사용하며 마우스의 물리 클릭을 자동화하는 검사는 아니다.
+
+## v0.5.0 Markdown·SQL·변경 파일 (TASK-013)
+
+기존35개와 UX16개에 WORK7개를 추가했다. 실제 Codex 지정 시58개, fixture만 사용하면55개다. 실제 호출은 기존 소스 수정 외에 합성 SQL Server 테이블 정의로 빈 SQL 파일의 쿼리를 작성하는 요청을 포함한다. 운영 DB 연결·SQL 실행은 이 검사에 포함하지 않는다.
+
+| ID | 검사 |
+|---|---|
+| WORK-01 | 기본 첫 AI 탭이 Claude이며 Tag로 Codex 선택 가능 |
+| WORK-02 | 변경 카드에서 수정 대상 한 파일 표시 |
+| WORK-03 | 다른 파일을 연 상태에서 파일 링크가 요청 대상 소스로 실제 이동 |
+| WORK-04 | 빈 SQL 파일에 작성한 SELECT 수정안은 승인 전 버퍼·디스크 보존 |
+| WORK-05 | 승인·적용·저장 후 실제 IDE가 SQL 파일에 쿼리 저장 |
+| WORK-06 | 새 대화가 이전 메시지를 유지하고 새 미전송 초안을 Markdown에 보관 |
+| WORK-07 | 컨트롤 재생성 시 해당 AI의 열린 대화 목록 복원 |
+
+설정과 Markdown 루트는 실행별 폴더로 격리한다. `launch.json`은 VSIX·참조 DLL 해시를, `result.json`은 실제 Codex 및 SQL 호출 여부를 기록한다. 최신 완료 결과는 [TASK-013](../MarkdownReport/CodexOrig_TASK-013.md)을 참고한다. 손으로 하는 도킹·마우스 드래그·다중 모니터 DPI와 실제 Claude 인증은 별도 확인 범위다.

@@ -14,6 +14,7 @@ namespace VS2017.AIAssistant.Views
     /// author       : CodexOrig
     /// create date  : 2026-10-18
     /// update date  : 2026-10-18 CodexOrig : Role 8~11의 일관된 UI와 첫 사용 흐름 구현.
+    /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
     /// </summary>
     /// ---------------------------------------------------------------------
     public partial class AssistantControl
@@ -29,6 +30,7 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexOrig
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : 기본 잘라내기·복사·붙여넣기 명령과 Ctrl+V 보존.
+        /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void InitializeDialogs(bool hidden)
@@ -46,6 +48,7 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexOrig
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : DataTemplate 텍스트의 기본 편집 명령 유지.
+        /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void ChildLoaded(object sender, RoutedEventArgs e)
@@ -61,6 +64,7 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexOrig
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : 팝업 메뉴에도 동일한 VS 테마 리소스 적용.
+        /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// </summary>
         /// ---------------------------------------------------------------------
         private ContextMenu CreateAssistantMenu(TextBox box)
@@ -78,7 +82,9 @@ namespace VS2017.AIAssistant.Views
             var help = new MenuItem { Header = "사용 안내", Icon = new TextBlock { Text = "?" } };
             settings.Click += SettingsClicked; help.Click += HelpClicked;
             menu.Opened += (sender, args) => { settings.IsEnabled = help.IsEnabled = !busy && !disposed; };
-            menu.Items.Add(settings); menu.Items.Add(help); return menu;
+            menu.Items.Add(settings); menu.Items.Add(help);
+            var recent = new MenuItem { Header = "최근 알림", Icon = new TextBlock { Text = "ⓘ" } };
+            recent.Click += RecentNotificationsClicked; menu.Items.Add(recent); return menu;
         }
 
         /// ---------------------------------------------------------------------
@@ -88,6 +94,7 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexOrig
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : 생성자·단순 크기 측정 중 모달 창이 열리는 것을 방지.
+        /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void ChatLoaded(object sender, RoutedEventArgs e)
@@ -110,6 +117,7 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexOrig
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : 취소 복구와 명시적 저장에서 같은 필드를 사용.
+        /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// </summary>
         /// ---------------------------------------------------------------------
         private AssistantSettings CaptureSettings()
@@ -119,7 +127,9 @@ namespace VS2017.AIAssistant.Views
                 ClaudePath = selectedProvider == "Claude" ? ExecutablePath.Text : executablePaths["Claude"],
                 CodexModel = selectedProvider == "Codex" ? ModelName.Text : models["Codex"],
                 ClaudeModel = selectedProvider == "Claude" ? ModelName.Text : models["Claude"],
-                Instructions = RulesText.Text, FontSize = FontSize, HideWelcome = hideWelcome
+                Instructions = RulesText.Text, FontSize = FontSize, HideWelcome = hideWelcome,
+                CodexEffort = efforts.ContainsKey("Codex") ? efforts["Codex"] : "auto", ClaudeEffort = efforts.ContainsKey("Claude") ? efforts["Claude"] : "auto",
+                AllowSourceControl = workspacePolicy.AllowSourceControl, AllowDatabaseSchema = workspacePolicy.AllowDatabaseSchema, AllowDeployment = workspacePolicy.AllowDeployment
             };
         }
 
@@ -130,11 +140,13 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexOrig
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : 저장 성공 후 닫기·취소·Esc·연결 확인 중 닫기 처리.
+        /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void SettingsClicked(object sender, RoutedEventArgs e)
         {
             if (busy || disposed) return;
+            CloseFan();
             if (activeSettingsDialog != null) { activeSettingsDialog.Activate(); return; }
             var before = CaptureSettings();
             var saveParent = (Panel)SaveSettingsButton.Parent;
@@ -154,6 +166,7 @@ namespace VS2017.AIAssistant.Views
                     ModelName.Text = selectedProvider == "Codex" ? before.CodexModel : before.ClaudeModel;
                     RulesText.Text = before.Instructions; FontSize = before.FontSize;
                     TextSizeChoice.SelectedValue = before.FontSize.ToString(System.Globalization.CultureInfo.InvariantCulture);
+                    RefreshExperience();
                     StatusLabel.Text = "설정 변경을 취소했습니다.";
                 }
             }
@@ -173,6 +186,7 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexOrig
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : 상단과 우클릭의 동일한 진입 경로 제공.
+        /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void HelpClicked(object sender, RoutedEventArgs e) { if (!busy && !disposed) ShowUsageGuide(); }
@@ -184,6 +198,7 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexOrig
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : 경로·모델·규칙 보존 및 저장 실패 시 창 안 오류 표시.
+        /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void ShowUsageGuide()
@@ -212,6 +227,7 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexOrig
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : IDE 종료 시 안내 설정 쓰기는 생략.
+        /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void CloseDialogs()

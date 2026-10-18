@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
@@ -15,10 +15,26 @@ namespace VS2017.AIAssistant.Chat
     /// author       : CodexOrig
     /// create date  : 2026-10-18
     /// update date  : 2026-10-18 CodexOrig : 제한된 크기·형식 검사와 미리보기 추가.
+    /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
     /// </summary>
     /// ---------------------------------------------------------------------
     public sealed class ChatAttachment
     {
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : FromText
+        /// desc         : 파일 쓰기 없이 권한을 받아 읽은 스키마 등 텍스트 참고 자료를 첨부한다.
+        /// author       : CodexCode
+        /// create date  : 2026-10-18
+        /// update date  : 2026-10-18 CodexCode : 메모리 텍스트 첨부와 크기 검증 추가.
+        /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        public static ChatAttachment FromText(string text, string name)
+        {
+            if (text == null || Encoding.UTF8.GetByteCount(text) > 102400) throw new ArgumentException("텍스트 첨부는 100KB 이하입니다.");
+            return new ChatAttachment { Name = Path.GetFileName(name ?? "reference.txt"), Text = text, MediaType = "text/plain" };
+        }
         public string Name { get; private set; }
         public string Text { get; private set; }
         public string ImageBase64 { get; private set; }
@@ -34,6 +50,7 @@ namespace VS2017.AIAssistant.Chat
         /// author       : CodexOrig
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : 디렉터리·바이너리·대용량 입력 거부.
+        /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// </summary>
         /// ---------------------------------------------------------------------
         public static ChatAttachment FromFile(string path)
@@ -74,6 +91,7 @@ namespace VS2017.AIAssistant.Chat
         /// author       : CodexOrig
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : PNG/JPEG 및 1600만 픽셀 제한.
+        /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// </summary>
         /// ---------------------------------------------------------------------
         public static ChatAttachment FromImage(byte[] bytes, string name)
@@ -104,6 +122,7 @@ namespace VS2017.AIAssistant.Chat
     /// author       : CodexOrig
     /// create date  : 2026-10-18
     /// update date  : 2026-10-18 CodexOrig : 원문 프롬프트와 응답을 메모리에 누적.
+    /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
     /// </summary>
     /// ---------------------------------------------------------------------
     public sealed class ChatMessage
@@ -120,6 +139,7 @@ namespace VS2017.AIAssistant.Chat
     /// author       : CodexOrig
     /// create date  : 2026-10-18
     /// update date  : 2026-10-18 CodexOrig : 탭 전환 시 대화 보존 및 100개 메시지 상한.
+    /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
     /// </summary>
     /// ---------------------------------------------------------------------
     public sealed class ChatSession
@@ -135,6 +155,7 @@ namespace VS2017.AIAssistant.Chat
         /// author       : CodexOrig
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : 장시간 사용의 무제한 메모리 증가 방지.
+        /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// </summary>
         /// ---------------------------------------------------------------------
         public void Add(string role, string text)
@@ -151,6 +172,7 @@ namespace VS2017.AIAssistant.Chat
     /// author       : CodexOrig
     /// create date  : 2026-10-18
     /// update date  : 2026-10-18 CodexOrig : UI 변경과 독립된 Provider 컨텍스트.
+    /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
     /// </summary>
     /// ---------------------------------------------------------------------
     public sealed class ChatRequestContext
@@ -159,6 +181,7 @@ namespace VS2017.AIAssistant.Chat
         public string Model { get; private set; }
         public ChatMessage[] History { get; private set; }
         public ChatAttachment[] Attachments { get; private set; }
+        public string ReasoningEffort { get; private set; }
 
         /// ---------------------------------------------------------------------
         /// <summary>
@@ -167,10 +190,13 @@ namespace VS2017.AIAssistant.Chat
         /// author       : CodexOrig
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : 최신 10개/24000자 대화 및 첨부 4개 제한.
+        /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// </summary>
         /// ---------------------------------------------------------------------
-        public ChatRequestContext(string instructions = "", string model = "", ChatMessage[] history = null, ChatAttachment[] attachments = null)
+        public ChatRequestContext(string instructions = "", string model = "", ChatMessage[] history = null, ChatAttachment[] attachments = null, string reasoningEffort = "auto")
         {
+            if (!new[] { "auto", "low", "medium", "high" }.Contains(reasoningEffort)) throw new ArgumentException("지원하지 않는 생각 모드입니다.");
+            ReasoningEffort = reasoningEffort;
             Instructions = instructions ?? ""; Model = (model ?? "").Trim();
             if (Instructions.Length > 8000 || Model.Length > 120 || Model.Any(char.IsControl))
                 throw new ArgumentException("instruction은 8000자, 모델 이름은 120자 이하로 입력하세요.");
@@ -191,6 +217,7 @@ namespace VS2017.AIAssistant.Chat
     /// create date  : 2026-10-18
     /// update date  : 2026-10-18 CodexOrig : Provider별 기본 설정 추가.
     /// update date  : 2026-10-18 CodexOrig : 이전 설정과 호환되는 첫 사용 안내 표시 선택 추가.
+    /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
     /// </summary>
     /// ---------------------------------------------------------------------
     public sealed class AssistantSettings
@@ -203,6 +230,11 @@ namespace VS2017.AIAssistant.Chat
         public double FontSize { get; set; } = 14;
         // 이전 설정 파일에 항목이 없으면 첫 실행 안내를 표시한다.
         public bool HideWelcome { get; set; }
+        public string CodexEffort { get; set; } = "auto";
+        public string ClaudeEffort { get; set; } = "auto";
+        public bool AllowSourceControl { get; set; }
+        public bool AllowDatabaseSchema { get; set; }
+        public bool AllowDeployment { get; set; }
     }
 
     /// ---------------------------------------------------------------------
@@ -212,6 +244,7 @@ namespace VS2017.AIAssistant.Chat
     /// author       : CodexOrig
     /// create date  : 2026-10-18
     /// update date  : 2026-10-18 CodexOrig : 손상/대용량 설정 거부와 테스트 경로 격리.
+    /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
     /// </summary>
     /// ---------------------------------------------------------------------
     public sealed class AssistantSettingsStore
@@ -225,6 +258,7 @@ namespace VS2017.AIAssistant.Chat
         /// author       : CodexOrig
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : IDE/독립 테스트의 개인 설정 분리.
+        /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// </summary>
         /// ---------------------------------------------------------------------
         public AssistantSettingsStore(string path = null)
@@ -240,6 +274,7 @@ namespace VS2017.AIAssistant.Chat
         /// author       : CodexOrig
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : UI가 기본 설정으로 복구할 수 있도록 검사.
+        /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// </summary>
         /// ---------------------------------------------------------------------
         public AssistantSettings Load()
@@ -257,6 +292,7 @@ namespace VS2017.AIAssistant.Chat
         /// author       : CodexOrig
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : 중간 실패 시 기존 파일 유지 및 임시 파일 정리.
+        /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// </summary>
         /// ---------------------------------------------------------------------
         public void Save(AssistantSettings settings)
@@ -279,6 +315,7 @@ namespace VS2017.AIAssistant.Chat
         /// author       : CodexOrig
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : JSON으로 주입된 범위 밖 값 검사.
+        /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// </summary>
         /// ---------------------------------------------------------------------
         private static void Validate(AssistantSettings settings)

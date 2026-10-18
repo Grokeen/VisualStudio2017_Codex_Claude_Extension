@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -20,6 +20,7 @@ namespace VS2017.AIAssistant.Providers
     /// author       : CodexCode
     /// create date  : 2026-10-18
     /// update date  : 2026-10-18 CodexCode : 취소 가능한 수정안 요청 계약 정의.
+    /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
     /// </summary>
     /// ---------------------------------------------------------------------
     public interface IAiEditProvider
@@ -34,6 +35,7 @@ namespace VS2017.AIAssistant.Providers
     /// author       : CodexOrig
     /// create date  : 2026-10-18
     /// update date  : 2026-10-18 CodexOrig : 이미지/규칙을 포함한 요청 계약 추가.
+    /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
     /// </summary>
     /// ---------------------------------------------------------------------
     public interface IAiContextEditProvider : IAiEditProvider
@@ -49,6 +51,7 @@ namespace VS2017.AIAssistant.Providers
     /// create date  : 2026-10-18
     /// update date  : 2026-10-18 CodexCode : 직접 파일 쓰기 권한 없는 CLI 연동 및 프로세스 정리.
     /// update date  : 2026-10-18 CodexOrig : Chat 컨텍스트·설정·창 이동 및 검증 흐름 갱신.
+    /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
     /// </summary>
     /// ---------------------------------------------------------------------
     public sealed class CliEditProvider : IAiContextEditProvider
@@ -63,6 +66,7 @@ namespace VS2017.AIAssistant.Providers
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 기본 타임아웃 초기화.
         /// update date  : 2026-10-18 CodexOrig : Chat 컨텍스트·설정·창 이동 및 검증 흐름 갱신.
+        /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// </summary>
         /// ---------------------------------------------------------------------
         public CliEditProvider() : this(TimeSpan.FromMinutes(5)) { }
@@ -75,6 +79,7 @@ namespace VS2017.AIAssistant.Providers
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 타임아웃 범위 검사.
         /// update date  : 2026-10-18 CodexOrig : Chat 컨텍스트·설정·창 이동 및 검증 흐름 갱신.
+        /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// </summary>
         /// ---------------------------------------------------------------------
         public CliEditProvider(TimeSpan timeout)
@@ -91,6 +96,7 @@ namespace VS2017.AIAssistant.Providers
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 미설치·읽기 전용·대용량 요청 사전 차단.
         /// update date  : 2026-10-18 CodexOrig : Chat 컨텍스트·설정·창 이동 및 검증 흐름 갱신.
+        /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// </summary>
         /// ---------------------------------------------------------------------
         public Task<EditProposal> GenerateAsync(string provider, string executable, DocumentSnapshot source, string instruction, CancellationToken cancellationToken)
@@ -105,6 +111,7 @@ namespace VS2017.AIAssistant.Providers
         /// author       : CodexOrig
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : 기존 승인/충돌 정책을 유지한 컨텍스트 요청.
+        /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// </summary>
         /// ---------------------------------------------------------------------
         public Task<EditProposal> GenerateWithContextAsync(string provider, string executable, DocumentSnapshot source, string instruction, ChatRequestContext context, CancellationToken cancellationToken)
@@ -127,6 +134,7 @@ namespace VS2017.AIAssistant.Providers
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : UTF-8 stdin, 제한된 출력, Job 취소와 임시 파일 정리.
         /// update date  : 2026-10-18 CodexOrig : Chat 컨텍스트·설정·창 이동 및 검증 흐름 갱신.
+        /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// </summary>
         /// ---------------------------------------------------------------------
         private async Task<EditProposal> RunAsync(string provider, string executable, DocumentSnapshot source, string instruction, ChatRequestContext context, CancellationToken cancellationToken)
@@ -146,6 +154,11 @@ namespace VS2017.AIAssistant.Providers
                 var arguments = baseArguments.ToList();
                 if (provider == "Codex") arguments.RemoveAt(arguments.Count - 1);
                 if (!string.IsNullOrEmpty(context.Model)) { arguments.Add("--model"); arguments.Add(context.Model); }
+                if (context.ReasoningEffort != "auto")
+                {
+                    arguments.Add(provider == "Codex" ? "--config" : "--effort");
+                    arguments.Add(provider == "Codex" ? "model_reasoning_effort=\"" + context.ReasoningEffort + "\"" : context.ReasoningEffort);
+                }
                 var images = context.Attachments.Where(a => a.IsImage).ToArray();
                 if (provider == "Codex")
                 {
@@ -241,6 +254,7 @@ namespace VS2017.AIAssistant.Providers
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 파일 접근·직접 수정 없는 정확한 문자열 교체 요청.
         /// update date  : 2026-10-18 CodexOrig : Chat 컨텍스트·설정·창 이동 및 검증 흐름 갱신.
+        /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// </summary>
         /// ---------------------------------------------------------------------
         private static string BuildPrompt(DocumentSnapshot source, string instruction, ChatRequestContext context)
@@ -248,6 +262,7 @@ namespace VS2017.AIAssistant.Providers
             return "Edit only the supplied Visual Studio document. Do not access files, use tools, or run commands. " +
                 "Return only the requested JSON object: summary and edits with old_text/new_text. " +
                 "Each old_text must occur exactly once in the original document. Include enough unchanged context. " +
+                "If source_text is empty, you may return one edit with empty old_text and the entire new file content in new_text. " +
                 "Edits must not overlap and all refer to the original. Preserve line endings, indentation, framework and language syntax. " +
                 "For unknown C# project versions use C# 7.0 compatible syntax and existing APIs. " +
                 "Use summary to answer the user and an empty edits array when discussion needs no code change. " +
@@ -270,6 +285,7 @@ namespace VS2017.AIAssistant.Providers
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 오류 응답·누락된 구조화 결과 거부.
+        /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// </summary>
         /// ---------------------------------------------------------------------
         private static string ExtractClaudeResult(string json)
@@ -291,6 +307,7 @@ namespace VS2017.AIAssistant.Providers
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 파이프 교착 및 무제한 메모리 사용 방지.
         /// update date  : 2026-10-18 CodexOrig : Chat 컨텍스트·설정·창 이동 및 검증 흐름 갱신.
+        /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// </summary>
         /// ---------------------------------------------------------------------
         internal static async Task<string> ReadBoundedAsync(StreamReader reader, int limit, Action stop)
@@ -318,6 +335,7 @@ namespace VS2017.AIAssistant.Providers
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : cmd 해석 없이 인수를 안전하게 전달.
         /// update date  : 2026-10-18 CodexOrig : Chat 컨텍스트·설정·창 이동 및 검증 흐름 갱신.
+        /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// </summary>
         /// ---------------------------------------------------------------------
         internal static string ResolveExecutable(string executable, string fallback)
@@ -343,6 +361,7 @@ namespace VS2017.AIAssistant.Providers
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : JSON schema 및 공백 경로의 정확한 전달.
+        /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// </summary>
         /// ---------------------------------------------------------------------
         private static string QuoteArgument(string argument)
@@ -367,6 +386,7 @@ namespace VS2017.AIAssistant.Providers
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 실패·취소 경로의 최종 정리.
         /// update date  : 2026-10-18 CodexOrig : Chat 컨텍스트·설정·창 이동 및 검증 흐름 갱신.
+        /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// </summary>
         /// ---------------------------------------------------------------------
         internal static void TryKill(Process process)

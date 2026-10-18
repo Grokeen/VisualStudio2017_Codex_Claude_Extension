@@ -92,4 +92,19 @@ namespace VS2017.AIAssistant.Editing
     {
         IEditorDocument GetActiveDocument();
     }
+
+    /// ---------------------------------------------------------------------
+    /// <summary>
+    /// name         : ISourceNavigationService
+    /// desc         : 변경 파일 링크와 프로젝트 작업 대상 폴더를 IDE에 연결한다.
+    /// author       : CodexCode
+    /// create date  : 2026-10-18
+    /// update date  : 2026-10-18 CodexCode : 기존 문서 서비스와 독립된 탐색 계약 추가.
+    /// </summary>
+    /// ---------------------------------------------------------------------
+    public interface ISourceNavigationService
+    {
+        void NavigateTo(string filePath, int line);
+        string GetProjectDirectory();
+    }
 }

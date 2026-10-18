@@ -1,0 +1,15 @@
+{
+  "SHA256": "3C22B6545035A508452E8886EB37B94D1A0BA90D763A48D8943EE52E7B598EFB",
+  "CheckedAt": "2026-10-18T13:38:58.7119341+09:00",
+  "CompatibilityExitCode": 0,
+  "InvalidSuiteLog": "artifacts/task013-launcher-invalid-final.log",
+  "HelpAndList": true,
+  "CompatibilityLog": "artifacts/task013-launcher-compatibility-final.log",
+  "InvalidSuiteExitCode": 2,
+  "Path": "VisualStudio_AIChat_ExtentionTest.exe",
+  "DefaultSuites": {
+    "Failed": 0,
+    "Evidence": "artifacts/tl/e61dd70ec3/summary.txt",
+    "Passed": 8
+  }
+}

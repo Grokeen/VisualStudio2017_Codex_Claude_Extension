@@ -13,6 +13,7 @@ namespace VS2017.AIAssistant.Editing
     /// author       : CodexCode
     /// create date  : 2026-10-18
     /// update date  : 2026-10-18 CodexCode : 모호한 일치·겹침·과도한 변경 거부 구현.
+    /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
     /// </summary>
     /// ---------------------------------------------------------------------
     public sealed class EditProposal
@@ -23,6 +24,9 @@ namespace VS2017.AIAssistant.Editing
         public string ProposedText { get; private set; }
         public string Summary { get; private set; }
         public string ChangePreview { get; private set; }
+        public int AddedLines { get; private set; }
+        public int RemovedLines { get; private set; }
+        public int FirstChangedLine { get; private set; }
         public bool HasChanges { get { return !string.Equals(Source.Content, ProposedText, StringComparison.Ordinal); } }
 
         /// ---------------------------------------------------------------------
@@ -32,6 +36,7 @@ namespace VS2017.AIAssistant.Editing
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 불변 수정안 초기화.
+        /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// </summary>
         /// ---------------------------------------------------------------------
         private EditProposal() { }
@@ -43,6 +48,7 @@ namespace VS2017.AIAssistant.Editing
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 단일 파일 변경 및 원본 줄 위치 비교 구현.
+        /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// </summary>
         /// ---------------------------------------------------------------------
         public static EditProposal Parse(DocumentSnapshot source, string json)
@@ -68,10 +74,11 @@ namespace VS2017.AIAssistant.Editing
                     throw new InvalidOperationException("수정안은 old_text/new_text 문자열만 포함해야 합니다.");
                 string oldText = NormalizeNewLines((string)edit["old_text"], newline);
                 string newText = NormalizeNewLines((string)edit["new_text"], newline);
-                if (oldText.Length == 0 || oldText.Length > MaxDocumentLength || newText.Length > MaxDocumentLength)
+                bool emptyDocumentInsertion = source.Content.Length == 0 && edits.Length == 1 && oldText.Length == 0;
+                if ((!emptyDocumentInsertion && oldText.Length == 0) || oldText.Length > MaxDocumentLength || newText.Length > MaxDocumentLength)
                     throw new InvalidOperationException("원본 교체 범위가 비어 있거나 변경 크기가 너무 큽니다.");
-                int start = source.Content.IndexOf(oldText, StringComparison.Ordinal);
-                if (start < 0 || source.Content.IndexOf(oldText, start + 1, StringComparison.Ordinal) >= 0)
+                int start = emptyDocumentInsertion ? 0 : source.Content.IndexOf(oldText, StringComparison.Ordinal);
+                if (!emptyDocumentInsertion && (start < 0 || source.Content.IndexOf(oldText, start + 1, StringComparison.Ordinal) >= 0))
                     throw new InvalidOperationException("원본에서 교체할 내용이 없거나 여러 번 발견되었습니다. 수정안을 다시 생성하세요.");
                 changes.Add(Tuple.Create(start, oldText, newText));
             }
@@ -86,15 +93,27 @@ namespace VS2017.AIAssistant.Editing
                 if (result.Length > MaxDocumentLength * 2) throw new InvalidOperationException("수정된 파일의 크기가 제한을 초과합니다.");
             }
             var preview = new StringBuilder();
+            int added = 0, removed = 0;
             foreach (var change in changes)
             {
+                if (change.Item2 != change.Item3)
+                {
+                    var oldLines = change.Item2.Replace("\r\n", "\n").Split('\n');
+                    var newLines = change.Item3.Replace("\r\n", "\n").Split('\n');
+                    int prefix = 0, suffix = 0;
+                    while (prefix < Math.Min(oldLines.Length, newLines.Length) && oldLines[prefix] == newLines[prefix]) prefix++;
+                    while (suffix < Math.Min(oldLines.Length, newLines.Length) - prefix && oldLines[oldLines.Length - suffix - 1] == newLines[newLines.Length - suffix - 1]) suffix++;
+                    removed += change.Item2.Length == 0 ? 0 : oldLines.Length - prefix - suffix;
+                    added += change.Item3.Length == 0 ? 0 : newLines.Length - prefix - suffix;
+                }
                 int startLine = 1 + source.Content.Take(change.Item1).Count(character => character == '\n');
                 int endLine = startLine + change.Item2.Count(character => character == '\n');
                 preview.AppendLine("원본 줄 " + startLine + " ~ " + endLine);
                 preview.AppendLine("--- 변경 전").AppendLine(change.Item2);
                 preview.AppendLine("+++ 변경 후").AppendLine(change.Item3).AppendLine();
             }
-            return new EditProposal { Source = source, ProposedText = result.ToString(), Summary = (string)root["summary"], ChangePreview = preview.ToString() };
+            return new EditProposal { Source = source, ProposedText = result.ToString(), Summary = (string)root["summary"], ChangePreview = preview.ToString(), AddedLines = added, RemovedLines = removed,
+                FirstChangedLine = changes.Count == 0 ? 1 : 1 + source.Content.Take(changes[0].Item1).Count(c => c == '\n') };
         }
 
         /// ---------------------------------------------------------------------
@@ -104,6 +123,7 @@ namespace VS2017.AIAssistant.Editing
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : CRLF/LF 차이로 인한 잘못된 교체 방지.
+        /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// </summary>
         /// ---------------------------------------------------------------------
         private static string NormalizeNewLines(string value, string newline)

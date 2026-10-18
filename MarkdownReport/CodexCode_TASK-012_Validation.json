@@ -1,0 +1,96 @@
+﻿{
+    "Task":  "TASK-012",
+    "Author":  "CodexCode",
+    "StartedAt":  "2026-10-18T12:58:21+09:00",
+    "Status":  "complete",
+    "Package":  "releases/v0.5.0/VS2017.AIAssistant-0.5.0.vsix",
+    "PackageBytes":  179232,
+    "PackageSHA256":  "DC2DB3178CD6490CCE529EA95E31133CD7B8997F9B146B656C54EC0FA474C768",
+    "ProductDLLSHA256":  "AE807FFD7CABA335DCC9A61BD2BB931BCF77CA692B079E8E29D0930A78D55AE6",
+    "SourceHashes":  "artifacts/task012/handoff-conversation/source-hashes.json",
+    "Build":  {
+                  "Debug":  "PASS",
+                  "Errors":  0,
+                  "Warnings":  0,
+                  "Release":  "PASS"
+              },
+    "Markdown":  {
+                     "Evidence":  "artifacts/task012/workspace-e54f316f031f4220bf320e58571eb364/result.json",
+                     "Failed":  0,
+                     "Passed":  52
+                 },
+    "SettingsTransaction":  {
+                                "Evidence":  "artifacts/task012/settings-transaction-7b7b24ff85a74edbb1042aad2b1c485a/result.json",
+                                "Failed":  0,
+                                "Passed":  37
+                            },
+    "WorkspaceActions":  {
+                             "Passed":  48,
+                             "Failed":  0,
+                             "RealLocalGit":  true,
+                             "RealRemoteSvnOrTfvc":  false,
+                             "Evidence":  "artifacts/workspace-actions/run-df04fdab53c740d7ba3cb86eb8f26ecf/results.log",
+                             "RealDeployment":  false,
+                             "RealDatabase":  false
+                         },
+    "WorkspaceExperience":  {
+                                "Passed":  56,
+                                "Widths":  [
+                                               780,
+                                               420,
+                                               220
+                                           ],
+                                "FakeToolEvents":  false,
+                                "Failed":  0,
+                                "Evidence":  "MarkdownReport/CodexCode_TASK-012_Experience.json",
+                                "ActualProductWpf":  true
+                            },
+    "CollaboratorValidation":  {
+                                   "LiveSqlDraft":  true,
+                                   "ActualIDE":  58,
+                                   "Foundation":  33,
+                                   "EditingUX":  92,
+                                   "Evidence":  "MarkdownReport/CodexOrig_TASK-013_Validation.json",
+                                   "Compatibility":  44,
+                                   "LiveCodex":  true,
+                                   "LiveClaude":  false
+                               },
+    "Launcher":  {
+                     "Status":  "passed",
+                     "Path":  "VisualStudio_AIChat_ExtentionTest.exe",
+                     "SHA256":  "3C22B6545035A508452E8886EB37B94D1A0BA90D763A48D8943EE52E7B598EFB",
+                     "AllSuitesPassed":  8,
+                     "AllSuitesTotal":  8,
+                     "ExitCode":  0,
+                     "Log":  "artifacts/tl/e61dd70ec3/launcher.log",
+                     "Summary":  "artifacts/tl/e61dd70ec3/summary.txt",
+                     "ConsoleLog":  "artifacts/task012/launcher-all-final.log",
+                     "ReusesExistingChecks":  true,
+                     "DefaultSuitesExcludeLiveIDEAndAI":  true,
+                     "BuildEntryFixturePassed":  16,
+                     "AutoBuildProduct":  false,
+                     "BuildScript":  "scripts/Build-TestLauncher.ps1",
+                     "SmokePassed":  9,
+                     "SmokeFailed":  0,
+                     "SmokeEvidence":  "MarkdownReport/CodexCode_TASK-012_Launcher.json",
+                     "VisualEvidence":  "MarkdownReport/assets/task012-test-launcher.png",
+                     "WrongOptionAndSuiteExit":  2
+                 },
+    "Role":  {
+                 "Snapshot":  "artifacts/task012/Role.reviewed-1331.md",
+                 "UserModifiedAt":  "2026-10-18T13:27:47+09:00",
+                 "SHA256":  "348CBFC79FA312033B07F096E70104EE892510322F452251016B4DD5AE1E8169",
+                 "EditedByCodexCode":  false
+             },
+    "Limitations":  [
+                        "VS2017 15.9+ only; VS2019/2022 support pending",
+                        "Single file approved edits; CLI tool writes remain disabled",
+                        "SQL Server metadata only; no SQL execution",
+                        "Actual Claude, remote SVN/TFVC, production DB/deployment not exercised"
+                    ],
+    "FinishedAt":  "2026-10-18T13:41:24.4186904+09:00",
+    "DurationSeconds":  2583,
+    "ProductSourceCount":  30,
+    "ProductSourceChangesAfterHandoff":  0,
+    "ReleaseOwner":  "CodexOrig TASK-013 after all editors have stopped"
+}

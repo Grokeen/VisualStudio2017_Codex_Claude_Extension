@@ -19,6 +19,7 @@
     <CreateVsixContainer>true</CreateVsixContainer>
     <DeployExtension>false</DeployExtension>
     <CopyBuildOutputToOutputDirectory>true</CopyBuildOutputToOutputDirectory>
+    <ProductAssemblyPath Condition="'$(ProductAssemblyPath)' == ''">$(MSBuildThisFileDirectory)..\..\src\VS2017.AIAssistant\bin\Release\VS2017.AIAssistant.dll</ProductAssemblyPath>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -30,7 +31,7 @@
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="VS2017.AIAssistant">
-      <HintPath>..\..\src\VS2017.AIAssistant\bin\Release\VS2017.AIAssistant.dll</HintPath>
+      <HintPath>$(ProductAssemblyPath)</HintPath>
       <Private>false</Private>
       <IncludeInVSIX>false</IncludeInVSIX>
     </Reference>
@@ -42,6 +43,7 @@
     <Compile Include="IdeTestPackage.cs" />
     <Compile Include="IdeTests.cs" />
     <Compile Include="..\ux\DialogChecks.cs"><Link>DialogChecks.cs</Link></Compile>
+    <Compile Include="..\ux\ProductUi.cs"><Link>ProductUi.cs</Link></Compile>
     <None Include="source.extension.vsixmanifest" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

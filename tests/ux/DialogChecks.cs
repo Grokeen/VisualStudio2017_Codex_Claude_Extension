@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.IO;
 using System.Linq;
 using System.Windows;
@@ -29,13 +29,16 @@ internal static class DialogChecks
     /// author       : CodexOrig
     /// create date  : 2026-10-18
     /// update date  : 2026-10-18 CodexOrig : 네 단계 안내·플래그 병합·팝업 위치·저장 실패 검증.
+    /// update date  : 2026-10-18 CodexOrig : 공통 Markdown 잠금 실패 시 JSON·Markdown 원문 복구와 검정 팔레트 검증.
     /// </summary>
     /// ---------------------------------------------------------------------
     internal static void Run(string directory, Action<string, bool> check)
     {
         Directory.CreateDirectory(directory);
         string previous = Environment.GetEnvironmentVariable("VS2017_AI_SETTINGS_PATH");
+        string previousWorkspace = Environment.GetEnvironmentVariable("VS2017_AI_WORKSPACE_PATH");
         Environment.SetEnvironmentVariable("VS2017_AI_SETTINGS_PATH", Path.Combine(directory, "dialog-settings.json"));
+        Environment.SetEnvironmentVariable("VS2017_AI_WORKSPACE_PATH", Path.Combine(directory, "workspace"));
         var store = new AssistantSettingsStore();
         var saved = new AssistantSettings { CodexPath = "codex-original.exe", ClaudePath = "claude-original.exe", CodexModel = "model-a", ClaudeModel = "model-b", Instructions = "기존 규칙 유지", FontSize = 16 };
         store.Save(saved);
@@ -44,9 +47,10 @@ internal static class DialogChecks
         {
             using (var view = new AssistantControl())
             {
-                view.Resources[Microsoft.VisualStudio.Shell.VsBrushes.ToolWindowBackgroundKey] = Brushes.White;
-                view.Resources[Microsoft.VisualStudio.Shell.VsBrushes.ToolWindowTextKey] = Brushes.Black;
+                ProductUi.SelectProvider(view, "Codex");
                 host = new Window { Title = "Isolated product UX test", Content = view, Width = 420, Height = 700, ShowInTaskbar = false };
+                host.Resources[Microsoft.VisualStudio.Shell.VsBrushes.ToolWindowBackgroundKey] = Brushes.White;
+                host.Resources[Microsoft.VisualStudio.Shell.VsBrushes.ToolWindowTextKey] = Brushes.Black;
                 Exercise(() => host.Show(), dialog => {
                     var guide = dialog as GettingStartedDialog;
                     check("UX-01 first visible Chat automatically opens four-step guide", guide != null && CountText((DependencyObject)guide.Content, "AI 연결") == 1 && CountText((DependencyObject)guide.Content, "직접 저장") == 1);
@@ -74,10 +78,10 @@ internal static class DialogChecks
                     Render(dialog, Path.Combine(directory, "settings-light.png"));
                 });
                 check("UX-09 cancel restores all live settings and does not write disk", ((TextBox)view.FindName("ExecutablePath")).Text == saved.CodexPath && ((TextBox)view.FindName("RulesText")).Text == saved.Instructions && view.FontSize == 16 && store.Load().CodexPath == saved.CodexPath);
-                view.Resources[Microsoft.VisualStudio.Shell.VsBrushes.ToolWindowBackgroundKey] = Brushes.Black;
-                view.Resources[Microsoft.VisualStudio.Shell.VsBrushes.ToolWindowTextKey] = Brushes.White;
+                host.Resources[Microsoft.VisualStudio.Shell.VsBrushes.ToolWindowBackgroundKey] = Brushes.Black;
+                host.Resources[Microsoft.VisualStudio.Shell.VsBrushes.ToolWindowTextKey] = Brushes.White;
                 Exercise(() => Click(view, "SettingsButton"), dialog => {
-                    check("UX-10 dialog and text controls use the same dark VS theme", ((SolidColorBrush)dialog.Background).Color == Colors.Black && ((SolidColorBrush)dialog.Foreground).Color == Colors.White && ((SolidColorBrush)((TextBox)view.FindName("RulesText")).Foreground).Color == Colors.White);
+                    check("UX-10 dialog and text controls use the same dark palette", ((SolidColorBrush)dialog.Background).Color == ((SolidColorBrush)view.Background).Color && ((SolidColorBrush)dialog.Foreground).Color == ((SolidColorBrush)view.Foreground).Color && ((SolidColorBrush)((TextBox)view.FindName("RulesText")).Foreground).Color == ((SolidColorBrush)view.Foreground).Color);
                     ((TextBox)view.FindName("ExecutablePath")).Text = "saved-new.exe";
                     ((TextBox)view.FindName("RulesText")).Text = "저장한 공통 규칙";
                     ((ComboBox)view.FindName("TextSizeChoice")).SelectedValue = "18";
@@ -85,6 +89,18 @@ internal static class DialogChecks
                     Click(view, "SaveSettingsButton");
                 });
                 check("UX-11 save closes dialog and preserves guide and other provider", store.Load().CodexPath == "saved-new.exe" && store.Load().ClaudePath == saved.ClaudePath && store.Load().HideWelcome && store.Load().FontSize == 18 && ((TextBlock)view.FindName("StatusLabel")).Text.StartsWith("설정을 저장"));
+                string instructionsPath = new MarkdownWorkspaceStore().InstructionsPath;
+                string beforeSettingsFailure = File.ReadAllText(store.FilePath);
+                string beforeInstructionFailure = File.ReadAllText(instructionsPath);
+                using (var locked = new FileStream(instructionsPath, FileMode.Open, FileAccess.Read, FileShare.Read))
+                {
+                    Exercise(() => Click(view, "SettingsButton"), dialog => {
+                        ((TextBox)view.FindName("ExecutablePath")).Text = "must-not-partially-save.exe";
+                        ((TextBox)view.FindName("RulesText")).Text = "이 저장은 Markdown 파일 잠금으로 실패해야 함";
+                        Click(view, "SaveSettingsButton");
+                        check("UX-16 instruction failure preserves both JSON and Markdown", dialog.IsVisible && dialog.Message.Text.StartsWith("설정 저장 실패:") && File.ReadAllText(store.FilePath) == beforeSettingsFailure && File.ReadAllText(instructionsPath) == beforeInstructionFailure);
+                    });
+                }
                 Exercise(() => Click(view, "HelpButton"), dialog => {
                     Render(dialog, Path.Combine(directory, "guide-dark.png"));
                 });
@@ -112,6 +128,7 @@ internal static class DialogChecks
         {
             if (host != null) host.Close();
             Environment.SetEnvironmentVariable("VS2017_AI_SETTINGS_PATH", previous);
+            Environment.SetEnvironmentVariable("VS2017_AI_WORKSPACE_PATH", previousWorkspace);
         }
     }
 

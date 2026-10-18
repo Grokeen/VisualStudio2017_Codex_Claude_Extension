@@ -1,4 +1,4 @@
-# 설정·첫 사용 안내 검증 (v0.4.0)
+# 설정·첫 사용 안내 검증 (v0.5.0)
 
 Role.md 프로젝트8~11번을 구현했다. 설정 버튼과 우클릭 메뉴는 동일한 CenterScreen 모달 창을 연다. 저장 성공 후 닫고, 닫기·Esc·X는 미저장 설정을 복원한다. 저장 오류는 팝업 안에 표시한다. 처음 실제로 표시되는 Chat은 네 단계 안내를 열며 `HideWelcome` 선택을 설정 파일에 저장한다. 이 선택만 변경할 때는 기존 파일을 읽어 다른 설정을 보존한다.
 
@@ -21,13 +21,14 @@ powershell -NoProfile -NonInteractive -ExecutionPolicy Bypass -File .\tests\ide\
 | UX-07 | 숨김 상태에서도 수동 안내 재열기 |
 | UX-08 | 우클릭 설정이 화면 중앙에서 열림, 실제 창 좌표 검사 |
 | UX-09 | 취소 후 경로·규칙·글자 크기 및 디스크 원상 유지 |
-| UX-10 | 설정 창과 텍스트에 동일한 어두운 VS 테마 |
+| UX-10 | 밝은/어두운 IDE 호스트에서도 설정 창·텍스트에 동일한 제품 검정 팔레트 |
 | UX-11 | 저장 후 닫힘, 다른 AI 설정·안내 선택 유지 |
 | UX-12~13 | 저장 실패를 팝업 안에 표시하고 원본 파일 보존 |
 | UX-14 | 컨트롤 재생성 후 자동 안내 억제·저장 설정 복원 |
 | UX-15 | 안내 선택 해제 후 다음 자동 표시 복원, 다른 설정 유지 |
+| UX-16 | 공통 instructions.md를 잠가 저장을 실패시키면 기존 Markdown과 JSON 원문 모두 보존 |
 
-실행별 `ux/guide-light.png`, `guide-dark.png`, `settings-light.png`, `settings-dark.png`를 직접 열어 확인한다. UI 요소의 Margin 때문에 잘리지 않도록 VisualBrush로 본문 경계를 렌더한다. Foundation은 Chat의 밝은/어두운 테마·320/200폭도 검사한다. 독립 첫 사용 여정은 `tests/review/Test-OnboardingJourney.ps1`과 TASK-011 보고를 참고한다.
+실행별 `ux/guide-light.png`, `guide-dark.png`, `settings-light.png`, `settings-dark.png`를 직접 열어 확인한다. UI 요소의 Margin 때문에 잘리지 않도록 VisualBrush로 본문 경계를 렌더한다. Foundation은 밝은/어두운 IDE 호스트·320/200폭에서도 제품 팔레트가 유지되는지 검사한다. 추가 대화·모델·키보드·저장 실패·좁은 화면 검증은 `tests/review/Test-WorkspaceExperience.ps1`을 사용한다. 문서용 화면은 `tests/ux/Render-UserExperience.ps1 -AssemblyPath <고정 DLL> -OutputDirectory <출력 폴더>`로 렌더하며 예제 대화는 합성 데이터다.
 
 ## 수동으로 추가 확인할 항목
 

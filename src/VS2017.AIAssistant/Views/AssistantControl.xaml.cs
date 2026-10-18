@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -20,6 +20,7 @@ namespace VS2017.AIAssistant.Views
     /// create date  : 2026-10-17
     /// update date  : 2026-10-18 CodexCode : 실제 단일 파일 편집 워크플로와 취소 기능 연결.
     /// update date  : 2026-10-18 CodexOrig : Chat 탭·누적 대화·첨부·영속 설정 연결.
+    /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
     /// </summary>
     /// ---------------------------------------------------------------------
     public partial class AssistantControl : UserControl, IDisposable
@@ -30,7 +31,7 @@ namespace VS2017.AIAssistant.Views
         private EditProposal pendingProposal;
         private readonly SourceEditSession session = new SourceEditSession();
         private readonly Dictionary<string, string> executablePaths = new Dictionary<string, string>();
-        private string selectedProvider = "Codex";
+        private string selectedProvider = "Claude";
         private CancellationTokenSource requestCancellation;
         private bool busy;
         private bool disposed;
@@ -43,6 +44,7 @@ namespace VS2017.AIAssistant.Views
         /// create date  : 2026-10-17
         /// update date  : 2026-10-18 CodexCode : 요청·미리보기 입력란의 테마 처리.
         /// update date  : 2026-10-18 CodexOrig : Chat 컨텍스트·설정·창 이동 및 검증 흐름 갱신.
+        /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// </summary>
         /// ---------------------------------------------------------------------
         public AssistantControl()
@@ -65,6 +67,7 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 서비스 주입과 초기 버튼 상태 설정.
+        /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// </summary>
         /// ---------------------------------------------------------------------
         public void Initialize(IActiveDocumentService documentService, IAiEditProvider editProvider)
@@ -82,6 +85,7 @@ namespace VS2017.AIAssistant.Views
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 요청 중 UI 유지 및 실패·취소 처리.
         /// update date  : 2026-10-18 CodexOrig : Chat 컨텍스트·설정·창 이동 및 검증 흐름 갱신.
+        /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// </summary>
         /// ---------------------------------------------------------------------
         private async void GenerateClicked(object sender, RoutedEventArgs e)
@@ -94,9 +98,10 @@ namespace VS2017.AIAssistant.Views
                 if (string.IsNullOrWhiteSpace(Instruction.Text)) throw new InvalidOperationException("수정 요청을 입력하세요.");
                 pendingDocument = documents.GetActiveDocument();
                 DocumentSnapshot source = pendingDocument.Capture();
+                if (System.IO.File.Exists(workspaceStore.InstructionsPath)) RulesText.Text = workspaceStore.LoadInstructions();
                 TargetLabel.Text = "대상: " + source.FilePath + (source.HasUnsavedChanges ? " (미저장 편집 내용 포함)" : "");
                 OriginalPreview.Text = source.Content;
-                var context = new ChatRequestContext(RulesText.Text, ModelName.Text, chat.Messages.ToArray(), chat.Attachments.ToArray());
+                var context = new ChatRequestContext(RulesText.Text, ModelName.Text, chat.Messages.ToArray(), chat.Attachments.ToArray(), efforts[selectedProvider]);
                 chat.Add("user", Instruction.Text + (context.Attachments.Length == 0 ? "" : "\n첨부: " + string.Join(", ", context.Attachments.Select(a => a.Name))));
                 ConversationScroll.ScrollToEnd();
                 busy = true;
@@ -119,6 +124,8 @@ namespace VS2017.AIAssistant.Views
                 StatusLabel.Text = proposal.Summary + (proposal.HasChanges ? "\n변경 비교 후 적용을 승인하세요." : "\n적용할 변경이 없습니다.");
                 ReviewTabs.SelectedIndex = 0;
                 ReviewPanel.IsExpanded = proposal.HasChanges;
+                Instruction.Clear();
+                EmptyHint.Visibility = Visibility.Collapsed;
             }
             catch (OperationCanceledException) { if (!disposed) { StatusLabel.Text = "요청을 중지했습니다. 소스는 변경하지 않았습니다."; chat.Add("system", StatusLabel.Text); } }
             catch (Exception exception) { if (!disposed) { StatusLabel.Text = "요청 실패: " + exception.Message; chat.Add("system", StatusLabel.Text); } }
@@ -126,7 +133,7 @@ namespace VS2017.AIAssistant.Views
             {
                 busy = false;
                 if (requestCancellation != null) { requestCancellation.Dispose(); requestCancellation = null; }
-                if (!disposed) UpdateButtons();
+                if (!disposed) { UpdateButtons(); PersistCurrentConversation(); }
             }
         }
 
@@ -137,6 +144,7 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 승인 전·처리 중 적용 차단.
+        /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void ApplyClicked(object sender, RoutedEventArgs e)
@@ -160,6 +168,7 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 저장 전 이후 편집·외부 변경 검사.
+        /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void SaveClicked(object sender, RoutedEventArgs e)
@@ -177,6 +186,7 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 승인된 복구 버튼과 충돌 처리 연결.
+        /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void RestoreClicked(object sender, RoutedEventArgs e)
@@ -199,6 +209,7 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 취소 요청 후 중복 클릭 방지.
+        /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void StopClicked(object sender, RoutedEventArgs e)
@@ -215,6 +226,7 @@ namespace VS2017.AIAssistant.Views
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 재시작 없는 Provider 전환 구현.
         /// update date  : 2026-10-18 CodexOrig : Chat 컨텍스트·설정·창 이동 및 검증 흐름 갱신.
+        /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void ProviderChanged(object sender, SelectionChangedEventArgs e)
@@ -222,6 +234,11 @@ namespace VS2017.AIAssistant.Views
             if (ExecutablePath == null || ReviewApproval == null) return;
             executablePaths[selectedProvider] = ExecutablePath.Text;
             SaveDraft();
+            if (!PersistCurrentConversation())
+            {
+                ProviderChoice.SelectedItem = ProviderChoice.Items.Cast<TabItem>().First(t => Convert.ToString(t.Tag) == selectedProvider);
+                return;
+            }
             selectedProvider = Convert.ToString(ProviderChoice.SelectedValue);
             string path;
             ExecutablePath.Text = executablePaths.TryGetValue(selectedProvider, out path) ? path : "";
@@ -237,6 +254,7 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 공백 포함 실행 경로 지원.
+        /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void BrowseClicked(object sender, RoutedEventArgs e)
@@ -252,6 +270,7 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 미승인 적용 버튼 비활성화.
+        /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void ApprovalChanged(object sender, RoutedEventArgs e) { if (ApplyButton != null) UpdateButtons(); }
@@ -264,6 +283,7 @@ namespace VS2017.AIAssistant.Views
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 수정안 간 승인 재사용 방지.
         /// update date  : 2026-10-18 CodexOrig : Chat 컨텍스트·설정·창 이동 및 검증 흐름 갱신.
+        /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void ClearProposal()
@@ -285,6 +305,7 @@ namespace VS2017.AIAssistant.Views
         /// update date  : 2026-10-18 CodexCode : 생성·중지·적용·저장·복구 상태 반영.
         /// update date  : 2026-10-18 CodexOrig : Chat 컨텍스트·설정·창 이동 및 검증 흐름 갱신.
         /// update date  : 2026-10-18 CodexOrig : 설정 팝업·안내 진입 버튼도 작업 중 비활성화.
+        /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void UpdateButtons()
@@ -303,6 +324,12 @@ namespace VS2017.AIAssistant.Views
             ApplyButton.IsEnabled = ReviewApproval.IsEnabled && ReviewApproval.IsChecked == true;
             SaveButton.IsEnabled = !busy && session.CanSave;
             RestoreButton.IsEnabled = !busy && session.CanRestore;
+            if (RequestModel != null) RequestModel.IsEnabled = ModeChoice.IsEnabled = PermissionsButton.IsEnabled = LoadChatButton.IsEnabled = ConversationList.IsEnabled = OptionsToggle.IsEnabled = !busy;
+            UpdateChangeCard();
+            UpdateActivity(busy);
+            ThinkingIndicator.Visibility = busy ? Visibility.Visible : Visibility.Collapsed;
+            if (busy) ThinkingIndicator.BeginAnimation(OpacityProperty, new System.Windows.Media.Animation.DoubleAnimation(0.5, 1, TimeSpan.FromMilliseconds(800)) { AutoReverse = true, RepeatBehavior = System.Windows.Media.Animation.RepeatBehavior.Forever });
+            else ThinkingIndicator.BeginAnimation(OpacityProperty, null);
         }
 
         /// ---------------------------------------------------------------------
@@ -313,10 +340,12 @@ namespace VS2017.AIAssistant.Views
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 종료 중 비동기 UI 갱신 차단.
         /// update date  : 2026-10-18 CodexOrig : 종료 시 설정·사용 안내 팝업도 해제.
+        /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// </summary>
         /// ---------------------------------------------------------------------
         public void Dispose()
         {
+            DisposeExperience();
             disposed = true;
             if (requestCancellation != null) requestCancellation.Cancel();
             CloseDialogs();

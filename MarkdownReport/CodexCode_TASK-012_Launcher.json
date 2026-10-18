@@ -1,0 +1,84 @@
+﻿{
+    "CheckedAt":  "2026-10-18T13:39:46.5536804+09:00",
+    "LauncherHash":  "3C22B6545035A508452E8886EB37B94D1A0BA90D763A48D8943EE52E7B598EFB",
+    "Passed":  9,
+    "Tests":  [
+                  {
+                      "Name":  "CLI lists eight default and two opt-in suites",
+                      "Passed":  true,
+                      "Evidence":  {
+                                       "ExitCode":  0,
+                                       "Output":  "compatibility\t지원 버전·패키지 정책\tdefault\r\nbuild-entry\t빌드 실행 경로 fixture\tdefault\r\nmarkdown\tMarkdown 대화 저장·불러오기\tdefault\r\nsettings\t공통 규칙·개인 설정 저장\tdefault\r\nworkspace-actions\tGit·작업 권한·DB 경계\tdefault\r\nediting\t소스 편집·CLI fixture·팝업\tdefault\r\nfoundation\tVSIX 등록·화면·테마\tdefault\r\nexperience\t입력·대화 탐색·UX\tdefault\r\nide\t실제 VS2017 별도 인스턴스\topt-in\r\nlive-codex\t실제 Codex 계정·AI 요청\topt-in\r\n",
+                                       "Error":  ""
+                                   }
+                  },
+                  {
+                      "Name":  "Real compatibility suite succeeds through launcher",
+                      "Passed":  true,
+                      "Evidence":  {
+                                       "ExitCode":  0,
+                                       "Output":  "검사 시작: 2026-10-18T13:39:41.5611501+09:00\n검사 로그: C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\tl\\f8e1af29a1\\launcher.log\n\n▶ compatibility · 지원 버전·패키지 정책\n검사 시작: compatibility\r\nPASS VS2017 baseline and Unicode paths\nPASS Required missing VS2019 and VS2022 fail\nPASS Legacy SDK15 supports declared VS2017 and VS2019\nPASS VS2017 minor-version-only range is detected\nPASS Inclusive upper bound includes the next major\nPASS Exact VS2019 target and SDK16\nPASS Open lower bound excludes upper major\nPASS Four-part exclusive endpoint stays exclusive\nPASS Malformed/empty range: [16.0,15.0)\nPASS Malformed/empty range: [15.0,15.0)\nPASS Malformed/empty range: [,16.0)\nPASS Malformed/empty range: (,)\nPASS Malformed/empty range: not-a-range\nPASS Open upper range cannot silently claim VS2022: 15.0\nPASS Open upper range cannot silently claim VS2022: [15.0,)\nPASS Wrong manifest namespace\nPASS Missing manifest is a failed result\nPASS Malformed XML fails\nPASS DTD and external entities are prohibited\nPASS Missing executable package asset fails\nPASS VS2017 rejects newer SDK\nPASS VS2017 build baseline rejects newer BuildTools\nPASS Dedicated VS2022 amd64 project passes\nPASS VS2022 requires ProductArchitecture\nPASS VS2022 rejects x86 manifest target\nPASS VS2022 rejects x86 payload\nPASS Missing PlatformTarget is an explicit manual-review warning\nPASS VS2022 ARM64 can be requested explicitly\nPASS ARM64-only manifest cannot satisfy amd64 request\nPASS VS2022 rejects legacy SDK\nPASS Modern .NET target cannot masquerade as Framework\nPASS VS2017 rejects unbuildable/unpinned language: 8.0\nPASS VS2017 rejects unbuildable/unpinned language: latest\nPASS VS2017 rejects unbuildable/unpinned language: preview\nPASS Unresolved SDK version fails: 15.*\nPASS Unresolved SDK version fails: $(SdkVersion)\nPASS Unresolved SDK version fails: [15.0,16.0)\nPASS PackageReference Version child element is supported\nPASS Legacy packages.config is supported\nPASS Direct assembly-only SDK is not falsely verified\nPASS No BuildTools package produces a manual-review warning\nPASS JSON report round trip and read-only inputs\nPASS Report cannot overwrite source manifest\nPASS CLI returns zero on pass and one on failed checks\n44/44 passed.\n검사 완료: compatibility\r\n\n✓ 통과 compatibility · 종료 코드 0\n\n완료: 1/1 검사 묶음 통과\n",
+                                       "Error":  ""
+                                   }
+                  },
+                  {
+                      "Name":  "Unknown suite rejected",
+                      "Passed":  true,
+                      "Evidence":  {
+                                       "ExitCode":  2,
+                                       "Output":  "",
+                                       "Error":  "실행 오류: 검사 ID를 확인하세요. --list로 목록을 볼 수 있습니다.\r\n"
+                                   }
+                  },
+                  {
+                      "Name":  "Script exit seven becomes failed suite and launcher exit one",
+                      "Passed":  true,
+                      "Evidence":  {
+                                       "ExitCode":  1,
+                                       "Output":  "검사 시작: 2026-10-18T13:39:44.2474861+09:00\n검사 로그: C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\ls\\8ce1ba8a53\\fixture\\artifacts\\tl\\b8e9b2734b\\launcher.log\n\n▶ compatibility · 지원 버전·패키지 정책\n검사 시작: compatibility\r\nEXPLICIT_EXIT_FIXTURE\r\n\n⚠ 실패 compatibility · 종료 코드 7\n\n완료: 0/1 검사 묶음 통과\n",
+                                       "Error":  ""
+                                   }
+                  },
+                  {
+                      "Name":  "PowerShell wrapper preserves exact script exit seven",
+                      "Passed":  true,
+                      "Evidence":  {
+                                       "ExitCode":  7,
+                                       "Output":  "검사 시작: compatibility\r\nEXPLICIT_EXIT_FIXTURE\r\n",
+                                       "Error":  ""
+                                   }
+                  },
+                  {
+                      "Name":  "Explicit missing VSIX rejected without fallback",
+                      "Passed":  true,
+                      "Evidence":  {
+                                       "ExitCode":  1,
+                                       "Output":  "검사 시작: 2026-10-18T13:39:45.0274090+09:00\n검사 로그: C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\ls\\8ce1ba8a53\\fixture\\artifacts\\tl\\a54a4bc81c\\launcher.log\n\n⚠ 실행 오류: 파일을 확인하세요: C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\ls\\8ce1ba8a53\\fixture\\missing.vsix\n",
+                                       "Error":  ""
+                                   }
+                  },
+                  {
+                      "Name":  "Explicit VSIX payload wins over release DLL decoy",
+                      "Passed":  true,
+                      "Evidence":  {
+                                       "ExitCode":  0,
+                                       "Output":  "검사 시작: 2026-10-18T13:39:45.1392423+09:00\n검사 로그: C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\ls\\8ce1ba8a53\\fixture\\artifacts\\tl\\b56e866f00\\launcher.log\nDLL: C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\ls\\8ce1ba8a53\\fixture\\artifacts\\tl\\b56e866f00\\ProductReference\\VS2017.AIAssistant.dll\nSHA256: AFC2314B6088A36BAE6CD75F0A836C354C486BCD8787C3926B5153EE9A6C6B90\nVSIX: C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\ls\\8ce1ba8a53\\fixture\\chosen.vsix\nSHA256: B1C968E78062D986E47D730C566511E1C00BA574CAB9BF33C5F081D3AECC0A38\n\n▶ markdown · Markdown 대화 저장·불러오기\n검사 시작: markdown\r\nCHOSEN_PACKAGE\r\n검사 완료: markdown\r\n\n✓ 통과 markdown · 종료 코드 0\n\n완료: 1/1 검사 묶음 통과\n",
+                                       "Error":  ""
+                                   }
+                  },
+                  {
+                      "Name":  "Launcher exit closes its own child process job",
+                      "Passed":  true,
+                      "Evidence":  28904
+                  },
+                  {
+                      "Name":  "GUI starts idle and renders black interface",
+                      "Passed":  true,
+                      "Evidence":  {
+                                       "ExitCode":  0,
+                                       "Output":  "PASS launcher GUI: 10 suites, no selection, no auto execution, ready status, black preview\r\n",
+                                       "Error":  ""
+                                   }
+                  }
+              ]
+}

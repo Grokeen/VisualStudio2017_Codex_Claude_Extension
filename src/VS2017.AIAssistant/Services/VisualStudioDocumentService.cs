@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Security.Cryptography;
 using EnvDTE;
@@ -15,9 +15,10 @@ namespace VS2017.AIAssistant.Services
     /// create date  : 2026-10-18
     /// update date  : 2026-10-18 CodexCode : EnvDTE 문서 컨텍스트 연결.
     /// update date  : 2026-10-18 CodexOrig : Chat 문서 탭 활성화 시 마지막 소스 문서 유지.
+    /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
     /// </summary>
     /// ---------------------------------------------------------------------
-    internal sealed class VisualStudioDocumentService : IActiveDocumentService, IDisposable
+    internal sealed class VisualStudioDocumentService : IActiveDocumentService, ISourceNavigationService, IDisposable
     {
         private readonly DTE dte;
         private readonly WindowEvents windowEvents;
@@ -32,12 +33,15 @@ namespace VS2017.AIAssistant.Services
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 서비스 초기화.
         /// update date  : 2026-10-18 CodexOrig : Chat 컨텍스트·설정·창 이동 및 검증 흐름 갱신.
+        /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// </summary>
         /// ---------------------------------------------------------------------
         internal VisualStudioDocumentService(IServiceProvider services)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
-            dte = services.GetService(typeof(DTE)) as DTE;
+            object automation = services.GetService(typeof(DTE));
+            if (automation == null) return;
+            dte = automation as DTE;
             if (dte != null)
             {
                 lastDocument = dte.ActiveDocument;
@@ -54,6 +58,7 @@ namespace VS2017.AIAssistant.Services
         /// author       : CodexOrig
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : 문서 없는 도구 창은 대상으로 삼지 않음.
+        /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void WindowActivated(Window gotFocus, Window lostFocus)
@@ -69,6 +74,7 @@ namespace VS2017.AIAssistant.Services
         /// author       : CodexOrig
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : COM 문서 수명에 맞춰 캐시 해제.
+        /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void DocumentClosing(Document closing)
@@ -84,6 +90,7 @@ namespace VS2017.AIAssistant.Services
         /// author       : CodexOrig
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : IDE 종료 후 참조 누수 방지.
+        /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// </summary>
         /// ---------------------------------------------------------------------
         public void Dispose()
@@ -102,6 +109,7 @@ namespace VS2017.AIAssistant.Services
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 솔루션 부재·디자이너·새 문서 오류 안내.
         /// update date  : 2026-10-18 CodexOrig : Chat 컨텍스트·설정·창 이동 및 검증 흐름 갱신.
+        /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// </summary>
         /// ---------------------------------------------------------------------
         public IEditorDocument GetActiveDocument()
@@ -116,6 +124,44 @@ namespace VS2017.AIAssistant.Services
             if (dte.UndoContext.IsOpen) throw new InvalidOperationException("다른 편집 작업이 진행 중입니다. 완료 후 다시 시도하세요.");
             return new VisualStudioEditorDocument(dte, active, text);
         }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : NavigateTo
+        /// desc         : 비교 카드의 대상 소스 파일과 변경 줄을 실제 편집기에서 연다.
+        /// author       : CodexCode
+        /// create date  : 2026-10-18
+        /// update date  : 2026-10-18 CodexCode : 사용자 클릭에 의한 파일 탐색 구현.
+        /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        public void NavigateTo(string filePath, int line)
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+            if (dte == null || !File.Exists(filePath)) throw new InvalidOperationException("소스 파일을 찾을 수 없습니다.");
+            var window = dte.ItemOperations.OpenFile(Path.GetFullPath(filePath)); window.Activate();
+            var selection = dte.ActiveDocument.Selection as TextSelection;
+            if (selection != null) selection.GotoLine(Math.Max(1, line), true);
+        }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : GetProjectDirectory
+        /// desc         : 선택 소스의 프로젝트 또는 파일 폴더를 작업 대상으로 제안한다.
+        /// author       : CodexCode
+        /// create date  : 2026-10-18
+        /// update date  : 2026-10-18 CodexCode : 솔루션 없는 단일 파일도 지원.
+        /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        public string GetProjectDirectory()
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+            var active = dte == null ? null : dte.ActiveDocument ?? lastDocument;
+            if (active == null) throw new InvalidOperationException("프로젝트 소스 파일을 먼저 선택하세요.");
+            var projectPath = active.ProjectItem == null || active.ProjectItem.ContainingProject == null ? null : active.ProjectItem.ContainingProject.FullName;
+            return Path.GetDirectoryName(string.IsNullOrEmpty(projectPath) ? active.FullName : projectPath);
+        }
     }
 
     /// ---------------------------------------------------------------------
@@ -125,6 +171,7 @@ namespace VS2017.AIAssistant.Services
     /// author       : CodexCode
     /// create date  : 2026-10-18
     /// update date  : 2026-10-18 CodexCode : 파일 경로 고정 및 편집·디스크 충돌 검사.
+    /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
     /// </summary>
     /// ---------------------------------------------------------------------
     internal sealed class VisualStudioEditorDocument : IEditorDocument
@@ -141,6 +188,7 @@ namespace VS2017.AIAssistant.Services
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 문서 어댑터 초기화.
+        /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// </summary>
         /// ---------------------------------------------------------------------
         internal VisualStudioEditorDocument(DTE dte, Document document, TextDocument text)
@@ -159,6 +207,7 @@ namespace VS2017.AIAssistant.Services
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 외부 변경 감지 및 읽기 전용 영역 확인.
+        /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// </summary>
         /// ---------------------------------------------------------------------
         public DocumentSnapshot Capture()
@@ -196,6 +245,7 @@ namespace VS2017.AIAssistant.Services
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 편집 실패 시 UndoContext 중단 및 파일 자동 저장 차단.
+        /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// </summary>
         /// ---------------------------------------------------------------------
         public void Replace(DocumentSnapshot expected, string content)
@@ -224,6 +274,7 @@ namespace VS2017.AIAssistant.Services
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 저장 취소·실패를 성공으로 보고하지 않음.
+        /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// </summary>
         /// ---------------------------------------------------------------------
         public void Save(DocumentSnapshot expected)

@@ -80,10 +80,20 @@ internal static class EditingTests
     /// author       : CodexCode
     /// create date  : 2026-10-18
     /// update date  : 2026-10-18 CodexCode : 잘못된 AI 응답을 소스에 적용하지 않는 정책 검증.
+    /// update date  : 2026-10-18 CodexOrig : 빈 SQL 문서 삽입과 실제 추가·삭제 줄 수 검증.
     /// </summary>
     /// ---------------------------------------------------------------------
     private static void TestParser()
     {
+        Check("empty SQL buffer accepts one complete query insertion", () => {
+            var source = new DocumentSnapshot(Path.Combine(root, "query.sql"), "", "disk", "SQL Server", false, false);
+            var proposal = EditProposal.Parse(source, Plan("", "SELECT Id FROM dbo.Sample;"));
+            Assert(proposal.HasChanges && proposal.ProposedText == "SELECT Id FROM dbo.Sample;" && source.Content == "");
+        });
+        Check("replacement reports added and removed lines without netting them", () => {
+            var proposal = EditProposal.Parse(Snapshot("return 1;"), Plan("return 1;", "return 2;"));
+            Assert(proposal.AddedLines == 1 && proposal.RemovedLines == 1);
+        });
         Check("unique replacement preserves surrounding source", () => {
             var source = Snapshot("// keep\nreturn 1;\n// keep tail");
             var plan = EditProposal.Parse(source, Plan("return 1;", "return 2;"));
@@ -257,6 +267,7 @@ internal static class EditingTests
     /// create date  : 2026-10-18
     /// update date  : 2026-10-18 CodexCode : UI 승인 체크 및 Provider 전환 시 이전 승인 해제 검증.
     /// update date  : 2026-10-18 CodexOrig : Chat 컨텍스트·설정·창 이동 및 검증 흐름 갱신.
+    /// update date  : 2026-10-18 CodexOrig : 기본 Claude 순서와 무관하게 Provider Tag로 편집 회귀 실행.
     /// </summary>
     /// ---------------------------------------------------------------------
     private static void TestUi()
@@ -265,6 +276,7 @@ internal static class EditingTests
             var doc = NewDocument(); string original = doc.Buffer;
             using (var control = new AssistantControl())
             {
+                ProductUi.SelectProvider(control, "Codex");
                 control.Initialize(new TestDocuments(doc), new CliEditProvider(TimeSpan.FromSeconds(10)));
                 ((TextBox)control.FindName("ExecutablePath")).Text = fixture;
                 ((TextBox)control.FindName("Instruction")).Text = "fixture:ok 한글";
@@ -284,12 +296,13 @@ internal static class EditingTests
             var doc = NewDocument();
             using (var control = new AssistantControl())
             {
+                ProductUi.SelectProvider(control, "Codex");
                 control.Initialize(new TestDocuments(doc), new CliEditProvider(TimeSpan.FromSeconds(10)));
                 ((TextBox)control.FindName("ExecutablePath")).Text = fixture; ((TextBox)control.FindName("Instruction")).Text = "fixture:ok";
                 var generate = (Button)control.FindName("GenerateButton"); Click(generate); PumpUntil(() => generate.IsEnabled, 15000);
                 ((CheckBox)control.FindName("ReviewApproval")).IsChecked = true;
                 doc.Buffer += "// later edit"; Click((Button)control.FindName("ApplyButton")); Assert(doc.ReplaceCount == 0 && doc.Buffer.EndsWith("// later edit"));
-                ((TabControl)control.FindName("ProviderChoice")).SelectedIndex = 1;
+                ProductUi.SelectProvider(control, "Claude");
                 Assert(((CheckBox)control.FindName("ReviewApproval")).IsChecked == false && !((Button)control.FindName("ApplyButton")).IsEnabled);
             }
         });
@@ -329,6 +342,7 @@ internal static class EditingTests
     /// author       : CodexOrig
     /// create date  : 2026-10-18
     /// update date  : 2026-10-18 CodexOrig : 새 Role 요구의 데이터 및 화면 회귀 추가.
+    /// update date  : 2026-10-18 CodexOrig : 모드 기본값·잘못된 값 및 두 CLI 실제 argv 전달 검증.
     /// </summary>
     /// ---------------------------------------------------------------------
     private static void TestChat()
@@ -367,6 +381,10 @@ internal static class EditingTests
             Assert(context.History.Length == 10 && context.History.Last().Text == "message19");
             Expect<ArgumentException>(() => new ChatRequestContext(new string('x', 8001)));
         });
+        Check("reasoning mode defaults safely and rejects unsupported values", () => {
+            Assert(new ChatRequestContext().ReasoningEffort == "auto");
+            Expect<ArgumentException>(() => new ChatRequestContext(reasoningEffort: "unsupported-mode"));
+        });
         Check("chat stack bounds old messages without sharing providers", () => {
             var first = new ChatSession(); var second = new ChatSession();
             for (int i = 0; i < 120; i++) first.Add("user", i.ToString());
@@ -386,12 +404,13 @@ internal static class EditingTests
         });
         Check("WPF tabs retain drafts attachments paths and separate conversations", () => {
             using (var control = new AssistantControl()) {
+                ProductUi.SelectProvider(control, "Codex");
                 ((TextBox)control.FindName("Instruction")).Text = "Codex 초안";
                 ((TextBox)control.FindName("ExecutablePath")).Text = fixture;
                 control.AttachFiles(new[] { textPath });
-                var tabs = (TabControl)control.FindName("ProviderChoice"); tabs.SelectedIndex = 1;
+                ProductUi.SelectProvider(control, "Claude");
                 Assert(((TextBox)control.FindName("Instruction")).Text == "" && ((ListBox)control.FindName("AttachmentList")).Items.Count == 0);
-                ((TextBox)control.FindName("Instruction")).Text = "Claude 초안"; tabs.SelectedIndex = 0;
+                ((TextBox)control.FindName("Instruction")).Text = "Claude 초안"; ProductUi.SelectProvider(control, "Codex");
                 Assert(((TextBox)control.FindName("Instruction")).Text == "Codex 초안" && ((TextBox)control.FindName("ExecutablePath")).Text == fixture && ((ListBox)control.FindName("AttachmentList")).Items.Count == 1);
             }
         });
@@ -430,6 +449,10 @@ internal static class EditingTests
             }
         });
         foreach (string provider in new[] { "Codex", "Claude" }) {
+            Check(provider + " selected reasoning mode reaches the native CLI argument", () => {
+                var context = new ChatRequestContext(reasoningEffort: "high");
+                Assert(new CliEditProvider(TimeSpan.FromSeconds(10)).GenerateWithContextAsync(provider, fixture, NewDocument().Capture(), "fixture:effort", context, CancellationToken.None).GetAwaiter().GetResult().HasChanges);
+            });
             Check(provider + " image input protocol and temporary image cleanup", () => {
                 string imageLog = Path.Combine(root, "image-path.txt"); Environment.SetEnvironmentVariable("CODEXORIG_CHAT_IMAGE_LOG", imageLog);
                 var context = new ChatRequestContext(attachments: new[] { ChatAttachment.FromFile(imagePath) });
@@ -459,6 +482,7 @@ internal static class EditingTests
     /// create date  : 2026-10-18
     /// update date  : 2026-10-18 CodexCode : 오류·대량 출력·자식 프로세스·무응답 fixture 구현.
     /// update date  : 2026-10-18 CodexOrig : Chat 컨텍스트·설정·창 이동 및 검증 흐름 갱신.
+    /// update date  : 2026-10-18 CodexOrig : 빈 SQL 삽입 응답 및 모드 인수를 검증하는 CLI fixture 추가.
     /// </summary>
     /// ---------------------------------------------------------------------
     private static int RunFixture(string[] args)
@@ -477,6 +501,11 @@ internal static class EditingTests
         string payload = prompt.Substring(prompt.IndexOf('\n') + 1);
         var input = (Dictionary<string, object>)Json.DeserializeObject(payload);
         string request = (string)input["user_request"];
+        if (request == "fixture:effort")
+        {
+            int option = Array.IndexOf(args, codex ? "--config" : "--effort");
+            if (option < 0 || option + 1 >= args.Length || args[option + 1] != (codex ? "model_reasoning_effort=\"high\"" : "high")) return 95;
+        }
         if (request == "fixture:context")
         {
             if ((string)input["user_instructions"] != "테스트 규칙" || ((object[])input["history"]).Length < 2 ||
@@ -523,7 +552,7 @@ internal static class EditingTests
         }
         if (request == "fixture:claude-error") { Console.Write("{\"is_error\":true,\"structured_output\":{}}"); return 0; }
         if (request == "fixture:missing") { Console.Write("{\"is_error\":false,\"result\":\"no structured data\"}"); return 0; }
-        object plan = Json.DeserializeObject(Plan("return 1;", "return 2;"));
+        object plan = Json.DeserializeObject(request == "fixture:sql" ? Plan("", "SELECT Id FROM dbo.Sample;") : Plan("return 1;", "return 2;"));
         Console.Write(codex ? Json.Serialize(plan) : Json.Serialize(new { type = "result", is_error = false, structured_output = plan }));
         return 0;
     }
@@ -535,12 +564,23 @@ internal static class EditingTests
     /// author       : CodexCode
     /// create date  : 2026-10-18
     /// update date  : 2026-10-18 CodexCode : 예외 원인과 종료 코드 검증 지원.
+    /// update date  : 2026-10-18 CodexOrig : 각 사례의 설정/Markdown 루트를 분리하고 이전 환경 복원.
     /// </summary>
     /// ---------------------------------------------------------------------
     private static void Check(string name, Action test)
     {
+        string previousSettings = Environment.GetEnvironmentVariable("VS2017_AI_SETTINGS_PATH");
+        string previousWorkspace = Environment.GetEnvironmentVariable("VS2017_AI_WORKSPACE_PATH");
+        string caseRoot = Path.Combine(root, "case-" + Guid.NewGuid().ToString("N"));
+        Environment.SetEnvironmentVariable("VS2017_AI_SETTINGS_PATH", Path.Combine(caseRoot, "settings.json"));
+        Environment.SetEnvironmentVariable("VS2017_AI_WORKSPACE_PATH", Path.Combine(caseRoot, "workspace"));
         try { test(); passed++; Console.WriteLine("PASS " + name); }
         catch (Exception exception) { failed++; Console.WriteLine("FAIL " + name + ": " + exception); }
+        finally
+        {
+            Environment.SetEnvironmentVariable("VS2017_AI_SETTINGS_PATH", previousSettings);
+            Environment.SetEnvironmentVariable("VS2017_AI_WORKSPACE_PATH", previousWorkspace);
+        }
     }
 
     /// ---------------------------------------------------------------------

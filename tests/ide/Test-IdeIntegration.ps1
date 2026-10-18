@@ -8,6 +8,7 @@ create date  : 2026-10-18
 update date  : 2026-10-18 CodexCode : 실제 IDE 실행과 실행별 합성 솔루션·결과 격리.
 update date  : 2026-10-18 CodexOrig : 최신 패키지·Provider 탭·개인 설정 격리 검증.
 update date  : 2026-10-18 CodexOrig : 기본 안내 격리 및 별도 첫 사용 UX15 실제 호스트 검증.
+update date  : 2026-10-18 CodexOrig : 지정 VSIX에서 추출한 DLL을 참조하여 Markdown 대화·SQL·설정 UX 검증을 격리.
 -------------------------------------------------------------------------
 .SYNOPSIS
     Runs the installed product in a dedicated VS2017 root suffix. Live Codex is opt-in.+#>
@@ -43,12 +44,10 @@ $rootSuffix = 'CodexCodeTest' + $runId.Substring(0,8)
 $outputDir = Join-Path $repositoryDir ('artifacts\ide\run-' + $runId)
 $null = New-Item -ItemType Directory -Path $outputDir -Force
 $outputDir | Set-Content -LiteralPath (Join-Path $repositoryDir 'artifacts\ide-current.txt') -Encoding UTF8
-& $msbuild (Join-Path $PSScriptRoot 'IdeIntegration.csproj') /restore /t:Rebuild /p:Configuration=Release /p:DeployExtension=false /verbosity:minimal /nologo 2>&1 |
-    Tee-Object -FilePath (Join-Path $outputDir 'helper-build.log')
-if ($LASTEXITCODE -ne 0) { throw 'IDE 테스트 패키지 빌드 실패.' }
-$helperVsix = Join-Path $PSScriptRoot 'bin\Release\CodexCode.IdeIntegration.vsix'
-
 Add-Type -AssemblyName System.IO.Compression.FileSystem
+$referenceDir = Join-Path $outputDir 'ProductReference'
+$null = New-Item -ItemType Directory -Path $referenceDir
+$referenceDll = Join-Path $referenceDir 'VS2017.AIAssistant.dll'
 $package = [IO.Compression.ZipFile]::OpenRead($VsixPath)
 try {
     $entry = $package.GetEntry('VS2017.AIAssistant.dll')
@@ -56,11 +55,15 @@ try {
     $stream = $entry.Open()
     try { $sha = [Security.Cryptography.SHA256]::Create(); $packageDllHash = [BitConverter]::ToString($sha.ComputeHash($stream)) }
     finally { $stream.Dispose(); $sha.Dispose() }
+    [IO.Compression.ZipFileExtensions]::ExtractToFile($entry, $referenceDll)
 } finally { $package.Dispose() }
-$referenceDll = Join-Path $repositoryDir 'src\VS2017.AIAssistant\bin\Release\VS2017.AIAssistant.dll'
 if ($packageDllHash.Replace('-','') -ne (Get-FileHash -LiteralPath $referenceDll -Algorithm SHA256).Hash) {
-    throw '테스트 참조 DLL과 VSIX에 포함된 제품 DLL이 다릅니다. 같은 빌드 결과를 사용하세요.'
+    throw 'VSIX에서 추출한 테스트 참조 DLL의 해시가 일치하지 않습니다.'
 }
+& $msbuild (Join-Path $PSScriptRoot 'IdeIntegration.csproj') /restore /t:Rebuild /p:Configuration=Release /p:DeployExtension=false "/p:ProductAssemblyPath=$referenceDll" /verbosity:minimal /nologo 2>&1 |
+    Tee-Object -FilePath (Join-Path $outputDir 'helper-build.log')
+if ($LASTEXITCODE -ne 0) { throw 'IDE 테스트 패키지 빌드 실패.' }
+$helperVsix = Join-Path $PSScriptRoot 'bin\Release\CodexCode.IdeIntegration.vsix'
 
 $installStart = Get-Date
 foreach ($packagePath in @($VsixPath, $helperVsix)) {
@@ -112,10 +115,12 @@ $startInfo.UseShellExecute = $false
 $startInfo.WindowStyle = [Diagnostics.ProcessWindowStyle]::Hidden
 $startInfo.EnvironmentVariables['CODEXCODE_IDE_TEST_CONFIG'] = $configPath
 $startInfo.EnvironmentVariables['VS2017_AI_SETTINGS_PATH'] = Join-Path $outputDir 'ui-settings.json'
+$startInfo.EnvironmentVariables['VS2017_AI_WORKSPACE_PATH'] = Join-Path $outputDir 'workspace'
 $ideProcess = [Diagnostics.Process]::Start($startInfo)
 [pscustomobject]@{
     ProcessId=$ideProcess.Id; RootSuffix=$rootSuffix; OutputDirectory=$outputDir; VsixPath=$VsixPath
     VsixSha256=(Get-FileHash -LiteralPath $VsixPath -Algorithm SHA256).Hash
+    ReferenceDllSha256=(Get-FileHash -LiteralPath $referenceDll -Algorithm SHA256).Hash
     StartedAt=(Get-Date).ToString('O')
 } | ConvertTo-Json | Set-Content -LiteralPath (Join-Path $outputDir 'launch.json') -Encoding UTF8
 Write-Output "IDE PID $($ideProcess.Id), root suffix $rootSuffix, results $outputDir"

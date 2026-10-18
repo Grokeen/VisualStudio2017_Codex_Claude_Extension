@@ -126,3 +126,27 @@
 ### TASK-010 최종 배포 완료 — 2026-10-18 11:47:09 KST
 
 전체 소요 18분 34초. TASK-011 완료(11:45:52) 및 추가 활성 편집 없음 확인 후 a260c3d를 origin/main에 반영했습니다. GitHub에서 해당 커밋의 VSIX를 다시 다운로드하여 77,112바이트와 SHA-256 2DD768237916AD7671B1829C279977D8BAC65684B59DFD3DC85DAD3C99523C53 일치를 확인했습니다. 중앙 설정·우클릭 메뉴·공통 UI·첫 사용 안내와 README/상세 사용법·회귀163/163·실제IDE50/50·독립28/28 근거를 함께 배포했습니다. 제품 소스와 고정 패키지는 검증 후 변경하지 않았습니다.
+
+## TASK-013 — CodexOrig / 2026-10-18 13:40:24 KST
+
+- 작업 시간: 2026-10-18 12:58:49 ~ 2026-10-18 13:40:24 KST, 로컬 검증·패키지 준비까지 41분 35초.
+- 요청: 최신 Role 프로젝트2·4·5·7~10·12·13, 사용자 추가 대화 화면 예시 및 작업 중 추가된 기본6의 최상위 테스트 실행기.
+- 분담: TASK-012가 제품·신규 저장/업무/UI·실행기를 구현하고 TASK-013이 사용자 안내·기존 검사·실제 IDE·버전/릴리스·최종 배포를 담당했다. 협업 종료 전 배포하지 않는다.
+- 작업: README/USER_GUIDE 사용자 가치·설치·상세 사용법 개편, CLI 모드 공식 근거, 실제 WPF 최종 화면5개, 개발/IDE/UX 검증 문서 갱신. C# 주석 줄바꿈·콜론 열과 기존 작성자 보존.
+- 소스: Properties/AssemblyInfo.cs·source.extension.vsixmanifest, tests/editing/EditingTests.cs·Test-SourceEditing.ps1, foundation/Test-FoundationPackage.ps1, ide/IdeTests.cs·IdeIntegration.csproj·Test-IdeIntegration.ps1, ux/DialogChecks.cs·ProductUi.cs·Render-UserExperience.ps1.
+- 보완: Provider 인덱스 가정 제거, 사례별 설정/Markdown 격리, 빈SQL 삽입·실제 줄증감·설정 원문 복구·모드 argv 검사. IDE helper를 VSIX 추출 DLL에 직접 컴파일하여 고정 사본과 공유 빌드를 분리했다.
+- 검증: Debug/Release 경고·오류0 인계, 기존169/169·신규193/193·실제VS2017/Codex/SQL58/58 PASS. 최상위 실행기 --all8/8 묶음과 독립 정상/오류 종료코드 확인. 제품소스30개 해시 일치, 사용자 Role 현재348CBFC7... 바이트 보존, 이전v0.2~0.4 릴리스 미변경.
+- 배포물: releases/v0.5.0/VS2017.AIAssistant-0.5.0.vsix 179232바이트·DC2DB3178CD6490CCE529EA95E31133CD7B8997F9B146B656C54EC0FA474C768, 루트 VisualStudio_AIChat_ExtentionTest.exe·3C22B6545035A508452E8886EB37B94D1A0BA90D763A48D8943EE52E7B598EFB.
+- 보고: CodexOrig_TASK-013.md·_Validation.json·_IDE.json·_IDELaunch.json·_SourceHashes.json·_Render.json·_Launcher.json·_Documentation.json. 실제Claude·외부SVN/TFVC·운영DB/배포 및 VS2019/2022 확장 지원은 완료 범위에 포함하지 않는다. 최종 GitHub/원격 해시 결과는 후속 기록한다.
+
+## TASK-012 — CodexCode / 2026-10-18 13:41:24 KST
+
+- 작업 시간: 2026-10-18 12:58:21 ~ 2026-10-18 13:41:24 KST, 소요 43분 3초.
+- 요청: Role 추가 프로젝트2/4/5/7/8/9/10/12/13·이미지2~6, 추가 대화 화면과 최상위 테스트 실행기 요구.
+- 구현: Claude 우선·브랜드·블랙톤 UI, 모델/생각모드/권한·Enter/CtrlEnter·첨부hover·중앙알림·부채꼴메뉴·애니메이션, 변경카드/실제소스링크, 사용자오른쪽말풍선/AI본문과실제시각·측정시간.
+- 저장/업무: 전역instruction·AI별대화Markdown/초안/제목/닫기/재열기, 실패시전환차단·JSON/MD원문복구, 빈SQL작성·SQL Server스키마와Git/SVN/TFVC/명시적배포계획실행.
+- 경로: src/VS2017.AIAssistant/Chat·Views·Editing·Services·Providers,Assets,tests/workspace·workspace-actions·review/Test-WorkspaceExperience.ps1. 최상위VisualStudio_AIChat_ExtentionTest.exe·tests/launcher·scripts/Build-TestLauncher.ps1.
+- 검증: Debug/Release 경고·오류0. 최종DLL로저장52·설정37·업무48·UI56 PASS. TASK013의편집92·Foundation33·호환성44·실제VS2017/Codex58 PASS직접확인. 실행기 --all8/8묶음·스모크9/9 PASS(기존검사중복합산없음),종료코드·선택VSIX·GUI·child정리검증.
+- 패키지: v0.5.0 VSIX179232바이트 SHA DC2DB3178CD6490CCE529EA95E31133CD7B8997F9B146B656C54EC0FA474C768; 실행기SHA3C22B6545035A508452E8886EB37B94D1A0BA90D763A48D8943EE52E7B598EFB.
+- 보고: CodexCode_TASK-012.md·_Validation.json·_Experience.json·_Launcher.json,assets/task012-test-launcher.png. 사용자Role13:27수정본/이전릴리스보존,제품고정30개해시변경0.
+- 한계: VS2017 15.9+·승인한단일파일편집,SQL Server정의읽기/작성요청만지원. 실제Claude·외부SVN/TFVC·운영DB/배포·VS2019/2022미검증. 모든하위작업자편집종료,GitHub최종반영은합의한TASK013 CodexOrig에인계.

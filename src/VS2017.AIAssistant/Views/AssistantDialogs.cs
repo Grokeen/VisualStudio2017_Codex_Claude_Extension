@@ -14,6 +14,7 @@ namespace VS2017.AIAssistant.Views
     /// author       : CodexOrig
     /// create date  : 2026-10-18
     /// update date  : 2026-10-18 CodexOrig : VS 소유 창으로 열어 모달 입력과 키보드 닫기를 지원.
+    /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
     /// </summary>
     /// ---------------------------------------------------------------------
     public class AssistantDialog : Window
@@ -29,6 +30,7 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexOrig
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : CenterScreen과 VS 테마 리소스를 공통 적용.
+        /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// </summary>
         /// ---------------------------------------------------------------------
         public AssistantDialog(AssistantControl source, string title, string description)
@@ -70,6 +72,7 @@ namespace VS2017.AIAssistant.Views
             close.Click += (sender, args) => Close();
             Actions.Children.Add(close); footer.Children.Add(Actions);
             Grid.SetRow(footer, 2); layout.Children.Add(footer); Content = layout;
+            Loaded += (sender, args) => BeginAnimation(OpacityProperty, new System.Windows.Media.Animation.DoubleAnimation(0, 1, TimeSpan.FromMilliseconds(180)));
         }
     }
 
@@ -80,6 +83,7 @@ namespace VS2017.AIAssistant.Views
     /// author       : CodexOrig
     /// create date  : 2026-10-18
     /// update date  : 2026-10-18 CodexOrig : 다시 보지 않기와 계정 설정 바로 가기 제공.
+    /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
     /// </summary>
     /// ---------------------------------------------------------------------
     public sealed class GettingStartedDialog : AssistantDialog
@@ -96,6 +100,7 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexOrig
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : 수동 재열기에서도 저장된 안내 표시 선택을 반영.
+        /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// </summary>
         /// ---------------------------------------------------------------------
         public GettingStartedDialog(AssistantControl source, bool hidden)
@@ -124,6 +129,7 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexOrig
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : 참고 포스터의 단계별 시각 안내를 프로그램 절차로 구성.
+        /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// </summary>
         /// ---------------------------------------------------------------------
         private static void AddStep(Panel parent, string number, string icon, string title, string text)

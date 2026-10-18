@@ -1,0 +1,267 @@
+{
+  "CheckedAt": "2026-10-18T13:42:06.9274200+09:00",
+  "References": [
+    {
+      "Link": "releases/v0.5.0/VS2017.AIAssistant-0.5.0.vsix?raw=true",
+      "Exists": true,
+      "File": "README.md"
+    },
+    {
+      "Link": "releases/v0.5.0/README.md",
+      "Exists": true,
+      "File": "README.md"
+    },
+    {
+      "Link": "docs/USER_GUIDE.md",
+      "Exists": true,
+      "File": "README.md"
+    },
+    {
+      "Link": "docs/assets/chat-0.5-preview.png",
+      "Exists": true,
+      "File": "README.md"
+    },
+    {
+      "Link": "releases/v0.5.0/VS2017.AIAssistant-0.5.0.vsix?raw=true",
+      "Exists": true,
+      "File": "README.md"
+    },
+    {
+      "Link": "docs/USER_GUIDE.md",
+      "Exists": true,
+      "File": "README.md"
+    },
+    {
+      "Link": "MarkdownReport/CodexOrig_TASK-013.md",
+      "Exists": true,
+      "File": "README.md"
+    },
+    {
+      "Link": "VisualStudio_AIChat_ExtentionTest.exe",
+      "Exists": true,
+      "File": "README.md"
+    },
+    {
+      "Link": "docs/DEVELOPMENT.md",
+      "Exists": true,
+      "File": "README.md"
+    },
+    {
+      "Link": "docs/USER_GUIDE.md",
+      "Exists": true,
+      "File": "README.md"
+    },
+    {
+      "Link": "docs/DEVELOPMENT.md",
+      "Exists": true,
+      "File": "README.md"
+    },
+    {
+      "Link": "docs/BUILD_AND_LICENSE.md",
+      "Exists": true,
+      "File": "README.md"
+    },
+    {
+      "Link": "../releases/v0.5.0/README.md",
+      "Exists": true,
+      "File": "docs\\USER_GUIDE.md"
+    },
+    {
+      "Link": "assets/cli-setup-0.5.png",
+      "Exists": true,
+      "File": "docs\\USER_GUIDE.md"
+    },
+    {
+      "Link": "assets/getting-started-0.5.png",
+      "Exists": true,
+      "File": "docs\\USER_GUIDE.md"
+    },
+    {
+      "Link": "CLI_OPTIONS.md",
+      "Exists": true,
+      "File": "docs\\USER_GUIDE.md"
+    },
+    {
+      "Link": "BUILD_AND_LICENSE.md",
+      "Exists": true,
+      "File": "docs\\USER_GUIDE.md"
+    },
+    {
+      "Link": "../VisualStudio_AIChat_ExtentionTest.exe",
+      "Exists": true,
+      "File": "docs\\USER_GUIDE.md"
+    },
+    {
+      "Link": "DEVELOPMENT.md",
+      "Exists": true,
+      "File": "docs\\USER_GUIDE.md"
+    },
+    {
+      "Link": "../MarkdownReport/CodexOrig_TASK-013.md",
+      "Exists": true,
+      "File": "docs\\USER_GUIDE.md"
+    },
+    {
+      "Link": "UX_TESTS.md",
+      "Exists": true,
+      "File": "docs\\DEVELOPMENT.md"
+    },
+    {
+      "Link": "SOURCE_EDITING.md",
+      "Exists": true,
+      "File": "docs\\DEVELOPMENT.md"
+    },
+    {
+      "Link": "CLI_OPTIONS.md",
+      "Exists": true,
+      "File": "docs\\DEVELOPMENT.md"
+    },
+    {
+      "Link": "VSIX_COMPATIBILITY.md",
+      "Exists": true,
+      "File": "docs\\DEVELOPMENT.md"
+    },
+    {
+      "Link": "../MarkdownReport/CodexCode_TASK-012.md",
+      "Exists": true,
+      "File": "docs\\DEVELOPMENT.md"
+    },
+    {
+      "Link": "../MarkdownReport/CodexOrig_TASK-013.md",
+      "Exists": true,
+      "File": "docs\\DEVELOPMENT.md"
+    },
+    {
+      "Link": "IDE_TESTS.md",
+      "Exists": true,
+      "File": "docs\\DEVELOPMENT.md"
+    },
+    {
+      "Link": "SOURCE_EDITING.md",
+      "Exists": true,
+      "File": "docs\\DEVELOPMENT.md"
+    },
+    {
+      "Link": "IDE_TESTS.md",
+      "Exists": true,
+      "File": "docs\\DEVELOPMENT.md"
+    },
+    {
+      "Link": "../MarkdownReport/CodexCode_TASK-005.md",
+      "Exists": true,
+      "File": "docs\\IDE_TESTS.md"
+    },
+    {
+      "Link": "../MarkdownReport/CodexCode_TASK-005_IDE.json",
+      "Exists": true,
+      "File": "docs\\IDE_TESTS.md"
+    },
+    {
+      "Link": "UX_TESTS.md",
+      "Exists": true,
+      "File": "docs\\IDE_TESTS.md"
+    },
+    {
+      "Link": "../MarkdownReport/CodexOrig_TASK-013.md",
+      "Exists": true,
+      "File": "docs\\IDE_TESTS.md"
+    },
+    {
+      "Link": "../../docs/USER_GUIDE.md",
+      "Exists": true,
+      "File": "releases\\v0.5.0\\README.md"
+    },
+    {
+      "Link": "../../README.md",
+      "Exists": true,
+      "File": "releases\\v0.5.0\\README.md"
+    },
+    {
+      "Link": "../../MarkdownReport/CodexOrig_TASK-013.md",
+      "Exists": true,
+      "File": "releases\\v0.5.0\\README.md"
+    },
+    {
+      "Link": "../../MarkdownReport/CodexCode_TASK-012.md",
+      "Exists": true,
+      "File": "releases\\v0.5.0\\README.md"
+    },
+    {
+      "Link": "SHA256SUMS.txt",
+      "Exists": true,
+      "File": "releases\\v0.5.0\\README.md"
+    },
+    {
+      "Link": "assets/task013-chat-reference.png",
+      "Exists": true,
+      "File": "MarkdownReport\\CodexOrig_TASK-013.md"
+    },
+    {
+      "Link": "CodexCode_TASK-012.md",
+      "Exists": true,
+      "File": "MarkdownReport\\CodexOrig_TASK-013.md"
+    },
+    {
+      "Link": "CodexOrig_TASK-013_IDE.json",
+      "Exists": true,
+      "File": "MarkdownReport\\CodexOrig_TASK-013.md"
+    },
+    {
+      "Link": "CodexOrig_TASK-013_SourceHashes.json",
+      "Exists": true,
+      "File": "MarkdownReport\\CodexOrig_TASK-013.md"
+    },
+    {
+      "Link": "CodexOrig_TASK-013_Render.json",
+      "Exists": true,
+      "File": "MarkdownReport\\CodexOrig_TASK-013.md"
+    },
+    {
+      "Link": "../releases/v0.5.0/VS2017.AIAssistant-0.5.0.vsix",
+      "Exists": true,
+      "File": "MarkdownReport\\CodexOrig_TASK-013.md"
+    },
+    {
+      "Link": "CodexOrig_TASK-013_IDELaunch.json",
+      "Exists": true,
+      "File": "MarkdownReport\\CodexOrig_TASK-013.md"
+    },
+    {
+      "Link": "CodexOrig_TASK-013_Validation.json",
+      "Exists": true,
+      "File": "MarkdownReport\\CodexOrig_TASK-013.md"
+    },
+    {
+      "Link": "../docs/assets/chat-0.5-preview.png",
+      "Exists": true,
+      "File": "MarkdownReport\\CodexOrig_TASK-013.md"
+    },
+    {
+      "Link": "../docs/assets/review-0.5.png",
+      "Exists": true,
+      "File": "MarkdownReport\\CodexOrig_TASK-013.md"
+    },
+    {
+      "Link": "../VisualStudio_AIChat_ExtentionTest.exe",
+      "Exists": true,
+      "File": "MarkdownReport\\CodexOrig_TASK-013.md"
+    },
+    {
+      "Link": "CodexOrig_TASK-013_Launcher.json",
+      "Exists": true,
+      "File": "MarkdownReport\\CodexOrig_TASK-013.md"
+    },
+    {
+      "Link": "../docs/DEVELOPMENT.md",
+      "Exists": true,
+      "File": "MarkdownReport\\CodexOrig_TASK-013.md"
+    },
+    {
+      "Link": "CodexOrig_TASK-013_Documentation.json",
+      "Exists": true,
+      "File": "MarkdownReport\\CodexOrig_TASK-013.md"
+    }
+  ],
+  "Passed": true,
+  "Missing": []
+}

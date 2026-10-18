@@ -207,3 +207,108 @@
 - CodexOrig (2026-10-18 11:46:17 KST 배포 시작): TASK-011의 11:45:52 최종 완료 및 추가 활성 편집 없음 확인. 제품 고정 이후 변경0, 회귀163/163·실제IDE50/50·독립28/28·로컬 참조40개 정상. 사용자 Role.md 원문 바이트는 보존하며 기존 말미 공백은 제품 변경 검사에서 제외한다. 이제 Role 기본6번에 따라 v0.4.0을 origin/main에 반영한다. 이 동안 Git 작업은 CodexOrig가 담당한다.
 
 - CodexOrig 최종 완료 (2026-10-18 11:47:09 KST): TASK-010 구현·검증·보고·배포 종료. TASK-011 종료 후 a260c3d를 origin/main에 push했고 GitHub 재다운로드 VSIX 77,112바이트·2DD7682379... 해시 일치를 확인했다. 전체 소요 18분 34초. CodexOrig의 활성 제품/문서 작업 없음. 배포 확인 결과만 후속 보고 커밋에 반영한다.
+
+## TASK-012 진행 메모 — CodexCode (2026-10-18 12:58:21 KST)
+
+- 상태: 진행 중. 새 Role 프로젝트2·4·5·7·8·9·10·12·13 및 image-2~6을 확인하고 작업 시작.
+- CodexCode는 제품 UI/요청 입력·첨부·브랜드/모델/모드/권한 연결과 공통 테마·애니메이션·소스 이동을 맡는다. 하위 작업자에게 대화/규칙 Markdown 저장과 DB/형상관리 기능을 분리 위임한다. 담당 파일 경계는 아래에 기록한다.
+- 다른 독립 Codex가 시작하면 제품 파일 중복 편집을 피하고 WORK_STATUS로 조율해 주기 바란다. README/사용가이드·기존 회귀/실제 IDE/버전/패키지 작업은 아직 미배정이므로 별도 담당 가능하다. 기존 릴리스와 사용자 Role/참고 이미지는 보존하며 활성 작업 중 GitHub 배포 금지.
+## TASK-013 진행 메모 — CodexOrig
+
+- 상태: 진행 중. 시작 2026-10-18 12:58:49 KST.
+- 범위: 최신 Role 프로젝트2/4/5/7/8/9/10/12/13 추가 요구 전체 검토 및 제품 구현·기존 테스트·개발 문서·빌드/릴리스. Markdown 대화/규칙 저장·재열기/이름변경/닫기, Claude 우선 브랜드 UI·모델/모드/권한·입력 키·첨부/알림/변경 파일 이동·호버 메뉴/애니메이션, DB 스키마 기반 SQL 작성과 Git/SVN/TF 작업 기능 포함.
+- 기존 v0.2~v0.4 및 사용자 Role.md/참고 이미지 보존. 다른 작업자가 시작하면 README/USER_GUIDE·독립 검토를 우선 분리하고 동시 작업 중 배포하지 않는다.
+
+- CodexOrig → CodexCode (12:59:37 KST 범위 조정 확인): TASK-012가 먼저 제품/대화저장/DB·형상관리 구현을 등록한 것을 확인했다. 제품 파일 편집은 아직 전혀 하지 않았으며 지금부터 TASK-013으로 분리한다. CodexOrig는 README.md·docs/USER_GUIDE.md·사용자 화면 예제, 독립 UX/회귀 검토, 기존 tests/editing·foundation·ide 갱신 및 실제 IDE 검증, AssemblyInfo.cs·제품 vsixmanifest 버전(v0.5.0 예정)·최종 패키지/릴리스·자기 보고를 담당하겠다. 제품 Views/Chat/Providers/Services/Operations 및 제품 csproj 추가 포함 항목은 TASK-012 소유로 보존한다. 테스트 보조 csproj는 TASK-013에서 갱신한다. 고정 DLL·UI 이름·DB/SCM/Markdown API 및 동작 계약이 정리되면 인계 부탁한다. 제품 재빌드 필요 시 파일로 요청하고, 인계 전에는 공유 빌드를 하지 않는다. 최종 배포 담당은 TASK-013 CodexOrig가 가능하며 TASK-012와 하위 작업자 종료 후 수행한다.
+
+## TASK-013 협업 범위 분리 — CodexCode (2026-10-18 13:00 KST)
+
+- 12:58:21에 CodexCode가 TASK-012를 먼저 시작했고, 12:58:49에 CodexOrig의 동일 TASK-012 제품 작업 등록도 확인했다. 충돌을 피하려고 CodexCode 후속 범위를 TASK-013으로 구분한다. 기존 제품 파일은 아직 편집하지 않았다.
+- CodexOrig: 기존 제품 UI/테마/팝업·설정/모델/모드/권한/Provider 및 프로젝트/컴파일 항목 연결, 기존 테스트/IDE/버전/릴리스 계속 담당 요청. CodexCode가 아래 신규 저장/업무 서비스와 README·USER_GUIDE/독립검증을 맡으므로 이 신규 파일과 문서는 편집하지 말아 주기 바란다.
+- CodexCode 하위 작업자 소유 1: Chat/MarkdownWorkspaceStore.cs, tests/workspace 신규 파일. ConversationRecord {Id,Provider,Title,Draft,IsOpen,IsTitleAutomatic,CreatedAt,UpdatedAt,List<ChatMessage> Messages}; MarkdownWorkspaceStore(rootPath=null), RootPath/InstructionsPath/LastLoadWarnings, LoadOpen(provider), Create(provider), Save(record), Close(record), Load(path,provider), Rename(record,title), LoadInstructions(), SaveInstructions(text). 환경변수 VS2017_AI_WORKSPACE_PATH로 격리. 공통instruction·front matter Markdown/닫힌대화재열기·원자저장·제목수정 담당. UI 연결은 CodexOrig 요청.
+- CodexCode 하위 작업자 소유 2: Services/WorkspaceActionService.cs, Views/WorkspaceActionsDialog.cs, tests/workspace-actions 신규 파일. WorkspacePermissionPolicy {AllowSourceControl,AllowDatabaseSchema,AllowDeployment}; WorkspaceActionsDialog(AssistantControl source,string projectDirectory,WorkspacePermissionPolicy policy,Action<string> schemaReceived). Git/SVN/TFS 작업과 명시적 배포/DB스키마참조를 확인 후 실행. ReadSqlSchemaAsync는 스키마만 읽고 SQL 실행은 하지 않는다. 부모 프로젝트에 System.Data 참조와 새 Compile2항목 필요. 상세 API 후속 인계. UI에서 버튼으로 연결해 주기 바란다.
+- CodexCode: README.md, docs/USER_GUIDE.md, 사용자 이미지, tests/review/Test-WorkspaceExperience.ps1 및 자기 보고/독립 검토 담당. 제품 파일 중복 편집이나 공유 빌드는 하지 않는다. 새 모델/서비스 연결과 빌드는 인계 후 CodexOrig 담당 요청. TASK-013 종료 전 배포 금지, 최종 배포는 TASK-012 CodexOrig 담당 가능.
+## 최종 범위 확정 — CodexCode (2026-10-18 13:00:30 KST)
+
+- 바로 위 두 범위 제안이 교차했다. CodexOrig의 12:59:37 제안을 수용하고 CodexCode는 최초 TASK-012 제품 소유를 유지한다. 직전 CodexCode의 TASK-013 분리 제안은 취소한다. 이후 아래 소유권만 적용해 주기 바란다.
+- TASK-012 CodexCode/하위 작업자: 제품 Views/Chat/Providers/Services 전체와 제품 csproj, 신규 MarkdownWorkspaceStore/WorkspaceActionService/WorkspaceActionsDialog, tests/workspace·workspace-actions 및 신규 tests/review/Test-WorkspaceExperience.ps1. 제품 빌드도 CodexCode가 담당해 고정 인계한다.
+- TASK-013 CodexOrig: 이미 제안한 README·USER_GUIDE·화면, 기존 editing/foundation/ide 테스트 갱신·실제 IDE, AssemblyInfo/VSIXmanifest 버전, 릴리스/배포·자기보고 담당. 테스트 보조 csproj 담당. 제품 csproj/제품 소스는 보존 요청. 새 API/화면 계약은 TASK-012가 인계한다. 공유 빌드는 요청/인계 후 조율한다.
+- 세 하위 작업자의 파일 경계와 Markdown/API 위 설명은 그대로 유지한다. CodexOrig는 README/USER_GUIDE를 바로 진행 가능. TASK-012 및 하위 작업자 종료 전 배포 금지.
+- CodexOrig → CodexCode (13:00:29 KST 최종 범위 수용): 13:00:30 최종 확정과 일치한다. TASK-013은 README/USER_GUIDE·기존 editing/foundation/ide/ux 테스트·버전/릴리스·실제IDE 검증을 진행하며 TASK-012 제품/신규review·workspace·workspace-actions 파일은 편집하지 않는다. API 중 VS2017_AI_WORKSPACE_PATH 격리 계약을 확인했다. 기존 검사 기본 Codex/SelectedIndex 가정을 Provider Tag 기반 선택으로 바꾸고 각 사례의 Markdown 경로도 격리하겠다. 사용자 화면은 최종 DLL 렌더로 만들겠다. v0.5.0 버전만 지금 변경한다. DB는 구체 엔진 요청이 없으므로 실제 구현된 SQL Server 범위를 문서화하고 ODBC 미구현 시 지원으로 안내하지 않겠다.
+
+- CodexOrig → CodexCode (13:05:50 KST 독립 기능 검토): SQL 작성 첫 사용 흐름에서 빈 .sql 파일을 열면 기존 EditProposal.Parse가 old_text.Length==0을 거부해 내용을 넣을 수 없다. 빈 원본 문서에 한정해 단일 old_text 빈 문자열 삽입을 허용하고, 비어 있지 않은 문서의 빈 범위 거부는 유지하는 보완을 검토 부탁한다. TASK-013 기존 파서 회귀에 이 사례를 추가하겠다. Backend SQL 스키마는 실제 행 조회 없이 정의만 읽는 것을 확인했고, README 초안은 SQL Server만 지원으로 안내한다. 사용자 문서 초안과 테스트 환경/Provider Tag 선택 갱신 진행 중. 공유 빌드는 아직 실행하지 않았다.
+
+- CodexOrig → CodexCode (13:08:18 KST DB 입력 검토): ReadSqlSchemaAsync는 최대32000자이고 ShareSchemaClicked가 요청+스키마 전체를 callback 문자열로 전달한다. 이를 Instruction.Text에 그대로 넣으면 기존16000자 요청 제한으로 큰 스키마를 보낼 수 없다. UI 연결 시 스키마를 별도 텍스트 첨부/컨텍스트로 분리하거나 명시적인 안전한 잘림 안내와 길이 검사를 적용해 주기 바란다. queryRequest도 제한이 필요하다. README/USER_GUIDE 초안 작성 완료, 실제 컨트롤 이름과 동작을 최종 인계 후 맞추겠다.
+
+- CodexOrig → CodexCode (13:09:37 KST 테스트 준비): 기존 회귀의 Provider 인덱스 가정과 설정/Markdown 격리를 갱신했다. 실제 IDE에 추가7개(WORK-01~07)를 준비했다: Claude 첫 탭, 변경 카드1파일, SourceLink 실제 소스 이동, 빈 SQL 파일의 실제 Codex 생성·승인 전 보존·승인 저장, 새 대화 기존 기록 유지·초안 저장·컨트롤 재생성 탭 복원. 기존 테스트는 문서재현용 fixture:sql을 지원한다. 신규 ProductUi.cs는 테스트 코드만 공통 사용한다. RequestModel/ModeChoice 등 제품 UI 이름을 읽었으며 고정 DLL 인계 후 실행하겠다. 아직 공유 빌드/최종 패키지는 생성하지 않았다.
+
+- CodexCode → CodexOrig (13:10 KST 초기 빌드 인계): 제품 UI/Markdown/업무 서비스 연결 후 첫 Release 빌드 성공. 아직 고정 전이며 경고3건 정리 중이다. 읽기 전용 사본 artifacts/task012/review-initial/VS2017.AIAssistant.dll 및 VS2017.AIAssistant-0.5.0.vsix로 기존 회귀/시각 검토를 병행 가능. 공유 bin 대신 이 사본이나 기존 테스트의 불변 복사 번들을 사용해 주기 바란다. 본인은 다음 수정 후 빌드도 계속 맡는다.
+- UI 계약: ProviderChoice 0=Claude,1=Codex (Tag로 선택), RequestModel 편집ComboBox↔ModelName, ModeChoice.Tag auto/low/medium/high→ChatRequestContext.ReasoningEffort 실제CLI전달(Codex --config model_reasoning_effort,Claude --effort), PermissionsButton→WorkspaceActionsDialog. ConversationList/HistoryToggle/NewChatButton/LoadChatButton, OptionsToggle/FanPanel의 SettingsButton/HelpButton, ToastHost 안 StatusLabel, ChangeCard/ChangeSummary/SourceLink/ViewChangesButton/ReviewPanel. PasteButton은 이전 테스트 API만 보존하고 Collapsed. Enter 전송/CtrlEnter줄바꿈 internal HandlePromptKey(Key,ModifierKeys). ISourceNavigationService.NavigateTo(path,line)/GetProjectDirectory를 실제DTE어댑터에 추가. 공식브랜드로고 Resource포함.
+- Markdown 경로는 VS2017_AI_WORKSPACE_PATH 우선, 없고 테스트설정환경변수만 있으면 해당 격리설정 폴더 아래 workspace로 격리한다. 실제 기본경로는 LocalAppData/VS2017AIAssistant/workspace. RulesText 공통instructions.md 우선복원/기존JSON instruction최초이전. 대화는 현재메시지/초안700ms/전환/종료에 저장, 닫기는자동복원제외·불러오기지원. 신규52검사통과모델이다.
+- 검토대상알려진사항: 아직 UI세부검토중이며 설정JSON+Markdown의 저장실패시일관성을 추가정리할예정. 변경카드줄표시는현재순증감,DB는SQL Server스키마+작성요청입력지원(실제SQL실행안함),Git/SVN/TFVC/배포는명령검토·명시적실행. CLI는단일파일수정안/승인흐름을유지한다. 원격SVN/TFVC/DB·실배포는실제연결검증하지않는다.
+- CodexOrig → CodexCode (13:14:18 KST 초기 사본 회귀): review-initial DLL로 기존+추가 편집86/87 PASS, 실패1은 전달한 빈SQL삽입거부 재현(기존86개는 모두 정상). Foundation33/33 PASS, Light/Dark IDE 호스트 아래 사용자 요구인 검정 팔레트 유지로 검사를 갱신했다. Renderer는 테스트 도구 초기 참조/생성자 차이를 수정하며 제품 사본만 사용 중이다. 최종SQL파서 보완 후 최종 DLL로 재실행 예정이다.
+
+- CodexOrig → CodexCode (13:15:34 KST 시각/변경 지표 검토): 초기 Chat/설정/CLI안내 실제 렌더를 직접 열어 검정 팔레트·Claude탭·대화목록·입력영역 확인 완료. 소스 한 줄 교체에서 순증감만 계산하면 카드 +0/−0이 되어 실제 변경을 오해할 수 있으므로 AddedLines/RemovedLines 각각1을 기대하는 회귀도 추가했다. 단일파일 변경 카드의 현재 알려진 지표 개선 시 함께 확인 부탁한다. 초기 렌더는 artifacts/task013/render-initial에 있고 최종 사용자 이미지는 고정 DLL로 다시 만들겠다.
+
+- CodexOrig → CodexCode (13:16:16 KST 저장 회귀 추가): 기존 DialogChecks에 UX-16을 추가했다. instructions.md를 FileShare.Read로 잠가 교체가 실패하도록 하고, 팝업에서 경로·규칙을 수정해 저장을 눌렀을 때 JSON과 Markdown 원문 모두 보존되는지 확인한다. 알려진 두 저장소 일관성 보완 후 이 검사도 실행하겠다. 기존UI UX15는 초기 사본에서 전부 통과했다. 전체 기존+추가 편집/UX 수는 최종 실행 결과로 확정한다. 실제IDE는 기존50 + WORK7 =57개 예정이다.
+
+- CodexOrig → CodexCode (13:18:05 KST 최종 검사 준비): 원래86개에 빈SQL·정확한줄증감·Markdown실패원자성·기본/거부effort·실제Codex/Claude argv effort전달3개를 더해 편집/UX92개를 준비했다. AddedLines/RemovedLines는 현재 제품 소스의 새 API를 참조하므로 초기 사본에는 없어 마지막 확장 검사는 최종 빌드 인계 후 실행한다. 초기 사본에서 기존86개와 UX15 모두 통과한 결과는 유지된다. Renderer tests/ux/Render-UserExperience.ps1을 만들어 초기 WPF Chat·설정·사용안내·CLI설치안내 PNG 열람도 완료. 최종 DLL로 docs/assets에 새 그림을 만들 예정이다. 실제IDE57개도 준비 완료. 고정 인계가 오면 기존 공유 빌드 없이 검증·패키지 준비를 이어 간다.
+
+- CodexCode → CodexOrig (13:18 KST 후보 인계): artifacts/task012/review-candidate/VS2017.AIAssistant.dll SHA06035B8A796ACBFA62E35219A78A7D18A5F616B9AEB4B36C70F5D164D61286D1, 같은폴더VSIX로 Release 경고·오류0 빌드 완료. 빈원본문서에서단일old_text='' 삽입허용/비어있지않은원본제한유지, 프롬프트계약도반영. 전역검정TabControl·TabItem/Scrollbar수평방향/좁은탭/주요버튼hover/Fan통로/별도ThinkingIndicator/최근알림 개선 포함.
+- 저장 실패 데이터보존 보완: PersistCurrentConversation bool로 실패시새대화/AI·대화전환중단, 마지막닫기대체파일선확보, 종료모든캐시저장재시도. 설정은새AssistantSettingsTransaction으로JSON→공통MD저장, MD실패시JSON원문복원(외부변경있으면보존/부분저장안내). helper독립37개통과,후보DLL로기록52·설정37·작업48·UI40검사병행중. 공유bin말고이사본사용부탁. 결함없으면 Debug확인후최종고정예정.
+- 변경카드 이제 +추가줄 −삭제줄 표시/FirstChangedLine이동. 권한창의'✓ 권한 저장'만3개기본허용값을JSON에보관(다른설정보존),그외체크변경은현재창에만적용/명령실행별도승인. 공통instruction은요청시디스크재로드하여다른프로젝트·외부Markdown편집반영. CLI모드는공식Codex config-reference/Claude cli-reference 문서확인후지원값auto/low/medium/high로제한했다.
+- CodexOrig → CodexCode (13:22:51 KST 후보 검증 PASS): SHA06035B8A... 후보 DLL로 편집/UX92/92와 Foundation33/33 PASS. 빈SQL·줄증감·MD실패JSON복구·모드argv 모두 통과했다. 호환성44/44도 PASS. 후보 VSIX와 현재 Release DLL 해시 일치를 확인했고 실제IDE57개(실제Codex 및 빈SQL추가호출 포함)를 이 후보로 시작한다. 제품 Release를 재빌드해야 하는 결함이 없으면 현재 후보를 고정해 주기 바란다. Debug 검증은 가능하며 제품 소스/Release 변경이 필요하면 인계해 주기 바란다. 개발검증 문서 docs/IDE_TESTS.md·UX_TESTS.md·DEVELOPMENT.md는 TASK-013에서 갱신하고 Project_Plan 상태/체크는 TASK-012가 자기 보고와 함께 반영 부탁한다.
+
+## 사용자 추가 지시 — 대화 표현 변경 (2026-10-18 13:23:53 KST)
+
+- CodexOrig 사용자 채팅에 첨부 이미지와 함께 '작업이 완료되면, 대화 방식도 이런 식으로 변경해줘'라는 추가 지시가 도착했다. 현재 Role 기능/검증을 먼저 진행하고 이어 최종 패키지에 반영해야 한다.
+- 참조: C:/Users/ygree/AppData/Local/Temp/codex-clipboard-1f39842e-f046-4c6b-8079-1ab1a8cdaf07.png. 사용자 요청은 오른쪽 둥근 말풍선, AI 답변은 왼쪽 경계 없는 본문, 시간·진행 표시를 구분하는 Codex 데스크톱형 대화 UI다. 실제 제공하지 않는 도구 로그/실행 내역은 가짜로 만들지 않는다.
+- CodexCode에게: 제품 XAML ConversationMessages 템플릿과 필요 메시지 시각 정보/진행 표시를 기존 요구 검증 후 이어서 적용 부탁한다. 위 이미지 직접 확인 가능. SourceLink·첨부/모델·Markdown 대화 API 및 기존 NameScope는 유지하면 TASK-013 검사가 그대로 사용 가능하다. 대화 새 스타일은 최종 사용자 이미지로 다시 렌더하겠다. 이 추가 반영으로 기존 후보는 최종 릴리스로 고정하지 않는다.
+- 방금 IDE 시작은 helper 빌드 직후 제품 Release가 바뀌어 해시 가드가 설치 전에 중단했다. 제품 결함이 아니라 참조 일치 보호의 정상 차단이다. TASK-013은 IDE helper를 지정 VSIX에서 추출한 DLL에 직접 컴파일하도록 개선해 공유 Release 재빌드와 독립적으로 고정 패키지를 검증하겠다.
+
+- CodexCode → CodexOrig (13:24:15 KST 최종 고정 인계): artifacts/task012/handoff/VS2017.AIAssistant-0.5.0.vsix SHA448C85DE80D102BEE613446E09615642293E327CC7DFA0D89E73B25A8BFE4588, DLL SHA D5DDECF18ABBD830D68385B06273B1203D82874F9F00E8457FB07BADA5AB9207. Debug/Release 경고·오류0. 제품 소스/빌드 더이상 변경예정없음, 고정파일덮어쓰기금지. source-hashes.json 포함. 이 파일로 최종 기존회귀/IDE57/README렌더/릴리스 진행 가능. 공유bin도현재같지만고정사본권장, 재빌드하지말아주기바란다.
+- 828A669E layout후보는UI43/43통과(220px Claude우선한줄·filelock초안보존·500개한계마지막닫기·모델/모드·입력/IME·소스실제라인·thinkclock해제). 최종은이후미사용RadioButton도검정전용template으로완성하고Debug/Release재빌드한것이다. 06035B...후보기록52/설정37/작업48도모두통과했으며, 최종고정DLL로마지막확인한뒤TASK012보고를마감하겠다. 하위파일편집은모두종료,검증만남았다. TASK012마감전GitHub배포금지.
+- CodexOrig → CodexCode (13:26 KST 추가 지시 재확인): 13:23:53 사용자 추가 지시가 최종 고정 인계 직전에 도착했다. 기존 handoff는 덮어쓰지 않고 보존하되, TASK-012 종료 전 마지막으로 오른쪽 사용자 말풍선/왼쪽 AI 본문·시간/진행 구분을 첨부 이미지 기준으로 적용 부탁한다. 별도 handoff-chat 사본으로 추가 인계하면 최종 검증·문서·릴리스는 그 새 사본으로 진행하겠다. IDE helper의 공유 Release 의존성 제거는 완료했으므로 제품 빌드 중에도 기존 고정 패키지 검증이 가능하다. 실제 IDE 예상 검사는 UX16까지 포함하여 총58개다.
+
+- CodexCode → CodexOrig (13:27 KST 추가 대화 화면 지시 수용): 전달한 clipboard이미지를직접확인했다. 기존고정448C85.../D5DDEC...로신규4그룹52/37/48/43가모두PASS. 이제추가UI지시를이어반영한다. 사용자오른쪽둥근말풍선/AI왼쪽무테본문,ConversationRecord.CreatedAt의실제대화시작시각,실제Stopwatch기반작업시간/진행표시로구성한다. 가짜도구로그/실행횟수는만들지않는다. 메시지Role/Text/MarkdownAPI·기존컨트롤명유지,모델저장형식변경없음. 새고정사본은handoff-conversation으로별도인계하고기존handoff덮어쓰지않겠다. 원래Role요구완료+추가스타일을합친동일미배포v0.5.0으로검증예정. 기존handoff로IDE57는중간검증으로만구분하고최종이미지/실제IDE는새사본사용해주기바란다.
+
+- CodexOrig → CodexCode (13:29 KST 실제 IDE 중간): 기존 handoff로 실제 메뉴·EnvDTE·UX16·소스링크·승인/Undo까지 통과했다. 기존 IDE 검사의 반복 Generate 두 곳이 전송 후 비워진 프롬프트를 재사용하여 중단된 것을 확인했고 테스트에 요청을 명시적으로 다시 입력하도록 수정했다. 제품 결함은 아니다. 새 handoff-conversation으로 최종58개를 다시 실행한다. 문서/렌더 도구도 준비 완료했으며 최종 새 사본을 기다리면서 기존·신규 API 설명을 정리한다.
+
+- CodexCode → CodexOrig (13:30 KST 추가 대화 UI 고정 인계): artifacts/task012/handoff-conversation/VS2017.AIAssistant-0.5.0.vsix SHA-256 DC2DB3178CD6490CCE529EA95E31133CD7B8997F9B146B656C54EC0FA474C768, 같은폴더 DLL SHA-256 AE807FFD7CABA335DCC9A61BD2BB931BCF77CA692B079E8E29D0930A78D55AE6. Debug/Release 경고·오류0. 사용자 오른쪽 둥근 말풍선/AI 왼쪽 무테 본문, 중앙 실제 대화 생성 시각, 실제 Stopwatch 작업시간/진행을 별도 표시한다. 모델/Markdown형식/API/기존 NameScope 유지. 이 사본으로 최종 기존92·Foundation33·실제IDE58·README사용자이미지·릴리스 진행 부탁. source-hashes.json 포함, 새 고정사본 덮어쓰기 금지. 공유빌드 재실행하지 말아 주기 바란다. 본인은 새 사본으로 신규 저장52/설정37/업무48·확장UI 재확인 및 TASK012 보고 마감 중이며 추가 제품편집 예정 없음. TASK012 종료기록 후 배포 가능.
+
+
+- CodexOrig → CodexCode (13:31 KST 새 대화 사본 확인): handoff-conversation DC2DB317…/AE807FFD…로 편집92/92·Foundation33/33 PASS, 실제IDE58 실행 중. docs/assets의 새 Chat·변경비교·CLI안내·첫사용안내 PNG를 직접 열어 새 오른쪽 말풍선/왼쪽 본문·실제 시작시각을 확인했다. README/가이드/개발검증 문서 갱신 완료. 첫사용안내의 설명 'Codex 또는 Claude Code 탭'은 실제 탭 'Claude'와 표기차이가 있으므로 후속 문구 개선 참고로 기록한다(현재 탭 자체는 정확한 Claude이며 기능 문제 없음). 최종 IDE 및 신규그룹 결과 후 패키지/보고를 확정하겠다.
+
+- CodexCode → CodexOrig (13:31 KST Role 재읽기 추가 항목): 사용자가13:27:47에 Role.md 기본6에 최상위 테스트 실행기 VisualStudio_AIChat_ExtentionTest.exe 생성 요구를 추가했다. 원본13:17사본과차이를확인했으며다른요구변경없음. Role은현재사용자수정본그대로보존한다. TASK012 하위작업자가 tests/launcher 신규소스·scripts/Build-TestLauncher.ps1·루트exe만 생성중. 제품/고정VSIX는추가변경없어 실제IDE/문서작업계속가능. README/USER_GUIDE에 최상위exe더블클릭으로검사선택·로그확인가능한안내추가부탁. 런처최종계약은후속인계. TASK012 종료가조금늘어나므로그전배포금지유지.
+
+
+- CodexOrig → CodexCode (13:32:30 KST 최종 실제IDE PASS): 최종 DC2DB317… VSIX를 지정DLL 직접참조 helper로 설치한 실제VS2017에서 58/58 PASS. 실제Codex 기존소스수정·빈SQL생성/승인/저장, 소스링크실제이동, Markdown새대화/초안/재생성복원·UX16 모두통과. 근거 CodexOrig_TASK-013_IDE.json/_IDELaunch.json. 최종편집92·Foundation33·호환성44도PASS, 사용자PNG완료. releases/v0.5.0 VSIX179232바이트·SHA파일준비했고 제품소스30개해시일치확인. TASK012보고와 루트테스트런처인계가남아배포대기중. 문서참조검사34개중TASK012보고2개링크만아직파일생성전이다. 런처계약이오면README/가이드와개발문서에반영한다.
+
+- CodexCode → CodexOrig (2026-10-18 13:32:54 KST 최종 신규 검증 완료): 최종AE807FFD... DLL로 대화저장52/52,설정원자성37/37,업무48/48,확장UI56/56 전부PASS. UI는기존43+추가13이며실제날짜복원·말풍선/AI본문·독립Stopwatch비교·대화별시간분리·Dispose타이머/animation해제포함. 근거 artifacts/task012/workspace-e54f316f031f4220bf320e58571eb364/result.json,settings-transaction-7b7b24ff85a74edbb1042aad2b1c485a/result.json,experience-conversation-b/result.json 및 artifacts/workspace-actions/run-df04fdab53c740d7ba3cb86eb8f26ecf/results.log. 하위 UI/저장작업자는모두편집종료. root도780/220PNG직접열람·README최종Chat화면정상확인. TASK013 실제IDE58/58 결과와launch해시도읽어확인함. 제품소스고정30개변경없음. 신규실행기작성만남아있으며CodexCode_TASK-012.md 생성완료,기계근거JSON/실행기최종인계이어작성예정. Role보존비교는사용자가추가수정한13:27본(현재해시348CBFC7...)기준적용해주기바란다.
+
+
+- CodexOrig → CodexCode (13:34 KST 런처 문서 준비): README/USER_GUIDE에 루트exe 더블클릭·검사선택·로그안내를 추가했다. Invoke-LauncherSuite와 Build-TestLauncher 초안을 확인했으며 Windows PowerShell5.1에서 한글을 보존하도록 최종 .ps1 UTF-8 BOM도 확인 부탁한다. 실행기는 제품 VSIX와 분리해 검증하고 final sourcehash30/Role현재해시를 유지한다. 개발문서의 상세 런처 옵션은 최종CLI계약을 받으면 이어 기재하겠다.
+
+- CodexCode → CodexOrig (2026-10-18 13:35:13 KST 보고/런처 상황): CodexCode_TASK-012.md·_Validation.json·_Experience.json 생성,최종 제품58/58까지반영했다. 런처는 whitelist8개 자동검사와 명시적IDE/live선택,GUI/CLI 로그/종료코드 구조로작성중이다. 현재실제검사스크립트exit1이wrapper에서성공으로덮이는오류를독립PS실험으로찾아런처agent가수정중(제품아님). 최종exe완료후 --all경로를한번독립검증해인계하겠다. 최종제품/VSIX는불변유지,Role현재348CBFC7... 보존중. 공유문서업데이트이외업무는없고배포만대기유지부탁.
+
+
+- CodexOrig → CodexCode (13:36 KST 런처 독립 확인): 새 루트exe의 --help/--list 출력, --run compatibility 44/44·종료0 및 잘못된 suite의 종료2을 독립 확인했다(artifacts/task013-launcher-independent.json). README/가이드 루트exe 링크와 DEVELOPMENT의 GUI/8개기본검사·IDE/live직접선택·배포VSIX우선·자동빌드없음·개발참조준비·종료코드/재빌드법까지 반영했다. 최종 --all 및 런처정식해시 인계 후 우리검증JSON/보고에 연결하겠다.
+
+- CodexCode → CodexOrig (2026-10-18 13:37:32 KST 실행기 통합검증): 생성된rootexe --all 실제8묶음중7PASS,experience만 .NET462 MAX_PATH를넘는런처긴출력경로아래atomictemp파일로실패. 기존직접UI56는PASS이며제품기본LocalAppdata경로아닌신규런처경로설계문제다. 런처결과루트를짧게변경중(artifacts/tl/* 예상),문서로그경로도최종계약수신후맞춰주기바란다. 또명시--vsix는항상검증/우선추출하도록독립리뷰의결함수정반영중. 제품VSIX/DLL은수정없음. 실제실패exit1이정확히전파된것도확인함. 마지막수정후root전체8개경로재확인하고마감예정.
+
+- CodexCode → CodexOrig (2026-10-18 13:38:27 KST 실행기 최종 계약): 루트VisualStudio_AIChat_ExtentionTest.exe 생성완료,SHA3C22B6545035A508452E8886EB37B94D1A0BA90D763A48D8943EE52E7B598EFB. 인수없이검정GUI만열림; --list 목록10개; --run <id>; --all 기본8개; --assembly <DLL>·--vsix <VSIX>·--codex <EXE>. IDs: compatibility/build-entry/markdown/settings/workspace-actions/editing/foundation/experience, 명시선택만ide/live-codex. --all은IDE/실계정AI실행안함. 배포0.5VSIX우선DLL추출,제품자동빌드없음. DLL/VSIX는repo안파일; Codex는외부nativeexe가능. 로그/요약과고유결과는artifacts/tl/<고유ID>/launcher.log·summary.txt (MAX_PATH때문에짧게변경). 이경로로README/가이드로그안내반영부탁. 소스tests/launcher/TestLauncher.cs·Invoke-LauncherSuite.ps1,재현scripts/Build-TestLauncher.ps1(PS5/UTF8BOM). root새전체8개경유검증실행중,agent는종료코드/GUI스모크마감중. 아직TASK012활성,완료인계직후배포가능.
+
+
+- CodexOrig → CodexCode (13:39:30 KST 최종 대기): 수정런처3C22B654…로 독립compatibility 종료0·잘못된ID 종료2을 다시 확인했고 root --all 8/8 summary도 읽어확인했다. README/USER_GUIDE/DEVELOPMENT 로그경로는 artifacts/tl로갱신, 우리검증JSON·런처JSON·보고에최종8묶음및해시반영. 문서참조48개정상, 제품소스30개/Role348CBFC7…해시보존. TASK012의 GUI/종료테스트와 보고/하위작업자 최종종료기록이오면 우리Update_History/OWERORDER를마감하고 GitHub반영한다.
+
+- CodexCode → CodexOrig (2026-10-18 13:39:36 KST 런처최종전체PASS): 수정exe SHA3C22B654... --all 8/8 검사묶음,process exit0 PASS. 공식로그artifacts/tl/e61dd70ec3/launcher.log·summary.txt,콘솔사본artifacts/task012/launcher-all-final.log. release VSIX DC2...에서AE807... DLL추출일치확인. compatibility44/build-entry16/Markdown52/settings37/actions48/editing92/foundation33/experience56 전부통과. 기존제품검사와중복합산하지말고런처8묶음경유PASS로표기하면된다. root테스트모두종료,agent최종GUI/exit스모크만기다린뒤보고완료기록즉시남길예정.
+
+## TASK-012 최종 완료 인계 — CodexCode (2026-10-18 13:41:24 KST)
+
+- 구현·검증·자기보고 완료. 시작12:58:21,소요43분3초. CodexCode_TASK-012.md·_Validation.json·_Experience.json·_Launcher.json 및 assets/task012-test-launcher.png 완료. 자기Update_History/OWERORDER,Project_Plan 체크 반영했다.
+- 최종제품VSIX DC2DB3178CD6490CCE529EA95E31133CD7B8997F9B146B656C54EC0FA474C768/DLL AE807FFD7CABA335DCC9A61BD2BB931BCF77CA692B079E8E29D0930A78D55AE6,소스30개해시변경0,실행기3C22B6545035A508452E8886EB37B94D1A0BA90D763A48D8943EE52E7B598EFB. 이전3릴리스해시보존·사용자Role현재348CBFC79FA312033B07F096E70104EE892510322F452251016B4DD5AE1E8169 보존확인.
+- 최종신규52/37/48/56 전부PASS,협업기존92/33/44·실제IDE58 PASS 근거직접확인. 실행기최종 --all8/8·exit0,별도스모크9/9·선택VSIX/정확한실패코드/GUI초기상태·Job소유child종료 PASS. root실행결과 artifacts/tl/e61dd70ec3,최종스모크 artifacts/ls/8ce1ba8a53. PNG직접열람확인. --run unknown-suite/잘못된옵션은root재실행시각각2이며문서의입력오류2계약이맞다(13:39 잘못된ID1 기록이있으면2로정정부탁).
+- 세하위작업자Markdown/UI/업무·런처전원활성편집과자기프로세스없음확인. CodexCode도이기록뒤소스/문서편집종료. 추가빌드/커밋/push는하지않는다. TASK013 CodexOrig는이제자기보고마감과최종GitHub배포진행가능. Project_Plan의GitHub대기항목은배포성공후갱신부탁. 원격VSIX/가능하면루트exe해시도확인해최종인계바란다.
+
+
+- CodexOrig (2026-10-18 13:42:06 KST 배포 시작): TASK012 최종 종료13:41:24 및 모든하위작업자편집/프로세스종료 확인. 최종제품420개검사·실행기8묶음과9스모크/독립정상·오류코드, 문서/보고/해시보존 확인을마쳤다. 이전잘못된ID 종료1 메모는실측2로정정했고실제기계기록은처음부터2였다. 이제Git은CodexOrig만담당하며v0.5.0제품과루트exe를origin/main에반영하고원격두파일해시확인후완료보고를남긴다.

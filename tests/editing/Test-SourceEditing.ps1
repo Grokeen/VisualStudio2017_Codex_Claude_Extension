@@ -7,6 +7,7 @@ author       : CodexCode
 create date  : 2026-10-18
 update date  : 2026-10-18 CodexCode : 독립 fixture exe와 한글·공백 경로를 사용한 검증 추가.
 update date  : 2026-10-18 CodexOrig : 첫 사용·설정 팝업의 공통 UX 검사 컴파일/실행.
+update date  : 2026-10-18 CodexOrig : 고정 DLL 및 사례별 설정·Markdown 격리, ProductUi 헬퍼 참조.
 -------------------------------------------------------------------------
 .SYNOPSIS
     Run after building the extension. No live AI calls, authentication or Visual Studio instance.
@@ -14,12 +15,14 @@ update date  : 2026-10-18 CodexOrig : 첫 사용·설정 팝업의 공통 UX 검
 [CmdletBinding()]
 param(
     [ValidateSet('Debug', 'Release')][string]$Configuration = 'Release',
-    [string]$CompilerPath
+    [string]$CompilerPath,
+    [string]$AssemblyPath
 )
 $ErrorActionPreference = 'Stop'
 $repositoryDir = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..\..'))
 $projectDir = Join-Path $repositoryDir 'src\VS2017.AIAssistant'
-$assemblyPath = Join-Path $projectDir "bin\$Configuration\VS2017.AIAssistant.dll"
+if (!$AssemblyPath) { $AssemblyPath = Join-Path $projectDir "bin\$Configuration\VS2017.AIAssistant.dll" }
+$assemblyPath = [IO.Path]::GetFullPath($AssemblyPath)
 if (!(Test-Path -LiteralPath $assemblyPath)) { throw 'VSIX를 먼저 빌드하세요.' }
 if (!$CompilerPath) {
     $vswherePath = Join-Path ${env:ProgramFiles(x86)} 'Microsoft Visual Studio\Installer\vswhere.exe'
@@ -59,16 +62,19 @@ $compileArguments += '/reference:' + $assemblyPath
 $compileArguments += '/reference:' + (Join-Path $testDir 'Microsoft.VisualStudio.Shell.15.0.dll')
 $compileArguments += Join-Path $PSScriptRoot 'EditingTests.cs'
 $compileArguments += Join-Path $PSScriptRoot '..\ux\DialogChecks.cs'
+$compileArguments += Join-Path $PSScriptRoot '..\ux\ProductUi.cs'
 & $CompilerPath @compileArguments
 if ($LASTEXITCODE -ne 0) { throw "테스트 컴파일 실패: $LASTEXITCODE" }
 $fixturePath = Join-Path $testDir 'Fixture CLI 한글.exe'
 Copy-Item -LiteralPath $testExecutable -Destination $fixturePath
 $previousSettingsPath = $env:VS2017_AI_SETTINGS_PATH
+$previousWorkspacePath = $env:VS2017_AI_WORKSPACE_PATH
 try {
     $env:VS2017_AI_SETTINGS_PATH = Join-Path $testDir 'ui-settings.json'
+    $env:VS2017_AI_WORKSPACE_PATH = Join-Path $testDir 'workspace'
     & $testExecutable $testDir $fixturePath 2>&1 | Tee-Object -FilePath (Join-Path $testDir 'results.log')
     $testExitCode = $LASTEXITCODE
 }
-finally { $env:VS2017_AI_SETTINGS_PATH = $previousSettingsPath }
+finally { $env:VS2017_AI_SETTINGS_PATH = $previousSettingsPath; $env:VS2017_AI_WORKSPACE_PATH = $previousWorkspacePath }
 if ($testExitCode -ne 0) { throw "편집 회귀 테스트 실패: $testExitCode (기록: $testDir)" }
 Write-Output "테스트 산출물: $testDir"

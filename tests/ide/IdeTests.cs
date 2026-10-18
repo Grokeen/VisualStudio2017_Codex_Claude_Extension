@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using Task = System.Threading.Tasks.Task;
@@ -42,6 +43,7 @@ namespace CodexCode.IdeIntegration
         /// update date  : 2026-10-18 CodexCode : IDE 안에서 제품 DLL과 UI를 교체하지 않고 실행.
         /// update date  : 2026-10-18 CodexOrig : Chat 컨텍스트·설정·창 이동 및 검증 흐름 갱신.
         /// update date  : 2026-10-18 CodexOrig : 격리된 실제 WPF 팝업 UX15를 IDE 호스트에서 검증.
+        /// update date  : 2026-10-18 CodexOrig : AI 탭 Tag 선택·소스 링크·빈 SQL 승인 저장·Markdown 대화 복원 검증.
         /// </summary>
         /// ---------------------------------------------------------------------
         internal static async Task RunAsync(Package product, DTE dte, TestConfig config)
@@ -53,6 +55,7 @@ namespace CodexCode.IdeIntegration
             Check("IDE-02 real VS2017 host", dte.Version.StartsWith("15."));
             Check("IDE-03 tool window created", pane != null && pane.Frame != null);
             var view = (AssistantControl)pane.Content;
+            Check("WORK-01 first provider tab is Claude", Equals(((TabItem)((TabControl)view.FindName("ProviderChoice")).Items[0]).Tag, "Claude"));
             var frame = (IVsWindowFrame)pane.Frame;
             object frameMode;
             frame.GetProperty((int)__VSFPROPID.VSFPROPID_FrameMode, out frameMode);
@@ -70,6 +73,7 @@ namespace CodexCode.IdeIntegration
             var service = (IActiveDocumentService)typeof(AssistantControl).GetField("documents", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(view);
             Check("IDE-05 production EnvDTE adapter", service.GetType().FullName == "VS2017.AIAssistant.Services.VisualStudioDocumentService");
             DialogChecks.Run(Path.Combine(config.OutputDirectory, "ux"), Check);
+            ProductUi.SelectProvider(view, "Codex");
             Text(view, "ExecutablePath").Text = config.FixturePath;
             Text(view, "Instruction").Text = "fixture:ok";
             await GenerateAsync(view);
@@ -107,9 +111,13 @@ namespace CodexCode.IdeIntegration
 
             await GenerateAsync(view);
             Check("IDE-10 Codex fixture proposal displayed", Text(view, "ProposedPreview").Text == unsaved.Replace("return 1;", "return 2;"));
+            Check("WORK-02 change card lists the modified source", ((TextBlock)view.FindName("ChangeSummary")).Text.Contains("1"));
             Check("CHAT-09 conversation stacks user and AI turns", ((ItemsControl)view.FindName("ConversationMessages")).Items.Count >= 3);
             Check("IDE-11 approval starts unchecked", ((CheckBox)view.FindName("ReviewApproval")).IsChecked != true && !Button(view, "ApplyButton").IsEnabled);
             Check("IDE-12 proposal preserves buffer and disk", target.Capture().Content == unsaved && File.ReadAllText(sourcePath) == originalDisk);
+            dte.ItemOperations.OpenFile(otherPath);
+            Click(view, "SourceLink");
+            Check("WORK-03 source link navigates to fixed target in actual IDE", dte.ActiveDocument != null && dte.ActiveDocument.FullName == sourcePath);
             dte.ItemOperations.OpenFile(otherPath);
             ApproveAndApply(view);
             Check("IDE-13 active file switch preserves fixed target", target.Capture().Content == unsaved.Replace("return 1;", "return 2;") && File.ReadAllText(otherPath) == otherDisk);
@@ -118,6 +126,7 @@ namespace CodexCode.IdeIntegration
             dte.ExecuteCommand("Edit.Undo");
             Check("IDE-15 one IDE Undo restores entire prior buffer", target.Capture().Content == unsaved);
 
+            Text(view, "Instruction").Text = "fixture:ok";
             await GenerateAsync(view);
             ApproveAndApply(view);
             Click(view, "SaveButton");
@@ -130,6 +139,7 @@ namespace CodexCode.IdeIntegration
             Check("IDE-19 Restore leaves disk until explicit save", File.ReadAllText(sourcePath) == saved && !sourceDoc.Saved);
             sourceDoc.Save(sourcePath);
 
+            Text(view, "Instruction").Text = "fixture:ok";
             await GenerateAsync(view);
             textDoc.StartPoint.CreateEditPoint().ReplaceText(textDoc.EndPoint, unsaved.Replace("return 1;", "return 9;"), 0);
             ApproveAndApply(view);
@@ -137,7 +147,7 @@ namespace CodexCode.IdeIntegration
             textDoc.StartPoint.CreateEditPoint().ReplaceText(textDoc.EndPoint, unsaved, 0);
             sourceDoc.Save(sourcePath);
 
-            ((TabControl)view.FindName("ProviderChoice")).SelectedIndex = 1;
+            ProductUi.SelectProvider(view, "Claude");
             Check("CHAT-10 Provider tabs separate drafts and attachments", Text(view, "Instruction").Text == "" && ((ListBox)view.FindName("AttachmentList")).Items.Count == 0);
             Text(view, "ExecutablePath").Text = config.FixturePath;
             Text(view, "Instruction").Text = "fixture:ok";
@@ -151,7 +161,7 @@ namespace CodexCode.IdeIntegration
             bool liveRan = !string.IsNullOrWhiteSpace(config.LiveCodexPath);
             if (liveRan)
             {
-                ((TabControl)view.FindName("ProviderChoice")).SelectedIndex = 0;
+                ProductUi.SelectProvider(view, "Codex");
                 Text(view, "ExecutablePath").Text = config.LiveCodexPath;
                 Text(view, "Instruction").Text = "Change only GetValue's return value from 1 to 2. Preserve all other text including comments and whitespace. Return one edit replacing exactly return 1; with return 2;.";
                 await GenerateAsync(view, 120000);
@@ -163,12 +173,38 @@ namespace CodexCode.IdeIntegration
                 Click(view, "RestoreButton");
                 sourceDoc.Save(sourcePath);
             }
+            ProductUi.SelectProvider(view, "Codex");
+            string queryPath = Path.Combine(config.OutputDirectory, "Query.sql");
+            File.WriteAllText(queryPath, "", new UTF8Encoding(true));
+            dte.ItemOperations.OpenFile(queryPath);
+            Document queryDoc = dte.ActiveDocument;
+            Text(view, "ExecutablePath").Text = liveRan ? config.LiveCodexPath : config.FixturePath;
+            Text(view, "Instruction").Text = liveRan
+                ? "Insert exactly SELECT Id FROM dbo.Sample; into this empty SQL document. Reference schema: dbo.Sample has Id int NOT NULL. Add no comments or other statements. Return one edit with old_text equal to the empty string."
+                : "fixture:sql";
+            await GenerateAsync(view, liveRan ? 120000 : 15000);
+            Check("WORK-04 empty SQL query draft preserves disk before approval", Text(view, "ProposedPreview").Text.Trim() == "SELECT Id FROM dbo.Sample;" && File.ReadAllText(queryPath) == "" && !Button(view, "ApplyButton").IsEnabled);
+            ApproveAndApply(view); Click(view, "SaveButton");
+            Check("WORK-05 approved SQL query is saved by actual IDE", queryDoc.Saved && File.ReadAllText(queryPath).Trim() == "SELECT Id FROM dbo.Sample;");
+            Click(view, "RestoreButton"); queryDoc.Save(queryPath);
+            int previousConversations = ((ListBox)view.FindName("ConversationList")).Items.Count;
+            Click(view, "NewChatButton");
+            Text(view, "Instruction").Text = "실제 IDE에서 보관한 미전송 초안";
+            ProductUi.SelectProvider(view, "Claude");
+            ProductUi.SelectProvider(view, "Codex");
+            var records = new MarkdownWorkspaceStore().LoadOpen("Codex");
+            Check("WORK-06 new conversation retains prior history and persists new draft", ((ListBox)view.FindName("ConversationList")).Items.Count == previousConversations + 1 && records.Any(r => r.Draft == "실제 IDE에서 보관한 미전송 초안") && records.Any(r => r.Messages.Count > 0));
+            using (var restored = new AssistantControl())
+            {
+                ProductUi.SelectProvider(restored, "Codex");
+                Check("WORK-07 recreated IDE control restores provider conversation tabs", ((ListBox)restored.FindName("ConversationList")).Items.Count == previousConversations + 1);
+            }
             var json = new JavaScriptSerializer();
             File.WriteAllText(Path.Combine(config.OutputDirectory, "result.json"), json.Serialize(new {
                 Succeeded = failed == 0, Passed = passed, Failed = failed, IdeRuntimeTest = true,
                 HostVersion = dte.Version, RegistryRoot = dte.RegistryRoot,
                 ProductAssembly = product.GetType().Assembly.Location, ProductVersion = product.GetType().Assembly.GetName().Version.ToString(),
-                LiveCodexTest = liveRan, LiveClaudeTest = false, UserProjectSourceSent = false, Tests = results
+                LiveCodexTest = liveRan, LiveSqlDraftTest = liveRan, LiveClaudeTest = false, UserProjectSourceSent = false, Tests = results
             }), new UTF8Encoding(false));
         }
 
