@@ -1,0 +1,108 @@
+{
+  "SchemaVersion": 1,
+  "Task": "TASK-025",
+  "Author": "CodexOrig",
+  "ProductVersion": "0.10.0",
+  "ProductCommit": "df25b937d94a5a5bed3b75ee8c3fd1f71c369ab8",
+  "Branch": "main",
+  "Repository": "https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension",
+  "VerifiedAt": "2026-10-19T03:27:08.9819311+09:00",
+  "Comparison": "Downloaded ten files from immutable GitHub raw commit URLs; exact byte count and SHA256 match",
+  "Artifacts": [
+    {
+      "Path": "releases/v0.10.0/VS2017.AIAssistant-0.10.0.vsix",
+      "Bytes": 3845774,
+      "Sha256": "698876F45360499F7A50B55D71E2979BE0504B12BF0ED02ADFACC055F1576A46",
+      "RemoteBytes": 3845774,
+      "RemoteSha256": "698876F45360499F7A50B55D71E2979BE0504B12BF0ED02ADFACC055F1576A46",
+      "Matched": true,
+      "RemoteUrl": "https://raw.githubusercontent.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/df25b937d94a5a5bed3b75ee8c3fd1f71c369ab8/releases/v0.10.0/VS2017.AIAssistant-0.10.0.vsix"
+    },
+    {
+      "Path": "releases/v0.10.0/VS2019.AIAssistant-0.10.0.vsix",
+      "Bytes": 3847328,
+      "Sha256": "3E3D313BCAF7AAEE6A0C8EDB1A076B26DD905F97FCF0307DB9201F8C7DDC7FB2",
+      "RemoteBytes": 3847328,
+      "RemoteSha256": "3E3D313BCAF7AAEE6A0C8EDB1A076B26DD905F97FCF0307DB9201F8C7DDC7FB2",
+      "Matched": true,
+      "RemoteUrl": "https://raw.githubusercontent.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/df25b937d94a5a5bed3b75ee8c3fd1f71c369ab8/releases/v0.10.0/VS2019.AIAssistant-0.10.0.vsix"
+    },
+    {
+      "Path": "releases/v0.10.0/VS2022.AIAssistant-0.10.0.vsix",
+      "Bytes": 3847463,
+      "Sha256": "294CE1E7B574C703F26C852C3C1674EECE56FC0EA0B07324CE5EEFBE35561563",
+      "RemoteBytes": 3847463,
+      "RemoteSha256": "294CE1E7B574C703F26C852C3C1674EECE56FC0EA0B07324CE5EEFBE35561563",
+      "Matched": true,
+      "RemoteUrl": "https://raw.githubusercontent.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/df25b937d94a5a5bed3b75ee8c3fd1f71c369ab8/releases/v0.10.0/VS2022.AIAssistant-0.10.0.vsix"
+    },
+    {
+      "Path": "VisualStudio_AIChat_ExtentionTest.exe",
+      "Bytes": 36352,
+      "Sha256": "5AC1FE5C37D8ECC346D87E1C37CD4270E59D2DEF2E083B86F4CCD76C8A26BDE5",
+      "RemoteBytes": 36352,
+      "RemoteSha256": "5AC1FE5C37D8ECC346D87E1C37CD4270E59D2DEF2E083B86F4CCD76C8A26BDE5",
+      "Matched": true,
+      "RemoteUrl": "https://raw.githubusercontent.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/df25b937d94a5a5bed3b75ee8c3fd1f71c369ab8/VisualStudio_AIChat_ExtentionTest.exe"
+    },
+    {
+      "Path": "HowToInstallCLI.md",
+      "Bytes": 20265,
+      "Sha256": "6990AF5ED77868C12C80D05FFFB7003DECD02AA0F5E6BC0F970996569B979164",
+      "RemoteBytes": 20265,
+      "RemoteSha256": "6990AF5ED77868C12C80D05FFFB7003DECD02AA0F5E6BC0F970996569B979164",
+      "Matched": true,
+      "RemoteUrl": "https://raw.githubusercontent.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/df25b937d94a5a5bed3b75ee8c3fd1f71c369ab8/HowToInstallCLI.md"
+    },
+    {
+      "Path": "InstallCLI.bat",
+      "Bytes": 10233,
+      "Sha256": "81BAE40E698B7E16B4A15093248453C7A79EF5D564306FC9CE9416255D91D5CB",
+      "RemoteBytes": 10233,
+      "RemoteSha256": "81BAE40E698B7E16B4A15093248453C7A79EF5D564306FC9CE9416255D91D5CB",
+      "Matched": true,
+      "RemoteUrl": "https://raw.githubusercontent.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/df25b937d94a5a5bed3b75ee8c3fd1f71c369ab8/InstallCLI.bat"
+    },
+    {
+      "Path": "output/pdf/VisualStudio_AI_Assistant_설치_사용설명서.pdf",
+      "Bytes": 1089143,
+      "Sha256": "EAE9BDD2CA1602677FEAF6BD1F50C19C8F7E29068D33B1DC06215D998C60B30A",
+      "RemoteBytes": 1089143,
+      "RemoteSha256": "EAE9BDD2CA1602677FEAF6BD1F50C19C8F7E29068D33B1DC06215D998C60B30A",
+      "Matched": true,
+      "RemoteUrl": "https://raw.githubusercontent.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/df25b937d94a5a5bed3b75ee8c3fd1f71c369ab8/output/pdf/VisualStudio_AI_Assistant_%EC%84%A4%EC%B9%98_%EC%82%AC%EC%9A%A9%EC%84%A4%EB%AA%85%EC%84%9C.pdf"
+    },
+    {
+      "Path": "output/VisualStudio_AI_Assistant_고객전달용.zip",
+      "Bytes": 1543397,
+      "Sha256": "52573BD0E9CB4D288A9AB7B21167E2CA769FEA67217E1B9F71901D2DA1D47085",
+      "RemoteBytes": 1543397,
+      "RemoteSha256": "52573BD0E9CB4D288A9AB7B21167E2CA769FEA67217E1B9F71901D2DA1D47085",
+      "Matched": true,
+      "RemoteUrl": "https://raw.githubusercontent.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/df25b937d94a5a5bed3b75ee8c3fd1f71c369ab8/output/VisualStudio_AI_Assistant_%EA%B3%A0%EA%B0%9D%EC%A0%84%EB%8B%AC%EC%9A%A9.zip"
+    },
+    {
+      "Path": "output/pdf/Markdown작성기_사용설명서_C7.pdf",
+      "Bytes": 459185,
+      "Sha256": "EF6C8A3B5BE274F6FDAB77FBA6E07221F9E33B13E85B574380625EB0E3AF5453",
+      "RemoteBytes": 459185,
+      "RemoteSha256": "EF6C8A3B5BE274F6FDAB77FBA6E07221F9E33B13E85B574380625EB0E3AF5453",
+      "Matched": true,
+      "RemoteUrl": "https://raw.githubusercontent.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/df25b937d94a5a5bed3b75ee8c3fd1f71c369ab8/output/pdf/Markdown%EC%9E%91%EC%84%B1%EA%B8%B0_%EC%82%AC%EC%9A%A9%EC%84%A4%EB%AA%85%EC%84%9C_C7.pdf"
+    },
+    {
+      "Path": "output/Markdown작성기_C7_사용설명서_검토용.zip",
+      "Bytes": 674859,
+      "Sha256": "019E8BF35FB07A5E36D48EFC2E162EC9C35A0C7DDB1CC5747BA6B6B7DC542F64",
+      "RemoteBytes": 674859,
+      "RemoteSha256": "019E8BF35FB07A5E36D48EFC2E162EC9C35A0C7DDB1CC5747BA6B6B7DC542F64",
+      "Matched": true,
+      "RemoteUrl": "https://raw.githubusercontent.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/df25b937d94a5a5bed3b75ee8c3fd1f71c369ab8/output/Markdown%EC%9E%91%EC%84%B1%EA%B8%B0_C7_%EC%82%AC%EC%9A%A9%EC%84%A4%EB%AA%85%EC%84%9C_%EA%B2%80%ED%86%A0%EC%9A%A9.zip"
+    }
+  ],
+  "AllMatched": true,
+  "WorkersCompletedBeforePush": "2026-10-19T03:22:59+09:00",
+  "OriginalAssetsPreserved": 47,
+  "KnownLimits": "Actual Claude CLI account and operational DB/TFVC/production deployment remain unverified; C7 first native failure cause remains undetermined, C8 diagnostic28 passed",
+  "InstallerOrLoginExecuted": false
+}

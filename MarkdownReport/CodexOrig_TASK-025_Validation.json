@@ -3,7 +3,7 @@
   "Task": "TASK-025",
   "Author": "CodexOrig",
   "Version": "0.10.0",
-  "Status": "Verified; publishing pending",
+  "Status": "Verified and published",
   "StartedAt": "2026-10-19T00:25:48+09:00",
   "Candidate": {
     "At": "2026-10-19T03:12:44.3264484+09:00",
@@ -922,9 +922,8 @@
     "Static native HTML preview does not execute script/CSS/iframe or automatically load remote media",
     "Document UI renders are offscreen STA product tests and are distinct from actual IDE tests"
   ],
-  "GitHubPublished": false,
+  "GitHubPublished": true,
   "VerificationCompletedAt": "2026-10-19T03:24:02.5162297+09:00",
-  "ElapsedIncludingCoordination": "02:58:14.5162297",
   "ActualIdeVerified": true,
   "ActualIdeResults": [
     {
@@ -1170,5 +1169,10 @@
     }
   ],
   "FinalLauncherSha256": "5AC1FE5C37D8ECC346D87E1C37CD4270E59D2DEF2E083B86F4CCD76C8A26BDE5",
-  "CurrentRoleSha256": "7284CC50FA5CA06C8617206146AA9755FE739008E0FDBCAE435B06D8751F25C8"
+  "CurrentRoleSha256": "7284CC50FA5CA06C8617206146AA9755FE739008E0FDBCAE435B06D8751F25C8",
+  "ProductCommit": "df25b937d94a5a5bed3b75ee8c3fd1f71c369ab8",
+  "CompletedAt": "2026-10-19T03:28:02.6249963+09:00",
+  "ElapsedIncludingCoordination": "03:02:14.6249963",
+  "RemoteArtifactVerification": "MarkdownReport/CodexOrig_TASK-025_Deployment.json",
+  "RemoteArtifactsMatched": 10
 }

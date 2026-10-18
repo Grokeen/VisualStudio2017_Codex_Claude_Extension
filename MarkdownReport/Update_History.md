@@ -372,3 +372,5 @@ TASK-029 검토판을 보존한 별도 C7 Markdown/PDF/ZIP을 만들고 화면 �
 - 결과: 6빌드 오류0/경고0, 기본전체16/16, 기능231/231, SKU별테마31·독립23·문서UI117·감사문서21·원재현1·경계6, 실제마우스28·GIF24, 실행기15, 실제 VS2017/2019/2022 각각133/133·exit0. 중복 조건을 고유총계로 합산하지 않음.
 - C7 native 첫18/1은 원인미확정 보존. 관찰만 추가한 같은 팝업코드의 C8 28PASS와 구분. 2022 검사IDE는 결과 기록 후 늦게 종료되어 전용PID/RootSuffix 검증 후만 정리, 정상/강제 종료를 별도JSON 기록. 일반 사용자 IDE는 종료하지 않음.
 - 최초 실패/감사·Role원문·CLI원본/고객ZIP·보호47파일 보존. 실제Claude계정·운영DB/TFVC/운영배포 미검증 유지. Orig4·Orig3·Orig5·Orig2·024 전원 종료 신호 확인 후 배포 진행. 공개 후 원격 SHA는 별도 Deployment.json에 기록.
+
+- TASK-025 / CodexOrig / GitHub 배포 및 원격 검증 완료 / 2026-10-19 03:28:02 +09:00ST: 제품 커밋 df25b937d94a5a5bed3b75ee8c3fd1f71c369ab8, v0.10.0의 세 VSIX·실행기·기존MD/BAT/PDF/고객ZIP·새C7안내PDF/ZIP **10개를 immutable commit URL에서 다시 받아 바이트·SHA256 전부 일치** 확인. 배포 JSON CodexOrig_TASK-025_Deployment.json, 전체 결과 _Validation.json. 총 경과 03:02:14.6249963. 이전47자산·과거감사·사용자원문 보존, 개인 설치/tmp/artifacts는 미공개. 원인미확정 C7 물리1회 실패와 C8 관찰28PASS 및 실제계정/운영범위 한계도 유지. 이 배포 확인 기록만 추가 게시 후 TASK025 종료.

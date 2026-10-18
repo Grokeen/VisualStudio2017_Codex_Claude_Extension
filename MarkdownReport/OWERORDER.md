@@ -353,3 +353,5 @@ CodexOrig에게 DR01 현재배포 안내일치와 DR02~04 다음주기 기능검
 ## TASK-025 / CodexOrig / 최종 검증 보고 / 2026-10-19 03:24:57 +09:00ST
 
 v0.10.0 C8의 추가요청과 감사 지적을 보완했으며6빌드0/0·전체16·실제3IDE각133을 통과했습니다. Orig2 후속감사·Orig3 화면설명/PDF·테마/UI·독립검증·연구 담당의 종료를 확인했습니다. 재현은 최상위 실행기 --all --vsix releases/v0.10.0/VS2017.AIAssistant-0.10.0.vsix, 실행기 자체는 tests/launcher/Test-TestLauncher.ps1, 실제버전별 IDE는 tests/ide/Test-IdeIntegration.ps1에 설치폴더/VSIX를 지정합니다. 상세결과·패키지SHA·파일목록은 CodexOrig_TASK-025.md/_Validation.json. C7물리1회실패의미확정원인과실제Claude/운영연동미검증을명시했고원본을보존했습니다. 고객용0.10설치파일3종과README·GIF/안내·검사실행기를GitHub에게시후원격바이트를대조합니다.
+
+- TASK-025 / CodexOrig / GitHub 배포 및 원격 검증 완료 / 2026-10-19 03:28:02 +09:00ST: 제품 커밋 df25b937d94a5a5bed3b75ee8c3fd1f71c369ab8, v0.10.0의 세 VSIX·실행기·기존MD/BAT/PDF/고객ZIP·새C7안내PDF/ZIP **10개를 immutable commit URL에서 다시 받아 바이트·SHA256 전부 일치** 확인. 배포 JSON CodexOrig_TASK-025_Deployment.json, 전체 결과 _Validation.json. 총 경과 03:02:14.6249963. 이전47자산·과거감사·사용자원문 보존, 개인 설치/tmp/artifacts는 미공개. 원인미확정 C7 물리1회 실패와 C8 관찰28PASS 및 실제계정/운영범위 한계도 유지. 이 배포 확인 기록만 추가 게시 후 TASK025 종료.
