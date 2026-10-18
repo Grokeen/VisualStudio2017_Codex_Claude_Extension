@@ -374,3 +374,19 @@ TASK-029 검토판을 보존한 별도 C7 Markdown/PDF/ZIP을 만들고 화면 �
 - 최초 실패/감사·Role원문·CLI원본/고객ZIP·보호47파일 보존. 실제Claude계정·운영DB/TFVC/운영배포 미검증 유지. Orig4·Orig3·Orig5·Orig2·024 전원 종료 신호 확인 후 배포 진행. 공개 후 원격 SHA는 별도 Deployment.json에 기록.
 
 - TASK-025 / CodexOrig / GitHub 배포 및 원격 검증 완료 / 2026-10-19 03:28:02 +09:00ST: 제품 커밋 df25b937d94a5a5bed3b75ee8c3fd1f71c369ab8, v0.10.0의 세 VSIX·실행기·기존MD/BAT/PDF/고객ZIP·새C7안내PDF/ZIP **10개를 immutable commit URL에서 다시 받아 바이트·SHA256 전부 일치** 확인. 배포 JSON CodexOrig_TASK-025_Deployment.json, 전체 결과 _Validation.json. 총 경과 03:02:14.6249963. 이전47자산·과거감사·사용자원문 보존, 개인 설치/tmp/artifacts는 미공개. 원인미확정 C7 물리1회 실패와 C8 관찰28PASS 및 실제계정/운영범위 한계도 유지. 이 배포 확인 기록만 추가 게시 후 TASK025 종료.
+
+## TASK-034 / CodexOrig2 / 03:42 추가 요청 독립 감사 완료 — 2026-10-19 04:24:08 KST
+
+- 2026-10-19 03:58:51 ~ 2026-10-19 04:24:08 KST, 경과 00:25:17. Role03:42 요청1~3 및 메시지 투명/로고를 대상으로 C10→C13→C14 입력 각120개를 고정·해시 대조했습니다.
+- 실제 C10/C14 3SKU 각각 신규15/15 headless, 동일 scope 소스11/11(명시SDK shim, 실제COM/IDE 아님) 통과. 제거 안내 공식 문서2개 대조·실제제거0. C14 실제IDE 각145와 C13 최초실패는 통합 담당자 자료 확인으로 구분했습니다. 추가 확정 제품 결함은 없습니다.
+- 산출 MarkdownReport/CodexOrig2_TASK-034_Audit.md/_Evidence.json, artifacts/audit-codexorig2-task034/. C14 선택패키지23파일씩 일치·기존감사/보호원본 보존. 초기 하네스 계약/자료준비/Fast 미광고 기대 오류는 원문 보존 후 정상 fixture 결과와 분리했습니다.
+- 제품/공유binobj/build/GUI/실계정/설치·제거/Role/과거감사/Git배포0. 감사 산출·검증 소유 반납/작업 종료. 전체16 및 문서/버전·배포·원격해시 최종 마감은032 담당입니다.
+
+## TASK-032 / CodexOrig / v0.11.0 구현·통합 검증 완료 / 2026-10-19 04:25:44 KST
+
+- 작업 시간: 2026-10-19 03:42:50 KST ~ 2026-10-19 04:25:44 KST, 경과 00:42:54.1583180 (감사·IDE 대기 포함).
+- 사용자 이미지의 로고 가림과 사용자 메시지 배경을 수정했다. MarkdownPreview의 로컬 색 우선순위를 제거하고 본문 전용 투명 템플릿/사용자 회색 글자를 적용했다. src/VS2017.AIAssistant/Views/AssistantControl.xaml, MarkdownPreview.cs, AssistantTheme.xaml.
+- Role 03:42 추가1은 Orig3 TASK033 제거·비활성화·데이터 보존 안내, 추가2는 AssistantControl.Options.cs 양방향 Claude/Codex 순차 협업과 각 제공자 옵션 격리로 반영했다. 추가3/image39는 Services/VisualStudioExternalEditingScope.cs에서 프로젝트 파일 보호/재로딩/알림 복원을 보완했다. VS2022 CloseAll에서 드러난 닫힌 COM 참조는 VisualStudioDocumentService.ResolveOpenDocument로 차단했다. 직접 사용자 확장을 제거하거나 일반 IDE 프로필을 자동 교체하지 않았다.
+- 동결 C14 120입력0차이·6빌드 오류0/경고0·실제3IDE 각145/145·전체16/16·실행기15/15·각SKU테마31/번들10 PASS. 전체16 안의 실제품247/Workspace145/독립23/문서UI117을 별도 포함관계로 기록했다. 보호47불변, 고객문서 로컬링크55 누락0.
+- Orig3 04:01:32 소유반납, Orig2 TASK034 04:25:05 최종마감/추가지적없음·각C14 DLL15/소스shim11 확인. 기존 담당자024/Orig4/Orig5 종료 유지. 최초 C11 컴파일·C12 사전차단·C13 2022 실패 및 비연결 렌더의 한계를 보존했다. 실제 Claude 계정·운영 DB/TFVC/배포 미검증을 공개한다.
+- MarkdownReport/CodexOrig_TASK-032.md/_Validation.json, CodexOrig2_TASK-034_Audit.md/_Evidence.json, README.md/docs/USER_GUIDE.md, releases/v0.11.0 세VSIX/SHA256SUMS와 최상위 실행기를 통합한다. GitHub 게시·원격10파일 해시는 별도 배포 기록으로 마감한다.

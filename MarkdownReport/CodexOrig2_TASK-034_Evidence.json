@@ -1,0 +1,3995 @@
+{
+  "SchemaVersion": 1,
+  "Task": "TASK-034",
+  "Auditor": "CodexOrig2",
+  "AuditDocumentCompleted": true,
+  "FinalCandidate": "candidate14",
+  "NewConfirmedProductFindings": [],
+  "AllRoleRequirementsUnconditionallyCertified": false,
+  "StartedAt": "2026-10-19T03:58:51.0722196+09:00",
+  "CompletedAt": "2026-10-19T04:24:08.596159+09:00",
+  "Elapsed": "00:25:17.5239394",
+  "Verdict": "검사 범위 추가 확정 제품 결함 없음. 문서 제거 안내·양방향 협업 경계·투명 배경 우선순위·프로젝트 보호 정리 소스 확인. 실제 IDE 결과는 별도 담당자 자료.",
+  "Report": {
+    "Path": "MarkdownReport/CodexOrig2_TASK-034_Audit.md",
+    "SHA256": "FD54F4C1B471EA6B4C4F8F97FF2459A3DB7605A674C51264AF4DEBB9F74A304F"
+  },
+  "Role": {
+    "ReviewedSHA256": "7EBA744723C33741420334286C90F1972B7BF802680B7153879EF2868E0EAF69",
+    "CurrentSHA256": "7EBA744723C33741420334286C90F1972B7BF802680B7153879EF2868E0EAF69",
+    "AuditorEdited": false,
+    "Unchanged": true,
+    "OriginalUserSection": "2026-10-19 03:42 추가 요청1~3",
+    "OriginalRoleSnapshot": "artifacts/audit-codexorig2-task034/Role.reviewed.md"
+  },
+  "Snapshots": [
+    {
+      "Candidate": "candidate10",
+      "SourceCount": 120,
+      "Mismatch": 0,
+      "ManifestSHA256": "0D50B9492D0E17FECDC9014BB3D0438A1CE5864154D1E6B382A3033EE6BF658A",
+      "Evidence": "source-integrity.json"
+    },
+    {
+      "Candidate": "candidate13",
+      "SourceCount": 120,
+      "Mismatch": 0,
+      "ManifestSHA256": "2DCEF903B4C30891170DC2B3D1AB8C96E7E42018FB8146E400E6388C16DE9F8C",
+      "Evidence": "source-integrity-c13.json"
+    },
+    {
+      "Candidate": "candidate14",
+      "SourceCount": 120,
+      "Mismatch": 0,
+      "ManifestSHA256": "B64FF86800FDD450EE6C37D0970DAB3B03CAF2C6D803A50662F53AE4F1ADF6EE",
+      "Evidence": "source-integrity-c14.json"
+    }
+  ],
+  "ChangesC10ToC13": {
+    "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Services\\VisualStudioExternalEditingScope.cs",
+    "Before": "7AED6C16B8A3A8A042D83B352CB1A0B4B5B4B53B2AE62F4D4CF2764B29E1088E",
+    "After": "FC1F51393407C7B8602A37F3D65E81689CAE473B76AE1382F2B7A17197DB6E75"
+  },
+  "ActualProductFixture": [
+    {
+      "Candidate": "c10",
+      "SKU": "2017",
+      "AuditorExecuted": true,
+      "Result": {
+        "Succeeded": true,
+        "Passed": 15,
+        "Failed": 0,
+        "Checks": [
+          "Codex success uses isolated provider options/history and actual review",
+          "Codex peer failure prevents synthesis",
+          "Codex cancellation cancels peer task and prevents synthesis",
+          "Claude success uses isolated provider options/history and actual review",
+          "Claude peer failure prevents synthesis",
+          "Claude cancellation cancels peer task and prevents synthesis",
+          "Three reviewers run once each without recursive collaboration",
+          "Four-reviewer persisted selection is rejected before dispatch",
+          "Failure on a later peer preserves earlier delivery but blocks synthesis",
+          "Changed team is rejected before provider call",
+          "Closed reviewer is rejected before provider call",
+          "Cross-provider duplicate Guid is rejected before provider call",
+          "Changed source during review blocks final synthesis",
+          "Standalone preview leaves constructor color precedence unset",
+          "Actual user/assistant templates preserve transparency and theme priority"
+        ],
+        "Errors": [],
+        "Mode": "AssistantUi",
+        "SourceOnly": false,
+        "ProductAssemblyPath": "C:\\dydgyqud\\AO34_20261019\\candidate10\\2017\\Release\\VS2017.AIAssistant.dll",
+        "ProductAssemblySha256": "246CF97BCA7E2A7A723F6CF046953E5176336BD42DDF621083301D1E51EE00C9",
+        "CopiedInputs": [
+          {
+            "RelativePath": "ICSharpCode.AvalonEdit.dll",
+            "Sha256": "B0032716709359F7361D5A2DDC8E2AD457A1448A093FB4900E0336312B0A10C7"
+          },
+          {
+            "RelativePath": "Microsoft.Web.WebView2.Core.dll",
+            "Sha256": "E6F54C8CE208E3797C427D01AD671B47CB25ABC85604753D6EC2546D0FFEF550"
+          },
+          {
+            "RelativePath": "Microsoft.Web.WebView2.WinForms.dll",
+            "Sha256": "CC3D2937C350A4F5E20399855BCAB4FE695A395308FEB2ED67394FAA6A1AE849"
+          },
+          {
+            "RelativePath": "Microsoft.Web.WebView2.Wpf.dll",
+            "Sha256": "6942B85A3388ECE45FEBDE5584D2BFC035D84315F2DD5A4A47913F01A0193800"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\HowToInstallCLI.md",
+            "Sha256": "6990AF5ED77868C12C80D05FFFB7003DECD02AA0F5E6BC0F970996569B979164"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\InstallCLI.bat",
+            "Sha256": "81BAE40E698B7E16B4A15093248453C7A79EF5D564306FC9CE9416255D91D5CB"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\VisualStudio_AI_Assistant_설치_사용설명서.pdf",
+            "Sha256": "EAE9BDD2CA1602677FEAF6BD1F50C19C8F7E29068D33B1DC06215D998C60B30A"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\01-overview.png",
+            "Sha256": "86738234B9A201914E6BED1776C32A2B007AE8171F50EEA974C3B4BAC3E76B49"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\02-package.png",
+            "Sha256": "CDCAEFF48497A3DD181230D4358428C22F5D86DDDE375CD5FF1BD07DFBA4C753"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\03-vsix.png",
+            "Sha256": "D0088EDD998D516763D50D0030B39206EB778778B7DBF219705CC9F72D67C6D8"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\04-run-batch.png",
+            "Sha256": "B5D5B679B0D56026D73F9323140E6894325A4F116984E3F655CB74DE075A91D9"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\05-success.png",
+            "Sha256": "F9845411A901B6B687D873FBD7E93E693ABC52D716D4A912CB691652FFCF775F"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\06-login.png",
+            "Sha256": "859D753C9240ED86525075F43A66A4823ADDE2F6F19A3D13F435695E0448020C"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\07-paths.png",
+            "Sha256": "70BFA267082C8A6D2DD5A62065B821921BBC011C56ABAA01F2EC401EF4CCD043"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\08-attachments.png",
+            "Sha256": "650733944817B5185BEE9C999D699E73643BDCCC0FB060B08515D073317AC9A9"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\09-troubleshooting.png",
+            "Sha256": "44F4CB8F53CE709B1F126806E577B5219A2C44A8DF22578DE8513CD157832629"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\10-options.png",
+            "Sha256": "D6C1443DA8C7118BFF1C10CEC72028F6ABCDD3027D9FB99217897A0BF8A89BB7"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\11-install-methods.png",
+            "Sha256": "06A6494284E5B65E161CADEE74F2B3C8B62F4923244A1EAEA4B9C984626A08D0"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\12-checklist.png",
+            "Sha256": "E49084EC2B5EC85B2640F598E152828000DDAD9D67A085B17EC97E0ACE0D48E4"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\ui-chat.png",
+            "Sha256": "242A2B0809D62C354D5F1E88FA479D3EB335C155C1B57F7BA09793FFE29E0AAC"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\ui-guide.png",
+            "Sha256": "321C6221992E58B812B762B605A0F61E8B59DD6074796BC63FF2DC8E55D69625"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\ui-models.png",
+            "Sha256": "DF3391A04A18C38316D4456711E385A0906A1E5862D15C4A52856164E9B44712"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\ui-permissions.png",
+            "Sha256": "85C9417A1C6CD433FCA2AE35BF1860B77F52A9FB07B09FF9E2D1EEA89B49F891"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\ui-review.png",
+            "Sha256": "D3838D4919B3BCAFA6E2BEC4E03E376408BAF821245060124F472D1FDEFDA014"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\ui-settings.png",
+            "Sha256": "26B64806A1482F83B7110001AA1C7CC62BEA3D383182FE7A53034BF160AA262B"
+          },
+          {
+            "RelativePath": "Resources\\GuideMedia\\01-connect.gif",
+            "Sha256": "59E48449823353475F5204971C0B5C5B3F926DFF7F1F6A239B3AE8C47B956149"
+          },
+          {
+            "RelativePath": "Resources\\GuideMedia\\01-connect.png",
+            "Sha256": "D70A981083C73399C346D54E520B466958BADD5DD15C925461520071250055A5"
+          },
+          {
+            "RelativePath": "Resources\\GuideMedia\\02-request.gif",
+            "Sha256": "B08A43114E1E12128BCE6EA32C6CDAF5A1D4ABD5BEDA3C16A24BC9A50FC31CE2"
+          },
+          {
+            "RelativePath": "Resources\\GuideMedia\\02-request.png",
+            "Sha256": "B83E1AE93DC9482135D844F1B7F22921B1E9D07C8CC57C40F9D5691EFCB09C3F"
+          },
+          {
+            "RelativePath": "Resources\\GuideMedia\\03-review.gif",
+            "Sha256": "92D4ACC8F2314D9DA0EE8350FE71CE48C2DB633499D3B3E8CD4898C8B7D57EDA"
+          },
+          {
+            "RelativePath": "Resources\\GuideMedia\\03-review.png",
+            "Sha256": "07DA9122FF6570B2627E8F7A6C0E3AC8D1DBE4FE90EDAFDC3FE22F78D7BF365E"
+          },
+          {
+            "RelativePath": "Resources\\GuideMedia\\04-guide.gif",
+            "Sha256": "C82293FB4C5D0074BF29D074BBB7419D6FD4821B4E485A5C907B0497CB5A0692"
+          },
+          {
+            "RelativePath": "Resources\\GuideMedia\\04-guide.png",
+            "Sha256": "FD365AFA59DB76AB110F8BA5F4FA1C392CD8EC8625CD67EE7ED4FE5CFAE8F0C6"
+          },
+          {
+            "RelativePath": "Resources\\GuideMedia\\05-install.gif",
+            "Sha256": "816F5FA2786BA404BA88066224B8A8F85760980F8564F80E9762E08090A078C3"
+          },
+          {
+            "RelativePath": "Resources\\GuideMedia\\05-install.png",
+            "Sha256": "BAC8E2E956FD37CC431653D555F9784A8C31A59D738649433851DACD283C5871"
+          },
+          {
+            "RelativePath": "Resources\\ThirdParty\\AvalonEdit\\LICENSE.txt",
+            "Sha256": "7CFE74F11EAEF7A239E7C63D33595F924E7922FB3E3F3651014389620B228A07"
+          },
+          {
+            "RelativePath": "Resources\\ThirdParty\\WebView2\\LICENSE.txt",
+            "Sha256": "0AF8F1B807512AAE39C2AC1AA4D0CAE65CABECB6FD554B8439A5162A0D6ECA55"
+          },
+          {
+            "RelativePath": "Resources\\ThirdParty\\WebView2\\NOTICE.txt",
+            "Sha256": "106423785C5B7EBA0A8E61D1837F2132E9C828E20AD530F565D981C1DF60DD90"
+          },
+          {
+            "RelativePath": "runtimes\\win-arm64\\native\\WebView2Loader.dll",
+            "Sha256": "5A5CF33BDCE364D72CBB56D59E24E5CF77EE38976D4F8B392A151E0013215703"
+          },
+          {
+            "RelativePath": "runtimes\\win-x64\\native\\WebView2Loader.dll",
+            "Sha256": "C66E4A92FDC7A216118E43B7A5024EA2200E8C43F9310BF20D96A0084F82C5BC"
+          },
+          {
+            "RelativePath": "runtimes\\win-x86\\native\\WebView2Loader.dll",
+            "Sha256": "A08C57142946E5A554D9D5C018E27DCBB09248BE8AD44852667B96564BBCEEDA"
+          }
+        ],
+        "WindowShown": false,
+        "NetworkRequested": false,
+        "NativePointerUsed": false,
+        "AuthenticationExecuted": false,
+        "InstallerExecuted": false,
+        "CheckedAt": "2026-10-19T04:08:52.9920736+09:00"
+      }
+    },
+    {
+      "Candidate": "c10",
+      "SKU": "2019",
+      "AuditorExecuted": true,
+      "Result": {
+        "Succeeded": true,
+        "Passed": 15,
+        "Failed": 0,
+        "Checks": [
+          "Codex success uses isolated provider options/history and actual review",
+          "Codex peer failure prevents synthesis",
+          "Codex cancellation cancels peer task and prevents synthesis",
+          "Claude success uses isolated provider options/history and actual review",
+          "Claude peer failure prevents synthesis",
+          "Claude cancellation cancels peer task and prevents synthesis",
+          "Three reviewers run once each without recursive collaboration",
+          "Four-reviewer persisted selection is rejected before dispatch",
+          "Failure on a later peer preserves earlier delivery but blocks synthesis",
+          "Changed team is rejected before provider call",
+          "Closed reviewer is rejected before provider call",
+          "Cross-provider duplicate Guid is rejected before provider call",
+          "Changed source during review blocks final synthesis",
+          "Standalone preview leaves constructor color precedence unset",
+          "Actual user/assistant templates preserve transparency and theme priority"
+        ],
+        "Errors": [],
+        "Mode": "AssistantUi",
+        "SourceOnly": false,
+        "ProductAssemblyPath": "C:\\dydgyqud\\AO34_20261019\\candidate10\\2019\\Release\\VS2017.AIAssistant.dll",
+        "ProductAssemblySha256": "246EC5297F27658CFED151790B8B8A1E100DFA7FA4153330BB69E70FBFF76717",
+        "CopiedInputs": [
+          {
+            "RelativePath": "ICSharpCode.AvalonEdit.dll",
+            "Sha256": "B0032716709359F7361D5A2DDC8E2AD457A1448A093FB4900E0336312B0A10C7"
+          },
+          {
+            "RelativePath": "Microsoft.Web.WebView2.Core.dll",
+            "Sha256": "E6F54C8CE208E3797C427D01AD671B47CB25ABC85604753D6EC2546D0FFEF550"
+          },
+          {
+            "RelativePath": "Microsoft.Web.WebView2.WinForms.dll",
+            "Sha256": "CC3D2937C350A4F5E20399855BCAB4FE695A395308FEB2ED67394FAA6A1AE849"
+          },
+          {
+            "RelativePath": "Microsoft.Web.WebView2.Wpf.dll",
+            "Sha256": "6942B85A3388ECE45FEBDE5584D2BFC035D84315F2DD5A4A47913F01A0193800"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\HowToInstallCLI.md",
+            "Sha256": "6990AF5ED77868C12C80D05FFFB7003DECD02AA0F5E6BC0F970996569B979164"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\InstallCLI.bat",
+            "Sha256": "81BAE40E698B7E16B4A15093248453C7A79EF5D564306FC9CE9416255D91D5CB"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\VisualStudio_AI_Assistant_설치_사용설명서.pdf",
+            "Sha256": "EAE9BDD2CA1602677FEAF6BD1F50C19C8F7E29068D33B1DC06215D998C60B30A"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\01-overview.png",
+            "Sha256": "86738234B9A201914E6BED1776C32A2B007AE8171F50EEA974C3B4BAC3E76B49"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\02-package.png",
+            "Sha256": "CDCAEFF48497A3DD181230D4358428C22F5D86DDDE375CD5FF1BD07DFBA4C753"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\03-vsix.png",
+            "Sha256": "D0088EDD998D516763D50D0030B39206EB778778B7DBF219705CC9F72D67C6D8"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\04-run-batch.png",
+            "Sha256": "B5D5B679B0D56026D73F9323140E6894325A4F116984E3F655CB74DE075A91D9"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\05-success.png",
+            "Sha256": "F9845411A901B6B687D873FBD7E93E693ABC52D716D4A912CB691652FFCF775F"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\06-login.png",
+            "Sha256": "859D753C9240ED86525075F43A66A4823ADDE2F6F19A3D13F435695E0448020C"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\07-paths.png",
+            "Sha256": "70BFA267082C8A6D2DD5A62065B821921BBC011C56ABAA01F2EC401EF4CCD043"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\08-attachments.png",
+            "Sha256": "650733944817B5185BEE9C999D699E73643BDCCC0FB060B08515D073317AC9A9"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\09-troubleshooting.png",
+            "Sha256": "44F4CB8F53CE709B1F126806E577B5219A2C44A8DF22578DE8513CD157832629"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\10-options.png",
+            "Sha256": "D6C1443DA8C7118BFF1C10CEC72028F6ABCDD3027D9FB99217897A0BF8A89BB7"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\11-install-methods.png",
+            "Sha256": "06A6494284E5B65E161CADEE74F2B3C8B62F4923244A1EAEA4B9C984626A08D0"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\12-checklist.png",
+            "Sha256": "E49084EC2B5EC85B2640F598E152828000DDAD9D67A085B17EC97E0ACE0D48E4"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\ui-chat.png",
+            "Sha256": "242A2B0809D62C354D5F1E88FA479D3EB335C155C1B57F7BA09793FFE29E0AAC"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\ui-guide.png",
+            "Sha256": "321C6221992E58B812B762B605A0F61E8B59DD6074796BC63FF2DC8E55D69625"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\ui-models.png",
+            "Sha256": "DF3391A04A18C38316D4456711E385A0906A1E5862D15C4A52856164E9B44712"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\ui-permissions.png",
+            "Sha256": "85C9417A1C6CD433FCA2AE35BF1860B77F52A9FB07B09FF9E2D1EEA89B49F891"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\ui-review.png",
+            "Sha256": "D3838D4919B3BCAFA6E2BEC4E03E376408BAF821245060124F472D1FDEFDA014"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\ui-settings.png",
+            "Sha256": "26B64806A1482F83B7110001AA1C7CC62BEA3D383182FE7A53034BF160AA262B"
+          },
+          {
+            "RelativePath": "Resources\\GuideMedia\\01-connect.gif",
+            "Sha256": "59E48449823353475F5204971C0B5C5B3F926DFF7F1F6A239B3AE8C47B956149"
+          },
+          {
+            "RelativePath": "Resources\\GuideMedia\\01-connect.png",
+            "Sha256": "D70A981083C73399C346D54E520B466958BADD5DD15C925461520071250055A5"
+          },
+          {
+            "RelativePath": "Resources\\GuideMedia\\02-request.gif",
+            "Sha256": "B08A43114E1E12128BCE6EA32C6CDAF5A1D4ABD5BEDA3C16A24BC9A50FC31CE2"
+          },
+          {
+            "RelativePath": "Resources\\GuideMedia\\02-request.png",
+            "Sha256": "B83E1AE93DC9482135D844F1B7F22921B1E9D07C8CC57C40F9D5691EFCB09C3F"
+          },
+          {
+            "RelativePath": "Resources\\GuideMedia\\03-review.gif",
+            "Sha256": "92D4ACC8F2314D9DA0EE8350FE71CE48C2DB633499D3B3E8CD4898C8B7D57EDA"
+          },
+          {
+            "RelativePath": "Resources\\GuideMedia\\03-review.png",
+            "Sha256": "07DA9122FF6570B2627E8F7A6C0E3AC8D1DBE4FE90EDAFDC3FE22F78D7BF365E"
+          },
+          {
+            "RelativePath": "Resources\\GuideMedia\\04-guide.gif",
+            "Sha256": "C82293FB4C5D0074BF29D074BBB7419D6FD4821B4E485A5C907B0497CB5A0692"
+          },
+          {
+            "RelativePath": "Resources\\GuideMedia\\04-guide.png",
+            "Sha256": "FD365AFA59DB76AB110F8BA5F4FA1C392CD8EC8625CD67EE7ED4FE5CFAE8F0C6"
+          },
+          {
+            "RelativePath": "Resources\\GuideMedia\\05-install.gif",
+            "Sha256": "816F5FA2786BA404BA88066224B8A8F85760980F8564F80E9762E08090A078C3"
+          },
+          {
+            "RelativePath": "Resources\\GuideMedia\\05-install.png",
+            "Sha256": "BAC8E2E956FD37CC431653D555F9784A8C31A59D738649433851DACD283C5871"
+          },
+          {
+            "RelativePath": "Resources\\ThirdParty\\AvalonEdit\\LICENSE.txt",
+            "Sha256": "7CFE74F11EAEF7A239E7C63D33595F924E7922FB3E3F3651014389620B228A07"
+          },
+          {
+            "RelativePath": "Resources\\ThirdParty\\WebView2\\LICENSE.txt",
+            "Sha256": "0AF8F1B807512AAE39C2AC1AA4D0CAE65CABECB6FD554B8439A5162A0D6ECA55"
+          },
+          {
+            "RelativePath": "Resources\\ThirdParty\\WebView2\\NOTICE.txt",
+            "Sha256": "106423785C5B7EBA0A8E61D1837F2132E9C828E20AD530F565D981C1DF60DD90"
+          },
+          {
+            "RelativePath": "runtimes\\win-arm64\\native\\WebView2Loader.dll",
+            "Sha256": "5A5CF33BDCE364D72CBB56D59E24E5CF77EE38976D4F8B392A151E0013215703"
+          },
+          {
+            "RelativePath": "runtimes\\win-x64\\native\\WebView2Loader.dll",
+            "Sha256": "C66E4A92FDC7A216118E43B7A5024EA2200E8C43F9310BF20D96A0084F82C5BC"
+          },
+          {
+            "RelativePath": "runtimes\\win-x86\\native\\WebView2Loader.dll",
+            "Sha256": "A08C57142946E5A554D9D5C018E27DCBB09248BE8AD44852667B96564BBCEEDA"
+          }
+        ],
+        "WindowShown": false,
+        "NetworkRequested": false,
+        "NativePointerUsed": false,
+        "AuthenticationExecuted": false,
+        "InstallerExecuted": false,
+        "CheckedAt": "2026-10-19T04:10:19.4686581+09:00"
+      }
+    },
+    {
+      "Candidate": "c10",
+      "SKU": "2022",
+      "AuditorExecuted": true,
+      "Result": {
+        "Succeeded": true,
+        "Passed": 15,
+        "Failed": 0,
+        "Checks": [
+          "Codex success uses isolated provider options/history and actual review",
+          "Codex peer failure prevents synthesis",
+          "Codex cancellation cancels peer task and prevents synthesis",
+          "Claude success uses isolated provider options/history and actual review",
+          "Claude peer failure prevents synthesis",
+          "Claude cancellation cancels peer task and prevents synthesis",
+          "Three reviewers run once each without recursive collaboration",
+          "Four-reviewer persisted selection is rejected before dispatch",
+          "Failure on a later peer preserves earlier delivery but blocks synthesis",
+          "Changed team is rejected before provider call",
+          "Closed reviewer is rejected before provider call",
+          "Cross-provider duplicate Guid is rejected before provider call",
+          "Changed source during review blocks final synthesis",
+          "Standalone preview leaves constructor color precedence unset",
+          "Actual user/assistant templates preserve transparency and theme priority"
+        ],
+        "Errors": [],
+        "Mode": "AssistantUi",
+        "SourceOnly": false,
+        "ProductAssemblyPath": "C:\\dydgyqud\\AO34_20261019\\candidate10\\2022\\Release\\VS2017.AIAssistant.dll",
+        "ProductAssemblySha256": "67019B0D898B75C8A37363CB9231698285E6D171737E377923709B9DEE2BEA5A",
+        "CopiedInputs": [
+          {
+            "RelativePath": "ICSharpCode.AvalonEdit.dll",
+            "Sha256": "B0032716709359F7361D5A2DDC8E2AD457A1448A093FB4900E0336312B0A10C7"
+          },
+          {
+            "RelativePath": "Microsoft.Web.WebView2.Core.dll",
+            "Sha256": "E6F54C8CE208E3797C427D01AD671B47CB25ABC85604753D6EC2546D0FFEF550"
+          },
+          {
+            "RelativePath": "Microsoft.Web.WebView2.WinForms.dll",
+            "Sha256": "CC3D2937C350A4F5E20399855BCAB4FE695A395308FEB2ED67394FAA6A1AE849"
+          },
+          {
+            "RelativePath": "Microsoft.Web.WebView2.Wpf.dll",
+            "Sha256": "6942B85A3388ECE45FEBDE5584D2BFC035D84315F2DD5A4A47913F01A0193800"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\HowToInstallCLI.md",
+            "Sha256": "6990AF5ED77868C12C80D05FFFB7003DECD02AA0F5E6BC0F970996569B979164"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\InstallCLI.bat",
+            "Sha256": "81BAE40E698B7E16B4A15093248453C7A79EF5D564306FC9CE9416255D91D5CB"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\VisualStudio_AI_Assistant_설치_사용설명서.pdf",
+            "Sha256": "EAE9BDD2CA1602677FEAF6BD1F50C19C8F7E29068D33B1DC06215D998C60B30A"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\01-overview.png",
+            "Sha256": "86738234B9A201914E6BED1776C32A2B007AE8171F50EEA974C3B4BAC3E76B49"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\02-package.png",
+            "Sha256": "CDCAEFF48497A3DD181230D4358428C22F5D86DDDE375CD5FF1BD07DFBA4C753"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\03-vsix.png",
+            "Sha256": "D0088EDD998D516763D50D0030B39206EB778778B7DBF219705CC9F72D67C6D8"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\04-run-batch.png",
+            "Sha256": "B5D5B679B0D56026D73F9323140E6894325A4F116984E3F655CB74DE075A91D9"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\05-success.png",
+            "Sha256": "F9845411A901B6B687D873FBD7E93E693ABC52D716D4A912CB691652FFCF775F"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\06-login.png",
+            "Sha256": "859D753C9240ED86525075F43A66A4823ADDE2F6F19A3D13F435695E0448020C"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\07-paths.png",
+            "Sha256": "70BFA267082C8A6D2DD5A62065B821921BBC011C56ABAA01F2EC401EF4CCD043"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\08-attachments.png",
+            "Sha256": "650733944817B5185BEE9C999D699E73643BDCCC0FB060B08515D073317AC9A9"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\09-troubleshooting.png",
+            "Sha256": "44F4CB8F53CE709B1F126806E577B5219A2C44A8DF22578DE8513CD157832629"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\10-options.png",
+            "Sha256": "D6C1443DA8C7118BFF1C10CEC72028F6ABCDD3027D9FB99217897A0BF8A89BB7"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\11-install-methods.png",
+            "Sha256": "06A6494284E5B65E161CADEE74F2B3C8B62F4923244A1EAEA4B9C984626A08D0"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\12-checklist.png",
+            "Sha256": "E49084EC2B5EC85B2640F598E152828000DDAD9D67A085B17EC97E0ACE0D48E4"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\ui-chat.png",
+            "Sha256": "242A2B0809D62C354D5F1E88FA479D3EB335C155C1B57F7BA09793FFE29E0AAC"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\ui-guide.png",
+            "Sha256": "321C6221992E58B812B762B605A0F61E8B59DD6074796BC63FF2DC8E55D69625"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\ui-models.png",
+            "Sha256": "DF3391A04A18C38316D4456711E385A0906A1E5862D15C4A52856164E9B44712"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\ui-permissions.png",
+            "Sha256": "85C9417A1C6CD433FCA2AE35BF1860B77F52A9FB07B09FF9E2D1EEA89B49F891"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\ui-review.png",
+            "Sha256": "D3838D4919B3BCAFA6E2BEC4E03E376408BAF821245060124F472D1FDEFDA014"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\ui-settings.png",
+            "Sha256": "26B64806A1482F83B7110001AA1C7CC62BEA3D383182FE7A53034BF160AA262B"
+          },
+          {
+            "RelativePath": "Resources\\GuideMedia\\01-connect.gif",
+            "Sha256": "59E48449823353475F5204971C0B5C5B3F926DFF7F1F6A239B3AE8C47B956149"
+          },
+          {
+            "RelativePath": "Resources\\GuideMedia\\01-connect.png",
+            "Sha256": "D70A981083C73399C346D54E520B466958BADD5DD15C925461520071250055A5"
+          },
+          {
+            "RelativePath": "Resources\\GuideMedia\\02-request.gif",
+            "Sha256": "B08A43114E1E12128BCE6EA32C6CDAF5A1D4ABD5BEDA3C16A24BC9A50FC31CE2"
+          },
+          {
+            "RelativePath": "Resources\\GuideMedia\\02-request.png",
+            "Sha256": "B83E1AE93DC9482135D844F1B7F22921B1E9D07C8CC57C40F9D5691EFCB09C3F"
+          },
+          {
+            "RelativePath": "Resources\\GuideMedia\\03-review.gif",
+            "Sha256": "92D4ACC8F2314D9DA0EE8350FE71CE48C2DB633499D3B3E8CD4898C8B7D57EDA"
+          },
+          {
+            "RelativePath": "Resources\\GuideMedia\\03-review.png",
+            "Sha256": "07DA9122FF6570B2627E8F7A6C0E3AC8D1DBE4FE90EDAFDC3FE22F78D7BF365E"
+          },
+          {
+            "RelativePath": "Resources\\GuideMedia\\04-guide.gif",
+            "Sha256": "C82293FB4C5D0074BF29D074BBB7419D6FD4821B4E485A5C907B0497CB5A0692"
+          },
+          {
+            "RelativePath": "Resources\\GuideMedia\\04-guide.png",
+            "Sha256": "FD365AFA59DB76AB110F8BA5F4FA1C392CD8EC8625CD67EE7ED4FE5CFAE8F0C6"
+          },
+          {
+            "RelativePath": "Resources\\GuideMedia\\05-install.gif",
+            "Sha256": "816F5FA2786BA404BA88066224B8A8F85760980F8564F80E9762E08090A078C3"
+          },
+          {
+            "RelativePath": "Resources\\GuideMedia\\05-install.png",
+            "Sha256": "BAC8E2E956FD37CC431653D555F9784A8C31A59D738649433851DACD283C5871"
+          },
+          {
+            "RelativePath": "Resources\\ThirdParty\\AvalonEdit\\LICENSE.txt",
+            "Sha256": "7CFE74F11EAEF7A239E7C63D33595F924E7922FB3E3F3651014389620B228A07"
+          },
+          {
+            "RelativePath": "Resources\\ThirdParty\\WebView2\\LICENSE.txt",
+            "Sha256": "0AF8F1B807512AAE39C2AC1AA4D0CAE65CABECB6FD554B8439A5162A0D6ECA55"
+          },
+          {
+            "RelativePath": "Resources\\ThirdParty\\WebView2\\NOTICE.txt",
+            "Sha256": "106423785C5B7EBA0A8E61D1837F2132E9C828E20AD530F565D981C1DF60DD90"
+          },
+          {
+            "RelativePath": "runtimes\\win-arm64\\native\\WebView2Loader.dll",
+            "Sha256": "5A5CF33BDCE364D72CBB56D59E24E5CF77EE38976D4F8B392A151E0013215703"
+          },
+          {
+            "RelativePath": "runtimes\\win-x64\\native\\WebView2Loader.dll",
+            "Sha256": "C66E4A92FDC7A216118E43B7A5024EA2200E8C43F9310BF20D96A0084F82C5BC"
+          },
+          {
+            "RelativePath": "runtimes\\win-x86\\native\\WebView2Loader.dll",
+            "Sha256": "A08C57142946E5A554D9D5C018E27DCBB09248BE8AD44852667B96564BBCEEDA"
+          }
+        ],
+        "WindowShown": false,
+        "NetworkRequested": false,
+        "NativePointerUsed": false,
+        "AuthenticationExecuted": false,
+        "InstallerExecuted": false,
+        "CheckedAt": "2026-10-19T04:10:19.5869594+09:00"
+      }
+    },
+    {
+      "Candidate": "c14",
+      "SKU": "2017",
+      "AuditorExecuted": true,
+      "Result": {
+        "Succeeded": true,
+        "Passed": 15,
+        "Failed": 0,
+        "Checks": [
+          "Codex success uses isolated provider options/history and actual review",
+          "Codex peer failure prevents synthesis",
+          "Codex cancellation cancels peer task and prevents synthesis",
+          "Claude success uses isolated provider options/history and actual review",
+          "Claude peer failure prevents synthesis",
+          "Claude cancellation cancels peer task and prevents synthesis",
+          "Three reviewers run once each without recursive collaboration",
+          "Four-reviewer persisted selection is rejected before dispatch",
+          "Failure on a later peer preserves earlier delivery but blocks synthesis",
+          "Changed team is rejected before provider call",
+          "Closed reviewer is rejected before provider call",
+          "Cross-provider duplicate Guid is rejected before provider call",
+          "Changed source during review blocks final synthesis",
+          "Standalone preview leaves constructor color precedence unset",
+          "Actual user/assistant templates preserve transparency and theme priority"
+        ],
+        "Errors": [],
+        "Mode": "AssistantUi",
+        "SourceOnly": false,
+        "ProductAssemblyPath": "C:\\dydgyqud\\AO34_20261019\\candidate14\\2017\\Release\\VS2017.AIAssistant.dll",
+        "ProductAssemblySha256": "8FE5B4C7FF6DA7731B2892C71E258D8872248F2DF83111A6AE8031DE168E293A",
+        "CopiedInputs": [
+          {
+            "RelativePath": "ICSharpCode.AvalonEdit.dll",
+            "Sha256": "B0032716709359F7361D5A2DDC8E2AD457A1448A093FB4900E0336312B0A10C7"
+          },
+          {
+            "RelativePath": "Microsoft.Web.WebView2.Core.dll",
+            "Sha256": "E6F54C8CE208E3797C427D01AD671B47CB25ABC85604753D6EC2546D0FFEF550"
+          },
+          {
+            "RelativePath": "Microsoft.Web.WebView2.WinForms.dll",
+            "Sha256": "CC3D2937C350A4F5E20399855BCAB4FE695A395308FEB2ED67394FAA6A1AE849"
+          },
+          {
+            "RelativePath": "Microsoft.Web.WebView2.Wpf.dll",
+            "Sha256": "6942B85A3388ECE45FEBDE5584D2BFC035D84315F2DD5A4A47913F01A0193800"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\HowToInstallCLI.md",
+            "Sha256": "6990AF5ED77868C12C80D05FFFB7003DECD02AA0F5E6BC0F970996569B979164"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\InstallCLI.bat",
+            "Sha256": "81BAE40E698B7E16B4A15093248453C7A79EF5D564306FC9CE9416255D91D5CB"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\VisualStudio_AI_Assistant_설치_사용설명서.pdf",
+            "Sha256": "EAE9BDD2CA1602677FEAF6BD1F50C19C8F7E29068D33B1DC06215D998C60B30A"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\01-overview.png",
+            "Sha256": "86738234B9A201914E6BED1776C32A2B007AE8171F50EEA974C3B4BAC3E76B49"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\02-package.png",
+            "Sha256": "CDCAEFF48497A3DD181230D4358428C22F5D86DDDE375CD5FF1BD07DFBA4C753"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\03-vsix.png",
+            "Sha256": "D0088EDD998D516763D50D0030B39206EB778778B7DBF219705CC9F72D67C6D8"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\04-run-batch.png",
+            "Sha256": "B5D5B679B0D56026D73F9323140E6894325A4F116984E3F655CB74DE075A91D9"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\05-success.png",
+            "Sha256": "F9845411A901B6B687D873FBD7E93E693ABC52D716D4A912CB691652FFCF775F"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\06-login.png",
+            "Sha256": "859D753C9240ED86525075F43A66A4823ADDE2F6F19A3D13F435695E0448020C"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\07-paths.png",
+            "Sha256": "70BFA267082C8A6D2DD5A62065B821921BBC011C56ABAA01F2EC401EF4CCD043"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\08-attachments.png",
+            "Sha256": "650733944817B5185BEE9C999D699E73643BDCCC0FB060B08515D073317AC9A9"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\09-troubleshooting.png",
+            "Sha256": "44F4CB8F53CE709B1F126806E577B5219A2C44A8DF22578DE8513CD157832629"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\10-options.png",
+            "Sha256": "D6C1443DA8C7118BFF1C10CEC72028F6ABCDD3027D9FB99217897A0BF8A89BB7"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\11-install-methods.png",
+            "Sha256": "06A6494284E5B65E161CADEE74F2B3C8B62F4923244A1EAEA4B9C984626A08D0"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\12-checklist.png",
+            "Sha256": "E49084EC2B5EC85B2640F598E152828000DDAD9D67A085B17EC97E0ACE0D48E4"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\ui-chat.png",
+            "Sha256": "242A2B0809D62C354D5F1E88FA479D3EB335C155C1B57F7BA09793FFE29E0AAC"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\ui-guide.png",
+            "Sha256": "321C6221992E58B812B762B605A0F61E8B59DD6074796BC63FF2DC8E55D69625"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\ui-models.png",
+            "Sha256": "DF3391A04A18C38316D4456711E385A0906A1E5862D15C4A52856164E9B44712"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\ui-permissions.png",
+            "Sha256": "85C9417A1C6CD433FCA2AE35BF1860B77F52A9FB07B09FF9E2D1EEA89B49F891"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\ui-review.png",
+            "Sha256": "D3838D4919B3BCAFA6E2BEC4E03E376408BAF821245060124F472D1FDEFDA014"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\ui-settings.png",
+            "Sha256": "26B64806A1482F83B7110001AA1C7CC62BEA3D383182FE7A53034BF160AA262B"
+          },
+          {
+            "RelativePath": "Resources\\GuideMedia\\01-connect.gif",
+            "Sha256": "59E48449823353475F5204971C0B5C5B3F926DFF7F1F6A239B3AE8C47B956149"
+          },
+          {
+            "RelativePath": "Resources\\GuideMedia\\01-connect.png",
+            "Sha256": "D70A981083C73399C346D54E520B466958BADD5DD15C925461520071250055A5"
+          },
+          {
+            "RelativePath": "Resources\\GuideMedia\\02-request.gif",
+            "Sha256": "B08A43114E1E12128BCE6EA32C6CDAF5A1D4ABD5BEDA3C16A24BC9A50FC31CE2"
+          },
+          {
+            "RelativePath": "Resources\\GuideMedia\\02-request.png",
+            "Sha256": "B83E1AE93DC9482135D844F1B7F22921B1E9D07C8CC57C40F9D5691EFCB09C3F"
+          },
+          {
+            "RelativePath": "Resources\\GuideMedia\\03-review.gif",
+            "Sha256": "92D4ACC8F2314D9DA0EE8350FE71CE48C2DB633499D3B3E8CD4898C8B7D57EDA"
+          },
+          {
+            "RelativePath": "Resources\\GuideMedia\\03-review.png",
+            "Sha256": "07DA9122FF6570B2627E8F7A6C0E3AC8D1DBE4FE90EDAFDC3FE22F78D7BF365E"
+          },
+          {
+            "RelativePath": "Resources\\GuideMedia\\04-guide.gif",
+            "Sha256": "C82293FB4C5D0074BF29D074BBB7419D6FD4821B4E485A5C907B0497CB5A0692"
+          },
+          {
+            "RelativePath": "Resources\\GuideMedia\\04-guide.png",
+            "Sha256": "FD365AFA59DB76AB110F8BA5F4FA1C392CD8EC8625CD67EE7ED4FE5CFAE8F0C6"
+          },
+          {
+            "RelativePath": "Resources\\GuideMedia\\05-install.gif",
+            "Sha256": "816F5FA2786BA404BA88066224B8A8F85760980F8564F80E9762E08090A078C3"
+          },
+          {
+            "RelativePath": "Resources\\GuideMedia\\05-install.png",
+            "Sha256": "BAC8E2E956FD37CC431653D555F9784A8C31A59D738649433851DACD283C5871"
+          },
+          {
+            "RelativePath": "Resources\\ThirdParty\\AvalonEdit\\LICENSE.txt",
+            "Sha256": "7CFE74F11EAEF7A239E7C63D33595F924E7922FB3E3F3651014389620B228A07"
+          },
+          {
+            "RelativePath": "Resources\\ThirdParty\\WebView2\\LICENSE.txt",
+            "Sha256": "0AF8F1B807512AAE39C2AC1AA4D0CAE65CABECB6FD554B8439A5162A0D6ECA55"
+          },
+          {
+            "RelativePath": "Resources\\ThirdParty\\WebView2\\NOTICE.txt",
+            "Sha256": "106423785C5B7EBA0A8E61D1837F2132E9C828E20AD530F565D981C1DF60DD90"
+          },
+          {
+            "RelativePath": "runtimes\\win-arm64\\native\\WebView2Loader.dll",
+            "Sha256": "5A5CF33BDCE364D72CBB56D59E24E5CF77EE38976D4F8B392A151E0013215703"
+          },
+          {
+            "RelativePath": "runtimes\\win-x64\\native\\WebView2Loader.dll",
+            "Sha256": "C66E4A92FDC7A216118E43B7A5024EA2200E8C43F9310BF20D96A0084F82C5BC"
+          },
+          {
+            "RelativePath": "runtimes\\win-x86\\native\\WebView2Loader.dll",
+            "Sha256": "A08C57142946E5A554D9D5C018E27DCBB09248BE8AD44852667B96564BBCEEDA"
+          }
+        ],
+        "WindowShown": false,
+        "NetworkRequested": false,
+        "NativePointerUsed": false,
+        "AuthenticationExecuted": false,
+        "InstallerExecuted": false,
+        "CheckedAt": "2026-10-19T04:14:57.4108734+09:00"
+      }
+    },
+    {
+      "Candidate": "c14",
+      "SKU": "2019",
+      "AuditorExecuted": true,
+      "Result": {
+        "Succeeded": true,
+        "Passed": 15,
+        "Failed": 0,
+        "Checks": [
+          "Codex success uses isolated provider options/history and actual review",
+          "Codex peer failure prevents synthesis",
+          "Codex cancellation cancels peer task and prevents synthesis",
+          "Claude success uses isolated provider options/history and actual review",
+          "Claude peer failure prevents synthesis",
+          "Claude cancellation cancels peer task and prevents synthesis",
+          "Three reviewers run once each without recursive collaboration",
+          "Four-reviewer persisted selection is rejected before dispatch",
+          "Failure on a later peer preserves earlier delivery but blocks synthesis",
+          "Changed team is rejected before provider call",
+          "Closed reviewer is rejected before provider call",
+          "Cross-provider duplicate Guid is rejected before provider call",
+          "Changed source during review blocks final synthesis",
+          "Standalone preview leaves constructor color precedence unset",
+          "Actual user/assistant templates preserve transparency and theme priority"
+        ],
+        "Errors": [],
+        "Mode": "AssistantUi",
+        "SourceOnly": false,
+        "ProductAssemblyPath": "C:\\dydgyqud\\AO34_20261019\\candidate14\\2019\\Release\\VS2017.AIAssistant.dll",
+        "ProductAssemblySha256": "E47CA65030A3F3A521009E494465F63D45DCA643F878550687DA436B0DF3E443",
+        "CopiedInputs": [
+          {
+            "RelativePath": "ICSharpCode.AvalonEdit.dll",
+            "Sha256": "B0032716709359F7361D5A2DDC8E2AD457A1448A093FB4900E0336312B0A10C7"
+          },
+          {
+            "RelativePath": "Microsoft.Web.WebView2.Core.dll",
+            "Sha256": "E6F54C8CE208E3797C427D01AD671B47CB25ABC85604753D6EC2546D0FFEF550"
+          },
+          {
+            "RelativePath": "Microsoft.Web.WebView2.WinForms.dll",
+            "Sha256": "CC3D2937C350A4F5E20399855BCAB4FE695A395308FEB2ED67394FAA6A1AE849"
+          },
+          {
+            "RelativePath": "Microsoft.Web.WebView2.Wpf.dll",
+            "Sha256": "6942B85A3388ECE45FEBDE5584D2BFC035D84315F2DD5A4A47913F01A0193800"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\HowToInstallCLI.md",
+            "Sha256": "6990AF5ED77868C12C80D05FFFB7003DECD02AA0F5E6BC0F970996569B979164"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\InstallCLI.bat",
+            "Sha256": "81BAE40E698B7E16B4A15093248453C7A79EF5D564306FC9CE9416255D91D5CB"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\VisualStudio_AI_Assistant_설치_사용설명서.pdf",
+            "Sha256": "EAE9BDD2CA1602677FEAF6BD1F50C19C8F7E29068D33B1DC06215D998C60B30A"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\01-overview.png",
+            "Sha256": "86738234B9A201914E6BED1776C32A2B007AE8171F50EEA974C3B4BAC3E76B49"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\02-package.png",
+            "Sha256": "CDCAEFF48497A3DD181230D4358428C22F5D86DDDE375CD5FF1BD07DFBA4C753"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\03-vsix.png",
+            "Sha256": "D0088EDD998D516763D50D0030B39206EB778778B7DBF219705CC9F72D67C6D8"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\04-run-batch.png",
+            "Sha256": "B5D5B679B0D56026D73F9323140E6894325A4F116984E3F655CB74DE075A91D9"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\05-success.png",
+            "Sha256": "F9845411A901B6B687D873FBD7E93E693ABC52D716D4A912CB691652FFCF775F"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\06-login.png",
+            "Sha256": "859D753C9240ED86525075F43A66A4823ADDE2F6F19A3D13F435695E0448020C"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\07-paths.png",
+            "Sha256": "70BFA267082C8A6D2DD5A62065B821921BBC011C56ABAA01F2EC401EF4CCD043"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\08-attachments.png",
+            "Sha256": "650733944817B5185BEE9C999D699E73643BDCCC0FB060B08515D073317AC9A9"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\09-troubleshooting.png",
+            "Sha256": "44F4CB8F53CE709B1F126806E577B5219A2C44A8DF22578DE8513CD157832629"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\10-options.png",
+            "Sha256": "D6C1443DA8C7118BFF1C10CEC72028F6ABCDD3027D9FB99217897A0BF8A89BB7"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\11-install-methods.png",
+            "Sha256": "06A6494284E5B65E161CADEE74F2B3C8B62F4923244A1EAEA4B9C984626A08D0"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\12-checklist.png",
+            "Sha256": "E49084EC2B5EC85B2640F598E152828000DDAD9D67A085B17EC97E0ACE0D48E4"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\ui-chat.png",
+            "Sha256": "242A2B0809D62C354D5F1E88FA479D3EB335C155C1B57F7BA09793FFE29E0AAC"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\ui-guide.png",
+            "Sha256": "321C6221992E58B812B762B605A0F61E8B59DD6074796BC63FF2DC8E55D69625"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\ui-models.png",
+            "Sha256": "DF3391A04A18C38316D4456711E385A0906A1E5862D15C4A52856164E9B44712"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\ui-permissions.png",
+            "Sha256": "85C9417A1C6CD433FCA2AE35BF1860B77F52A9FB07B09FF9E2D1EEA89B49F891"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\ui-review.png",
+            "Sha256": "D3838D4919B3BCAFA6E2BEC4E03E376408BAF821245060124F472D1FDEFDA014"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\ui-settings.png",
+            "Sha256": "26B64806A1482F83B7110001AA1C7CC62BEA3D383182FE7A53034BF160AA262B"
+          },
+          {
+            "RelativePath": "Resources\\GuideMedia\\01-connect.gif",
+            "Sha256": "59E48449823353475F5204971C0B5C5B3F926DFF7F1F6A239B3AE8C47B956149"
+          },
+          {
+            "RelativePath": "Resources\\GuideMedia\\01-connect.png",
+            "Sha256": "D70A981083C73399C346D54E520B466958BADD5DD15C925461520071250055A5"
+          },
+          {
+            "RelativePath": "Resources\\GuideMedia\\02-request.gif",
+            "Sha256": "B08A43114E1E12128BCE6EA32C6CDAF5A1D4ABD5BEDA3C16A24BC9A50FC31CE2"
+          },
+          {
+            "RelativePath": "Resources\\GuideMedia\\02-request.png",
+            "Sha256": "B83E1AE93DC9482135D844F1B7F22921B1E9D07C8CC57C40F9D5691EFCB09C3F"
+          },
+          {
+            "RelativePath": "Resources\\GuideMedia\\03-review.gif",
+            "Sha256": "92D4ACC8F2314D9DA0EE8350FE71CE48C2DB633499D3B3E8CD4898C8B7D57EDA"
+          },
+          {
+            "RelativePath": "Resources\\GuideMedia\\03-review.png",
+            "Sha256": "07DA9122FF6570B2627E8F7A6C0E3AC8D1DBE4FE90EDAFDC3FE22F78D7BF365E"
+          },
+          {
+            "RelativePath": "Resources\\GuideMedia\\04-guide.gif",
+            "Sha256": "C82293FB4C5D0074BF29D074BBB7419D6FD4821B4E485A5C907B0497CB5A0692"
+          },
+          {
+            "RelativePath": "Resources\\GuideMedia\\04-guide.png",
+            "Sha256": "FD365AFA59DB76AB110F8BA5F4FA1C392CD8EC8625CD67EE7ED4FE5CFAE8F0C6"
+          },
+          {
+            "RelativePath": "Resources\\GuideMedia\\05-install.gif",
+            "Sha256": "816F5FA2786BA404BA88066224B8A8F85760980F8564F80E9762E08090A078C3"
+          },
+          {
+            "RelativePath": "Resources\\GuideMedia\\05-install.png",
+            "Sha256": "BAC8E2E956FD37CC431653D555F9784A8C31A59D738649433851DACD283C5871"
+          },
+          {
+            "RelativePath": "Resources\\ThirdParty\\AvalonEdit\\LICENSE.txt",
+            "Sha256": "7CFE74F11EAEF7A239E7C63D33595F924E7922FB3E3F3651014389620B228A07"
+          },
+          {
+            "RelativePath": "Resources\\ThirdParty\\WebView2\\LICENSE.txt",
+            "Sha256": "0AF8F1B807512AAE39C2AC1AA4D0CAE65CABECB6FD554B8439A5162A0D6ECA55"
+          },
+          {
+            "RelativePath": "Resources\\ThirdParty\\WebView2\\NOTICE.txt",
+            "Sha256": "106423785C5B7EBA0A8E61D1837F2132E9C828E20AD530F565D981C1DF60DD90"
+          },
+          {
+            "RelativePath": "runtimes\\win-arm64\\native\\WebView2Loader.dll",
+            "Sha256": "5A5CF33BDCE364D72CBB56D59E24E5CF77EE38976D4F8B392A151E0013215703"
+          },
+          {
+            "RelativePath": "runtimes\\win-x64\\native\\WebView2Loader.dll",
+            "Sha256": "C66E4A92FDC7A216118E43B7A5024EA2200E8C43F9310BF20D96A0084F82C5BC"
+          },
+          {
+            "RelativePath": "runtimes\\win-x86\\native\\WebView2Loader.dll",
+            "Sha256": "A08C57142946E5A554D9D5C018E27DCBB09248BE8AD44852667B96564BBCEEDA"
+          }
+        ],
+        "WindowShown": false,
+        "NetworkRequested": false,
+        "NativePointerUsed": false,
+        "AuthenticationExecuted": false,
+        "InstallerExecuted": false,
+        "CheckedAt": "2026-10-19T04:14:57.3983147+09:00"
+      }
+    },
+    {
+      "Candidate": "c14",
+      "SKU": "2022",
+      "AuditorExecuted": true,
+      "Result": {
+        "Succeeded": true,
+        "Passed": 15,
+        "Failed": 0,
+        "Checks": [
+          "Codex success uses isolated provider options/history and actual review",
+          "Codex peer failure prevents synthesis",
+          "Codex cancellation cancels peer task and prevents synthesis",
+          "Claude success uses isolated provider options/history and actual review",
+          "Claude peer failure prevents synthesis",
+          "Claude cancellation cancels peer task and prevents synthesis",
+          "Three reviewers run once each without recursive collaboration",
+          "Four-reviewer persisted selection is rejected before dispatch",
+          "Failure on a later peer preserves earlier delivery but blocks synthesis",
+          "Changed team is rejected before provider call",
+          "Closed reviewer is rejected before provider call",
+          "Cross-provider duplicate Guid is rejected before provider call",
+          "Changed source during review blocks final synthesis",
+          "Standalone preview leaves constructor color precedence unset",
+          "Actual user/assistant templates preserve transparency and theme priority"
+        ],
+        "Errors": [],
+        "Mode": "AssistantUi",
+        "SourceOnly": false,
+        "ProductAssemblyPath": "C:\\dydgyqud\\AO34_20261019\\candidate14\\2022\\Release\\VS2017.AIAssistant.dll",
+        "ProductAssemblySha256": "5421B4BA56A4B66F5148DF8BE903128C816D1D71100F4ED4456445975637A0B0",
+        "CopiedInputs": [
+          {
+            "RelativePath": "ICSharpCode.AvalonEdit.dll",
+            "Sha256": "B0032716709359F7361D5A2DDC8E2AD457A1448A093FB4900E0336312B0A10C7"
+          },
+          {
+            "RelativePath": "Microsoft.Web.WebView2.Core.dll",
+            "Sha256": "E6F54C8CE208E3797C427D01AD671B47CB25ABC85604753D6EC2546D0FFEF550"
+          },
+          {
+            "RelativePath": "Microsoft.Web.WebView2.WinForms.dll",
+            "Sha256": "CC3D2937C350A4F5E20399855BCAB4FE695A395308FEB2ED67394FAA6A1AE849"
+          },
+          {
+            "RelativePath": "Microsoft.Web.WebView2.Wpf.dll",
+            "Sha256": "6942B85A3388ECE45FEBDE5584D2BFC035D84315F2DD5A4A47913F01A0193800"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\HowToInstallCLI.md",
+            "Sha256": "6990AF5ED77868C12C80D05FFFB7003DECD02AA0F5E6BC0F970996569B979164"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\InstallCLI.bat",
+            "Sha256": "81BAE40E698B7E16B4A15093248453C7A79EF5D564306FC9CE9416255D91D5CB"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\VisualStudio_AI_Assistant_설치_사용설명서.pdf",
+            "Sha256": "EAE9BDD2CA1602677FEAF6BD1F50C19C8F7E29068D33B1DC06215D998C60B30A"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\01-overview.png",
+            "Sha256": "86738234B9A201914E6BED1776C32A2B007AE8171F50EEA974C3B4BAC3E76B49"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\02-package.png",
+            "Sha256": "CDCAEFF48497A3DD181230D4358428C22F5D86DDDE375CD5FF1BD07DFBA4C753"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\03-vsix.png",
+            "Sha256": "D0088EDD998D516763D50D0030B39206EB778778B7DBF219705CC9F72D67C6D8"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\04-run-batch.png",
+            "Sha256": "B5D5B679B0D56026D73F9323140E6894325A4F116984E3F655CB74DE075A91D9"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\05-success.png",
+            "Sha256": "F9845411A901B6B687D873FBD7E93E693ABC52D716D4A912CB691652FFCF775F"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\06-login.png",
+            "Sha256": "859D753C9240ED86525075F43A66A4823ADDE2F6F19A3D13F435695E0448020C"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\07-paths.png",
+            "Sha256": "70BFA267082C8A6D2DD5A62065B821921BBC011C56ABAA01F2EC401EF4CCD043"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\08-attachments.png",
+            "Sha256": "650733944817B5185BEE9C999D699E73643BDCCC0FB060B08515D073317AC9A9"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\09-troubleshooting.png",
+            "Sha256": "44F4CB8F53CE709B1F126806E577B5219A2C44A8DF22578DE8513CD157832629"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\10-options.png",
+            "Sha256": "D6C1443DA8C7118BFF1C10CEC72028F6ABCDD3027D9FB99217897A0BF8A89BB7"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\11-install-methods.png",
+            "Sha256": "06A6494284E5B65E161CADEE74F2B3C8B62F4923244A1EAEA4B9C984626A08D0"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\12-checklist.png",
+            "Sha256": "E49084EC2B5EC85B2640F598E152828000DDAD9D67A085B17EC97E0ACE0D48E4"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\ui-chat.png",
+            "Sha256": "242A2B0809D62C354D5F1E88FA479D3EB335C155C1B57F7BA09793FFE29E0AAC"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\ui-guide.png",
+            "Sha256": "321C6221992E58B812B762B605A0F61E8B59DD6074796BC63FF2DC8E55D69625"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\ui-models.png",
+            "Sha256": "DF3391A04A18C38316D4456711E385A0906A1E5862D15C4A52856164E9B44712"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\ui-permissions.png",
+            "Sha256": "85C9417A1C6CD433FCA2AE35BF1860B77F52A9FB07B09FF9E2D1EEA89B49F891"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\ui-review.png",
+            "Sha256": "D3838D4919B3BCAFA6E2BEC4E03E376408BAF821245060124F472D1FDEFDA014"
+          },
+          {
+            "RelativePath": "Resources\\CliGuide\\docs\\assets\\cli-manual\\ui-settings.png",
+            "Sha256": "26B64806A1482F83B7110001AA1C7CC62BEA3D383182FE7A53034BF160AA262B"
+          },
+          {
+            "RelativePath": "Resources\\GuideMedia\\01-connect.gif",
+            "Sha256": "59E48449823353475F5204971C0B5C5B3F926DFF7F1F6A239B3AE8C47B956149"
+          },
+          {
+            "RelativePath": "Resources\\GuideMedia\\01-connect.png",
+            "Sha256": "D70A981083C73399C346D54E520B466958BADD5DD15C925461520071250055A5"
+          },
+          {
+            "RelativePath": "Resources\\GuideMedia\\02-request.gif",
+            "Sha256": "B08A43114E1E12128BCE6EA32C6CDAF5A1D4ABD5BEDA3C16A24BC9A50FC31CE2"
+          },
+          {
+            "RelativePath": "Resources\\GuideMedia\\02-request.png",
+            "Sha256": "B83E1AE93DC9482135D844F1B7F22921B1E9D07C8CC57C40F9D5691EFCB09C3F"
+          },
+          {
+            "RelativePath": "Resources\\GuideMedia\\03-review.gif",
+            "Sha256": "92D4ACC8F2314D9DA0EE8350FE71CE48C2DB633499D3B3E8CD4898C8B7D57EDA"
+          },
+          {
+            "RelativePath": "Resources\\GuideMedia\\03-review.png",
+            "Sha256": "07DA9122FF6570B2627E8F7A6C0E3AC8D1DBE4FE90EDAFDC3FE22F78D7BF365E"
+          },
+          {
+            "RelativePath": "Resources\\GuideMedia\\04-guide.gif",
+            "Sha256": "C82293FB4C5D0074BF29D074BBB7419D6FD4821B4E485A5C907B0497CB5A0692"
+          },
+          {
+            "RelativePath": "Resources\\GuideMedia\\04-guide.png",
+            "Sha256": "FD365AFA59DB76AB110F8BA5F4FA1C392CD8EC8625CD67EE7ED4FE5CFAE8F0C6"
+          },
+          {
+            "RelativePath": "Resources\\GuideMedia\\05-install.gif",
+            "Sha256": "816F5FA2786BA404BA88066224B8A8F85760980F8564F80E9762E08090A078C3"
+          },
+          {
+            "RelativePath": "Resources\\GuideMedia\\05-install.png",
+            "Sha256": "BAC8E2E956FD37CC431653D555F9784A8C31A59D738649433851DACD283C5871"
+          },
+          {
+            "RelativePath": "Resources\\ThirdParty\\AvalonEdit\\LICENSE.txt",
+            "Sha256": "7CFE74F11EAEF7A239E7C63D33595F924E7922FB3E3F3651014389620B228A07"
+          },
+          {
+            "RelativePath": "Resources\\ThirdParty\\WebView2\\LICENSE.txt",
+            "Sha256": "0AF8F1B807512AAE39C2AC1AA4D0CAE65CABECB6FD554B8439A5162A0D6ECA55"
+          },
+          {
+            "RelativePath": "Resources\\ThirdParty\\WebView2\\NOTICE.txt",
+            "Sha256": "106423785C5B7EBA0A8E61D1837F2132E9C828E20AD530F565D981C1DF60DD90"
+          },
+          {
+            "RelativePath": "runtimes\\win-arm64\\native\\WebView2Loader.dll",
+            "Sha256": "5A5CF33BDCE364D72CBB56D59E24E5CF77EE38976D4F8B392A151E0013215703"
+          },
+          {
+            "RelativePath": "runtimes\\win-x64\\native\\WebView2Loader.dll",
+            "Sha256": "C66E4A92FDC7A216118E43B7A5024EA2200E8C43F9310BF20D96A0084F82C5BC"
+          },
+          {
+            "RelativePath": "runtimes\\win-x86\\native\\WebView2Loader.dll",
+            "Sha256": "A08C57142946E5A554D9D5C018E27DCBB09248BE8AD44852667B96564BBCEEDA"
+          }
+        ],
+        "WindowShown": false,
+        "NetworkRequested": false,
+        "NativePointerUsed": false,
+        "AuthenticationExecuted": false,
+        "InstallerExecuted": false,
+        "CheckedAt": "2026-10-19T04:14:57.6620092+09:00"
+      }
+    }
+  ],
+  "FixtureSource": {
+    "Path": "artifacts/audit-codexorig2-task034/Audit34Checks.cs",
+    "SHA256": "7572026A47BAF11DBB0A89527BEDB5D248FE29DBB58BE9504FE88D45BE5DF3A4",
+    "RealProviderInvoked": false,
+    "ModelCatalogIsSynthetic": true,
+    "WindowShown": false,
+    "AssertionsAreGroupedCases": true,
+    "SameSourceForC10AndC14": true
+  },
+  "ProjectScopeSourceFixture": {
+    "ExactFrozenSourceSHA256": "FC1F51393407C7B8602A37F3D65E81689CAE473B76AE1382F2B7A17197DB6E75",
+    "Candidate14ScopeSHA256": "FC1F51393407C7B8602A37F3D65E81689CAE473B76AE1382F2B7A17197DB6E75",
+    "SourceBytesIdentical": true,
+    "SdkBoundaryShims": true,
+    "ActualProductAssemblyExecuted": false,
+    "ActualComExecuted": false,
+    "ActualIdeExecuted": false,
+    "Result": {
+      "Succeeded": true,
+      "Passed": 11,
+      "Failed": 0,
+      "SourceFixture": true,
+      "ActualProductAssemblyExecuted": false,
+      "ActualIde": false,
+      "Gui": false,
+      "GlobalIdeSettingsApiAvailable": false,
+      "Cases": [
+        {
+          "Name": "Unchanged project restores path ignore exactly once without reload",
+          "Passed": true
+        },
+        {
+          "Name": "Changed clean hierarchy reloads and restores both ignore APIs",
+          "Passed": true
+        },
+        {
+          "Name": "Legacy project unload/reload restores tabs and attempts original focus",
+          "Passed": true
+        },
+        {
+          "Name": "Preexisting dirty project blocks before suppression",
+          "Passed": true
+        },
+        {
+          "Name": "Project becoming dirty preserves unsaved model and restores ignore",
+          "Passed": true
+        },
+        {
+          "Name": "Partial constructor file-ignore failure cleans earlier projects",
+          "Passed": true
+        },
+        {
+          "Name": "Partial constructor hierarchy-ignore failure restores file ignore",
+          "Passed": true
+        },
+        {
+          "Name": "Constructor dirty second project restores first suppression",
+          "Passed": true
+        },
+        {
+          "Name": "Reload failure is reported and ignore state is restored",
+          "Passed": true
+        },
+        {
+          "Name": "Deleted project reports notice and releases suppression",
+          "Passed": true
+        },
+        {
+          "Name": "Document close stops execution and preserves readonly flags",
+          "Passed": true
+        }
+      ]
+    },
+    "Harness": "artifacts/audit-codexorig2-task034/ScopeFixture.final.cs",
+    "HarnessSHA256": "D8989A475046BA6598CEB6322A74586BC34A5A60895F07B5CBF45C2E5A2EE2A6",
+    "GlobalSettingsStaticReview": "No global option write API in reviewed source; actual before/after IDE settings not measured by auditor."
+  },
+  "ExternalEditingReview": {
+    "ConstructorPartialFailureCleanup": true,
+    "DirtyProjectPreflightAndReleaseReview": true,
+    "FileIgnoreSyncBalanceInSourceFixture": true,
+    "ReloadFailureNoticeInSourceFixture": true,
+    "LegacyTabFocusIsBestEffort": true,
+    "ActualAllProjectTypeCompatibilityCertified": false
+  },
+  "FinalDocumentServiceReview": {
+    "Source": "artifacts/task025/candidate14/source/src/VS2017.AIAssistant/Services/VisualStudioDocumentService.cs",
+    "Methods": [
+      "ResolveOpenDocument",
+      "GetActiveDocument",
+      "CaptureFullAccessContext",
+      "GetProjectDirectory"
+    ],
+    "AuditorStaticReview": true,
+    "AuditorSeparateComFixture": false,
+    "OwnerC13Failure": "artifacts/ide/run-43eabf275b6844f9bab0ac1198fdd6a6/result.json",
+    "OwnerC14ActualIde": [
+      {
+        "Path": "artifacts/ide/run-0fefc10f029b4866af1e7bd066f2fe4d/result.json",
+        "SHA256": "D1D82F903191F19434E123FB50E88B2FF6B19A45719855FA49E653C7E481A841",
+        "Executor": "TASK032 / CodexOrig",
+        "AuditorExecuted": false,
+        "AuditorInspected": true,
+        "Record": {
+          "Succeeded": true,
+          "Passed": 145,
+          "Failed": 0,
+          "IdeRuntimeTest": true,
+          "HostVersion": "17.0",
+          "RegistryRoot": "Software\\Microsoft\\VisualStudio\\17.0_0b4009f1CodexCodeTest0fefc10f",
+          "ProductAssembly": "c:\\users\\ygree\\appdata\\local\\microsoft\\visualstudio\\17.0_0b4009f1codexcodetest0fefc10f\\extensions\\eayduwdw.ok1\\VS2017.AIAssistant.dll",
+          "ProductVersion": "0.11.0.0",
+          "ProductSha256": "5421B4BA56A4B66F5148DF8BE903128C816D1D71100F4ED4456445975637A0B0",
+          "LiveCodexTest": false,
+          "LiveSqlDraftTest": false,
+          "LiveClaudeTest": false,
+          "UserProjectSourceSent": false,
+          "Tests": [
+            {
+              "Name": "IDE-00 actual loaded product matches selected VSIX SHA256",
+              "Passed": true
+            },
+            {
+              "Name": "IDE-01 product package loaded by registered menu",
+              "Passed": true
+            },
+            {
+              "Name": "IDE-02 actual configured Visual Studio host 17",
+              "Passed": true
+            },
+            {
+              "Name": "IDE-03 tool window created",
+              "Passed": true
+            },
+            {
+              "Name": "WORK-01 first provider tab is Claude",
+              "Passed": true
+            },
+            {
+              "Name": "CHAT-01 IDE caption removes Chat and retains document tab",
+              "Passed": true
+            },
+            {
+              "Name": "CHAT-02 Chat can float",
+              "Passed": true
+            },
+            {
+              "Name": "CHAT-03 Chat can dock",
+              "Passed": true
+            },
+            {
+              "Name": "CHAT-04 Chat returns to document tab",
+              "Passed": true
+            },
+            {
+              "Name": "IDE-04 real document service connected",
+              "Passed": true
+            },
+            {
+              "Name": "LICENSE-01 no licensing warning observed in actual IDE session",
+              "Passed": true
+            },
+            {
+              "Name": "IDE-05 production EnvDTE adapter",
+              "Passed": true
+            },
+            {
+              "Name": "UX-01 first visible Chat automatically opens four-step guide",
+              "Passed": true
+            },
+            {
+              "Name": "UX-02 first guide is centered and checkbox starts unchecked",
+              "Passed": true
+            },
+            {
+              "Name": "UX-03 hide guide persists without changing paths models rules size",
+              "Passed": true
+            },
+            {
+              "Name": "UX-04 prompt keeps targeted cut copy paste and select all commands",
+              "Passed": true
+            },
+            {
+              "Name": "UX-05 preview retains copy and app settings without write commands",
+              "Passed": true
+            },
+            {
+              "Name": "UX-06 all areas expose settings and manual guide",
+              "Passed": true
+            },
+            {
+              "Name": "UX-07 hidden guide can be reopened manually with stored checkbox",
+              "Passed": true
+            },
+            {
+              "Name": "UX-08 right-click settings opens a centered modal settings window",
+              "Passed": true
+            },
+            {
+              "Name": "UX-09 cancel restores all live settings and does not write disk",
+              "Passed": true
+            },
+            {
+              "Name": "UX-10 dialog and text controls use the same dark palette",
+              "Passed": true
+            },
+            {
+              "Name": "UX-11 save closes dialog and preserves guide and other provider",
+              "Passed": true
+            },
+            {
+              "Name": "UX-16 instruction failure preserves both JSON and Markdown",
+              "Passed": true
+            },
+            {
+              "Name": "UX-12 save failure stays visible in settings popup",
+              "Passed": true
+            },
+            {
+              "Name": "UX-13 failed save preserves original settings file",
+              "Passed": true
+            },
+            {
+              "Name": "UX-14 recreated Chat suppresses automatic guide and restores settings",
+              "Passed": true
+            },
+            {
+              "Name": "UX-15 manual guide can restore automatic display without other changes",
+              "Passed": true
+            },
+            {
+              "Name": "IDE-06 request without source rejected",
+              "Passed": true
+            },
+            {
+              "Name": "SELECT-01 actual IDE selected text separately captured",
+              "Passed": true
+            },
+            {
+              "Name": "SELECT-02 selection retains complete source and disk conflict hash",
+              "Passed": true
+            },
+            {
+              "Name": "SELECT-03 reversed actual IDE selection normalized",
+              "Passed": true
+            },
+            {
+              "Name": "SELECT-04 cleared selection leaves full source context",
+              "Passed": true
+            },
+            {
+              "Name": "FULL-01 actual saved editor context supports direct execution",
+              "Passed": true
+            },
+            {
+              "Name": "FULL-02 another open unsaved file blocks native direct writes",
+              "Passed": true
+            },
+            {
+              "Name": "SYNC-01 unsaved open buffer blocks external editing scope",
+              "Passed": true
+            },
+            {
+              "Name": "SYNC-02 saved editor temporarily protects user edits",
+              "Passed": true
+            },
+            {
+              "Name": "SYNC-03 external change does not replace protected buffer mid-run",
+              "Passed": true
+            },
+            {
+              "Name": "SYNC-04 completed external change reloads without modal or dirty buffer",
+              "Passed": true
+            },
+            {
+              "Name": "SYNC-05 temporary editor protection restored",
+              "Passed": true
+            },
+            {
+              "Name": "SYNC-06 baseline restored through same synchronization path",
+              "Passed": true
+            },
+            {
+              "Name": "SYNC-07 newly opened editor protected during native run",
+              "Passed": true
+            },
+            {
+              "Name": "SYNC-08 close requests cancellation and reopened editor gets new protection",
+              "Passed": true
+            },
+            {
+              "Name": "SYNC-09 closing and reopening restores original editor state",
+              "Passed": true
+            },
+            {
+              "Name": "CHAT-05 Chat tab retains last source target",
+              "Passed": true
+            },
+            {
+              "Name": "CHAT-06 text attachment appears in actual IDE",
+              "Passed": true
+            },
+            {
+              "Name": "CHAT-07 settings restore in recreated IDE control",
+              "Passed": true
+            },
+            {
+              "Name": "CHAT-08 settings isolated from personal profile",
+              "Passed": true
+            },
+            {
+              "Name": "IDE-07 capture exact active buffer",
+              "Passed": true
+            },
+            {
+              "Name": "IDE-08 project and framework context",
+              "Passed": true
+            },
+            {
+              "Name": "IDE-09 unsaved edits captured",
+              "Passed": true
+            },
+            {
+              "Name": "IDE-10 Codex fixture proposal displayed",
+              "Passed": true
+            },
+            {
+              "Name": "WORK-02 change card lists the modified source",
+              "Passed": true
+            },
+            {
+              "Name": "CHAT-09 conversation stacks user and AI turns",
+              "Passed": true
+            },
+            {
+              "Name": "IDE-11 approval starts unchecked",
+              "Passed": true
+            },
+            {
+              "Name": "IDE-12 proposal preserves buffer and disk",
+              "Passed": true
+            },
+            {
+              "Name": "WORK-03 source link navigates to fixed target in actual IDE",
+              "Passed": true
+            },
+            {
+              "Name": "IDE-13 active file switch preserves fixed target",
+              "Passed": true
+            },
+            {
+              "Name": "IDE-14 apply changes only editor buffer",
+              "Passed": true
+            },
+            {
+              "Name": "IDE-15 one IDE Undo restores entire prior buffer",
+              "Passed": true
+            },
+            {
+              "Name": "IDE-16 explicit Save writes proposed text",
+              "Passed": true
+            },
+            {
+              "Name": "IDE-17 UTF8 BOM and CRLF retained",
+              "Passed": true
+            },
+            {
+              "Name": "IDE-18 Restore returns original unsaved content",
+              "Passed": true
+            },
+            {
+              "Name": "IDE-19 Restore leaves disk until explicit save",
+              "Passed": true
+            },
+            {
+              "Name": "IDE-20 edits after proposal block apply",
+              "Passed": true
+            },
+            {
+              "Name": "CHAT-10 Provider tabs separate drafts and attachments",
+              "Passed": true
+            },
+            {
+              "Name": "IDE-21 Claude fixture protocol in real IDE",
+              "Passed": true
+            },
+            {
+              "Name": "IDE-22 Claude proposal applies through actual adapter",
+              "Passed": true
+            },
+            {
+              "Name": "WORK-04 empty SQL query draft preserves disk before approval",
+              "Passed": true
+            },
+            {
+              "Name": "WORK-05 approved SQL query is saved by actual IDE",
+              "Passed": true
+            },
+            {
+              "Name": "WORK-06 new conversation retains prior history and persists new draft",
+              "Passed": true
+            },
+            {
+              "Name": "WORK-07 recreated IDE control restores provider conversation tabs",
+              "Passed": true
+            },
+            {
+              "Name": "SIDEBAR-01 actual IDE exposes a full-height resizable conversation boundary",
+              "Passed": true
+            },
+            {
+              "Name": "SIDEBAR-02 real splitter drag expands the list inside VS2017",
+              "Passed": true
+            },
+            {
+              "Name": "SIDEBAR-03 dragging left collapses the actual IDE sidebar",
+              "Passed": true
+            },
+            {
+              "Name": "SIDEBAR-04 reopening restores the real resized width",
+              "Passed": true
+            },
+            {
+              "Name": "SIDEBAR-05 actual successful AI requests retain completed state in Markdown",
+              "Passed": true
+            },
+            {
+              "Name": "SIDEBAR-06 viewing the IDE conversation clears only its persisted unread marker",
+              "Passed": true
+            },
+            {
+              "Name": "SIDEBAR-07 recreated IDE control restores list preference and width",
+              "Passed": true
+            },
+            {
+              "Name": "ADVANCED-01 actual IDE asynchronously extracts document body into the composer",
+              "Passed": true
+            },
+            {
+              "Name": "ADVANCED-02 actual IDE displays the persisted unique AI name and collaboration count",
+              "Passed": true
+            },
+            {
+              "Name": "ADVANCED-03 actual native peer and coordinator requests deliver a real handoff inside VS2017",
+              "Passed": true
+            },
+            {
+              "Name": "ADVANCED-04 collaboration leaves actual IDE source and disk unchanged before approval",
+              "Passed": true
+            },
+            {
+              "Name": "ADVANCED-05 peer completion and unread status are saved separately in the IDE",
+              "Passed": true
+            },
+            {
+              "Name": "ADVANCED-06 actual collaboration report contains the real participants and result",
+              "Passed": true
+            },
+            {
+              "Name": "ADVANCED-07 model details expose Fast and usage through one visible control",
+              "Passed": true
+            },
+            {
+              "Name": "ADVANCED-08 recreated IDE controls restore AI identity and selected collaborators",
+              "Passed": true
+            },
+            {
+              "Name": "IMAGES-01 actual IDE keeps conversation actions in the scrollable sidebar footer",
+              "Passed": true
+            },
+            {
+              "Name": "IMAGES-02 actual IDE model dropdown is anchored and contains its strength gauge and topic index",
+              "Passed": true
+            },
+            {
+              "Name": "IMAGES-03 Escape closes the actual IDE dropdown without opening another window",
+              "Passed": true
+            },
+            {
+              "Name": "IMAGES-04 actual IDE permission dropdown exposes three presets and the separate action planner",
+              "Passed": true
+            },
+            {
+              "Name": "IMAGES-05 the actual IDE AI dropdown routes its selected name to the original conversation",
+              "Passed": true
+            },
+            {
+              "Name": "IMAGES-06 repeated hover in the actual IDE opens the fan once",
+              "Passed": true
+            },
+            {
+              "Name": "IMAGES-07 the actual IDE tooltip uses the dark palette and wraps a long explanation",
+              "Passed": true
+            },
+            {
+              "Name": "UI032 light actual user message has no opaque surface",
+              "Passed": true
+            },
+            {
+              "Name": "UI032 light actual user text follows theme gray",
+              "Passed": true
+            },
+            {
+              "Name": "UI032 light actual conversation documents keep transparent backgrounds",
+              "Passed": true
+            },
+            {
+              "Name": "UI032 dark actual user message has no opaque surface",
+              "Passed": true
+            },
+            {
+              "Name": "UI032 dark actual user text follows theme gray",
+              "Passed": true
+            },
+            {
+              "Name": "UI032 dark actual conversation documents keep transparent backgrounds",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-PALETTE ConversationList resolves explicit dark surface in actual host",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-PALETTE Instruction resolves explicit dark surface in actual host",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-PALETTE TextSizeChoice resolves explicit dark surface in actual host",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-ICON actual send button has a bold centered vector magnifier",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-THEME explicit theme choice is connected in actual IDE",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-THEME real model popup opens before palette changes",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-THEME light selects the matching option",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-THEME open model popup retains readable contrast in light",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-THEME Light updates the real surface and text contrast",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-THEME open popup also changes to a Light surface",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-THEME dark selects the matching option",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-THEME open model popup retains readable contrast in dark",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-THEME Dark restores the real dark surface and text contrast",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-THEME auto selects the matching option",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-THEME open model popup retains readable contrast in auto",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-THEME Auto uses the actual Visual Studio background before Windows",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-EDITOR actual prompt context menu exposes authoring",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-EDITOR context action opens an owned visible IDE dialog",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-EDITOR actual IDE loads the packaged AvalonEdit bytes",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-EDITOR actual code editor displays line numbers",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-EDITOR actual editor refreshes a formatted native preview",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-EDITOR closing an unapplied draft preserves the original prompt",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-MD answer binding creates the real Markdown preview",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-MD actual IDE uses an explicit transparent Markdown viewport",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-MD headings and emphasis become WPF elements",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-MD local and web links carry visible icons",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-MD rendering alone leaves active document and disk unchanged",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-LINK actual Markdown click opens requested source line in IDE",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-LINK parsed line suffix works for drive path",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-LINK parsed line suffix works for relative path",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-LINK command suffix opens as IDE text without executing",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-LINK navigation preserves source bytes",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-OVERLAY narrow actual IDE dims and disables obscured conversation",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-OVERLAY dismiss restores conversation input and hides scrim",
+              "Passed": true
+            },
+            {
+              "Name": "PROJECT032 fixture has a distinct project property",
+              "Passed": true
+            },
+            {
+              "Name": "PROJECT032 pending disk changes leave the loaded project unchanged mid-run",
+              "Passed": true
+            },
+            {
+              "Name": "PROJECT032 completion reloads the actual project property without a modal",
+              "Passed": true
+            },
+            {
+              "Name": "PROJECT032 a second scope restores project bytes and model without stale notifications",
+              "Passed": true
+            },
+            {
+              "Name": "PROJECT032 unsaved project metadata blocks direct writes and preserves memory and disk",
+              "Passed": true
+            },
+            {
+              "Name": "FULL-04 actual IDE full runner executes file writes and test command",
+              "Passed": true
+            },
+            {
+              "Name": "FULL-08 completed request immediately exposes its final reported usage",
+              "Passed": true
+            },
+            {
+              "Name": "FULL-05 actual IDE visible model tooltip displays reported tokens",
+              "Passed": true
+            },
+            {
+              "Name": "FULL-06 actual IDE records public progress and completed state",
+              "Passed": true
+            },
+            {
+              "Name": "FULL-07 actual IDE executed change card preserves direct mode",
+              "Passed": true
+            },
+            {
+              "Name": "FULL-03 a solution without an active source permits project context",
+              "Passed": true
+            }
+          ]
+        }
+      },
+      {
+        "Path": "artifacts/ide/run-a84f9d521134453fb30c40a0a1f6c626/result.json",
+        "SHA256": "23ABF6D87516D7BE8F5E557F13C2284F0619AD3A1690727C3D533062CC8E3A51",
+        "Executor": "TASK032 / CodexOrig",
+        "AuditorExecuted": false,
+        "AuditorInspected": true,
+        "Record": {
+          "Succeeded": true,
+          "Passed": 145,
+          "Failed": 0,
+          "IdeRuntimeTest": true,
+          "HostVersion": "15.0",
+          "RegistryRoot": "Software\\Microsoft\\VisualStudio\\15.0_c1f368d6CodexCodeTesta84f9d52",
+          "ProductAssembly": "c:\\users\\ygree\\appdata\\local\\microsoft\\visualstudio\\15.0_c1f368d6codexcodetesta84f9d52\\extensions\\lvohh3tu.sky\\VS2017.AIAssistant.dll",
+          "ProductVersion": "0.11.0.0",
+          "ProductSha256": "8FE5B4C7FF6DA7731B2892C71E258D8872248F2DF83111A6AE8031DE168E293A",
+          "LiveCodexTest": false,
+          "LiveSqlDraftTest": false,
+          "LiveClaudeTest": false,
+          "UserProjectSourceSent": false,
+          "Tests": [
+            {
+              "Name": "IDE-00 actual loaded product matches selected VSIX SHA256",
+              "Passed": true
+            },
+            {
+              "Name": "IDE-01 product package loaded by registered menu",
+              "Passed": true
+            },
+            {
+              "Name": "IDE-02 actual configured Visual Studio host 15",
+              "Passed": true
+            },
+            {
+              "Name": "IDE-03 tool window created",
+              "Passed": true
+            },
+            {
+              "Name": "WORK-01 first provider tab is Claude",
+              "Passed": true
+            },
+            {
+              "Name": "CHAT-01 IDE caption removes Chat and retains document tab",
+              "Passed": true
+            },
+            {
+              "Name": "CHAT-02 Chat can float",
+              "Passed": true
+            },
+            {
+              "Name": "CHAT-03 Chat can dock",
+              "Passed": true
+            },
+            {
+              "Name": "CHAT-04 Chat returns to document tab",
+              "Passed": true
+            },
+            {
+              "Name": "IDE-04 real document service connected",
+              "Passed": true
+            },
+            {
+              "Name": "LICENSE-01 no licensing warning observed in actual IDE session",
+              "Passed": true
+            },
+            {
+              "Name": "IDE-05 production EnvDTE adapter",
+              "Passed": true
+            },
+            {
+              "Name": "UX-01 first visible Chat automatically opens four-step guide",
+              "Passed": true
+            },
+            {
+              "Name": "UX-02 first guide is centered and checkbox starts unchecked",
+              "Passed": true
+            },
+            {
+              "Name": "UX-03 hide guide persists without changing paths models rules size",
+              "Passed": true
+            },
+            {
+              "Name": "UX-04 prompt keeps targeted cut copy paste and select all commands",
+              "Passed": true
+            },
+            {
+              "Name": "UX-05 preview retains copy and app settings without write commands",
+              "Passed": true
+            },
+            {
+              "Name": "UX-06 all areas expose settings and manual guide",
+              "Passed": true
+            },
+            {
+              "Name": "UX-07 hidden guide can be reopened manually with stored checkbox",
+              "Passed": true
+            },
+            {
+              "Name": "UX-08 right-click settings opens a centered modal settings window",
+              "Passed": true
+            },
+            {
+              "Name": "UX-09 cancel restores all live settings and does not write disk",
+              "Passed": true
+            },
+            {
+              "Name": "UX-10 dialog and text controls use the same dark palette",
+              "Passed": true
+            },
+            {
+              "Name": "UX-11 save closes dialog and preserves guide and other provider",
+              "Passed": true
+            },
+            {
+              "Name": "UX-16 instruction failure preserves both JSON and Markdown",
+              "Passed": true
+            },
+            {
+              "Name": "UX-12 save failure stays visible in settings popup",
+              "Passed": true
+            },
+            {
+              "Name": "UX-13 failed save preserves original settings file",
+              "Passed": true
+            },
+            {
+              "Name": "UX-14 recreated Chat suppresses automatic guide and restores settings",
+              "Passed": true
+            },
+            {
+              "Name": "UX-15 manual guide can restore automatic display without other changes",
+              "Passed": true
+            },
+            {
+              "Name": "IDE-06 request without source rejected",
+              "Passed": true
+            },
+            {
+              "Name": "SELECT-01 actual IDE selected text separately captured",
+              "Passed": true
+            },
+            {
+              "Name": "SELECT-02 selection retains complete source and disk conflict hash",
+              "Passed": true
+            },
+            {
+              "Name": "SELECT-03 reversed actual IDE selection normalized",
+              "Passed": true
+            },
+            {
+              "Name": "SELECT-04 cleared selection leaves full source context",
+              "Passed": true
+            },
+            {
+              "Name": "FULL-01 actual saved editor context supports direct execution",
+              "Passed": true
+            },
+            {
+              "Name": "FULL-02 another open unsaved file blocks native direct writes",
+              "Passed": true
+            },
+            {
+              "Name": "SYNC-01 unsaved open buffer blocks external editing scope",
+              "Passed": true
+            },
+            {
+              "Name": "SYNC-02 saved editor temporarily protects user edits",
+              "Passed": true
+            },
+            {
+              "Name": "SYNC-03 external change does not replace protected buffer mid-run",
+              "Passed": true
+            },
+            {
+              "Name": "SYNC-04 completed external change reloads without modal or dirty buffer",
+              "Passed": true
+            },
+            {
+              "Name": "SYNC-05 temporary editor protection restored",
+              "Passed": true
+            },
+            {
+              "Name": "SYNC-06 baseline restored through same synchronization path",
+              "Passed": true
+            },
+            {
+              "Name": "SYNC-07 newly opened editor protected during native run",
+              "Passed": true
+            },
+            {
+              "Name": "SYNC-08 close requests cancellation and reopened editor gets new protection",
+              "Passed": true
+            },
+            {
+              "Name": "SYNC-09 closing and reopening restores original editor state",
+              "Passed": true
+            },
+            {
+              "Name": "CHAT-05 Chat tab retains last source target",
+              "Passed": true
+            },
+            {
+              "Name": "CHAT-06 text attachment appears in actual IDE",
+              "Passed": true
+            },
+            {
+              "Name": "CHAT-07 settings restore in recreated IDE control",
+              "Passed": true
+            },
+            {
+              "Name": "CHAT-08 settings isolated from personal profile",
+              "Passed": true
+            },
+            {
+              "Name": "IDE-07 capture exact active buffer",
+              "Passed": true
+            },
+            {
+              "Name": "IDE-08 project and framework context",
+              "Passed": true
+            },
+            {
+              "Name": "IDE-09 unsaved edits captured",
+              "Passed": true
+            },
+            {
+              "Name": "IDE-10 Codex fixture proposal displayed",
+              "Passed": true
+            },
+            {
+              "Name": "WORK-02 change card lists the modified source",
+              "Passed": true
+            },
+            {
+              "Name": "CHAT-09 conversation stacks user and AI turns",
+              "Passed": true
+            },
+            {
+              "Name": "IDE-11 approval starts unchecked",
+              "Passed": true
+            },
+            {
+              "Name": "IDE-12 proposal preserves buffer and disk",
+              "Passed": true
+            },
+            {
+              "Name": "WORK-03 source link navigates to fixed target in actual IDE",
+              "Passed": true
+            },
+            {
+              "Name": "IDE-13 active file switch preserves fixed target",
+              "Passed": true
+            },
+            {
+              "Name": "IDE-14 apply changes only editor buffer",
+              "Passed": true
+            },
+            {
+              "Name": "IDE-15 one IDE Undo restores entire prior buffer",
+              "Passed": true
+            },
+            {
+              "Name": "IDE-16 explicit Save writes proposed text",
+              "Passed": true
+            },
+            {
+              "Name": "IDE-17 UTF8 BOM and CRLF retained",
+              "Passed": true
+            },
+            {
+              "Name": "IDE-18 Restore returns original unsaved content",
+              "Passed": true
+            },
+            {
+              "Name": "IDE-19 Restore leaves disk until explicit save",
+              "Passed": true
+            },
+            {
+              "Name": "IDE-20 edits after proposal block apply",
+              "Passed": true
+            },
+            {
+              "Name": "CHAT-10 Provider tabs separate drafts and attachments",
+              "Passed": true
+            },
+            {
+              "Name": "IDE-21 Claude fixture protocol in real IDE",
+              "Passed": true
+            },
+            {
+              "Name": "IDE-22 Claude proposal applies through actual adapter",
+              "Passed": true
+            },
+            {
+              "Name": "WORK-04 empty SQL query draft preserves disk before approval",
+              "Passed": true
+            },
+            {
+              "Name": "WORK-05 approved SQL query is saved by actual IDE",
+              "Passed": true
+            },
+            {
+              "Name": "WORK-06 new conversation retains prior history and persists new draft",
+              "Passed": true
+            },
+            {
+              "Name": "WORK-07 recreated IDE control restores provider conversation tabs",
+              "Passed": true
+            },
+            {
+              "Name": "SIDEBAR-01 actual IDE exposes a full-height resizable conversation boundary",
+              "Passed": true
+            },
+            {
+              "Name": "SIDEBAR-02 real splitter drag expands the list inside VS2017",
+              "Passed": true
+            },
+            {
+              "Name": "SIDEBAR-03 dragging left collapses the actual IDE sidebar",
+              "Passed": true
+            },
+            {
+              "Name": "SIDEBAR-04 reopening restores the real resized width",
+              "Passed": true
+            },
+            {
+              "Name": "SIDEBAR-05 actual successful AI requests retain completed state in Markdown",
+              "Passed": true
+            },
+            {
+              "Name": "SIDEBAR-06 viewing the IDE conversation clears only its persisted unread marker",
+              "Passed": true
+            },
+            {
+              "Name": "SIDEBAR-07 recreated IDE control restores list preference and width",
+              "Passed": true
+            },
+            {
+              "Name": "ADVANCED-01 actual IDE asynchronously extracts document body into the composer",
+              "Passed": true
+            },
+            {
+              "Name": "ADVANCED-02 actual IDE displays the persisted unique AI name and collaboration count",
+              "Passed": true
+            },
+            {
+              "Name": "ADVANCED-03 actual native peer and coordinator requests deliver a real handoff inside VS2017",
+              "Passed": true
+            },
+            {
+              "Name": "ADVANCED-04 collaboration leaves actual IDE source and disk unchanged before approval",
+              "Passed": true
+            },
+            {
+              "Name": "ADVANCED-05 peer completion and unread status are saved separately in the IDE",
+              "Passed": true
+            },
+            {
+              "Name": "ADVANCED-06 actual collaboration report contains the real participants and result",
+              "Passed": true
+            },
+            {
+              "Name": "ADVANCED-07 model details expose Fast and usage through one visible control",
+              "Passed": true
+            },
+            {
+              "Name": "ADVANCED-08 recreated IDE controls restore AI identity and selected collaborators",
+              "Passed": true
+            },
+            {
+              "Name": "IMAGES-01 actual IDE keeps conversation actions in the scrollable sidebar footer",
+              "Passed": true
+            },
+            {
+              "Name": "IMAGES-02 actual IDE model dropdown is anchored and contains its strength gauge and topic index",
+              "Passed": true
+            },
+            {
+              "Name": "IMAGES-03 Escape closes the actual IDE dropdown without opening another window",
+              "Passed": true
+            },
+            {
+              "Name": "IMAGES-04 actual IDE permission dropdown exposes three presets and the separate action planner",
+              "Passed": true
+            },
+            {
+              "Name": "IMAGES-05 the actual IDE AI dropdown routes its selected name to the original conversation",
+              "Passed": true
+            },
+            {
+              "Name": "IMAGES-06 repeated hover in the actual IDE opens the fan once",
+              "Passed": true
+            },
+            {
+              "Name": "IMAGES-07 the actual IDE tooltip uses the dark palette and wraps a long explanation",
+              "Passed": true
+            },
+            {
+              "Name": "UI032 light actual user message has no opaque surface",
+              "Passed": true
+            },
+            {
+              "Name": "UI032 light actual user text follows theme gray",
+              "Passed": true
+            },
+            {
+              "Name": "UI032 light actual conversation documents keep transparent backgrounds",
+              "Passed": true
+            },
+            {
+              "Name": "UI032 dark actual user message has no opaque surface",
+              "Passed": true
+            },
+            {
+              "Name": "UI032 dark actual user text follows theme gray",
+              "Passed": true
+            },
+            {
+              "Name": "UI032 dark actual conversation documents keep transparent backgrounds",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-PALETTE ConversationList resolves explicit dark surface in actual host",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-PALETTE Instruction resolves explicit dark surface in actual host",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-PALETTE TextSizeChoice resolves explicit dark surface in actual host",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-ICON actual send button has a bold centered vector magnifier",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-THEME explicit theme choice is connected in actual IDE",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-THEME real model popup opens before palette changes",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-THEME light selects the matching option",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-THEME open model popup retains readable contrast in light",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-THEME Light updates the real surface and text contrast",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-THEME open popup also changes to a Light surface",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-THEME dark selects the matching option",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-THEME open model popup retains readable contrast in dark",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-THEME Dark restores the real dark surface and text contrast",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-THEME auto selects the matching option",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-THEME open model popup retains readable contrast in auto",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-THEME Auto uses the actual Visual Studio background before Windows",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-EDITOR actual prompt context menu exposes authoring",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-EDITOR context action opens an owned visible IDE dialog",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-EDITOR actual IDE loads the packaged AvalonEdit bytes",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-EDITOR actual code editor displays line numbers",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-EDITOR actual editor refreshes a formatted native preview",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-EDITOR closing an unapplied draft preserves the original prompt",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-MD answer binding creates the real Markdown preview",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-MD actual IDE uses an explicit transparent Markdown viewport",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-MD headings and emphasis become WPF elements",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-MD local and web links carry visible icons",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-MD rendering alone leaves active document and disk unchanged",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-LINK actual Markdown click opens requested source line in IDE",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-LINK parsed line suffix works for drive path",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-LINK parsed line suffix works for relative path",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-LINK command suffix opens as IDE text without executing",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-LINK navigation preserves source bytes",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-OVERLAY narrow actual IDE dims and disables obscured conversation",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-OVERLAY dismiss restores conversation input and hides scrim",
+              "Passed": true
+            },
+            {
+              "Name": "PROJECT032 fixture has a distinct project property",
+              "Passed": true
+            },
+            {
+              "Name": "PROJECT032 pending disk changes leave the loaded project unchanged mid-run",
+              "Passed": true
+            },
+            {
+              "Name": "PROJECT032 completion reloads the actual project property without a modal",
+              "Passed": true
+            },
+            {
+              "Name": "PROJECT032 a second scope restores project bytes and model without stale notifications",
+              "Passed": true
+            },
+            {
+              "Name": "PROJECT032 unsaved project metadata blocks direct writes and preserves memory and disk",
+              "Passed": true
+            },
+            {
+              "Name": "FULL-04 actual IDE full runner executes file writes and test command",
+              "Passed": true
+            },
+            {
+              "Name": "FULL-08 completed request immediately exposes its final reported usage",
+              "Passed": true
+            },
+            {
+              "Name": "FULL-05 actual IDE visible model tooltip displays reported tokens",
+              "Passed": true
+            },
+            {
+              "Name": "FULL-06 actual IDE records public progress and completed state",
+              "Passed": true
+            },
+            {
+              "Name": "FULL-07 actual IDE executed change card preserves direct mode",
+              "Passed": true
+            },
+            {
+              "Name": "FULL-03 a solution without an active source permits project context",
+              "Passed": true
+            }
+          ]
+        }
+      },
+      {
+        "Path": "artifacts/ide/run-23aabafbde1f45d8b577750a4d11bd59/result.json",
+        "SHA256": "125C1AB0AA76CF73698D6DD00B780EA0EAAAB3BDB13822556F1277FEF10C1754",
+        "Executor": "TASK032 / CodexOrig",
+        "AuditorExecuted": false,
+        "AuditorInspected": true,
+        "Record": {
+          "Succeeded": true,
+          "Passed": 145,
+          "Failed": 0,
+          "IdeRuntimeTest": true,
+          "HostVersion": "16.0",
+          "RegistryRoot": "Software\\Microsoft\\VisualStudio\\16.0_04212cb1CodexCodeTest23aabafb",
+          "ProductAssembly": "c:\\users\\ygree\\appdata\\local\\microsoft\\visualstudio\\16.0_04212cb1codexcodetest23aabafb\\extensions\\yofr4e3u.tey\\VS2017.AIAssistant.dll",
+          "ProductVersion": "0.11.0.0",
+          "ProductSha256": "E47CA65030A3F3A521009E494465F63D45DCA643F878550687DA436B0DF3E443",
+          "LiveCodexTest": false,
+          "LiveSqlDraftTest": false,
+          "LiveClaudeTest": false,
+          "UserProjectSourceSent": false,
+          "Tests": [
+            {
+              "Name": "IDE-00 actual loaded product matches selected VSIX SHA256",
+              "Passed": true
+            },
+            {
+              "Name": "IDE-01 product package loaded by registered menu",
+              "Passed": true
+            },
+            {
+              "Name": "IDE-02 actual configured Visual Studio host 16",
+              "Passed": true
+            },
+            {
+              "Name": "IDE-03 tool window created",
+              "Passed": true
+            },
+            {
+              "Name": "WORK-01 first provider tab is Claude",
+              "Passed": true
+            },
+            {
+              "Name": "CHAT-01 IDE caption removes Chat and retains document tab",
+              "Passed": true
+            },
+            {
+              "Name": "CHAT-02 Chat can float",
+              "Passed": true
+            },
+            {
+              "Name": "CHAT-03 Chat can dock",
+              "Passed": true
+            },
+            {
+              "Name": "CHAT-04 Chat returns to document tab",
+              "Passed": true
+            },
+            {
+              "Name": "IDE-04 real document service connected",
+              "Passed": true
+            },
+            {
+              "Name": "LICENSE-01 no licensing warning observed in actual IDE session",
+              "Passed": true
+            },
+            {
+              "Name": "IDE-05 production EnvDTE adapter",
+              "Passed": true
+            },
+            {
+              "Name": "UX-01 first visible Chat automatically opens four-step guide",
+              "Passed": true
+            },
+            {
+              "Name": "UX-02 first guide is centered and checkbox starts unchecked",
+              "Passed": true
+            },
+            {
+              "Name": "UX-03 hide guide persists without changing paths models rules size",
+              "Passed": true
+            },
+            {
+              "Name": "UX-04 prompt keeps targeted cut copy paste and select all commands",
+              "Passed": true
+            },
+            {
+              "Name": "UX-05 preview retains copy and app settings without write commands",
+              "Passed": true
+            },
+            {
+              "Name": "UX-06 all areas expose settings and manual guide",
+              "Passed": true
+            },
+            {
+              "Name": "UX-07 hidden guide can be reopened manually with stored checkbox",
+              "Passed": true
+            },
+            {
+              "Name": "UX-08 right-click settings opens a centered modal settings window",
+              "Passed": true
+            },
+            {
+              "Name": "UX-09 cancel restores all live settings and does not write disk",
+              "Passed": true
+            },
+            {
+              "Name": "UX-10 dialog and text controls use the same dark palette",
+              "Passed": true
+            },
+            {
+              "Name": "UX-11 save closes dialog and preserves guide and other provider",
+              "Passed": true
+            },
+            {
+              "Name": "UX-16 instruction failure preserves both JSON and Markdown",
+              "Passed": true
+            },
+            {
+              "Name": "UX-12 save failure stays visible in settings popup",
+              "Passed": true
+            },
+            {
+              "Name": "UX-13 failed save preserves original settings file",
+              "Passed": true
+            },
+            {
+              "Name": "UX-14 recreated Chat suppresses automatic guide and restores settings",
+              "Passed": true
+            },
+            {
+              "Name": "UX-15 manual guide can restore automatic display without other changes",
+              "Passed": true
+            },
+            {
+              "Name": "IDE-06 request without source rejected",
+              "Passed": true
+            },
+            {
+              "Name": "SELECT-01 actual IDE selected text separately captured",
+              "Passed": true
+            },
+            {
+              "Name": "SELECT-02 selection retains complete source and disk conflict hash",
+              "Passed": true
+            },
+            {
+              "Name": "SELECT-03 reversed actual IDE selection normalized",
+              "Passed": true
+            },
+            {
+              "Name": "SELECT-04 cleared selection leaves full source context",
+              "Passed": true
+            },
+            {
+              "Name": "FULL-01 actual saved editor context supports direct execution",
+              "Passed": true
+            },
+            {
+              "Name": "FULL-02 another open unsaved file blocks native direct writes",
+              "Passed": true
+            },
+            {
+              "Name": "SYNC-01 unsaved open buffer blocks external editing scope",
+              "Passed": true
+            },
+            {
+              "Name": "SYNC-02 saved editor temporarily protects user edits",
+              "Passed": true
+            },
+            {
+              "Name": "SYNC-03 external change does not replace protected buffer mid-run",
+              "Passed": true
+            },
+            {
+              "Name": "SYNC-04 completed external change reloads without modal or dirty buffer",
+              "Passed": true
+            },
+            {
+              "Name": "SYNC-05 temporary editor protection restored",
+              "Passed": true
+            },
+            {
+              "Name": "SYNC-06 baseline restored through same synchronization path",
+              "Passed": true
+            },
+            {
+              "Name": "SYNC-07 newly opened editor protected during native run",
+              "Passed": true
+            },
+            {
+              "Name": "SYNC-08 close requests cancellation and reopened editor gets new protection",
+              "Passed": true
+            },
+            {
+              "Name": "SYNC-09 closing and reopening restores original editor state",
+              "Passed": true
+            },
+            {
+              "Name": "CHAT-05 Chat tab retains last source target",
+              "Passed": true
+            },
+            {
+              "Name": "CHAT-06 text attachment appears in actual IDE",
+              "Passed": true
+            },
+            {
+              "Name": "CHAT-07 settings restore in recreated IDE control",
+              "Passed": true
+            },
+            {
+              "Name": "CHAT-08 settings isolated from personal profile",
+              "Passed": true
+            },
+            {
+              "Name": "IDE-07 capture exact active buffer",
+              "Passed": true
+            },
+            {
+              "Name": "IDE-08 project and framework context",
+              "Passed": true
+            },
+            {
+              "Name": "IDE-09 unsaved edits captured",
+              "Passed": true
+            },
+            {
+              "Name": "IDE-10 Codex fixture proposal displayed",
+              "Passed": true
+            },
+            {
+              "Name": "WORK-02 change card lists the modified source",
+              "Passed": true
+            },
+            {
+              "Name": "CHAT-09 conversation stacks user and AI turns",
+              "Passed": true
+            },
+            {
+              "Name": "IDE-11 approval starts unchecked",
+              "Passed": true
+            },
+            {
+              "Name": "IDE-12 proposal preserves buffer and disk",
+              "Passed": true
+            },
+            {
+              "Name": "WORK-03 source link navigates to fixed target in actual IDE",
+              "Passed": true
+            },
+            {
+              "Name": "IDE-13 active file switch preserves fixed target",
+              "Passed": true
+            },
+            {
+              "Name": "IDE-14 apply changes only editor buffer",
+              "Passed": true
+            },
+            {
+              "Name": "IDE-15 one IDE Undo restores entire prior buffer",
+              "Passed": true
+            },
+            {
+              "Name": "IDE-16 explicit Save writes proposed text",
+              "Passed": true
+            },
+            {
+              "Name": "IDE-17 UTF8 BOM and CRLF retained",
+              "Passed": true
+            },
+            {
+              "Name": "IDE-18 Restore returns original unsaved content",
+              "Passed": true
+            },
+            {
+              "Name": "IDE-19 Restore leaves disk until explicit save",
+              "Passed": true
+            },
+            {
+              "Name": "IDE-20 edits after proposal block apply",
+              "Passed": true
+            },
+            {
+              "Name": "CHAT-10 Provider tabs separate drafts and attachments",
+              "Passed": true
+            },
+            {
+              "Name": "IDE-21 Claude fixture protocol in real IDE",
+              "Passed": true
+            },
+            {
+              "Name": "IDE-22 Claude proposal applies through actual adapter",
+              "Passed": true
+            },
+            {
+              "Name": "WORK-04 empty SQL query draft preserves disk before approval",
+              "Passed": true
+            },
+            {
+              "Name": "WORK-05 approved SQL query is saved by actual IDE",
+              "Passed": true
+            },
+            {
+              "Name": "WORK-06 new conversation retains prior history and persists new draft",
+              "Passed": true
+            },
+            {
+              "Name": "WORK-07 recreated IDE control restores provider conversation tabs",
+              "Passed": true
+            },
+            {
+              "Name": "SIDEBAR-01 actual IDE exposes a full-height resizable conversation boundary",
+              "Passed": true
+            },
+            {
+              "Name": "SIDEBAR-02 real splitter drag expands the list inside VS2017",
+              "Passed": true
+            },
+            {
+              "Name": "SIDEBAR-03 dragging left collapses the actual IDE sidebar",
+              "Passed": true
+            },
+            {
+              "Name": "SIDEBAR-04 reopening restores the real resized width",
+              "Passed": true
+            },
+            {
+              "Name": "SIDEBAR-05 actual successful AI requests retain completed state in Markdown",
+              "Passed": true
+            },
+            {
+              "Name": "SIDEBAR-06 viewing the IDE conversation clears only its persisted unread marker",
+              "Passed": true
+            },
+            {
+              "Name": "SIDEBAR-07 recreated IDE control restores list preference and width",
+              "Passed": true
+            },
+            {
+              "Name": "ADVANCED-01 actual IDE asynchronously extracts document body into the composer",
+              "Passed": true
+            },
+            {
+              "Name": "ADVANCED-02 actual IDE displays the persisted unique AI name and collaboration count",
+              "Passed": true
+            },
+            {
+              "Name": "ADVANCED-03 actual native peer and coordinator requests deliver a real handoff inside VS2017",
+              "Passed": true
+            },
+            {
+              "Name": "ADVANCED-04 collaboration leaves actual IDE source and disk unchanged before approval",
+              "Passed": true
+            },
+            {
+              "Name": "ADVANCED-05 peer completion and unread status are saved separately in the IDE",
+              "Passed": true
+            },
+            {
+              "Name": "ADVANCED-06 actual collaboration report contains the real participants and result",
+              "Passed": true
+            },
+            {
+              "Name": "ADVANCED-07 model details expose Fast and usage through one visible control",
+              "Passed": true
+            },
+            {
+              "Name": "ADVANCED-08 recreated IDE controls restore AI identity and selected collaborators",
+              "Passed": true
+            },
+            {
+              "Name": "IMAGES-01 actual IDE keeps conversation actions in the scrollable sidebar footer",
+              "Passed": true
+            },
+            {
+              "Name": "IMAGES-02 actual IDE model dropdown is anchored and contains its strength gauge and topic index",
+              "Passed": true
+            },
+            {
+              "Name": "IMAGES-03 Escape closes the actual IDE dropdown without opening another window",
+              "Passed": true
+            },
+            {
+              "Name": "IMAGES-04 actual IDE permission dropdown exposes three presets and the separate action planner",
+              "Passed": true
+            },
+            {
+              "Name": "IMAGES-05 the actual IDE AI dropdown routes its selected name to the original conversation",
+              "Passed": true
+            },
+            {
+              "Name": "IMAGES-06 repeated hover in the actual IDE opens the fan once",
+              "Passed": true
+            },
+            {
+              "Name": "IMAGES-07 the actual IDE tooltip uses the dark palette and wraps a long explanation",
+              "Passed": true
+            },
+            {
+              "Name": "UI032 light actual user message has no opaque surface",
+              "Passed": true
+            },
+            {
+              "Name": "UI032 light actual user text follows theme gray",
+              "Passed": true
+            },
+            {
+              "Name": "UI032 light actual conversation documents keep transparent backgrounds",
+              "Passed": true
+            },
+            {
+              "Name": "UI032 dark actual user message has no opaque surface",
+              "Passed": true
+            },
+            {
+              "Name": "UI032 dark actual user text follows theme gray",
+              "Passed": true
+            },
+            {
+              "Name": "UI032 dark actual conversation documents keep transparent backgrounds",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-PALETTE ConversationList resolves explicit dark surface in actual host",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-PALETTE Instruction resolves explicit dark surface in actual host",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-PALETTE TextSizeChoice resolves explicit dark surface in actual host",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-ICON actual send button has a bold centered vector magnifier",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-THEME explicit theme choice is connected in actual IDE",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-THEME real model popup opens before palette changes",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-THEME light selects the matching option",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-THEME open model popup retains readable contrast in light",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-THEME Light updates the real surface and text contrast",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-THEME open popup also changes to a Light surface",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-THEME dark selects the matching option",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-THEME open model popup retains readable contrast in dark",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-THEME Dark restores the real dark surface and text contrast",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-THEME auto selects the matching option",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-THEME open model popup retains readable contrast in auto",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-THEME Auto uses the actual Visual Studio background before Windows",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-EDITOR actual prompt context menu exposes authoring",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-EDITOR context action opens an owned visible IDE dialog",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-EDITOR actual IDE loads the packaged AvalonEdit bytes",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-EDITOR actual code editor displays line numbers",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-EDITOR actual editor refreshes a formatted native preview",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-EDITOR closing an unapplied draft preserves the original prompt",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-MD answer binding creates the real Markdown preview",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-MD actual IDE uses an explicit transparent Markdown viewport",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-MD headings and emphasis become WPF elements",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-MD local and web links carry visible icons",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-MD rendering alone leaves active document and disk unchanged",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-LINK actual Markdown click opens requested source line in IDE",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-LINK parsed line suffix works for drive path",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-LINK parsed line suffix works for relative path",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-LINK command suffix opens as IDE text without executing",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-LINK navigation preserves source bytes",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-OVERLAY narrow actual IDE dims and disables obscured conversation",
+              "Passed": true
+            },
+            {
+              "Name": "LATEST-OVERLAY dismiss restores conversation input and hides scrim",
+              "Passed": true
+            },
+            {
+              "Name": "PROJECT032 fixture has a distinct project property",
+              "Passed": true
+            },
+            {
+              "Name": "PROJECT032 pending disk changes leave the loaded project unchanged mid-run",
+              "Passed": true
+            },
+            {
+              "Name": "PROJECT032 completion reloads the actual project property without a modal",
+              "Passed": true
+            },
+            {
+              "Name": "PROJECT032 a second scope restores project bytes and model without stale notifications",
+              "Passed": true
+            },
+            {
+              "Name": "PROJECT032 unsaved project metadata blocks direct writes and preserves memory and disk",
+              "Passed": true
+            },
+            {
+              "Name": "FULL-04 actual IDE full runner executes file writes and test command",
+              "Passed": true
+            },
+            {
+              "Name": "FULL-08 completed request immediately exposes its final reported usage",
+              "Passed": true
+            },
+            {
+              "Name": "FULL-05 actual IDE visible model tooltip displays reported tokens",
+              "Passed": true
+            },
+            {
+              "Name": "FULL-06 actual IDE records public progress and completed state",
+              "Passed": true
+            },
+            {
+              "Name": "FULL-07 actual IDE executed change card preserves direct mode",
+              "Passed": true
+            },
+            {
+              "Name": "FULL-03 a solution without an active source permits project context",
+              "Passed": true
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "Appearance": {
+    "ActualTemplatesAndDependencyPrecedenceVerified": true,
+    "Cases": "Codex/Claude x Light/Dark",
+    "ConstructorLocalColorPrecedenceVerified": true,
+    "PreviewTextViewFlowDocumentAndContentHostTransparencyVerified": true,
+    "AuditorOffscreenPixelsCertifyLogo": false,
+    "OwnerConnectedIdeImageInspected": "artifacts/ide/run-6bfbcbfbfeb441bdba5872afc2fbc673/ui032-light.png",
+    "All18RowsSimultaneouslyPixelCertified": false
+  },
+  "RemovalGuide": {
+    "LocalDocs": [
+      "README.md:17",
+      "docs/USER_GUIDE.md:18"
+    ],
+    "ProcedurePresent": true,
+    "ManifestDisplayNamesReviewed": true,
+    "ActualUserExtensionRemoved": false,
+    "PrimarySources": [
+      "https://learn.microsoft.com/en-us/visualstudio/ide/finding-and-using-visual-studio-extensions?view=visualstudio",
+      "https://learn.microsoft.com/en-us/visualstudio/releases/2017/vs2017-relnotes-v15.0#modify-extensions-in-bulk"
+    ],
+    "OfficialSourcesOpened": true
+  },
+  "Packages": [
+    {
+      "Year": "2017",
+      "File": "VS2017.AIAssistant.vsix",
+      "Bytes": 3849597,
+      "SHA256": "33EA90EBAC97ACC27CAE6D00A0BD33DC2796A9C0F63D560C64780698828543C2",
+      "DLLSHA256": "8FE5B4C7FF6DA7731B2892C71E258D8872248F2DF83111A6AE8031DE168E293A",
+      "Target": [
+        {
+          "Id": "Microsoft.VisualStudio.Community",
+          "Version": "[15.0.28307.0,16.0)",
+          "Architecture": null
+        }
+      ],
+      "Payload": [
+        {
+          "Name": "VS2017.AIAssistant.dll",
+          "Bytes": 723968,
+          "SHA256": "8FE5B4C7FF6DA7731B2892C71E258D8872248F2DF83111A6AE8031DE168E293A",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "ICSharpCode.AvalonEdit.dll",
+          "Bytes": 621056,
+          "SHA256": "B0032716709359F7361D5A2DDC8E2AD457A1448A093FB4900E0336312B0A10C7",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Microsoft.Web.WebView2.Core.dll",
+          "Bytes": 698208,
+          "SHA256": "E6F54C8CE208E3797C427D01AD671B47CB25ABC85604753D6EC2546D0FFEF550",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Microsoft.Web.WebView2.WinForms.dll",
+          "Bytes": 38752,
+          "SHA256": "CC3D2937C350A4F5E20399855BCAB4FE695A395308FEB2ED67394FAA6A1AE849",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Microsoft.Web.WebView2.Wpf.dll",
+          "Bytes": 86368,
+          "SHA256": "6942B85A3388ECE45FEBDE5584D2BFC035D84315F2DD5A4A47913F01A0193800",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/ThirdParty/AvalonEdit/LICENSE.txt",
+          "Bytes": 1075,
+          "SHA256": "7CFE74F11EAEF7A239E7C63D33595F924E7922FB3E3F3651014389620B228A07",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/01-connect.gif",
+          "Bytes": 252810,
+          "SHA256": "59E48449823353475F5204971C0B5C5B3F926DFF7F1F6A239B3AE8C47B956149",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/02-request.gif",
+          "Bytes": 211883,
+          "SHA256": "B08A43114E1E12128BCE6EA32C6CDAF5A1D4ABD5BEDA3C16A24BC9A50FC31CE2",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/03-review.gif",
+          "Bytes": 123205,
+          "SHA256": "92D4ACC8F2314D9DA0EE8350FE71CE48C2DB633499D3B3E8CD4898C8B7D57EDA",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/04-guide.gif",
+          "Bytes": 200648,
+          "SHA256": "C82293FB4C5D0074BF29D074BBB7419D6FD4821B4E485A5C907B0497CB5A0692",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/05-install.gif",
+          "Bytes": 197738,
+          "SHA256": "816F5FA2786BA404BA88066224B8A8F85760980F8564F80E9762E08090A078C3",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/01-connect.png",
+          "Bytes": 15425,
+          "SHA256": "D70A981083C73399C346D54E520B466958BADD5DD15C925461520071250055A5",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/02-request.png",
+          "Bytes": 15662,
+          "SHA256": "B83E1AE93DC9482135D844F1B7F22921B1E9D07C8CC57C40F9D5691EFCB09C3F",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/03-review.png",
+          "Bytes": 16370,
+          "SHA256": "07DA9122FF6570B2627E8F7A6C0E3AC8D1DBE4FE90EDAFDC3FE22F78D7BF365E",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/04-guide.png",
+          "Bytes": 25621,
+          "SHA256": "FD365AFA59DB76AB110F8BA5F4FA1C392CD8EC8625CD67EE7ED4FE5CFAE8F0C6",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/05-install.png",
+          "Bytes": 27286,
+          "SHA256": "BAC8E2E956FD37CC431653D555F9784A8C31A59D738649433851DACD283C5871",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/ThirdParty/WebView2/LICENSE.txt",
+          "Bytes": 1487,
+          "SHA256": "0AF8F1B807512AAE39C2AC1AA4D0CAE65CABECB6FD554B8439A5162A0D6ECA55",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/ThirdParty/WebView2/NOTICE.txt",
+          "Bytes": 3894,
+          "SHA256": "106423785C5B7EBA0A8E61D1837F2132E9C828E20AD530F565D981C1DF60DD90",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "runtimes/win-x86/native/WebView2Loader.dll",
+          "Bytes": 124768,
+          "SHA256": "A08C57142946E5A554D9D5C018E27DCBB09248BE8AD44852667B96564BBCEEDA",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "runtimes/win-x64/native/WebView2Loader.dll",
+          "Bytes": 163680,
+          "SHA256": "C66E4A92FDC7A216118E43B7A5024EA2200E8C43F9310BF20D96A0084F82C5BC",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "runtimes/win-arm64/native/WebView2Loader.dll",
+          "Bytes": 150880,
+          "SHA256": "5A5CF33BDCE364D72CBB56D59E24E5CF77EE38976D4F8B392A151E0013215703",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "VS2017.AIAssistant.DocumentReader.exe",
+          "Bytes": 9728,
+          "SHA256": "1995AD1A9EC941EDB8819F0C5AEFFC8A94AD66B1368A3467D8E383BBE496B3D8",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "VS2017.AIAssistant.DocumentReader.exe.config",
+          "Bytes": 159,
+          "SHA256": "DBA0AC349FA98F542FE90CC4FBBE3033567DAC0515859D049854E81DEFAAAA51",
+          "MatchesOutput": true
+        }
+      ]
+    },
+    {
+      "Year": "2019",
+      "File": "VS2017.AIAssistant.vsix",
+      "Bytes": 3851423,
+      "SHA256": "A54F1AD5C9096B9EEDF15E33CE9331F8A3084DDF28B13F308518AEB147B579CA",
+      "DLLSHA256": "E47CA65030A3F3A521009E494465F63D45DCA643F878550687DA436B0DF3E443",
+      "Target": [
+        {
+          "Id": "Microsoft.VisualStudio.Community",
+          "Version": "[16.0,17.0)",
+          "Architecture": null
+        }
+      ],
+      "Payload": [
+        {
+          "Name": "VS2017.AIAssistant.dll",
+          "Bytes": 721920,
+          "SHA256": "E47CA65030A3F3A521009E494465F63D45DCA643F878550687DA436B0DF3E443",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "ICSharpCode.AvalonEdit.dll",
+          "Bytes": 621056,
+          "SHA256": "B0032716709359F7361D5A2DDC8E2AD457A1448A093FB4900E0336312B0A10C7",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Microsoft.Web.WebView2.Core.dll",
+          "Bytes": 698208,
+          "SHA256": "E6F54C8CE208E3797C427D01AD671B47CB25ABC85604753D6EC2546D0FFEF550",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Microsoft.Web.WebView2.WinForms.dll",
+          "Bytes": 38752,
+          "SHA256": "CC3D2937C350A4F5E20399855BCAB4FE695A395308FEB2ED67394FAA6A1AE849",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Microsoft.Web.WebView2.Wpf.dll",
+          "Bytes": 86368,
+          "SHA256": "6942B85A3388ECE45FEBDE5584D2BFC035D84315F2DD5A4A47913F01A0193800",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/ThirdParty/AvalonEdit/LICENSE.txt",
+          "Bytes": 1075,
+          "SHA256": "7CFE74F11EAEF7A239E7C63D33595F924E7922FB3E3F3651014389620B228A07",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/01-connect.gif",
+          "Bytes": 252810,
+          "SHA256": "59E48449823353475F5204971C0B5C5B3F926DFF7F1F6A239B3AE8C47B956149",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/02-request.gif",
+          "Bytes": 211883,
+          "SHA256": "B08A43114E1E12128BCE6EA32C6CDAF5A1D4ABD5BEDA3C16A24BC9A50FC31CE2",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/03-review.gif",
+          "Bytes": 123205,
+          "SHA256": "92D4ACC8F2314D9DA0EE8350FE71CE48C2DB633499D3B3E8CD4898C8B7D57EDA",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/04-guide.gif",
+          "Bytes": 200648,
+          "SHA256": "C82293FB4C5D0074BF29D074BBB7419D6FD4821B4E485A5C907B0497CB5A0692",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/05-install.gif",
+          "Bytes": 197738,
+          "SHA256": "816F5FA2786BA404BA88066224B8A8F85760980F8564F80E9762E08090A078C3",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/01-connect.png",
+          "Bytes": 15425,
+          "SHA256": "D70A981083C73399C346D54E520B466958BADD5DD15C925461520071250055A5",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/02-request.png",
+          "Bytes": 15662,
+          "SHA256": "B83E1AE93DC9482135D844F1B7F22921B1E9D07C8CC57C40F9D5691EFCB09C3F",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/03-review.png",
+          "Bytes": 16370,
+          "SHA256": "07DA9122FF6570B2627E8F7A6C0E3AC8D1DBE4FE90EDAFDC3FE22F78D7BF365E",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/04-guide.png",
+          "Bytes": 25621,
+          "SHA256": "FD365AFA59DB76AB110F8BA5F4FA1C392CD8EC8625CD67EE7ED4FE5CFAE8F0C6",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/05-install.png",
+          "Bytes": 27286,
+          "SHA256": "BAC8E2E956FD37CC431653D555F9784A8C31A59D738649433851DACD283C5871",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/ThirdParty/WebView2/LICENSE.txt",
+          "Bytes": 1487,
+          "SHA256": "0AF8F1B807512AAE39C2AC1AA4D0CAE65CABECB6FD554B8439A5162A0D6ECA55",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/ThirdParty/WebView2/NOTICE.txt",
+          "Bytes": 3894,
+          "SHA256": "106423785C5B7EBA0A8E61D1837F2132E9C828E20AD530F565D981C1DF60DD90",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "runtimes/win-x86/native/WebView2Loader.dll",
+          "Bytes": 124768,
+          "SHA256": "A08C57142946E5A554D9D5C018E27DCBB09248BE8AD44852667B96564BBCEEDA",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "runtimes/win-x64/native/WebView2Loader.dll",
+          "Bytes": 163680,
+          "SHA256": "C66E4A92FDC7A216118E43B7A5024EA2200E8C43F9310BF20D96A0084F82C5BC",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "runtimes/win-arm64/native/WebView2Loader.dll",
+          "Bytes": 150880,
+          "SHA256": "5A5CF33BDCE364D72CBB56D59E24E5CF77EE38976D4F8B392A151E0013215703",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "VS2017.AIAssistant.DocumentReader.exe",
+          "Bytes": 9728,
+          "SHA256": "99C05DE9F66176CCBF755C136EE802DDFFF28CCBED0ADF5955F22C30021DFFCF",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "VS2017.AIAssistant.DocumentReader.exe.config",
+          "Bytes": 159,
+          "SHA256": "DBA0AC349FA98F542FE90CC4FBBE3033567DAC0515859D049854E81DEFAAAA51",
+          "MatchesOutput": true
+        }
+      ]
+    },
+    {
+      "Year": "2022",
+      "File": "VS2017.AIAssistant.vsix",
+      "Bytes": 3851230,
+      "SHA256": "94B0D919687F519FA74714D6B6E2DCF02FC55BD271FB820695F70AD306501249",
+      "DLLSHA256": "5421B4BA56A4B66F5148DF8BE903128C816D1D71100F4ED4456445975637A0B0",
+      "Target": [
+        {
+          "Id": "Microsoft.VisualStudio.Community",
+          "Version": "[17.0,18.0)",
+          "Architecture": "amd64"
+        }
+      ],
+      "Payload": [
+        {
+          "Name": "VS2017.AIAssistant.dll",
+          "Bytes": 720384,
+          "SHA256": "5421B4BA56A4B66F5148DF8BE903128C816D1D71100F4ED4456445975637A0B0",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "ICSharpCode.AvalonEdit.dll",
+          "Bytes": 621056,
+          "SHA256": "B0032716709359F7361D5A2DDC8E2AD457A1448A093FB4900E0336312B0A10C7",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Microsoft.Web.WebView2.Core.dll",
+          "Bytes": 698208,
+          "SHA256": "E6F54C8CE208E3797C427D01AD671B47CB25ABC85604753D6EC2546D0FFEF550",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Microsoft.Web.WebView2.WinForms.dll",
+          "Bytes": 38752,
+          "SHA256": "CC3D2937C350A4F5E20399855BCAB4FE695A395308FEB2ED67394FAA6A1AE849",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Microsoft.Web.WebView2.Wpf.dll",
+          "Bytes": 86368,
+          "SHA256": "6942B85A3388ECE45FEBDE5584D2BFC035D84315F2DD5A4A47913F01A0193800",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/ThirdParty/AvalonEdit/LICENSE.txt",
+          "Bytes": 1075,
+          "SHA256": "7CFE74F11EAEF7A239E7C63D33595F924E7922FB3E3F3651014389620B228A07",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/01-connect.gif",
+          "Bytes": 252810,
+          "SHA256": "59E48449823353475F5204971C0B5C5B3F926DFF7F1F6A239B3AE8C47B956149",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/02-request.gif",
+          "Bytes": 211883,
+          "SHA256": "B08A43114E1E12128BCE6EA32C6CDAF5A1D4ABD5BEDA3C16A24BC9A50FC31CE2",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/03-review.gif",
+          "Bytes": 123205,
+          "SHA256": "92D4ACC8F2314D9DA0EE8350FE71CE48C2DB633499D3B3E8CD4898C8B7D57EDA",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/04-guide.gif",
+          "Bytes": 200648,
+          "SHA256": "C82293FB4C5D0074BF29D074BBB7419D6FD4821B4E485A5C907B0497CB5A0692",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/05-install.gif",
+          "Bytes": 197738,
+          "SHA256": "816F5FA2786BA404BA88066224B8A8F85760980F8564F80E9762E08090A078C3",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/01-connect.png",
+          "Bytes": 15425,
+          "SHA256": "D70A981083C73399C346D54E520B466958BADD5DD15C925461520071250055A5",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/02-request.png",
+          "Bytes": 15662,
+          "SHA256": "B83E1AE93DC9482135D844F1B7F22921B1E9D07C8CC57C40F9D5691EFCB09C3F",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/03-review.png",
+          "Bytes": 16370,
+          "SHA256": "07DA9122FF6570B2627E8F7A6C0E3AC8D1DBE4FE90EDAFDC3FE22F78D7BF365E",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/04-guide.png",
+          "Bytes": 25621,
+          "SHA256": "FD365AFA59DB76AB110F8BA5F4FA1C392CD8EC8625CD67EE7ED4FE5CFAE8F0C6",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/GuideMedia/05-install.png",
+          "Bytes": 27286,
+          "SHA256": "BAC8E2E956FD37CC431653D555F9784A8C31A59D738649433851DACD283C5871",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/ThirdParty/WebView2/LICENSE.txt",
+          "Bytes": 1487,
+          "SHA256": "0AF8F1B807512AAE39C2AC1AA4D0CAE65CABECB6FD554B8439A5162A0D6ECA55",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "Resources/ThirdParty/WebView2/NOTICE.txt",
+          "Bytes": 3894,
+          "SHA256": "106423785C5B7EBA0A8E61D1837F2132E9C828E20AD530F565D981C1DF60DD90",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "runtimes/win-x86/native/WebView2Loader.dll",
+          "Bytes": 124768,
+          "SHA256": "A08C57142946E5A554D9D5C018E27DCBB09248BE8AD44852667B96564BBCEEDA",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "runtimes/win-x64/native/WebView2Loader.dll",
+          "Bytes": 163680,
+          "SHA256": "C66E4A92FDC7A216118E43B7A5024EA2200E8C43F9310BF20D96A0084F82C5BC",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "runtimes/win-arm64/native/WebView2Loader.dll",
+          "Bytes": 150880,
+          "SHA256": "5A5CF33BDCE364D72CBB56D59E24E5CF77EE38976D4F8B392A151E0013215703",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "VS2017.AIAssistant.DocumentReader.exe",
+          "Bytes": 9728,
+          "SHA256": "0451BEA675EDE3EB58B4F4CF75649C0D20A12D1D6F2B7B34E0FDA1837A6F2A43",
+          "MatchesOutput": true
+        },
+        {
+          "Name": "VS2017.AIAssistant.DocumentReader.exe.config",
+          "Bytes": 159,
+          "SHA256": "DBA0AC349FA98F542FE90CC4FBBE3033567DAC0515859D049854E81DEFAAAA51",
+          "MatchesOutput": true
+        }
+      ]
+    }
+  ],
+  "FinalBuilds": {
+    "Executor": "TASK032",
+    "AuditorExecuted": false,
+    "Records": [
+      {
+        "Version": "2017",
+        "Configuration": "Debug",
+        "ExitCode": 0,
+        "Warnings": 0,
+        "Log": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task025\\build-candidate14-2017-Debug.log"
+      },
+      {
+        "Version": "2017",
+        "Configuration": "Release",
+        "ExitCode": 0,
+        "Warnings": 0,
+        "Log": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task025\\build-candidate14-2017-Release.log"
+      },
+      {
+        "Version": "2019",
+        "Configuration": "Debug",
+        "ExitCode": 0,
+        "Warnings": 0,
+        "Log": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task025\\build-candidate14-2019-Debug.log"
+      },
+      {
+        "Version": "2019",
+        "Configuration": "Release",
+        "ExitCode": 0,
+        "Warnings": 0,
+        "Log": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task025\\build-candidate14-2019-Release.log"
+      },
+      {
+        "Version": "2022",
+        "Configuration": "Debug",
+        "ExitCode": 0,
+        "Warnings": 0,
+        "Log": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task025\\build-candidate14-2022-Debug.log"
+      },
+      {
+        "Version": "2022",
+        "Configuration": "Release",
+        "ExitCode": 0,
+        "Warnings": 0,
+        "Log": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task025\\build-candidate14-2022-Release.log"
+      }
+    ]
+  },
+  "PriorAudits": [
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\MarkdownReport\\CodexOrig2_TASK-019_Audit.md",
+      "BeforeSHA256": "82E1A9C78ABA9944EDBC5E3FA040619AA41CFFC70A64A4C81AE99DF4F23AE3C3",
+      "AfterSHA256": "82E1A9C78ABA9944EDBC5E3FA040619AA41CFFC70A64A4C81AE99DF4F23AE3C3",
+      "Unchanged": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\MarkdownReport\\CodexOrig2_TASK-019_Evidence.json",
+      "BeforeSHA256": "060CDC426B9803B0D59FED958A9042651AA948261C37FE7895481D686A395C74",
+      "AfterSHA256": "060CDC426B9803B0D59FED958A9042651AA948261C37FE7895481D686A395C74",
+      "Unchanged": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\MarkdownReport\\CodexOrig2_TASK-023_Audit2.md",
+      "BeforeSHA256": "02A2CC83CCC0B8CB6CEBC93E0514BBF18CA84B3099CA95B8152051D07468BBD5",
+      "AfterSHA256": "02A2CC83CCC0B8CB6CEBC93E0514BBF18CA84B3099CA95B8152051D07468BBD5",
+      "Unchanged": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\MarkdownReport\\CodexOrig2_TASK-023_Evidence.json",
+      "BeforeSHA256": "262228842E48D37DC0E7063638E2BCA82856CC933E9A0462247A0C6D52947EB1",
+      "AfterSHA256": "262228842E48D37DC0E7063638E2BCA82856CC933E9A0462247A0C6D52947EB1",
+      "Unchanged": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\MarkdownReport\\CodexOrig2_TASK-028_Audit3.md",
+      "BeforeSHA256": "1BC2C86124BC29DFBE0309F8BA7F52568504619BDF27A45E9D6A42F7EF61F6DD",
+      "AfterSHA256": "1BC2C86124BC29DFBE0309F8BA7F52568504619BDF27A45E9D6A42F7EF61F6DD",
+      "Unchanged": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\MarkdownReport\\CodexOrig2_TASK-028_Evidence.json",
+      "BeforeSHA256": "A27BEEC642D2F221AF7EC78AEE8B9F250A6B37C9D83DA959C52A05165C5916D6",
+      "AfterSHA256": "A27BEEC642D2F221AF7EC78AEE8B9F250A6B37C9D83DA959C52A05165C5916D6",
+      "Unchanged": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\MarkdownReport\\CodexOrig2_TASK-028_Followup_C6_Evidence.json",
+      "BeforeSHA256": "B410F6C240392FA46F1E1DF5BD03565BC52EDBE84BA11AF4DE1EC36B316288B5",
+      "AfterSHA256": "B410F6C240392FA46F1E1DF5BD03565BC52EDBE84BA11AF4DE1EC36B316288B5",
+      "Unchanged": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\MarkdownReport\\CodexOrig2_TASK-028_Followup_C6.md",
+      "BeforeSHA256": "B4234A3ED7041514CA0137283BD3A61E5AAC323713DE72C523AD4774DC96F52B",
+      "AfterSHA256": "B4234A3ED7041514CA0137283BD3A61E5AAC323713DE72C523AD4774DC96F52B",
+      "Unchanged": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\MarkdownReport\\CodexOrig2_TASK-028_Followup_C7_Evidence.json",
+      "BeforeSHA256": "2FC12C75A2AFACCB7B0AC57B78760C76B6F5BD0256E5E7310F4B27B35D32E9B4",
+      "AfterSHA256": "2FC12C75A2AFACCB7B0AC57B78760C76B6F5BD0256E5E7310F4B27B35D32E9B4",
+      "Unchanged": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\MarkdownReport\\CodexOrig2_TASK-028_Followup_C7.md",
+      "BeforeSHA256": "4B835236FE8F7629BB4F4D4724E79FF46A67074C1EE49E65BD7DE7387B9D31DB",
+      "AfterSHA256": "4B835236FE8F7629BB4F4D4724E79FF46A67074C1EE49E65BD7DE7387B9D31DB",
+      "Unchanged": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\MarkdownReport\\CodexOrig2_TASK-028_Followup_C8_Evidence.json",
+      "BeforeSHA256": "55B178F380B8612ABA8A2837374F3A01E09C8B520D161CDBD642CDC7DF935E68",
+      "AfterSHA256": "55B178F380B8612ABA8A2837374F3A01E09C8B520D161CDBD642CDC7DF935E68",
+      "Unchanged": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\MarkdownReport\\CodexOrig2_TASK-028_Followup_C8.md",
+      "BeforeSHA256": "4D13E80E9B9F25F76174149249C6ACDA26B68D0F9EDDB39F212F8BFC8C9A855D",
+      "AfterSHA256": "4D13E80E9B9F25F76174149249C6ACDA26B68D0F9EDDB39F212F8BFC8C9A855D",
+      "Unchanged": true
+    }
+  ],
+  "PreservedOriginals": [
+    {
+      "Path": "MarkdownReport/CodexOrig2_TASK-019_Audit.md",
+      "Expected": "82E1A9C78ABA9944EDBC5E3FA040619AA41CFFC70A64A4C81AE99DF4F23AE3C3",
+      "Actual": "82E1A9C78ABA9944EDBC5E3FA040619AA41CFFC70A64A4C81AE99DF4F23AE3C3",
+      "Unchanged": true
+    },
+    {
+      "Path": "InstallCLI.bat",
+      "Expected": "81BAE40E698B7E16B4A15093248453C7A79EF5D564306FC9CE9416255D91D5CB",
+      "Actual": "81BAE40E698B7E16B4A15093248453C7A79EF5D564306FC9CE9416255D91D5CB",
+      "Unchanged": true
+    },
+    {
+      "Path": "output/pdf/VisualStudio_AI_Assistant_설치_사용설명서.pdf",
+      "Expected": "EAE9BDD2CA1602677FEAF6BD1F50C19C8F7E29068D33B1DC06215D998C60B30A",
+      "Actual": "EAE9BDD2CA1602677FEAF6BD1F50C19C8F7E29068D33B1DC06215D998C60B30A",
+      "Unchanged": true
+    },
+    {
+      "Path": "MarkdownReport/CodexOrig2_TASK-023_Evidence.json",
+      "Expected": "262228842E48D37DC0E7063638E2BCA82856CC933E9A0462247A0C6D52947EB1",
+      "Actual": "262228842E48D37DC0E7063638E2BCA82856CC933E9A0462247A0C6D52947EB1",
+      "Unchanged": true
+    },
+    {
+      "Path": "HowToInstallCLI.md",
+      "Expected": "6990AF5ED77868C12C80D05FFFB7003DECD02AA0F5E6BC0F970996569B979164",
+      "Actual": "6990AF5ED77868C12C80D05FFFB7003DECD02AA0F5E6BC0F970996569B979164",
+      "Unchanged": true
+    },
+    {
+      "Path": "output/VisualStudio_AI_Assistant_고객전달용.zip",
+      "Expected": "52573BD0E9CB4D288A9AB7B21167E2CA769FEA67217E1B9F71901D2DA1D47085",
+      "Actual": "52573BD0E9CB4D288A9AB7B21167E2CA769FEA67217E1B9F71901D2DA1D47085",
+      "Unchanged": true
+    },
+    {
+      "Path": "MarkdownReport/CodexOrig2_TASK-019_Evidence.json",
+      "Expected": "060CDC426B9803B0D59FED958A9042651AA948261C37FE7895481D686A395C74",
+      "Actual": "060CDC426B9803B0D59FED958A9042651AA948261C37FE7895481D686A395C74",
+      "Unchanged": true
+    },
+    {
+      "Path": "MarkdownReport/CodexOrig2_TASK-023_Audit2.md",
+      "Expected": "02A2CC83CCC0B8CB6CEBC93E0514BBF18CA84B3099CA95B8152051D07468BBD5",
+      "Actual": "02A2CC83CCC0B8CB6CEBC93E0514BBF18CA84B3099CA95B8152051D07468BBD5",
+      "Unchanged": true
+    },
+    {
+      "Path": "docs/assets/cli-manual/01-overview.png",
+      "Expected": "86738234B9A201914E6BED1776C32A2B007AE8171F50EEA974C3B4BAC3E76B49",
+      "Actual": "86738234B9A201914E6BED1776C32A2B007AE8171F50EEA974C3B4BAC3E76B49",
+      "Unchanged": true
+    },
+    {
+      "Path": "docs/assets/cli-manual/02-package.png",
+      "Expected": "CDCAEFF48497A3DD181230D4358428C22F5D86DDDE375CD5FF1BD07DFBA4C753",
+      "Actual": "CDCAEFF48497A3DD181230D4358428C22F5D86DDDE375CD5FF1BD07DFBA4C753",
+      "Unchanged": true
+    },
+    {
+      "Path": "docs/assets/cli-manual/03-vsix.png",
+      "Expected": "D0088EDD998D516763D50D0030B39206EB778778B7DBF219705CC9F72D67C6D8",
+      "Actual": "D0088EDD998D516763D50D0030B39206EB778778B7DBF219705CC9F72D67C6D8",
+      "Unchanged": true
+    },
+    {
+      "Path": "docs/assets/cli-manual/04-run-batch.png",
+      "Expected": "B5D5B679B0D56026D73F9323140E6894325A4F116984E3F655CB74DE075A91D9",
+      "Actual": "B5D5B679B0D56026D73F9323140E6894325A4F116984E3F655CB74DE075A91D9",
+      "Unchanged": true
+    },
+    {
+      "Path": "docs/assets/cli-manual/05-success.png",
+      "Expected": "F9845411A901B6B687D873FBD7E93E693ABC52D716D4A912CB691652FFCF775F",
+      "Actual": "F9845411A901B6B687D873FBD7E93E693ABC52D716D4A912CB691652FFCF775F",
+      "Unchanged": true
+    },
+    {
+      "Path": "docs/assets/cli-manual/06-login.png",
+      "Expected": "859D753C9240ED86525075F43A66A4823ADDE2F6F19A3D13F435695E0448020C",
+      "Actual": "859D753C9240ED86525075F43A66A4823ADDE2F6F19A3D13F435695E0448020C",
+      "Unchanged": true
+    },
+    {
+      "Path": "docs/assets/cli-manual/07-paths.png",
+      "Expected": "70BFA267082C8A6D2DD5A62065B821921BBC011C56ABAA01F2EC401EF4CCD043",
+      "Actual": "70BFA267082C8A6D2DD5A62065B821921BBC011C56ABAA01F2EC401EF4CCD043",
+      "Unchanged": true
+    },
+    {
+      "Path": "docs/assets/cli-manual/08-attachments.png",
+      "Expected": "650733944817B5185BEE9C999D699E73643BDCCC0FB060B08515D073317AC9A9",
+      "Actual": "650733944817B5185BEE9C999D699E73643BDCCC0FB060B08515D073317AC9A9",
+      "Unchanged": true
+    },
+    {
+      "Path": "docs/assets/cli-manual/09-troubleshooting.png",
+      "Expected": "44F4CB8F53CE709B1F126806E577B5219A2C44A8DF22578DE8513CD157832629",
+      "Actual": "44F4CB8F53CE709B1F126806E577B5219A2C44A8DF22578DE8513CD157832629",
+      "Unchanged": true
+    },
+    {
+      "Path": "docs/assets/cli-manual/10-options.png",
+      "Expected": "D6C1443DA8C7118BFF1C10CEC72028F6ABCDD3027D9FB99217897A0BF8A89BB7",
+      "Actual": "D6C1443DA8C7118BFF1C10CEC72028F6ABCDD3027D9FB99217897A0BF8A89BB7",
+      "Unchanged": true
+    },
+    {
+      "Path": "docs/assets/cli-manual/11-install-methods.png",
+      "Expected": "06A6494284E5B65E161CADEE74F2B3C8B62F4923244A1EAEA4B9C984626A08D0",
+      "Actual": "06A6494284E5B65E161CADEE74F2B3C8B62F4923244A1EAEA4B9C984626A08D0",
+      "Unchanged": true
+    },
+    {
+      "Path": "docs/assets/cli-manual/12-checklist.png",
+      "Expected": "E49084EC2B5EC85B2640F598E152828000DDAD9D67A085B17EC97E0ACE0D48E4",
+      "Actual": "E49084EC2B5EC85B2640F598E152828000DDAD9D67A085B17EC97E0ACE0D48E4",
+      "Unchanged": true
+    },
+    {
+      "Path": "docs/assets/cli-manual/ui-chat.png",
+      "Expected": "242A2B0809D62C354D5F1E88FA479D3EB335C155C1B57F7BA09793FFE29E0AAC",
+      "Actual": "242A2B0809D62C354D5F1E88FA479D3EB335C155C1B57F7BA09793FFE29E0AAC",
+      "Unchanged": true
+    },
+    {
+      "Path": "docs/assets/cli-manual/ui-guide.png",
+      "Expected": "321C6221992E58B812B762B605A0F61E8B59DD6074796BC63FF2DC8E55D69625",
+      "Actual": "321C6221992E58B812B762B605A0F61E8B59DD6074796BC63FF2DC8E55D69625",
+      "Unchanged": true
+    },
+    {
+      "Path": "docs/assets/cli-manual/ui-models.png",
+      "Expected": "DF3391A04A18C38316D4456711E385A0906A1E5862D15C4A52856164E9B44712",
+      "Actual": "DF3391A04A18C38316D4456711E385A0906A1E5862D15C4A52856164E9B44712",
+      "Unchanged": true
+    },
+    {
+      "Path": "docs/assets/cli-manual/ui-permissions.png",
+      "Expected": "85C9417A1C6CD433FCA2AE35BF1860B77F52A9FB07B09FF9E2D1EEA89B49F891",
+      "Actual": "85C9417A1C6CD433FCA2AE35BF1860B77F52A9FB07B09FF9E2D1EEA89B49F891",
+      "Unchanged": true
+    },
+    {
+      "Path": "docs/assets/cli-manual/ui-review.png",
+      "Expected": "D3838D4919B3BCAFA6E2BEC4E03E376408BAF821245060124F472D1FDEFDA014",
+      "Actual": "D3838D4919B3BCAFA6E2BEC4E03E376408BAF821245060124F472D1FDEFDA014",
+      "Unchanged": true
+    },
+    {
+      "Path": "docs/assets/cli-manual/ui-settings.png",
+      "Expected": "26B64806A1482F83B7110001AA1C7CC62BEA3D383182FE7A53034BF160AA262B",
+      "Actual": "26B64806A1482F83B7110001AA1C7CC62BEA3D383182FE7A53034BF160AA262B",
+      "Unchanged": true
+    }
+  ],
+  "PreservedAuditSetupFailures": [
+    "independent-2017.log: fixture Save signature incomplete; compile failure before execution",
+    "independent-2017-run2.log: raw instructions omitted required Markdown format, lazy provider not initialized, collision fixture lacked created date",
+    "independent-2017-run3/run4.log: Fast expected without advertised capability; actual UI correctly normalized standard",
+    "independent-2017-run5.log: valid explicit synthetic capability fixture 15/15"
+  ],
+  "RemainingLimits": [
+    "Actual Claude/Codex account cross-provider success not tested",
+    "Actual extension uninstall not executed",
+    "Source shim is not real COM/IDE verification",
+    "Every project type/COM failure and focus restoration not guaranteed",
+    "Final full16/metadata/version/docs/deployment/remote hashes belong to TASK032"
+  ],
+  "AuditorActions": {
+    "ProductEdited": false,
+    "SharedBinObjEdited": false,
+    "SharedBuild": false,
+    "Gui": false,
+    "NativeInput": false,
+    "RealCliAccount": false,
+    "PaidAi": false,
+    "RealUninstall": false,
+    "RoleEdited": false,
+    "PreviousAuditsEdited": false,
+    "GitCommitPush": false,
+    "PrivateFixtureFilesOnly": true
+  },
+  "FinalOwnerIntegration": {
+    "ReceivedAt": "2026-10-19T04:25:05.2009484+09:00",
+    "Executor": "TASK032 / CodexOrig",
+    "AuditorExecuted": false,
+    "AuditorInspected": true,
+    "Full16Path": "artifacts/tl/12f0f3cf46/summary.txt",
+    "Full16SHA256": "AD0CC9298C30EBEB012A3217A0BA973C25C425F23E710722566BC12C80F67430",
+    "Full16Text": "compatibility\texit=0\r\nbuild-entry\texit=0\r\nmarkdown\texit=0\r\nsettings\texit=0\r\nworkspace-actions\texit=0\r\nediting\texit=0\r\nfoundation\texit=0\r\nexperience\texit=0\r\ndocuments\texit=0\r\ncollaboration\texit=0\r\nprovider-options\texit=0\r\nprovider-cli\texit=0\r\nscm-identity\texit=0\r\nimage-requirements\texit=0\r\nimage-followup\texit=0\r\nnative-runtime\texit=0\r\n",
+    "ValidationPath": "MarkdownReport/CodexOrig_TASK-032_Validation.json",
+    "ValidationSHA256": "15D3DA62DF3F190CEC754AF9412EDE1607892CB0F6F35CDDA378D0FF8422F045"
+  }
+}

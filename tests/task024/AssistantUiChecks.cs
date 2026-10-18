@@ -8,6 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using VS2017.AIAssistant.Chat;
 using VS2017.AIAssistant.Editing;
@@ -118,6 +119,7 @@ public static class AssistantUiChecks
             Assert(control.ContextMenu.Items.OfType<MenuItem>().Count(m => Convert.ToString(m.Header) == "Markdown 문서 작성") == 1, "A standalone Markdown document writer is available once in the general context menu");
             Assert(Named<Button>(control, "AccountLoginPanelButton") != null, "Settings has an explicit entry to the separate account login screen");
             Assert(ContentChildren(Named<FrameworkElement>(control, "SettingsContent")).OfType<AssistantGuideDetails>().Count() == 4, "All four settings sections use compact expandable guide content even while settings are collapsed");
+            CheckMessageAppearance(control, directory);
             control.Dispose(); int afterDispose = documents.Count;
             Click(control, source, true, source, 1);
             Assert(documents.Count == afterDispose, "Disposed assistant controls cannot navigate from a stale Markdown event");
@@ -125,6 +127,109 @@ public static class AssistantUiChecks
         catch (Exception error) { Errors.Add("Unexpected test failure: " + error); }
         finally { if (control != null) control.Dispose(); }
     }
+
+    /// ---------------------------------------------------------------------
+    /// <summary>
+    /// name         : CheckMessageAppearance
+    /// desc         : 양 제공자·양 테마의 실제 메시지 배경과 로고 노출을 픽셀 차이로 확인한다.
+    /// author       : CodexOrig
+    /// create date  : 2026-10-19
+    /// update date  : 2026-10-19 CodexOrig : TASK032 사용자 메시지 투명·회색 및 가로 띠 로고 가림 회귀.
+    /// </summary>
+    /// ---------------------------------------------------------------------
+    private static void CheckMessageAppearance(AssistantControl control, string directory)
+    {
+        var scroll = Named<ScrollViewer>(control, "ConversationScroll");
+        var logo = Named<Image>(control, "BrandWatermark");
+        var providers = Named<TabControl>(control, "ProviderChoice");
+        foreach (string provider in new[] { "Claude", "Codex" })
+        {
+            providers.SelectedValue = provider;
+            var chat = (ChatSession)typeof(AssistantControl).GetProperty("ActiveChat", Hidden).GetValue(control, null);
+            chat.Messages.Clear();
+            chat.Add("user", "사용자 입력 · 배경 없이 회색으로 표시");
+            for (int line = 0; line < 18; line++) chat.Add("assistant", "본문 표시 " + line + " · 로고를 가리는 가로 바탕을 확인합니다.");
+            foreach (bool light in new[] { true, false })
+            {
+                string label = provider + (light ? "-light" : "-dark");
+                Named<ComboBox>(control, "ThemeModeChoice").SelectedValue = light ? "light" : "dark";
+                Named<Border>(control, "ToastHost").Visibility = Visibility.Collapsed;
+                Named<Border>(control, "EmptyHint").Visibility = Visibility.Collapsed;
+                control.Measure(new Size(600, 820)); control.Arrange(new Rect(0, 0, 600, 820)); control.UpdateLayout();
+                scroll.ScrollToHome(); control.UpdateLayout();
+                var user = Descendants(control).OfType<MarkdownPreview>().Single(x => x.Markdown.StartsWith("사용자 입력", StringComparison.Ordinal));
+                var bubble = Descendants(control).OfType<Border>().Single(x => x.Name == "MessageBubble" && Descendants(x).Contains(user));
+                Assert(IsClear(bubble.Background) && IsClear(user.Background) && IsClear(user.TextView.Background) && IsClear(user.TextView.Document.Background), label + " user message has no opaque bubble or document background");
+                Assert(((SolidColorBrush)user.Foreground).Color == ((SolidColorBrush)control.FindResource("AssistantMutedForegroundBrush")).Color, label + " user message uses the theme gray foreground");
+                Assert(Descendants(control).OfType<MarkdownPreview>().Where(x => x.Name == "MessageBody").All(x => IsClear(x.Background) && IsClear(x.TextView.Document.Background)), label + " every conversation document keeps a transparent background behind its text");
+                var actual = RenderAppearance(control, System.IO.Path.Combine(directory, label + ".png"));
+                File.WriteAllLines(System.IO.Path.Combine(directory, label + "-layout.txt"), Descendants(control).OfType<MarkdownPreview>().Where(x => x.Name == "MessageBody").Select(x => x.Markdown + " y=" + x.TransformToAncestor(control).Transform(new Point()).Y + " h=" + x.ActualHeight + " textHeight=" + x.TextView.ActualHeight + " color=" + x.Foreground + " text=" + new TextRange(x.TextView.Document.ContentStart, x.TextView.Document.ContentEnd).Text));
+                logo.Visibility = Visibility.Hidden;
+                var actualNoLogo = RenderAppearance(control, null);
+                scroll.Visibility = Visibility.Hidden; logo.Visibility = Visibility.Visible;
+                var baseline = RenderAppearance(control, null);
+                logo.Visibility = Visibility.Hidden;
+                var baselineNoLogo = RenderAppearance(control, null);
+                logo.Visibility = Visibility.Visible; scroll.Visibility = Visibility.Visible;
+                Point origin = logo.TransformToAncestor(control).Transform(new Point());
+                int expected = 0, visible = 0;
+                for (int y = (int)origin.Y; y < origin.Y + logo.ActualHeight; y++)
+                    for (int x = (int)origin.X; x < origin.X + logo.ActualWidth; x++)
+                    {
+                        int offset = (y * 600 + x) * 4;
+                        if (PixelDifference(baseline, baselineNoLogo, offset) < 3) continue;
+                        expected++;
+                        if (PixelDifference(actual, actualNoLogo, offset) >= 2) visible++;
+                    }
+                double coverage = expected == 0 ? 0 : (double)visible / expected;
+                File.AppendAllText(System.IO.Path.Combine(directory, "appearance-pixels.txt"), label + " visible=" + visible + " expected=" + expected + " coverage=" + coverage + Environment.NewLine);
+                Assert(expected > 100 && coverage >= .90, label + " watermark remains visible through message row backgrounds (coverage=" + coverage + ")");
+            }
+        }
+    }
+
+    /// ---------------------------------------------------------------------
+    /// <summary>
+    /// name         : RenderAppearance
+    /// desc         : 자기 검사 객체만 오프스크린 렌더하고 선택적으로 그림을 보존한다.
+    /// author       : CodexOrig
+    /// create date  : 2026-10-19
+    /// update date  : 2026-10-19 CodexOrig : 실제 IDE/마우스 캡처와 구분하는 합성 메시지 렌더.
+    /// </summary>
+    /// ---------------------------------------------------------------------
+    private static byte[] RenderAppearance(FrameworkElement control, string path)
+    {
+        control.UpdateLayout();
+        control.Dispatcher.Invoke(new Action(() => { }), System.Windows.Threading.DispatcherPriority.ApplicationIdle);
+        control.UpdateLayout();
+        var bitmap = new RenderTargetBitmap(600, 820, 96, 96, PixelFormats.Pbgra32);
+        bitmap.Render(control);
+        var pixels = new byte[600 * 820 * 4]; bitmap.CopyPixels(pixels, 600 * 4, 0);
+        if (path != null) { var encoder = new PngBitmapEncoder(); encoder.Frames.Add(BitmapFrame.Create(bitmap)); using (var stream = File.Create(path)) encoder.Save(stream); }
+        return pixels;
+    }
+
+    /// ---------------------------------------------------------------------
+    /// <summary>
+    /// name         : IsClear
+    /// desc         : 본문과 문서 바탕의 투명 브러시를 확인한다.
+    /// author       : CodexOrig
+    /// create date  : 2026-10-19
+    /// update date  : 2026-10-19 CodexOrig : 문자 획만 로고를 가리는 정상 동작은 허용한다.
+    /// </summary>
+    /// ---------------------------------------------------------------------
+    private static bool IsClear(Brush brush) { return brush == null || brush is SolidColorBrush && ((SolidColorBrush)brush).Color.A == 0; }
+
+    /// ---------------------------------------------------------------------
+    /// <summary>
+    /// name         : PixelDifference
+    /// desc         : 동일 위치 픽셀의 제공자 로고 기여도를 읽는다.
+    /// author       : CodexOrig
+    /// create date  : 2026-10-19
+    /// update date  : 2026-10-19 CodexOrig : 세 색상 채널의 최대 차이만 비교한다.
+    /// </summary>
+    /// ---------------------------------------------------------------------
+    private static int PixelDifference(byte[] left, byte[] right, int offset) { return Math.Max(Math.Abs(left[offset] - right[offset]), Math.Max(Math.Abs(left[offset + 1] - right[offset + 1]), Math.Abs(left[offset + 2] - right[offset + 2]))); }
 
     /// ---------------------------------------------------------------------
     /// <summary>

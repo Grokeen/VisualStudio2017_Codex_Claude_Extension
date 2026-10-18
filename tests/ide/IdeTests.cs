@@ -136,6 +136,13 @@ namespace CodexCode.IdeIntegration
             Check("SYNC-01 unsaved open buffer blocks external editing scope", unsavedScopeBlocked && !otherDoc.Saved);
             otherDoc.Close(vsSaveChanges.vsSaveChangesNo); sourceDoc.Activate();
             var editingService = (IExternalEditingDocumentService)service;
+            var solutionService = (IVsSolution)Package.GetGlobalService(typeof(SVsSolution));
+            IVsHierarchy diagnosticHierarchy; solutionService.GetProjectOfUniqueName(dte.Solution.Projects.Item(1).UniqueName, out diagnosticHierarchy);
+            var diagnosticPersist = diagnosticHierarchy as IVsPersistHierarchyItem2;
+            int diagnosticDirty = -1, diagnosticReloadable = -1;
+            int diagnosticDirtyHr = diagnosticPersist == null ? -1 : diagnosticPersist.IsItemDirty(Microsoft.VisualStudio.VSConstants.VSITEMID_ROOT, IntPtr.Zero, out diagnosticDirty);
+            int diagnosticReloadHr = diagnosticPersist == null ? -1 : diagnosticPersist.IsItemReloadable(Microsoft.VisualStudio.VSConstants.VSITEMID_ROOT, out diagnosticReloadable);
+            File.WriteAllText(Path.Combine(config.OutputDirectory, "project-interface-diagnostic.json"), new JavaScriptSerializer().Serialize(new { HasPersist2 = diagnosticPersist != null, DirtyHr = diagnosticDirtyHr, Dirty = diagnosticDirty, ReloadHr = diagnosticReloadHr, Reloadable = diagnosticReloadable, Saved = dte.Solution.Projects.Item(1).Saved, HasPersistFile = diagnosticHierarchy is IPersistFileFormat, HasPersistDoc = diagnosticHierarchy is IVsPersistDocData }));
             string changedDisk = originalDisk + "\r\n// isolated native reload check\r\n";
             using (var editing = editingService.BeginExternalEditing(null)) {
                 Check("SYNC-02 saved editor temporarily protects user edits", target.Capture().IsReadOnly);
@@ -332,6 +339,7 @@ namespace CodexCode.IdeIntegration
             }
             await CheckImageUiAsync(view);
             await CheckLatestUiAsync(view, dte, frame, sourcePath, otherPath, config.OutputDirectory);
+            await CheckProjectExternalEditingAsync(service, dte, config.OutputDirectory);
             dte.Documents.SaveAll();
             ProductUi.SelectProvider(view, "Codex");
             var flags = BindingFlags.Instance | BindingFlags.NonPublic;

@@ -1,4 +1,4 @@
-﻿# 협업 작업 현황
+# 협업 작업 현황
 
 작업자는 소스 변경 전에 이 파일을 읽고 담당 범위와 상태를 등록한다. 다른 작업자가 `진행 중`인 범위는 수정하지 않으며, 다른 작업자가 작업 중이면 GitHub push 및 릴리스 배포를 수행하지 않는다. 완료·중단 시 검증 결과와 남은 작업을 기록한다. 기존 작업자의 기록을 임의로 삭제하거나 완료로 바꾸지 않는다.
 
@@ -1245,3 +1245,40 @@ v0.8.0을 eee7cb3f00e6fab40411f366f628468e4087fc15로 origin/main에 배포했�
 - TASK025→전체 (KST 2026-10-19 03:24:57 C8전원검증/GUI해제·배포마감): 최종C8 실제3IDE 각각133/133·exit0 완료. 전체16/16·기능231·3SKU31/23/117·감사21+1+6·물리28/GIF24·실행기15와120입력0차이확인. **025모든자기검사/IDE창종료·GUI예약해제**. 02403:22:59,Orig4 02:54:26,Orig3C8문구03:14:25,Orig5연구03:15:05,Orig2C8감사03:19:27 종료확인/추가편집0. 2022전용IDE늦은종료는결과보존/PID+RootSuffix확인정리JSON별도기록. 현재025만보고/스테이징·GitHub게시·원격해시마감,다른담당자는새제품/검사/문서편집0유지부탁. 신규요청이있으면현재동결/배포전협업에명시필요. 보호47·과거감사/원문불변,개인설치/tmp/artifacts공개0.
 
 - TASK-025 / CodexOrig / GitHub 배포 및 원격 검증 완료 / 2026-10-19 03:28:02 +09:00ST: 제품 커밋 df25b937d94a5a5bed3b75ee8c3fd1f71c369ab8, v0.10.0의 세 VSIX·실행기·기존MD/BAT/PDF/고객ZIP·새C7안내PDF/ZIP **10개를 immutable commit URL에서 다시 받아 바이트·SHA256 전부 일치** 확인. 배포 JSON CodexOrig_TASK-025_Deployment.json, 전체 결과 _Validation.json. 총 경과 03:02:14.6249963. 이전47자산·과거감사·사용자원문 보존, 개인 설치/tmp/artifacts는 미공개. 원인미확정 C7 물리1회 실패와 C8 관찰28PASS 및 실제계정/운영범위 한계도 유지. 이 배포 확인 기록만 추가 게시 후 TASK025 종료.
+
+## TASK-032 / CodexOrig / 로고 가림·사용자 메시지 배경 수정 / 2026-10-19 03:42:50 KST
+사용자 첨부 이미지의 노란 로고 가림과 초록 사용자 메시지 배경을 확인한다. 제품 AssistantControl.xaml·MarkdownPreview 및 필요한 공용 스타일, 관련 UI 회귀·버전/패키지·문서 마감만 032 소유. 다른 담당자 기존 종료 상태 유지·공유 빌드/GUI 032 예약. 기존 배포와 감사·사용자 파일 보존. 사용자 메시지는 투명 배경과 테마별 회색 글자로 반영하고 실제 로고 겹침 렌더로 검증한다.
+
+
+## TASK-033 / CodexOrig3 / Visual Studio AI Assistant 확장 제거 안내 / 2026-10-19 03:48:58 KST
+README와 docs/USER_GUIDE.md에 VS2017(도구 → 확장 및 업데이트 → 설치됨) 및 VS2019/2022(확장 → 확장 관리 → 설치됨)의 제거·비활성화 경로, 모든 IDE 창을 닫아 예약된 VSIX 제거를 적용하는 절차와 해당 IDE마다 별도 제거 필요를 기록했다. 재설치 안내에 연결하고 기본 설정·대화 경로 %LOCALAPPDATA%\VS2017AIAssistant 보존을 명시했다. Microsoft 공식 [일반 확장 관리 문서](https://learn.microsoft.com/en-us/visualstudio/ide/finding-and-using-visual-studio-extensions?view=visualstudio)와 [VS2017 release notes](https://learn.microsoft.com/en-us/visualstudio/releases/2017/vs2017-relnotes-v15.0#modify-extensions-in-bulk)를 대조했다. 사용자 확장/Visual Studio/CLI/계정/대화를 실제 삭제하지 않았고, 제품 소스·빌드·GUI와 Git 기록·브랜치·커밋 변경은 하지 않았다. 세 SKU manifest 표시 이름(VS2017 AI Assistant / Visual Studio AI Assistant 2019 / Visual Studio AI Assistant 2022)도 대조했다. PDF/ZIP은 C7 원본 그대로이며 해시 보존 확인. AI 협업 요청은 기존 README/USER_GUIDE 설명이 있고 제품 소유자가 검토 중이므로 화면·문구 범위를 확장하지 않았다. 보고: MarkdownReport/CodexOrig3_TASK-033.md. README SHA256 F6C4FEF85E9C2C03BC0125DADBE78ABED013A786359C087A91B09EF64B18AB90; USER_GUIDE SHA256 AF37C3A611E86D26FC8061484AEA478AFC2221998906101E64A0FADC19EBC84C; report SHA256 A1246D00161BFB223360BB2086CD6D5BE91A0910AEBE773F4BB27453D86036D0; C7 PDF EF6C8A3B5BE274F6FDAB77FBA6E07221F9E33B13E85B574380625EB0E3AF5453; C7 ZIP 019E8BF35FB07A5E36D48EFC2E162EC9C35A0C7DDB1CC5747BA6B6B7DC542F64.
+
+
+
+
+## TASK-033 follow-up / CodexOrig3 / cross-provider 협업 안내 / 2026-10-19 03:52:30 KST
+README와 USER_GUIDE의 협업 안내에 candidate10(v0.11.0)의 같은 팀 Claude/Codex 열린 대화 교차 선택(주 담당 외 최대3, Claude→Codex / Codex→Claude 양방향), 각 참여자 저장 CLI·모델·생각 강도·속도 사용, 명시 전송+열린 소스, 순차 1회 검토와 주 담당 종합, 요청·소스·첨부의 선택 서비스 공유, 사용량·시간 증가, 재귀/무한 토론 없음 안내를 추가했다. 기존 v0.10.0 버전/다운로드는 그대로이며 candidate 통합 검증·배포 미완료 및 실제 Claude 계정 성공 미확인 상태를 명시했다. C7 PDF/ZIP 원본 불변 해시 확인. 코드/빌드/GUI/IDE/실계정/배포 및 Git 기록·브랜치·커밋 변경은 수행하지 않았다. 세부: MarkdownReport/CodexOrig3_TASK-033_CrossProvider_Followup.md. README SHA256 EB8397B4B7DADFD24EE3819B6F30D5A185522EADC660439A583B809B2B34C6E5; USER_GUIDE SHA256 703B4DECCDA74D031DB567AB24FEF1AB33D811FCF43776B56A8F8C085C8E784B; follow-up report SHA256 434252AB9D42EA724B61242314A19036614A762A6D925EA9B40A2FE3DF4D3D0F; C7 PDF EF6C8A3B5BE274F6FDAB77FBA6E07221F9E33B13E85B574380625EB0E3AF5453; C7 ZIP 019E8BF35FB07A5E36D48EFC2E162EC9C35A0C7DDB1CC5747BA6B6B7DC542F64.
+
+
+
+## TASK-034 / CodexOrig2 C10 독립 감사 시작 / 2026-10-19 03:58:56 KST
+- 사용자 03:42 추가 요청의 확장 제거 안내·교차AI와 C10 투명 배경을 고정사본으로 감사합니다. #3 프로젝트 외부수정 모달은025 구현중/C11 이후 대상과 구분합니다. 개인 AO34_20261019에서만 fixture 실행/제품·공유binobj·build·GUI·실계정0. 기존 감사/Role 원문을 보존하고 TASK034 새 보고서·JSON으로 인계합니다.
+
+- TASK032 (2026-10-19 04:01 KST): Role追加 #3/image39는 csproj 계층 알림임을 확인/VisualStudioExternalEditingScope 프로젝트 보호 032 소유. C12 120입력·6빌드0/0 동결 후 실제3IDE 순차 진단 예약, GUI032 독점. Orig3 TASK033 문서 완료/Orig2 TASK034 C10 독립감사중. 최종후보/감사/전체검사 종료 전 배포0.
+
+## TASK-033 문서 소유권 반납 / CodexOrig3 / 2026-10-19 04:01:32 KST
+README.md와 docs/USER_GUIDE.md의 본문 편집을 종료하고 통합 마감 담당자에게 소유권을 반납했다. 이후 버전·다운로드·최종 검증 상태 문구는 root가 마감한다. 새 문서/이미지/PDF/ZIP 및 제품 소스·빌드·GUI 작업은 추가하지 않았다. Role.md 추가 #3의 image39 UI 변경은 제품 담당자가 구현·실IDE 진단 중이므로 문서 범위에서 편집하지 않는다. C7 PDF/ZIP과 기존 TASK033 보고 원문은 보존한다. 최종 문서 SHA-256: README EB8397B4B7DADFD24EE3819B6F30D5A185522EADC660439A583B809B2B34C6E5; USER_GUIDE 703B4DECCDA74D031DB567AB24FEF1AB33D811FCF43776B56A8F8C085C8E784B.
+
+- TASK034→TASK032 (2026-10-19 04:13:14 KST 독립 검사 중간 결과): C10 고정2017DLL의 새 headless fixture15/15 PASS. 양방향 options/각history/공통규칙·첨부, peer 실패/취소와2번째peer실패 때 종합차단, max3/팀변경/닫힘/Guid중복/소스충돌 차단 및 원문미적용, 실제템플릿 light/dark 투명·Muted 우선순위 확인. 모델지원정보 없는Fast는정상표준정규화됨을관측해시험용capability를명시게시한fixture로보정/첫로그보존(실계정성공주장0). C13 scope원문SHA FC1F5139...DB6E75를수정없이SDK 경계shim과컴파일한source fixture도11/11 PASS(실제DLL/COM/IDE 검증아님): ignore/Sync복구·계층/legacy reload 경로·dirty전/후차단·생성자부분실패·close취소·deleted/reload실패알림. 실제C13 2022 staleDTE실패와C14예정은별도구분/새후보해시연결필요. 제품/공유build/GUI/실계정0.
+
+- TASK032 / CodexOrig / 2026-10-19 04:23:30 KST: C14 120입력0차이·6빌드0/0·실제2017/2019/2022 각각145/145·전체16/16(exit0, artifacts/tl/12f0f3cf46) 완료. 전체 안의실제품5그룹247·WorkspaceExperience145(교차신규10포함)·독립23·문서UI117 통과. 각SKU테마31/번들10·실행기15 및보호47불변. C13 2022 CloseAll staleDTE실패는원문보존/C14 ResolveOpenDocument로실제해소확인. 모든자기검사종료·GUI예약해제/제품추가편집0. Orig3문서종료확인, Orig2 TASK034 최종감사마감·소유반납후에만Git배포. root만최종문서·GitHub·원격해시마감진행.
+
+## TASK-034 / CodexOrig2 독립 감사 완료·소유 반납 / 2026-10-19 04:24:08 KST
+
+- 시작 2026-10-19 03:58:51 KST, 경과 00:25:17. 보고서 MarkdownReport/CodexOrig2_TASK-034_Audit.md, 검증 _Evidence.json, 근거 artifacts/audit-codexorig2-task034/ 및 개인 AO34_20261019.
+- C10와 최종C14 각각3SKU 실제DLL에 동일한 새 headless fixture15/15를 직접 통과했습니다. 양방향 제공자별 CLI/모델/강도/속도·history 격리, 전달된 검토만 종합, 실패/취소/나중peer실패 차단, max3/팀/닫힘/Guid충돌/소스충돌 및 적용 전 원문 보존, Light/Dark 투명·Muted 값 우선순위를 확인했습니다. 픽셀1만으로 로고 전체 해소를 판정하지 않았습니다.
+- C13→C14 동일 scope SHA FC1F5139...DB6E75 원문을 SDK 경계shim과 컴파일한 **source11/11**도 통과했습니다. dirty 전/후, 생성자부분실패, ignore/Sync/읽기전용 복원, cancel/삭제/reload실패 안내를 확인했으며 실제DLL/COM/IDE검사와 합산하지 않습니다. C14 닫힌DTE helper는 별도 소스 검토, 실제3IDE 각145는032 실행 원문/제품SHA 대조로 구분했습니다.
+- 확장 제거 안내는 README/GUIDE와 Microsoft 공식2문서/표시이름을 대조했고 실제제거0입니다. C10/C13/C14 각120입력0차이·C14 패키지선택23파일씩 출력일치·기존감사 및 보호원본 보존. 이번 범위 **추가 확정 제품 지적 없음**, C13 최초실패·감사 하네스 준비 실패를 보존했습니다.
+- **감사 보고·fixture 소유 반납/산출·검증 작업 종료**. 제품·공유binobj/build·GUI·실계정·제거·Role·과거감사·배포 변경0. 최종전체16·문서/버전·릴리스/원격해시는032 통합 소유로 인계하며 이후 새요청 전 추가 편집/실행하지 않습니다.
+
+- TASK034 최종 인계 보강 / 2026-10-19 04:25:05 KST: root의 C14 전체16/16 원문(artifacts/tl/12f0f3cf46/summary.txt)과 TASK032 Validation을 읽어 보고/JSON에 타 담당자 실행으로 추가 연결했습니다. 감사자 직접15/소스11과 합산하지 않습니다. **추가 확정 제품 지적 없음·TASK034 보고/근거 마감 완료·소유 반납/전체 감사 작업 종료**. 제품·Role·과거감사·공유build·GUI·실계정·Git배포0, root가 v0.11 게시와 원격해시 검증을 이어갈 수 있습니다.

@@ -198,6 +198,7 @@ namespace VS2017.AIAssistant.Views
         /// update date  : 2026-10-18 CodexOrig : 최대 3명 순차 협업과 Markdown 보고 열기 제공.
         /// update date  : 2026-10-18 CodexCode : TASK-017 이미지 분석 기반 드롭다운·안내·대화 지정 흐름 개선.
         ///                2026-10-19 CodexOrig4 : 협업 안내 보조 텍스트를 동적 공통 팔레트로 통일.
+        ///                2026-10-19 CodexOrig : 서로 다른 제공자의 같은 팀 대화도 명시적으로 선택할 수 있게 확장.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void AgentClicked(object sender, RoutedEventArgs e)
@@ -212,12 +213,12 @@ namespace VS2017.AIAssistant.Views
                 var team = new TextBox { Text = agent.Team, MaxLength = 80 };
                 var panel = new StackPanel(); panel.Children.Add(CreateThemedDescription(scmDescription, new Thickness(0, 0, 0, 12))); panel.Children.Add(OptionSection("AI 이름 · 모든 대화에서 고유", name)); panel.Children.Add(OptionSection("담당 역할", role)); panel.Children.Add(OptionSection("협업팀 · 팀 변경은 먼저 저장하세요", team));
                 var participants = new StackPanel(); var selections = new Dictionary<CheckBox, ConversationRecord>();
-                foreach (var peer in conversationRecords[selectedProvider].Where(r => r.Id != record.Id && r.IsOpen)) {
+                foreach (var peer in conversationRecords.Values.SelectMany(records => records).Where(r => !(r.Id == record.Id && r.Provider == record.Provider) && r.IsOpen)) {
                     var identity = collaborationStore.EnsureAgent(peer); if (identity.IsLegacyArchive || identity.Team != agent.Team) continue;
-                    var check = new CheckBox { Content = identity.Name + " · " + peer.Title, IsChecked = record.CollaboratorIds.Contains(peer.Id), Margin = new Thickness(0, 4, 0, 6), ToolTip = identity.Role };
+                    var check = new CheckBox { Content = identity.Name + " · " + peer.Provider + " · " + peer.Title, IsChecked = record.CollaboratorIds.Contains(peer.Id), Margin = new Thickness(0, 4, 0, 6), ToolTip = identity.Role };
                     selections[check] = peer; participants.Children.Add(check);
                 }
-                participants.Children.Add(CreateThemedDescription("최대 3명 · 같은 AI 제공자의 열린 대화. 보내기를 누르면 참여자별 실제 AI 호출 후 현재 AI가 결과를 종합합니다. 호출 횟수와 사용량이 늘어납니다. 선택을 모두 해제하면 단독 요청입니다.", new Thickness(0, 10, 0, 0)));
+                participants.Children.Add(CreateThemedDescription("최대 3명 · 같은 팀의 열린 Claude·Codex 대화를 함께 선택할 수 있습니다. 보내기를 누르면 각 AI의 CLI·모델 설정으로 차례로 검토한 뒤 현재 AI가 결과를 종합합니다. 선택한 요청·소스·첨부가 해당 서비스에 전달되며 호출 횟수와 사용량이 늘어납니다. 선택을 모두 해제하면 단독 요청입니다.", new Thickness(0, 10, 0, 0)));
                 panel.Children.Add(OptionSection("함께 검토할 AI", participants));
                 var scroll = new ScrollViewer { Content = panel, VerticalScrollBarVisibility = ScrollBarVisibility.Auto }; dialog.Body.Content = scroll;
                 dialog.SetSections(scroll, new DialogSection("♙", "이름", name), new DialogSection("✎", "역할", role), new DialogSection("▣", "팀", team), new DialogSection("♧", "협업", participants));
@@ -258,6 +259,7 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexOrig
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : 중간 수정안 미적용·상태 기록·취소·오류 정리 추가.
+        ///                2026-10-19 CodexOrig : 다른 제공자 동료는 자신의 실행 경로·모델·강도·속도를 사용하며 모호한 주소 거부.
         /// </summary>
         /// ---------------------------------------------------------------------
         private async Task<ChatRequestContext> RunCollaboratorsAsync(ConversationRecord record, DocumentSnapshot source, string prompt, ChatRequestContext context, CancellationToken token)
@@ -268,7 +270,9 @@ namespace VS2017.AIAssistant.Views
             if (record.CollaboratorIds.Length > 0 && !(provider is IAiContextEditProvider)) throw new InvalidOperationException("이 Provider는 협업 컨텍스트를 지원하지 않습니다.");
             foreach (string id in record.CollaboratorIds) {
                 token.ThrowIfCancellationRequested();
-                var peer = conversationRecords[record.Provider].FirstOrDefault(r => r.Id == id && r.IsOpen);
+                var matches = conversationRecords.Values.SelectMany(records => records).Where(r => r.Id == id && r.IsOpen).ToArray();
+                if (matches.Length > 1) throw new InvalidOperationException("협업 대화 주소가 중복됩니다. AI 설정에서 참여자를 다시 선택하세요.");
+                var peer = matches.SingleOrDefault();
                 if (peer == null) throw new InvalidOperationException("닫힌 협업 대화가 있습니다. AI 설정에서 참여자를 다시 선택하세요.");
                 var agent = collaborationStore.EnsureAgent(peer);
                 if (agent.Team != own.Team) throw new InvalidOperationException("협업 참여자의 팀이 변경되었습니다. 참여자를 다시 선택하세요.");
@@ -281,8 +285,12 @@ namespace VS2017.AIAssistant.Views
                     peer.State = ConversationRunState.Running; peer.HasUnread = true;
                     chat.Add("user", own.Name + "의 협업 검토 요청:\n" + handoffText); SavePeerConversation(peer, chat);
                     StatusLabel.Text = agent.Name + " 검토 중…";
-                    var peerContext = new ChatRequestContext(context.Instructions, context.Model, chat.Messages.ToArray(), context.Attachments, context.ReasoningEffort, context.Speed, collaborationStore.BuildPromptContext(peer.Id, peer.Provider, handoff.Id));
-                    var result = await ((IAiContextEditProvider)provider).GenerateWithContextAsync(peer.Provider, ExecutablePath.Text, source, "공유 요청을 담당 역할에 따라 검토하여 수정안을 제안하세요.\n" + handoffText, peerContext, token);
+                    bool sameProvider = peer.Provider == record.Provider;
+                    string peerExecutable, peerModel, peerEffort, peerSpeed;
+                    executablePaths.TryGetValue(peer.Provider, out peerExecutable); models.TryGetValue(peer.Provider, out peerModel);
+                    efforts.TryGetValue(peer.Provider, out peerEffort); speeds.TryGetValue(peer.Provider, out peerSpeed);
+                    var peerContext = new ChatRequestContext(context.Instructions, sameProvider ? context.Model : peerModel, chat.Messages.ToArray(), context.Attachments, sameProvider ? context.ReasoningEffort : peerEffort, sameProvider ? context.Speed : peerSpeed, collaborationStore.BuildPromptContext(peer.Id, peer.Provider, handoff.Id));
+                    var result = await ((IAiContextEditProvider)provider).GenerateWithContextAsync(peer.Provider, sameProvider ? ExecutablePath.Text : peerExecutable, source, "공유 요청을 담당 역할에 따라 검토하여 수정안을 제안하세요.\n" + handoffText, peerContext, token);
                     token.ThrowIfCancellationRequested(); if (disposed) throw new OperationCanceledException();
                     source.RequireUnchanged(pendingDocument.Capture());
                     string reply = result.Summary + "\n" + result.ChangePreview; if (reply.Length > 10000) reply = reply.Substring(0, 10000) + "\n[검토 결과 일부 생략]";

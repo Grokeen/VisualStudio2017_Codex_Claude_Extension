@@ -19,6 +19,7 @@ namespace VS2017.AIAssistant.Services
     /// author       : CodexOrig
     /// create date  : 2026-10-18
     /// update date  : 2026-10-18 CodexOrig : 문서별 알림 중지·읽기 전용 보호·동기화·복원.
+    ///                2026-10-19 CodexOrig : TASK032 열린 프로젝트 파일도 제한된 실행 범위에서 동기화.
     /// </summary>
     /// ---------------------------------------------------------------------
     internal sealed class VisualStudioExternalEditingScope : IExternalEditingScope
@@ -27,8 +28,11 @@ namespace VS2017.AIAssistant.Services
         private readonly IVsFileChangeEx fileChanges;
         private readonly DocumentEvents events;
         private readonly Action stopExecution;
+        private readonly DTE automation;
+        private IVsSolution4 projectSolution;
         private readonly Dictionary<string, ProtectedDocument> documents = new Dictionary<string, ProtectedDocument>(StringComparer.OrdinalIgnoreCase);
         private readonly List<string> notices = new List<string>();
+        private readonly List<ProtectedProject> projects = new List<ProtectedProject>();
         private long protectedBytes;
         private bool disposed;
         public string Notice { get { return String.Join("\n", notices); } }
@@ -55,6 +59,24 @@ namespace VS2017.AIAssistant.Services
 
         /// ---------------------------------------------------------------------
         /// <summary>
+        /// name         : ProtectedProject
+        /// desc         : 프로젝트 루트의 저장 상태와 자신이 중지한 파일 알림만 보관한다.
+        /// author       : CodexOrig
+        /// create date  : 2026-10-19
+        /// update date  : 2026-10-19 CodexOrig : 편집기 문서와 프로젝트 계층의 별도 알림 수명 관리.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        private sealed class ProtectedProject
+        {
+            internal string Path, Fingerprint;
+            internal IVsPersistHierarchyItem2 Persist;
+            internal IPersistFileFormat FilePersist;
+            internal Guid Id;
+            internal bool Ignored, HierarchyIgnored;
+        }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
         /// name         : VisualStudioExternalEditingScope
         /// desc         : 쓰기 전에 모든 열린 문서의 저장 상태를 확인하고 자기 세션의 보호만 설정한다.
         /// author       : CodexOrig
@@ -73,13 +95,58 @@ namespace VS2017.AIAssistant.Services
             if (changeService == null) throw new InvalidOperationException("편집기 파일 변경 서비스를 사용할 수 없습니다.");
             fileChanges = changeService;
             this.stopExecution = stopExecution;
+            automation = dte;
             events = dte.Events.DocumentEvents;
             try {
                 foreach (Document document in dte.Documents) if (!document.Saved) throw new InvalidOperationException("직접 수정 전에 열린 미저장 문서를 모두 저장하세요.");
                 foreach (Document document in dte.Documents) Protect(document);
+                ProtectProjects(services);
                 events.DocumentOpened += DocumentOpened;
                 events.DocumentClosing += DocumentClosing;
             } catch { Dispose(); throw; }
+        }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : ProtectProjects
+        /// desc         : 저장된 로드 프로젝트의 파일 알림을 잠시 중지하고 안전한 재로딩 가능 여부를 먼저 확인한다.
+        /// author       : CodexOrig
+        /// create date  : 2026-10-19
+        /// update date  : 2026-10-19 CodexOrig : image39의 csproj 변경 모달을 문서 보호와 별도로 처리.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        private void ProtectProjects(IServiceProvider services)
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+            var solution = services.GetService(typeof(SVsSolution)) as IVsSolution;
+            if (solution == null) throw new InvalidOperationException("프로젝트 동기화 서비스를 사용할 수 없습니다.");
+            projectSolution = solution as IVsSolution4;
+            Guid kind = Guid.Empty; IEnumHierarchies enumerator;
+            ErrorHandler.ThrowOnFailure(solution.GetProjectEnum((uint)__VSENUMPROJFLAGS.EPF_LOADEDINSOLUTION, ref kind, out enumerator));
+            var next = new IVsHierarchy[1]; uint fetched; int count = 0;
+            while (enumerator.Next(1, next, out fetched) == VSConstants.S_OK && fetched == 1)
+            {
+                if (++count > 256) throw new InvalidOperationException("로드된 프로젝트가 많아 직접 수정을 시작하지 않았습니다.");
+                var project = next[0] as IVsProject; string path;
+                if (project == null || ErrorHandler.Failed(project.GetMkDocument(VSConstants.VSITEMID_ROOT, out path)) || String.IsNullOrWhiteSpace(path) || !File.Exists(path)) continue;
+                path = System.IO.Path.GetFullPath(path);
+                if (projects.Exists(existing => String.Equals(existing.Path, path, StringComparison.OrdinalIgnoreCase))) continue;
+                var persist = next[0] as IVsPersistHierarchyItem2;
+                var filePersist = next[0] as IPersistFileFormat;
+                int dirty, reloadable = 0;
+                if (filePersist == null) throw new InvalidOperationException("프로젝트 저장 상태를 확인할 수 없어 직접 수정을 시작하지 않았습니다: " + System.IO.Path.GetFileName(path));
+                ErrorHandler.ThrowOnFailure(filePersist.IsDirty(out dirty));
+                if (dirty != 0)
+                    throw new InvalidOperationException("직접 수정 전에 프로젝트의 미저장 변경을 저장하세요: " + System.IO.Path.GetFileName(path));
+                if (persist != null && ErrorHandler.Failed(persist.IsItemReloadable(VSConstants.VSITEMID_ROOT, out reloadable))) reloadable = 0;
+                if (reloadable == 0 && projectSolution == null)
+                    throw new InvalidOperationException("이 프로젝트는 자동 동기화를 지원하지 않아 직접 수정을 시작하지 않았습니다: " + System.IO.Path.GetFileName(path));
+                Guid id; ErrorHandler.ThrowOnFailure(solution.GetGuidOfProject(next[0], out id));
+                var entry = new ProtectedProject { Path = path, Fingerprint = Fingerprint(path), Persist = reloadable == 0 ? null : persist, FilePersist = filePersist, Id = id };
+                projects.Add(entry);
+                ErrorHandler.ThrowOnFailure(fileChanges.IgnoreFile(0, path, 1)); entry.Ignored = true;
+                if (entry.Persist != null) { ErrorHandler.ThrowOnFailure(entry.Persist.IgnoreItemFileChanges(VSConstants.VSITEMID_ROOT, 1)); entry.HierarchyIgnored = true; }
+            }
         }
 
         /// ---------------------------------------------------------------------
@@ -200,6 +267,77 @@ namespace VS2017.AIAssistant.Services
             try { if (events != null) events.DocumentClosing -= DocumentClosing; } catch (Exception) { notices.Add("문서 닫힘 이벤트 해제를 확인하세요."); }
             foreach (var entry in documents.Values) Release(entry);
             documents.Clear();
+            foreach (var entry in projects) ReleaseProject(entry);
+            projects.Clear();
+        }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : ReleaseProject
+        /// desc         : 변경된 깨끗한 프로젝트만 다시 읽고 실패·삭제·미저장 상태에도 알림을 복원한다.
+        /// author       : CodexOrig
+        /// create date  : 2026-10-19
+        /// update date  : 2026-10-19 CodexOrig : 전역 자동 다시 읽기 설정과 사용자 미저장 프로젝트는 변경하지 않음.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        private void ReleaseProject(ProtectedProject entry)
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+            try
+            {
+                if (!File.Exists(entry.Path)) notices.Add(System.IO.Path.GetFileName(entry.Path) + ": 프로젝트 파일이 삭제되어 자동으로 다시 읽지 않았습니다.");
+                else if (entry.Ignored && Fingerprint(entry.Path) != entry.Fingerprint)
+                {
+                    int dirty; ErrorHandler.ThrowOnFailure(entry.FilePersist.IsDirty(out dirty));
+                    if (dirty == 0) ReloadProject(entry);
+                    else notices.Add(System.IO.Path.GetFileName(entry.Path) + ": 미저장 프로젝트 변경을 보존했습니다. 디스크와 비교한 뒤 다시 읽으세요.");
+                }
+                if (entry.Ignored) ErrorHandler.ThrowOnFailure(fileChanges.SyncFile(entry.Path));
+            }
+            catch (Exception) { notices.Add(System.IO.Path.GetFileName(entry.Path) + ": 프로젝트 자동 동기화를 완료하지 못했습니다. 디스크와 프로젝트 내용을 확인하세요."); }
+            finally
+            {
+                try { if (entry.HierarchyIgnored) ErrorHandler.ThrowOnFailure(entry.Persist.IgnoreItemFileChanges(VSConstants.VSITEMID_ROOT, 0)); }
+                catch (Exception) { notices.Add("프로젝트 계층 변경 알림 복원을 확인하세요."); }
+                try { if (entry.Ignored) ErrorHandler.ThrowOnFailure(fileChanges.IgnoreFile(0, entry.Path, 0)); }
+                catch (Exception) { notices.Add("프로젝트 파일 변경 알림 복원을 확인하세요."); }
+            }
+        }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : ReloadProject
+        /// desc         : 계층 재로딩이 없는 기본 C# 프로젝트는 솔루션 API로 다시 읽고 닫힌 텍스트 탭을 복원한다.
+        /// author       : CodexOrig
+        /// create date  : 2026-10-19
+        /// update date  : 2026-10-19 CodexOrig : 실제 VS2017의 PersistHierarchyItem2 미지원 관측에 따른 호환 경로.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        private void ReloadProject(ProtectedProject entry)
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+            if (entry.Persist != null) { ErrorHandler.ThrowOnFailure(entry.Persist.ReloadItem(VSConstants.VSITEMID_ROOT, 0)); return; }
+            var paths = new List<string>();
+            foreach (Document document in automation.Documents)
+            {
+                if (!document.Saved) { notices.Add("미저장 문서를 보존하기 위해 프로젝트 다시 읽기를 보류했습니다."); return; }
+                if (String.Equals(document.Kind, EnvDTE.Constants.vsDocumentKindText, StringComparison.OrdinalIgnoreCase) && File.Exists(document.FullName)) paths.Add(document.FullName);
+            }
+            var activeWindow = automation.ActiveWindow;
+            // Loaded legacy C# projects expose IPersistFileFormat but not IVsPersistHierarchyItem2.
+            // The solution API requires unload before reload; always attempt reload after a successful unload.
+            ErrorHandler.ThrowOnFailure(projectSolution.UnloadProject(ref entry.Id, (uint)_VSProjectUnloadStatus.UNLOADSTATUS_UnloadedByUser));
+            try { ErrorHandler.ThrowOnFailure(projectSolution.ReloadProject(ref entry.Id)); }
+            finally
+            {
+                foreach (string path in paths)
+                {
+                    bool open = false;
+                    foreach (Document document in automation.Documents) if (String.Equals(document.FullName, path, StringComparison.OrdinalIgnoreCase)) { open = true; break; }
+                    if (!open && File.Exists(path)) try { automation.ItemOperations.OpenFile(path, EnvDTE.Constants.vsViewKindTextView); } catch (Exception) { notices.Add(System.IO.Path.GetFileName(path) + ": 편집기 탭을 다시 열어 주세요."); }
+                }
+                try { if (activeWindow != null) activeWindow.Activate(); } catch (Exception) { }
+            }
         }
 
         /// ---------------------------------------------------------------------

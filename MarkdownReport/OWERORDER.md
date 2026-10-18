@@ -355,3 +355,17 @@ CodexOrig에게 DR01 현재배포 안내일치와 DR02~04 다음주기 기능검
 v0.10.0 C8의 추가요청과 감사 지적을 보완했으며6빌드0/0·전체16·실제3IDE각133을 통과했습니다. Orig2 후속감사·Orig3 화면설명/PDF·테마/UI·독립검증·연구 담당의 종료를 확인했습니다. 재현은 최상위 실행기 --all --vsix releases/v0.10.0/VS2017.AIAssistant-0.10.0.vsix, 실행기 자체는 tests/launcher/Test-TestLauncher.ps1, 실제버전별 IDE는 tests/ide/Test-IdeIntegration.ps1에 설치폴더/VSIX를 지정합니다. 상세결과·패키지SHA·파일목록은 CodexOrig_TASK-025.md/_Validation.json. C7물리1회실패의미확정원인과실제Claude/운영연동미검증을명시했고원본을보존했습니다. 고객용0.10설치파일3종과README·GIF/안내·검사실행기를GitHub에게시후원격바이트를대조합니다.
 
 - TASK-025 / CodexOrig / GitHub 배포 및 원격 검증 완료 / 2026-10-19 03:28:02 +09:00ST: 제품 커밋 df25b937d94a5a5bed3b75ee8c3fd1f71c369ab8, v0.10.0의 세 VSIX·실행기·기존MD/BAT/PDF/고객ZIP·새C7안내PDF/ZIP **10개를 immutable commit URL에서 다시 받아 바이트·SHA256 전부 일치** 확인. 배포 JSON CodexOrig_TASK-025_Deployment.json, 전체 결과 _Validation.json. 총 경과 03:02:14.6249963. 이전47자산·과거감사·사용자원문 보존, 개인 설치/tmp/artifacts는 미공개. 원인미확정 C7 물리1회 실패와 C8 관찰28PASS 및 실제계정/운영범위 한계도 유지. 이 배포 확인 기록만 추가 게시 후 TASK025 종료.
+
+## TASK-034 / CodexOrig2 독립 감사 보고 / 2026-10-19 04:24:08 KST
+
+C10와 최종C14의 UI/교차AI를 세SKU 실제DLL에서 각각15/15 직접 확인했습니다. 옵션·history 격리, 실패/취소 때 종합 차단, 원문 미적용과 실제 템플릿 투명/회색 우선순위가 확인됐습니다. 프로젝트 보호 원문은 SDK shim 소스11/11로 정리 경로를 확인했고 실제3IDE 각145는032 실행 자료로 구분했습니다. 제거 안내도 공식 문서와 대조했으며 이번 범위 추가 확정 제품 지적은 없습니다.
+
+보고 CodexOrig2_TASK-034_Audit.md·검증 _Evidence.json. 재현은 개인 tests/task034/Invoke-Audit34.ps1에 고정DLL과 새 출력폴더를 지정하고, scope는 exact frozen source와 ScopeFixture.final.cs를 별도 csc로 컴파일합니다. source11을 실제COM/IDE로 해석하거나 offscreen 픽셀만으로 로고 완전 노출을 판정하지 않습니다. 실제 계정/사용자 확장 제거/모든 프로젝트 형식은 미검증입니다. 경과 00:25:17, 감사 산출·fixture 소유 반납/작업 종료·제품/공유build/GUI/Role/배포0입니다.
+
+## TASK-032 / CodexOrig / 추가 요청 반영·검증 보고 / 2026-10-19 04:25:44 KST
+
+로고를 가리는 메시지 바탕과 사용자 말풍선 배경을 투명하게 수정하고 사용자 글자는 테마별 회색으로 통일했습니다. 확장 제거 방법은 Orig3가 문서화했고, 같은 팀 Claude/Codex의 교차 검토·종합과 제공자별 옵션 격리를 구현했습니다. 프로젝트 파일 외부 수정 경고는 요청 중 알림을 모은 뒤 깨끗한 모델을 다시 읽게 보완했으며, VS2022 재로딩 이후 닫힌 문서 참조 오류도 수정했습니다.
+
+최종 C14 6빌드0/0·실제2017/2019/2022 각각145·전체16·실행기15·테마각31·번들각10이 통과했습니다. 전체16의247/Workspace145/독립23/문서117은 중복 포함 관계로 보고했습니다. Orig2 독립감사 각C14 15/소스shim11은 추가 확정 지적 없음으로 마감했고, 모든 담당자 소유반납을 확인했습니다. 원본47개와 이전 감사·최초실패를 보존했습니다.
+
+재현은 VisualStudio_AIChat_ExtentionTest.exe --all --vsix releases/v0.11.0/VS2017.AIAssistant-0.11.0.vsix, 실제 IDE는 tests/ide/Test-IdeIntegration.ps1에 해당 설치폴더/동일SKU VSIX를 지정합니다. 최신 보고/검증은 CodexOrig_TASK-032.md/_Validation.json, 후보 입력은 source120개로 고정했습니다. 실제 Claude 계정·운영 DB/TFVC/운영 배포는 미검증입니다. 작업 경과 00:42:54.1583180. 사용자 설치를 자동 교체하지 않고 v0.11 설치파일3종을 GitHub에게시한 뒤 원격해시로 마감합니다.

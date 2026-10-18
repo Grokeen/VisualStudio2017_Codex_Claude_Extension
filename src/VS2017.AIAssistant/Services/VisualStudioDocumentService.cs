@@ -106,6 +106,32 @@ namespace VS2017.AIAssistant.Services
 
         /// ---------------------------------------------------------------------
         /// <summary>
+        /// name         : ResolveOpenDocument
+        /// desc         : 활성·최근 문서가 현재 열린 집합에 남아 있는지 확인하고 닫힌 COM 참조를 버린다.
+        /// author       : CodexOrig
+        /// create date  : 2026-10-19
+        /// update date  : 2026-10-19 CodexOrig : 프로젝트 재로딩·CloseAll 뒤 VS2022의 오래된 문서 참조 재사용 차단.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        private Document ResolveOpenDocument()
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+            if (dte == null) return null;
+            try
+            {
+                var candidate = dte.ActiveDocument ?? lastDocument;
+                if (candidate == null) return null;
+                string path = candidate.FullName;
+                foreach (Document opened in dte.Documents)
+                    if (Object.ReferenceEquals(opened, candidate) || (!String.IsNullOrWhiteSpace(path) && String.Equals(opened.FullName, path, StringComparison.OrdinalIgnoreCase))) return opened;
+            }
+            catch (Exception error) when (error is System.Runtime.InteropServices.COMException || error is ArgumentException) { }
+            lastDocument = null;
+            return null;
+        }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
         /// name         : GetActiveDocument
         /// desc         : 실제 파일이 있는 활성 텍스트 문서만 선택하고 미저장 편집 내용은 유지한다.
         /// author       : CodexCode
@@ -113,13 +139,14 @@ namespace VS2017.AIAssistant.Services
         /// update date  : 2026-10-18 CodexCode : 솔루션 부재·디자이너·새 문서 오류 안내.
         /// update date  : 2026-10-18 CodexOrig : Chat 컨텍스트·설정·창 이동 및 검증 흐름 갱신.
         /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
+        ///                2026-10-19 CodexOrig : 현재 열린 문서에서만 활성 대상을 확인한다.
         /// </summary>
         /// ---------------------------------------------------------------------
         public IEditorDocument GetActiveDocument()
         {
             ThreadHelper.ThrowIfNotOnUIThread();
             if (dte == null) throw new InvalidOperationException("Visual Studio 문서 서비스를 사용할 수 없습니다.");
-            Document active = dte.ActiveDocument ?? lastDocument;
+            Document active = ResolveOpenDocument();
             if (active == null || string.IsNullOrWhiteSpace(active.FullName) || !File.Exists(active.FullName))
                 throw new InvalidOperationException("수정할 소스 파일을 편집기에서 열어 주세요. 새 문서는 먼저 저장하세요.");
             var text = active.Object("TextDocument") as TextDocument;
@@ -135,6 +162,7 @@ namespace VS2017.AIAssistant.Services
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : TASK-020 전체 폴더 작업의 소스 선택 의무를 없애되 다른 버퍼의 미저장 편집을 보호.
+        ///                2026-10-19 CodexOrig : 재로딩 뒤 닫힌 COM 문서는 소스 없는 프로젝트 문맥으로 처리.
         /// </summary>
         /// ---------------------------------------------------------------------
         public DocumentSnapshot CaptureFullAccessContext()
@@ -144,7 +172,7 @@ namespace VS2017.AIAssistant.Services
             foreach (Document opened in dte.Documents)
                 if (opened != null && !opened.Saved)
                     throw new InvalidOperationException("전체 액세스를 실행하기 전에 열려 있는 모든 파일의 편집 내용을 저장하세요. 새 문서는 먼저 파일로 저장하세요.");
-            Document active = dte.ActiveDocument ?? lastDocument;
+            Document active = ResolveOpenDocument();
             if (active == null || string.IsNullOrWhiteSpace(active.FullName) || !File.Exists(active.FullName)) return null;
             TextDocument selected;
             try { selected = active.Object("TextDocument") as TextDocument; }
@@ -198,12 +226,13 @@ namespace VS2017.AIAssistant.Services
         /// update date  : 2026-10-18 CodexCode : 솔루션 없는 단일 파일도 지원.
         /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// update date  : 2026-10-18 CodexCode : 열린 소스가 없어도 저장된 솔루션의 폴더를 작업 대상으로 사용.
+        ///                2026-10-19 CodexOrig : 닫힌 최근 문서를 재사용하지 않고 솔루션 경로로 복귀.
         /// </summary>
         /// ---------------------------------------------------------------------
         public string GetProjectDirectory()
         {
             ThreadHelper.ThrowIfNotOnUIThread();
-            var active = dte == null ? null : dte.ActiveDocument ?? lastDocument;
+            var active = ResolveOpenDocument();
             if (active == null)
             {
                 string solutionPath = dte == null || dte.Solution == null ? null : dte.Solution.FullName;

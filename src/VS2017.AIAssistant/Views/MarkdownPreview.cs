@@ -35,12 +35,14 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexCode
         /// create date  : 2026-10-19
         /// update date  : 2026-10-19 CodexCode : 기존 호스트 메뉴·테마·탐색 처리는 호출자에게 위임.
+        ///                2026-10-19 CodexOrig : VS 읽기 전용 기본 템플릿의 불투명 바탕 대신 전용 투명 본문 스타일 사용.
         /// </summary>
         /// ---------------------------------------------------------------------
         public MarkdownPreview()
         {
-            SetResourceReference(ForegroundProperty,"AssistantForegroundBrush");SetResourceReference(BackgroundProperty,"AssistantBackgroundBrush");
+            // 기본 팔레트는 스타일에서 받는다. 생성자 local 값은 메시지 템플릿의 투명 배경·회색 글자보다 우선한다.
             TextView=new RichTextBox{IsReadOnly=true,IsDocumentEnabled=true,AcceptsTab=false,BorderThickness=new Thickness(0),Padding=new Thickness(0),Background=Brushes.Transparent,HorizontalScrollBarVisibility=ScrollBarVisibility.Disabled,VerticalScrollBarVisibility=ScrollBarVisibility.Auto};
+            TextView.SetResourceReference(StyleProperty,"MarkdownTextViewStyle");
             TextView.SetResourceReference(RichTextBox.SelectionBrushProperty,"AssistantSelectionBrush");Content=TextView;HorizontalContentAlignment=HorizontalAlignment.Stretch;VerticalContentAlignment=VerticalAlignment.Stretch;
             Loaded+=PreviewLoaded;Refresh();
         }

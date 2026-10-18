@@ -31,6 +31,7 @@
     internal sealed class CollaborationProvider : IAiContextEditProvider
     {
         public readonly List<ChatRequestContext> Calls = new List<ChatRequestContext>();
+        public readonly List<string> ProviderNames = new List<string>(), ExecutableNames = new List<string>();
         public int FailAt, HoldAt;
         public Action BeforeReturn;
         public TaskCompletionSource<EditProposal> Pending;
@@ -61,6 +62,7 @@
         public Task<EditProposal> GenerateWithContextAsync(string provider, string executable, DocumentSnapshot source, string instruction, ChatRequestContext context, CancellationToken token)
         {
             Calls.Add(context);
+            ProviderNames.Add(provider); ExecutableNames.Add(executable);
             if (Calls.Count == FailAt) throw new InvalidOperationException("fixture primary CLI failure");
             if (Calls.Count == HoldAt) { Pending = new TaskCompletionSource<EditProposal>(); token.Register(() => Pending.TrySetCanceled()); return Pending.Task; }
             if (BeforeReturn != null) BeforeReturn();
@@ -268,6 +270,7 @@
                     Check(!Descendants(dialog).OfType<Button>().Single(b => Convert.ToString(b.Content) == "▶ 확인한 작업 실행").IsEnabled, "Full workspace permissions still require an exact plan and individual execution approval");
                 });
                 CheckRuntimeUsageIsolation(control, root);
+                CheckCrossProviderCollaboration(control, provider, document, store, collaboration, root);
                 CheckAlphabetRouting(output);
             }
             finally {
@@ -275,6 +278,61 @@
                 Environment.SetEnvironmentVariable("VS2017_AI_SETTINGS_PATH", oldSettings); Environment.SetEnvironmentVariable("VS2017_AI_WORKSPACE_PATH", oldWorkspace); Environment.SetEnvironmentVariable("VS2017_AI_MODELS_CACHE_PATH", oldModels);
                 SynchronizationContext.SetSynchronizationContext(previousContext);
             }
+        }
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : CheckCrossProviderCollaboration
+        /// desc         : Claude와 Codex 양방향 검토에서 제공자별 설정·전달·실패·취소·주소 충돌을 검사한다.
+        /// author       : CodexOrig
+        /// create date  : 2026-10-19
+        /// update date  : 2026-10-19 CodexOrig : TASK032 실제 계정 호출 대신 관찰 가능한 제공자 경계를 사용.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        private static void CheckCrossProviderCollaboration(AssistantControl control, CollaborationProvider provider, SyntheticDocument document, MarkdownWorkspaceStore store, ConversationCollaborationStore collaboration, string root)
+        {
+            var flags = BindingFlags.Instance | BindingFlags.NonPublic;
+            var records = (Dictionary<string, List<ConversationRecord>>)typeof(AssistantControl).GetField("conversationRecords", flags).GetValue(control);
+            var active = (Dictionary<string, ConversationRecord>)typeof(AssistantControl).GetField("activeRecords", flags).GetValue(control);
+            var executable = (Dictionary<string, string>)typeof(AssistantControl).GetField("executablePaths", flags).GetValue(control);
+            var models = (Dictionary<string, string>)typeof(AssistantControl).GetField("models", flags).GetValue(control);
+            var efforts = (Dictionary<string, string>)typeof(AssistantControl).GetField("efforts", flags).GetValue(control);
+            var speeds = (Dictionary<string, string>)typeof(AssistantControl).GetField("speeds", flags).GetValue(control);
+            var main = active["Codex"]; var other = active["Claude"];
+            var identity = collaboration.EnsureAgent(main); var opposite = collaboration.EnsureAgent(other);
+            collaboration.UpdateAgent(other.Id, "Claude", opposite.Name, "다른 제공자 검토", identity.Team);
+            main.CollaboratorIds = new[] { other.Id }; store.Save(main);
+            executable["Claude"] = System.IO.Path.Combine(root, "synthetic-claude.exe"); models["Claude"] = "sonnet"; efforts["Claude"] = "high"; speeds["Claude"] = "standard";
+            provider.FailAt = 0; provider.HoldAt = 0; provider.BeforeReturn = null;
+            provider.Calls.Clear(); provider.ProviderNames.Clear(); provider.ExecutableNames.Clear();
+            InspectModal(() => PrivateCall(control, "AgentClicked", control, new RoutedEventArgs()), dialog => {
+                Check(Descendants(dialog).OfType<CheckBox>().Any(x => Convert.ToString(x.Content).Contains("Claude") && x.IsChecked == true), "Cross-provider reviewer is visible and selected in the real participant dialog");
+            });
+            var prompt = (TextBox)control.FindName("Instruction"); var send = (Button)control.FindName("GenerateButton");
+            byte[] original = File.ReadAllBytes(document.Path);
+            prompt.Text = "다른 AI의 검토를 요청합니다"; Click(send); PumpUntil(() => send.IsEnabled && provider.Calls.Count >= 1, 5000);
+            Check(provider.ProviderNames.SequenceEqual(new[] { "Claude", "Codex" }), "Codex coordinator actually calls Claude before synthesizing its review");
+            Check(provider.Calls.Count == 2 && provider.Calls[0].Model == "sonnet" && provider.Calls[0].ReasoningEffort == "high" && provider.Calls[0].Speed == "standard" && provider.ExecutableNames[0] == executable["Claude"], "Claude reviewer receives its own CLI model effort and speed rather than Codex options");
+            Check(collaboration.ListOutbox(main.Id, "Codex").Any(x => x.ToProvider == "Claude" && x.State == CollaborationHandoffState.Delivered) && store.LoadOpen("Claude").Single(x => x.Id == other.Id).HasUnread, "Cross-provider review and unread completion persist to the correct conversation");
+            other.CollaboratorIds = new[] { main.Id }; store.Save(other);
+            var tabs = (TabControl)control.FindName("ProviderChoice"); tabs.SelectedItem = tabs.Items.OfType<TabItem>().Single(x => Convert.ToString(x.Tag) == "Claude");
+            ((TextBox)control.FindName("ExecutablePath")).Text = executable["Claude"];
+            executable["Codex"] = System.IO.Path.Combine(root, "synthetic-codex.exe");
+            provider.Calls.Clear(); provider.ProviderNames.Clear(); provider.ExecutableNames.Clear();
+            prompt.Text = "Codex에게 역방향 검토 요청"; Click(send); PumpUntil(() => send.IsEnabled && provider.Calls.Count >= 1, 5000);
+            Check(provider.ProviderNames.SequenceEqual(new[] { "Codex", "Claude" }) && provider.ExecutableNames[0] == executable["Codex"], "Claude coordinator uses the Codex CLI for the reverse review");
+            Check(provider.Calls.Count == 2 && provider.Calls[0].Model == models["Codex"] && provider.Calls[1].AgentContext.Contains("real fixture review result"), "Reverse review uses Codex model settings and the real returned review in synthesis");
+            provider.Calls.Clear(); provider.FailAt = 1;
+            prompt.Text = "다른 제공자 실패 검사"; Click(send); PumpUntil(() => send.IsEnabled, 5000);
+            Check(other.State == ConversationRunState.Failed && provider.Calls.Count == 1, "Cross-provider failure stops synthesis and records a failed request");
+            provider.Calls.Clear(); provider.FailAt = 0; provider.HoldAt = 1;
+            prompt.Text = "다른 제공자 취소 검사"; Click(send); PumpUntil(() => provider.Pending != null && !send.IsEnabled, 5000); Click((Button)control.FindName("StopButton")); PumpUntil(() => send.IsEnabled, 5000);
+            Check(other.State == ConversationRunState.Stopped && provider.Calls.Count == 1 && provider.Pending.Task.IsCanceled, "Cross-provider cancellation stops its actual provider task without synthesis");
+            provider.Calls.Clear(); provider.HoldAt = 0;
+            var ambiguous = new ConversationRecord { Id = main.Id, Provider = "Claude", IsOpen = true };
+            records["Claude"].Add(ambiguous);
+            try { prompt.Text = "중복 주소 검사"; Click(send); PumpUntil(() => send.IsEnabled, 5000); Check(provider.Calls.Count == 0 && other.State == ConversationRunState.Failed, "Ambiguous cross-provider conversation IDs are rejected before calling any AI"); }
+            finally { records["Claude"].Remove(ambiguous); }
+            Check(original.SequenceEqual(File.ReadAllBytes(document.Path)) && document.ReplaceCount == 0 && document.SaveCount == 0, "Cross-provider success failure and cancellation never apply peer edits to source");
         }
     }
 }

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -13,6 +13,7 @@ using EnvDTE;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using VS2017.AIAssistant.Chat;
+using VS2017.AIAssistant.Editing;
 using VS2017.AIAssistant.Views;
 using Task = System.Threading.Tasks.Task;
 using TextRange = System.Windows.Documents.TextRange;
@@ -44,6 +45,7 @@ namespace CodexCode.IdeIntegration
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
             view.UpdateLayout();
+            await CheckConversationAppearanceAsync(view, output);
             var palette = new List<object>();
             foreach (string name in new[] { "ConversationList", "Instruction", "TextSizeChoice" })
             {
@@ -80,6 +82,9 @@ namespace CodexCode.IdeIntegration
                 view.UpdateLayout();
                 var preview = Visuals(view).OfType<FrameworkElement>().SingleOrDefault(element => element.GetType().Name == "MarkdownPreview" && Convert.ToString(element.GetType().GetProperty("Markdown").GetValue(element, null)) == message.Text);
                 Check("LATEST-MD answer binding creates the real Markdown preview", preview != null);
+                var textView = preview == null ? null : Visuals(preview).OfType<RichTextBox>().FirstOrDefault();
+                var textHost = textView == null || textView.Template == null ? null : textView.Template.FindName("PART_ContentHost", textView) as ScrollViewer;
+                Check("LATEST-MD actual IDE uses an explicit transparent Markdown viewport", textHost != null && textHost.Background is SolidColorBrush && ((SolidColorBrush)textHost.Background).Color.A == 0 && textView.Style == view.FindResource("MarkdownTextViewStyle"));
                 FlowDocument document = FindMarkdownDocument(preview);
                 Check("LATEST-MD headings and emphasis become WPF elements", document != null && LogicalObjects(document).OfType<Paragraph>().Any(p => p.FontSize > view.FontSize) && LogicalObjects(document).OfType<Bold>().Any());
                 var links = LogicalObjects(document).OfType<Hyperlink>().ToArray();
@@ -230,6 +235,97 @@ namespace CodexCode.IdeIntegration
             double a = luminance(first), b = luminance(second);
             return (Math.Max(a, b) + 0.05) / (Math.Min(a, b) + 0.05);
         }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : CheckConversationAppearanceAsync
+        /// desc         : 실제 IDE 테마 안에서 사용자 메시지와 본문의 투명·회색 표시 및 화면을 확인한다.
+        /// author       : CodexOrig
+        /// create date  : 2026-10-19
+        /// update date  : 2026-10-19 CodexOrig : TASK032 합성 메시지만 추가하고 종료 시 원래 테마·대화로 복구.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        private static async Task CheckConversationAppearanceAsync(AssistantControl view, string output)
+        {
+            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+            var chat = (ChatSession)typeof(AssistantControl).GetProperty("ActiveChat", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(view, null);
+            var message = new ChatMessage { Role = "user", Text = "UI032 사용자 메시지 · 회색 글자와 투명 배경" };
+            var choice = (ComboBox)view.FindName("ThemeModeChoice"); object previous = choice.SelectedValue;
+            var toast = (Border)view.FindName("ToastHost"); var previousToast = toast.Visibility;
+            var originalMessages = chat.Messages.ToArray(); chat.Messages.Clear(); chat.Messages.Add(message);
+            for (int index = 0; index < 18; index++) chat.Add("assistant", "실제 IDE 본문 " + index + " · 로고 위의 투명 배경을 확인합니다.");
+            try
+            {
+                foreach (string mode in new[] { "light", "dark" })
+                {
+                    choice.SelectedValue = mode; toast.Visibility = Visibility.Collapsed;
+                    await Task.Delay(100); await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(); view.UpdateLayout();
+                    ((ScrollViewer)view.FindName("ConversationScroll")).ScrollToHome();
+                    await Task.Delay(100); await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(); view.UpdateLayout();
+                    var preview = Visuals(view).OfType<MarkdownPreview>().Single(x => x.Markdown == message.Text);
+                    var bubble = Visuals(view).OfType<Border>().Single(x => x.Name == "MessageBubble" && Visuals(x).Contains(preview));
+                    Check("UI032 " + mode + " actual user message has no opaque surface", IsTransparent(bubble.Background) && IsTransparent(preview.Background) && IsTransparent(preview.TextView.Background) && IsTransparent(preview.TextView.Document.Background));
+                    Check("UI032 " + mode + " actual user text follows theme gray", ((SolidColorBrush)preview.Foreground).Color == ((SolidColorBrush)view.FindResource("AssistantMutedForegroundBrush")).Color);
+                    Check("UI032 " + mode + " actual conversation documents keep transparent backgrounds", Visuals(view).OfType<MarkdownPreview>().Where(x => x.Name == "MessageBody").All(x => IsTransparent(x.Background) && IsTransparent(x.TextView.Document.Background)));
+                    int width = Math.Max(1, (int)Math.Ceiling(view.ActualWidth)), height = Math.Max(1, (int)Math.Ceiling(view.ActualHeight));
+                    var bitmap = new System.Windows.Media.Imaging.RenderTargetBitmap(width, height, 96, 96, PixelFormats.Pbgra32); bitmap.Render(view);
+                    var png = new System.Windows.Media.Imaging.PngBitmapEncoder(); png.Frames.Add(System.Windows.Media.Imaging.BitmapFrame.Create(bitmap));
+                    using (var stream = File.Create(Path.Combine(output, "ui032-" + mode + ".png"))) png.Save(stream);
+                }
+            }
+            finally { chat.Messages.Clear(); foreach (var original in originalMessages) chat.Messages.Add(original); choice.SelectedValue = previous; toast.Visibility = previousToast; }
+        }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : CheckProjectExternalEditingAsync
+        /// desc         : 실제 로드 프로젝트 파일의 직접 변경·복원·미저장 보호를 격리 프로젝트에서 검사한다.
+        /// author       : CodexOrig
+        /// create date  : 2026-10-19
+        /// update date  : 2026-10-19 CodexOrig : image39의 프로젝트 계층 경고를 소스 버퍼 검사와 구분한다.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        private static async Task CheckProjectExternalEditingAsync(IActiveDocumentService service, DTE dte, string output)
+        {
+            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+            var project = dte.Solution.Projects.Item(1);
+            string path = project.FullName, original = File.ReadAllText(path); byte[] bytes = File.ReadAllBytes(path);
+            var editing = (IExternalEditingDocumentService)service;
+            var changed = original.Replace("<RootNamespace>IdeProbe</RootNamespace>", "<RootNamespace>Task032Reloaded</RootNamespace>");
+            Check("PROJECT032 fixture has a distinct project property", changed != original);
+            using (var scope = editing.BeginExternalEditing(null))
+            {
+                File.WriteAllText(path, changed, new System.Text.UTF8Encoding(true));
+                await Task.Delay(400); await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+                Check("PROJECT032 pending disk changes leave the loaded project unchanged mid-run", Convert.ToString(project.Properties.Item("RootNamespace").Value) == "IdeProbe");
+            }
+            await Task.Delay(300); await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+            project = dte.Solution.Projects.Item(1);
+            Check("PROJECT032 completion reloads the actual project property without a modal", Convert.ToString(project.Properties.Item("RootNamespace").Value) == "Task032Reloaded" && project.Saved);
+            using (var scope = editing.BeginExternalEditing(null)) File.WriteAllBytes(path, bytes);
+            await Task.Delay(300); await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+            project = dte.Solution.Projects.Item(1);
+            Check("PROJECT032 a second scope restores project bytes and model without stale notifications", bytes.SequenceEqual(File.ReadAllBytes(path)) && Convert.ToString(project.Properties.Item("RootNamespace").Value) == "IdeProbe" && project.Saved);
+            project.Properties.Item("RootNamespace").Value = "Task032Unsaved";
+            bool blocked = false;
+            try { using (var scope = editing.BeginExternalEditing(null)) { } } catch (InvalidOperationException) { blocked = true; }
+            Check("PROJECT032 unsaved project metadata blocks direct writes and preserves memory and disk", blocked && !project.Saved && Convert.ToString(project.Properties.Item("RootNamespace").Value) == "Task032Unsaved" && bytes.SequenceEqual(File.ReadAllBytes(path)));
+            project.Properties.Item("RootNamespace").Value = "IdeProbe"; project.Save();
+            // IDE Save may normalize XML; restore original fixture through the same scoped synchronization.
+            using (var scope = editing.BeginExternalEditing(null)) File.WriteAllBytes(path, bytes);
+            File.WriteAllText(Path.Combine(output, "project032-observation.json"), new JavaScriptSerializer().Serialize(new { Project = path, OriginalBytesRestored = bytes.SequenceEqual(File.ReadAllBytes(path)), ActualIdeTest = true, PersonalProjectRead = false, CheckedAt = DateTimeOffset.Now }));
+        }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : IsTransparent
+        /// desc         : 미지정 또는 완전 투명한 화면 브러시만 허용한다.
+        /// author       : CodexOrig
+        /// create date  : 2026-10-19
+        /// update date  : 2026-10-19 CodexOrig : 표·코드의 명시 서식은 검사 대상 문서 바탕과 구분.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        private static bool IsTransparent(Brush brush) { return brush == null || brush is SolidColorBrush && ((SolidColorBrush)brush).Color.A == 0; }
 
         /// ---------------------------------------------------------------------
         /// <summary>

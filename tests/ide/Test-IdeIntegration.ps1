@@ -10,6 +10,7 @@ update date  : 2026-10-18 CodexOrig : 최신 패키지·Provider 탭·개인 설
 update date  : 2026-10-18 CodexOrig : 기본 안내 격리 및 별도 첫 사용 UX15 실제 호스트 검증.
 update date  : 2026-10-18 CodexOrig : 지정 VSIX에서 추출한 DLL을 참조하여 Markdown 대화·SQL·설정 UX 검증을 격리.
                2026-10-19 CodexOrig : 기존 검정 팔레트 회귀는 명시적 Dark 설정에서 실행하고 새 테마 모드는 별도 검사.
+               2026-10-19 CodexOrig : 프로젝트 속성 fixture 추가·실패 결과도 보존 후 전용 IDE만 정리.
 -------------------------------------------------------------------------
 .SYNOPSIS
     Runs the installed product in a dedicated VS2017 root suffix. Live Codex is opt-in.+#>
@@ -93,7 +94,7 @@ $utf8Bom = New-Object Text.UTF8Encoding($true)
 [IO.File]::WriteAllText((Join-Path $outputDir 'Other.cs'), "// 테스트 다른 파일`r`nclass Other { }`r`n", $utf8Bom)
 $projectText = @'
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <PropertyGroup><Configuration>Debug</Configuration><Platform>AnyCPU</Platform><OutputType>Library</OutputType><TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion><OutputPath>bin\Debug\</OutputPath><ProjectGuid>{18FF2748-6B77-4F67-AF48-CE2D75CE460C}</ProjectGuid></PropertyGroup>
+  <PropertyGroup><Configuration>Debug</Configuration><Platform>AnyCPU</Platform><OutputType>Library</OutputType><RootNamespace>IdeProbe</RootNamespace><TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion><OutputPath>bin\Debug\</OutputPath><ProjectGuid>{18FF2748-6B77-4F67-AF48-CE2D75CE460C}</ProjectGuid></PropertyGroup>
   <ItemGroup><Reference Include="System"/><Compile Include="Probe.cs"/><Compile Include="Other.cs"/></ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
 </Project>
@@ -144,8 +145,7 @@ if (!(Test-Path -LiteralPath $resultPath)) {
 }
 $result = Get-Content -LiteralPath $resultPath -Raw -Encoding UTF8 | ConvertFrom-Json
 $result | ConvertTo-Json -Depth 6
-if (!$result.Succeeded) { throw "실제 IDE 통합 테스트 실패. $resultPath" }
-Write-Output "실제 IDE 통합 테스트 PASS: $($result.Passed)/$($result.Passed + $result.Failed)"
+if ($result.Succeeded) { Write-Output "실제 IDE 통합 테스트 PASS: $($result.Passed)/$($result.Passed + $result.Failed)" }
 # 결과를 기록한 검사 전용 IDE만 정리한다. VS2022의 늦은 종료가 부모의 출력 파이프를 붙잡지 않게 한다.
 # update date  : 2026-10-19 CodexOrig : 전용 RootSuffix와 실행 PID를 함께 대조하고 정상/강제 종료를 별도 기록.
 $exitedNormally = $ideProcess.WaitForExit(10000)
@@ -163,3 +163,4 @@ if (!$exitedNormally) {
     ProcessId=$ideProcess.Id; RootSuffix=$rootSuffix; ResultPreserved=$true
     ExitedNormally=$exitedNormally; ForcedOwnedProcessCleanup=$forcedCleanup; CheckedAt=[DateTimeOffset]::Now.ToString('o')
 } | ConvertTo-Json | Set-Content -LiteralPath (Join-Path $outputDir 'owned-process-cleanup.json') -Encoding UTF8
+if (!$result.Succeeded) { throw "실제 IDE 통합 테스트 실패. $resultPath" }

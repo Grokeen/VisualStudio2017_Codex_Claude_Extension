@@ -403,6 +403,7 @@ namespace CodexCode.WorkspaceReview
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 오른쪽 둥근 사용자 말풍선·왼쪽 무테 AI 본문과 복사 기능 검사.
         ///                2026-10-19 CodexOrig : Markdown 본문에서도 실제 RichTextBox 선택 복사와 원문 바인딩을 검사.
+        ///                2026-10-19 CodexOrig : 사용자 요청에 따라 오른쪽 배치를 유지하며 무배경·회색 본문을 검사.
         /// </summary>
         /// ---------------------------------------------------------------------
         private static void CheckMessagePresentation(AssistantControl control)
@@ -412,9 +413,9 @@ namespace CodexCode.WorkspaceReview
             var bubbles = Descendants(messages).OfType<Border>().Where(x => x.Name == "MessageBubble" && x.DataContext is ChatMessage).ToArray();
             var user = bubbles.Last(x => ((ChatMessage)x.DataContext).Role == "user");
             var assistant = bubbles.Last(x => ((ChatMessage)x.DataContext).Role == "assistant");
-            Check(user.HorizontalAlignment == HorizontalAlignment.Right && user.CornerRadius.TopLeft >= 12 &&
-                ((SolidColorBrush)user.Background).Color.A > 0 && user.Padding.Left > 0,
-                "User messages appear as padded, rounded bubbles aligned to the right");
+            Check(user.HorizontalAlignment == HorizontalAlignment.Right &&
+                ((SolidColorBrush)user.Background).Color.A == 0 && user.Padding == new Thickness(0),
+                "User messages retain right alignment with no bubble background or padding");
             Check(assistant.Background is SolidColorBrush && ((SolidColorBrush)assistant.Background).Color.A == 0 &&
                 assistant.BorderThickness == new Thickness(0) && assistant.Padding == new Thickness(0) &&
                 assistant.TranslatePoint(new Point(0, 0), messages).X < user.TranslatePoint(new Point(0, 0), messages).X,
