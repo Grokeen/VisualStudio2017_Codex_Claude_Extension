@@ -1,8 +1,10 @@
-﻿using System;
+using System;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Web.Script.Serialization;
 using System.Windows.Media.Imaging;
 
@@ -16,6 +18,7 @@ namespace VS2017.AIAssistant.Chat
     /// create date  : 2026-10-18
     /// update date  : 2026-10-18 CodexOrig : 제한된 크기·형식 검사와 미리보기 추가.
     /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
+    /// update date  : 2026-10-18 CodexOrig : TASK-016 문서 첨부·모델 설정·AI 역할 협업과 실패 복구 흐름 연결.
     /// </summary>
     /// ---------------------------------------------------------------------
     public sealed class ChatAttachment
@@ -41,7 +44,8 @@ namespace VS2017.AIAssistant.Chat
         public string MediaType { get; private set; }
         public BitmapSource Thumbnail { get; private set; }
         public bool IsImage { get { return ImageBase64 != null; } }
-        public string Label { get { return Name + (IsImage ? " · 이미지" : " · 텍스트"); } }
+        public bool IsDocument { get; private set; }
+        public string Label { get { return Name + (IsImage ? " · 이미지" : IsDocument ? " · 문서 본문" : " · 텍스트"); } }
 
         /// ---------------------------------------------------------------------
         /// <summary>
@@ -51,10 +55,17 @@ namespace VS2017.AIAssistant.Chat
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : 디렉터리·바이너리·대용량 입력 거부.
         /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
+        /// update date  : 2026-10-18 CodexOrig : TASK-016 문서 첨부·모델 설정·AI 역할 협업과 실패 복구 흐름 연결.
         /// </summary>
         /// ---------------------------------------------------------------------
         public static ChatAttachment FromFile(string path)
         {
+            if (IsDocumentPath(path))
+            {
+                var document = FromText(DocumentAttachmentReader.Extract(path), Path.GetFileName(path));
+                document.IsDocument = true;
+                return document;
+            }
             string extension = Path.GetExtension(path).ToLowerInvariant();
             bool image = extension == ".png" || extension == ".jpg" || extension == ".jpeg";
             int limit = image ? 2 * 1024 * 1024 : 100 * 1024;
@@ -83,6 +94,36 @@ namespace VS2017.AIAssistant.Chat
                 throw new InvalidOperationException("이 파일은 텍스트로 읽을 수 없습니다. PNG/JPEG 또는 텍스트 파일을 첨부하세요.");
             return new ChatAttachment { Name = Path.GetFileName(path), Text = text };
         }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : FromFileAsync
+        /// desc         : 문서 추출을 취소 가능하게 기다리고 UI 스레드에서 파일을 읽지 않는다.
+        /// author       : CodexOrig
+        /// create date  : 2026-10-18
+        /// update date  : 2026-10-18 CodexOrig : TASK-016 문서 본문 첨부와 비동기 읽기 연결.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        public static async Task<ChatAttachment> FromFileAsync(string path, CancellationToken cancellationToken)
+        {
+            if (!IsDocumentPath(path)) return await Task.Run(() => FromFile(path), cancellationToken);
+            string text = await DocumentAttachmentReader.ExtractAsync(path, cancellationToken);
+            cancellationToken.ThrowIfCancellationRequested();
+            var attachment = FromText(text, Path.GetFileName(path)); attachment.IsDocument = true;
+            return attachment;
+        }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : IsDocumentPath
+        /// desc         : 문서 추출과 기존 소스·텍스트 읽기 제한을 구분한다.
+        /// author       : CodexOrig
+        /// create date  : 2026-10-18
+        /// update date  : 2026-10-18 CodexOrig : 구조화 문서만 추출 서비스로 연결.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        private static bool IsDocumentPath(string path)
+        { return new[] { ".pdf", ".doc", ".docx", ".ppt", ".pptx", ".xls", ".xlsx", ".odt", ".odp", ".ods", ".rtf", ".htm", ".html" }.Contains(Path.GetExtension(path).ToLowerInvariant()); }
 
         /// ---------------------------------------------------------------------
         /// <summary>
@@ -173,6 +214,7 @@ namespace VS2017.AIAssistant.Chat
     /// create date  : 2026-10-18
     /// update date  : 2026-10-18 CodexOrig : UI 변경과 독립된 Provider 컨텍스트.
     /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
+    /// update date  : 2026-10-18 CodexOrig : TASK-016 문서 첨부·모델 설정·AI 역할 협업과 실패 복구 흐름 연결.
     /// </summary>
     /// ---------------------------------------------------------------------
     public sealed class ChatRequestContext
@@ -182,6 +224,8 @@ namespace VS2017.AIAssistant.Chat
         public ChatMessage[] History { get; private set; }
         public ChatAttachment[] Attachments { get; private set; }
         public string ReasoningEffort { get; private set; }
+        public string Speed { get; private set; }
+        public string AgentContext { get; private set; }
 
         /// ---------------------------------------------------------------------
         /// <summary>
@@ -191,11 +235,16 @@ namespace VS2017.AIAssistant.Chat
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : 최신 10개/24000자 대화 및 첨부 4개 제한.
         /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
+        /// update date  : 2026-10-18 CodexOrig : TASK-016 문서 첨부·모델 설정·AI 역할 협업과 실패 복구 흐름 연결.
         /// </summary>
         /// ---------------------------------------------------------------------
-        public ChatRequestContext(string instructions = "", string model = "", ChatMessage[] history = null, ChatAttachment[] attachments = null, string reasoningEffort = "auto")
+        public ChatRequestContext(string instructions = "", string model = "", ChatMessage[] history = null, ChatAttachment[] attachments = null, string reasoningEffort = "auto", string speed = "standard", string agentContext = "")
         {
-            if (!new[] { "auto", "low", "medium", "high" }.Contains(reasoningEffort)) throw new ArgumentException("지원하지 않는 생각 모드입니다.");
+            if (!new[] { "auto", "none", "minimal", "low", "medium", "high", "xhigh", "max", "ultra" }.Contains(reasoningEffort)) throw new ArgumentException("지원하지 않는 생각 모드입니다.");
+            if (speed != "standard" && speed != "fast") throw new ArgumentException("지원하지 않는 속도입니다.");
+            AgentContext = agentContext ?? "";
+            if (AgentContext.Length > 8000) throw new ArgumentException("AI 역할·협업 문맥은 8000자 이하입니다.");
+            Speed = speed;
             ReasoningEffort = reasoningEffort;
             Instructions = instructions ?? ""; Model = (model ?? "").Trim();
             if (Instructions.Length > 8000 || Model.Length > 120 || Model.Any(char.IsControl))
@@ -219,6 +268,7 @@ namespace VS2017.AIAssistant.Chat
     /// update date  : 2026-10-18 CodexOrig : 이전 설정과 호환되는 첫 사용 안내 표시 선택 추가.
     /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
     /// update date  : 2026-10-18 CodexOrig : TASK-014 대화 목록 폭·표시 여부를 이전 설정과 호환되게 보관.
+    /// update date  : 2026-10-18 CodexOrig : TASK-016 문서 첨부·모델 설정·AI 역할 협업과 실패 복구 흐름 연결.
     /// </summary>
     /// ---------------------------------------------------------------------
     public sealed class AssistantSettings
@@ -233,6 +283,8 @@ namespace VS2017.AIAssistant.Chat
         public bool HideWelcome { get; set; }
         public string CodexEffort { get; set; } = "auto";
         public string ClaudeEffort { get; set; } = "auto";
+        public string CodexSpeed { get; set; } = "standard";
+        public string ClaudeSpeed { get; set; } = "standard";
         public bool AllowSourceControl { get; set; }
         public bool AllowDatabaseSchema { get; set; }
         public bool AllowDeployment { get; set; }
@@ -320,12 +372,14 @@ namespace VS2017.AIAssistant.Chat
         /// update date  : 2026-10-18 CodexOrig : JSON으로 주입된 범위 밖 값 검사.
         /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// update date  : 2026-10-18 CodexOrig : TASK-014 대화 목록 폭의 유한 범위 검사 추가.
+        /// update date  : 2026-10-18 CodexOrig : TASK-016 문서 첨부·모델 설정·AI 역할 협업과 실패 복구 흐름 연결.
         /// </summary>
         /// ---------------------------------------------------------------------
         private static void Validate(AssistantSettings settings)
         {
             if (settings == null || double.IsNaN(settings.HistoryWidth) || settings.HistoryWidth < 140 || settings.HistoryWidth > 420 || double.IsNaN(settings.FontSize) || settings.FontSize < 10 || settings.FontSize > 28 ||
                 settings.Instructions == null || settings.Instructions.Length > 8000 ||
+                !new[] { "standard", "fast" }.Contains(settings.CodexSpeed) || !new[] { "standard", "fast" }.Contains(settings.ClaudeSpeed) ||
                 new[] { settings.CodexPath, settings.ClaudePath, settings.CodexModel, settings.ClaudeModel }.Any(s => s == null || s.Length > 4096))
                 throw new InvalidDataException("저장된 설정 형식이나 값이 올바르지 않습니다.");
         }

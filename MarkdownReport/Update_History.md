@@ -161,3 +161,21 @@
 - 시작2026-10-18 13:46:29, 로컬종료 2026-10-18 14:07:42 KST, 소요 21분 13초. 대화 목록 세로 경계의 드래그/키보드 폭·왼쪽접기·마지막폭/표시복원, 대화별 실제 상태·읽지않음/읽음 저장·재시작 중단복구를 v0.6.0으로 구현했다.
 - 소스 Views/AssistantControl.Conversations.cs 및 기존 Chat/Views·설정·manifest/csproj. tests/review UI79·실제IDE65(실제Codex/SQL포함)·기본8묶음·런처9스모크 전부PASS. Debug/Release 경고·오류0. 상세 CodexOrig_TASK-014.md/_Validation.json/_IDE.json/_Experience.json.
 - README/상세사용법/최종화면·릴리스0.6/5528C0A15DC365A4933D3DB25FD593D947D71A154397784149979370796FD5CE 준비,0.5이전보존. 후속Role추가가도착해TASK015/016의0.7로이어진다. 다른작업진행중이므로GitHub배포는후속종료뒤진행한다.
+
+## TASK-015 — CodexCode / 2026-10-18 14:33:59 KST
+
+- 작업 시간: 2026-10-18 14:01:49 ~ 2026-10-18 14:33:59 KST, 담당 구현·최종 서비스 검증까지 32분 10초.
+- 요청: 최신 Role 문서 첨부(PPT/PDF/DOC 등), image7~11 모델별 강도/Fast·권한, 주제별 구역, 대화별 AI 이름·역할/실제 협업과 SCM 계정 접두어.
+- 구현: Chat/DocumentAttachmentReader.cs·DocumentWorkerLauncher.cs·DocumentFilterWorker.cs 및 src/VS2017.AIAssistant.DocumentReader 별도 격리 도우미, Providers/ProviderExecutionOptions.cs·CliEditProvider.cs 모델/추론/Fast 네이티브 인수·버전 검사, Chat/ConversationCollaboration.cs 상태/동시저장·고유 이름, Services/ScmIdentityService.cs 공개 SCM 이름·GCM 저장 계정/인증 구분.
+- 검사: 최종 제품DLL BB80BC8E...로 모델65·협업60·문서47·SCM63·CLI15 = 고유250개 PASS, 동일 문서47개를 x86 호출로 추가PASS. SCM 검사 fixture의 의존DLL 누락만 보정하고 제품불변. 실제GCM 상태확인·계정값 비기록, 협업 오류처리3곳 재검토·최종UI3화면 직접검토.
+- 패키지: VSIX0.7.0 275314바이트 SHA DB9C5D706760D693A2BB758E9E1E6DC2C0BF1DB4B28FA134F3307B35ABEBC059. 내장DLL/worker/config 일치, 제품소스36개 해시불일치0·최신Role 보존.
+- 보고/재현: MarkdownReport/CodexCode_TASK-015.md·_Validation.json·_Package.json·구성요소JSON, tests/documents·collaboration·provider-options의 PowerShell 검사. 기존UI/Chat연결·README/가이드·DebugRelease·실제IDE·루트 실행기13묶음/최종GitHub배포는 TASK016과 분담. 모든하위작업자 편집종료 후 최종담당에게 인계.
+- 범위: VS2017 15.9+ 패키지, PDF/구형Office는PC IFilter조건, OCR제외. 암호문서분기는fixture검증, 실제Claude/Fast과금·GH API계정·외부운영DB/SCM배포·VS2019/2022 미검증/미지원범위 유지.
+
+## TASK-016 — CodexOrig / 2026-10-18 14:36:39 KST
+
+- 작업 시간: 2026-10-18 14:03:42 ~ 2026-10-18 14:36:39 KST, 로컬 검증까지 32분 57초.
+- 최신 Role 문서 첨부·모델 고급강도/Fast·권한 프리셋·주제별 설정·대화 AI 이름/역할/계정 접두사/협업을 v0.7.0으로 통합. 사용자 권한 답변은 확장의 DB·형상관리·배포 범위로 적용했고 수정안 승인·실행 계획 동의는 유지했다.
+- 소스: src/VS2017.AIAssistant/Chat·Views·Providers·Services와 별도 DocumentReader 프로젝트. 실제 동료 순차 CLI→현재 AI 종합·대화별 상태/읽지 않음·실제 Markdown 보고·취소/파일잠금 복구, 비동기 첨부·슬라이더/속도·리비전 원복 포함. 신규 서비스 TASK015, 기존 모델/UI/오케스트레이션·검증/문서/배포 TASK016 소유로 충돌 없이 협업했다.
+- 검증: Debug/Release 경고0·오류0, WPF101/101·실제VS2017/Codex/SQL/native협업73/73·신규서비스고유250/250+추가x86문서47/47, 루트기본13/13 묶음과9/9스모크. 최종 DLL BB80BC8E…/VSIX DB9C5D70… 275314바이트. 제품 소스36개 해시변경0·Role D25E6ED1…/이전릴리스보존, 로컬문서참조46개·최종화면7개 확인.
+- 산출: releases/v0.7.0, 최상위 VisualStudio_AIChat_ExtentionTest.exe, README/상세가이드/CLI·UX·IDE·개발문서, CodexOrig_TASK-016.md 및 Validation/IDE/Experience/Launcher/SourceHashes JSON. 다른작업자전원종료14:34:25확인. 이제검증완료0.6/0.7과전체보고를GitHub에반영하고원격해시확인후배포완료기록을추가한다.

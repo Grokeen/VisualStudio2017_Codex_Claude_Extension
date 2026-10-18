@@ -37,14 +37,14 @@ internal static class LauncherUiSmoke
             {
                 form.ClientSize = new Size(960, 800); form.ShowInTaskbar = false; form.Opacity = 0; form.Show(); Application.DoEvents();
                 var suites = (CheckedListBox)Field(form, "suites");
-                if (suites.Items.Count != 10 || suites.CheckedItems.Count != 0) throw new Exception("Initial suite selection");
+                if (suites.Items.Count != 15 || suites.CheckedItems.Count != 0) throw new Exception("Initial suite selection");
                 if (!suites.Created || suites.Height < 160) throw new Exception("Suite list layout");
                 if (((Button)Field(form, "stop")).Enabled || Field(form, "cancellation") != null) throw new Exception("Automatic execution detected");
                 if (((TextBox)Field(form, "output")).TextLength != 0 || !((Label)Field(form, "status")).Text.Contains("준비")) throw new Exception("Initial status");
                 using (var bitmap = new Bitmap(form.Width, form.Height)) { form.DrawToBitmap(bitmap, new Rectangle(0, 0, form.Width, form.Height)); bitmap.Save(args[1], ImageFormat.Png); }
                 if (new FileInfo(args[1]).Length < 5000) throw new Exception("Empty GUI rendering");
             }
-            Console.WriteLine("PASS launcher GUI: 10 suites, no selection, no auto execution, ready status, black preview"); return 0;
+            Console.WriteLine("PASS launcher GUI: 15 suites, no selection, no auto execution, ready status, black preview"); return 0;
         }
         catch (Exception error) { Console.Error.WriteLine(error); return 1; }
     }

@@ -1,0 +1,132 @@
+{
+  "Task": "TASK-016",
+  "Author": "CodexOrig",
+  "Status": "local-verified-awaiting-publication",
+  "StartedAt": "2026-10-18T14:03:42.0000000+09:00",
+  "LocalCompletedAt": "2026-10-18T14:36:39.1648073+09:00",
+  "ElapsedMinutes": 32.95,
+  "Package": "releases/v0.7.0/VS2017.AIAssistant-0.7.0.vsix",
+  "PackageBytes": 275314,
+  "PackageSHA256": "DB9C5D706760D693A2BB758E9E1E6DC2C0BF1DB4B28FA134F3307B35ABEBC059",
+  "DLLSHA256": "BB80BC8ED422F6F36857AB7367A5B5432A65218E8CFE6F51F94A1143A16A1D44",
+  "WorkerSHA256": "5FAF1E32510DF9BD1FECA015E862F9B47499165B6D3090C015885A23171E07C7",
+  "RootExeSHA256": "D1015F87D49B878DA084385C547C3C416AC51E978DDB9BF726A95EE0D5E1ECC8",
+  "Build": {
+    "Errors": 0,
+    "Release": "PASS",
+    "Debug": "PASS",
+    "Warnings": 0
+  },
+  "WorkspaceExperience": {
+    "Failed": 0,
+    "Passed": 101,
+    "Evidence": "CodexOrig_TASK-016_Experience.json"
+  },
+  "ActualIDE": {
+    "Evidence": "CodexOrig_TASK-016_IDE.json",
+    "Failed": 0,
+    "LiveCodex": true,
+    "Passed": 73,
+    "LiveSQLDraft": true,
+    "NativeCollaboration": true
+  },
+  "NewServices": {
+    "UniqueCases": 250,
+    "AdditionalX86DocumentChecks": 47,
+    "Passed": 250,
+    "Evidence": "CodexCode_TASK-015_Validation.json"
+  },
+  "Launcher": {
+    "Task": "TASK-016",
+    "Succeeded": true,
+    "DefaultSuites": 13,
+    "Passed": 13,
+    "Failed": 0,
+    "Summary": "artifacts/tl/680a98b066/summary.txt",
+    "Log": "artifacts/tl/680a98b066/launcher.log",
+    "ExitCode": 0,
+    "RootExeSHA256": "D1015F87D49B878DA084385C547C3C416AC51E978DDB9BF726A95EE0D5E1ECC8",
+    "PackageSHA256": "DB9C5D706760D693A2BB758E9E1E6DC2C0BF1DB4B28FA134F3307B35ABEBC059",
+    "Smoke": {
+      "Failed": 0,
+      "Passed": 9,
+      "Evidence": "CodexOrig_TASK-016_LauncherSmoke.json"
+    },
+    "Suites": [
+      {
+        "Id": "compatibility",
+        "ExitCode": 0
+      },
+      {
+        "Id": "build-entry",
+        "ExitCode": 0
+      },
+      {
+        "Id": "markdown",
+        "ExitCode": 0
+      },
+      {
+        "Id": "settings",
+        "ExitCode": 0
+      },
+      {
+        "Id": "workspace-actions",
+        "ExitCode": 0
+      },
+      {
+        "Id": "editing",
+        "ExitCode": 0
+      },
+      {
+        "Id": "foundation",
+        "ExitCode": 0
+      },
+      {
+        "Id": "experience",
+        "ExitCode": 0
+      },
+      {
+        "Id": "documents",
+        "ExitCode": 0
+      },
+      {
+        "Id": "collaboration",
+        "ExitCode": 0
+      },
+      {
+        "Id": "provider-options",
+        "ExitCode": 0
+      },
+      {
+        "Id": "provider-cli",
+        "ExitCode": 0
+      },
+      {
+        "Id": "scm-identity",
+        "ExitCode": 0
+      }
+    ]
+  },
+  "Preservation": {
+    "PreviousReleaseChanges": 0,
+    "RoleSHA256": "D25E6ED1167A33AF028BEB0EF23EDCEE918A9118C583BA295993B70C1C310866",
+    "SourceMismatches": 0,
+    "ProductSourceFiles": 36
+  },
+  "Documentation": {
+    "BrokenLinks": 0,
+    "ScreenshotsVisuallyInspected": true,
+    "LocalLinksChecked": 46,
+    "Screenshots": 7
+  },
+  "Collaboration": {
+    "CodexCodeCompletedAt": "2026-10-18T14:34:25+09:00",
+    "PushBlockedUntilAllOthersComplete": true
+  },
+  "Limitations": [
+    "VS2017 15.9+ package only; VS2019/2022 extension packages remain separate work",
+    "No live Claude/Fast billed request or external production DB/SVN/TFVC/deployment validation",
+    "PDF and legacy Office depend on the registered Windows IFilter; no OCR or original layout transfer",
+    "GCM stored account is explicitly not server authentication verification"
+  ]
+}

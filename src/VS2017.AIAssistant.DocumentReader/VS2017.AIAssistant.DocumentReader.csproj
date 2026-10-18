@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup><Configuration Condition="'$(Configuration)' == ''">Release</Configuration><OutputType>Exe</OutputType><TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion><PlatformTarget>AnyCPU</PlatformTarget><Prefer32Bit>false</Prefer32Bit><AssemblyName>VS2017.AIAssistant.DocumentReader</AssemblyName><RootNamespace>VS2017.AIAssistant.Chat</RootNamespace><LangVersion>7.0</LangVersion><OutputPath Condition="'$(OutputPath)' == ''">bin\$(Configuration)\</OutputPath><IntermediateOutputPath Condition="'$(IntermediateOutputPath)' == ''">obj\$(Configuration)\</IntermediateOutputPath><DebugSymbols>false</DebugSymbols><Optimize>true</Optimize></PropertyGroup>
+  <ItemGroup><Reference Include="System"/><Reference Include="System.Core"/><Compile Include="..\VS2017.AIAssistant\Chat\DocumentFilterWorker.cs"><Link>DocumentFilterWorker.cs</Link></Compile><Compile Include="Properties\AssemblyInfo.cs"/><None Include="App.config"/></ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
+</Project>

@@ -1,0 +1,49 @@
+﻿{
+    "CheckedAt":  "2026-10-18T14:31:29.3444490+09:00",
+    "UniqueCases":  47,
+    "ExecutedChecks":  94,
+    "AnyCPU":  {
+                   "CheckedAt":  "2026-10-18T14:31:06.6557093+09:00",
+                   "Passed":  47,
+                   "Total":  47,
+                   "Platform":  "AnyCPU",
+                   "ProductAssembly":  "artifacts\\task016\\handoff\\VS2017.AIAssistant.dll",
+                   "ProductHash":  "BB80BC8ED422F6F36857AB7367A5B5432A65218E8CFE6F51F94A1143A16A1D44",
+                   "WorkerSource":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task016\\handoff\\VS2017.AIAssistant.DocumentReader.exe",
+                   "WorkerArchitecture":  "MSIL",
+                   "WorkerHash":  "5FAF1E32510DF9BD1FECA015E862F9B47499165B6D3090C015885A23171E07C7",
+                   "OutputDirectory":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\dr\\ee1e831bac"
+               },
+    "X86":  {
+                "CheckedAt":  "2026-10-18T14:31:06.7490232+09:00",
+                "Passed":  47,
+                "Total":  47,
+                "Platform":  "x86",
+                "ProductAssembly":  "artifacts\\task016\\handoff\\VS2017.AIAssistant.dll",
+                "ProductHash":  "BB80BC8ED422F6F36857AB7367A5B5432A65218E8CFE6F51F94A1143A16A1D44",
+                "WorkerSource":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task016\\handoff\\VS2017.AIAssistant.DocumentReader.exe",
+                "WorkerArchitecture":  "MSIL",
+                "WorkerHash":  "5FAF1E32510DF9BD1FECA015E862F9B47499165B6D3090C015885A23171E07C7",
+                "OutputDirectory":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\dr\\573b89229a"
+            },
+    "SourceHashes":  [
+                         {
+                             "Path":  "src/VS2017.AIAssistant/Chat/DocumentAttachmentReader.cs",
+                             "Sha256":  "605DF02064BA365914CF662C234B867A9DFE05069FE688EC343626C033C8DC3E",
+                             "Matches":  true
+                         },
+                         {
+                             "Path":  "src/VS2017.AIAssistant/Chat/DocumentFilterWorker.cs",
+                             "Sha256":  "E1D52D2610C52B9393DC9B32465A1ABB75427E3DC8E8F75B69D62E539264F4EE",
+                             "Matches":  true
+                         },
+                         {
+                             "Path":  "src/VS2017.AIAssistant/Chat/DocumentWorkerLauncher.cs",
+                             "Sha256":  "41B4FF44F9843F7522343A21F4BA2C5639BA106B8925ED922AB0A1E388917AFA",
+                             "Matches":  true
+                         }
+                     ],
+    "PackageWorkerAnyCPUOn64BitOS":  true,
+    "ProtectedDocumentCase":  "Fixture status-code propagation only; not an encrypted real file",
+    "SourceFilesEdited":  false
+}

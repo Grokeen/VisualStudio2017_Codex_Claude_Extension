@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -21,6 +21,7 @@ namespace VS2017.AIAssistant.Views
     /// update date  : 2026-10-18 CodexCode : 실제 단일 파일 편집 워크플로와 취소 기능 연결.
     /// update date  : 2026-10-18 CodexOrig : Chat 탭·누적 대화·첨부·영속 설정 연결.
     /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
+    /// update date  : 2026-10-18 CodexOrig : TASK-016 문서 첨부·모델 설정·AI 역할 협업과 실패 복구 흐름 연결.
     /// </summary>
     /// ---------------------------------------------------------------------
     public partial class AssistantControl : UserControl, IDisposable
@@ -45,6 +46,7 @@ namespace VS2017.AIAssistant.Views
         /// update date  : 2026-10-18 CodexCode : 요청·미리보기 입력란의 테마 처리.
         /// update date  : 2026-10-18 CodexOrig : Chat 컨텍스트·설정·창 이동 및 검증 흐름 갱신.
         /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
+        /// update date  : 2026-10-18 CodexOrig : TASK-016 문서 첨부·모델 설정·AI 역할 협업과 실패 복구 흐름 연결.
         /// </summary>
         /// ---------------------------------------------------------------------
         public AssistantControl()
@@ -87,6 +89,7 @@ namespace VS2017.AIAssistant.Views
         /// update date  : 2026-10-18 CodexOrig : Chat 컨텍스트·설정·창 이동 및 검증 흐름 갱신.
         /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// update date  : 2026-10-18 CodexOrig : TASK-014 실제 요청 시작·성공·실패·취소를 대화별 상태로 기록.
+        /// update date  : 2026-10-18 CodexOrig : TASK-016 문서 첨부·모델 설정·AI 역할 협업과 실패 복구 흐름 연결.
         /// </summary>
         /// ---------------------------------------------------------------------
         private async void GenerateClicked(object sender, RoutedEventArgs e)
@@ -103,7 +106,8 @@ namespace VS2017.AIAssistant.Views
                 if (System.IO.File.Exists(workspaceStore.InstructionsPath)) RulesText.Text = workspaceStore.LoadInstructions();
                 TargetLabel.Text = "대상: " + source.FilePath + (source.HasUnsavedChanges ? " (미저장 편집 내용 포함)" : "");
                 OriginalPreview.Text = source.Content;
-                var context = new ChatRequestContext(RulesText.Text, ModelName.Text, chat.Messages.ToArray(), chat.Attachments.ToArray(), efforts[selectedProvider]);
+                new ProviderExecutionOptions(selectedProvider, ModelName.Text, efforts[selectedProvider], speeds[selectedProvider]);
+                var context = new ChatRequestContext(RulesText.Text, ModelName.Text, chat.Messages.ToArray(), chat.Attachments.ToArray(), efforts[selectedProvider], speeds[selectedProvider]);
                 chat.Add("user", Instruction.Text + (context.Attachments.Length == 0 ? "" : "\n첨부: " + string.Join(", ", context.Attachments.Select(a => a.Name))));
                 ConversationScroll.ScrollToEnd();
                 busy = true;
@@ -112,6 +116,7 @@ namespace VS2017.AIAssistant.Views
                 requestCancellation = new CancellationTokenSource();
                 StatusLabel.Text = selectedProvider + " 수정안 생성 중…";
                 UpdateButtons();
+                context = await RunCollaboratorsAsync(record, source, Instruction.Text, context, requestCancellation.Token);
                 var contextProvider = provider as IAiContextEditProvider;
                 if (contextProvider == null && (context.Attachments.Length > 0 || context.Instructions.Length > 0 || context.History.Length > 0))
                     throw new InvalidOperationException("이 Provider는 대화 컨텍스트를 지원하지 않습니다.");
@@ -313,6 +318,7 @@ namespace VS2017.AIAssistant.Views
         /// update date  : 2026-10-18 CodexOrig : Chat 컨텍스트·설정·창 이동 및 검증 흐름 갱신.
         /// update date  : 2026-10-18 CodexOrig : 설정 팝업·안내 진입 버튼도 작업 중 비활성화.
         /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
+        /// update date  : 2026-10-18 CodexOrig : TASK-016 문서 첨부·모델 설정·AI 역할 협업과 실패 복구 흐름 연결.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void UpdateButtons()
@@ -332,6 +338,7 @@ namespace VS2017.AIAssistant.Views
             SaveButton.IsEnabled = !busy && session.CanSave;
             RestoreButton.IsEnabled = !busy && session.CanRestore;
             if (RequestModel != null) RequestModel.IsEnabled = ModeChoice.IsEnabled = PermissionsButton.IsEnabled = LoadChatButton.IsEnabled = ConversationList.IsEnabled = OptionsToggle.IsEnabled = !busy;
+            if (ModelOptionsButton != null) { ModelOptionsButton.IsEnabled = AgentButton.IsEnabled = !busy; var capability = ProviderModelCatalog.ForProvider(selectedProvider).Find(ModelName.Text); FastToggle.IsEnabled = !busy && capability != null && capability.SupportsFast; }
             UpdateChangeCard();
             UpdateActivity(busy);
             ThinkingIndicator.Visibility = busy ? Visibility.Visible : Visibility.Collapsed;
@@ -348,6 +355,7 @@ namespace VS2017.AIAssistant.Views
         /// update date  : 2026-10-18 CodexCode : 종료 중 비동기 UI 갱신 차단.
         /// update date  : 2026-10-18 CodexOrig : 종료 시 설정·사용 안내 팝업도 해제.
         /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
+        /// update date  : 2026-10-18 CodexOrig : TASK-016 문서 첨부·모델 설정·AI 역할 협업과 실패 복구 흐름 연결.
         /// </summary>
         /// ---------------------------------------------------------------------
         public void Dispose()
@@ -356,6 +364,7 @@ namespace VS2017.AIAssistant.Views
             disposed = true;
             if (requestCancellation != null) requestCancellation.Cancel();
             CloseDialogs();
+            if (optionsDialog != null) optionsDialog.Close();
         }
     }
 }

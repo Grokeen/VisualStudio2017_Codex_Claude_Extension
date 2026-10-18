@@ -1,8 +1,9 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
@@ -22,6 +23,7 @@ namespace VS2017.AIAssistant.Views
     /// create date  : 2026-10-18
     /// update date  : 2026-10-18 CodexOrig : Role 3~8번의 사용자 입력 기능 구현.
     /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
+    /// update date  : 2026-10-18 CodexOrig : TASK-016 문서 첨부·모델 설정·AI 역할 협업과 실패 복구 흐름 연결.
     /// </summary>
     /// ---------------------------------------------------------------------
     public partial class AssistantControl
@@ -155,15 +157,51 @@ namespace VS2017.AIAssistant.Views
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : 파일 선택 버튼 연결.
         /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
+        /// update date  : 2026-10-18 CodexOrig : TASK-016 문서 첨부·모델 설정·AI 역할 협업과 실패 복구 흐름 연결.
         /// </summary>
         /// ---------------------------------------------------------------------
-        private void AttachClicked(object sender, RoutedEventArgs e)
+        private async void AttachClicked(object sender, RoutedEventArgs e)
         {
             if (busy || disposed) return;
-            var dialog = new OpenFileDialog { Multiselect = true, CheckFileExists = true, Filter = "이미지 및 텍스트 파일|*.*" };
+            var dialog = new OpenFileDialog { Multiselect = true, CheckFileExists = true, Filter = DocumentAttachmentReader.GetFilter() + "|이미지|*.png;*.jpg;*.jpeg|소스 및 모든 파일|*.*" };
             if (dialog.ShowDialog() == true)
-                try { AttachFiles(dialog.FileNames); } catch (Exception error) { StatusLabel.Text = "첨부 실패: " + error.Message; }
+                await AttachFilesFromUiAsync(dialog.FileNames);
         }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : AttachFilesFromUiAsync
+        /// desc         : 모든 파일 추출이 성공한 경우만 첨부하고 중복 요청·부분 첨부를 막는다.
+        /// author       : CodexOrig
+        /// create date  : 2026-10-18
+        /// update date  : 2026-10-18 CodexOrig : TASK-016 UI 문서 추출 취소와 해제 후 접근 차단.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        private async System.Threading.Tasks.Task AttachFilesFromUiAsync(string[] paths)
+        {
+            if (busy || disposed) return;
+            if (paths == null || paths.Length == 0 || ActiveChat.Attachments.Count + paths.Length > 4) { StatusLabel.Text = "첨부는 최대 4개입니다."; return; }
+            ChatSession chat = ActiveChat; var attachments = new List<ChatAttachment>();
+            busy = true; requestCancellation = new CancellationTokenSource(); UpdateButtons(); StatusLabel.Text = "문서 본문을 읽고 있습니다…";
+            try {
+                foreach (string path in paths) attachments.Add(await ChatAttachment.FromFileAsync(path, requestCancellation.Token));
+                requestCancellation.Token.ThrowIfCancellationRequested();
+                if (!disposed) { foreach (var attachment in attachments) chat.Attachments.Add(attachment); StatusLabel.Text = "첨부 본문을 읽었습니다. 내용을 확인하고 요청을 보내세요."; }
+            } catch (OperationCanceledException) { if (!disposed) StatusLabel.Text = "첨부 읽기를 중지했습니다."; }
+            catch (Exception error) { if (!disposed) StatusLabel.Text = "첨부 실패: " + error.Message; }
+            finally { busy = false; requestCancellation.Dispose(); requestCancellation = null; if (!disposed) UpdateButtons(); }
+        }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : StartFilePaste
+        /// desc         : 기본 붙여넣기를 취소한 뒤 파일 목록을 비동기로 읽는다.
+        /// author       : CodexOrig
+        /// create date  : 2026-10-18
+        /// update date  : 2026-10-18 CodexOrig : 파일 선택·드롭과 동일한 문서 추출 경로 사용.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        private async void StartFilePaste(object sender, EventArgs e) { await AttachFilesFromUiAsync((string[])sender); }
 
         /// ---------------------------------------------------------------------
         /// <summary>
@@ -189,14 +227,14 @@ namespace VS2017.AIAssistant.Views
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : 오류 시 부분 첨부 없이 안내.
         /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
+        /// update date  : 2026-10-18 CodexOrig : TASK-016 문서 첨부·모델 설정·AI 역할 협업과 실패 복구 흐름 연결.
         /// </summary>
         /// ---------------------------------------------------------------------
-        private void AttachmentsDropped(object sender, DragEventArgs e)
+        private async void AttachmentsDropped(object sender, DragEventArgs e)
         {
             if (!e.Data.GetDataPresent(DataFormats.FileDrop)) return;
             e.Handled = true;
-            try { AttachFiles((string[])e.Data.GetData(DataFormats.FileDrop)); }
-            catch (Exception error) { StatusLabel.Text = "첨부 실패: " + error.Message; }
+            await AttachFilesFromUiAsync((string[])e.Data.GetData(DataFormats.FileDrop));
         }
 
         /// ---------------------------------------------------------------------
@@ -207,11 +245,12 @@ namespace VS2017.AIAssistant.Views
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : 스크린샷 Ctrl+V와 파일 복사 지원.
         /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
+        /// update date  : 2026-10-18 CodexOrig : TASK-016 문서 첨부·모델 설정·AI 역할 협업과 실패 복구 흐름 연결.
         /// </summary>
         /// ---------------------------------------------------------------------
         private bool PasteAttachmentData(IDataObject data)
         {
-            if (data.GetDataPresent(DataFormats.FileDrop)) { AttachFiles((string[])data.GetData(DataFormats.FileDrop)); return true; }
+            if (data.GetDataPresent(DataFormats.FileDrop)) { StartFilePaste((string[])data.GetData(DataFormats.FileDrop), EventArgs.Empty); return true; }
             var bitmap = data.GetData(DataFormats.Bitmap) as BitmapSource;
             if (bitmap == null) return false;
             if (busy || disposed || ActiveChat.Attachments.Count >= 4) throw new InvalidOperationException("요청 완료 후 최대 4개까지 첨부하세요.");

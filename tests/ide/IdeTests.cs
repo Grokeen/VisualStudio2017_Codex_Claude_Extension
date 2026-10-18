@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -28,6 +28,7 @@ namespace CodexCode.IdeIntegration
     /// create date  : 2026-10-18
     /// update date  : 2026-10-18 CodexCode : 메모리 fixture 대신 실제 VS2017 편집기 통합 테스트.
     /// update date  : 2026-10-18 CodexOrig : Chat 컨텍스트·설정·창 이동 및 검증 흐름 갱신.
+    /// update date  : 2026-10-18 CodexOrig : TASK-016 문서 첨부·모델 설정·AI 역할 협업과 실패 복구 흐름 연결.
     /// </summary>
     /// ---------------------------------------------------------------------
     internal static class IdeTests
@@ -47,6 +48,7 @@ namespace CodexCode.IdeIntegration
         /// update date  : 2026-10-18 CodexOrig : 격리된 실제 WPF 팝업 UX15를 IDE 호스트에서 검증.
         /// update date  : 2026-10-18 CodexOrig : AI 탭 Tag 선택·소스 링크·빈 SQL 승인 저장·Markdown 대화 복원 검증.
         /// update date  : 2026-10-18 CodexOrig : TASK-014 실제 IDE에서 경계 드래그·접기·폭 복원·읽음 저장7개 검증.
+        /// update date  : 2026-10-18 CodexOrig : TASK-016 문서 첨부·모델 설정·AI 역할 협업과 실패 복구 흐름 연결.
         /// </summary>
         /// ---------------------------------------------------------------------
         internal static async Task RunAsync(Package product, DTE dte, TestConfig config)
@@ -227,6 +229,40 @@ namespace CodexCode.IdeIntegration
             Check("SIDEBAR-06 viewing the IDE conversation clears only its persisted unread marker", !selectedRecord.HasUnread && !new MarkdownWorkspaceStore().LoadOpen("Codex").Single(r => r.Id == selectedRecord.Id).HasUnread);
             using (var restoredSidebar = new AssistantControl())
                 Check("SIDEBAR-07 recreated IDE control restores list preference and width", ((ToggleButton)restoredSidebar.FindName("HistoryToggle")).IsChecked == true && Math.Abs(new AssistantSettingsStore().Load().HistoryWidth - resizedWidth) < 2);
+            dte.ItemOperations.OpenFile(sourcePath);
+            string documentReference = Path.Combine(config.OutputDirectory, "Reference.rtf"); File.WriteAllText(documentReference, "{\\rtf1\\ansi IDE-DOCUMENT-REFERENCE}");
+            var uiFlags = BindingFlags.Instance | BindingFlags.NonPublic;
+            await (Task)typeof(AssistantControl).GetMethod("AttachFilesFromUiAsync", uiFlags).Invoke(view, new object[] { new[] { documentReference } });
+            var documentAttachments = ((ListBox)view.FindName("AttachmentList")).Items.OfType<ChatAttachment>().ToArray();
+            Check("ADVANCED-01 actual IDE asynchronously extracts document body into the composer", documentAttachments.Any(a => a.IsDocument && a.Text.Contains("IDE-DOCUMENT-REFERENCE")));
+            var collaboration = new ConversationCollaborationStore(new MarkdownWorkspaceStore().RootPath);
+            var coordinator = (ConversationRecord)((ListBox)view.FindName("ConversationList")).SelectedItem;
+            var identity = collaboration.EnsureAgent(coordinator);
+            collaboration.UpdateAgent(coordinator.Id, "Codex", "IDE-Coordinator", "최종 검토", "IDE-Team", identity.Revision);
+            Click(view, "NewChatButton");
+            var colleague = (ConversationRecord)((ListBox)view.FindName("ConversationList")).SelectedItem;
+            var peerIdentity = collaboration.EnsureAgent(colleague);
+            collaboration.UpdateAgent(colleague.Id, "Codex", "IDE-Reviewer", "경계 검토", "IDE-Team", peerIdentity.Revision);
+            var conversationList = (ListBox)view.FindName("ConversationList");
+            conversationList.SelectedItem = conversationList.Items.OfType<ConversationRecord>().Single(r => r.Id == coordinator.Id);
+            coordinator.CollaboratorIds = new[] { colleague.Id }; new MarkdownWorkspaceStore().Save(coordinator);
+            typeof(AssistantControl).GetMethod("RefreshExperience", uiFlags).Invoke(view, null);
+            Check("ADVANCED-02 actual IDE displays the persisted unique AI name and collaboration count", Convert.ToString(Button(view, "AgentButton").Content).Contains("IDE-Coordinator") && Convert.ToString(Button(view, "AgentButton").Content).Contains("협업 1"));
+            Text(view, "ExecutablePath").Text = config.FixturePath; Text(view, "Instruction").Text = "fixture:ok";
+            byte[] sourceBeforeCollaboration = File.ReadAllBytes(sourcePath);
+            await GenerateAsync(view);
+            Check("ADVANCED-03 actual native peer and coordinator requests deliver a real handoff inside VS2017", collaboration.ListOutbox(coordinator.Id, "Codex").Single().State == CollaborationHandoffState.Delivered && Text(view, "ProposedPreview").Text.Contains("return 2;"));
+            Check("ADVANCED-04 collaboration leaves actual IDE source and disk unchanged before approval", target.Capture().Content == unsaved && sourceBeforeCollaboration.SequenceEqual(File.ReadAllBytes(sourcePath)) && !Button(view, "ApplyButton").IsEnabled);
+            var peerRecord = new MarkdownWorkspaceStore().LoadOpen("Codex").Single(r => r.Id == colleague.Id);
+            Check("ADVANCED-05 peer completion and unread status are saved separately in the IDE", peerRecord.State == ConversationRunState.Completed && peerRecord.HasUnread);
+            Check("ADVANCED-06 actual collaboration report contains the real participants and result", File.Exists(collaboration.ReportPath) && File.ReadAllText(collaboration.ReportPath).Contains("IDE-Reviewer") && collaboration.ListOutbox(coordinator.Id, "Codex").Single().Reply.Length > 0);
+            frame.Show(); await Task.Delay(150); view.UpdateLayout();
+            Check("ADVANCED-07 model details and capability-controlled Fast are present in the real host", Button(view, "ModelOptionsButton").IsVisible && ((ToggleButton)view.FindName("FastToggle")).IsVisible && !((ToggleButton)view.FindName("FastToggle")).IsEnabled);
+            using (var restoredAdvanced = new AssistantControl()) {
+                ProductUi.SelectProvider(restoredAdvanced, "Codex");
+                var restoredRecord = ((ListBox)restoredAdvanced.FindName("ConversationList")).Items.OfType<ConversationRecord>().Single(r => r.Id == coordinator.Id);
+                Check("ADVANCED-08 recreated IDE controls restore AI identity and selected collaborators", restoredRecord.CollaboratorIds.Contains(colleague.Id) && collaboration.GetAgent(coordinator.Id, "Codex").Name == "IDE-Coordinator");
+            }
             var json = new JavaScriptSerializer();
             File.WriteAllText(Path.Combine(config.OutputDirectory, "result.json"), json.Serialize(new {
                 Succeeded = failed == 0, Passed = passed, Failed = failed, IdeRuntimeTest = true,

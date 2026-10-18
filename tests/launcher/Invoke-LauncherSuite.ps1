@@ -6,11 +6,12 @@ desc         : 테스트 실행기가 지정한 허용 목록의 검사만 Power
 author       : CodexCode
 create date  : 2026-10-18
 update date  : 2026-10-18 CodexCode : 고정 스크립트·루트 내부 경로·실패 종료 코드 검증.
+update date  : 2026-10-18 CodexOrig : TASK-016 문서·모델·AI 협업과 실제 비동기 UI 회귀 연결.
 -------------------------------------------------------------------------
 #>
 [CmdletBinding()]
 param(
-    [Parameter(Mandatory=$true)][ValidateSet('compatibility','build-entry','markdown','settings','workspace-actions','editing','foundation','experience','ide','live-codex')][string]$Suite,
+    [Parameter(Mandatory=$true)][ValidateSet('compatibility','build-entry','markdown','settings','workspace-actions','editing','foundation','experience','documents','collaboration','provider-options','provider-cli','scm-identity','ide','live-codex')][string]$Suite,
     [string]$AssemblyPath,
     [string]$VsixPath,
     [string]$OutputDirectory,
@@ -31,6 +32,11 @@ try {
         'editing' { $scriptRelativePath = 'tests\editing\Test-SourceEditing.ps1'; $suiteArguments.AssemblyPath = $AssemblyPath }
         'foundation' { $scriptRelativePath = 'tests\foundation\Test-FoundationPackage.ps1'; $suiteArguments.AssemblyPath = $AssemblyPath; $suiteArguments.VsixPath = $VsixPath; $suiteArguments.OutputDirectory = $OutputDirectory }
         'experience' { $scriptRelativePath = 'tests\review\Test-WorkspaceExperience.ps1'; $suiteArguments.AssemblyPath = $AssemblyPath; $suiteArguments.OutputDirectory = $OutputDirectory }
+        'documents' { $scriptRelativePath = 'tests\documents\Test-DocumentAttachments.ps1'; $suiteArguments.AssemblyPath = $AssemblyPath; $suiteArguments.WorkerPath = Join-Path ([IO.Path]::GetDirectoryName($AssemblyPath)) 'VS2017.AIAssistant.DocumentReader.exe' }
+        'collaboration' { $scriptRelativePath = 'tests\collaboration\Test-ConversationCollaboration.ps1'; $suiteArguments.AssemblyPath = $AssemblyPath }
+        'provider-options' { $scriptRelativePath = 'tests\provider-options\Test-ProviderOptions.ps1'; $suiteArguments.ProductAssemblyPath = $AssemblyPath }
+        'provider-cli' { $scriptRelativePath = 'tests\provider-options\Test-ProviderCliIntegration.ps1'; $suiteArguments.AssemblyPath = $AssemblyPath }
+        'scm-identity' { $scriptRelativePath = 'tests\provider-options\Test-ScmIdentity.ps1'; $suiteArguments.ProductAssemblyPath = $AssemblyPath }
         'ide' { $scriptRelativePath = 'tests\ide\Test-IdeIntegration.ps1'; $suiteArguments.VsixPath = $VsixPath }
         'live-codex' { $scriptRelativePath = 'tests\review\Test-LiveChatContext.ps1'; $suiteArguments.AssemblyPath = $AssemblyPath; $suiteArguments.CodexPath = $CodexPath }
     }

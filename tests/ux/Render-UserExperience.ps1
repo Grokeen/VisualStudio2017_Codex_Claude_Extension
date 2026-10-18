@@ -9,14 +9,14 @@ update date  : 2026-10-18 CodexOrig : 개인 설정·대화·계정과 분리한
 -------------------------------------------------------------------------
 #>
 [CmdletBinding()]
-param([string]$AssemblyPath, [string]$OutputDirectory, [string]$Version = '0.6')
+param([string]$AssemblyPath, [string]$OutputDirectory, [string]$Version = '0.7')
 $ErrorActionPreference = 'Stop'
 if ($PSVersionTable.PSEdition -ne 'Desktop' -or [Threading.Thread]::CurrentThread.GetApartmentState() -ne 'STA') { throw 'Windows PowerShell 5.1 -STA로 실행하세요.' }
 $repositoryDir = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..\..'))
 if (!$AssemblyPath) { $AssemblyPath = Join-Path $repositoryDir 'src\VS2017.AIAssistant\bin\Release\VS2017.AIAssistant.dll' }
 if (!$OutputDirectory) { $OutputDirectory = Join-Path $repositoryDir 'docs\assets' }
 $null = New-Item -ItemType Directory -Path $OutputDirectory -Force
-$previewRoot = Join-Path $repositoryDir ('artifacts\task013\preview-' + [guid]::NewGuid().ToString('N'))
+$previewRoot = Join-Path $repositoryDir ('artifacts\task016\preview-' + [guid]::NewGuid().ToString('N'))
 $null = New-Item -ItemType Directory -Path $previewRoot -Force
 Add-Type -AssemblyName PresentationFramework, PresentationCore, WindowsBase, System.Xaml
 $graph = Get-Content (Join-Path $repositoryDir 'src\VS2017.AIAssistant\obj\project.assets.json') -Raw | ConvertFrom-Json
@@ -127,6 +127,8 @@ public static class CodexOrigPreview
     $record.State='Completed'; $store.Save($record); $store.Rename($record,'입력 검증 · null 처리')
     $other = $store.Create('Claude'); $other.State='Completed'; $other.HasUnread=$true; $store.Rename($other,'SQL 조회 조건 정리')
     $store.SaveInstructions("응답은 한국어로 작성합니다.`n기존 API와 들여쓰기를 유지합니다.")
+    $agentStore = New-Object VS2017.AIAssistant.Chat.ConversationCollaborationStore -ArgumentList $env:VS2017_AI_WORKSPACE_PATH
+    foreach($r in $store.LoadOpen('Claude')) { $a=$agentStore.EnsureAgent($r); $null=$agentStore.UpdateAgent($r.Id,'Claude',('검토 담당-' + $r.Id.Substring(0,4)),'코드 품질과 예외 처리를 검토합니다.','개발 검토팀',$a.Revision) }
     $control = New-Object VS2017.AIAssistant.Views.AssistantControl
     $control.FindName('DiffPreview').Text = "--- 변경 전`nreturn input.Trim();`n`n+++ 변경 후`nreturn (input ?? string.Empty).Trim();"
     $control.FindName('OriginalPreview').Text = 'return input.Trim();'
@@ -171,6 +173,8 @@ public static class CodexOrigPreview
     [CodexOrigPreview]::CapturePopup($control.FindName('HelpButton'),$hostWindow,(Join-Path $OutputDirectory ('getting-started-' + $Version + '.png')))
     [CodexOrigPreview]::CapturePopup($control.FindName('SettingsButton'),$hostWindow,(Join-Path $OutputDirectory ('settings-' + $Version + '.png')))
     [CodexOrigPreview]::CapturePopup($control.FindName('CliHelpButton'),$hostWindow,(Join-Path $OutputDirectory ('cli-setup-' + $Version + '.png')))
+    [CodexOrigPreview]::CapturePopup($control.FindName('ModelOptionsButton'),$hostWindow,(Join-Path $OutputDirectory ('model-options-' + $Version + '.png')))
+    [CodexOrigPreview]::CapturePopup($control.FindName('AgentButton'),$hostWindow,(Join-Path $OutputDirectory ('agent-options-' + $Version + '.png')))
     [pscustomobject]@{ AssemblySHA256=(Get-FileHash -LiteralPath $AssemblyPath).Hash; SyntheticConversation=$true; OutputDirectory=$OutputDirectory; SettingsAndWorkspace=$previewRoot } | ConvertTo-Json | Set-Content (Join-Path $previewRoot 'render.json') -Encoding UTF8
     Write-Output $previewRoot
 }

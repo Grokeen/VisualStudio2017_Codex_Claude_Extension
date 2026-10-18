@@ -1,0 +1,12 @@
+﻿{
+    "CheckedAt":  "2026-10-18T14:31:06.6557093+09:00",
+    "Passed":  47,
+    "Total":  47,
+    "Platform":  "AnyCPU",
+    "ProductAssembly":  "artifacts\\task016\\handoff\\VS2017.AIAssistant.dll",
+    "ProductHash":  "BB80BC8ED422F6F36857AB7367A5B5432A65218E8CFE6F51F94A1143A16A1D44",
+    "WorkerSource":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task016\\handoff\\VS2017.AIAssistant.DocumentReader.exe",
+    "WorkerArchitecture":  "MSIL",
+    "WorkerHash":  "5FAF1E32510DF9BD1FECA015E862F9B47499165B6D3090C015885A23171E07C7",
+    "OutputDirectory":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\dr\\ee1e831bac"
+}

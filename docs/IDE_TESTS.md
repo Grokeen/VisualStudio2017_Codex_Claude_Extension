@@ -97,3 +97,9 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\tests\ide\Test-IdeIntegrat
 | WORK-07 | 컨트롤 재생성 시 해당 AI의 열린 대화 목록 복원 |
 
 설정과 Markdown 루트는 실행별 폴더로 격리한다. `launch.json`은 VSIX·참조 DLL 해시를, `result.json`은 실제 Codex 및 SQL 호출 여부를 기록한다. 최신 완료 결과는 [TASK-013](../MarkdownReport/CodexOrig_TASK-013.md)을 참고한다. 손으로 하는 도킹·마우스 드래그·다중 모니터 DPI와 실제 Claude 인증은 별도 확인 범위다.
+
+## v0.7.0 문서·모델·대화 AI 협업 (TASK-016)
+
+실제 VS2017에서 SIDEBAR7개에 ADVANCED8개를 추가했다. fixture만 사용하면70개, 실제 Codex의 소스 수정·SQL 요청을 포함하면73개다. ADVANCED는 비동기 문서 본문 첨부, AI 이름·참여자 표시, 실제 native peer→coordinator 호출·전달, 승인 전 IDE 버퍼/디스크 유지, peer 완료/읽지않음, 실제 협업 보고, 모델/Fast UI, 재생성시 참여자·이름 복원을 검사한다.
+
+최종 VSIX를 직접 설치하고 그 패키지에서 추출한 DLL을 참조한다. IDE에서 소스 탭을 연 뒤 UI 표시를 검사할 때는 테스트 소유 도구 프레임을 다시 표시한 뒤 실제 배치를 갱신한다. 제품의 숨김 동작이나 승인 조건을 테스트에 맞춰 바꾸지 않는다. 결과는 [TASK-016](../MarkdownReport/CodexOrig_TASK-016.md)과 해당 IDE JSON을 참고한다.

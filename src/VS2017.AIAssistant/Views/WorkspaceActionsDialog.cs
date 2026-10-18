@@ -16,6 +16,7 @@ namespace VS2017.AIAssistant.Views
     /// author       : CodexCode
     /// create date  : 2026-10-18
     /// update date  : 2026-10-18 CodexCode : 권한별 차단·정확한 명령 미리보기·취소·스키마 공유 분리.
+    /// update date  : 2026-10-18 CodexOrig : TASK-016 문서 첨부·모델 설정·AI 역할 협업과 실패 복구 흐름 연결.
     /// </summary>
     /// ---------------------------------------------------------------------
     public sealed class WorkspaceActionsDialog : AssistantDialog
@@ -60,6 +61,7 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 기본 해제 권한과 명시적 실행 동의 제공.
+        /// update date  : 2026-10-18 CodexOrig : TASK-016 문서 첨부·모델 설정·AI 역할 협업과 실패 복구 흐름 연결.
         /// </summary>
         /// ---------------------------------------------------------------------
         public WorkspaceActionsDialog(AssistantControl source, string projectDirectory, WorkspacePermissionPolicy policy, Action<string> schemaReceived)
@@ -94,7 +96,17 @@ namespace VS2017.AIAssistant.Views
             commandBody.SetResourceReference(Panel.BackgroundProperty, VsBrushes.ToolWindowBackgroundKey);
             databaseBody.SetResourceReference(Panel.BackgroundProperty, VsBrushes.ToolWindowBackgroundKey);
             tabs.Items.Add(ThemedTab("⚒ 형상 관리 · 배포", Scroll(commandBody)));
-            tabs.Items.Add(ThemedTab("▤ DB 쿼리 작성", Scroll(databaseBody))); Body.Content = tabs;
+            tabs.Items.Add(ThemedTab("▤ DB 쿼리 작성", Scroll(databaseBody)));
+            var layout = new DockPanel();
+            var presets = new WrapPanel();
+            foreach (var preset in new[] { "승인 요청", "내 대신 승인", "전체 권한" }) {
+                string label = preset; var button = new Button { Content = label == "전체 권한" ? "⚿ " + label : "✓ " + label, Margin = new Thickness(0, 0, 7, 7) };
+                button.Click += (s, a) => { sourcePermission.IsChecked = databasePermission.IsChecked = label != "승인 요청"; deploymentPermission.IsChecked = label == "전체 권한"; InvalidatePlan(); };
+                presets.Children.Add(button);
+            }
+            var presetBody = new StackPanel(); presetBody.Children.Add(presets);
+            presetBody.Children.Add(new TextBlock { Text = "승인 요청: 모두 해제 · 내 대신 승인: 형상관리·DB 허용 · 전체 권한: 배포까지 허용. 권한 저장으로 적용됩니다. 실제 작업은 실행 계획 확인과 개별 동의 후 실행합니다.", TextWrapping = TextWrapping.Wrap, Foreground = System.Windows.Media.Brushes.Silver });
+            var section = AssistantControl.OptionSection("확장 작업 권한", presetBody); DockPanel.SetDock(section, Dock.Top); layout.Children.Add(section); layout.Children.Add(tabs); Body.Content = layout;
             Actions.Children.Insert(0, cancel); run.Style = (Style)FindResource("PrimaryButton");
             Actions.Children.Insert(0, savePermissions);
             savePermissions.Click += SavePermissionsClicked;

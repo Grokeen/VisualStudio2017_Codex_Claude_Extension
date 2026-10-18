@@ -1,0 +1,30 @@
+﻿{
+    "ProductVersion":  "0.7.0",
+    "VSIXSHA256":  "DB9C5D706760D693A2BB758E9E1E6DC2C0BF1DB4B28FA134F3307B35ABEBC059",
+    "VSIXBytes":  275314,
+    "Entries":  [
+                    {
+                        "Name":  "VS2017.AIAssistant.dll",
+                        "Length":  325120,
+                        "SHA256":  "BB80BC8ED422F6F36857AB7367A5B5432A65218E8CFE6F51F94A1143A16A1D44",
+                        "MatchesHandoff":  true
+                    },
+                    {
+                        "Name":  "VS2017.AIAssistant.DocumentReader.exe",
+                        "Length":  9728,
+                        "SHA256":  "5FAF1E32510DF9BD1FECA015E862F9B47499165B6D3090C015885A23171E07C7",
+                        "MatchesHandoff":  true
+                    },
+                    {
+                        "Name":  "VS2017.AIAssistant.DocumentReader.exe.config",
+                        "Length":  159,
+                        "SHA256":  "DBA0AC349FA98F542FE90CC4FBBE3033567DAC0515859D049854E81DEFAAAA51",
+                        "MatchesHandoff":  true
+                    }
+                ],
+    "SourceFiles":  36,
+    "SourceMismatches":  0,
+    "RoleSHA256":  "D25E6ED1167A33AF028BEB0EF23EDCEE918A9118C583BA295993B70C1C310866",
+    "RoleMatchesReviewed":  true,
+    "CheckedAt":  "2026-10-18T14:31:11.4012942+09:00"
+}

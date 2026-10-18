@@ -1,4 +1,4 @@
-﻿# 설정·첫 사용 안내 검증 (v0.6.0)
+# 설정·첫 사용 안내 검증 (v0.7.0)
 
 Role.md 프로젝트8~11번을 구현했다. 설정 버튼과 우클릭 메뉴는 동일한 CenterScreen 모달 창을 연다. 저장 성공 후 닫고, 닫기·Esc·X는 미저장 설정을 복원한다. 저장 오류는 팝업 안에 표시한다. 처음 실제로 표시되는 Chat은 네 단계 안내를 열며 `HideWelcome` 선택을 설정 파일에 저장한다. 이 선택만 변경할 때는 기존 파일을 읽어 다른 설정을 보존한다.
 
@@ -33,3 +33,7 @@ powershell -NoProfile -NonInteractive -ExecutionPolicy Bypass -File .\tests\ide\
 ## 수동으로 추가 확인할 항목
 
 실제 마우스 우클릭·키보드 전체 제스처, 여러 모니터·DPI, 스크린리더, 실제 Claude 로그인은 이 자동 검사의 완료 범위에 포함하지 않는다. 자동 검사는 실제 WPF 이벤트·명령 대상과 UI 상태를 검증하며, OS의 개인 클립보드를 덮어쓰지 않는다.
+
+## v0.7 입력·협업 회귀
+
+tests/review/Test-WorkspaceExperience.ps1와 AdvancedExperienceChecks.cs는 총101개 검사다. 모델 상세 팝업의 실제 슬라이더/저장·지원 수준에 따른 Fast 해제, 파일 clipboard의 비동기 본문, 동료 호출과 실제 결과 전달, 중지 및 보고서 잠금에 따른 원인 오류 보존, 전달 완료 후 대화 저장 실패, AI JSON/대화 Markdown 사이 롤백을 포함한다. Windows PowerShell 호스트에서는 DispatcherSynchronizationContext를 명시해 실제 WPF 이벤트 루프와 같은 스레드 복귀를 검사한다.

@@ -58,7 +58,7 @@ try {
     $referenceAssemblies = @($AssemblyPath, 'System.dll', 'System.Core.dll', 'System.Web.Extensions.dll',
         [Windows.DependencyObject].Assembly.Location, [Windows.Media.Visual].Assembly.Location,
         [Windows.Window].Assembly.Location, [System.Xaml.XamlReader].Assembly.Location)
-    Add-Type -ReferencedAssemblies $referenceAssemblies -TypeDefinition @'
+    $experienceSource = @'
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -279,7 +279,7 @@ namespace CodexCode.WorkspaceReview
     /// update date  : 2026-10-18 CodexCode : 제품 인계 후 확정된 UI 동작을 독립 검증.
     /// </summary>
     /// ---------------------------------------------------------------------
-    public static class WorkspaceExperience
+    public static partial class WorkspaceExperience
     {
         private static ExperienceResult result;
 
@@ -293,7 +293,7 @@ namespace CodexCode.WorkspaceReview
         /// </summary>
         /// ---------------------------------------------------------------------
         private static void Check(bool condition, string message)
-        { if (!condition) throw new InvalidOperationException(message); result.Checks.Add(message); }
+        { if (!condition) throw new InvalidOperationException(message); result.Checks.Add(message); Console.WriteLine("PASS " + message); }
 
         /// ---------------------------------------------------------------------
         /// <summary>
@@ -845,6 +845,7 @@ namespace CodexCode.WorkspaceReview
                     Check(Math.Abs(claudePosition.Y - codexPosition.Y) <= 2 && claudePosition.X < codexPosition.X,
                         "Claude retains the first visible position in a single provider row at window width " + width);
                 }
+                CheckAdvancedFeatures(output);
                 prompt.Text = "폐기 시 작업 타이머 해제 검사";
                 HandleKey(control, Key.Return, ModifierKeys.None);
                 PumpUntil(() => provider.Calls == 3 && activityTimer.IsEnabled && activityClock.IsRunning, 2000);
@@ -863,6 +864,7 @@ namespace CodexCode.WorkspaceReview
     }
 }
 '@
+    Add-Type -ReferencedAssemblies $referenceAssemblies -TypeDefinition ($experienceSource + [IO.File]::ReadAllText((Join-Path $PSScriptRoot 'AdvancedExperienceChecks.cs')))
     $experience = [CodexCode.WorkspaceReview.WorkspaceExperience]::Run($env:VS2017_AI_SETTINGS_PATH, $OutputDirectory)
     $report = [pscustomobject]@{
         Succeeded=$experience.Succeeded; CheckKind='IndependentWpfWorkspaceExperience'; Passed=$experience.Checks.Count

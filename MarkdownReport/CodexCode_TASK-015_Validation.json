@@ -1,0 +1,79 @@
+﻿{
+    "Task":  "TASK-015",
+    "Agent":  "CodexCode",
+    "StartedAt":  "2026-10-18T14:01:49+09:00",
+    "CompletedAt":  "2026-10-18T14:33:59.8896983+09:00",
+    "DurationSeconds":  1931,
+    "Scope":  "Document extraction, provider options/native CLI integration, named collaboration, SCM identity; product integration and final deployment owned by TASK-016",
+    "ProductVersion":  "0.7.0",
+    "ProductAssemblySHA256":  "BB80BC8ED422F6F36857AB7367A5B5432A65218E8CFE6F51F94A1143A16A1D44",
+    "VsixSHA256":  "DB9C5D706760D693A2BB758E9E1E6DC2C0BF1DB4B28FA134F3307B35ABEBC059",
+    "VsixBytes":  275314,
+    "Tests":  [
+                  {
+                      "Evidence":  "CodexCode_TASK-015_ProviderOptions.json",
+                      "Name":  "ProviderOptions",
+                      "Failed":  0,
+                      "Passed":  65
+                  },
+                  {
+                      "Evidence":  "CodexCode_TASK-015_Collaboration.json",
+                      "Name":  "Collaboration",
+                      "Failed":  0,
+                      "Passed":  60
+                  },
+                  {
+                      "Evidence":  "CodexCode_TASK-015_DocumentsAnyCPU.json",
+                      "Name":  "DocumentsAnyCPU",
+                      "Failed":  0,
+                      "Passed":  47
+                  },
+                  {
+                      "Evidence":  "CodexCode_TASK-015_ScmIdentity.json",
+                      "Name":  "ScmIdentity",
+                      "Failed":  0,
+                      "Passed":  63
+                  },
+                  {
+                      "Evidence":  "CodexCode_TASK-015_ProviderCli.json",
+                      "Name":  "ProviderCli",
+                      "Failed":  0,
+                      "Passed":  15
+                  },
+                  {
+                      "Evidence":  "CodexCode_TASK-015_DocumentsX86.json",
+                      "Name":  "DocumentsX86Caller",
+                      "Failed":  0,
+                      "Passed":  47
+                  }
+              ],
+    "UniqueCases":  250,
+    "ExecutedChecks":  297,
+    "RepeatCountsIncludedInUniqueCases":  false,
+    "PackageEntriesMatch":  true,
+    "ProductSourceFiles":  36,
+    "ProductSourceMismatches":  0,
+    "RoleMatchesReviewed":  true,
+    "ScmProductFixtureDependencyCorrected":  true,
+    "ActualGcmMetadataRead":  true,
+    "AccountNameStoredInEvidence":  false,
+    "ActualGhApiAccountTested":  false,
+    "ActualClaudeAccountTested":  false,
+    "EncryptedRealDocumentTested":  false,
+    "PeerProposalsApplied":  false,
+    "VisualImagesReviewed":  [
+                                 "docs/assets/model-options-0.7.png",
+                                 "docs/assets/agent-options-0.7.png",
+                                 "docs/assets/chat-0.7-preview.png"
+                             ],
+    "ProductSourceEditingComplete":  true,
+    "SubagentEditingComplete":  true,
+    "DeploymentOwner":  "CodexOrig TASK-016",
+    "Limitations":  [
+                        "Current VSIX targets VS2017 15.9+",
+                        "PDF and legacy Office extraction requires a matching Windows IFilter",
+                        "No scanned PDF OCR",
+                        "Encrypted-document error branch uses a fixture",
+                        "Live Claude/Fast billing and GH API account were not tested"
+                    ]
+}

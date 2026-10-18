@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -119,6 +119,7 @@ namespace VS2017.AIAssistant.Views
         /// update date  : 2026-10-18 CodexOrig : 취소 복구와 명시적 저장에서 같은 필드를 사용.
         /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// update date  : 2026-10-18 CodexOrig : TASK-014 설정 저장 시 사용자가 조절한 대화 목록 배치를 보존.
+        /// update date  : 2026-10-18 CodexOrig : TASK-016 문서 첨부·모델 설정·AI 역할 협업과 실패 복구 흐름 연결.
         /// </summary>
         /// ---------------------------------------------------------------------
         private AssistantSettings CaptureSettings()
@@ -130,6 +131,7 @@ namespace VS2017.AIAssistant.Views
                 ClaudeModel = selectedProvider == "Claude" ? ModelName.Text : models["Claude"],
                 Instructions = RulesText.Text, FontSize = FontSize, HideWelcome = hideWelcome,
                 CodexEffort = efforts.ContainsKey("Codex") ? efforts["Codex"] : "auto", ClaudeEffort = efforts.ContainsKey("Claude") ? efforts["Claude"] : "auto",
+                CodexSpeed = speeds["Codex"], ClaudeSpeed = speeds["Claude"],
                 AllowSourceControl = workspacePolicy.AllowSourceControl, AllowDatabaseSchema = workspacePolicy.AllowDatabaseSchema, AllowDeployment = workspacePolicy.AllowDeployment,
                 HistoryWidth = historyWidth, ShowHistory = HistoryToggle.IsChecked == true
             };

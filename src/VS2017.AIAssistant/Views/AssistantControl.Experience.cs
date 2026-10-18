@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
@@ -62,6 +62,7 @@ namespace VS2017.AIAssistant.Views
     /// author       : CodexCode
     /// create date  : 2026-10-18
     /// update date  : 2026-10-18 CodexCode : Role 추가 사용자 흐름 구현.
+    /// update date  : 2026-10-18 CodexOrig : TASK-016 문서 첨부·모델 설정·AI 역할 협업과 실패 복구 흐름 연결.
     /// </summary>
     /// ---------------------------------------------------------------------
     public partial class AssistantControl
@@ -91,6 +92,7 @@ namespace VS2017.AIAssistant.Views
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : Role 추가 사용자 흐름 구현.
         /// update date  : 2026-10-18 CodexOrig : TASK-014 대화 목록 배치 복원과 본문 확인 이벤트 연결.
+        /// update date  : 2026-10-18 CodexOrig : TASK-016 문서 첨부·모델 설정·AI 역할 협업과 실패 복구 흐름 연결.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void InitializeExperience(AssistantSettings settings)
@@ -98,6 +100,7 @@ namespace VS2017.AIAssistant.Views
             Resources[VsBrushes.ToolWindowBackgroundKey] = new SolidColorBrush(Color.FromRgb(23, 23, 23));
             Resources[VsBrushes.ToolWindowTextKey] = new SolidColorBrush(Color.FromRgb(235, 235, 235));
             efforts["Codex"] = ValidEffort(settings.CodexEffort); efforts["Claude"] = ValidEffort(settings.ClaudeEffort);
+            speeds["Codex"] = settings.CodexSpeed; speeds["Claude"] = settings.ClaudeSpeed;
             workspacePolicy = new WorkspacePermissionPolicy { AllowSourceControl = settings.AllowSourceControl, AllowDatabaseSchema = settings.AllowDatabaseSchema, AllowDeployment = settings.AllowDeployment };
             string root = Environment.GetEnvironmentVariable("VS2017_AI_WORKSPACE_PATH");
             string isolated = Environment.GetEnvironmentVariable("VS2017_AI_SETTINGS_PATH");
@@ -143,6 +146,8 @@ namespace VS2017.AIAssistant.Views
             activityTimer.Tick += (sender, args) => RefreshActivityTime();
             statusDescriptor = DependencyPropertyDescriptor.FromProperty(TextBlock.TextProperty, typeof(TextBlock)); statusDescriptor.AddValueChanged(StatusLabel, StatusChanged);
             ClaudeTabLogo.Source = LoadBrand("Claude"); CodexTabLogo.Source = LoadBrand("Codex");
+            collaborationStore = new ConversationCollaborationStore(workspaceStore.RootPath);
+            Loaded += ReadScmIdentity;
             experienceReady = true; InitializeConversationTracking(settings); RefreshExperience();
             if (workspaceWarnings.Count > 0) StatusLabel.Text = "일부 대화를 복원하지 못했습니다. 최근 알림에서 확인하세요.\n" + string.Join("\n", workspaceWarnings);
         }
@@ -154,9 +159,10 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : Role 추가 사용자 흐름 구현.
+        /// update date  : 2026-10-18 CodexOrig : TASK-016 문서 첨부·모델 설정·AI 역할 협업과 실패 복구 흐름 연결.
         /// </summary>
         /// ---------------------------------------------------------------------
-        private static string ValidEffort(string effort) { return new[] { "auto", "low", "medium", "high" }.Contains(effort) ? effort : "auto"; }
+        private static string ValidEffort(string effort) { return Providers.ProviderExecutionOptions.IsEffortToken(effort) ? effort : "auto"; }
         /// ---------------------------------------------------------------------
         /// <summary>
         /// name         : LoadBrand
@@ -192,13 +198,14 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : Role 추가 사용자 흐름 구현.
+        /// update date  : 2026-10-18 CodexOrig : TASK-016 문서 첨부·모델 설정·AI 역할 협업과 실패 복구 흐름 연결.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void RefreshExperience()
         {
             if (!experienceReady) return;
             syncingModel = true;
-            try { RequestModel.Items.Clear(); RequestModel.Items.Add("CLI 기본"); if (selectedProvider == "Claude") foreach (string model in new[] { "sonnet", "opus", "haiku" }) RequestModel.Items.Add(model); RequestModel.Text = string.IsNullOrEmpty(ModelName.Text) ? "CLI 기본" : ModelName.Text; ModeChoice.SelectedValue = efforts[selectedProvider]; }
+            try { RefreshModelChoices(); }
             finally { syncingModel = false; }
             BrandWatermark.Source = selectedProvider == "Claude" ? ClaudeTabLogo.Source : CodexTabLogo.Source;
             EmptyHint.Visibility = ActiveChat.Messages.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
@@ -207,6 +214,7 @@ namespace VS2017.AIAssistant.Views
             ActivityLabel.Text = conversationActivities.TryGetValue(activeRecords[selectedProvider].Id, out activity) ? activity : "";
             ActivityLabel.Visibility = ActivityLabel.Text.Length == 0 ? Visibility.Collapsed : Visibility.Visible;
             RefreshConversationList(); UpdateChangeCard();
+            RefreshAgentIdentity();
         }
 
         /// ---------------------------------------------------------------------
@@ -285,6 +293,7 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : Role 추가 사용자 흐름 구현.
+        /// update date  : 2026-10-18 CodexOrig : TASK-016 문서 첨부·모델 설정·AI 역할 협업과 실패 복구 흐름 연결.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void CloseChatClicked(object sender, RoutedEventArgs e)
@@ -298,6 +307,7 @@ namespace VS2017.AIAssistant.Views
                 try { workspaceStore.Close(record); }
                 catch { if (replacement != null) try { workspaceStore.Close(replacement); } catch (Exception) { } throw; }
                 records.Remove(record); chats.Remove(record.Id); if (replacement != null) records.Add(replacement);
+                try { collaborationStore.EnsureAgent(record); collaborationStore.SetConversationOpen(record.Id, record.Provider, false); } catch (Exception error) { StatusLabel.Text = "AI 보관 상태 저장 실패: " + error.Message; }
                 activeRecords[selectedProvider] = records[0]; ClearProposal(); ShowChat(); UpdateButtons(); StatusLabel.Text = "대화를 닫았습니다. 불러오기에서 Markdown을 다시 열 수 있습니다.";
             }
             catch (Exception error) { StatusLabel.Text = "대화 닫기 실패: " + error.Message; }
@@ -371,10 +381,11 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : Role 추가 사용자 흐름 구현.
+        /// update date  : 2026-10-18 CodexOrig : TASK-016 문서 첨부·모델 설정·AI 역할 협업과 실패 복구 흐름 연결.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void RequestModelChanged(object sender, TextChangedEventArgs e)
-        { if (!experienceReady || syncingModel || busy) return; syncingModel = true; try { ModelName.Text = RequestModel.Text == "CLI 기본" ? "" : RequestModel.Text; models[selectedProvider] = ModelName.Text; } finally { syncingModel = false; } }
+        { if (!experienceReady || syncingModel || busy) return; syncingModel = true; try { ModelName.Text = RequestModel.Text == "CLI 기본" ? "" : RequestModel.Text; models[selectedProvider] = ModelName.Text; RefreshModelChoices(false); } finally { syncingModel = false; } }
         /// ---------------------------------------------------------------------
         /// <summary>
         /// name         : SettingsModelChanged
@@ -382,10 +393,11 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : Role 추가 사용자 흐름 구현.
+        /// update date  : 2026-10-18 CodexOrig : TASK-016 문서 첨부·모델 설정·AI 역할 협업과 실패 복구 흐름 연결.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void SettingsModelChanged(object sender, TextChangedEventArgs e)
-        { if (!experienceReady || syncingModel) return; syncingModel = true; try { RequestModel.Text = ModelName.Text.Length == 0 ? "CLI 기본" : ModelName.Text; } finally { syncingModel = false; } }
+        { if (!experienceReady || syncingModel) return; syncingModel = true; try { RequestModel.Text = ModelName.Text.Length == 0 ? "CLI 기본" : ModelName.Text; RefreshModelChoices(false); } finally { syncingModel = false; } }
         /// ---------------------------------------------------------------------
         /// <summary>
         /// name         : ModeChanged
@@ -393,10 +405,11 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : Role 추가 사용자 흐름 구현.
+        /// update date  : 2026-10-18 CodexOrig : TASK-016 문서 첨부·모델 설정·AI 역할 협업과 실패 복구 흐름 연결.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void ModeChanged(object sender, SelectionChangedEventArgs e)
-        { if (experienceReady && !syncingModel && ModeChoice.SelectedValue != null) efforts[selectedProvider] = ValidEffort(System.Convert.ToString(ModeChoice.SelectedValue)); }
+        { if (experienceReady && !syncingModel && ModeChoice.SelectedValue != null) { efforts[selectedProvider] = ValidEffort(System.Convert.ToString(ModeChoice.SelectedValue)); ModelOptionsButton.Content = "☷ " + EffortLabel(efforts[selectedProvider]) + " ⌄"; } }
 
         /// ---------------------------------------------------------------------
         /// <summary>
@@ -594,6 +607,7 @@ namespace VS2017.AIAssistant.Views
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : Role 추가 사용자 흐름 구현.
         /// update date  : 2026-10-18 CodexOrig : TASK-014 진행 중 요청을 창 종료 시 중지 상태로 저장.
+        /// update date  : 2026-10-18 CodexOrig : TASK-016 문서 첨부·모델 설정·AI 역할 협업과 실패 복구 흐름 연결.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void DisposeExperience()
@@ -604,6 +618,7 @@ namespace VS2017.AIAssistant.Views
             PersistCurrentConversation();
             foreach (var record in conversationRecords.Values.SelectMany(r => r))
             {
+                if (record.State == ConversationRunState.Running) { record.State = ConversationRunState.Stopped; record.HasUnread = true; }
                 ChatSession chat; if (!chats.TryGetValue(record.Id, out chat)) continue;
                 try { record.Draft = chat.Draft; record.Messages = chat.Messages.Select(m => new ChatMessage { Role = m.Role, Text = m.Text }).ToList(); workspaceStore.Save(record); }
                 catch (Exception error) { StatusLabel.Text = "종료 전 대화 저장 실패: " + error.Message; }
@@ -612,6 +627,8 @@ namespace VS2017.AIAssistant.Views
             activityTimer.Stop(); activityClock.Stop();
             ThinkingIndicator.BeginAnimation(OpacityProperty, null); ThinkingIndicator.Visibility = Visibility.Collapsed;
             ToastHost.BeginAnimation(OpacityProperty, null);
+            Loaded -= ReadScmIdentity;
+            if (scmCancellation != null) scmCancellation.Cancel();
         }
 
         /// ---------------------------------------------------------------------

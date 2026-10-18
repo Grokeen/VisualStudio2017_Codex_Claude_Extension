@@ -1,0 +1,71 @@
+{
+  "Task": "TASK-016",
+  "Succeeded": true,
+  "DefaultSuites": 13,
+  "Passed": 13,
+  "Failed": 0,
+  "Summary": "artifacts/tl/680a98b066/summary.txt",
+  "Log": "artifacts/tl/680a98b066/launcher.log",
+  "ExitCode": 0,
+  "RootExeSHA256": "D1015F87D49B878DA084385C547C3C416AC51E978DDB9BF726A95EE0D5E1ECC8",
+  "PackageSHA256": "DB9C5D706760D693A2BB758E9E1E6DC2C0BF1DB4B28FA134F3307B35ABEBC059",
+  "Smoke": {
+    "Failed": 0,
+    "Passed": 9,
+    "Evidence": "CodexOrig_TASK-016_LauncherSmoke.json"
+  },
+  "Suites": [
+    {
+      "Id": "compatibility",
+      "ExitCode": 0
+    },
+    {
+      "Id": "build-entry",
+      "ExitCode": 0
+    },
+    {
+      "Id": "markdown",
+      "ExitCode": 0
+    },
+    {
+      "Id": "settings",
+      "ExitCode": 0
+    },
+    {
+      "Id": "workspace-actions",
+      "ExitCode": 0
+    },
+    {
+      "Id": "editing",
+      "ExitCode": 0
+    },
+    {
+      "Id": "foundation",
+      "ExitCode": 0
+    },
+    {
+      "Id": "experience",
+      "ExitCode": 0
+    },
+    {
+      "Id": "documents",
+      "ExitCode": 0
+    },
+    {
+      "Id": "collaboration",
+      "ExitCode": 0
+    },
+    {
+      "Id": "provider-options",
+      "ExitCode": 0
+    },
+    {
+      "Id": "provider-cli",
+      "ExitCode": 0
+    },
+    {
+      "Id": "scm-identity",
+      "ExitCode": 0
+    }
+  ]
+}

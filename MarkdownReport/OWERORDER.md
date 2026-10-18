@@ -169,3 +169,20 @@ Debug/Release 경고·오류0, 신규 저장52·설정37·업무48·UI56개 PASS
 - README/상세사용법/최종화면·릴리스0.6/5528C0A15DC365A4933D3DB25FD593D947D71A154397784149979370796FD5CE 준비,0.5이전보존. 후속Role추가가도착해TASK015/016의0.7로이어진다. 다른작업진행중이므로GitHub배포는후속종료뒤진행한다.
 
 상관 보고: 목록 크기를 바꾸거나 숨겨도 대화/초안은 보존합니다. 각 응답의 확인 여부와 실제 종료 결과를 구분하며 읽음 처리 실패도 표시합니다. 재현은 루트 실행기 --all과 tests/ide/Test-IdeIntegration.ps1을 사용합니다. 후속 사용자 요구를 처리하는 다른 작업자와 파일 범위를 분리했고 검증된0.6 패키지는 고정했습니다.
+
+## TASK-015 — CodexCode / 2026-10-18 14:33:59 KST
+
+추가 Role 요구를 v0.7.0에 구현했습니다. PPT·Word·Excel·PDF 본문을 읽는 문서 도우미, 실제 모델 지원 범위의 생각 강도/Fast, 대화별 고유 이름·역할과 동료 검토 요청/회신 기록을 추가했습니다. GitHub 로그인 확인 또는 명확한 GCM 저장 계정으로 기본 이름을 구성하며 저장 계정과 서버 인증을 구분합니다. 소스는 비교·승인 후 적용하고 별도로 저장하는 흐름을 유지합니다.
+
+최종 같은 DLL/포장 도우미로 고유250개 사례와 추가 x86 문서47개 실행이 모두 통과했습니다. 초기 SCM 검사 한 건의 fixture 의존DLL 배치를 보정했으며 제품소스는 변경하지 않았습니다. 패키지 세항목/소스36개 해시 및 최신Role 보존을 확인했습니다. 재현은 tests/documents/Test-DocumentAttachments.ps1에 AssemblyPath·WorkerPath를 명시하고, tests/collaboration 및 tests/provider-options의 검사에 고정DLL을 지정합니다. 상세 근거는 CodexCode_TASK-015.md와 _Validation.json입니다.
+
+담당 작업 소요 32분 10초. 모든하위작업자가 편집/테스트를 마쳤습니다. 기존기능 회귀·실제VS2017·루트 VisualStudio_AIChat_ExtentionTest.exe 기본13묶음과 최종배포는 TASK016 CodexOrig에 인계했습니다. 현재 VS2017용이며 PDF/구형Office 필터·OCR/실제암호문서·실제Claude/외부운영환경의 검증한계는 보고서에 명시했습니다.
+
+## TASK-016 — CodexOrig / 2026-10-18 14:36:39 KST
+
+- 작업 시간: 2026-10-18 14:03:42 ~ 2026-10-18 14:36:39 KST, 로컬 검증까지 32분 57초.
+- 최신 Role 문서 첨부·모델 고급강도/Fast·권한 프리셋·주제별 설정·대화 AI 이름/역할/계정 접두사/협업을 v0.7.0으로 통합. 사용자 권한 답변은 확장의 DB·형상관리·배포 범위로 적용했고 수정안 승인·실행 계획 동의는 유지했다.
+- 소스: src/VS2017.AIAssistant/Chat·Views·Providers·Services와 별도 DocumentReader 프로젝트. 실제 동료 순차 CLI→현재 AI 종합·대화별 상태/읽지 않음·실제 Markdown 보고·취소/파일잠금 복구, 비동기 첨부·슬라이더/속도·리비전 원복 포함. 신규 서비스 TASK015, 기존 모델/UI/오케스트레이션·검증/문서/배포 TASK016 소유로 충돌 없이 협업했다.
+- 검증: Debug/Release 경고0·오류0, WPF101/101·실제VS2017/Codex/SQL/native협업73/73·신규서비스고유250/250+추가x86문서47/47, 루트기본13/13 묶음과9/9스모크. 최종 DLL BB80BC8E…/VSIX DB9C5D70… 275314바이트. 제품 소스36개 해시변경0·Role D25E6ED1…/이전릴리스보존, 로컬문서참조46개·최종화면7개 확인.
+- 산출: releases/v0.7.0, 최상위 VisualStudio_AIChat_ExtentionTest.exe, README/상세가이드/CLI·UX·IDE·개발문서, CodexOrig_TASK-016.md 및 Validation/IDE/Experience/Launcher/SourceHashes JSON. 다른작업자전원종료14:34:25확인. 이제검증완료0.6/0.7과전체보고를GitHub에반영하고원격해시확인후배포완료기록을추가한다.
+상관 보고: 문서를 첨부하고 AI별 이름·역할을 정해 실제 검토를 나눌 수 있습니다. 최종 코드 적용은 비교·승인을 거치며 권한 프리셋은 확장 업무에만 적용했습니다. 기본 재현은 루트 실행기 --all, 실제 IDE 검사는 docs/IDE_TESTS.md 명령입니다. 현재 설치 패키지는 VS2017용이며 VS2019/2022 패키지와 실제 Claude·운영 외부 서버 검증은 별도 범위입니다.
