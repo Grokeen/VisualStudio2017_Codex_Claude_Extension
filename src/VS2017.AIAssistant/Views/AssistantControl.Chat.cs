@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -112,7 +112,7 @@ namespace VS2017.AIAssistant.Views
             Instruction.Text = ActiveChat.Draft;
             string model; ModelName.Text = models.TryGetValue(selectedProvider, out model) ? model : "";
             AccountLabel.Text = "연결 확인을 눌러 " + selectedProvider + " 계정 상태를 확인하세요.";
-            ConversationScroll.ScrollToEnd();
+            FollowConversation(true);
             RefreshExperience();
         }
 
@@ -162,6 +162,7 @@ namespace VS2017.AIAssistant.Views
         /// update date  : 2026-10-18 CodexOrig : TASK-016 문서 첨부·모델 설정·AI 역할 협업과 실패 복구 흐름 연결.
         /// </summary>
         /// ---------------------------------------------------------------------
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "VSTHRD100", Justification = "WPF/Dispatcher event handler; awaited operation handles cancellation and failures.")]
         private async void AttachClicked(object sender, RoutedEventArgs e)
         {
             if (busy || disposed) return;
@@ -203,6 +204,7 @@ namespace VS2017.AIAssistant.Views
         /// update date  : 2026-10-18 CodexOrig : 파일 선택·드롭과 동일한 문서 추출 경로 사용.
         /// </summary>
         /// ---------------------------------------------------------------------
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "VSTHRD100", Justification = "WPF/Dispatcher event handler; awaited operation handles cancellation and failures.")]
         private async void StartFilePaste(object sender, EventArgs e) { await AttachFilesFromUiAsync((string[])sender); }
 
         /// ---------------------------------------------------------------------
@@ -232,6 +234,7 @@ namespace VS2017.AIAssistant.Views
         /// update date  : 2026-10-18 CodexOrig : TASK-016 문서 첨부·모델 설정·AI 역할 협업과 실패 복구 흐름 연결.
         /// </summary>
         /// ---------------------------------------------------------------------
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "VSTHRD100", Justification = "WPF drop event; AttachFilesFromUiAsync handles cancellation and failures.")]
         private async void AttachmentsDropped(object sender, DragEventArgs e)
         {
             if (!e.Data.GetDataPresent(DataFormats.FileDrop)) return;
@@ -436,20 +439,21 @@ namespace VS2017.AIAssistant.Views
         /// ---------------------------------------------------------------------
         /// <summary>
         /// name         : ResizeChat
-        /// desc         : 일반 높이에서는 입력을 아래에 두고 작은 창에서는 전체 스크롤을 제공한다.
+        /// desc         : 입력란은 고정하고 대화·변경 카드만 남은 공간에서 스크롤한다.
         /// author       : CodexOrig
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : 펼친 패널에 필요한 최소 콘텐츠 높이 확보.
+        ///                2026-10-18 CodexOrig : 20:25 추가 요청의 고정 입력란·작은 창 높이 제한 반영.
         /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void ResizeChat()
         {
             if (LayoutRoot == null || SettingsPanel == null || ReviewPanel == null) return;
-            double minimum = ReviewPanel.IsExpanded ? 780 : 530;
-            LayoutRoot.Height = double.NaN;
-            LayoutRoot.MinHeight = Math.Max(ActualHeight - 20, minimum);
-            ConversationScroll.MaxHeight = Math.Max(150, ActualHeight - (ReviewPanel.IsExpanded ? 550 : 290));
+            LayoutRoot.Height = double.NaN; LayoutRoot.MinHeight = 0;
+            ConversationScroll.MaxHeight = double.PositiveInfinity;
+            ApplyConversationInputBudget(Math.Max(100, ActualHeight));
+            InvalidateMeasure();
         }
 
         /// ---------------------------------------------------------------------
@@ -507,6 +511,7 @@ namespace VS2017.AIAssistant.Views
         /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// </summary>
         /// ---------------------------------------------------------------------
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "VSTHRD100", Justification = "WPF/Dispatcher event handler; awaited operation handles cancellation and failures.")]
         private async void AccountCheckClicked(object sender, RoutedEventArgs e)
         {
             if (busy || disposed) return;

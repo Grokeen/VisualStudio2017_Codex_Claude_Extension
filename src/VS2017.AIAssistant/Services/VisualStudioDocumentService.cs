@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.IO;
 using System.Security.Cryptography;
 using EnvDTE;
@@ -15,12 +15,14 @@ namespace VS2017.AIAssistant.Services
     /// create date  : 2026-10-18
     /// update date  : 2026-10-18 CodexCode : EnvDTE 문서 컨텍스트 연결.
     /// update date  : 2026-10-18 CodexOrig : Chat 문서 탭 활성화 시 마지막 소스 문서 유지.
+    /// update date  : 2026-10-18 CodexCode : 전체 액세스 전에 모든 열린 미저장 문서를 차단하고 소스 문맥은 선택 사항으로 제공.
     /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
     /// </summary>
     /// ---------------------------------------------------------------------
-    internal sealed class VisualStudioDocumentService : IActiveDocumentService, ISourceNavigationService, IDisposable
+    internal sealed class VisualStudioDocumentService : IActiveDocumentService, ISourceNavigationService, IFullAccessDocumentService, IExternalEditingDocumentService, IDisposable
     {
         private readonly DTE dte;
+        private readonly IServiceProvider services;
         private readonly WindowEvents windowEvents;
         private readonly DocumentEvents documentEvents;
         private Document lastDocument;
@@ -39,6 +41,7 @@ namespace VS2017.AIAssistant.Services
         internal VisualStudioDocumentService(IServiceProvider services)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
+            this.services = services;
             object automation = services.GetService(typeof(DTE));
             if (automation == null) return;
             dte = automation as DTE;
@@ -127,6 +130,46 @@ namespace VS2017.AIAssistant.Services
 
         /// ---------------------------------------------------------------------
         /// <summary>
+        /// name         : CaptureFullAccessContext
+        /// desc         : 직접 파일 쓰기 전에 열린 모든 미저장 문서를 거부하고 가능한 활성 텍스트 문맥만 반환한다.
+        /// author       : CodexCode
+        /// create date  : 2026-10-18
+        /// update date  : 2026-10-18 CodexCode : TASK-020 전체 폴더 작업의 소스 선택 의무를 없애되 다른 버퍼의 미저장 편집을 보호.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        public DocumentSnapshot CaptureFullAccessContext()
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+            if (dte == null || dte.Documents == null) throw new InvalidOperationException("열린 문서의 저장 상태를 확인할 수 없어 전체 액세스를 실행하지 않았습니다.");
+            foreach (Document opened in dte.Documents)
+                if (opened != null && !opened.Saved)
+                    throw new InvalidOperationException("전체 액세스를 실행하기 전에 열려 있는 모든 파일의 편집 내용을 저장하세요. 새 문서는 먼저 파일로 저장하세요.");
+            Document active = dte.ActiveDocument ?? lastDocument;
+            if (active == null || string.IsNullOrWhiteSpace(active.FullName) || !File.Exists(active.FullName)) return null;
+            TextDocument selected;
+            try { selected = active.Object("TextDocument") as TextDocument; }
+            catch (Exception error) when (error is System.Runtime.InteropServices.COMException || error is ArgumentException) { return null; }
+            if (selected == null) return null;
+            if (dte.UndoContext.IsOpen) throw new InvalidOperationException("다른 편집 작업이 진행 중입니다. 완료 후 다시 시도하세요.");
+            return new VisualStudioEditorDocument(dte, active, selected).Capture();
+        }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : BeginExternalEditing
+        /// desc         : 직접 수정 전에 문서별 보호·알림 중지 세션을 생성한다.
+        /// author       : CodexOrig
+        /// create date  : 2026-10-18
+        /// update date  : 2026-10-18 CodexOrig : 20:25 외부 변경 모달 없이 저장된 문서를 동기화.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        public IExternalEditingScope BeginExternalEditing(Action stopExecution)
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+            return new VisualStudioExternalEditingScope(services, dte, stopExecution);
+        }
+        /// ---------------------------------------------------------------------
+        /// <summary>
         /// name         : NavigateTo
         /// desc         : 비교 카드의 대상 소스 파일과 변경 줄을 실제 편집기에서 연다.
         /// author       : CodexCode
@@ -152,13 +195,20 @@ namespace VS2017.AIAssistant.Services
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 솔루션 없는 단일 파일도 지원.
         /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
+        /// update date  : 2026-10-18 CodexCode : 열린 소스가 없어도 저장된 솔루션의 폴더를 작업 대상으로 사용.
         /// </summary>
         /// ---------------------------------------------------------------------
         public string GetProjectDirectory()
         {
             ThreadHelper.ThrowIfNotOnUIThread();
             var active = dte == null ? null : dte.ActiveDocument ?? lastDocument;
-            if (active == null) throw new InvalidOperationException("프로젝트 소스 파일을 먼저 선택하세요.");
+            if (active == null)
+            {
+                string solutionPath = dte == null || dte.Solution == null ? null : dte.Solution.FullName;
+                if (!String.IsNullOrWhiteSpace(solutionPath) && Path.IsPathRooted(solutionPath) && File.Exists(solutionPath))
+                    return Path.GetDirectoryName(solutionPath);
+                throw new InvalidOperationException("프로젝트 소스 파일을 선택하거나 저장된 솔루션을 열어 주세요.");
+            }
             var projectPath = active.ProjectItem == null || active.ProjectItem.ContainingProject == null ? null : active.ProjectItem.ContainingProject.FullName;
             return Path.GetDirectoryName(string.IsNullOrEmpty(projectPath) ? active.FullName : projectPath);
         }
@@ -171,12 +221,15 @@ namespace VS2017.AIAssistant.Services
     /// author       : CodexCode
     /// create date  : 2026-10-18
     /// update date  : 2026-10-18 CodexCode : 파일 경로 고정 및 편집·디스크 충돌 검사.
+    /// update date  : 2026-10-18 CodexCode : 시큐어 코딩 검토의 디스크 SHA-256 읽기를 최대 2MiB로 제한.
     /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
     /// </summary>
     /// ---------------------------------------------------------------------
     internal sealed class VisualStudioEditorDocument : IEditorDocument
     {
+        internal const int MaximumDiskHashBytes = 2 * 1024 * 1024;
         private readonly DTE dte;
+
         private readonly Document document;
         private readonly TextDocument text;
         private readonly string filePath;
@@ -208,6 +261,8 @@ namespace VS2017.AIAssistant.Services
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 외부 변경 감지 및 읽기 전용 영역 확인.
         /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
+        /// update date  : 2026-10-18 CodexCode : 감사 F06의 연속 선택 코드·줄 정보를 전체 버퍼와 별도 고정.
+        /// update date  : 2026-10-18 CodexCode : 크거나 계속 증가하는 디스크 파일의 무제한 UI 스레드 읽기 차단.
         /// </summary>
         /// ---------------------------------------------------------------------
         public DocumentSnapshot Capture()
@@ -221,7 +276,7 @@ namespace VS2017.AIAssistant.Services
             string content = start.GetText(text.EndPoint);
             string diskVersion;
             using (var file = File.Open(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete))
-            using (var hash = SHA256.Create()) { diskVersion = Convert.ToBase64String(hash.ComputeHash(file)); }
+            { diskVersion = ComputeBoundedDiskVersion(file); }
             string context = "Language: " + text.Language + "; File type: " + Path.GetExtension(filePath);
             try
             {
@@ -235,7 +290,80 @@ namespace VS2017.AIAssistant.Services
             catch (Exception) { context += "; Framework: unknown (preserve existing syntax and APIs)"; }
             bool readOnly = document.ReadOnly || start.ReadOnly(text.EndPoint) ||
                 (File.GetAttributes(filePath) & FileAttributes.ReadOnly) != 0;
-            return new DocumentSnapshot(filePath, content, diskVersion, context, !document.Saved, readOnly);
+            string selectionError; DocumentSelection selection = CaptureSelection(content, out selectionError);
+            return new DocumentSnapshot(filePath, content, diskVersion, context, !document.Saved, readOnly, selection, selectionError);
+        }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : ComputeBoundedDiskVersion
+        /// desc         : 디스크 원문을 변경하거나 스트림을 닫지 않고 최대 2MiB까지만 SHA-256 버전으로 읽는다.
+        /// author       : CodexCode
+        /// create date  : 2026-10-18
+        /// update date  : 2026-10-18 CodexCode : 시큐어 코딩 검토의 계속 커지는 파일·비탐색 스트림 무제한 읽기 차단.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        internal static string ComputeBoundedDiskVersion(Stream input)
+        {
+            if (input == null) throw new ArgumentNullException(nameof(input));
+            if (!input.CanRead) throw new ArgumentException("디스크 원문을 읽을 수 없는 스트림입니다.", nameof(input));
+            if (input.CanSeek && input.Length > MaximumDiskHashBytes)
+                throw new InvalidOperationException("디스크 원문은 최대 2MiB까지 검사할 수 있습니다. 더 작은 소스 파일로 작업하세요.");
+            using (var hash = SHA256.Create())
+            {
+                byte[] buffer = new byte[8192]; int total = 0, count;
+                while ((count = input.Read(buffer, 0, Math.Min(buffer.Length, MaximumDiskHashBytes + 1 - total))) > 0)
+                {
+                    total += count;
+                    if (total > MaximumDiskHashBytes)
+                        throw new InvalidOperationException("디스크 원문이 읽는 중 2MiB 제한을 초과했습니다. 수정 요청을 다시 생성하세요.");
+                    hash.TransformBlock(buffer, 0, count, null, 0);
+                }
+                hash.TransformFinalBlock(new byte[0], 0, 0);
+                return Convert.ToBase64String(hash.Hash);
+            }
+        }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : CaptureSelection
+        /// desc         : 원래 문서의 연속 선택을 포커스 이동 없이 읽고 전체 버퍼와 정확히 대조한다.
+        /// author       : CodexCode
+        /// create date  : 2026-10-18
+        /// update date  : 2026-10-18 CodexCode : 역방향·CRLF 위치 보존 및 사각형·가상 공백 요청의 명시 오류 기록.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        private DocumentSelection CaptureSelection(string content, out string error)
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+            error = "";
+            try
+            {
+                TextSelection selected = text.Selection;
+                if (selected == null) { error = "선택한 코드를 읽을 수 없습니다. 소스 편집기를 선택한 뒤 다시 요청하세요."; return null; }
+                if (selected.IsEmpty) return null;
+                if (selected.Mode != vsSelectionMode.vsSelectionModeStream) { error = "사각형 선택은 지원하지 않습니다. 일반 연속 영역으로 선택한 뒤 다시 요청하세요."; return null; }
+                VirtualPoint top = selected.TopPoint, bottom = selected.BottomPoint;
+                if (top == null || bottom == null) throw new InvalidOperationException("선택 끝점을 읽을 수 없습니다.");
+                if (top.VirtualCharOffset != top.LineCharOffset || bottom.VirtualCharOffset != bottom.LineCharOffset)
+                { error = "가상 공백이 포함된 선택은 지원하지 않습니다. 실제 소스 문자만 선택하세요."; return null; }
+                // DTE AbsoluteCharOffset은 1기준이고 줄바꿈을 한 문자로 센다. CRLF 원문의 UTF-16 위치에는 직접 사용하지 않는다.
+                string prefix = text.StartPoint.CreateEditPoint().GetText(top);
+                string selectedText = top.CreateEditPoint().GetText(bottom);
+                if (prefix == null || selectedText == null) throw new InvalidOperationException("선택 원문을 읽을 수 없습니다.");
+                if (prefix.Length > content.Length || string.CompareOrdinal(content, 0, prefix, 0, prefix.Length) != 0)
+                    throw new InvalidOperationException("선택 시작 위치가 현재 문서와 일치하지 않습니다.");
+                var selection = DocumentSelection.FromOffsets(content, prefix.Length, selectedText.Length);
+                if (selection == null || !string.Equals(selection.Text, selectedText, StringComparison.Ordinal) ||
+                    selection.StartLine != top.Line || selection.StartColumn != top.LineCharOffset || selection.EndLine != bottom.Line || selection.EndColumn != bottom.LineCharOffset)
+                    throw new InvalidOperationException("선택 내용이나 줄 위치가 현재 문서와 일치하지 않습니다.");
+                return selection;
+            }
+            catch (Exception exception) when (exception is System.Runtime.InteropServices.COMException || exception is ArgumentException || exception is InvalidOperationException)
+            {
+                error = "선택한 코드를 정확히 읽지 못했습니다. 소스 편집기에서 다시 선택한 뒤 요청하세요.";
+                return null;
+            }
         }
 
         /// ---------------------------------------------------------------------

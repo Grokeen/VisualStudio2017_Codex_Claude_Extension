@@ -7,6 +7,7 @@ author       : CodexCode
 create date  : 2026-10-17
 update date  : 2026-10-18 CodexCode : 소스 편집 UI의 기본 승인 상태와 전체 화면 렌더링 검증.
 update date  : 2026-10-18 CodexOrig : 고정 DLL·VSIX 지정과 밝은/어두운 호스트의 제품 검정 팔레트 검증.
+               2026-10-18 CodexOrig : IDE SDK 제외를 유지하며 WebView2 managed 3개와 native loader 3개만 동봉 허용.
 -------------------------------------------------------------------------
 .SYNOPSIS
     Requires a completed build and Windows PowerShell 5.1 (full Framework, STA).
@@ -63,7 +64,8 @@ try {
     $extraDlls = @($archive.Entries | Where-Object {
         $_.FullName -like '*.dll' -and $_.FullName -ne 'VS2017.AIAssistant.dll'
     })
-    Assert-FoundationCondition ($extraDlls.Count -eq 0) 'IDE SDK and dependency DLLs are not bundled'
+    $allowedRuntimeDlls = @('Microsoft.Web.WebView2.Core.dll','Microsoft.Web.WebView2.Wpf.dll','Microsoft.Web.WebView2.WinForms.dll','runtimes/win-x86/native/WebView2Loader.dll','runtimes/win-x64/native/WebView2Loader.dll','runtimes/win-arm64/native/WebView2Loader.dll')
+    Assert-FoundationCondition ($extraDlls.Count -eq $allowedRuntimeDlls.Count -and @($extraDlls | Where-Object { $_.FullName -notin $allowedRuntimeDlls }).Count -eq 0 -and @($extraDlls.FullName | Select-Object -Unique).Count -eq $allowedRuntimeDlls.Count) 'Only the six required WebView2 runtime DLLs are bundled; IDE SDK DLLs remain excluded'
     $manifestReader = New-Object IO.StreamReader($archive.GetEntry('extension.vsixmanifest').Open())
     try { [xml]$manifest = $manifestReader.ReadToEnd() } finally { $manifestReader.Dispose() }
     Assert-FoundationCondition ($manifest.PackageManifest.Assets.Asset.Path -eq 'VS2017.AIAssistant.pkgdef') 'VsPackage asset resolves to the packaged pkgdef'

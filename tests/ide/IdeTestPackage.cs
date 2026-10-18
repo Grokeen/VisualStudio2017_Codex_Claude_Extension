@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading;
@@ -17,6 +17,7 @@ namespace CodexCode.IdeIntegration
     /// author       : CodexCode
     /// create date  : 2026-10-18
     /// update date  : 2026-10-18 CodexCode : 합성 소스 전용 SDK 통합 테스트 진입점.
+    ///                2026-10-18 CodexOrig : TASK-020 최종 버전·선택·전체 액세스 검사 계약 반영.
     /// </summary>
     /// ---------------------------------------------------------------------
     [PackageRegistration(UseManagedResourcesOnly = true, AllowsBackgroundLoading = true)]
@@ -31,13 +32,16 @@ namespace CodexCode.IdeIntegration
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 환경 변수 가드와 비동기 실행 예약.
+        ///                2026-10-18 CodexOrig : TASK-020 최종 버전·선택·전체 액세스 검사 계약 반영.
         /// </summary>
         /// ---------------------------------------------------------------------
         protected override Task InitializeAsync(CancellationToken token, IProgress<ServiceProgressData> progress)
         {
             string configPath = Environment.GetEnvironmentVariable("CODEXCODE_IDE_TEST_CONFIG");
             if (!string.IsNullOrEmpty(configPath) && File.Exists(configPath))
-                JoinableTaskFactory.RunAsync(() => RunAsync(configPath));
+            {
+                var scheduled = JoinableTaskFactory.RunAsync(() => RunAsync(configPath));
+            }
             return Task.CompletedTask;
         }
 
@@ -48,6 +52,7 @@ namespace CodexCode.IdeIntegration
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 단계별 진단과 실패 시 결과 보존.
+        ///                2026-10-18 CodexOrig : TASK-020 최종 버전·선택·전체 액세스 검사 계약 반영.
         /// </summary>
         /// ---------------------------------------------------------------------
         private async Task RunAsync(string configPath)
@@ -107,6 +112,7 @@ namespace CodexCode.IdeIntegration
     /// author       : CodexCode
     /// create date  : 2026-10-18
     /// update date  : 2026-10-18 CodexCode : 실행별 결과 경로와 실제 AI 선택 경로 추가.
+    ///                2026-10-18 CodexOrig : TASK-020 최종 버전·선택·전체 액세스 검사 계약 반영.
     /// </summary>
     /// ---------------------------------------------------------------------
     public sealed class TestConfig
@@ -115,6 +121,9 @@ namespace CodexCode.IdeIntegration
         public string SolutionPath { get; set; }
         public string FixturePath { get; set; }
         public string LiveCodexPath { get; set; }
+        public string ExpectedIdeMajor { get; set; } = "15";
+        public string RuntimeFixturePath { get; set; }
+        public string ExpectedProductSha256 { get; set; }
         public bool CloseWhenDone { get; set; }
     }
 }

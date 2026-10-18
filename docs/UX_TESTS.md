@@ -1,4 +1,12 @@
-# 설정·첫 사용 안내 검증 (v0.7.0)
+# 설정·첫 사용 안내 검증
+
+## v0.9.0 추가 이미지 요구
+
+`tests/task021/Test-Task021.ps1 -AssemblyPath <고정 DLL> -OutputDirectory <새 폴더>`는 Windows PowerShell 5.1 `-STA`에서 실행한다. 선택 코드·색상 diff·다중 파일 왕복 선택·상세 도움말·200px 부채꼴의 실제 경계·생각 중 그라데이션·설정 저장 경쟁·승인 작업·문서 worker를 검사한다. 원본 실패도 보존한 [TASK-021](../MarkdownReport/CodexCode_TASK-021.md)과 최종 통합 [TASK-020](../MarkdownReport/CodexOrig_TASK-020.md)에 DLL별 결과를 구분한다.
+
+루트 실행기의 기본 검사는 16묶음이며 실제 IDE와 유료 AI 호출은 별도 선택이다. `native-runtime`은 자식 프로세스 기반 프로토콜 46개, `image-followup`은 위 이미지 요구 묶음이다. UI 검사에서는 자동 계정 조회를 꺼 개인 CLI에 연결하지 않는다. 네이티브 실계정 검사는 별도의 명시적 실행으로 구분한다.
+
+## 기존 설정·첫 사용 안내
 
 Role.md 프로젝트8~11번을 구현했다. 설정 버튼과 우클릭 메뉴는 동일한 CenterScreen 모달 창을 연다. 저장 성공 후 닫고, 닫기·Esc·X는 미저장 설정을 복원한다. 저장 오류는 팝업 안에 표시한다. 처음 실제로 표시되는 Chat은 네 단계 안내를 열며 `HideWelcome` 선택을 설정 파일에 저장한다. 이 선택만 변경할 때는 기존 파일을 읽어 다른 설정을 보존한다.
 
@@ -41,3 +49,11 @@ tests/review/Test-WorkspaceExperience.ps1와 AdvancedExperienceChecks.cs는 총1
 ## v0.8 이미지별 상호작용
 
 tests/review/Test-WorkspaceExperience.ps1은 모달에서 anchor Popup으로 바뀐 경로와 A~Z 실제 대화 라우팅을 검사한다. 안내 hover에서 다른 카드 dim·표면 이동·고정 hit 영역, 상세의 실제 ImageSource, 복귀 시 키보드 포커스, 설정 목차의 실제 스크롤·고정 footer, 옵션 fan의 반복 진입/공통 경계/Escape/타이머 정리를 포함한다. 표시 예제 화면은 docs/assets/*-0.8.png이며 합성 자료만 사용한다. tests/task017/Test-DialogGuide.ps1의 안내23개와 collaboration/Test-AlphabetAgentRouting.ps1의 이름40개는 루트의 image-requirements 기본 묶음에 포함된다.
+
+## v0.9 후속 이미지와 PDF
+
+`image-followup`은 TASK021 8그룹과 TASK022 6그룹을 순서대로 실행한다. TASK021의 이미지 검사는 격리 프로세스에 `SoftwareOnly` 렌더를 지정하고 실제 WPF 시간 샘플로 그라데이션 이동을 검사한다. 비활성 Windows desktop에서 GPU 렌더가 멈추는 조건과 제품 애니메이션을 분리하기 위한 설정이며 제품이나 IDE의 렌더 설정은 변경하지 않는다.
+
+활성 화면의 기본 GPU 경로를 별도로 확인하려면 `tests/task021/Test-ImageFollowup.ps1 -UseHardwareRendering`에 고정 DLL과 새 출력 폴더를 지정한다. 이 결과와 소프트웨어 렌더 결과는 구분해 기록한다.
+
+TASK022는 버튼 중앙·작은 대화 영역의 고정 입력란·어두운 기록·중복 진행 상태·우클릭 메뉴·필수 지침·PDF 자원 경계를 검사한다. 실제 포인터 이동과 WebView2 PDF 표시는 `tests/task022/Test-ProgressPresentation.ps1 -VerifyHover`, `tests/task022/Test-CliGuide.ps1 -VerifyWebView`로 별도 실행한다. 입력 desktop과 자기 창의 전경·포인터 대상을 확인하며 화면 보호기나 잠금 상태에서는 실제 입력 검사를 수행하지 않는다. 기본 검사 통과를 실제 마우스 검사 완료로 대신 보고하지 않는다.

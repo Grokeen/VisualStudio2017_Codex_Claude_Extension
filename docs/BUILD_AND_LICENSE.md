@@ -1,4 +1,4 @@
-# 배치 빌드와 Visual Studio 로그인
+﻿# 배치 빌드와 Visual Studio 로그인
 
 Role.md의 라이선스 안내 관련 배치 요구에 따라 `scripts/Build-Vsix.cmd`를 추가했다. 이 배치는 **IDE를 시작하지 않고 MSBuild로 VSIX를 빌드**하므로 `devenv.com`에서 발생하는 IDE 시작·라이선스 배너를 출력하지 않는다. 빌드 오류와 경고는 그대로 표시한다.
 
@@ -25,9 +25,9 @@ PowerShell 또는 명령 프롬프트에서 실행한다. 현재 작업 디렉�
 
 자동 탐색은 `vswhere`로 해당 주 버전의 Community/Professional/Enterprise 중 MSBuild와 VSSDK를 갖춘 설치를 선택한다. 선택한 버전이 없으면 다른 버전으로 조용히 대체하지 않고 종료 코드 1을 반환한다. MSBuild 실행 파일의 버전도 다시 검사한다. 배치는 Windows PowerShell 5.1로 실행하며 PS7에서 직접 `.ps1`을 실행할 수도 있다.
 
-기존 `scripts/build.ps1`의 NuGet 복원·Rebuild·패키지 생성 검증을 호출하며, 결과는 `src/VS2017.AIAssistant/bin/<구성>/VS2017.AIAssistant.vsix`에 생성된다. 성공은 종료 코드 0, 실패는 1이다. 빌드 로그를 보관하려면 명령 프롬프트에서 `scripts\Build-Vsix.cmd > build.log 2>&1`로 실행한다. 로그 내용은 필터링하지 않는다.
+기존 `scripts/build.ps1`의 NuGet 복원·Rebuild·패키지 생성 검증을 호출하며, 결과는 `src/VS<선택 버전>.AIAssistant/bin/<구성>/VS2017.AIAssistant.vsix`에 생성된다. 성공은 종료 코드 0, 실패는 1이다. 빌드 로그를 보관하려면 명령 프롬프트에서 `scripts\Build-Vsix.cmd > build.log 2>&1`로 실행한다. 로그 내용은 필터링하지 않는다.
 
-**빌드 엔진 선택은 VSIX 설치 대상 지원과 다르다.** 현재 v0.2.0은 VS2017 15.9용이며, VS2019·VS2022에서 MSBuild를 선택해도 매니페스트나 참조 SDK가 변경되지 않는다. 해당 IDE용 확장 지원은 별도 개발·설치 검증이 필요하다. 다른 작업자가 빌드/검증 중이면 공유 `bin/obj` 사용을 조율한다. 고정 인계 패키지는 이 배치가 덮어쓰지 않는다.
+**빌드 엔진 선택과 VSIX 설치 대상을 함께 확인한다.** v0.9.0은 선택 버전에 맞는 프로젝트·매니페스트·SDK로 빌드한다. VS2017/2019는 SDK15, VS2022 x64는 SDK17을 사용한다. 이전 v0.2~v0.8 패키지는 VS2017용이다. 다른 작업자가 빌드/검증 중이면 공유 `bin/obj` 사용을 조율한다. 고정 인계 패키지는 이 배치가 덮어쓰지 않는다.
 
 ## 현재 PC의 IDE 안내 해소
 
@@ -38,7 +38,7 @@ PowerShell 또는 명령 프롬프트에서 실행한다. 현재 작업 디렉�
 3. 필요하면 도움말 → 제품 등록/라이선스 상태에서 표시된 상태를 확인하고, 화면이 제공하는 라이선스 갱신 작업을 수행한다. 메뉴 이름은 버전과 언어에 따라 다를 수 있다.
 4. 해당 IDE를 다시 열어 안내가 해소되었는지 확인한다. 계속 나타나면 아래 Microsoft 지원 문서를 따른다. Professional/Enterprise는 해당 제품에 유효한 계정 또는 제품 키가 필요하다.
 
-자동화된 배치로 계정 활성화가 완료되었다고 보고하지 않는다. 현재 작업은 MSBuild 배치 및 컴파일 검증이며, 로그인 후 IDE의 안내 해소는 아직 미검증이다.
+자동화된 배치로 계정 활성화가 완료되었다고 보고하지 않는다. MSBuild 빌드 성공과 라이선스 상태는 별개다. v0.9의 별도 실제 IDE 테스트는 표시된 라이선스 경고 관찰을 license-observation.json에 기록한다. 이는 계정의 영구 활성화 인증이 아니다.
 
 ## 재현 검사
 
@@ -55,3 +55,13 @@ pwsh -NoProfile -NonInteractive -File .\tests\build-entry\Test-BuildEntry.ps1
 - [Microsoft: Community에서 라이선스를 요구할 때 IDE 로그인](https://visualstudio.microsoft.com/vs/support/)
 - [Microsoft: Visual Studio 로그인](https://learn.microsoft.com/en-us/visualstudio/ide/signing-in-to-visual-studio?view=vs-2017)
 - [Microsoft: vswhere 프로젝트와 인스턴스 탐색](https://github.com/microsoft/vswhere)
+
+## 실제 IDE 관찰 확인 배치
+
+`Check-VisualStudioLicense.cmd`는 버전별 최신 `artifacts/ide/**/license-observation.json`을 읽는다. 미검사·경고 관찰은 종료 코드 2로 구분한다. 계정·레지스트리·라이선스를 바꾸거나 경고 텍스트를 숨기지 않는다.
+
+```powershell
+.\scripts\Check-VisualStudioLicense.cmd
+```
+
+안내가 실제로 남으면 해당 IDE의 **파일 → 계정 설정**에서 정식 로그인·구독 갱신을 완료해야 한다. [Microsoft의 현재 라이선스 갱신 절차](https://learn.microsoft.com/en-us/visualstudio/ide/how-to-unlock-visual-studio?view=vs-2022)를 따른다. 코드나 배치만으로 사용자 인증 완료를 대신 보고하지 않는다.

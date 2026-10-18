@@ -1,6 +1,8 @@
-using System;
+﻿using System;
 using System.Windows;
+using System.Windows.Automation;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
@@ -16,6 +18,7 @@ namespace VS2017.AIAssistant.Views
     /// author       : CodexCode
     /// create date  : 2026-10-18
     /// update date  : 2026-10-18 CodexCode : TASK-017 원점 위 버튼 이동과 반복 hover 애니메이션 제거.
+    /// update date  : 2026-10-18 CodexCode : TASK-021 두 버튼의 표시·클릭 영역을 실제 환형 부채꼴로 변경.
     /// </summary>
     /// ---------------------------------------------------------------------
     public partial class AssistantControl
@@ -23,7 +26,10 @@ namespace VS2017.AIAssistant.Views
         private DispatcherTimer fanCloseTimer;
         private bool fanMenuInitialized, fanMenuOpen, fanMenuDisposed;
         private int fanOpenCount;
-        private Path fanBackdrop;
+        private Geometry fanHelpSector, fanSettingsSector;
+        private ScaleTransform fanLayoutScale;
+        private Rect fanClipTriggerBounds = Rect.Empty;
+        private double fanClipScale = double.NaN;
         private Window fanOwnerWindow;
 
         /// ---------------------------------------------------------------------
@@ -33,6 +39,8 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 상단 40픽셀의 원점에는 메뉴 hit 영역을 생성하지 않음.
+        /// update date  : 2026-10-18 CodexCode : TASK-021 사각 버튼과 공용 배경을 독립된 두 환형 부채꼴 버튼으로 교체.
+        /// update date  : 2026-10-18 CodexCode : 실제 트리거 경계는 레이아웃 완료 후 다시 계산해 축소 시 겹침 방지.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void InitializeFanMenu()
@@ -44,20 +52,17 @@ namespace VS2017.AIAssistant.Views
             FanPanel.Focusable = false;
             FanPanel.Visibility = Visibility.Collapsed;
             for (int index = FanPanel.Children.Count - 1; index >= 0; index--)
-                if (FanPanel.Children[index] is Border) FanPanel.Children.RemoveAt(index);
+                if (FanPanel.Children[index] is Border || FanPanel.Children[index] is Path) FanPanel.Children.RemoveAt(index);
 
-            // 원점 (240,24)에서 아래·왼쪽으로 펼치되 위쪽 40픽셀은 잘라 트리거를 가리지 않는다.
-            fanBackdrop = new Path {
-                Data = Geometry.Parse("M 240,24 L 240,190 A 166,166 0 0 1 74,24 Z"),
-                Fill = new SolidColorBrush(Color.FromArgb(245, 39, 39, 39)),
-                Stroke = new SolidColorBrush(Color.FromRgb(83, 83, 83)),
-                StrokeThickness = 1,
-                Clip = new RectangleGeometry(new Rect(0, 40, 260, 160)),
-                IsHitTestVisible = true
-            };
-            FanPanel.Children.Insert(0, fanBackdrop);
-            ConfigureFanButton(HelpButton, 62, 64, 124, 0);
-            ConfigureFanButton(SettingsButton, 161, 122, 94, 1);
+            // 두 구획은 별도 버튼이며 중앙의 빈 원과 바깥 사각형 모서리는 클릭 영역에서 제외한다.
+            fanHelpSector = CreateFanSector(123, 158);
+            fanSettingsSector = CreateFanSector(90, 121);
+            ConfigureFanButton(HelpButton, fanHelpSector, 140.5, "?", "안내", "사용 안내", 0);
+            ConfigureFanButton(SettingsButton, fanSettingsSector, 105.5, "⚙", "설정", "설정", 1);
+            fanLayoutScale = new ScaleTransform(1, 1);
+            FanPanel.LayoutTransform = fanLayoutScale;
+            FanPanel.LayoutUpdated += FanMenuLayoutUpdated;
+            UpdateFanScale();
             fanCloseTimer = new DispatcherTimer(DispatcherPriority.Input, Dispatcher) { Interval = TimeSpan.FromMilliseconds(175) };
             fanCloseTimer.Tick += FanCloseTick;
             OptionsToggle.MouseEnter += FanRegionEntered;
@@ -70,25 +75,184 @@ namespace VS2017.AIAssistant.Views
             FanPanel.LostKeyboardFocus += FanFocusLeft;
             Loaded += FanMenuLoaded;
             Unloaded += FanMenuUnloaded;
+            SizeChanged += FanMenuSizeChanged;
             AttachFanOwner();
         }
 
         /// ---------------------------------------------------------------------
         /// <summary>
         /// name         : ConfigureFanButton
-        /// desc         : 서로 다른 각도의 고정 버튼 영역을 배치하고 기존 이동 효과를 제거한다.
+        /// desc         : 각 버튼의 Path 템플릿과 같은 부채꼴 Clip을 적용해 표시·클릭 모양을 일치시킨다.
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 버튼 자체는 움직이지 않아 포인터 아래로 날아들지 않음.
+        /// update date  : 2026-10-18 CodexCode : TASK-021 사각 테두리 없는 환형 버튼에 명도·포커스·비활성 상태 제공.
+        ///                2026-10-18 CodexOrig : 안내 구획의 중심 각도·가변 높이 글자 중앙 정렬.
+        ///                2026-10-18 CodexCode : TASK-022 고정 caption 구역 안에 Grid와 양축 정렬로 아이콘·문구 중심 유지.
         /// </summary>
         /// ---------------------------------------------------------------------
-        private static void ConfigureFanButton(Button button, double left, double top, double width, int tabIndex)
+        private static void ConfigureFanButton(Button button, Geometry sector, double angle, string icon, string label, string accessibleName, int tabIndex)
         {
-            Canvas.SetLeft(button, left); Canvas.SetTop(button, top);
-            button.Width = width; button.MinHeight = 36;
-            button.Margin = new Thickness(0); button.Padding = new Thickness(7, 6, 7, 6);
+            Canvas.SetLeft(button, 0); Canvas.SetTop(button, 0);
+            button.Width = 260; button.Height = 200; button.MinHeight = 0;
+            button.Margin = new Thickness(0); button.Padding = new Thickness(0);
+            button.HorizontalContentAlignment = HorizontalAlignment.Center; button.VerticalContentAlignment = VerticalAlignment.Center;
             button.RenderTransform = Transform.Identity;
+            button.Clip = sector; button.FocusVisualStyle = null;
+            button.Background = new SolidColorBrush(Color.FromRgb(36, 36, 36));
+            button.BorderBrush = new SolidColorBrush(Color.FromRgb(82, 82, 82));
+            button.SetBinding(Control.ForegroundProperty, new Binding("Foreground") {
+                RelativeSource = new RelativeSource(RelativeSourceMode.FindAncestor, typeof(AssistantControl), 1) });
             button.TabIndex = tabIndex;
+            AutomationProperties.SetName(button, accessibleName);
+
+            var root = new FrameworkElementFactory(typeof(Canvas)); root.Name = "FanSurface";
+            var shape = new FrameworkElementFactory(typeof(Path)); shape.Name = "FanSector";
+            shape.SetValue(Path.DataProperty, sector);
+            shape.SetBinding(Shape.FillProperty, new Binding("Background") { RelativeSource = RelativeSource.TemplatedParent });
+            shape.SetBinding(Shape.StrokeProperty, new Binding("BorderBrush") { RelativeSource = RelativeSource.TemplatedParent });
+            shape.SetValue(Shape.StrokeThicknessProperty, 1.0); root.AppendChild(shape);
+            var captionHost = new FrameworkElementFactory(typeof(Grid));
+            var caption = new FrameworkElementFactory(typeof(StackPanel));
+            caption.SetValue(FrameworkElement.VerticalAlignmentProperty, VerticalAlignment.Center);
+            caption.SetValue(FrameworkElement.HorizontalAlignmentProperty, HorizontalAlignment.Center);
+            var symbol = new FrameworkElementFactory(typeof(TextBlock));
+            symbol.SetValue(TextBlock.TextProperty, icon); symbol.SetValue(TextBlock.FontSizeProperty, 20.0);
+            symbol.SetValue(FrameworkElement.HorizontalAlignmentProperty, HorizontalAlignment.Center);
+            symbol.SetValue(TextBlock.TextAlignmentProperty, TextAlignment.Center); caption.AppendChild(symbol);
+            var words = new FrameworkElementFactory(typeof(TextBlock));
+            words.SetValue(TextBlock.TextProperty, label); words.SetValue(TextBlock.TextAlignmentProperty, TextAlignment.Center);
+            words.SetValue(FrameworkElement.HorizontalAlignmentProperty, HorizontalAlignment.Center);
+            words.SetValue(TextBlock.TextWrappingProperty, TextWrapping.Wrap); words.SetValue(FrameworkElement.MarginProperty, new Thickness(0, 3, 0, 0));
+            caption.AppendChild(words);
+            captionHost.AppendChild(caption);
+            var center = FanPolarPoint(126, angle);
+            var presenter = new FrameworkElementFactory(typeof(ContentPresenter)); presenter.Name = "FanCaption";
+            presenter.SetValue(FrameworkElement.WidthProperty, 72.0); presenter.SetValue(FrameworkElement.HeightProperty, 72.0);
+            presenter.SetValue(Canvas.LeftProperty, center.X - 36); presenter.SetValue(Canvas.TopProperty, center.Y - 36);
+            presenter.SetValue(UIElement.IsHitTestVisibleProperty, false);
+            presenter.SetBinding(TextBlock.ForegroundProperty, new Binding("Foreground") { RelativeSource = RelativeSource.TemplatedParent });
+            presenter.SetBinding(ContentPresenter.ContentProperty, new Binding("Content") { RelativeSource = RelativeSource.TemplatedParent });
+            presenter.SetValue(ContentPresenter.ContentTemplateProperty, new DataTemplate { VisualTree = captionHost });
+            root.AppendChild(presenter);
+            var template = new ControlTemplate(typeof(Button)) { VisualTree = root };
+            var hover = new Trigger { Property = IsMouseOverProperty, Value = true };
+            hover.Setters.Add(new Setter(Shape.FillProperty, new SolidColorBrush(Color.FromRgb(57, 57, 57)), "FanSector"));
+            template.Triggers.Add(hover);
+            var pressed = new Trigger { Property = Button.IsPressedProperty, Value = true };
+            pressed.Setters.Add(new Setter(Shape.FillProperty, new SolidColorBrush(Color.FromRgb(75, 75, 75)), "FanSector"));
+            template.Triggers.Add(pressed);
+            var focus = new Trigger { Property = IsKeyboardFocusWithinProperty, Value = true };
+            focus.Setters.Add(new Setter(Shape.StrokeProperty, new SolidColorBrush(Color.FromRgb(216, 224, 255)), "FanSector"));
+            focus.Setters.Add(new Setter(Shape.StrokeThicknessProperty, 2.0, "FanSector")); template.Triggers.Add(focus);
+            var disabled = new Trigger { Property = IsEnabledProperty, Value = false };
+            disabled.Setters.Add(new Setter(OpacityProperty, 0.4, "FanSurface")); template.Triggers.Add(disabled);
+            button.Template = template;
+        }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : CreateFanSector
+        /// desc         : 같은 원점과 안쪽·바깥쪽 반지름을 가진 환형 부채꼴을 읽기 전용 경로로 만든다.
+        /// author       : CodexCode
+        /// create date  : 2026-10-18
+        /// update date  : 2026-10-18 CodexCode : TASK-021 두 구획 사이의 2도 간격과 원점의 빈 원을 유지.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        private static Geometry CreateFanSector(double startAngle, double endAngle)
+        {
+            var geometry = new StreamGeometry();
+            using (var drawing = geometry.Open())
+            {
+                drawing.BeginFigure(FanPolarPoint(174, startAngle), true, true);
+                drawing.ArcTo(FanPolarPoint(174, endAngle), new Size(174, 174), 0, false, SweepDirection.Clockwise, true, false);
+                drawing.LineTo(FanPolarPoint(64, endAngle), true, false);
+                drawing.ArcTo(FanPolarPoint(64, startAngle), new Size(64, 64), 0, false, SweepDirection.Counterclockwise, true, false);
+            }
+            geometry.Freeze(); return geometry;
+        }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : FanPolarPoint
+        /// desc         : 우측 상단 메뉴 원점에서 각도와 반지름에 해당하는 위치를 계산한다.
+        /// author       : CodexCode
+        /// create date  : 2026-10-18
+        /// update date  : 2026-10-18 CodexCode : TASK-021 표시 경로와 설명 글자를 같은 좌표계에 배치.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        private static Point FanPolarPoint(double radius, double degrees)
+        { double radians = degrees * Math.PI / 180; return new Point(240 + radius * Math.Cos(radians), 20 + radius * Math.Sin(radians)); }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : FanMenuSizeChanged
+        /// desc         : 도구 창 너비가 바뀔 때 원래 클릭 모양을 유지하며 메뉴 전체 크기를 조절한다.
+        /// author       : CodexCode
+        /// create date  : 2026-10-18
+        /// update date  : 2026-10-18 CodexCode : TASK-021 200픽셀 도킹 창에서도 메뉴가 좌측으로 잘리지 않도록 축소.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        private void FanMenuSizeChanged(object sender, SizeChangedEventArgs args) { UpdateFanScale(); }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : FanMenuLayoutUpdated
+        /// desc         : 실제 배치·축소 변환이 확정된 뒤 메뉴 원점의 제외 영역을 갱신한다.
+        /// author       : CodexCode
+        /// create date  : 2026-10-18
+        /// update date  : 2026-10-18 CodexCode : TASK-021 스크롤바·본문 여백·탭 높이 차이와 무관한 클릭 영역 분리.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        private void FanMenuLayoutUpdated(object sender, EventArgs args)
+        { if (fanMenuOpen) UpdateFanClips(); }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : UpdateFanScale
+        /// desc         : 너비에 맞춘 균일 축소와 실제 화면 상단 40픽셀의 클릭 제외 영역을 함께 적용한다.
+        /// author       : CodexCode
+        /// create date  : 2026-10-18
+        /// update date  : 2026-10-18 CodexCode : TASK-021 축소 후에도 트리거 영역과 부채꼴 클릭 영역 분리.
+        /// update date  : 2026-10-18 CodexCode : 고정 40픽셀 가정 외에 실제 원점 경계도 제외하도록 분리.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        private void UpdateFanScale()
+        {
+            if (fanLayoutScale == null || fanMenuDisposed) return;
+            double available = ActualWidth > 0 ? ActualWidth : (Width > 0 && !double.IsInfinity(Width) ? Width : 268);
+            double scale = Math.Min(1, Math.Max(120, available - 8) / 260);
+            fanLayoutScale.ScaleX = scale; fanLayoutScale.ScaleY = scale;
+            UpdateFanClips();
+        }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : UpdateFanClips
+        /// desc         : 실제 트리거 경계를 메뉴 좌표로 바꾸어 여유 4픽셀과 함께 두 버튼에서 제외한다.
+        /// author       : CodexCode
+        /// create date  : 2026-10-18
+        /// update date  : 2026-10-18 CodexCode : TASK-021 후보 제품 200픽셀 창에서 트리거 하단 2.62픽셀 겹침 보정.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        private void UpdateFanClips()
+        {
+            if (fanLayoutScale == null || fanMenuDisposed) return;
+            double scale = fanLayoutScale.ScaleX;
+            Rect triggerBounds = Rect.Empty;
+            if (OptionsToggle.ActualWidth > 0 && OptionsToggle.ActualHeight > 0 && FanPanel.ActualWidth > 0)
+            {
+                triggerBounds = OptionsToggle.TransformToVisual(FanPanel).TransformBounds(new Rect(0, 0, OptionsToggle.ActualWidth, OptionsToggle.ActualHeight));
+                triggerBounds.Inflate(4 / scale, 4 / scale);
+            }
+            if (scale == fanClipScale && triggerBounds == fanClipTriggerBounds) return;
+            fanClipScale = scale; fanClipTriggerBounds = triggerBounds;
+            double top = 40 / scale;
+            Geometry allowed = new RectangleGeometry(new Rect(0, top, 260, 200 - top));
+            if (!triggerBounds.IsEmpty) allowed = new CombinedGeometry(GeometryCombineMode.Exclude, allowed, new RectangleGeometry(triggerBounds));
+            var helpClip = new CombinedGeometry(GeometryCombineMode.Intersect, fanHelpSector, allowed);
+            var settingsClip = new CombinedGeometry(GeometryCombineMode.Intersect, fanSettingsSector, allowed);
+            helpClip.Freeze(); settingsClip.Freeze(); HelpButton.Clip = helpClip; SettingsButton.Clip = settingsClip;
         }
 
         /// ---------------------------------------------------------------------
@@ -98,6 +262,7 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : fanOpenCount로 실제 열림과 hover 재진입을 구분해 검증 가능.
+        /// update date  : 2026-10-18 CodexCode : TASK-021 독립 부채꼴 버튼의 고정 모양 안에서만 펼침 효과 재생.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void OpenFanMenu()
@@ -108,7 +273,6 @@ namespace VS2017.AIAssistant.Views
             if (fanMenuOpen) return;
             fanMenuOpen = true; fanOpenCount++;
             FanPanel.Visibility = Visibility.Visible;
-            fanBackdrop.BeginAnimation(OpacityProperty, new DoubleAnimation(0, 1, TimeSpan.FromMilliseconds(180)));
             AnimateFanContent(HelpButton, -5, 4, 0);
             AnimateFanContent(SettingsButton, -2, 6, 55);
         }
@@ -321,6 +485,8 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 열린 메뉴 종료와 중복 Dispose를 안전하게 처리.
+        /// update date  : 2026-10-18 CodexCode : TASK-021 창 크기 변경 이벤트도 종료 시 해제.
+        /// update date  : 2026-10-18 CodexCode : 실제 원점 경계 추적용 레이아웃 이벤트 해제.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void DisposeFanMenu()
@@ -330,9 +496,10 @@ namespace VS2017.AIAssistant.Views
             if (fanCloseTimer != null) { fanCloseTimer.Tick -= FanCloseTick; fanCloseTimer = null; }
             OptionsToggle.MouseEnter -= FanRegionEntered; OptionsToggle.MouseLeave -= FanRegionLeft;
             FanPanel.MouseEnter -= FanRegionEntered; FanPanel.MouseLeave -= FanRegionLeft;
+            FanPanel.LayoutUpdated -= FanMenuLayoutUpdated;
             OptionsToggle.GotKeyboardFocus -= FanFocusEntered; FanPanel.GotKeyboardFocus -= FanFocusEntered;
             OptionsToggle.LostKeyboardFocus -= FanFocusLeft; FanPanel.LostKeyboardFocus -= FanFocusLeft;
-            Loaded -= FanMenuLoaded; Unloaded -= FanMenuUnloaded;
+            Loaded -= FanMenuLoaded; Unloaded -= FanMenuUnloaded; SizeChanged -= FanMenuSizeChanged;
             if (fanOwnerWindow != null) fanOwnerWindow.Deactivated -= FanOwnerDeactivated;
             fanOwnerWindow = null;
         }

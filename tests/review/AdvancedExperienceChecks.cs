@@ -1,4 +1,4 @@
-namespace CodexCode.WorkspaceReview
+﻿namespace CodexCode.WorkspaceReview
 {
     using System;
     using System.Collections.Generic;
@@ -25,6 +25,7 @@ namespace CodexCode.WorkspaceReview
     /// create date  : 2026-10-18
     /// update date  : 2026-10-18 CodexOrig : TASK-016 협업 호출 경계 fixture.
     /// update date  : 2026-10-18 CodexOrig : TASK-018 이미지 요구와 드롭다운·A~Z 이름에 맞춰 검증 갱신.
+    ///                2026-10-18 CodexOrig : TASK-020 현재 모델·권한·색상·부채꼴 검사 계약 반영.
     /// </summary>
     /// ---------------------------------------------------------------------
     internal sealed class CollaborationProvider : IAiContextEditProvider
@@ -41,6 +42,7 @@ namespace CodexCode.WorkspaceReview
         /// author       : CodexOrig
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : 기본 컨텍스트 연결.
+        ///                2026-10-18 CodexOrig : TASK-020 현재 모델·권한·색상·부채꼴 검사 계약 반영.
         /// </summary>
         /// ---------------------------------------------------------------------
         public Task<EditProposal> GenerateAsync(string provider, string executable, DocumentSnapshot source, string instruction, CancellationToken token)
@@ -53,6 +55,7 @@ namespace CodexCode.WorkspaceReview
         /// author       : CodexOrig
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : 성공·CLI 실패·지연·저장 실패 재현.
+        ///                2026-10-18 CodexOrig : TASK-020 현재 모델·권한·색상·부채꼴 검사 계약 반영.
         /// </summary>
         /// ---------------------------------------------------------------------
         public Task<EditProposal> GenerateWithContextAsync(string provider, string executable, DocumentSnapshot source, string instruction, ChatRequestContext context, CancellationToken token)
@@ -72,6 +75,7 @@ namespace CodexCode.WorkspaceReview
     /// author       : CodexOrig
     /// create date  : 2026-10-18
     /// update date  : 2026-10-18 CodexOrig : TASK-016 비동기 입력과 다중 AI 호출 검증.
+    ///                2026-10-18 CodexOrig : TASK-020 현재 모델·권한·색상·부채꼴 검사 계약 반영.
     /// </summary>
     /// ---------------------------------------------------------------------
     public static partial class WorkspaceExperience
@@ -83,6 +87,7 @@ namespace CodexCode.WorkspaceReview
         /// author       : CodexOrig
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : 비동기 첨부·설정 실패 검사 지원.
+        ///                2026-10-18 CodexOrig : TASK-020 현재 모델·권한·색상·부채꼴 검사 계약 반영.
         /// </summary>
         /// ---------------------------------------------------------------------
         private static object PrivateCall(AssistantControl control, string method, params object[] arguments)
@@ -95,6 +100,7 @@ namespace CodexCode.WorkspaceReview
         /// author       : CodexOrig
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : 팝업 슬라이더·이름 설정 사용자 경로 검사.
+        ///                2026-10-18 CodexOrig : TASK-020 현재 모델·권한·색상·부채꼴 검사 계약 반영.
         /// </summary>
         /// ---------------------------------------------------------------------
         private static void InspectModal(Action open, Action<AssistantDialog> inspect)
@@ -114,11 +120,43 @@ namespace CodexCode.WorkspaceReview
 
         /// ---------------------------------------------------------------------
         /// <summary>
+        /// name         : CheckRuntimeUsageIsolation
+        /// desc         : 연결 조회 실패와 늦은 Dispatcher 이벤트가 실제 최신 사용량을 지우지 않는지 검사한다.
+        /// author       : CodexOrig
+        /// create date  : 2026-10-18
+        /// update date  : 2026-10-18 CodexOrig : TASK-020 최종 사용량 손실·이전 이벤트 역전 재현.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        private static void CheckRuntimeUsageIsolation(AssistantControl control, string root)
+        {
+            var path = (TextBox)control.FindName("ExecutablePath"); string originalPath = path.Text;
+            path.Text = Path.Combine(root, "missing-runtime.exe");
+            var latest = new ProviderUsageSnapshot { InputTokens = 15, OutputTokens = 9, CachedInputTokens = 3, TotalTokens = 24, Source = "isolated actual-event fixture" };
+            PrivateCall(control, "RuntimeUsageUpdated", latest);
+            var metadata = (Task)PrivateCall(control, "RefreshRuntimeAsync");
+            PumpUntil(() => metadata.IsCompleted, 3000); metadata.GetAwaiter().GetResult();
+            var tip = (ToolTip)((Button)control.FindName("TokenUsageButton")).ToolTip;
+            bool metadataPreserved = Convert.ToString(tip.Content).Contains("24 tokens") && Convert.ToString(tip.Content).Contains("조회하지 못했습니다");
+            string metadataDisplay = Convert.ToString(tip.Content);
+            path.Text = originalPath;
+            var older = new ProviderUsageSnapshot { InputTokens = 13, OutputTokens = 7, TotalTokens = 20, Source = "isolated earlier event" };
+            Task.Run(() => PrivateCall(control, "RuntimeUsageUpdated", older)).GetAwaiter().GetResult();
+            PrivateCall(control, "RuntimeUsageUpdated", latest);
+            bool drained = false;
+            control.Dispatcher.BeginInvoke(DispatcherPriority.ContextIdle, new Action(() => drained = true));
+            PumpUntil(() => drained, 2000);
+            bool newestPreserved = Convert.ToString(tip.Content).Contains("24 tokens") && !Convert.ToString(tip.Content).Contains("20 tokens");
+            Check(metadataPreserved, "A metadata failure retains reported tokens with a separate connection error; out-of-order preserved=" + newestPreserved + "; metadata=" + metadataDisplay.Replace("\n", " | "));
+            Check(newestPreserved, "A queued earlier usage event cannot overwrite the latest usage already applied on the UI thread");
+        }
+        /// ---------------------------------------------------------------------
+        /// <summary>
         /// name         : CheckAdvancedFeatures
         /// desc         : 문서·모델·협업·권한의 실제 WPF 사용자 경로와 저장 실패를 검증한다.
         /// author       : CodexOrig
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : TASK-016 독립 UI 검토 및 오류 복구 회귀.
+        ///                2026-10-18 CodexOrig : TASK-020 현재 모델·권한·색상·부채꼴 검사 계약 반영.
         /// </summary>
         /// ---------------------------------------------------------------------
         private static void CheckAdvancedFeatures(string output)
@@ -160,7 +198,7 @@ namespace CodexCode.WorkspaceReview
                     Check(speedToggle.IsChecked == true && Descendants(dialog).OfType<CheckBox>().Single().IsChecked == true && new AssistantSettingsStore().Load().CodexSpeed == "fast",
                         "Opening and dismissing the Fast dropdown preserves the saved speed and its visible toggle state");
                 });
-                var requestModel = (ComboBox)control.FindName("RequestModel"); requestModel.Text = "unknown-private"; owner.UpdateLayout();
+                ((TextBox)control.FindName("ModelName")).Text = "unknown-private"; owner.UpdateLayout();
                 Check(!((ToggleButton)control.FindName("FastToggle")).IsEnabled && ((ToggleButton)control.FindName("FastToggle")).IsChecked != true, "Changing to an unadvertised model clears unavailable Fast and advanced effort");
                 InspectDropdown(control, "ModelOptionsButton", dialog => {
                     Descendants(dialog).OfType<ComboBox>().Single(c => c.IsEditable).Text = "fixture-deep";
@@ -215,18 +253,19 @@ namespace CodexCode.WorkspaceReview
                 var cancellation = (Task)PrivateCall(control, "AttachFilesFromUiAsync", new object[] { new[] { rtf } }); Click((Button)control.FindName("StopButton")); PumpUntil(() => cancellation.IsCompleted, 5000);
                 Check(activeChat.Attachments.Count == 0 && ((Button)control.FindName("GenerateButton")).IsEnabled, "Stopping document extraction leaves the input usable without partial attachments");
                 InspectDropdown(control, "PermissionsButton", dropdown => {
-                    Click(Descendants(dropdown).OfType<Button>().Single(b => Convert.ToString(b.Content).EndsWith("전체 권한")));
+                    Click(Descendants(dropdown).OfType<Button>().Single(b => Convert.ToString(b.Content).EndsWith("작업 도구 허용")));
                 });
                 CheckGuideAndSettingsImages(control, output);
                 CheckTooltipTheme(control, output);
                 CheckFanMenuStability(control, owner);
                 var permissionSettings = new AssistantSettingsStore().Load();
-                Check(permissionSettings.AllowSourceControl && permissionSettings.AllowDatabaseSchema && permissionSettings.AllowDeployment, "The permission dropdown persists all three extension action permissions");
+                Check(permissionSettings.AllowSourceControl && permissionSettings.AllowDatabaseSchema && !permissionSettings.AllowDeployment && !permissionSettings.AgentFullAccess, "The work tools preset permits SCM and DB while preserving proposal mode");
                 InspectModal(() => { var dropdown = OpenDropdown(control, "PermissionsButton"); Click(Descendants(dropdown).OfType<Button>().Single(b => Convert.ToString(b.Content).Contains("DB·형상관리·배포 작업 열기"))); }, dialog => {
                     var permissions = Descendants(dialog).OfType<CheckBox>().Where(c => Convert.ToString(c.Content).EndsWith("허용")).ToArray();
-                    Check(permissions.Length >= 2 && permissions.All(c => c.IsChecked == true), "Full permission preset selects the extension workspace action permissions");
+                    Check(permissions.Length >= 2 && permissions.Single(c => Convert.ToString(c.Content).StartsWith("형상")).IsChecked == true && permissions.Single(c => Convert.ToString(c.Content).Contains("배포")).IsChecked != true, "Work tools preset enables the displayed SCM permission and leaves deployment unchecked");
                     Check(!Descendants(dialog).OfType<Button>().Single(b => Convert.ToString(b.Content) == "▶ 확인한 작업 실행").IsEnabled, "Full workspace permissions still require an exact plan and individual execution approval");
                 });
+                CheckRuntimeUsageIsolation(control, root);
                 CheckAlphabetRouting(output);
             }
             finally {

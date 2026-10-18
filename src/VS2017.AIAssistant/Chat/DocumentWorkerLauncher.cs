@@ -46,8 +46,8 @@ namespace VS2017.AIAssistant.Chat
                     {
                         if (!process.Start()) throw new InvalidOperationException("문서 읽기 도우미를 시작하지 못했습니다.");
                         job.Attach(process); process.StandardInput.Close();
-                        process.OutputDataReceived += (sender, args) => { }; process.ErrorDataReceived += (sender, args) => { };
-                        process.BeginOutputReadLine(); process.BeginErrorReadLine();
+                        DrainDiscardedOutput(process.StandardOutput.BaseStream);
+                        DrainDiscardedOutput(process.StandardError.BaseStream);
                         var clock = Stopwatch.StartNew(); TimeSpan limit = timeout ?? TimeSpan.FromSeconds(15);
                         using (cancellation.Register(job.Dispose))
                         {
@@ -75,6 +75,87 @@ namespace VS2017.AIAssistant.Chat
                 try { if (File.Exists(source)) { File.SetAttributes(source, FileAttributes.Normal); File.Delete(source); } } catch (IOException) { } catch (UnauthorizedAccessException) { }
                 try { if (File.Exists(output)) File.Delete(output); } catch (IOException) { } catch (UnauthorizedAccessException) { }
                 try { Directory.Delete(folder, false); } catch (IOException) { } catch (UnauthorizedAccessException) { }
+            }
+        }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : DrainDiscardedOutput
+        /// desc         : 줄바꿈 없는 도우미 출력도 누적 문자열 없이 4KB 버퍼로 버린다.
+        /// author       : CodexCode
+        /// create date  : 2026-10-18
+        /// update date  : 2026-10-18 CodexCode : TASK-021 문서 필터 stdout·stderr의 IDE 메모리 무제한 누적 차단.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        internal static void DrainDiscardedOutput(Stream stream)
+        { new DiscardedOutputReader(stream).ReadNext(); }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : DiscardedOutputReader
+        /// desc         : 도우미 수명 동안 고정 버퍼 하나만 유지하고 종료 시 파이프 해제를 정상 처리한다.
+        /// author       : CodexCode
+        /// create date  : 2026-10-18
+        /// update date  : 2026-10-18 CodexCode : TASK-021 줄 누적·추가 라이브러리 없이 비동기 파이프 배수.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        private sealed class DiscardedOutputReader
+        {
+            private readonly Stream stream;
+            private readonly byte[] buffer = new byte[4096];
+
+            /// ---------------------------------------------------------------------
+            /// <summary>
+            /// name         : DiscardedOutputReader
+            /// desc         : 이번 요청의 리디렉션 스트림만 참조하며 표준 출력 내용을 보관하지 않는다.
+            /// author       : CodexCode
+            /// create date  : 2026-10-18
+            /// update date  : 2026-10-18 CodexCode : 고정 크기 읽기 경계 초기화.
+            /// </summary>
+            /// ---------------------------------------------------------------------
+            internal DiscardedOutputReader(Stream stream)
+            { this.stream = stream ?? throw new ArgumentNullException(nameof(stream)); }
+
+            /// ---------------------------------------------------------------------
+            /// <summary>
+            /// name         : ReadNext
+            /// desc         : 동기 완료는 반복문으로 소비하여 큰 출력에서도 콜백 재귀가 쌓이지 않게 한다.
+            /// author       : CodexCode
+            /// create date  : 2026-10-18
+            /// update date  : 2026-10-18 CodexCode : 4KB 고정 읽기와 종료·취소 시 스트림 오류 정리.
+            /// </summary>
+            /// ---------------------------------------------------------------------
+            internal void ReadNext()
+            {
+                try
+                {
+                    while (true)
+                    {
+                        IAsyncResult pending = stream.BeginRead(buffer, 0, buffer.Length, ReadCompleted, null);
+                        if (!pending.CompletedSynchronously || stream.EndRead(pending) == 0) return;
+                    }
+                }
+                catch (IOException) { }
+                catch (ObjectDisposedException) { }
+                catch (InvalidOperationException) { }
+            }
+
+            /// ---------------------------------------------------------------------
+            /// <summary>
+            /// name         : ReadCompleted
+            /// desc         : 비동기 완료된 조각만 처리하고 파이프가 닫히면 추가 읽기를 예약하지 않는다.
+            /// author       : CodexCode
+            /// create date  : 2026-10-18
+            /// update date  : 2026-10-18 CodexCode : 동기 콜백 중복 EndRead와 종료 경합의 미처리 예외 방지.
+            /// </summary>
+            /// ---------------------------------------------------------------------
+            private void ReadCompleted(IAsyncResult pending)
+            {
+                if (pending.CompletedSynchronously) return;
+                try { if (stream.EndRead(pending) > 0) ReadNext(); }
+                catch (IOException) { }
+                catch (ObjectDisposedException) { }
+                catch (InvalidOperationException) { }
             }
         }
 

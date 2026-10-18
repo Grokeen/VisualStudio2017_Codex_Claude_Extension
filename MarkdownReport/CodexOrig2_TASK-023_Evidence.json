@@ -1,0 +1,1059 @@
+{
+  "Task": "TASK-023",
+  "Author": "CodexOrig2",
+  "AuditRound": 2,
+  "StartedAt": "2026-10-18T20:48:35.3621879+09:00",
+  "Status": "audit-complete",
+  "Verdict": "partially-corrected-integration-and-package-revalidation-required",
+  "ProductVersion": "0.9.0",
+  "FrozenCandidate": 6,
+  "ProductGitHEAD": "f81818792d6929d91f6d7f17bf79ddb6a7f9f932",
+  "ChangesCommitted": false,
+  "SnapshotRoot": "artifacts/audit-codexorig2-round2/snapshot",
+  "FrozenRoleSHA256": "0B6A6452D34CB8CF71639E8FC6BBDA512C194338CDEACAB0D66FAD0E7FC29EC7",
+  "LatestReviewedRoleSHA256": "CF0ED0ABAEDD5B79640A87AA425F7E5C8EC5CD6EAA714FF5E7300563798DFE1D",
+  "LatestRoleDelta": "Added 20:25 item 7 (white right-click UI), then item 8 (install-time required instruction generation and AI delivery); reviewed by 21:00 KST",
+  "SourceFiles": 63,
+  "SnapshotCopyMismatch": 0,
+  "SourceCopyChecks": [
+    {
+      "Path": "src\\VS2017.AIAssistant\\AiAssistantPackage.cs",
+      "Before": "7DB704AB058019732C95EA4B919EC3223D200F9890262171017F89CBCD1D09CB",
+      "Snapshot": "7DB704AB058019732C95EA4B919EC3223D200F9890262171017F89CBCD1D09CB",
+      "Now": "7DB704AB058019732C95EA4B919EC3223D200F9890262171017F89CBCD1D09CB"
+    },
+    {
+      "Path": "src\\VS2017.AIAssistant\\source.extension.vsixmanifest",
+      "Before": "7C8C21A6BDFFBE033AA8FC0A6452C32CF4C8EB93D800A22C89CADE2A890185B8",
+      "Snapshot": "7C8C21A6BDFFBE033AA8FC0A6452C32CF4C8EB93D800A22C89CADE2A890185B8",
+      "Now": "7C8C21A6BDFFBE033AA8FC0A6452C32CF4C8EB93D800A22C89CADE2A890185B8"
+    },
+    {
+      "Path": "src\\VS2017.AIAssistant\\VS2017.AIAssistant.csproj",
+      "Before": "12069BE42479D38C23CF1F0589C1681290E2CE023F886D9D5E502D0C995D1C3E",
+      "Snapshot": "12069BE42479D38C23CF1F0589C1681290E2CE023F886D9D5E502D0C995D1C3E",
+      "Now": "12069BE42479D38C23CF1F0589C1681290E2CE023F886D9D5E502D0C995D1C3E"
+    },
+    {
+      "Path": "src\\VS2017.AIAssistant\\VSPackage.resx",
+      "Before": "FF640F2D91CDE55865B3F5626CA2667E897F9E68892B5725D5197C7F29C91541",
+      "Snapshot": "FF640F2D91CDE55865B3F5626CA2667E897F9E68892B5725D5197C7F29C91541",
+      "Now": "FF640F2D91CDE55865B3F5626CA2667E897F9E68892B5725D5197C7F29C91541"
+    },
+    {
+      "Path": "src\\VS2017.AIAssistant\\Assets\\Claude.png",
+      "Before": "C7D8415B1EDBA67E5337D3684B480B563826F07BE9E28E10CCC14BF92037EF6D",
+      "Snapshot": "C7D8415B1EDBA67E5337D3684B480B563826F07BE9E28E10CCC14BF92037EF6D",
+      "Now": "C7D8415B1EDBA67E5337D3684B480B563826F07BE9E28E10CCC14BF92037EF6D"
+    },
+    {
+      "Path": "src\\VS2017.AIAssistant\\Assets\\Codex.png",
+      "Before": "8D5575EE667FF715CD3E3074D5296EDC68D5AADD89720D203E13131B68B22A04",
+      "Snapshot": "8D5575EE667FF715CD3E3074D5296EDC68D5AADD89720D203E13131B68B22A04",
+      "Now": "8D5575EE667FF715CD3E3074D5296EDC68D5AADD89720D203E13131B68B22A04"
+    },
+    {
+      "Path": "src\\VS2017.AIAssistant\\Assets\\THIRD-PARTY-NOTICES.md",
+      "Before": "AA8D9E7902519C84C8741E3FE62940615B9F9BAD35ABC2938CC5DA8FF9323135",
+      "Snapshot": "AA8D9E7902519C84C8741E3FE62940615B9F9BAD35ABC2938CC5DA8FF9323135",
+      "Now": "AA8D9E7902519C84C8741E3FE62940615B9F9BAD35ABC2938CC5DA8FF9323135"
+    },
+    {
+      "Path": "src\\VS2017.AIAssistant\\Chat\\AssistantSettingsTransaction.cs",
+      "Before": "56639555F425A32A747EC792F58FD0364505C0FBAA9FCBCEC31C841D3FBF7092",
+      "Snapshot": "56639555F425A32A747EC792F58FD0364505C0FBAA9FCBCEC31C841D3FBF7092",
+      "Now": "56639555F425A32A747EC792F58FD0364505C0FBAA9FCBCEC31C841D3FBF7092"
+    },
+    {
+      "Path": "src\\VS2017.AIAssistant\\Chat\\ChatWorkspace.cs",
+      "Before": "290A7F0EE42F15D1977B01BFFFBA83690AF5FCA426ED32D2361EBCBB4F6F1BA5",
+      "Snapshot": "290A7F0EE42F15D1977B01BFFFBA83690AF5FCA426ED32D2361EBCBB4F6F1BA5",
+      "Now": "290A7F0EE42F15D1977B01BFFFBA83690AF5FCA426ED32D2361EBCBB4F6F1BA5"
+    },
+    {
+      "Path": "src\\VS2017.AIAssistant\\Chat\\ConversationCollaboration.cs",
+      "Before": "9B84DF381FB2D09E6D46F08926AF6FEABC5D9171DB68EDF0CB51B5BC58365817",
+      "Snapshot": "9B84DF381FB2D09E6D46F08926AF6FEABC5D9171DB68EDF0CB51B5BC58365817",
+      "Now": "9B84DF381FB2D09E6D46F08926AF6FEABC5D9171DB68EDF0CB51B5BC58365817"
+    },
+    {
+      "Path": "src\\VS2017.AIAssistant\\Chat\\DocumentAttachmentReader.cs",
+      "Before": "605DF02064BA365914CF662C234B867A9DFE05069FE688EC343626C033C8DC3E",
+      "Snapshot": "605DF02064BA365914CF662C234B867A9DFE05069FE688EC343626C033C8DC3E",
+      "Now": "605DF02064BA365914CF662C234B867A9DFE05069FE688EC343626C033C8DC3E"
+    },
+    {
+      "Path": "src\\VS2017.AIAssistant\\Chat\\DocumentFilterWorker.cs",
+      "Before": "E1D52D2610C52B9393DC9B32465A1ABB75427E3DC8E8F75B69D62E539264F4EE",
+      "Snapshot": "E1D52D2610C52B9393DC9B32465A1ABB75427E3DC8E8F75B69D62E539264F4EE",
+      "Now": "E1D52D2610C52B9393DC9B32465A1ABB75427E3DC8E8F75B69D62E539264F4EE"
+    },
+    {
+      "Path": "src\\VS2017.AIAssistant\\Chat\\DocumentWorkerLauncher.cs",
+      "Before": "5F604DCE83697D60E5DD5668915379683BDA502E83DF3F0D0B0C3589842558C9",
+      "Snapshot": "5F604DCE83697D60E5DD5668915379683BDA502E83DF3F0D0B0C3589842558C9",
+      "Now": "5F604DCE83697D60E5DD5668915379683BDA502E83DF3F0D0B0C3589842558C9"
+    },
+    {
+      "Path": "src\\VS2017.AIAssistant\\Chat\\MarkdownWorkspaceStore.cs",
+      "Before": "2465AE378EE9AB1A91CBA814AAFE947B9A2890FAFC556B8C05FEA0632449C2E7",
+      "Snapshot": "2465AE378EE9AB1A91CBA814AAFE947B9A2890FAFC556B8C05FEA0632449C2E7",
+      "Now": "2465AE378EE9AB1A91CBA814AAFE947B9A2890FAFC556B8C05FEA0632449C2E7"
+    },
+    {
+      "Path": "src\\VS2017.AIAssistant\\Commands\\AssistantCommands.vsct",
+      "Before": "7133B59D773FDD20BEAA1E714DABBB728016692759A0F17B6EA94F9357C7FA31",
+      "Snapshot": "7133B59D773FDD20BEAA1E714DABBB728016692759A0F17B6EA94F9357C7FA31",
+      "Now": "7133B59D773FDD20BEAA1E714DABBB728016692759A0F17B6EA94F9357C7FA31"
+    },
+    {
+      "Path": "src\\VS2017.AIAssistant\\Commands\\OpenAssistantCommand.cs",
+      "Before": "263F4B13199B6021284380F238C7066A5CDB920034D36AE010013E4C690F0369",
+      "Snapshot": "263F4B13199B6021284380F238C7066A5CDB920034D36AE010013E4C690F0369",
+      "Now": "263F4B13199B6021284380F238C7066A5CDB920034D36AE010013E4C690F0369"
+    },
+    {
+      "Path": "src\\VS2017.AIAssistant\\Editing\\DocumentSnapshot.cs",
+      "Before": "184511525B968B067725FB04629ABF0B042F4817C2C32407033A2FCD0551399D",
+      "Snapshot": "184511525B968B067725FB04629ABF0B042F4817C2C32407033A2FCD0551399D",
+      "Now": "184511525B968B067725FB04629ABF0B042F4817C2C32407033A2FCD0551399D"
+    },
+    {
+      "Path": "src\\VS2017.AIAssistant\\Editing\\EditProposal.cs",
+      "Before": "5132A29DFF41BCB966F7C54DE0286315841F0C82E9DA0A626AF1EEEDA5AB7D1B",
+      "Snapshot": "5132A29DFF41BCB966F7C54DE0286315841F0C82E9DA0A626AF1EEEDA5AB7D1B",
+      "Now": "5132A29DFF41BCB966F7C54DE0286315841F0C82E9DA0A626AF1EEEDA5AB7D1B"
+    },
+    {
+      "Path": "src\\VS2017.AIAssistant\\Editing\\IExternalEditingDocumentService.cs",
+      "Before": "D8A7E61C72DE6B2ED1D8F0C2C551640495A05AAF692A0FBA25E2FB00E28DBB13",
+      "Snapshot": "D8A7E61C72DE6B2ED1D8F0C2C551640495A05AAF692A0FBA25E2FB00E28DBB13",
+      "Now": "D8A7E61C72DE6B2ED1D8F0C2C551640495A05AAF692A0FBA25E2FB00E28DBB13"
+    },
+    {
+      "Path": "src\\VS2017.AIAssistant\\Editing\\IFullAccessDocumentService.cs",
+      "Before": "A2750F9CB57CABE4BD18DE6E8833BF2FFFEA5CF22C1AE2D57F78CC910B6BD071",
+      "Snapshot": "A2750F9CB57CABE4BD18DE6E8833BF2FFFEA5CF22C1AE2D57F78CC910B6BD071",
+      "Now": "A2750F9CB57CABE4BD18DE6E8833BF2FFFEA5CF22C1AE2D57F78CC910B6BD071"
+    },
+    {
+      "Path": "src\\VS2017.AIAssistant\\Editing\\SourceEditSession.cs",
+      "Before": "8689541A21D28948F4344298CE6EDA65C0280D4703875F7E63B14E77B43D19AE",
+      "Snapshot": "8689541A21D28948F4344298CE6EDA65C0280D4703875F7E63B14E77B43D19AE",
+      "Now": "8689541A21D28948F4344298CE6EDA65C0280D4703875F7E63B14E77B43D19AE"
+    },
+    {
+      "Path": "src\\VS2017.AIAssistant\\Properties\\AssemblyInfo.cs",
+      "Before": "444E5C74A20701518000FB72FCFC9C7B5AA8895AD6EE6F3D78BD69D0F810C79C",
+      "Snapshot": "444E5C74A20701518000FB72FCFC9C7B5AA8895AD6EE6F3D78BD69D0F810C79C",
+      "Now": "444E5C74A20701518000FB72FCFC9C7B5AA8895AD6EE6F3D78BD69D0F810C79C"
+    },
+    {
+      "Path": "src\\VS2017.AIAssistant\\Providers\\AgentFileTracker.cs",
+      "Before": "3E58B25E71A1529FC4BB3B5E09F87953402F173AB9E4661D42EDD79370275A00",
+      "Snapshot": "3E58B25E71A1529FC4BB3B5E09F87953402F173AB9E4661D42EDD79370275A00",
+      "Now": "3E58B25E71A1529FC4BB3B5E09F87953402F173AB9E4661D42EDD79370275A00"
+    },
+    {
+      "Path": "src\\VS2017.AIAssistant\\Providers\\AgentProtocolEvents.cs",
+      "Before": "EF0C153CBB81A21A712B2E4711B60B47266315CB2C0EF92B0DDDED9A6D48C4C6",
+      "Snapshot": "EF0C153CBB81A21A712B2E4711B60B47266315CB2C0EF92B0DDDED9A6D48C4C6",
+      "Now": "EF0C153CBB81A21A712B2E4711B60B47266315CB2C0EF92B0DDDED9A6D48C4C6"
+    },
+    {
+      "Path": "src\\VS2017.AIAssistant\\Providers\\ClaudeRuntimeRunner.cs",
+      "Before": "990009D0E9E2C4B904035C3ADE97C27D3F9021A5AD128A18AAB2657D48F16B0D",
+      "Snapshot": "990009D0E9E2C4B904035C3ADE97C27D3F9021A5AD128A18AAB2657D48F16B0D",
+      "Now": "990009D0E9E2C4B904035C3ADE97C27D3F9021A5AD128A18AAB2657D48F16B0D"
+    },
+    {
+      "Path": "src\\VS2017.AIAssistant\\Providers\\CliAccountService.cs",
+      "Before": "1E14F22A1150DD0067507215EEE8BB1F0CA395C74C33D19CAAF81421D0100D6B",
+      "Snapshot": "1E14F22A1150DD0067507215EEE8BB1F0CA395C74C33D19CAAF81421D0100D6B",
+      "Now": "1E14F22A1150DD0067507215EEE8BB1F0CA395C74C33D19CAAF81421D0100D6B"
+    },
+    {
+      "Path": "src\\VS2017.AIAssistant\\Providers\\CliEditProvider.cs",
+      "Before": "B1D4BDF3D80E5D8966B3B861E1C8CD598B31330AEC95228AF0BE4CF5C3D1A584",
+      "Snapshot": "B1D4BDF3D80E5D8966B3B861E1C8CD598B31330AEC95228AF0BE4CF5C3D1A584",
+      "Now": "B1D4BDF3D80E5D8966B3B861E1C8CD598B31330AEC95228AF0BE4CF5C3D1A584"
+    },
+    {
+      "Path": "src\\VS2017.AIAssistant\\Providers\\CodexRuntimeRunner.cs",
+      "Before": "724905B04A3206EF6BD598C86EA16114213D3099C1C7B1D51E39D07F096A24F6",
+      "Snapshot": "724905B04A3206EF6BD598C86EA16114213D3099C1C7B1D51E39D07F096A24F6",
+      "Now": "724905B04A3206EF6BD598C86EA16114213D3099C1C7B1D51E39D07F096A24F6"
+    },
+    {
+      "Path": "src\\VS2017.AIAssistant\\Providers\\NativeJsonSession.cs",
+      "Before": "5810DF5D2DAE18F4C9E76DB57041F57CC9C724A865252EA0F8E4FCC173805E8E",
+      "Snapshot": "5810DF5D2DAE18F4C9E76DB57041F57CC9C724A865252EA0F8E4FCC173805E8E",
+      "Now": "5810DF5D2DAE18F4C9E76DB57041F57CC9C724A865252EA0F8E4FCC173805E8E"
+    },
+    {
+      "Path": "src\\VS2017.AIAssistant\\Providers\\ProcessJob.cs",
+      "Before": "BA715B1D467121C3483176AAA04AFB5DD454D9172AF920F6C7F968C1F50E8D44",
+      "Snapshot": "BA715B1D467121C3483176AAA04AFB5DD454D9172AF920F6C7F968C1F50E8D44",
+      "Now": "BA715B1D467121C3483176AAA04AFB5DD454D9172AF920F6C7F968C1F50E8D44"
+    },
+    {
+      "Path": "src\\VS2017.AIAssistant\\Providers\\ProviderExecutionOptions.cs",
+      "Before": "98926727866565A5A4021BCF1C24DCDAF14CBA88E61EF03B60BF3D99AFF68165",
+      "Snapshot": "98926727866565A5A4021BCF1C24DCDAF14CBA88E61EF03B60BF3D99AFF68165",
+      "Now": "98926727866565A5A4021BCF1C24DCDAF14CBA88E61EF03B60BF3D99AFF68165"
+    },
+    {
+      "Path": "src\\VS2017.AIAssistant\\Providers\\ProviderRuntime.cs",
+      "Before": "DD1BAE440B7B34546FD1BE9AB52160993D9AC5CC2CFF34DD1873DAC0438D8755",
+      "Snapshot": "DD1BAE440B7B34546FD1BE9AB52160993D9AC5CC2CFF34DD1873DAC0438D8755",
+      "Now": "DD1BAE440B7B34546FD1BE9AB52160993D9AC5CC2CFF34DD1873DAC0438D8755"
+    },
+    {
+      "Path": "src\\VS2017.AIAssistant\\Providers\\ProviderRuntimeService.cs",
+      "Before": "66EB7C78679F29493820E3F7A3DD264E53069A6E2E0B42097F246F516D71B371",
+      "Snapshot": "66EB7C78679F29493820E3F7A3DD264E53069A6E2E0B42097F246F516D71B371",
+      "Now": "66EB7C78679F29493820E3F7A3DD264E53069A6E2E0B42097F246F516D71B371"
+    },
+    {
+      "Path": "src\\VS2017.AIAssistant\\Services\\ScmIdentityService.cs",
+      "Before": "28CD8005F37C0B59EE75B45334C2A831EC9913B856F374C56D9D9C8307CF44B4",
+      "Snapshot": "28CD8005F37C0B59EE75B45334C2A831EC9913B856F374C56D9D9C8307CF44B4",
+      "Now": "28CD8005F37C0B59EE75B45334C2A831EC9913B856F374C56D9D9C8307CF44B4"
+    },
+    {
+      "Path": "src\\VS2017.AIAssistant\\Services\\VisualStudioDocumentService.cs",
+      "Before": "F37323C1CFFFCA45CC0A36803DC0B831BF5B7601A1165D8052C096C58535A1CF",
+      "Snapshot": "F37323C1CFFFCA45CC0A36803DC0B831BF5B7601A1165D8052C096C58535A1CF",
+      "Now": "F37323C1CFFFCA45CC0A36803DC0B831BF5B7601A1165D8052C096C58535A1CF"
+    },
+    {
+      "Path": "src\\VS2017.AIAssistant\\Services\\VisualStudioExternalEditingScope.cs",
+      "Before": "FC8ABB1C939C9C9497F54033757BEB50DAC97D2C293A85C0FE82149A1CA4B58D",
+      "Snapshot": "FC8ABB1C939C9C9497F54033757BEB50DAC97D2C293A85C0FE82149A1CA4B58D",
+      "Now": "FC8ABB1C939C9C9497F54033757BEB50DAC97D2C293A85C0FE82149A1CA4B58D"
+    },
+    {
+      "Path": "src\\VS2017.AIAssistant\\Services\\WorkspaceActionService.cs",
+      "Before": "AB5AA4BAD97B04FA57A7C4904FE8456B04BCA555B745886B9AFCB424A3E38F2C",
+      "Snapshot": "AB5AA4BAD97B04FA57A7C4904FE8456B04BCA555B745886B9AFCB424A3E38F2C",
+      "Now": "AB5AA4BAD97B04FA57A7C4904FE8456B04BCA555B745886B9AFCB424A3E38F2C"
+    },
+    {
+      "Path": "src\\VS2017.AIAssistant\\ToolWindows\\AssistantToolWindow.cs",
+      "Before": "956E97CBC7DE404C4DBBC26868FE731FD429D28E6DACB3A54EE68C37C6C294EA",
+      "Snapshot": "956E97CBC7DE404C4DBBC26868FE731FD429D28E6DACB3A54EE68C37C6C294EA",
+      "Now": "956E97CBC7DE404C4DBBC26868FE731FD429D28E6DACB3A54EE68C37C6C294EA"
+    },
+    {
+      "Path": "src\\VS2017.AIAssistant\\Views\\AssistantControl.Changes.cs",
+      "Before": "55DFB2925B0FF4FA91B7BE656C0D71F49FA5761336D8FE68B6B923756E2245B2",
+      "Snapshot": "55DFB2925B0FF4FA91B7BE656C0D71F49FA5761336D8FE68B6B923756E2245B2",
+      "Now": "55DFB2925B0FF4FA91B7BE656C0D71F49FA5761336D8FE68B6B923756E2245B2"
+    },
+    {
+      "Path": "src\\VS2017.AIAssistant\\Views\\AssistantControl.Chat.cs",
+      "Before": "C4537E23BD907E4D13AE74C034E04B3BB998F8DA56989FF5B9C2BA664272EC6C",
+      "Snapshot": "C4537E23BD907E4D13AE74C034E04B3BB998F8DA56989FF5B9C2BA664272EC6C",
+      "Now": "C4537E23BD907E4D13AE74C034E04B3BB998F8DA56989FF5B9C2BA664272EC6C"
+    },
+    {
+      "Path": "src\\VS2017.AIAssistant\\Views\\AssistantControl.Conversations.cs",
+      "Before": "DC0FF3726EEA79BA0BD38A838B0DDDDA089540D182D0D13CCB09C30C67FCFB32",
+      "Snapshot": "DC0FF3726EEA79BA0BD38A838B0DDDDA089540D182D0D13CCB09C30C67FCFB32",
+      "Now": "DC0FF3726EEA79BA0BD38A838B0DDDDA089540D182D0D13CCB09C30C67FCFB32"
+    },
+    {
+      "Path": "src\\VS2017.AIAssistant\\Views\\AssistantControl.Dialogs.cs",
+      "Before": "75D568C098A19E915F80E9D5BD1EFB9C8B6026E9E66249A51DD757B1D153D998",
+      "Snapshot": "75D568C098A19E915F80E9D5BD1EFB9C8B6026E9E66249A51DD757B1D153D998",
+      "Now": "75D568C098A19E915F80E9D5BD1EFB9C8B6026E9E66249A51DD757B1D153D998"
+    },
+    {
+      "Path": "src\\VS2017.AIAssistant\\Views\\AssistantControl.Dropdowns.cs",
+      "Before": "721EF66DA14BA83C6D0C30E2BDF0C60FEB191FD2B1468F73DDAEF980602B7DD7",
+      "Snapshot": "721EF66DA14BA83C6D0C30E2BDF0C60FEB191FD2B1468F73DDAEF980602B7DD7",
+      "Now": "721EF66DA14BA83C6D0C30E2BDF0C60FEB191FD2B1468F73DDAEF980602B7DD7"
+    },
+    {
+      "Path": "src\\VS2017.AIAssistant\\Views\\AssistantControl.Experience.cs",
+      "Before": "47B257F71058BE0136612EE3A2C23E1FEAD4359A8E4A97B044E003DF2558351E",
+      "Snapshot": "47B257F71058BE0136612EE3A2C23E1FEAD4359A8E4A97B044E003DF2558351E",
+      "Now": "47B257F71058BE0136612EE3A2C23E1FEAD4359A8E4A97B044E003DF2558351E"
+    },
+    {
+      "Path": "src\\VS2017.AIAssistant\\Views\\AssistantControl.Fan.cs",
+      "Before": "DBE7E7D38CF4C08BD649B5DF528D6423CBD859F1326781C1A4C1EF921295894B",
+      "Snapshot": "DBE7E7D38CF4C08BD649B5DF528D6423CBD859F1326781C1A4C1EF921295894B",
+      "Now": "DBE7E7D38CF4C08BD649B5DF528D6423CBD859F1326781C1A4C1EF921295894B"
+    },
+    {
+      "Path": "src\\VS2017.AIAssistant\\Views\\AssistantControl.Options.cs",
+      "Before": "3575E1F6793C357E599152BDE8D793C2373A952610C6E52AF744B474037DC8C8",
+      "Snapshot": "3575E1F6793C357E599152BDE8D793C2373A952610C6E52AF744B474037DC8C8",
+      "Now": "3575E1F6793C357E599152BDE8D793C2373A952610C6E52AF744B474037DC8C8"
+    },
+    {
+      "Path": "src\\VS2017.AIAssistant\\Views\\AssistantControl.Progress.cs",
+      "Before": "6E935622698F46A0DA7EE65EC8789BFC85FFF92879BE154E9D195C7E7A7FF205",
+      "Snapshot": "6E935622698F46A0DA7EE65EC8789BFC85FFF92879BE154E9D195C7E7A7FF205",
+      "Now": "6E935622698F46A0DA7EE65EC8789BFC85FFF92879BE154E9D195C7E7A7FF205"
+    },
+    {
+      "Path": "src\\VS2017.AIAssistant\\Views\\AssistantControl.Runtime.cs",
+      "Before": "44FF4B0C3C9C0CA5E7744ED3B4160EDBFAEAFAFB05DF51F648211700503D2372",
+      "Snapshot": "44FF4B0C3C9C0CA5E7744ED3B4160EDBFAEAFAFB05DF51F648211700503D2372",
+      "Now": "44FF4B0C3C9C0CA5E7744ED3B4160EDBFAEAFAFB05DF51F648211700503D2372"
+    },
+    {
+      "Path": "src\\VS2017.AIAssistant\\Views\\AssistantControl.Thinking.cs",
+      "Before": "6A6A74BACA7FE07ED201855CD0F07418E417C30769FC09540B317F8286ACD17B",
+      "Snapshot": "6A6A74BACA7FE07ED201855CD0F07418E417C30769FC09540B317F8286ACD17B",
+      "Now": "6A6A74BACA7FE07ED201855CD0F07418E417C30769FC09540B317F8286ACD17B"
+    },
+    {
+      "Path": "src\\VS2017.AIAssistant\\Views\\AssistantControl.Viewport.cs",
+      "Before": "4084B204C2694213CBBD2A94C5DFA3DFBD53979096202570AF8840294662CA34",
+      "Snapshot": "4084B204C2694213CBBD2A94C5DFA3DFBD53979096202570AF8840294662CA34",
+      "Now": "4084B204C2694213CBBD2A94C5DFA3DFBD53979096202570AF8840294662CA34"
+    },
+    {
+      "Path": "src\\VS2017.AIAssistant\\Views\\AssistantControl.xaml",
+      "Before": "4C8086A0AAE53A2AA437C56F1FDE41B5061B4914BBB984136F3D86D789164430",
+      "Snapshot": "4C8086A0AAE53A2AA437C56F1FDE41B5061B4914BBB984136F3D86D789164430",
+      "Now": "4C8086A0AAE53A2AA437C56F1FDE41B5061B4914BBB984136F3D86D789164430"
+    },
+    {
+      "Path": "src\\VS2017.AIAssistant\\Views\\AssistantControl.xaml.cs",
+      "Before": "1221F1699F18826151ABF7A9B709A87F19755AB1F72C735542A1FEA98702AEF7",
+      "Snapshot": "1221F1699F18826151ABF7A9B709A87F19755AB1F72C735542A1FEA98702AEF7",
+      "Now": "1221F1699F18826151ABF7A9B709A87F19755AB1F72C735542A1FEA98702AEF7"
+    },
+    {
+      "Path": "src\\VS2017.AIAssistant\\Views\\AssistantDialogs.cs",
+      "Before": "064950BA8E55B4FC270036A701C541F5A1924A35429F6215157A8794ECBD73E9",
+      "Snapshot": "064950BA8E55B4FC270036A701C541F5A1924A35429F6215157A8794ECBD73E9",
+      "Now": "064950BA8E55B4FC270036A701C541F5A1924A35429F6215157A8794ECBD73E9"
+    },
+    {
+      "Path": "src\\VS2017.AIAssistant\\Views\\AssistantHelpContent.cs",
+      "Before": "7BC3AFC0D0DA553357F48DACD448669C856090D80D9C1CA03C0794DF4EB341E8",
+      "Snapshot": "7BC3AFC0D0DA553357F48DACD448669C856090D80D9C1CA03C0794DF4EB341E8",
+      "Now": "7BC3AFC0D0DA553357F48DACD448669C856090D80D9C1CA03C0794DF4EB341E8"
+    },
+    {
+      "Path": "src\\VS2017.AIAssistant\\Views\\AssistantTheme.xaml",
+      "Before": "AE501E109F5F2BED683E9C6CF9C6CC16F43AAD1289B027C92C050D937DC32E97",
+      "Snapshot": "AE501E109F5F2BED683E9C6CF9C6CC16F43AAD1289B027C92C050D937DC32E97",
+      "Now": "AE501E109F5F2BED683E9C6CF9C6CC16F43AAD1289B027C92C050D937DC32E97"
+    },
+    {
+      "Path": "src\\VS2017.AIAssistant\\Views\\WorkspaceActionsDialog.cs",
+      "Before": "7A50745A234C2A12BAD40CF0DDE47EB81268DB07D6E6F4ADD2B8EB83B5594DE7",
+      "Snapshot": "7A50745A234C2A12BAD40CF0DDE47EB81268DB07D6E6F4ADD2B8EB83B5594DE7",
+      "Now": "7A50745A234C2A12BAD40CF0DDE47EB81268DB07D6E6F4ADD2B8EB83B5594DE7"
+    },
+    {
+      "Path": "src\\VS2017.AIAssistant.DocumentReader\\App.config",
+      "Before": "DBA0AC349FA98F542FE90CC4FBBE3033567DAC0515859D049854E81DEFAAAA51",
+      "Snapshot": "DBA0AC349FA98F542FE90CC4FBBE3033567DAC0515859D049854E81DEFAAAA51",
+      "Now": "DBA0AC349FA98F542FE90CC4FBBE3033567DAC0515859D049854E81DEFAAAA51"
+    },
+    {
+      "Path": "src\\VS2017.AIAssistant.DocumentReader\\VS2017.AIAssistant.DocumentReader.csproj",
+      "Before": "909B5CDD5C4C125FF324F4E112890C102B574435A1AB8E9B0672D83EB0C427B3",
+      "Snapshot": "909B5CDD5C4C125FF324F4E112890C102B574435A1AB8E9B0672D83EB0C427B3",
+      "Now": "909B5CDD5C4C125FF324F4E112890C102B574435A1AB8E9B0672D83EB0C427B3"
+    },
+    {
+      "Path": "src\\VS2017.AIAssistant.DocumentReader\\Properties\\AssemblyInfo.cs",
+      "Before": "1B67151A709EA78991557E3A16315F1CF1BB17D2ACB5185100A4FFF669AD7D69",
+      "Snapshot": "1B67151A709EA78991557E3A16315F1CF1BB17D2ACB5185100A4FFF669AD7D69",
+      "Now": "1B67151A709EA78991557E3A16315F1CF1BB17D2ACB5185100A4FFF669AD7D69"
+    },
+    {
+      "Path": "src\\VS2019.AIAssistant\\source.extension.vsixmanifest",
+      "Before": "02854B3B8EB61CF5DE90A860EFD390C65705A38E9530C8DDDE647C6DF0B7AECD",
+      "Snapshot": "02854B3B8EB61CF5DE90A860EFD390C65705A38E9530C8DDDE647C6DF0B7AECD",
+      "Now": "02854B3B8EB61CF5DE90A860EFD390C65705A38E9530C8DDDE647C6DF0B7AECD"
+    },
+    {
+      "Path": "src\\VS2019.AIAssistant\\VS2019.AIAssistant.csproj",
+      "Before": "80084A6ECDCA1E5A1361BF19E96472CC395890F43044C7EF368A0673F89B2E27",
+      "Snapshot": "80084A6ECDCA1E5A1361BF19E96472CC395890F43044C7EF368A0673F89B2E27",
+      "Now": "80084A6ECDCA1E5A1361BF19E96472CC395890F43044C7EF368A0673F89B2E27"
+    },
+    {
+      "Path": "src\\VS2022.AIAssistant\\source.extension.vsixmanifest",
+      "Before": "85D7E5F3B409E4F95C19DA88D92A448FD7DF8A4BA9AD32F851E770B2BF159EC2",
+      "Snapshot": "85D7E5F3B409E4F95C19DA88D92A448FD7DF8A4BA9AD32F851E770B2BF159EC2",
+      "Now": "85D7E5F3B409E4F95C19DA88D92A448FD7DF8A4BA9AD32F851E770B2BF159EC2"
+    },
+    {
+      "Path": "src\\VS2022.AIAssistant\\VS2022.AIAssistant.csproj",
+      "Before": "012F430BA0FC4EA169B6F1E81BD7390E48F353939E99F3DFFF10B5DD678345FC",
+      "Snapshot": "012F430BA0FC4EA169B6F1E81BD7390E48F353939E99F3DFFF10B5DD678345FC",
+      "Now": "012F430BA0FC4EA169B6F1E81BD7390E48F353939E99F3DFFF10B5DD678345FC"
+    }
+  ],
+  "CandidateSourceCount": 55,
+  "CandidateChangedFiles": [
+    {
+      "Path": "src/VS2017.AIAssistant/VS2017.AIAssistant.csproj",
+      "Recorded": "844C6AC6F8766E5D2678CE1476904361A6FDB4BF37E5B8E6EE895325F56745A3",
+      "Snapshot": "12069BE42479D38C23CF1F0589C1681290E2CE023F886D9D5E502D0C995D1C3E"
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Chat/ChatWorkspace.cs",
+      "Recorded": "45E36044D41B0E1EAFADFC3EB88B484F08B650952140A11B7E197A1C6DD7E8C8",
+      "Snapshot": "290A7F0EE42F15D1977B01BFFFBA83690AF5FCA426ED32D2361EBCBB4F6F1BA5"
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Providers/AgentProtocolEvents.cs",
+      "Recorded": "A92997D312A9122DA7FEA082158C4A64D1DED8565F9451BFC8C9B9C05050726E",
+      "Snapshot": "EF0C153CBB81A21A712B2E4711B60B47266315CB2C0EF92B0DDDED9A6D48C4C6"
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Providers/ProviderRuntimeService.cs",
+      "Recorded": "9BCE5866D50C522CA6BAA2ECB01D73B5CD7073101BB88F4D435F1AF14D5D835E",
+      "Snapshot": "66EB7C78679F29493820E3F7A3DD264E53069A6E2E0B42097F246F516D71B371"
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Services/VisualStudioDocumentService.cs",
+      "Recorded": "2E40E37DC8F58FDFEC7F4CA6D7EA1FD013466200D9BEF3D08125461E5BC9AA1C",
+      "Snapshot": "F37323C1CFFFCA45CC0A36803DC0B831BF5B7601A1165D8052C096C58535A1CF"
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Views/AssistantControl.Chat.cs",
+      "Recorded": "60636DC2C2BFFBF8858D5B37AEA85F5BA5478F04F5234DDB7A0BABF3B9889FE2",
+      "Snapshot": "C4537E23BD907E4D13AE74C034E04B3BB998F8DA56989FF5B9C2BA664272EC6C"
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Views/AssistantControl.Experience.cs",
+      "Recorded": "285966CE40C1F8BF9BD1EA7C33AACC3D57CE1D471DDCE99065612626A32BFEFD",
+      "Snapshot": "47B257F71058BE0136612EE3A2C23E1FEAD4359A8E4A97B044E003DF2558351E"
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Views/AssistantControl.Fan.cs",
+      "Recorded": "A5B673199D5F085BD2D7C9B1414C64057DFCAC2E5C044E15DA0D0690B876C320",
+      "Snapshot": "DBE7E7D38CF4C08BD649B5DF528D6423CBD859F1326781C1A4C1EF921295894B"
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Views/AssistantControl.Runtime.cs",
+      "Recorded": "817C37C340614A2A978BCF965670B47B5BED78AA165A267FE93AB6DD14E53A4A",
+      "Snapshot": "44FF4B0C3C9C0CA5E7744ED3B4160EDBFAEAFAFB05DF51F648211700503D2372"
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Views/AssistantControl.Thinking.cs",
+      "Recorded": "26D26E912935AF859810AFDDB88D15BBDD046629CDF1D63762C3A76429FAA880",
+      "Snapshot": "6A6A74BACA7FE07ED201855CD0F07418E417C30769FC09540B317F8286ACD17B"
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Views/AssistantControl.xaml",
+      "Recorded": "C40440A9E024F056B4FA36F7052DC831E8ABE3959EF40DCCC80E11B1F6D69615",
+      "Snapshot": "4C8086A0AAE53A2AA437C56F1FDE41B5061B4914BBB984136F3D86D789164430"
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Views/AssistantDialogs.cs",
+      "Recorded": "757422005F7AB1754DAB068D398B95AC120BF5B78C1E3CDCFB38384D798A15AC",
+      "Snapshot": "064950BA8E55B4FC270036A701C541F5A1924A35429F6215157A8794ECBD73E9"
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Views/AssistantTheme.xaml",
+      "Recorded": "B8AF45B88F414DF52921C52F1F2413E0214ADA436EBA37C055CCA6451EC841D6",
+      "Snapshot": "AE501E109F5F2BED683E9C6CF9C6CC16F43AAD1289B027C92C050D937DC32E97"
+    }
+  ],
+  "CandidateNewFiles": [
+    "src/VS2017.AIAssistant/Editing/IExternalEditingDocumentService.cs",
+    "src/VS2017.AIAssistant/Services/VisualStudioExternalEditingScope.cs",
+    "src/VS2017.AIAssistant/Views/AssistantControl.Progress.cs",
+    "src/VS2017.AIAssistant/Views/AssistantControl.Viewport.cs",
+    "src/VS2019.AIAssistant/source.extension.vsixmanifest",
+    "src/VS2019.AIAssistant/VS2019.AIAssistant.csproj",
+    "src/VS2022.AIAssistant/source.extension.vsixmanifest",
+    "src/VS2022.AIAssistant/VS2022.AIAssistant.csproj"
+  ],
+  "Packages": [
+    {
+      "Version": "2017",
+      "Path": "releases/v0.9.0/VS2017.AIAssistant-0.9.0.vsix",
+      "SHA256": "86A41684C788BF516A6D532785290972D661563F0E2AC6441015FBCC5DBD4DAC",
+      "MatchesRecorded": true,
+      "Targets": [
+        {
+          "Id": "Microsoft.VisualStudio.Community",
+          "Version": "[15.0.28307.0,16.0)",
+          "Architecture": null
+        }
+      ],
+      "Payload": [
+        {
+          "Name": "VS2017.AIAssistant.dll",
+          "Bytes": 492544,
+          "SHA256": "7951846AA854364C33A6E0980D40A92461B3DFDD0D60BE84E9B2C74CA1EAFC41",
+          "MatchesRecorded": true
+        },
+        {
+          "Name": "VS2017.AIAssistant.DocumentReader.exe",
+          "Bytes": 9728,
+          "SHA256": "6574B9AE175F3851275111835029E96A1594BFDAC51077B20484757F3776B7C5",
+          "MatchesRecorded": true
+        },
+        {
+          "Name": "VS2017.AIAssistant.DocumentReader.exe.config",
+          "Bytes": 159,
+          "SHA256": "DBA0AC349FA98F542FE90CC4FBBE3033567DAC0515859D049854E81DEFAAAA51",
+          "MatchesRecorded": true
+        }
+      ]
+    },
+    {
+      "Version": "2019",
+      "Path": "releases/v0.9.0/VS2019.AIAssistant-0.9.0.vsix",
+      "SHA256": "EB3E27B3B05773B1F89F87BCDCC315797F5212E1910EBDF7C849CED0DC99F2DE",
+      "MatchesRecorded": true,
+      "Targets": [
+        {
+          "Id": "Microsoft.VisualStudio.Community",
+          "Version": "[16.0,17.0)",
+          "Architecture": null
+        }
+      ],
+      "Payload": [
+        {
+          "Name": "VS2017.AIAssistant.dll",
+          "Bytes": 489984,
+          "SHA256": "936909D1686EBD7A025F769798A8A9C61597B8A94F3FADDF225818664F3D290E",
+          "MatchesRecorded": true
+        },
+        {
+          "Name": "VS2017.AIAssistant.DocumentReader.exe",
+          "Bytes": 9728,
+          "SHA256": "436F0B47CF1361E2AA7EEA449AC0021E3C7EECE7865D6448FD75626C7419B233",
+          "MatchesRecorded": true
+        },
+        {
+          "Name": "VS2017.AIAssistant.DocumentReader.exe.config",
+          "Bytes": 159,
+          "SHA256": "DBA0AC349FA98F542FE90CC4FBBE3033567DAC0515859D049854E81DEFAAAA51",
+          "MatchesRecorded": true
+        }
+      ]
+    },
+    {
+      "Version": "2022",
+      "Path": "releases/v0.9.0/VS2022.AIAssistant-0.9.0.vsix",
+      "SHA256": "2A421728B1286C07CE94DCBE691D67FE8A4ED4E5DCDEEFA019FDE05A4D438F60",
+      "MatchesRecorded": true,
+      "Targets": [
+        {
+          "Id": "Microsoft.VisualStudio.Community",
+          "Version": "[17.0,18.0)",
+          "Architecture": "amd64"
+        }
+      ],
+      "Payload": [
+        {
+          "Name": "VS2017.AIAssistant.dll",
+          "Bytes": 489472,
+          "SHA256": "C159E49AF5968757AA8816CD9AFD2D6FAAB7580CBCE555C7EC1CF2B659B786B3",
+          "MatchesRecorded": true
+        },
+        {
+          "Name": "VS2017.AIAssistant.DocumentReader.exe",
+          "Bytes": 9728,
+          "SHA256": "4860D4C2F1D11FCE62750A482F3C5637C61F5A54B7073CDACE1B343205AD6153",
+          "MatchesRecorded": true
+        },
+        {
+          "Name": "VS2017.AIAssistant.DocumentReader.exe.config",
+          "Bytes": 159,
+          "SHA256": "DBA0AC349FA98F542FE90CC4FBBE3033567DAC0515859D049854E81DEFAAAA51",
+          "MatchesRecorded": true
+        }
+      ]
+    }
+  ],
+  "Runs": [
+    {
+      "Run": "a62a545a58",
+      "PhysicalDirectory": "artifacts/audit-codexorig2-round2/snapshot/artifacts/tl/a62a545a58",
+      "PassedSuites": 14,
+      "TotalSuites": 16,
+      "ExitCode": 1,
+      "Suites": [
+        {
+          "Suite": "compatibility",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "build-entry",
+          "ExitCode": 1
+        },
+        {
+          "Suite": "markdown",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "settings",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "workspace-actions",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "editing",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "foundation",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "experience",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "documents",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "collaboration",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "provider-options",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "provider-cli",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "scm-identity",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "image-requirements",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "image-followup",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "native-runtime",
+          "ExitCode": 1
+        }
+      ],
+      "LogSHA256": "95E6CFC548541685D79A9E8CCB73151F6736B0C1A9132189D10B07FEC2272AA5",
+      "EditingPassed": 92,
+      "EditingTotal": 92,
+      "Experience": {
+        "AssemblySHA256": "7951846AA854364C33A6E0980D40A92461B3DFDD0D60BE84E9B2C74CA1EAFC41",
+        "Succeeded": true,
+        "Passed": 135
+      },
+      "ImageFollowup": {
+        "Succeeded": true,
+        "PassedSuites": 8,
+        "Failed": 0,
+        "Passed": 229
+      },
+      "NativeRuntime": {
+        "checks": [
+          {
+            "name": "real transient file lock recovers atomic save",
+            "passed": true
+          },
+          {
+            "name": "persistent lock preserves open state and reports Win32 code",
+            "passed": true
+          },
+          {
+            "name": "failed replacement preserves original and cleans temporary",
+            "passed": true
+          },
+          {
+            "name": "diff source navigation uses actual changed line",
+            "passed": true
+          },
+          {
+            "name": "tracker keeps unchanged middle lines and precise two-line counts",
+            "passed": true
+          },
+          {
+            "name": "tracker reports creation and deletion of zero-byte sources",
+            "passed": true
+          },
+          {
+            "name": "large nonminimal fallback explicitly has unknown line counts",
+            "passed": true
+          },
+          {
+            "name": "reverted file absent from final net changes",
+            "passed": true
+          },
+          {
+            "name": "metadata reads both model pages and actual plan",
+            "passed": true
+          },
+          {
+            "name": "new model and effort discovered without hardcoded tier",
+            "passed": true
+          },
+          {
+            "name": "quota is percentage separate from unknown tokens",
+            "passed": true
+          },
+          {
+            "name": "metadata starts no thread or inference",
+            "passed": true
+          },
+          {
+            "name": "server request with matching pending id is not response",
+            "passed": true
+          },
+          {
+            "name": "Claude control initialize discovers model capabilities",
+            "passed": true
+          },
+          {
+            "name": "Claude model metadata alone never claims an authenticated account",
+            "passed": false
+          },
+          {
+            "name": "unexpected",
+            "passed": false,
+            "error": "System.Exception: Claude model metadata alone never claims an authenticated account\r\n   위치: RuntimeChecks.Check(String name, Boolean passed)\r\n   위치: RuntimeChecks.<RunAsync>d__26.MoveNext()\r\n--- 예외가 throw된 이전 위치의 스택 추적 끝 ---\r\n   위치: System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()\r\n   위치: System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)\r\n   위치: RuntimeChecks.Main(String[] args)"
+          }
+        ]
+      }
+    },
+    {
+      "Run": "2aea5e695f",
+      "PhysicalDirectory": "artifacts/audit-codexorig2-round2/snapshot/artifacts/tl/2aea5e695f",
+      "PassedSuites": 14,
+      "TotalSuites": 16,
+      "ExitCode": 1,
+      "Suites": [
+        {
+          "Suite": "compatibility",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "build-entry",
+          "ExitCode": 1
+        },
+        {
+          "Suite": "markdown",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "settings",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "workspace-actions",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "editing",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "foundation",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "experience",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "documents",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "collaboration",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "provider-options",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "provider-cli",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "scm-identity",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "image-requirements",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "image-followup",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "native-runtime",
+          "ExitCode": 1
+        }
+      ],
+      "LogSHA256": "1CA6E70FC54ECE3CE240609D713310473460B686BE1498F4787DD804C8AB6205",
+      "EditingPassed": 92,
+      "EditingTotal": 92,
+      "Experience": {
+        "AssemblySHA256": "7951846AA854364C33A6E0980D40A92461B3DFDD0D60BE84E9B2C74CA1EAFC41",
+        "Succeeded": true,
+        "Passed": 135
+      },
+      "ImageFollowup": {
+        "Succeeded": true,
+        "PassedSuites": 8,
+        "Failed": 0,
+        "Passed": 229
+      },
+      "NativeRuntime": {
+        "checks": [
+          {
+            "name": "real transient file lock recovers atomic save",
+            "passed": true
+          },
+          {
+            "name": "persistent lock preserves open state and reports Win32 code",
+            "passed": true
+          },
+          {
+            "name": "failed replacement preserves original and cleans temporary",
+            "passed": true
+          },
+          {
+            "name": "diff source navigation uses actual changed line",
+            "passed": true
+          },
+          {
+            "name": "tracker keeps unchanged middle lines and precise two-line counts",
+            "passed": true
+          },
+          {
+            "name": "tracker reports creation and deletion of zero-byte sources",
+            "passed": true
+          },
+          {
+            "name": "large nonminimal fallback explicitly has unknown line counts",
+            "passed": true
+          },
+          {
+            "name": "reverted file absent from final net changes",
+            "passed": true
+          },
+          {
+            "name": "metadata reads both model pages and actual plan",
+            "passed": true
+          },
+          {
+            "name": "new model and effort discovered without hardcoded tier",
+            "passed": true
+          },
+          {
+            "name": "quota is percentage separate from unknown tokens",
+            "passed": true
+          },
+          {
+            "name": "metadata starts no thread or inference",
+            "passed": true
+          },
+          {
+            "name": "server request with matching pending id is not response",
+            "passed": true
+          },
+          {
+            "name": "Claude control initialize discovers model capabilities",
+            "passed": true
+          },
+          {
+            "name": "Claude model metadata alone never claims an authenticated account",
+            "passed": false
+          },
+          {
+            "name": "unexpected",
+            "passed": false,
+            "error": "System.Exception: Claude model metadata alone never claims an authenticated account\r\n   위치: RuntimeChecks.Check(String name, Boolean passed)\r\n   위치: RuntimeChecks.<RunAsync>d__26.MoveNext()\r\n--- 예외가 throw된 이전 위치의 스택 추적 끝 ---\r\n   위치: System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()\r\n   위치: System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)\r\n   위치: RuntimeChecks.Main(String[] args)"
+          }
+        ]
+      }
+    }
+  ],
+  "ClaudeAuthenticationProbe": {
+    "AssemblySHA256": "7951846AA854364C33A6E0980D40A92461B3DFDD0D60BE84E9B2C74CA1EAFC41",
+    "Authenticated": true,
+    "Plan": "fixture-account",
+    "ModelCount": 1,
+    "SupportsProtocol": true,
+    "RealCliStarted": false,
+    "SyntheticFixtureOnly": true,
+    "InferenceRequested": false,
+    "CheckedAt": "2026-10-18T20:54:32.9670729+09:00"
+  },
+  "NativeDiscoveryProbe": {
+    "Check": "Known native CLI discovery without PATH",
+    "AssemblySHA256": "7951846AA854364C33A6E0980D40A92461B3DFDD0D60BE84E9B2C74CA1EAFC41",
+    "Rows": [
+      {
+        "Provider": "Claude",
+        "KnownPathAlias": "USERPROFILE/.local/bin/claude.exe",
+        "InstalledAtKnownPath": true,
+        "DefaultDiscoveredWithEmptyPATH": false,
+        "ExplicitPathAccepted": true,
+        "DefaultErrorType": "System.InvalidOperationException",
+        "ExplicitError": "",
+        "ReturnedType": "System.String"
+      },
+      {
+        "Provider": "Codex",
+        "KnownPathAlias": "LOCALAPPDATA/Programs/OpenAI/Codex/bin/codex.exe",
+        "InstalledAtKnownPath": true,
+        "DefaultDiscoveredWithEmptyPATH": false,
+        "ExplicitPathAccepted": true,
+        "DefaultErrorType": "System.InvalidOperationException",
+        "ExplicitError": "",
+        "ReturnedType": "System.String"
+      }
+    ],
+    "CliProcessStarted": false,
+    "AuthenticationRequested": false,
+    "CheckedAt": "2026-10-18T20:52:57.3868815+09:00"
+  },
+  "BuildEntryFailureAnalysis": {
+    "OriginalAndFrozenInputScriptsMatch": true,
+    "OriginalResult": "artifacts/build-entry/run-ef9e4bb711594691a9d8757f576f3f24/results.json",
+    "OriginalPathRerunTotal": 16,
+    "OriginalPathRerunPassed": 16,
+    "Total": 16,
+    "ExpectedTextFoundAfterWhitespaceNormalization": true,
+    "Failed": [
+      {
+        "Name": "Wrong MSBuild file major version is rejected",
+        "Passed": false,
+        "Detail": {
+          "ExitCode": 1,
+          "Output": "",
+          "Error": "Q:\\artifacts\\build-entry\\run-c740e1093fcc42d4bea43359d61c5dd0\\한글 & 공백! (경로)\\scripts\\Invoke-VsixBuild.ps1 : VS2017 requi\r\nres MSBuild 15.x; selected file is 17.9.0.0.\r\n    + CategoryInfo          : NotSpecified: (:) [Write-Error], WriteErrorException\r\n    + FullyQualifiedErrorId : Microsoft.PowerShell.Commands.WriteErrorException,Invoke-VsixBuild.ps1\r\n \r\n"
+        }
+      },
+      {
+        "Name": "Batch preserves failure status and error output",
+        "Passed": false,
+        "Detail": {
+          "ExitCode": 1,
+          "Output": "VS2017 MSBuild 15.9.0.0: Q:\\artifacts\\build-entry\\run-c740e1093fcc42d4bea43359d61c5dd0\\한글 & 공백! (경로)\\VS 2017\\MSBuild\\15.0\\Bin\\MSBuild.exe\nBUILD_OUTPUT_SENTINEL\r\n",
+          "Error": "Q:\\artifacts\\build-entry\\run-c740e1093fcc42d4bea43359d61c5dd0\\한글 & 공백! (경로)\\scripts\\Invoke-VsixBuild.ps1 : BUILD_FAILUR\r\nE_SENTINEL\r\n    + CategoryInfo          : NotSpecified: (:) [Write-Error], WriteErrorException\r\n    + FullyQualifiedErrorId : Microsoft.PowerShell.Commands.WriteErrorException,Invoke-VsixBuild.ps1\r\n \r\n"
+        }
+      }
+    ],
+    "SnapshotPassed": 14,
+    "ActualFailureExitCodePreserved": true
+  },
+  "LauncherSmoke": {
+    "Total": 9,
+    "ExitCode": 0,
+    "PhysicalDirectory": "artifacts/audit-codexorig2-round2/snapshot/artifacts/ls/e42d1f6031",
+    "Passed": 9
+  },
+  "PriorIDEVerified": [
+    {
+      "Version": "2017",
+      "Passed": 91,
+      "Failed": 0,
+      "ResultPath": "artifacts/ide/run-3ada433b06d9438ca9237c4640c06e10/result.json",
+      "ActualHash": "5ED05EAD1ACC8820FB156080C15BCD676690A67EEA246F0D73FEC00915D1B088",
+      "MatchesRecorded": true,
+      "RecordedAssemblySHA": "7951846AA854364C33A6E0980D40A92461B3DFDD0D60BE84E9B2C74CA1EAFC41",
+      "LicenseObservation": {
+        "IdeMajor": "15",
+        "MainWindowInspected": true,
+        "BlockingLicenseTextObserved": false,
+        "CheckedAt": "2026-10-18T11:17:43.132Z",
+        "Scope": "현재 테스트 인스턴스의 표시된 WPF 텍스트 관찰. 계정의 라이선스 유효성이나 미래 배너 부재를 인증하지 않음."
+      }
+    },
+    {
+      "Version": "2019",
+      "Passed": 91,
+      "Failed": 0,
+      "ResultPath": "artifacts/ide/run-6162d24344ce4c1a833fbfd496620dd8/result.json",
+      "ActualHash": "13A748183D95F62C0693FC20CA7ADF0CC0FBD4E2EA0D62991A5933262D47AE51",
+      "MatchesRecorded": true,
+      "RecordedAssemblySHA": "936909D1686EBD7A025F769798A8A9C61597B8A94F3FADDF225818664F3D290E",
+      "LicenseObservation": {
+        "IdeMajor": "16",
+        "MainWindowInspected": true,
+        "BlockingLicenseTextObserved": false,
+        "CheckedAt": "2026-10-18T11:19:16.411Z",
+        "Scope": "현재 테스트 인스턴스의 표시된 WPF 텍스트 관찰. 계정의 라이선스 유효성이나 미래 배너 부재를 인증하지 않음."
+      }
+    },
+    {
+      "Version": "2022",
+      "Passed": 91,
+      "Failed": 0,
+      "ResultPath": "artifacts/ide/run-dff163df902d496b891f194ced1d060c/result.json",
+      "ActualHash": "9802A36C32B45297A44E02F571886E396F6AA88B607EF3CC97CE9FB1D1EAFEDD",
+      "MatchesRecorded": true,
+      "RecordedAssemblySHA": "C159E49AF5968757AA8816CD9AFD2D6FAAB7580CBCE555C7EC1CF2B659B786B3",
+      "LicenseObservation": {
+        "IdeMajor": "17",
+        "MainWindowInspected": true,
+        "BlockingLicenseTextObserved": false,
+        "CheckedAt": "2026-10-18T11:20:49.298Z",
+        "Scope": "현재 테스트 인스턴스의 표시된 WPF 텍스트 관찰. 계정의 라이선스 유효성이나 미래 배너 부재를 인증하지 않음."
+      }
+    }
+  ],
+  "PriorIDEReexecuted": false,
+  "LicenseObservationScriptExitCode": 0,
+  "LicenseObservationScope": "Existing three IDE test session observations only",
+  "PriorAuditOriginalPreserved": true,
+  "PriorAuditEvidencePreserved": true,
+  "ExcludedLongPathTrial": {
+    "Reason": "Audit snapshot path exceeded .NET Framework MAX_PATH; excluded from product compliance verdict",
+    "TerminatedOwnSnapshotLauncher": true,
+    "Directory": "artifacts/audit-codexorig2-round2/snapshot/artifacts/tl/808987aa0f"
+  },
+  "Limitations": [
+    "No product rebuild or independent IDE launch",
+    "No real AI inference, account authentication or operational deployment",
+    "Post-20:25 features under active development at capture; package does not include current sources",
+    "Latest right-click white UI request unverified",
+    "Newer test suite contains the Claude authentication regression absent from C6 package"
+  ],
+  "IntermediateRoleSHA256": "FA727DFB8C9EEDFDDF047D9FFD08366AAE4AA6EB0BABED359C41F831AF7B10A7",
+  "FinalScopeCheck": {
+    "PackageNow": [
+      {
+        "Version": "2017",
+        "MatchesFrozen": true
+      },
+      {
+        "Version": "2019",
+        "MatchesFrozen": true
+      },
+      {
+        "Version": "2022",
+        "MatchesFrozen": true
+      }
+    ],
+    "SourceFilesChangedByConcurrentWorkSinceSnapshot": 14,
+    "CurrentRoleEqualsLatestReviewed": false,
+    "UnchangedSnapshotRole": true,
+    "DiscoveryFollowupSourceNowExists": true
+  },
+  "TemporaryDriveMappingRemoved": true,
+  "CompletedAt": "2026-10-18T21:01:50.6120150+09:00",
+  "ElapsedSeconds": 795.25,
+  "ReportSHA256": "02A2CC83CCC0B8CB6CEBC93E0514BBF18CA84B3099CA95B8152051D07468BBD5"
+}

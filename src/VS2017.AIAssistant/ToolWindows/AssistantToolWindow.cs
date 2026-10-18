@@ -28,12 +28,13 @@ namespace VS2017.AIAssistant.ToolWindows
         /// create date  : 2026-10-17
         /// update date  : 2026-10-17 CodexCode : 최소 화면 연결.
         /// update date  : 2026-10-18 CodexOrig : Chat 컨텍스트·설정·창 이동 및 검증 흐름 갱신.
+        /// update date  : 2026-10-18 CodexCode : TASK-021 감사 F-04에 따라 IDE 탭에서도 Chat 문구 제거.
         /// </summary>
         /// ---------------------------------------------------------------------
         public AssistantToolWindow() : base(null)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
-            Caption = "Chat";
+            Caption = "Claude · Codex";
             Content = new AssistantControl();
         }
 
@@ -52,7 +53,7 @@ namespace VS2017.AIAssistant.ToolWindows
             base.OnToolWindowCreated();
             ThreadHelper.ThrowIfNotOnUIThread();
             documentService = new VisualStudioDocumentService((System.IServiceProvider)Package);
-            ((AssistantControl)Content).Initialize(documentService, new CliEditProvider());
+            ((AssistantControl)Content).Initialize(documentService, new RuntimeEditProvider());
         }
 
         /// ---------------------------------------------------------------------

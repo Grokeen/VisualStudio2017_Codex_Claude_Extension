@@ -213,3 +213,56 @@ TASK017전원편집종료17:31:38확인후우리문서/보고/참조검사마감
 
 v0.8.0을 eee7cb3f00e6fab40411f366f628468e4087fc15로 origin/main에 배포했다. 원격 VSIX306771바이트/AE33A8D0…와 루트실행기33792바이트/8F14A59D…를 다시 내려받아 로컬 SHA와 모두 일치함을 확인했다. UI133·실제IDE80·루트14·스모크9 PASS, 최신Role/제품39소스/이전릴리스보존. TASK017전원종료17:31:38이후만push했고 현재제품/검사편집은종료했다.
 총 소요 40.63분. 세부는 CodexOrig_TASK-018_Deployment.json.
+
+## TASK-019 — CodexOrig2 / 독립 감사 완료 / 2026-10-18 17:45:39 KST
+
+- 작업 시간: 2026-10-18 17:37:25 ~ 2026-10-18 17:45:39 KST, 소요 8분 13초.
+- 사용자 지정 이름 CodexOrig2, 역할 감사. 최신 Role.md 전체와 참고 Project_Plan의 현행 범위/MVP를 소스·고정0.8 VSIX·기존 검증 자료 및 독립 실행으로 대조.
+- 판정: 일부 반영·보완 필요. VS2019/2022 미지원, 독립 최초 검사 재현성, IDE 라이선스 안내 미검증, Chat 제목 범위, 실제Claude/운영연동 검증 공백, 선택 코드 MVP의 후속 범위 등 주요 지적6건. Stack/제목 줄임/배포 시점은 요구 해석·증거 한계도 구분.
+- 독립 검증: 첫 전체12/14 exit1(editing89/92,experience128후실패), 두 묶음 개별 재실행은92/92·133/133 exit0. 스모크9/9 PASS, 명명40/안내23 PASS. 최초 실패를 전체 통과로 덮어쓰지 않음.
+- 무결성: 기준소스39/39, 감사시작src43파일 변경0, ZIP내DLL/worker/config와Role/VSIX/exe SHA 일치. 실제IDE80·DebugRelease0경고는 기존 증거로만 구분.
+- 산출물: MarkdownReport/CodexOrig2_TASK-019_Audit.md 및 CodexOrig2_TASK-019_Evidence.json. 재현: 루트 실행기 --all --vsix releases/v0.8.0/VS2017.AIAssistant-0.8.0.vsix; 실패개별 --run editing/experience. 상세 명령·근거는 감사 보고서 참조.
+- 제품/기존릴리스/공유빌드 수정0, CodexOrig2의 commit/push/배포0. 감사 문서·근거 및 협업/완료 보고만 작성. 상태: 감사 완료, 제품 보완은 미수행.
+
+## TASK-021 — CodexCode / 추가 이미지·감사·시큐어 코딩 담당 완료 — 2026-10-18 19:31:39 KST
+
+- 작업 시간: 2026-10-18 18:18:33 ~ 2026-10-18 19:31:39 KST, 소요 01시간 13분 06초.
+- 최신 Role SHA5760D468...07EF, image17~23 직접 분석 및 감사 TASK019 F04/F06 보완. 탭14px·수평순서/입력면통합/실제부채꼴·투명상단버튼/초록추가·빨강삭제/최근3건 hover/개별실행파일왕복선택/상세안내/생각중좌→우그라데이션 구현. Caption Claude · Codex, DTE선택원문·줄열을전체충돌baseline과분리.
+- 시큐어 코딩: 실제2프로세스ABA설정롤백과드라이브상대승인대상변경 재현·수정. 경로별Mutex/64KiB설정/2MiB디스크해시/불변승인계획·재검증/Git환경2개추가제거/4KiB문서파이프배수/열린모든미저장버퍼차단·솔루션폴더fallback. 원본Role·감사실패보고·이전후보실패증거보존.
+- 실제020후보4 DLL DEC74A499646CD5611CCA3C210F3B0DB9CEB428BC488F007BBD90A9BAE75E4B0로8/8·229/229·exit0: Selection38/Diff18/Help14/UI56/Fan21/Secure22/SCM48/Worker12. UI실제샘플/클릭·PNG직접검토. 앞선후보3 228PASS뒤PNG로추가선택결함을발견해회귀1개추가후56PASS. 독립55파일private빌드Release0경고0오류/229PASS는별도근거로중복합산하지않음,원본공유bin/obj사용0.
+- 경로: Views/AssistantControl*.cs·xaml/AssistantDialogs·HelpContent·Theme,Editing/DocumentSnapshot·EditProposal,Services/VisualStudioDocumentService·WorkspaceActionService,ToolWindows/AssistantToolWindow,Chat/AssistantSettingsTransaction·DocumentWorkerLauncher·ChatWorkspace Store2메서드,tests/task021. 상세 CodexCode_TASK-021.md·_SecureCoding.md·_Validation.json.
+- 후보4후SDK17순수WPF분석기3지점은설명주석/국소pragma만추가(실행동작불변),최종SDK17재빌드/IDE3버전·전체실행기·README/문서·배포는TASK020인계. 실제Claude·운영DB/TFVC/외부배포검증을이229건으로주장하지않음. 하위작업자전원과소유제품/검사/보고편집종료,021commit/push0.
+
+## TASK-023 — CodexOrig2 / 2차 감사 완료 / 2026-10-18 21:01:50 KST
+
+- 작업 시간: 2026-10-18 20:48:35 ~ 2026-10-18 21:01:50 KST, 소요 13분 15초.
+- 대상: 20:48:35 고정 로컬v0.9.0 C6 세버전 VSIX·소스63파일/테스트사본, TASK019 지적6건, Role20:25추가8까지(21:00요구최종확인). 사본은 artifacts/audit-codexorig2-round2/snapshot.
+- 판정: 1차F01/F04/F06 조치확인, F02개선·과거원인미확정/F03관찰증거보완/F05실Claude·운영연동미종결. 최종통합·패키지적합판정보류.
+- 독립검증: 전체2회각14/16 exit1. editing92/UI135/추가229각2회PASS,실행기9/9PASS. native는Claude모델metadata만으로Authtrue오판재현,source에는unknown수정있으나C6미포함. CLI두knownpath실제파일존재·PATH고립자동검색실패·명시경로성공확인. build-entry는stderr자동줄바꿈때문에기대문구가분할되는하네스결함으로확정(실제exit1정상/공백제거문구존재/동일파일원본경로16/16).
+- 무결성/범위: 세VSIX/내장9항목기존C6근거일치,기존3IDE각91/91결과파일과로드DLL일치. 기준소스복사중변경0,기존55소스대비13변경·8신규로개발중소스와패키지구분. 긴사본경로MAX_PATH시험은별도보존·제품판정제외,자기Q별칭제거완료.
+- 산출: MarkdownReport/CodexOrig2_TASK-023_Audit2.md·CodexOrig2_TASK-023_Evidence.json. 기존감사원본2개보존. 제품/공유bin·obj/기존릴리스/타인stage수정0,실계정AI호출/IDE새실행/제품재빌드/commit/push/배포0.
+- 재현: 고정테스트사본에서루트exe --all --vsix releases/v0.9.0/VS2017.AIAssistant-0.9.0.vsix. 상세한계/완료조건은2차감사보고서참조. TASK020/022의진행중개발을완료로변경하지않음.
+
+## TASK-020 독립 검증 단계 완료 / 활성 화면 검사 대기 — 2026-10-18 22:17:13 KST
+
+담당 CodexOrig. 시작2026-10-18 18:16:40, 현재까지 경과 4시간 0분 33초(최종 작업 완료 시각 아님). Role20:25추가1~11·image24~27·TASK023감사후보완, C11 제품90입력 동결·SDK3버전 Debug/Release6개 경고0 완료. 실제VS2017/2019/2022 각100/100, 루트기본16묶음 2회 연속16/16, WPF135·TASK021229·TASK022245·Native67·실제loopback SVN/격리배포8·실행기12 PASS. C9 실제Codex 수정/자체테스트는 후보와소스동일범위를명시해보존. 원래감사/최초12/16/애니메이션기본GPU실패와테스트호스트잔류cleanup근거보존.
+
+경로 src/VS2017.AIAssistant/Providers·Views·Services·Chat 및3SKU csproj/manifest,scripts,tests,docs,README,releases/v0.9.0,최상위 VisualStudio_AIChat_ExtentionTest.exe,.gitattributes. 전체증거 CodexOrig_TASK-020_Evidence.json(schema2), 보고 CodexOrig_TASK-020.md. PDF/MD/bat/18PNG·고객ZIP 원문 보존, 패키지각32파일SHA대조, 원래7릴리스불변, 비공개설치로그와artifacts stage0.
+
+**전체 작업은 아직 미완료**: 활성 입력desktop에서 최종 기본GPU/실제마우스/PDF재검증 및최종배포가남음. 현재Screen-saver·GetCursorPos error5이므로실제입력없고강제잠금해제/설정변경없음. 사용자활성화답변대기, commit/push미수행. 다음재개시이미통과한전체/IDE를무조건반복하지않고고정C11의남은세검사를먼저실행한뒤결과에따라최종배포한다.
+
+## TASK-022 — CodexCode / 20:25 추가1~11·이미지24~27 담당 완료 — 2026-10-18 23:28:46 KST
+
+- 작업 시간: 2026-10-18 20:36:38 ~ 23:28:46 KST, 전체 경과 02시간 52분 08초(사용자 입력 desktop 활성화 대기 포함).
+- 버튼중앙/대화만스크롤·고정입력/검정기록·우클릭/WorkId중복제거·강조·hover상세/하단·상단Thinking/숨김필수지침/원본PDF WebView·확인후설치버튼 구현. CLI자동발견·안전reload·README·감사2보정은TASK020과소유파일경계협업, RoleSHA0164CD35...40465/소유14 freeze5/원본PDFMD BAT보존.
+- 최종C11 DLL68B15E40...DA70로 기본6그룹245/245·exit0, 활성Default렌더56/56·실제hover55/55(기본45+추가10)·실제PDF50/50(기본40+추가10) 전부통과. active-candidate11-20261018-232509/summary.json. 실제자기전경·입력surface·본문연결/닫힘·클릭핀·nonfocusable owner밖click·Escape·Unload 검증,PDFnativePNG직접검토·9/9가림probe통과. 설치실행0.
+- C11 sixbuild6/6경고0·실제3IDE각100·전체2/3차각16/16 확인. whole1 12/16 원문과필수규칙payload2/정확WebViewallowlist1 계약보정,Thinking52/1 시간정지→processonlySoftwareOnly56→별도active Default56 흐름보존. Screen-saver유일원인/하드웨어강제주장없음.
+- C9 nativecapture→본문Source분리·약한anchor검사와C11Screen-saver preflight미실행 원본보존. 소유14·원본3hash불변,동봉deps26전후불변,고객ZIP21문서+별도3VSIX 최종C11대조,로컬링크검사누락0.
+- 산출: CodexCode_TASK-022.md·_SecureCoding.md·_Validation.json. 재현: WindowsPowerShell5.1 -STA에서 tests/task022/Test-Task022.ps1 -AssemblyPath <고정DLL> -OutputDirectory <새폴더>, 선택VerifyHover/VerifyWebView별도순차실행. 자세한경로·실패·한계는보고서참조.
+- 소유제품/검사/문서와하위작업자전원편집종료·GUI해제·추가공유build0. 최종GitHub/원격해시는TASK020 CodexOrig단독인계,022 commit/push0. 실제Claude추론·운영DB/외부TFVC/운영배포·실제CLI설치는미검증/미실행이며265개로주장하지않음.
+
+## TASK-020 최종 구현·검증 완료 — 2026-10-18 23:31:54 KST
+
+CodexOrig. 시작18:16:40, 최종 검증 완료23:31:54, 총 경과5시간 15분 14초(활성화 대기 포함). 후보11 소스90입력/3SKU 각32내장파일 SHA불변. 6빌드0경고·실제VS2017/2019/2022 각100·기본16묶음2회·Native67·실제loopback SVN/격리배포8·Task021229·Task022245·실행기12에 더해 활성Default GPU56/actualhover55/PDF50 전부PASS. 실제포인터/키보드/팝업수명·네이티브PDF를확인했고원래실패원문보존,설치실행/Claude추론0. 최종테스트초점시작은자기neutral/header native hit-test만클릭해기존가림/전경guard유지,제품소스수정없음. .gitattributes의binary와원본MD/bat -text로고정asset rawbytes보존.
+
+TASK022의23:30:56 전원편집종료명시신호와TASK023/Orig3종료확인후이제Git단독배포를진행한다. 최종증거CodexOrig_TASK-020_Evidence.json·보고CodexOrig_TASK-020.md,재현최상위VisualStudio_AIChat_ExtentionTest.exe --all --vsix releases/v0.9.0/VS2017.AIAssistant-0.9.0.vsix. 실제Claude CLI계정·운영DB·외부TFVC·운영배포는미검증으로유지한다. 배포SHA/완료시각/원격동일성은별도최종배포기록에추가한다.

@@ -1,4 +1,12 @@
-# VSIX 호환성 검사 — CodexOrig / TASK-002
+# VSIX 호환성 검사
+
+## v0.9.0 배포 대상
+
+공유 소스를 버전별 프로젝트에서 빌드한다. VS2017은 .NET Framework 4.6.2/SDK15와 `[15.0,16.0)`, VS2019는 .NET Framework 4.6.2/SDK15와 `[16.0,17.0)`, VS2022는 .NET Framework 4.7.2/SDK17과 `[17.0,18.0)`·amd64를 사용한다. VS2022 ARM64는 현재 배포 대상이 아니다.
+
+`scripts/Sync-VsixTargets.ps1`은 공유 프로젝트의 소스 목록과 버전별 SDK 차이를 반영한다. `scripts/build.ps1 -VisualStudioVersion 2019` 또는 `2022`로 해당 프로젝트를 빌드한다. 실제 설치·로드 결과와 정적 선언 검사는 구분하며, 최종 근거는 [TASK-020](../MarkdownReport/CodexOrig_TASK-020.md)에 기록한다. 아래 TASK-002 정책과 미구현 상태는 초기 버전의 이력이다.
+
+## TASK-002 초기 정적 검사
 
 작성일: 2026-10-17 (KST)
 

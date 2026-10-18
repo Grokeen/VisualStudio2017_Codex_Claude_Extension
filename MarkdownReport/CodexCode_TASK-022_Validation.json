@@ -1,0 +1,279 @@
+﻿{
+    "Task":  "TASK-022",
+    "Author":  "CodexCode",
+    "Status":  "Owned implementation and verification complete; final GitHub publication and remote hash verification owned by TASK020",
+    "StartedAt":  "2026-10-18T20:36:38+09:00",
+    "UpdatedAt":  "2026-10-18T23:30:00.6353974+09:00",
+    "RoleSha256":  "0164CD35E136103ED1C6122435199D53396D6C79B3A2F43F0BC906B8D8D40465",
+    "Scope":  "Role 20:25 additions 1-11; image-24 through image-27; audit2 corrections coordinated with TASK020",
+    "SourceFreeze":  "artifacts/task022/source-freeze5.json",
+    "SourceFreezeSha256":  "954EE31720A430EEBFE412C29C9741E4C8CE3D1BE02B2A37EBCA63A1BEA28955",
+    "FinalProduct":  {
+                         "Candidate":  "TASK020 candidate11/2017/Release",
+                         "AssemblyPath":  "artifacts/task020/candidate11/2017/Release/VS2017.AIAssistant.dll",
+                         "AssemblySha256":  "68B15E40EA79678F48A497010EF541D98871A8C70133A0FA458B2DDEABD0DA70",
+                         "Succeeded":  true,
+                         "Passed":  245,
+                         "Failed":  0,
+                         "PassedSuites":  6,
+                         "ExitCode":  0,
+                         "SummaryPath":  "artifacts/task022/bundle-candidate11-final/summary.json",
+                         "SummarySha256":  "9DA1D2A647FEBA244C88CA9E125E1C59A3E9E74E3D58A1D979BA5EECB9B6E776",
+                         "Suites":  [
+                                        {
+                                            "Name":  "ButtonCenters",
+                                            "Succeeded":  true,
+                                            "Passed":  72,
+                                            "Failed":  0,
+                                            "ExitCode":  0,
+                                            "ResultPath":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task022\\bundle-candidate11-final\\centers\\result.json"
+                                        },
+                                        {
+                                            "Name":  "ConversationViewport",
+                                            "Succeeded":  true,
+                                            "Passed":  29,
+                                            "Failed":  0,
+                                            "ExitCode":  0,
+                                            "ResultPath":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task022\\bundle-candidate11-final\\viewport\\result.json"
+                                        },
+                                        {
+                                            "Name":  "ProgressPresentation",
+                                            "Succeeded":  true,
+                                            "Passed":  45,
+                                            "Failed":  0,
+                                            "ExitCode":  0,
+                                            "ResultPath":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task022\\bundle-candidate11-final\\progress\\result.json"
+                                        },
+                                        {
+                                            "Name":  "ContextMenus",
+                                            "Succeeded":  true,
+                                            "Passed":  26,
+                                            "Failed":  0,
+                                            "ExitCode":  0,
+                                            "ResultPath":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task022\\bundle-candidate11-final\\menus\\result.json"
+                                        },
+                                        {
+                                            "Name":  "MandatoryInstructions",
+                                            "Succeeded":  true,
+                                            "Passed":  33,
+                                            "Failed":  0,
+                                            "ExitCode":  0,
+                                            "ResultPath":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task022\\bundle-candidate11-final\\mandatory\\result.json"
+                                        },
+                                        {
+                                            "Name":  "CliGuide",
+                                            "Succeeded":  true,
+                                            "Passed":  40,
+                                            "Failed":  0,
+                                            "ExitCode":  0,
+                                            "ResultPath":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task022\\bundle-candidate11-final\\cli-guide\\result.json"
+                                        }
+                                    ],
+                         "DependencyFileCount":  26,
+                         "FrozenDependenciesUnchanged":  true
+                     },
+    "EarlierProduct":  {
+                           "Candidate":  "candidate9",
+                           "AssemblySha256":  "6B74C86C16AD67AEBCC429A28F4CA843540692346EE773F27F9BCEF3293C3BA5",
+                           "SummaryPath":  "artifacts/task022/bundle-candidate9-first/summary.json",
+                           "Passed":  245,
+                           "CountedAgain":  false
+                       },
+    "OptionalWebView":  {
+                            "Candidate":  "candidate11",
+                            "ResultPath":  "artifacts/task020/active-candidate11-20261018-232509/pdf/result.json",
+                            "ResultSha256":  "4D5F05AEA6AE9BE9D8D170041A391D46BB6071DBC22321C818E267C55679F9CC",
+                            "Succeeded":  true,
+                            "ExitCode":  0,
+                            "TotalPassed":  50,
+                            "Failed":  0,
+                            "AddedPassed":  10,
+                            "RepeatedBasePassed":  40,
+                            "RuntimeVersion":  "155.0.4283.62",
+                            "NativeScreenshot":  "artifacts/task020/active-candidate11-20261018-232509/pdf/cli-guide-native-window.png",
+                            "DirectlyVisuallyReviewed":  true,
+                            "ForegroundOwned":  true,
+                            "UnoccludedProbeCount":  9,
+                            "InstallerExecutionPerformed":  false,
+                            "EarlierCandidate9":  "artifacts/task022/webview-candidate9-clean/result.json",
+                            "FinalHarnessIntegrationRecheck":  "artifacts/task020/pdf-candidate11-active-retry1/result.json"
+                        },
+    "OptionalHover":  {
+                          "Status":  "Actual native pointer lifecycle verified on active Default input desktop",
+                          "Candidate":  "candidate11",
+                          "ResultPath":  "artifacts/task020/active-candidate11-20261018-232509/hover/result.json",
+                          "ResultSha256":  "BEC7B18C5704863F811B7069082F92B78C2562F575CBEED733BA389D0993F5AE",
+                          "DiagnosticsPath":  "artifacts/task020/active-candidate11-20261018-232509/hover/progress-hover-diagnostics.json",
+                          "Succeeded":  true,
+                          "ExitCode":  0,
+                          "TotalPassed":  55,
+                          "Failed":  0,
+                          "AddedPassed":  10,
+                          "RepeatedBasePassed":  45,
+                          "WindowShown":  true,
+                          "NativePointerUsed":  true,
+                          "HoverExecuted":  true,
+                          "InputDesktop":  "Default",
+                          "OriginalPreflightBlockedPath":  "artifacts/task022/progress-hover-candidate11-final/result.json",
+                          "OriginalInputDesktop":  "Screen-saver",
+                          "OriginalGetCursorPosWin32Error":  5,
+                          "OriginalHoverExecuted":  false,
+                          "PreservedFailures":  [
+                                                    "artifacts/task022/progress-hover-candidate9-actual/result.json",
+                                                    "artifacts/task022/progress-hover-candidate9-diagnostics/result.json",
+                                                    "artifacts/task022/progress-hover-candidate9-desktop/result.json"
+                                                ],
+                          "ProductFix":  "Capture-free hover/focus/Escape/deactivation lifetime with owner outside-click dismissal",
+                          "TestFix":  "Require Closed0 and connected loaded body; own foreground/native surface before input; actual execution flags",
+                          "FinalHarnessIntegrationRecheck":  "artifacts/task020/hover-candidate11-active-retry2/result.json"
+                      },
+    "Integrity":  {
+                      "Path":  "artifacts/task022/post-candidate11-integrity.json",
+                      "ProductFiles":  14,
+                      "ChangedProductFiles":  0,
+                      "OriginalGuideFiles":  3,
+                      "ChangedOriginalGuideFiles":  0
+                  },
+    "SecurityReport":  "MarkdownReport/CodexCode_TASK-022_SecureCoding.md",
+    "Reproduction":  [
+                         "powershell.exe -NoProfile -STA -ExecutionPolicy Bypass -File tests/task022/Test-Task022.ps1 -AssemblyPath \u003cfixed DLL\u003e -OutputDirectory \u003cfresh directory\u003e",
+                         "powershell.exe -NoProfile -STA -ExecutionPolicy Bypass -File tests/task022/Test-ProgressPresentation.ps1 -AssemblyPath \u003cfixed DLL\u003e -OutputDirectory \u003cfresh directory\u003e -VerifyHover",
+                         "powershell.exe -NoProfile -STA -ExecutionPolicy Bypass -File tests/task022/Test-CliGuide.ps1 -AssemblyPath \u003cfixed DLL with packaged resources\u003e -OutputDirectory \u003cfresh directory\u003e -VerifyWebView"
+                     ],
+    "ScopeLimits":  [
+                        "Source-only results and repeated baselines are not added to actual product totals.",
+                        "Mandatory rule composition does not prove that a live AI followed every instruction.",
+                        "Installer confirmation/launch/locking checks use fake process callbacks; actual installation and login were not performed.",
+                        "Live Codex C# repair belongs to TASK020 candidate9; no new paid inference for candidate11.",
+                        "Live Claude inference, production database/TFVC operations and production deployment remain unverified.",
+                        "License evidence covers legitimate inspection and observed UI text, not activation bypass.",
+                        "Three-IDE owner attachment and standalone actual pointer lifecycle are separately reported.",
+                        "Final GitHub publication is not claimed before remote hashes are verified."
+                    ],
+    "CommitOrPushPerformed":  false,
+    "AuditOriginalsModified":  false,
+    "BuildEvidence":  {
+                          "Path":  "artifacts/task020/build-candidate11-summary.log",
+                          "SkuConfigurations":  6,
+                          "ExitCode":  0,
+                          "Warnings":  0
+                      },
+    "CustomerZipReview":  {
+                              "Path":  "artifacts/task022/customer-zip-read-review.json",
+                              "FileCount":  21,
+                              "ContainsVsix":  false,
+                              "AllSourceAndCandidateGuideHashesMatch":  true,
+                              "ThreeReleaseVsixMatchCandidate11":  true
+                          },
+    "LocalLinkCheck":  {
+                           "Path":  "artifacts/task022/local-link-check.json",
+                           "Count":  31,
+                           "Missing":  0
+                       },
+    "ReviewedIdeEvidence":  [
+                                {
+                                    "Version":  "2017",
+                                    "Path":  "artifacts/ide/run-94c3fb87034b43d283aa86fb46e40a58/result.json",
+                                    "Passed":  100,
+                                    "Failed":  0,
+                                    "SixProgressOwners":  "Microsoft.VisualStudio.PlatformUI.MainWindow",
+                                    "PhysicalPointerTest":  false
+                                },
+                                {
+                                    "Version":  "2019",
+                                    "Path":  "artifacts/ide/run-1d767054d895478bb8a2fc191ef85468/result.json",
+                                    "Passed":  100,
+                                    "Failed":  0,
+                                    "PhysicalPointerTest":  false,
+                                    "Cleanup":  "TASK020 documented termination of its own remaining test IDE after successful result"
+                                },
+                                {
+                                    "Version":  "2022",
+                                    "Path":  "artifacts/ide/run-37945398687d477aa5543d9254b3c63b/result.json",
+                                    "Passed":  100,
+                                    "Failed":  0,
+                                    "PhysicalPointerTest":  false,
+                                    "Cleanup":  "TASK020 documented own remaining test IDE cleanup after successful result; root cause unconfirmed"
+                                }
+                            ],
+    "ScopeCompletedAt":  "2026-10-18T23:28:46.6042548+09:00",
+    "ElapsedSeconds":  10328.6,
+    "ElapsedIncludesInputDesktopWaiting":  true,
+    "RootRuns":  [
+                     {
+                         "Name":  "root-candidate11-1",
+                         "Passed":  12,
+                         "Total":  16,
+                         "Log":  "artifacts/tl/a914214f43/launcher.log",
+                         "LogSha256":  "2D0DDFFB4E9F0ECE981F90F723291D5E7F91E749CBC94AB62BED56FF5B33939D"
+                     },
+                     {
+                         "Name":  "root-candidate11-2",
+                         "Passed":  16,
+                         "Total":  16,
+                         "Log":  "artifacts/tl/c292d4c9ac/launcher.log",
+                         "LogSha256":  "DF64600B012C94BD8F4E1C422F7F07422E09C5862710B82B747BFD18B6B94FC4"
+                     },
+                     {
+                         "Name":  "root-candidate11-3",
+                         "Passed":  16,
+                         "Total":  16,
+                         "Log":  "artifacts/tl/524da2bf96/launcher.log",
+                         "LogSha256":  "251EBD75F7077578767BB92D86FA77DEBA98774C549A3DAEA6AA732B4576160B"
+                     }
+                 ],
+    "TestContractChanges":  [
+                                "Editing and Provider CLI fixtures now require exactly one mandatory rule prefix and unchanged user rules/agent context.",
+                                "Foundation still rejects IDE SDK packaging, with an exact allowlist for three WebView managed assemblies and three architecture loaders.",
+                                "Image-followup default is process-only SoftwareOnly; UseHardwareRendering selects Default without forcing hardware."
+                            ],
+    "Rendering":  {
+                      "OriginalDefaultFailure":  "artifacts/task020/thinking-candidate11-diagnostics/result.json",
+                      "OriginalPassed":  52,
+                      "OriginalFailed":  1,
+                      "ObservedLargeFont":  30,
+                      "ObservedWidth":  433,
+                      "ObservedBefore":  -0.600882625,
+                      "ObservedAfter":  -0.600882625,
+                      "SoftwareEvidence":  "MarkdownReport/CodexOrig_TASK-020_Evidence.json#SoftwareRenderProbe",
+                      "SoftwarePassed":  56,
+                      "WholeRuns2And3RenderMode":  "SoftwareOnly",
+                      "FinalDefaultResult":  "artifacts/task020/active-candidate11-20261018-232509/gpu/result.json",
+                      "FinalDefaultSha256":  "36E3667E108FE0BBCE48484E3001A951E05BAFDD4164C0206D2B5F19BBDC317E",
+                      "FinalDefaultPassed":  56,
+                      "FinalDefaultFailed":  0,
+                      "FinalRenderMode":  "Default",
+                      "ForceHardware":  false,
+                      "ProductOrIdeRenderingChanged":  false,
+                      "UniqueRootCauseConfirmed":  false
+                  },
+    "ActiveTripletSummary":  "artifacts/task020/active-candidate11-20261018-232509/summary.json",
+    "CurrentTestHashesCollectedAt":  "2026-10-18T23:30:00.7311316+09:00",
+    "CurrentTestHashes":  [
+                              {
+                                  "Path":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\tests\\task021\\Test-ImageFollowup.ps1",
+                                  "Hash":  "13F6CBEB6698487597344FFC6B957C9EE3B6CE906B57AB8FAB14B964C7B3607E"
+                              },
+                              {
+                                  "Path":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\tests\\task021\\ImageFollowupChecks.cs",
+                                  "Hash":  "A16C5B46C4F865C5972623A612741E1E4140408F171D2D4104D067A091616F4D"
+                              },
+                              {
+                                  "Path":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\tests\\task022\\ProgressHoverChecks.cs",
+                                  "Hash":  "746C9C288DF19E922EAC8F2F3DA405484591425E740D00C944A308FF9045EBAE"
+                              },
+                              {
+                                  "Path":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\tests\\task022\\CliGuideWebViewChecks.cs",
+                                  "Hash":  "9BECD24707FE037D5221FF48B18FFF7F947EAA76DD1A85B54242BB0E504371CE"
+                              },
+                              {
+                                  "Path":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\tests\\task022\\Test-ProgressPresentation.ps1",
+                                  "Hash":  "D8BEBD1C239D740560C1A3AADCCFAB315F0CBC011B59612A7B1B14E846BBCB2C"
+                              },
+                              {
+                                  "Path":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\tests\\task022\\Test-CliGuide.ps1",
+                                  "Hash":  "71F1C122E4EE18FEC4EFDDD4933ABC8F1E0B9EEA825E0F36C4F28AAFEBCD37DE"
+                              }
+                          ],
+    "CountPolicy":  "245 baseline + 10 additional hover + 10 additional WebView; repeated bases and TASK021 Default56 are not additional unique TASK022 checks."
+}

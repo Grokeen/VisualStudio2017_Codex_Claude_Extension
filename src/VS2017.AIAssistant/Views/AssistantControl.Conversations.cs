@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Windows;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
@@ -33,7 +33,7 @@ namespace VS2017.AIAssistant.Views
             historyWidth = settings.HistoryWidth;
             HistoryToggle.IsChecked = settings.ShowHistory;
             ConversationScroll.PreviewMouseDown += ConversationViewed;
-            ConversationScroll.PreviewMouseWheel += ConversationViewed;
+            ConversationScroll.AddHandler(Mouse.PreviewMouseWheelEvent, new MouseWheelEventHandler(ConversationViewed), true);
             ConversationScroll.GotKeyboardFocus += ConversationViewed;
             ConversationList.PreviewMouseUp += ConversationViewed;
             IsKeyboardFocusWithinChanged += (sender, args) => { if (IsKeyboardFocusWithin && IsConversationInView()) MarkCurrentConversationRead(); };

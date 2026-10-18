@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
@@ -20,6 +20,7 @@ using Microsoft.Win32.SafeHandles;
 /// author       : CodexCode
 /// create date  : 2026-10-18
 /// update date  : 2026-10-18 CodexCode : IDE와 실제 AI 검사는 전체 검사에서 제외.
+///                2026-10-18 CodexOrig : TASK-020 최종 버전·선택·전체 액세스 검사 계약 반영.
 /// </summary>
 /// ---------------------------------------------------------------------
 internal sealed class TestSuite
@@ -33,6 +34,7 @@ internal sealed class TestSuite
     /// author       : CodexCode
     /// create date  : 2026-10-18
     /// update date  : 2026-10-18 CodexCode : 실행 경로는 별도 고정 wrapper에서 결정.
+    ///                2026-10-18 CodexOrig : TASK-020 최종 버전·선택·전체 액세스 검사 계약 반영.
     /// </summary>
     /// ---------------------------------------------------------------------
     internal TestSuite(string id, string title, bool included, bool assembly = false, bool vsix = false)
@@ -44,6 +46,7 @@ internal sealed class TestSuite
     /// author       : CodexCode
     /// create date  : 2026-10-18
     /// update date  : 2026-10-18 CodexCode : 외부 실행 검사를 명확히 구분.
+    ///                2026-10-18 CodexOrig : TASK-020 최종 버전·선택·전체 액세스 검사 계약 반영.
     /// </summary>
     /// ---------------------------------------------------------------------
     public override string ToString() { return Title + "  [" + Id + "]" + (Default ? "" : " · 직접 선택"); }
@@ -56,6 +59,7 @@ internal sealed class TestSuite
 /// author       : CodexCode
 /// create date  : 2026-10-18
 /// update date  : 2026-10-18 CodexCode : 기본 경로 선택과 CLI 입력을 분리.
+///                2026-10-18 CodexOrig : TASK-020 최종 버전·선택·전체 액세스 검사 계약 반영.
 /// </summary>
 /// ---------------------------------------------------------------------
 internal sealed class LauncherOptions
@@ -70,6 +74,7 @@ internal sealed class LauncherOptions
 /// author       : CodexCode
 /// create date  : 2026-10-18
 /// update date  : 2026-10-18 CodexCode : 고정 검사·불변 DLL·로그·취소·종료 코드 제공.
+///                2026-10-18 CodexOrig : TASK-020 최종 버전·선택·전체 액세스 검사 계약 반영.
 /// </summary>
 /// ---------------------------------------------------------------------
 internal static class TestLauncher
@@ -90,6 +95,8 @@ internal static class TestLauncher
         new TestSuite("provider-cli", "실제 CLI 인수·요청 경계", true, true),
         new TestSuite("scm-identity", "형상관리 이름·로그인 구분", true, true),
         new TestSuite("image-requirements", "이미지 요구·A~Z·안내·목차", true, true),
+        new TestSuite("image-followup", "추가 이미지·부채꼴·선택·보안", true, true),
+        new TestSuite("native-runtime", "실제 실행·동적 모델·토큰·중지", true, true),
         new TestSuite("ide", "실제 VS2017 별도 인스턴스", false, false, true),
         new TestSuite("live-codex", "실제 Codex 계정·AI 요청", false, true)
     };
@@ -102,6 +109,7 @@ internal static class TestLauncher
     /// author       : CodexCode
     /// create date  : 2026-10-18
     /// update date  : 2026-10-18 CodexCode : 성공0·검사실패1·입력오류2·취소130 전파.
+    ///                2026-10-18 CodexOrig : TASK-020 최종 버전·선택·전체 액세스 검사 계약 반영.
     /// </summary>
     /// ---------------------------------------------------------------------
     [STAThread]
@@ -137,6 +145,7 @@ internal static class TestLauncher
     /// author       : CodexCode
     /// create date  : 2026-10-18
     /// update date  : 2026-10-18 CodexCode : 중복 실행 모드·알 수 없는 옵션 거부.
+    ///                2026-10-18 CodexOrig : TASK-020 최종 버전·선택·전체 액세스 검사 계약 반영.
     /// </summary>
     /// ---------------------------------------------------------------------
     private static LauncherOptions Parse(string[] args)
@@ -167,6 +176,7 @@ internal static class TestLauncher
     /// author       : CodexCode
     /// create date  : 2026-10-18
     /// update date  : 2026-10-18 CodexCode : IDE·실제 AI 실행의 자동 선택 방지.
+    ///                2026-10-18 CodexOrig : TASK-020 최종 버전·선택·전체 액세스 검사 계약 반영.
     /// </summary>
     /// ---------------------------------------------------------------------
     private static TestSuite[] Select(LauncherOptions options)
@@ -184,6 +194,7 @@ internal static class TestLauncher
     /// author       : CodexCode
     /// create date  : 2026-10-18
     /// update date  : 2026-10-18 CodexCode : 루트 폴더와 파일 존재 여부 검증.
+    ///                2026-10-18 CodexOrig : TASK-020 최종 버전·선택·전체 액세스 검사 계약 반영.
     /// </summary>
     /// ---------------------------------------------------------------------
     internal static string ResolveFile(string value, string extension)
@@ -202,6 +213,7 @@ internal static class TestLauncher
     /// author       : CodexCode
     /// create date  : 2026-10-18
     /// update date  : 2026-10-18 CodexCode : 공유 빌드 출력과 검사 대상 식별.
+    ///                2026-10-18 CodexOrig : TASK-020 최종 버전·선택·전체 액세스 검사 계약 반영.
     /// </summary>
     /// ---------------------------------------------------------------------
     private static string Hash(string path)
@@ -217,6 +229,7 @@ internal static class TestLauncher
     /// update date  : 2026-10-18 CodexOrig : TASK-014 v0.6.0 배포본을 기본 검사 대상으로 선택.
     /// update date  : 2026-10-18 CodexOrig : TASK-016 문서 첨부·모델 설정·AI 역할 협업과 실패 복구 흐름 연결.
     /// update date  : 2026-10-18 CodexOrig : TASK-018 0.8 기본 경로와 이미지 요구 검사 묶음 연결.
+    ///                2026-10-18 CodexOrig : TASK-020 최종 버전·선택·전체 액세스 검사 계약 반영.
     /// </summary>
     /// ---------------------------------------------------------------------
     private static void PrepareInputs(TestSuite[] suites, LauncherOptions options, string output, Action<string> log)
@@ -225,14 +238,14 @@ internal static class TestLauncher
         if (explicitVsix) options.Vsix = ResolveFile(options.Vsix, ".vsix");
         if (suites.Any(s => s.Vsix) || (suites.Any(s => s.Assembly) && string.IsNullOrWhiteSpace(options.Assembly)))
         {
-            if (string.IsNullOrWhiteSpace(options.Vsix)) options.Vsix = File.Exists(Path.Combine(Root, "releases/v0.8.0/VS2017.AIAssistant-0.8.0.vsix")) ? "releases/v0.8.0/VS2017.AIAssistant-0.8.0.vsix" : "src/VS2017.AIAssistant/bin/Release/VS2017.AIAssistant.vsix";
+            if (string.IsNullOrWhiteSpace(options.Vsix)) options.Vsix = File.Exists(Path.Combine(Root, "releases/v0.9.0/VS2017.AIAssistant-0.9.0.vsix")) ? "releases/v0.9.0/VS2017.AIAssistant-0.9.0.vsix" : "src/VS2017.AIAssistant/bin/Release/VS2017.AIAssistant.vsix";
             if (suites.Any(s => s.Vsix) || File.Exists(Path.Combine(Root, options.Vsix))) options.Vsix = ResolveFile(options.Vsix, ".vsix");
         }
         if (suites.Any(s => s.Assembly))
         {
             if (string.IsNullOrWhiteSpace(options.Assembly))
             {
-                if (!explicitVsix && File.Exists(Path.Combine(Root, "releases/v0.8.0/VS2017.AIAssistant.dll"))) options.Assembly = "releases/v0.8.0/VS2017.AIAssistant.dll";
+                if (!explicitVsix && File.Exists(Path.Combine(Root, "releases/v0.9.0/VS2017.AIAssistant.dll"))) options.Assembly = "releases/v0.9.0/VS2017.AIAssistant.dll";
                 else if (!string.IsNullOrWhiteSpace(options.Vsix) && File.Exists(options.Vsix))
                 {
                     string destination = Path.Combine(output, "ProductReference"); Directory.CreateDirectory(destination);
@@ -248,6 +261,7 @@ internal static class TestLauncher
                             if (worker.Length > 4194304) throw new InvalidDataException("문서 도우미 크기 제한을 초과했습니다.");
                             using (var input = worker.Open()) using (var file = File.Create(Path.Combine(destination, name))) input.CopyTo(file);
                         }
+                        ExtractViewerAssets(zip, destination);
                     }
                 }
                 else options.Assembly = "src/VS2017.AIAssistant/bin/Release/VS2017.AIAssistant.dll";
@@ -265,11 +279,50 @@ internal static class TestLauncher
 
     /// ---------------------------------------------------------------------
     /// <summary>
+    /// name         : ExtractViewerAssets
+    /// desc         : VSIX의 설명서·WebView 의존 파일만 제한된 로컬 검사 폴더로 추출한다.
+    /// author       : CodexOrig
+    /// create date  : 2026-10-18
+    /// update date  : 2026-10-18 CodexOrig : OPC 한글 경로 복호화·경계/중복/용량 검사.
+    /// </summary>
+    /// ---------------------------------------------------------------------
+    private static void ExtractViewerAssets(ZipArchive zip, string destination)
+    {
+        string root = Path.GetFullPath(destination).TrimEnd(Path.DirectorySeparatorChar) + Path.DirectorySeparatorChar;
+        var names = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        long total = 0;
+        foreach (var entry in zip.Entries)
+        {
+            string name = Uri.UnescapeDataString(entry.FullName).Replace('\\', '/');
+            bool managed = name == "Microsoft.Web.WebView2.Core.dll" || name == "Microsoft.Web.WebView2.Wpf.dll" || name == "Microsoft.Web.WebView2.WinForms.dll";
+            bool native = name == "runtimes/win-x86/native/WebView2Loader.dll" || name == "runtimes/win-x64/native/WebView2Loader.dll" || name == "runtimes/win-arm64/native/WebView2Loader.dll";
+            if (!managed && !native && !name.StartsWith("Resources/CliGuide/", StringComparison.Ordinal) && !name.StartsWith("Resources/ThirdParty/WebView2/", StringComparison.Ordinal)) continue;
+            if (name.EndsWith("/", StringComparison.Ordinal)) continue;
+            string path = Path.GetFullPath(Path.Combine(root, name.Replace('/', Path.DirectorySeparatorChar)));
+            if (name.IndexOf(':') >= 0 || !path.StartsWith(root, StringComparison.OrdinalIgnoreCase) || !names.Add(path) || names.Count > 128 || entry.Length > 8388608)
+                throw new InvalidDataException("설명서 의존 파일의 경로·수량·크기 제한을 확인하세요.");
+            Directory.CreateDirectory(Path.GetDirectoryName(path));
+            using (var input = entry.Open()) using (var file = File.Create(path))
+            {
+                var buffer = new byte[8192]; int count, size = 0;
+                while ((count = input.Read(buffer, 0, buffer.Length)) > 0)
+                {
+                    size += count; total += count;
+                    if (size > 8388608 || total > 67108864) throw new InvalidDataException("설명서 의존 파일의 용량 제한을 초과했습니다.");
+                    file.Write(buffer, 0, count);
+                }
+            }
+        }
+    }
+
+    /// ---------------------------------------------------------------------
+    /// <summary>
     /// name         : RunAsync
     /// desc         : 검사를 순서대로 실행하고 로그·해시·개별 종료 코드·요약을 고유 폴더에 저장한다.
     /// author       : CodexCode
     /// create date  : 2026-10-18
     /// update date  : 2026-10-18 CodexCode : 실패를 종료 코드로 전파하고 취소 시 후속 검사 중단.
+    ///                2026-10-18 CodexOrig : TASK-020 최종 버전·선택·전체 액세스 검사 계약 반영.
     /// </summary>
     /// ---------------------------------------------------------------------
     internal static async Task<int> RunAsync(TestSuite[] suites, LauncherOptions options, Action<string> display, CancellationToken cancellation)
@@ -310,6 +363,7 @@ internal static class TestLauncher
     /// create date  : 2026-10-18
     /// update date  : 2026-10-18 CodexCode : -STA·고정 wrapper·인수 인코딩·15분 제한 적용.
     /// update date  : 2026-10-18 CodexOrig : TASK-014 PowerShell7의 모듈 경로를 넘기지 않아 Windows PowerShell5.1 기본 모듈 복원.
+    ///                2026-10-18 CodexOrig : TASK-020 최종 버전·선택·전체 액세스 검사 계약 반영.
     /// </summary>
     /// ---------------------------------------------------------------------
     private static async Task<int> RunChildAsync(TestSuite suite, LauncherOptions options, string output, Action<string> log, CancellationToken cancellation)
@@ -348,6 +402,7 @@ internal static class TestLauncher
     /// author       : CodexCode
     /// create date  : 2026-10-18
     /// update date  : 2026-10-18 CodexCode : 표준 출력·오류의 교착 방지.
+    ///                2026-10-18 CodexOrig : TASK-020 최종 버전·선택·전체 액세스 검사 계약 반영.
     /// </summary>
     /// ---------------------------------------------------------------------
     private static async Task PumpAsync(StreamReader reader, Action<string> log)
@@ -360,6 +415,7 @@ internal static class TestLauncher
     /// author       : CodexCode
     /// create date  : 2026-10-18
     /// update date  : 2026-10-18 CodexCode : 따옴표·끝 역슬래시·빈 문자열 보존.
+    ///                2026-10-18 CodexOrig : TASK-020 최종 버전·선택·전체 액세스 검사 계약 반영.
     /// </summary>
     /// ---------------------------------------------------------------------
     private static string Quote(string value)
@@ -381,6 +437,7 @@ internal static class TestLauncher
 /// update date  : 2026-10-18 CodexOrig : TASK-014 기본 배포 버전 안내를 v0.6.0으로 갱신.
 /// update date  : 2026-10-18 CodexOrig : TASK-016 문서 첨부·모델 설정·AI 역할 협업과 실패 복구 흐름 연결.
 /// update date  : 2026-10-18 CodexOrig : TASK-018 0.8 기본 경로와 이미지 요구 검사 묶음 연결.
+///                2026-10-18 CodexOrig : TASK-020 최종 버전·선택·전체 액세스 검사 계약 반영.
 /// </summary>
 /// ---------------------------------------------------------------------
 internal sealed class LauncherForm : Form
@@ -403,6 +460,7 @@ internal sealed class LauncherForm : Form
     /// update date  : 2026-10-18 CodexOrig : TASK-014 기본 배포 버전 안내를 v0.6.0으로 갱신.
     /// update date  : 2026-10-18 CodexOrig : TASK-016 문서 첨부·모델 설정·AI 역할 협업과 실패 복구 흐름 연결.
     /// update date  : 2026-10-18 CodexOrig : TASK-018 0.8 기본 경로와 이미지 요구 검사 묶음 연결.
+    ///                2026-10-18 CodexOrig : TASK-020 최종 버전·선택·전체 액세스 검사 계약 반영.
     /// </summary>
     /// ---------------------------------------------------------------------
     internal LauncherForm(LauncherOptions options)
@@ -414,7 +472,7 @@ internal sealed class LauncherForm : Form
         layout.RowStyles.Add(new RowStyle(SizeType.Percent, 100)); layout.RowStyles.Add(new RowStyle(SizeType.AutoSize)); Controls.Add(layout);
         layout.Controls.Add(new Label { Text = "실행할 검사를 고르세요 · IDE·실제 AI 검사는 직접 선택할 때만 실행됩니다.", AutoSize = true, Padding = new Padding(0, 0, 0, 8) }, 0, 0);
         foreach (var suite in TestLauncher.Suites) suites.Items.Add(suite, false); layout.Controls.Add(suites, 0, 1);
-        layout.Controls.Add(new Label { Text = "DLL / VSIX 경로 (비우면 배포 v0.8.0 → 기존 Release 산출물, 자동 빌드 없음)", AutoSize = true, Padding = new Padding(0, 8, 0, 0) }, 0, 2);
+        layout.Controls.Add(new Label { Text = "DLL / VSIX 경로 (비우면 배포 v0.9.0 → 기존 Release 산출물, 자동 빌드 없음)", AutoSize = true, Padding = new Padding(0, 8, 0, 0) }, 0, 2);
         var paths = new TableLayoutPanel { Dock = DockStyle.Fill, AutoSize = true, ColumnCount = 2, RowCount = 3 }; paths.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 95)); paths.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
         paths.Controls.Add(new Label { Text = "제품 DLL", AutoSize = true }, 0, 0); paths.Controls.Add(assembly, 1, 0); paths.Controls.Add(new Label { Text = "제품 VSIX", AutoSize = true }, 0, 1); paths.Controls.Add(vsix, 1, 1); paths.Controls.Add(new Label { Text = "Codex .exe", AutoSize = true }, 0, 2); paths.Controls.Add(codex, 1, 2); layout.Controls.Add(paths, 0, 3);
         assembly.Text = options.Assembly ?? ""; vsix.Text = options.Vsix ?? ""; codex.Text = options.Codex ?? "";
@@ -436,6 +494,7 @@ internal sealed class LauncherForm : Form
     /// author       : CodexCode
     /// create date  : 2026-10-18
     /// update date  : 2026-10-18 CodexCode : 버튼·입력·목록·로그의 일관된 명도 적용.
+    ///                2026-10-18 CodexOrig : TASK-020 최종 버전·선택·전체 액세스 검사 계약 반영.
     /// </summary>
     /// ---------------------------------------------------------------------
     private static void Theme(Control parent)
@@ -453,6 +512,7 @@ internal sealed class LauncherForm : Form
     /// author       : CodexCode
     /// create date  : 2026-10-18
     /// update date  : 2026-10-18 CodexCode : 완료·실패·취소 코드를 상태줄에 표시.
+    ///                2026-10-18 CodexOrig : TASK-020 최종 버전·선택·전체 액세스 검사 계약 반영.
     /// </summary>
     /// ---------------------------------------------------------------------
     private async Task StartAsync(TestSuite[] chosen)
@@ -471,6 +531,7 @@ internal sealed class LauncherForm : Form
     /// author       : CodexCode
     /// create date  : 2026-10-18
     /// update date  : 2026-10-18 CodexCode : 원본 전체 로그는 파일에 보존.
+    ///                2026-10-18 CodexOrig : TASK-020 최종 버전·선택·전체 액세스 검사 계약 반영.
     /// </summary>
     /// ---------------------------------------------------------------------
     private void Append(string text)
@@ -488,6 +549,7 @@ internal sealed class LauncherForm : Form
 /// author       : CodexCode
 /// create date  : 2026-10-18
 /// update date  : 2026-10-18 CodexCode : 중지·닫기 시 자신의 검사 프로세스만 정리.
+///                2026-10-18 CodexOrig : TASK-020 최종 버전·선택·전체 액세스 검사 계약 반영.
 /// </summary>
 /// ---------------------------------------------------------------------
 internal sealed class LauncherJob : IDisposable
@@ -506,6 +568,7 @@ internal sealed class LauncherJob : IDisposable
     /// author       : CodexCode
     /// create date  : 2026-10-18
     /// update date  : 2026-10-18 CodexCode : Job 생성 실패 시 검사 시작 차단.
+    ///                2026-10-18 CodexOrig : TASK-020 최종 버전·선택·전체 액세스 검사 계약 반영.
     /// </summary>
     /// ---------------------------------------------------------------------
     internal LauncherJob()
@@ -521,6 +584,7 @@ internal sealed class LauncherJob : IDisposable
     /// author       : CodexCode
     /// create date  : 2026-10-18
     /// update date  : 2026-10-18 CodexCode : 기존 사용자 IDE나 셸 프로세스에는 접근하지 않음.
+    ///                2026-10-18 CodexOrig : TASK-020 최종 버전·선택·전체 액세스 검사 계약 반영.
     /// </summary>
     /// ---------------------------------------------------------------------
     internal void Attach(Process process) { if (!AssignProcessToJobObject(handle, process.Handle)) throw new System.ComponentModel.Win32Exception(Marshal.GetLastWin32Error()); }
@@ -531,6 +595,7 @@ internal sealed class LauncherJob : IDisposable
     /// author       : CodexCode
     /// create date  : 2026-10-18
     /// update date  : 2026-10-18 CodexCode : SafeHandle로 중복 취소도 안전하게 처리.
+    ///                2026-10-18 CodexOrig : TASK-020 최종 버전·선택·전체 액세스 검사 계약 반영.
     /// </summary>
     /// ---------------------------------------------------------------------
     public void Dispose() { handle.Dispose(); }

@@ -1,4 +1,4 @@
-namespace CodexCode.WorkspaceReview
+﻿namespace CodexCode.WorkspaceReview
 {
     using System;
     using System.Collections.Generic;
@@ -22,6 +22,7 @@ namespace CodexCode.WorkspaceReview
     /// author       : CodexOrig
     /// create date  : 2026-10-18
     /// update date  : 2026-10-18 CodexOrig : TASK-018 모달과 구분되는 열린 Popup 검사 기반 추가.
+    ///                2026-10-18 CodexOrig : TASK-020 현재 모델·권한·색상·부채꼴 검사 계약 반영.
     /// </summary>
     /// ---------------------------------------------------------------------
     public static partial class WorkspaceExperience
@@ -33,6 +34,7 @@ namespace CodexCode.WorkspaceReview
         /// author       : CodexOrig
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : 별도 Window가 아닌 PopupRoot의 실제 표시 확인.
+        ///                2026-10-18 CodexOrig : TASK-020 현재 모델·권한·색상·부채꼴 검사 계약 반영.
         /// </summary>
         /// ---------------------------------------------------------------------
         private static FrameworkElement[] DropdownRoots()
@@ -48,6 +50,7 @@ namespace CodexCode.WorkspaceReview
         /// author       : CodexOrig
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : modal 검사 재사용 없이 비동기 배치 완료 대기.
+        ///                2026-10-18 CodexOrig : TASK-020 현재 모델·권한·색상·부채꼴 검사 계약 반영.
         /// </summary>
         /// ---------------------------------------------------------------------
         private static FrameworkElement OpenDropdown(AssistantControl control, string buttonName)
@@ -69,6 +72,7 @@ namespace CodexCode.WorkspaceReview
         /// author       : CodexOrig
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : TASK-018 모델·강도·Fast·권한 공통 사용자 경로.
+        ///                2026-10-18 CodexOrig : TASK-020 현재 모델·권한·색상·부채꼴 검사 계약 반영.
         /// </summary>
         /// ---------------------------------------------------------------------
         private static void InspectDropdown(AssistantControl control, string buttonName, Action<FrameworkElement> inspect)
@@ -84,6 +88,7 @@ namespace CodexCode.WorkspaceReview
         /// author       : CodexOrig
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : 실패 경로에서도 검사 인스턴스의 Popup만 정리.
+        ///                2026-10-18 CodexOrig : TASK-020 현재 모델·권한·색상·부채꼴 검사 계약 반영.
         /// </summary>
         /// ---------------------------------------------------------------------
         private static void CloseDropdowns(AssistantControl control)
@@ -104,6 +109,7 @@ namespace CodexCode.WorkspaceReview
         /// author       : CodexOrig
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : image-13 하단 정렬과 누락 없는 버튼 접근 검증.
+        ///                2026-10-18 CodexOrig : TASK-020 현재 모델·권한·색상·부채꼴 검사 계약 반영.
         /// </summary>
         /// ---------------------------------------------------------------------
         private static void CheckToolbarPlacement(AssistantControl control, Window owner)
@@ -132,6 +138,7 @@ namespace CodexCode.WorkspaceReview
         /// author       : CodexOrig
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : TASK-018 image12·15·16 사용자 결과 확인.
+        ///                2026-10-18 CodexOrig : TASK-020 현재 모델·권한·색상·부채꼴 검사 계약 반영.
         /// </summary>
         /// ---------------------------------------------------------------------
         private static void CheckGuideAndSettingsImages(AssistantControl control, string output)
@@ -184,6 +191,7 @@ namespace CodexCode.WorkspaceReview
         /// author       : CodexOrig
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : TASK-018 image14 이벤트·배치·Escape 복구 확인.
+        ///                2026-10-18 CodexOrig : TASK-020 현재 모델·권한·색상·부채꼴 검사 계약 반영.
         /// </summary>
         /// ---------------------------------------------------------------------
         private static void CheckFanMenuStability(AssistantControl control, Window owner)
@@ -196,11 +204,12 @@ namespace CodexCode.WorkspaceReview
             owner.UpdateLayout();
             Check(fan.IsVisible && (int)countField.GetValue(control) == before + 1, "Repeated pointer-enter events open the settings fan once without restarting its animation");
             var help = (Button)control.FindName("HelpButton"); var settings = (Button)control.FindName("SettingsButton");
-            Rect originBounds = new Rect(toggle.TranslatePoint(new Point(), control), toggle.RenderSize);
-            Rect helpBounds = new Rect(help.TranslatePoint(new Point(), control), help.RenderSize);
-            Rect settingsBounds = new Rect(settings.TranslatePoint(new Point(), control), settings.RenderSize);
-            Check(!originBounds.IntersectsWith(helpBounds) && !originBounds.IntersectsWith(settingsBounds) && Math.Abs(helpBounds.X - settingsBounds.X) > 30 && Math.Abs(helpBounds.Y - settingsBounds.Y) > 30,
-                "The settings and help actions occupy different fan angles without overlapping the trigger button");
+            var helpHit = fan.InputHitTest(new Point(143, 100)) as DependencyObject;
+            var settingsHit = fan.InputHitTest(new Point(206, 141)) as DependencyObject;
+            Check(help.Clip != null && settings.Clip != null &&
+                (ReferenceEquals(helpHit, help) || helpHit != null && help.IsAncestorOf(helpHit)) &&
+                (ReferenceEquals(settingsHit, settings) || settingsHit != null && settings.IsAncestorOf(settingsHit)),
+                "The actual fan sectors route their different angles to distinct help and settings buttons");
             var point = toggle.TranslatePoint(new Point(toggle.ActualWidth / 2, toggle.ActualHeight / 2), fan);
             Check(fan.InputHitTest(point) == null, "The fan overlay cannot intercept the original toggle hit area");
             toggle.RaiseEvent(new MouseEventArgs(Mouse.PrimaryDevice, Environment.TickCount) { RoutedEvent = Mouse.MouseLeaveEvent });
@@ -217,6 +226,7 @@ namespace CodexCode.WorkspaceReview
         /// author       : CodexOrig
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : TASK-018 작업 중 추가된 Role9 tooltip 요구 확인.
+        ///                2026-10-18 CodexOrig : TASK-020 현재 모델·권한·색상·부채꼴 검사 계약 반영.
         /// </summary>
         /// ---------------------------------------------------------------------
         private static void CheckTooltipTheme(AssistantControl control, string output)
@@ -243,6 +253,7 @@ namespace CodexCode.WorkspaceReview
         /// author       : CodexOrig
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : TASK-018 27번째 요청의 기존 A 라우팅 회귀.
+        ///                2026-10-18 CodexOrig : TASK-020 현재 모델·권한·색상·부채꼴 검사 계약 반영.
         /// </summary>
         /// ---------------------------------------------------------------------
         private static void CheckAlphabetRouting(string output)

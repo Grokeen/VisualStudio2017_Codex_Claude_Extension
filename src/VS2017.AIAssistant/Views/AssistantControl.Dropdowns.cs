@@ -158,24 +158,29 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 이미지9의 드롭다운과 실제 작업 개별 승인 경계 유지.
+        /// update date  : 2026-10-18 CodexCode : TASK-021 추가 이미지 요구와 감사 보완 흐름 반영.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void PermissionsClicked(object sender, RoutedEventArgs e)
         {
             var body = new StackPanel();
-            string current = !workspacePolicy.AllowSourceControl && !workspacePolicy.AllowDatabaseSchema && !workspacePolicy.AllowDeployment ? "승인 요청" : workspacePolicy.AllowSourceControl && workspacePolicy.AllowDatabaseSchema ? workspacePolicy.AllowDeployment ? "전체 권한" : "내 대신 승인" : "사용자 지정";
-            foreach (string name in new[] { "승인 요청", "내 대신 승인", "전체 권한" }) {
+            string current = AgentFullAccessEnabled ? "전체 액세스" : !workspacePolicy.AllowSourceControl && !workspacePolicy.AllowDatabaseSchema && !workspacePolicy.AllowDeployment ? "승인 요청" : "작업 도구 허용";
+            foreach (string name in new[] { "승인 요청", "작업 도구 허용", "전체 액세스" }) {
                 var pick = new Button { Content = (name == current ? "✓ " : "○ ") + name, HorizontalContentAlignment = HorizontalAlignment.Left, Margin = new Thickness(0, 0, 0, 8) };
                 pick.Click += (s, a) => {
+                    var previousPolicy = workspacePolicy;
                     try {
-                        bool basic = name != "승인 요청", deploy = name == "전체 권한";
-                        var settings = settingsStore.Load(); settings.AllowSourceControl = basic; settings.AllowDatabaseSchema = basic; settings.AllowDeployment = deploy; settingsStore.Save(settings);
+                        bool basic = name != "승인 요청", deploy = name == "전체 액세스";
+                        var settings = settingsStore.Load();
+                        settings.AllowSourceControl = basic; settings.AllowDatabaseSchema = basic; settings.AllowDeployment = deploy; settings.AgentFullAccess = deploy;
+                        settingsStore.Save(settings);
                         workspacePolicy = new WorkspacePermissionPolicy { AllowSourceControl = basic, AllowDatabaseSchema = basic, AllowDeployment = deploy };
-                        CloseDropdown(); StatusLabel.Text = name + " 권한을 저장했습니다. 실제 명령은 계획 확인과 개별 실행 동의가 필요합니다.";
-                    } catch (Exception error) { if (dropdownMessage != null) dropdownMessage.Text = error.Message; }
+                        SetAgentFullAccess(deploy);
+                        CloseDropdown(); StatusLabel.Text = deploy ? "전체 액세스를 선택했습니다. 다음 요청부터 AI가 현재 Windows 사용자 권한으로 파일 수정·명령·자체 테스트를 수행합니다." : name + " 권한을 저장했습니다. AI 수정안은 비교·승인 후 적용하며 작업 도구의 명령은 별도로 실행합니다.";
+                    } catch (Exception error) { workspacePolicy = previousPolicy; if (dropdownMessage != null) dropdownMessage.Text = error.Message; }
                 }; body.Children.Add(pick);
             }
-            body.Children.Add(new TextBlock { Text = "승인 요청: 세 작업 권한 해제\n내 대신 승인: 형상관리·DB 허용\n전체 권한: 배포까지 허용\n소스 수정안 비교·승인과 명령 실행 동의는 유지됩니다.", TextWrapping = TextWrapping.Wrap, Foreground = Brushes.Silver, FontSize = 12, Margin = new Thickness(0, 4, 0, 16) });
+            body.Children.Add(new TextBlock { Text = "승인 요청: AI가 수정안을 제안하고 사용자가 비교·적용·저장합니다.\n작업 도구 허용: 같은 검토 방식에 DB 스키마·형상관리 도구를 추가합니다.\n전체 액세스: AI가 소스를 직접 수정하고 명령·빌드·테스트를 이어서 실행합니다. 현재 Windows 사용자에게 허용된 파일과 네트워크에 접근하며 관리자 권한을 자동 획득하지 않습니다.\n요청 중에는 ■ 중지로 실행을 취소할 수 있습니다. 실행된 파일 변경은 변경 카드에서 확인하세요. 다음 요청 전에 권한을 다시 낮출 수 있습니다.", TextWrapping = TextWrapping.Wrap, Foreground = Brushes.Silver, FontSize = 12, Margin = new Thickness(0, 4, 0, 16) });
             var actions = new Button { Content = "⚒ DB·형상관리·배포 작업 열기" };
             actions.Click += (s, a) => { CloseDropdown(); OpenWorkspaceActions(s, a); }; body.Children.Add(actions);
             ShowDropdown(PermissionsButton, "⚿ 작업 권한", body);
@@ -219,6 +224,8 @@ namespace VS2017.AIAssistant.Views
         /// update date  : 2026-10-18 CodexCode : TASK-017 닫힌 선택 창의 지연 재열림과 비동기 이벤트 예외 방지.
         /// </summary>
         /// ---------------------------------------------------------------------
+        // WPF RoutedEventHandler는 void 계약이며 이 핸들러는 await 전체의 예외를 아래 catch에서 처리한다.
+#pragma warning disable VSTHRD100
         private async void RefreshScmClicked(object sender, RoutedEventArgs e)
         {
             try {
@@ -227,6 +234,7 @@ namespace VS2017.AIAssistant.Views
                 if (!disposed && currentPopup != null && dropdownPopup == currentPopup && currentPopup.IsOpen) { CloseDropdown(); AgentPickerClicked(AgentButton, new RoutedEventArgs()); }
             } catch (Exception error) { if (!disposed) StatusLabel.Text = "계정 이름 재확인 실패: " + error.Message; }
         }
+#pragma warning restore VSTHRD100
 
         /// ---------------------------------------------------------------------
         /// <summary>

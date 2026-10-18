@@ -24,6 +24,7 @@ namespace VS2017.AIAssistant.Editing
         public string ProposedText { get; private set; }
         public string Summary { get; private set; }
         public string ChangePreview { get; private set; }
+        public string UnifiedChangePreview { get; private set; }
         public int AddedLines { get; private set; }
         public int RemovedLines { get; private set; }
         public int FirstChangedLine { get; private set; }
@@ -49,6 +50,7 @@ namespace VS2017.AIAssistant.Editing
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 단일 파일 변경 및 원본 줄 위치 비교 구현.
         /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
+        /// update date  : 2026-10-18 CodexCode : TASK-021 추가 이미지 요구와 감사 보완 흐름 반영.
         /// </summary>
         /// ---------------------------------------------------------------------
         public static EditProposal Parse(DocumentSnapshot source, string json)
@@ -93,27 +95,73 @@ namespace VS2017.AIAssistant.Editing
                 if (result.Length > MaxDocumentLength * 2) throw new InvalidOperationException("수정된 파일의 크기가 제한을 초과합니다.");
             }
             var preview = new StringBuilder();
-            int added = 0, removed = 0;
+            var unified = new StringBuilder();
+            int added = 0, removed = 0, firstChangedLine = 0;
             foreach (var change in changes)
             {
+                int startLine = 1 + source.Content.Take(change.Item1).Count(character => character == '\n');
                 if (change.Item2 != change.Item3)
                 {
-                    var oldLines = change.Item2.Replace("\r\n", "\n").Split('\n');
-                    var newLines = change.Item3.Replace("\r\n", "\n").Split('\n');
+                    var oldLines = PreviewLines(change.Item2);
+                    var newLines = PreviewLines(change.Item3);
                     int prefix = 0, suffix = 0;
                     while (prefix < Math.Min(oldLines.Length, newLines.Length) && oldLines[prefix] == newLines[prefix]) prefix++;
                     while (suffix < Math.Min(oldLines.Length, newLines.Length) - prefix && oldLines[oldLines.Length - suffix - 1] == newLines[newLines.Length - suffix - 1]) suffix++;
                     removed += change.Item2.Length == 0 ? 0 : oldLines.Length - prefix - suffix;
                     added += change.Item3.Length == 0 ? 0 : newLines.Length - prefix - suffix;
+                    if (firstChangedLine == 0) firstChangedLine = startLine + prefix;
                 }
-                int startLine = 1 + source.Content.Take(change.Item1).Count(character => character == '\n');
                 int endLine = startLine + change.Item2.Count(character => character == '\n');
+                if (change.Item2 != change.Item3) AppendUnifiedChange(unified, startLine, change.Item2, change.Item3);
                 preview.AppendLine("원본 줄 " + startLine + " ~ " + endLine);
                 preview.AppendLine("--- 변경 전").AppendLine(change.Item2);
                 preview.AppendLine("+++ 변경 후").AppendLine(change.Item3).AppendLine();
             }
-            return new EditProposal { Source = source, ProposedText = result.ToString(), Summary = (string)root["summary"], ChangePreview = preview.ToString(), AddedLines = added, RemovedLines = removed,
-                FirstChangedLine = changes.Count == 0 ? 1 : 1 + source.Content.Take(changes[0].Item1).Count(c => c == '\n') };
+            return new EditProposal { Source = source, ProposedText = result.ToString(), Summary = (string)root["summary"], ChangePreview = preview.ToString(), UnifiedChangePreview = unified.ToString(), AddedLines = added, RemovedLines = removed,
+                FirstChangedLine = Math.Max(1, firstChangedLine) };
+        }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : AppendUnifiedChange
+        /// desc         : 고유 교체 앵커 중 바뀌지 않은 줄은 문맥으로 남기고 실제 추가·제거 줄에만 부호를 붙인다.
+        /// author       : CodexCode
+        /// create date  : 2026-10-18
+        /// update date  : 2026-10-18 CodexCode : TASK-021 색상 비교와 수정 위치 툴팁의 실제 원문 근거 제공.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        private static void AppendUnifiedChange(StringBuilder output, int startLine, string before, string after)
+        {
+            string[] oldLines = PreviewLines(before);
+            string[] newLines = PreviewLines(after);
+            int prefix = 0, suffix = 0;
+            while (prefix < Math.Min(oldLines.Length, newLines.Length) && oldLines[prefix] == newLines[prefix]) prefix++;
+            while (suffix < Math.Min(oldLines.Length, newLines.Length) - prefix && oldLines[oldLines.Length - suffix - 1] == newLines[newLines.Length - suffix - 1]) suffix++;
+            output.AppendLine("@@ 원본 " + (startLine + prefix) + "줄 · 제거 " + (oldLines.Length - prefix - suffix) + "줄 / 추가 " + (newLines.Length - prefix - suffix) + "줄 @@");
+            for (int index = Math.Max(0, prefix - 3); index < prefix; index++) output.AppendLine(" " + oldLines[index]);
+            for (int index = prefix; index < oldLines.Length - suffix; index++) output.AppendLine("-" + oldLines[index]);
+            for (int index = prefix; index < newLines.Length - suffix; index++) output.AppendLine("+" + newLines[index]);
+            for (int index = oldLines.Length - suffix; index < Math.Min(oldLines.Length, oldLines.Length - suffix + 3); index++) output.AppendLine(" " + oldLines[index]);
+            if (before.Length > 0 && after.Length > 0 && before.EndsWith("\n", StringComparison.Ordinal) != after.EndsWith("\n", StringComparison.Ordinal))
+                output.AppendLine("\\ 줄 끝 개행 " + (after.EndsWith("\n", StringComparison.Ordinal) ? "추가" : "제거"));
+            output.AppendLine();
+        }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : PreviewLines
+        /// desc         : 마지막 줄의 개행 문자를 유령 빈 줄로 세지 않고 카드와 색상 비교에 같은 줄 배열을 제공한다.
+        /// author       : CodexCode
+        /// create date  : 2026-10-18
+        /// update date  : 2026-10-18 CodexCode : TASK-021 빈 파일·전체 삭제·마지막 빈 줄의 계수 일치.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        private static string[] PreviewLines(string text)
+        {
+            if (text.Length == 0) return new string[0];
+            string normalized = text.Replace("\r\n", "\n").Replace('\r', '\n');
+            string[] lines = normalized.Split('\n');
+            return normalized.EndsWith("\n", StringComparison.Ordinal) ? lines.Take(lines.Length - 1).ToArray() : lines;
         }
 
         /// ---------------------------------------------------------------------

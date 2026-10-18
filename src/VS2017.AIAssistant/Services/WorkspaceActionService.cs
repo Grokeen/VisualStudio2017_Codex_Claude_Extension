@@ -57,6 +57,22 @@ namespace VS2017.AIAssistant.Services
         public string DestinationDirectory { get; set; }
         public string[] Files { get; set; }
         public string[] DeploymentArguments { get; set; }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : Copy
+        /// desc         : 호출자 배열의 사후 변경이 검토·실행 스냅샷에 영향을 주지 않도록 깊은 복사한다.
+        /// author       : CodexCode
+        /// create date  : 2026-10-18
+        /// update date  : 2026-10-18 CodexCode : TASK-021 승인 계획의 파일·배포 인수 원본 분리.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        internal WorkspaceActionRequest Copy()
+        {
+            return new WorkspaceActionRequest { Operation = Operation, ProjectDirectory = ProjectDirectory,
+                ExecutablePath = ExecutablePath, Argument = Argument, Message = Message, DestinationDirectory = DestinationDirectory,
+                Files = Files == null ? null : Files.ToArray(), DeploymentArguments = DeploymentArguments == null ? null : DeploymentArguments.ToArray() };
+        }
     }
 
     /// ---------------------------------------------------------------------
@@ -70,6 +86,7 @@ namespace VS2017.AIAssistant.Services
     /// ---------------------------------------------------------------------
     public sealed class WorkspaceActionPlan
     {
+        private readonly WorkspaceActionRequest requestSnapshot;
         public string TargetDirectory { get; private set; }
         public string ExecutablePath { get; private set; }
         public string Arguments { get; private set; }
@@ -82,13 +99,26 @@ namespace VS2017.AIAssistant.Services
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 미리보기와 실행의 공통 모델.
+        /// update date  : 2026-10-18 CodexCode : TASK-021 정규화한 요청도 외부 변경 불가능한 내부 복사본으로 보관.
         /// </summary>
         /// ---------------------------------------------------------------------
-        internal WorkspaceActionPlan(string directory, string executable, IEnumerable<string> arguments)
+        internal WorkspaceActionPlan(string directory, string executable, IEnumerable<string> arguments, WorkspaceActionRequest request)
         {
             TargetDirectory = directory; ExecutablePath = executable; Arguments = string.Join(" ", arguments.Select(QuoteArgument));
             if (Arguments.Length + ExecutablePath.Length > 30000) throw new ArgumentException("명령 전체 길이가 제한을 초과했습니다. 파일 또는 인수 개수를 줄이세요.");
+            requestSnapshot = request.Copy(); requestSnapshot.ProjectDirectory = directory; requestSnapshot.ExecutablePath = executable;
         }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : CreateRequestSnapshot
+        /// desc         : 정규화한 승인 요청을 새 복사본으로 반환하며 내부 계획을 바꿀 수 없게 한다.
+        /// author       : CodexCode
+        /// create date  : 2026-10-18
+        /// update date  : 2026-10-18 CodexCode : TASK-021 CWD와 원본 배열 변화에 독립적인 실행 재검증 지원.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        public WorkspaceActionRequest CreateRequestSnapshot() { return requestSnapshot.Copy(); }
 
         /// ---------------------------------------------------------------------
         /// <summary>
@@ -167,15 +197,20 @@ namespace VS2017.AIAssistant.Services
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 커밋은 지정된 추적 파일에 한정하며 강제 갱신 금지.
+        /// update date  : 2026-10-18 CodexCode : TASK-021 모호한 Windows 경로를 거부하고 승인 파일·대상을 정규화해 고정.
         /// </summary>
         /// ---------------------------------------------------------------------
         public WorkspaceActionPlan BuildPlan(WorkspaceActionRequest request, WorkspacePermissionPolicy policy)
         {
             if (request == null || policy == null) throw new ArgumentNullException(request == null ? "request" : "policy");
+            request = request.Copy();
             if (!Enum.IsDefined(typeof(WorkspaceOperation), request.Operation)) throw new ArgumentException("지원하지 않는 작업입니다.");
             if (request.Operation == WorkspaceOperation.Deploy ? !policy.AllowDeployment : !policy.AllowSourceControl)
                 throw new InvalidOperationException("먼저 이 작업의 권한을 허용하세요.");
-            string directory = Path.GetFullPath(Required(request.ProjectDirectory, "프로젝트 폴더", 32700));
+            string project = Required(request.ProjectDirectory, "프로젝트 폴더", 32700);
+            if (!IsFullyQualifiedPath(project)) throw new ArgumentException("프로젝트 폴더는 드라이브 또는 공유 이름을 포함한 완전한 절대 경로로 지정하세요.");
+            RejectAmbiguousPath(project);
+            string directory = Path.GetFullPath(project);
             if (!Directory.Exists(directory)) throw new DirectoryNotFoundException("프로젝트 폴더가 없습니다.");
             RejectReparsePoints(directory);
             bool isTfs = request.Operation == WorkspaceOperation.TfsGet || request.Operation == WorkspaceOperation.TfsCheckout || request.Operation == WorkspaceOperation.TfsCheckin;
@@ -193,7 +228,7 @@ namespace VS2017.AIAssistant.Services
                     args.AddRange(new[] { "checkout", branch, "--" }); break;
                 case WorkspaceOperation.GitCommit:
                     tool = "git.exe"; args.AddRange(new[] { "--literal-pathspecs", "commit", "--only", "-m", Required(request.Message, "커밋 메시지", 4000), "--" });
-                    args.AddRange(ValidateFiles(directory, request.Files)); break;
+                    request.Files = ValidateFiles(directory, request.Files); args.AddRange(request.Files); break;
                 case WorkspaceOperation.GitPush: tool = "git.exe"; args.Add("push"); AddRemote(args, request.Argument); break;
                 case WorkspaceOperation.SvnUpdate: tool = "svn.exe"; args.AddRange(new[] { "update", "--non-interactive", "--no-auth-cache", "--", directory.Contains("@") ? directory + "@" : directory }); break;
                 case WorkspaceOperation.SvnCheckout:
@@ -202,15 +237,16 @@ namespace VS2017.AIAssistant.Services
                         throw new ArgumentException("자격 증명을 제외한 SVN 저장소 URL을 입력하세요.");
                     string destination = ResolveChild(directory, Required(request.DestinationDirectory, "새 체크아웃 폴더", 1000));
                     if (Directory.Exists(destination) || File.Exists(destination)) throw new ArgumentException("체크아웃 대상은 아직 존재하지 않는 하위 폴더여야 합니다.");
+                    request.DestinationDirectory = destination; request.Argument = uri.AbsoluteUri;
                     args.AddRange(new[] { "checkout", "--non-interactive", "--no-auth-cache", "--", uri.AbsoluteUri.Contains("@") ? uri.AbsoluteUri + "@" : uri.AbsoluteUri, destination }); break;
                 case WorkspaceOperation.SvnCommit:
                     tool = "svn.exe"; args.AddRange(new[] { "commit", "--non-interactive", "--no-auth-cache", "--message", Required(request.Message, "체크인 메시지", 4000), "--" });
-                    args.AddRange(ValidateFiles(directory, request.Files).Select(p => p.Contains("@") ? p + "@" : p)); break;
+                    request.Files = ValidateFiles(directory, request.Files); args.AddRange(request.Files.Select(p => p.Contains("@") ? p + "@" : p)); break;
                 case WorkspaceOperation.TfsGet: tool = "tf.exe"; args.AddRange(new[] { "get", directory, "/recursive", "/noautoresolve", "/noprompt" }); break;
                 case WorkspaceOperation.TfsCheckout:
-                    tool = "tf.exe"; args.Add("checkout"); args.AddRange(ValidateFiles(directory, request.Files)); break;
+                    tool = "tf.exe"; args.Add("checkout"); request.Files = ValidateFiles(directory, request.Files); args.AddRange(request.Files); break;
                 case WorkspaceOperation.TfsCheckin:
-                    tool = "tf.exe"; args.Add("checkin"); args.AddRange(ValidateFiles(directory, request.Files));
+                    tool = "tf.exe"; args.Add("checkin"); request.Files = ValidateFiles(directory, request.Files); args.AddRange(request.Files);
                     string comment = Required(request.Message, "체크인 메시지", 4000);
                     if (comment.StartsWith("@", StringComparison.Ordinal)) throw new ArgumentException("TFVC 메시지는 파일 참조 기호인 @로 시작할 수 없습니다.");
                     args.AddRange(new[] { "/comment:" + comment, "/noautoresolve", "/noprompt" }); break;
@@ -228,7 +264,7 @@ namespace VS2017.AIAssistant.Services
                     break;
                 default: throw new ArgumentException("지원하지 않는 작업입니다.");
             }
-            return new WorkspaceActionPlan(directory, ResolveExecutable(string.IsNullOrWhiteSpace(request.ExecutablePath) ? tool : request.ExecutablePath), args);
+            return new WorkspaceActionPlan(directory, ResolveExecutable(string.IsNullOrWhiteSpace(request.ExecutablePath) ? tool : request.ExecutablePath), args, request);
         }
 
         /// ---------------------------------------------------------------------
@@ -238,17 +274,53 @@ namespace VS2017.AIAssistant.Services
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 셸·대화형 암호 입력 금지, 프로세스 트리 종료.
+        /// update date  : 2026-10-18 CodexCode : TASK-021 기존 API도 불변 계획 생성과 동일성 재검증을 거쳐 실행.
         /// </summary>
         /// ---------------------------------------------------------------------
         public async Task<WorkspaceActionResult> RunAsync(WorkspaceActionRequest request, WorkspacePermissionPolicy policy, CancellationToken cancellationToken)
         {
-            var plan = BuildPlan(request, policy); cancellationToken.ThrowIfCancellationRequested();
+            return await RunApprovedAsync(BuildPlan(request, policy), policy, cancellationToken).ConfigureAwait(false);
+        }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : RunApprovedAsync
+        /// desc         : 승인한 불변 계획을 현재 권한·파일 경계로 재검증하고 같은 명령일 때만 실행한다.
+        /// author       : CodexCode
+        /// create date  : 2026-10-18
+        /// update date  : 2026-10-18 CodexCode : TASK-021 승인 뒤 CWD·요청 배열 변경과 명령 재해석 방지.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        public async Task<WorkspaceActionResult> RunApprovedAsync(WorkspaceActionPlan approvedPlan, WorkspacePermissionPolicy policy, CancellationToken cancellationToken)
+        {
+            if (approvedPlan == null) throw new ArgumentNullException("approvedPlan");
+            cancellationToken.ThrowIfCancellationRequested();
+            var plan = BuildPlan(approvedPlan.CreateRequestSnapshot(), policy);
+            if (!String.Equals(plan.TargetDirectory, approvedPlan.TargetDirectory, StringComparison.Ordinal) ||
+                !String.Equals(plan.ExecutablePath, approvedPlan.ExecutablePath, StringComparison.Ordinal) ||
+                !String.Equals(plan.Arguments, approvedPlan.Arguments, StringComparison.Ordinal))
+                throw new InvalidOperationException("승인한 실행 계획이 달라졌습니다. 명령과 대상을 다시 검토하세요.");
+            return await ExecutePlanAsync(plan, cancellationToken).ConfigureAwait(false);
+        }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : ExecutePlanAsync
+        /// desc         : 검증된 계획의 native 프로세스만 실행하고 저장소 선택 환경을 상속하지 않는다.
+        /// author       : CodexCode
+        /// create date  : 2026-10-18
+        /// update date  : 2026-10-18 CodexCode : TASK-021 공통 Git 디렉터리·namespace 환경도 제거.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        private async Task<WorkspaceActionResult> ExecutePlanAsync(WorkspaceActionPlan plan, CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
             var info = new ProcessStartInfo(plan.ExecutablePath, plan.Arguments) {
                 WorkingDirectory = plan.TargetDirectory, UseShellExecute = false, CreateNoWindow = true,
                 RedirectStandardInput = true, RedirectStandardOutput = true, RedirectStandardError = true,
                 StandardOutputEncoding = Encoding.UTF8, StandardErrorEncoding = Encoding.UTF8
             };
-            foreach (string name in new[] { "GIT_DIR", "GIT_WORK_TREE", "GIT_INDEX_FILE", "GIT_OBJECT_DIRECTORY", "GIT_ALTERNATE_OBJECT_DIRECTORIES" }) info.EnvironmentVariables.Remove(name);
+            foreach (string name in new[] { "GIT_DIR", "GIT_WORK_TREE", "GIT_INDEX_FILE", "GIT_OBJECT_DIRECTORY", "GIT_ALTERNATE_OBJECT_DIRECTORIES", "GIT_COMMON_DIR", "GIT_NAMESPACE" }) info.EnvironmentVariables.Remove(name);
             info.EnvironmentVariables["GIT_TERMINAL_PROMPT"] = "0"; info.EnvironmentVariables["GCM_INTERACTIVE"] = "Never";
             using (var process = new Process { StartInfo = info })
             using (var job = new ProcessJob())
@@ -342,18 +414,22 @@ namespace VS2017.AIAssistant.Services
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : PATH의 현재 폴더 우선 탐색을 배제.
+        /// update date  : 2026-10-18 CodexCode : TASK-021 실행 파일과 PATH도 드라이브 상대·장치 경로로 해석하지 않음.
         /// </summary>
         /// ---------------------------------------------------------------------
         private static string ResolveExecutable(string value)
         {
             value = Required(value, "실행 파일", 32700);
+            RejectAmbiguousPath(value);
             if (!string.Equals(Path.GetExtension(value), ".exe", StringComparison.OrdinalIgnoreCase)) throw new ArgumentException("네이티브 .exe 실행 파일만 선택하세요.");
             if (Path.IsPathRooted(value)) { string full = Path.GetFullPath(value); if (File.Exists(full)) return full; }
             else if (value == Path.GetFileName(value))
                 foreach (string entry in (Environment.GetEnvironmentVariable("PATH") ?? "").Split(Path.PathSeparator))
                 {
-                    if (!Path.IsPathRooted(entry.Trim('"'))) continue;
-                    string candidate = Path.Combine(entry.Trim('"'), value); if (File.Exists(candidate)) return Path.GetFullPath(candidate);
+                    string searchDirectory = entry.Trim().Trim('"');
+                    if (!IsFullyQualifiedPath(searchDirectory)) continue;
+                    RejectAmbiguousPath(searchDirectory);
+                    string candidate = Path.Combine(searchDirectory, value); if (File.Exists(candidate)) return Path.GetFullPath(candidate);
                 }
             throw new FileNotFoundException("실행 파일을 찾지 못했습니다. 설치된 .exe의 전체 경로를 지정하세요.");
         }
@@ -384,14 +460,55 @@ namespace VS2017.AIAssistant.Services
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 명령 옵션 대신 절대 파일 경로 전달.
+        /// update date  : 2026-10-18 CodexCode : TASK-021 drive-relative·root-relative·장치 경로·대체 데이터 스트림 거부.
         /// </summary>
         /// ---------------------------------------------------------------------
         private static string ResolveChild(string root, string value)
         {
             if (value.IndexOfAny(new[] { '*', '?', '\0', '\r', '\n' }) >= 0) throw new ArgumentException("파일 경로에 와일드카드를 사용할 수 없습니다.");
+            RejectAmbiguousPath(value);
             string full = Path.GetFullPath(Path.IsPathRooted(value) ? value : Path.Combine(root, value));
             if (!full.StartsWith(root.TrimEnd(Path.DirectorySeparatorChar) + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase)) throw new ArgumentException("프로젝트 폴더 안의 파일 또는 새 하위 폴더를 지정하세요.");
             RejectReparsePoints(full); return full;
+        }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : RejectAmbiguousPath
+        /// desc         : 현재 드라이브·CWD에 의존하는 rooted 경로와 장치·대체 스트림 구문을 거부한다.
+        /// author       : CodexCode
+        /// create date  : 2026-10-18
+        /// update date  : 2026-10-18 CodexCode : TASK-021 완전한 절대 경로와 고정 프로젝트 기준 상대 경로만 허용.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        private static void RejectAmbiguousPath(string value)
+        {
+            string normalized = value.Replace('/', '\\');
+            if (normalized.StartsWith(@"\\?\", StringComparison.Ordinal) || normalized.StartsWith(@"\\.\", StringComparison.Ordinal) ||
+                (Path.IsPathRooted(normalized) && !IsFullyQualifiedPath(normalized)))
+                throw new ArgumentException("드라이브 상대·현재 드라이브 루트·장치 경로 대신 완전한 절대 경로나 프로젝트 상대 경로를 지정하세요.");
+            int colon = normalized.IndexOf(':');
+            if (colon >= 0 && (colon != 1 || !Char.IsLetter(normalized[0]) || normalized.IndexOf(':', colon + 1) >= 0))
+                throw new ArgumentException("대체 데이터 스트림 경로를 사용할 수 없습니다.");
+        }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : IsFullyQualifiedPath
+        /// desc         : .NET Framework 4.6.2에서 CWD와 무관한 드라이브 절대·서버 공유 경로를 구분한다.
+        /// author       : CodexCode
+        /// create date  : 2026-10-18
+        /// update date  : 2026-10-18 CodexCode : TASK-021 C:파일 및 단일 역슬래시 경로를 절대 경로로 오인하지 않음.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        private static bool IsFullyQualifiedPath(string value)
+        {
+            if (String.IsNullOrEmpty(value)) return false;
+            string path = value.Replace('/', '\\');
+            if (path.Length >= 3 && Char.IsLetter(path[0]) && path[1] == ':' && path[2] == '\\') return true;
+            if (!path.StartsWith(@"\\", StringComparison.Ordinal) || path.StartsWith(@"\\?\", StringComparison.Ordinal) || path.StartsWith(@"\\.\", StringComparison.Ordinal)) return false;
+            int share = path.IndexOf('\\', 2);
+            return share > 2 && share < path.Length - 1 && path[share + 1] != '\\';
         }
 
         /// ---------------------------------------------------------------------

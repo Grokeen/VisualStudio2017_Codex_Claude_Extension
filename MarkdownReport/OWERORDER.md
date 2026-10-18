@@ -213,3 +213,43 @@ CodexOrig입니다. 최신Role의모든참조이미지와작업중추가된툴�
 ### TASK-018 배포 완료 — 2026-10-18 17:37:44 KST
 
 v0.8.0을 eee7cb3f00e6fab40411f366f628468e4087fc15로 origin/main에 배포했다. 원격 VSIX306771바이트/AE33A8D0…와 루트실행기33792바이트/8F14A59D…를 다시 내려받아 로컬 SHA와 모두 일치함을 확인했다. UI133·실제IDE80·루트14·스모크9 PASS, 최신Role/제품39소스/이전릴리스보존. TASK017전원종료17:31:38이후만push했고 현재제품/검사편집은종료했다. 사용자용 설치파일·가이드·검증보고 연결을 확인했습니다.
+
+## TASK-019 — CodexOrig2 감사 보고 / 2026-10-18 17:45:39 KST
+
+감사 완료 보고드립니다. 17:37:25~17:45:39 KST, 8분 13초 소요했습니다. Role.md 전체 반영 판정은 '일부 반영·보완 필요'입니다. VS2019/2022 지원 미구현과 IDE 라이선스 안내 미검증, 상단Chat 제목/참고계획 선택코드 범위 및 실제Claude·운영연동 공백을 확인했습니다. 최초 루트전체12/14에서 설정UX3개와 A닫기검사가 실패했고, 개별 재실행은 편집92/화면133 PASS여서 원인미확정 재현성 문제로 별도 기록했습니다. 실행기9/9, 기준소스39개와배포ZIP해시는정상입니다.
+
+별도 감사 보고: MarkdownReport/CodexOrig2_TASK-019_Audit.md / 원본실패·재실행·해시근거: CodexOrig2_TASK-019_Evidence.json. 루트exe --all --vsix releases/v0.8.0/VS2017.AIAssistant-0.8.0.vsix로 재검사하고 --run editing 또는 --run experience로 분리 실행합니다. 제품수정이나배포는수행하지않았습니다.
+
+## TASK-021 담당 완료 보고 — 2026-10-18 19:31:39 KST
+
+CodexCode입니다. 추가image17~23과감사를반영해탭·입력란·실제부채꼴·색상변경카드/hover기록·파일왕복선택·상세설명·생각중그라데이션을수정했습니다. IDE Caption도Claude · Codex로바꾸고선택코드context를연결했습니다. 설정ABA와모호한승인경로를재현해보완했으며설정/디스크읽기상한·불변계획·고정문서출력배수와미저장버퍼보호를추가했습니다.
+
+고정제품후보4 DEC74A49...E4B0로신규8묶음229/229 PASS입니다. tests/task021/Test-Task021.ps1 -AssemblyPath <고정DLL> -OutputDirectory <새결과폴더>를WindowsPowerShell5.1 -STA로실행하면재현됩니다. 결과는artifacts/task021/bundle-candidate4-final/summary.json,상세는CodexCode_TASK-021.md·_SecureCoding.md·_Validation.json입니다. 이전228PASS후시각검토로추가발견한파일선택결함과후보2Thinking실패도원문대로남겼습니다. 실제IDE/실계정/운영서버검사와격리fixture를구분했습니다.
+
+소요 01시간 13분 06초. 소유편집/테스트와하위작업자는모두종료했습니다. SDK17마지막3경고는동작변경없는국소설명만추가했고최종빌드·IDE3버전/전체검사·영업용README/사용법·GitHub배포는TASK020CodexOrig가마감합니다. 원본공유bin/obj와최종Git소유를침범하지않았고021자체배포는없습니다.
+
+## TASK-023 — CodexOrig2 2차 감사 보고 / 2026-10-18 21:01:50 KST
+
+20:48:35~21:01:50 KST, 13분 15초 소요하여 v0.9.0 C6 고정패키지를감사했습니다. 1차지적중VS19/22지원·Chat제목·선택코드3건은조치를확인했습니다. 전체2회각14/16이었으며Claude metadata의로그인오판과빌드검사출력줄바꿈취약성을분리했습니다. PATH밖설치CLI자동발견누락도실행파일해석만으로재현했습니다. 편집92·화면135·추가229는각2회,실행기9개는통과했습니다.
+
+보고서 MarkdownReport/CodexOrig2_TASK-023_Audit2.md, 근거 CodexOrig2_TASK-023_Evidence.json에조치완료/조건부/개발중범위와구체적인후속완료조건을기록했습니다. 최신Role추가8까지새후보검증이필요하며소스수정존재만으로C6패키지완료를인정하지않았습니다. 제품수정·배포는수행하지않았습니다.
+
+## TASK-020 독립 검증 단계 완료 / 활성 화면 검사 대기 — 2026-10-18 22:17:13 KST
+
+담당 CodexOrig. 시작2026-10-18 18:16:40, 현재까지 경과 4시간 0분 33초(최종 작업 완료 시각 아님). Role20:25추가1~11·image24~27·TASK023감사후보완, C11 제품90입력 동결·SDK3버전 Debug/Release6개 경고0 완료. 실제VS2017/2019/2022 각100/100, 루트기본16묶음 2회 연속16/16, WPF135·TASK021229·TASK022245·Native67·실제loopback SVN/격리배포8·실행기12 PASS. C9 실제Codex 수정/자체테스트는 후보와소스동일범위를명시해보존. 원래감사/최초12/16/애니메이션기본GPU실패와테스트호스트잔류cleanup근거보존.
+
+경로 src/VS2017.AIAssistant/Providers·Views·Services·Chat 및3SKU csproj/manifest,scripts,tests,docs,README,releases/v0.9.0,최상위 VisualStudio_AIChat_ExtentionTest.exe,.gitattributes. 전체증거 CodexOrig_TASK-020_Evidence.json(schema2), 보고 CodexOrig_TASK-020.md. PDF/MD/bat/18PNG·고객ZIP 원문 보존, 패키지각32파일SHA대조, 원래7릴리스불변, 비공개설치로그와artifacts stage0.
+
+**전체 작업은 아직 미완료**: 활성 입력desktop에서 최종 기본GPU/실제마우스/PDF재검증 및최종배포가남음. 현재Screen-saver·GetCursorPos error5이므로실제입력없고강제잠금해제/설정변경없음. 사용자활성화답변대기, commit/push미수행. 다음재개시이미통과한전체/IDE를무조건반복하지않고고정C11의남은세검사를먼저실행한뒤결과에따라최종배포한다.
+
+## TASK-022 담당 완료 보고 — 2026-10-18 23:28:46 KST
+
+CodexCode입니다. 최신Role추가1~11과이미지24~27을반영해버튼정렬·대화만스크롤·입력란고정·검정기록/우클릭·중복없는공개진행·hover상세·생각중위치·숨김필수규칙·원본PDF WebView와설치확인UI를마쳤습니다. CLI자동검색·안전소스reload·2차감사·README는TASK020과협업했습니다.
+
+최종고정C11 SHA68B15E40...DA70로 기본245/245, 활성기본렌더56/56, 실제마우스55/55와실제PDF50/50을통과했습니다. 추가고유검사는hover10/PDF10이며반복기본45/40과TASK021의56을중복합산하지않습니다. PDF는자기창9/9가림검사후nativePNG를직접확인했습니다. 실제설치/로그인0,기존원본/실패보존. 6빌드경고0·3IDE각100·전체16두연속PASS와최초12/16·렌더경로분리도최종보고서에구분했습니다.
+
+소요02시간52분08초(입력desktop대기포함). 소유14파일freeze5/제품·검사·문서·하위작업자편집종료/GUI해제입니다. 재현은 tests/task022/Test-Task022.ps1 -AssemblyPath <고정DLL> -OutputDirectory <새폴더>,선택적실제hover/PDF는각PS에VerifyHover/VerifyWebView로실행합니다. 상세는CodexCode_TASK-022.md·_SecureCoding.md·_Validation.json,최종활성근거는artifacts/task020/active-candidate11-20261018-232509/summary.json입니다. 최종Git배포와원격SHA는TASK020 CodexOrig가마감하며022자체commit/push는없습니다.
+
+## TASK-020 최종 검증 완료 — 2026-10-18 23:31:54 KST
+
+Role추가1~11·이미지24~27·2차감사를반영했습니다. 후보11의세버전빌드6개경고0,실제IDE각100,전체16묶음2회,Native67/추가UI245/실제hover55/PDF50/Default GPU56검사를모두통과했습니다. 원본실패·기존릴리스·감사는보존했고실제Claude/운영DB·TFVC는미검증입니다. 최상위실행기로재현가능하며보고/근거는CodexOrig_TASK-020.md·_Evidence.json입니다. 총경과5시간15분(활성화대기포함). TASK022전원종료23:30:56확인후GitHub배포와원격파일해시를마감합니다.

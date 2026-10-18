@@ -9,6 +9,8 @@ These assets identify the AI provider selected by the user. This extension is an
 
 Retrieved on 2026-10-18. OpenAI's [design guidelines and mark usage terms](https://openai.com/brand/) apply to the OpenAI asset. No permission beyond the owners' applicable terms is asserted here.
 
+The installation guide viewer uses Microsoft.Web.WebView2 1.0.4191.47 from the official NuGet package. Its original LICENSE.txt and NOTICE.txt are included in the extension under Resources/ThirdParty/WebView2. The SDK assemblies and native loaders are redistributed without modification. The WebView2 Runtime is a separate installed component; see Microsoft's [WPF setup documentation](https://learn.microsoft.com/en-us/microsoft-edge/webview2/get-started/wpf).
+
 SHA-256:
 
 ```text

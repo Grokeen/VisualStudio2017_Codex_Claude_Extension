@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -42,6 +42,7 @@ namespace VS2017.AIAssistant.Views
         /// update date  : 2026-10-18 CodexCode : TASK-017 이미지 분석 기반 드롭다운·안내·대화 지정 흐름 개선.
         /// </summary>
         /// ---------------------------------------------------------------------
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "VSTHRD100", Justification = "WPF/Dispatcher event handler; awaited operation handles cancellation and failures.")]
         private async void ReadScmIdentity(object sender, RoutedEventArgs e)
         {
             await RefreshScmIdentityAsync(false);
@@ -92,6 +93,7 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexOrig
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : 캐시 부재 시 기본·직접 입력을 유지.
+        ///                2026-10-18 CodexOrig : TASK-020 연결에서 발견한 모델명·강도·속도 기능을 표시.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void RefreshModelChoices(bool updateModels = true)
@@ -116,7 +118,7 @@ namespace VS2017.AIAssistant.Views
                 FastToggle.IsChecked = speeds[selectedProvider] == "fast";
                 FastToggle.IsEnabled = !busy && capability != null && capability.SupportsFast;
                 FastToggle.ToolTip = capability != null && capability.SupportsFast ? "Fast · 빠른 응답, 사용량 증가 · " + capability.SpeedDescription : "선택한 모델의 Fast 지원이 확인되지 않았습니다.";
-                ModelOptionsButton.Content = "☷ " + EffortLabel(effort) + " ⌄";
+                ModelOptionsButton.Content = "☷ " + (String.IsNullOrWhiteSpace(ModelName.Text) ? "기본 모델" : ModelName.Text) + " · " + EffortLabel(effort) + " ⌄";
             }
             finally { refreshingOptions = false; }
         }

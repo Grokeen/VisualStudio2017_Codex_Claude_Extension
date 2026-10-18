@@ -94,6 +94,8 @@ namespace VS2017.AIAssistant.Providers
     /// ---------------------------------------------------------------------
     public sealed class ProviderModelCatalog
     {
+        private static readonly object discoveryGate = new object();
+        private static readonly Dictionary<string, ProviderModelCatalog> discovered = new Dictionary<string, ProviderModelCatalog>();
         public const int MaximumCacheBytes = 2 * 1024 * 1024;
         public ReadOnlyCollection<ProviderModelDescriptor> Models { get; private set; }
         public string SourcePath { get; private set; }
@@ -140,7 +142,27 @@ namespace VS2017.AIAssistant.Providers
         /// </summary>
         /// ---------------------------------------------------------------------
         public static ProviderModelCatalog ForProvider(string provider)
-        { ProviderExecutionOptions.ValidateProvider(provider); return provider == "Codex" ? LoadCodex() : ForClaude(); }
+        {
+            ProviderExecutionOptions.ValidateProvider(provider);
+            lock (discoveryGate) { ProviderModelCatalog current; if (discovered.TryGetValue(provider, out current)) return current; }
+            return provider == "Codex" ? LoadCodex() : ForClaude();
+        }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : PublishDiscovered
+        /// desc         : 연결된 CLI가 반환한 카탈로그만 게시하고 이전 연결의 자료는 명시적으로 해제한다.
+        /// author       : CodexOrig
+        /// create date  : 2026-10-18
+        /// update date  : 2026-10-18 CodexOrig : TASK-020 연결 시 자동 모델·기능 새로고침.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        public static void PublishDiscovered(string provider, ProviderModelCatalog catalog)
+        {
+            ProviderExecutionOptions.ValidateProvider(provider);
+            if (catalog != null && catalog.Models.Any(m => m.Provider != provider)) throw new ArgumentException("다른 AI의 모델 목록입니다.");
+            lock (discoveryGate) { if (catalog == null) discovered.Remove(provider); else discovered[provider] = catalog; }
+        }
 
         /// ---------------------------------------------------------------------
         /// <summary>

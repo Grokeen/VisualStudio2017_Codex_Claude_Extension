@@ -1,4 +1,24 @@
-# 실제 VS2017 통합 테스트
+# 실제 Visual Studio 통합 테스트
+
+## v0.9.0 현재 검사
+
+VS2017·2019·2022마다 지정한 VSIX를 별도 실험 인스턴스에 설치한다. 테스트 보조 프로젝트도 해당 SDK/아키텍처로 생성하며, 실제 로드한 제품 DLL의 SHA256을 VSIX에서 추출한 DLL과 비교한다. 기본 경로는 VS2017이며 다른 버전은 `-VisualStudioPath`로 선택한다.
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File .\tests\ide\Test-IdeIntegration.ps1 `
+  -VisualStudioPath 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community' `
+  -VsixPath .\releases\v0.9.0\VS2019.AIAssistant-0.9.0.vsix
+
+powershell -NoProfile -ExecutionPolicy Bypass -File .\tests\ide\Test-IdeIntegration.ps1 `
+  -VisualStudioPath 'C:\Program Files\Microsoft Visual Studio\2022\Community' `
+  -VsixPath .\releases\v0.9.0\VS2022.AIAssistant-0.9.0.vsix
+```
+
+기존 편집·SQL·대화 검사에 실제 선택/역방향 선택/선택 해제, 전체 원문과 충돌 해시 보존, 다른 미저장 문서의 직접 실행 차단을 추가했다. 네이티브 프로토콜 fixture는 실제 자식 프로세스로 파일을 쓰고 PowerShell 검증을 실행한다. UI의 실제 토큰 툴팁·공개 진행 메시지·변경 카드·완료 상태도 검사한다. 이것은 Claude 계정 검증과 구분한다. 소스 문서가 없어도 저장된 솔루션이 있으면 전체 액세스 실행 문맥을 만들 수 있다.
+
+`license-observation.json`은 해당 세션의 표시된 WPF 텍스트에서 라이선스 안내를 관찰한 결과다. 라이선스 자체의 유효성이나 다음 실행의 안내 부재를 인증하지 않는다. `scripts/Check-VisualStudioLicense.cmd`가 최신 관찰 결과와 정식 계정 갱신 방법을 안내한다. 최신 수치·패키지 해시는 [TASK-020](../MarkdownReport/CodexOrig_TASK-020.md)을 기준으로 한다. 아래는 버전별 누적 이력이다.
+
+창 모드 전환은 [IVsWindowFrame.SetProperty](https://learn.microsoft.com/en-us/dotnet/api/microsoft.visualstudio.shell.interop.ivswindowframe.setproperty?view=visualstudiosdk-2022)의 HRESULT와 실제 읽은 모드를 함께 기록한다. 전환 후 표시하고 제한 시간 동안 UI를 진행시켜 지연 완료와 API 실패를 구분한다. 성공하지 않은 전환을 통과로 처리하지 않는다.
 
 작성: CodexCode / 2026-10-18. TASK-005의 기존 검증 대상은 v0.2.0, VS2017 Community 15.9.83, .NET Framework 4.6.2이다. 기존 편집 55개·Foundation 29개·호환성 44개에 더해 **실제 IDE 25/25 PASS**를 확인했다. 실제 Claude 계정 호출 및 VS2019/2022 지원 검증은 포함하지 않는다.
 
@@ -109,3 +129,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\tests\ide\Test-IdeIntegrat
 기존73개에 IMAGES7개를 추가한다. 실제 IDE에서 하단 가로 스크롤, 모델 버튼에 붙은 Popup·게이지·목차, Escape 닫기, 권한3종과 상세 작업 메뉴, AI 선택의 실제 대화 라우팅, hover 반복 시 한 번만 열리는 부채꼴과 실제 도구 설명의 테마·줄바꿈을 확인한다. 실제 Codex를 지정하면80개, fixture만 실행하면77개다. 검사 helper는 지정 VSIX의 추출 DLL을 참조하며 제품을 재빌드하지 않는다. 실제 합성 C#·SQL 요청과 승인 전 보존 검사는 유지한다.
 
 최종 결과와 이미지별 요구의 대응은 [TASK-018](../MarkdownReport/CodexOrig_TASK-018.md)에 기록한다. 물리 마우스·다중 모니터 검사는 별도이며 이 자동 검사는 실제 호스트의 WPF routed event와 시각 트리를 사용한다.
+
+### 직접 수정 후 편집기 동기화
+
+SYNC-01~09는 합성 솔루션의 실제 EnvDTE/RDT 텍스트 편집기를 사용한다. 미저장 문서 사전 차단, 실행 중 임시 읽기 전용, 파일 변경 안내를 보류한 버퍼 보존, 완료 후 디스크 재로딩·Saved 상태·원래 편집 가능 상태, 새 문서 보호와 닫기/재열기 시 중지·재보호를 확인한다. 이 검사는 전역 IDE의 외부 파일 알림 설정을 바꾸거나 사용자 문서를 덮어쓰지 않는다. 결과가 생성되지 않고 IDE가 모달에서 멈추면 성공으로 집계하지 않는다. COM 이벤트 해제 오류 경계는 소스의 독립 cleanup 경로와 실제 정상 종료 검증을 구분하며, 모든 COM 장애를 주입해 검증했다고 주장하지 않는다.

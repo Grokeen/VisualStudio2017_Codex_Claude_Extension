@@ -1,6 +1,7 @@
 using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Threading;
 using VS2017.AIAssistant.Chat;
@@ -31,12 +32,13 @@ namespace VS2017.AIAssistant.Views
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : 기본 잘라내기·복사·붙여넣기 명령과 Ctrl+V 보존.
         /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
+        /// update date  : 2026-10-18 CodexCode : TASK-022 색상 diff의 서식 있는 텍스트에도 같은 검정 메뉴 연결.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void InitializeDialogs(bool hidden)
         {
             hideWelcome = hidden; ContextMenu = CreateAssistantMenu(null);
-            foreach (var box in new[] { Instruction, ExecutablePath, ModelName, RulesText, DiffPreview, OriginalPreview, ProposedPreview })
+            foreach (var box in new TextBoxBase[] { Instruction, ExecutablePath, ModelName, RulesText, DiffPreview, OriginalPreview, ProposedPreview, ColoredDiffPreview })
                 box.ContextMenu = CreateAssistantMenu(box);
             Loaded += ChatLoaded;
         }
@@ -49,12 +51,13 @@ namespace VS2017.AIAssistant.Views
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : DataTemplate 텍스트의 기본 편집 명령 유지.
         /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
+        /// update date  : 2026-10-18 CodexCode : TASK-022 TextBoxBase의 편집·서식 있는 텍스트 명령 대상을 보존.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void ChildLoaded(object sender, RoutedEventArgs e)
         {
-            var box = e.OriginalSource as TextBox;
-            if (box != null && box.ContextMenu == null) box.ContextMenu = CreateAssistantMenu(box);
+            var box = e.OriginalSource as TextBoxBase;
+            if (box != null && box.ReadLocalValue(ContextMenuProperty) == DependencyProperty.UnsetValue) box.ContextMenu = CreateAssistantMenu(box);
         }
 
         /// ---------------------------------------------------------------------
@@ -65,11 +68,13 @@ namespace VS2017.AIAssistant.Views
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : 팝업 메뉴에도 동일한 VS 테마 리소스 적용.
         /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
+        /// update date  : 2026-10-18 CodexCode : TASK-022 독립 Popup에도 명시한 검정 메뉴 템플릿 적용.
         /// </summary>
         /// ---------------------------------------------------------------------
-        private ContextMenu CreateAssistantMenu(TextBox box)
+        private ContextMenu CreateAssistantMenu(TextBoxBase box)
         {
             var menu = new ContextMenu(); menu.Resources.MergedDictionaries.Add(Resources);
+            menu.Style = (Style)FindResource("AssistantContextMenu");
             if (box != null)
             {
                 if (!box.IsReadOnly) menu.Items.Add(new MenuItem { Header = "잘라내기", Icon = new TextBlock { Text = "✂" }, Command = ApplicationCommands.Cut, CommandTarget = box });
@@ -133,6 +138,7 @@ namespace VS2017.AIAssistant.Views
                 CodexEffort = efforts.ContainsKey("Codex") ? efforts["Codex"] : "auto", ClaudeEffort = efforts.ContainsKey("Claude") ? efforts["Claude"] : "auto",
                 CodexSpeed = speeds["Codex"], ClaudeSpeed = speeds["Claude"],
                 AllowSourceControl = workspacePolicy.AllowSourceControl, AllowDatabaseSchema = workspacePolicy.AllowDatabaseSchema, AllowDeployment = workspacePolicy.AllowDeployment,
+                AgentFullAccess = AgentFullAccessEnabled,
                 HistoryWidth = historyWidth, ShowHistory = HistoryToggle.IsChecked == true
             };
         }
@@ -234,12 +240,17 @@ namespace VS2017.AIAssistant.Views
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : IDE 종료 시 안내 설정 쓰기는 생략.
         /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
+        /// update date  : 2026-10-18 CodexCode : TASK-022 설치 설명서 WebView와 상위 안내 창도 종료.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void CloseDialogs()
         {
-            if (activeGuide != null) activeGuide.Close();
-            if (activeSettingsDialog != null) activeSettingsDialog.Close();
+            foreach (var dialog in new Window[] { activeCliManualDialog, activeCliSetupDialog, activeGuide, activeSettingsDialog })
+            {
+                if (dialog == null) continue;
+                try { dialog.Close(); }
+                catch (Exception error) { System.Diagnostics.Trace.WriteLine("안내 창 종료: " + error.GetType().Name); }
+            }
         }
     }
 }

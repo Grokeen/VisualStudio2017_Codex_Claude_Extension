@@ -101,8 +101,8 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\build.ps1 -Configu
 
 실험용 IDE는 설치 경로의 `Common7\IDE\devenv.exe`에 `/RootSuffix Exp`를 붙여 실행한다. [공식 Experimental Instance 안내](https://learn.microsoft.com/en-us/visualstudio/extensibility/the-experimental-instance?view=vs-2022). 정상 실행 확인 후 확장을 실험용 인스턴스에 등록하고 도구 메뉴에서 AI Assistant 창을 연다.
 
-현재 저장소 VSIX의 매니페스트는 VS2017을 대상으로 한다. VS2019와 VS2022를 설치했다고 기존 VSIX의 지원 범위가 바뀌지는 않는다. 각 IDE용 패키지가 준비되면 해당 버전의 VSIXInstaller와 실험용 인스턴스에서 검증한다. VS2022는 별도 SDK 참조와 아키텍처 구성이 필요하며 관련 기준은 `docs/VSIX_COMPATIBILITY.md`를 따른다.
+v0.9는 VS2017·2019·2022별 VSIX와 공통 소스 링크 프로젝트를 제공한다. 각 버전의 VSIXInstaller와 별도 root suffix에서 해당 패키지를 검증한다. VS2022는 별도 SDK 참조와 아키텍처 구성이 필요하며 관련 기준은 `docs/VSIX_COMPATIBILITY.md`를 따른다.
 
 계정 로그인·활성화 또는 Windows 권한 입력이 필요하면 사용자가 직접 처리한다. 사용자 계정 정보를 자동 입력하거나 기존 개발 설정을 초기화하지 않는다.
 
-2026-10-18 검증 시 세 버전의 설치·SDK·MSBuild 빌드와 IDE 명령행 빌드는 통과했다. 화면 확인 도구는 `GetCursorPos failed: 액세스가 거부되었습니다. (0x80070005)`를 반환하여 대화형 화면 및 확장 도구 창 검증은 미검증으로 남겼다. VS2017 명령행에는 라이선스가 30일 후 만료된다는 안내가 표시되었으므로 사용자가 로그인·라이선스 상태를 확인해야 한다.
+초기 TASK-003 검증에서는 세 버전의 설치·SDK·MSBuild 빌드와 IDE 명령행 빌드가 통과했다. 아래 GUI·라이선스 관찰은 당시 결과이며 최신 실제 IDE 결과는 TASK-020 보고를 따른다. 화면 확인 도구는 `GetCursorPos failed: 액세스가 거부되었습니다. (0x80070005)`를 반환하여 대화형 화면 및 확장 도구 창 검증은 미검증으로 남겼다. VS2017 명령행에는 라이선스가 30일 후 만료된다는 안내가 표시되었으므로 사용자가 로그인·라이선스 상태를 확인해야 한다.

@@ -27,6 +27,7 @@ using System.Windows.Media.Imaging;
 /// create date  : 2026-10-18
 /// update date  : 2026-10-18 CodexCode : 승인·충돌·복구와 실제 파이프·취소 회귀 테스트 추가.
 /// update date  : 2026-10-18 CodexOrig : Chat 컨텍스트·첨부·영속 설정·계정 회귀 추가.
+///                2026-10-18 CodexOrig : 사용자 규칙 앞에 숨김 필수 규칙이 정확히 한 번 전달되는 CLI 계약 반영.
 /// </summary>
 /// ---------------------------------------------------------------------
 internal static class EditingTests
@@ -381,9 +382,11 @@ internal static class EditingTests
             Assert(context.History.Length == 10 && context.History.Last().Text == "message19");
             Expect<ArgumentException>(() => new ChatRequestContext(new string('x', 8001)));
         });
-        Check("reasoning mode defaults safely and rejects unsupported values", () => {
+        Check("reasoning token supports future names while execution rejects unadvertised values", () => {
             Assert(new ChatRequestContext().ReasoningEffort == "auto");
-            Expect<ArgumentException>(() => new ChatRequestContext(reasoningEffort: "unsupported-mode"));
+            Assert(new ChatRequestContext(reasoningEffort: "future-mode").ReasoningEffort == "future-mode");
+            Expect<ArgumentException>(() => new ChatRequestContext(reasoningEffort: "bad effort!"));
+            Expect<ArgumentException>(() => new ProviderExecutionOptions("Claude", "", "unsupported-mode", "standard"));
         });
         Check("chat stack bounds old messages without sharing providers", () => {
             var first = new ChatSession(); var second = new ChatSession();
@@ -483,6 +486,7 @@ internal static class EditingTests
     /// update date  : 2026-10-18 CodexCode : 오류·대량 출력·자식 프로세스·무응답 fixture 구현.
     /// update date  : 2026-10-18 CodexOrig : Chat 컨텍스트·설정·창 이동 및 검증 흐름 갱신.
     /// update date  : 2026-10-18 CodexOrig : 빈 SQL 삽입 응답 및 모드 인수를 검증하는 CLI fixture 추가.
+    ///                2026-10-18 CodexOrig : TASK-020 SQL 전용 fixture의 빈 소스 입력 조건을 허용.
     /// </summary>
     /// ---------------------------------------------------------------------
     private static int RunFixture(string[] args)
@@ -508,7 +512,7 @@ internal static class EditingTests
         }
         if (request == "fixture:context")
         {
-            if ((string)input["user_instructions"] != "테스트 규칙" || ((object[])input["history"]).Length < 2 ||
+            if ((string)input["user_instructions"] != MandatoryInstructionStore.DefaultInstructions + "\n\n테스트 규칙" || ((object[])input["history"]).Length < 2 ||
                 ((object[])input["attachments"]).Length != 1 || args[Array.IndexOf(args, "--model") + 1] != "fixture-model") return 91;
             var attachment = (Dictionary<string, object>)((object[])input["attachments"])[0];
             if ((string)attachment["text"] != "첨부 원문") return 92;
@@ -537,7 +541,7 @@ internal static class EditingTests
             if (args[Array.IndexOf(args, "--json-schema") + 1] != EditProposal.JsonSchema) return 85;
             if (File.ReadAllText(args[Array.IndexOf(args, "--mcp-config") + 1]) != "{\"mcpServers\":{}}") return 86;
         }
-        if (!((string)input["source_text"]).Contains("테스트")) return 87;
+        if (request == "fixture:sql" ? ((string)input["source_text"]).Length != 0 : !((string)input["source_text"]).Contains("테스트")) return 87;
         if (request.Contains("한글") && !prompt.Contains("한글")) return 88;
         if (request == "fixture:error") return 7;
         if (request == "fixture:bad-json") { Console.Write("bad json"); return 0; }

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -70,12 +70,14 @@ namespace VS2017.AIAssistant.Views
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 서비스 주입과 초기 버튼 상태 설정.
         /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
+        ///                2026-10-18 CodexOrig : TASK-020 실제 토큰·진행 Provider 구독 연결.
         /// </summary>
         /// ---------------------------------------------------------------------
         public void Initialize(IActiveDocumentService documentService, IAiEditProvider editProvider)
         {
             documents = documentService ?? throw new ArgumentNullException(nameof(documentService));
             provider = editProvider ?? throw new ArgumentNullException(nameof(editProvider));
+            AttachRuntimeProvider();
             UpdateButtons();
         }
 
@@ -90,30 +92,40 @@ namespace VS2017.AIAssistant.Views
         /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// update date  : 2026-10-18 CodexOrig : TASK-014 실제 요청 시작·성공·실패·취소를 대화별 상태로 기록.
         /// update date  : 2026-10-18 CodexOrig : TASK-016 문서 첨부·모델 설정·AI 역할 협업과 실패 복구 흐름 연결.
+        ///                2026-10-18 CodexOrig : TASK-020 전체 액세스 분기와 선택 문맥·요청별 실제 사용량 연결.
         /// </summary>
         /// ---------------------------------------------------------------------
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "VSTHRD100", Justification = "WPF/Dispatcher event handler; awaited operation handles cancellation and failures.")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "VSTHRD109", Justification = "WPF Click은 이미 Dispatcher 스레드이며 VerifyAccess로 계약을 검사한다. IDE 전용 JTF 초기화 없이 독립 WPF에서도 즉시 입력 검증한다.")]
         private async void GenerateClicked(object sender, RoutedEventArgs e)
         {
+            Dispatcher.VerifyAccess();
             if (busy || documents == null || disposed) return;
+            if (AgentFullAccessEnabled) { await RunFullAccessFromUiAsync(); return; }
             ClearProposal();
             ChatSession chat = ActiveChat;
             ConversationRecord record = activeRecords[selectedProvider];
+            string progressOutcome = "failed";
             try
             {
                 if (string.IsNullOrWhiteSpace(Instruction.Text)) throw new InvalidOperationException("수정 요청을 입력하세요.");
                 pendingDocument = documents.GetActiveDocument();
                 DocumentSnapshot source = pendingDocument.Capture();
+                source.RequireValidSelection();
+                MandatoryInstructionStore.Ensure(workspaceStore.RootPath);
                 if (System.IO.File.Exists(workspaceStore.InstructionsPath)) RulesText.Text = workspaceStore.LoadInstructions();
                 TargetLabel.Text = "대상: " + source.FilePath + (source.HasUnsavedChanges ? " (미저장 편집 내용 포함)" : "");
+                if (source.HasSelection) TargetLabel.Text += " · 선택 " + source.Selection.StartLine + "~" + source.Selection.EndLine + "행";
                 OriginalPreview.Text = source.Content;
                 new ProviderExecutionOptions(selectedProvider, ModelName.Text, efforts[selectedProvider], speeds[selectedProvider]);
                 var context = new ChatRequestContext(RulesText.Text, ModelName.Text, chat.Messages.ToArray(), chat.Attachments.ToArray(), efforts[selectedProvider], speeds[selectedProvider]);
                 chat.Add("user", Instruction.Text + (context.Attachments.Length == 0 ? "" : "\n첨부: " + string.Join(", ", context.Attachments.Select(a => a.Name))));
-                ConversationScroll.ScrollToEnd();
+                FollowConversation(true);
                 busy = true;
                 SetConversationState(record, ConversationRunState.Running);
                 if (!PersistCurrentConversation()) throw new InvalidOperationException("대화 기록을 저장한 뒤 다시 요청하세요.");
                 requestCancellation = new CancellationTokenSource();
+                BeginRuntimeRequest();
                 StatusLabel.Text = selectedProvider + " 수정안 생성 중…";
                 UpdateButtons();
                 context = await RunCollaboratorsAsync(record, source, Instruction.Text, context, requestCancellation.Token);
@@ -126,8 +138,8 @@ namespace VS2017.AIAssistant.Views
                 if (disposed) return;
                 source.RequireUnchanged(pendingDocument.Capture());
                 pendingProposal = proposal;
-                chat.Add("assistant", proposal.Summary);
-                ConversationScroll.ScrollToEnd();
+                AddRuntimeFinalReply(proposal.Summary);
+                FollowConversation(false);
                 ProposedPreview.Text = proposal.ProposedText;
                 DiffPreview.Text = proposal.ChangePreview;
                 StatusLabel.Text = proposal.Summary + (proposal.HasChanges ? "\n변경 비교 후 적용을 승인하세요." : "\n적용할 변경이 없습니다.");
@@ -135,15 +147,19 @@ namespace VS2017.AIAssistant.Views
                 ReviewPanel.IsExpanded = proposal.HasChanges;
                 Instruction.Clear();
                 EmptyHint.Visibility = Visibility.Collapsed;
+                progressOutcome = "completed";
                 SetConversationState(record, ConversationRunState.Completed);
             }
-            catch (OperationCanceledException) { if (!disposed) { SetConversationState(record, ConversationRunState.Stopped); StatusLabel.Text = "요청을 중지했습니다. 소스는 변경하지 않았습니다."; chat.Add("system", StatusLabel.Text); } }
+            catch (OperationCanceledException) { progressOutcome = "stopped"; if (!disposed) { SetConversationState(record, ConversationRunState.Stopped); StatusLabel.Text = "요청을 중지했습니다. 소스는 변경하지 않았습니다."; chat.Add("system", StatusLabel.Text); } }
             catch (Exception exception) { if (!disposed) { SetConversationState(record, ConversationRunState.Failed); StatusLabel.Text = "요청 실패: " + exception.Message; chat.Add("system", StatusLabel.Text); } }
             finally
             {
-                busy = false;
-                if (requestCancellation != null) { requestCancellation.Dispose(); requestCancellation = null; }
-                if (!disposed) { UpdateButtons(); PersistCurrentConversation(); }
+                try { if (!disposed && requestCancellation != null) { FlushRuntimeProgress(); CompleteProgressRequest(progressOutcome); } }
+                finally {
+                    busy = false;
+                    if (requestCancellation != null) { requestCancellation.Dispose(); requestCancellation = null; }
+                    if (!disposed) { UpdateButtons(); FollowConversation(false); PersistCurrentConversation(); }
+                }
             }
         }
 
@@ -155,6 +171,7 @@ namespace VS2017.AIAssistant.Views
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 승인 전·처리 중 적용 차단.
         /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
+        ///                2026-10-18 CodexOrig : TASK-020 실제로 적용한 변경의 이력 카드 기록.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void ApplyClicked(object sender, RoutedEventArgs e)
@@ -163,6 +180,7 @@ namespace VS2017.AIAssistant.Views
             try
             {
                 session.Apply(pendingDocument, pendingProposal, ReviewApproval.IsChecked == true);
+                RecordProposalApplied(pendingProposal);
                 pendingProposal = null;
                 ReviewApproval.IsChecked = false;
                 StatusLabel.Text = "편집기에 적용했습니다. 확인 후 '적용 내용 저장' 또는 Ctrl+S로 저장하세요.";
@@ -179,12 +197,13 @@ namespace VS2017.AIAssistant.Views
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 저장 전 이후 편집·외부 변경 검사.
         /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
+        ///                2026-10-18 CodexOrig : TASK-020 현재 대화에서 적용한 세션만 저장하도록 검증.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void SaveClicked(object sender, RoutedEventArgs e)
         {
             if (busy || disposed) return;
-            try { session.Save(); StatusLabel.Text = "적용 내용을 저장했습니다."; }
+            try { if (!CanUsePresentedEditSession()) throw new InvalidOperationException("현재 대화에서 적용한 수정안만 저장할 수 있습니다."); session.Save(); StatusLabel.Text = "적용 내용을 저장했습니다."; }
             catch (Exception exception) { StatusLabel.Text = "저장 실패: " + exception.Message; }
             UpdateButtons();
         }
@@ -197,6 +216,7 @@ namespace VS2017.AIAssistant.Views
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 승인된 복구 버튼과 충돌 처리 연결.
         /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
+        ///                2026-10-18 CodexOrig : TASK-020 현재 대화의 복구와 실행 이력 갱신.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void RestoreClicked(object sender, RoutedEventArgs e)
@@ -204,7 +224,9 @@ namespace VS2017.AIAssistant.Views
             if (busy || disposed) return;
             try
             {
+                if (!CanUsePresentedEditSession()) throw new InvalidOperationException("현재 대화에서 적용한 수정안만 복구할 수 있습니다.");
                 session.Restore(true);
+                RecordProposalRestored();
                 ClearProposal();
                 StatusLabel.Text = "직전 적용 전의 편집 내용으로 복구했습니다. 저장하려면 편집기에서 Ctrl+S를 누르세요.";
             }
@@ -238,11 +260,16 @@ namespace VS2017.AIAssistant.Views
         /// update date  : 2026-10-18 CodexOrig : Chat 컨텍스트·설정·창 이동 및 검증 흐름 갱신.
         /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// update date  : 2026-10-18 CodexOrig : TASK-014 직접 선택한 AI의 대화를 읽음 처리.
+        ///                2026-10-18 CodexOrig : TASK-020 선택 항목·내부 제공자 동기화 및 연결 세대 초기화.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void ProviderChanged(object sender, SelectionChangedEventArgs e)
         {
             if (ExecutablePath == null || ReviewApproval == null) return;
+            if (!ReferenceEquals(e.OriginalSource, ProviderChoice)) return;
+            string nextProvider = Convert.ToString((ProviderChoice.SelectedItem as TabItem)?.Tag);
+            if (nextProvider == selectedProvider || (nextProvider != "Codex" && nextProvider != "Claude")) return;
+            if (busy) { ProviderChoice.SelectedItem = ProviderChoice.Items.Cast<TabItem>().First(t => Convert.ToString(t.Tag) == selectedProvider); return; }
             executablePaths[selectedProvider] = ExecutablePath.Text;
             SaveDraft();
             if (!PersistCurrentConversation())
@@ -250,7 +277,8 @@ namespace VS2017.AIAssistant.Views
                 ProviderChoice.SelectedItem = ProviderChoice.Items.Cast<TabItem>().First(t => Convert.ToString(t.Tag) == selectedProvider);
                 return;
             }
-            selectedProvider = Convert.ToString(ProviderChoice.SelectedValue);
+            selectedProvider = nextProvider;
+            RuntimeProviderChanged();
             string path;
             ExecutablePath.Text = executablePaths.TryGetValue(selectedProvider, out path) ? path : "";
             ShowChat();
@@ -320,6 +348,7 @@ namespace VS2017.AIAssistant.Views
         /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// update date  : 2026-10-18 CodexOrig : TASK-016 문서 첨부·모델 설정·AI 역할 협업과 실패 복구 흐름 연결.
         /// update date  : 2026-10-18 CodexCode : TASK-017 이미지 분석 기반 드롭다운·안내·대화 지정 흐름 개선.
+        ///                2026-10-18 CodexOrig : TASK-020 실제 생각 중 그라데이션과 대화별 적용 상태 반영.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void UpdateButtons()
@@ -337,15 +366,13 @@ namespace VS2017.AIAssistant.Views
             AccountCheckButton.IsEnabled = LoginButton.IsEnabled = SaveSettingsButton.IsEnabled = !busy;
             ReviewApproval.IsEnabled = !busy && pendingProposal != null && pendingProposal.HasChanges;
             ApplyButton.IsEnabled = ReviewApproval.IsEnabled && ReviewApproval.IsChecked == true;
-            SaveButton.IsEnabled = !busy && session.CanSave;
-            RestoreButton.IsEnabled = !busy && session.CanRestore;
+            SaveButton.IsEnabled = !busy && session.CanSave && CanUsePresentedEditSession();
+            RestoreButton.IsEnabled = !busy && session.CanRestore && CanUsePresentedEditSession();
             if (RequestModel != null) RequestModel.IsEnabled = ModeChoice.IsEnabled = PermissionsButton.IsEnabled = LoadChatButton.IsEnabled = ConversationList.IsEnabled = OptionsToggle.IsEnabled = !busy;
             if (ModelOptionsButton != null) { ModelOptionsButton.IsEnabled = AgentButton.IsEnabled = !busy; var capability = ProviderModelCatalog.ForProvider(selectedProvider).Find(ModelName.Text); FastToggle.IsEnabled = !busy && capability != null && capability.SupportsFast; }
             UpdateChangeCard();
             UpdateActivity(busy);
-            ThinkingIndicator.Visibility = busy ? Visibility.Visible : Visibility.Collapsed;
-            if (busy) ThinkingIndicator.BeginAnimation(OpacityProperty, new System.Windows.Media.Animation.DoubleAnimation(0.5, 1, TimeSpan.FromMilliseconds(800)) { AutoReverse = true, RepeatBehavior = System.Windows.Media.Animation.RepeatBehavior.Forever });
-            else ThinkingIndicator.BeginAnimation(OpacityProperty, null);
+            UpdateThinkingAnimation(busy);
         }
 
         /// ---------------------------------------------------------------------
@@ -362,6 +389,7 @@ namespace VS2017.AIAssistant.Views
         /// ---------------------------------------------------------------------
         public void Dispose()
         {
+            ConversationScroll.RemoveHandler(System.Windows.Input.Mouse.PreviewMouseWheelEvent, new System.Windows.Input.MouseWheelEventHandler(ConversationViewed));
             DisposeExperience();
             disposed = true;
             if (requestCancellation != null) requestCancellation.Cancel();

@@ -109,7 +109,7 @@ try {
     }
     Write-Host "VS$VisualStudioVersion MSBuild $($fileVersion.FileVersion): $MSBuildPath"
     # 기존 복원·Rebuild·VSIX 출력 확인을 그대로 사용한다. IDE 실행/배포는 하지 않는다.
-    & $buildScript -Configuration $Configuration -MSBuildPath $MSBuildPath
+    & $buildScript -Configuration $Configuration -MSBuildPath $MSBuildPath -VisualStudioVersion $VisualStudioVersion
     if (-not $?) { throw 'The build script failed.' }
     exit 0
 }

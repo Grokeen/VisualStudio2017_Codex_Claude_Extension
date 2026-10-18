@@ -1,0 +1,308 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition="'$(Configuration)' == ''">Debug</Configuration>
+    <Platform Condition="'$(Platform)' == ''">AnyCPU</Platform>
+    <ProjectGuid>{C2CE87AB-0890-46C4-96E4-8276D8E0AEB1}</ProjectGuid>
+    <ProjectTypeGuids>{82B43B9B-A64C-4715-B499-D71E9CA2BD60};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <RootNamespace>VS2017.AIAssistant</RootNamespace>
+    <AssemblyName>VS2017.AIAssistant</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>7.0</LangVersion>
+    <MinimumVisualStudioVersion>17.0</MinimumVisualStudioVersion>
+    <FileAlignment>512</FileAlignment>
+    <GeneratePkgDefFile>true</GeneratePkgDefFile>
+    <UseCodebase>true</UseCodebase>
+    <IncludeAssemblyInVSIXContainer>true</IncludeAssemblyInVSIXContainer>
+    <IncludeDebugSymbolsInVSIXContainer>true</IncludeDebugSymbolsInVSIXContainer>
+    <CreateVsixContainer>true</CreateVsixContainer>
+    <CopyBuildOutputToOutputDirectory>true</CopyBuildOutputToOutputDirectory>
+    <CopyOutputSymbolsToOutputDirectory>true</CopyOutputSymbolsToOutputDirectory>
+    <StartAction>Program</StartAction>
+    <StartProgram>$(DevEnvDir)devenv.exe</StartProgram>
+    <StartArguments>/RootSuffix Exp</StartArguments>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.4191.47" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <PackageReference Include="Microsoft.VisualStudio.Validation" Version="17.0.34" ExcludeAssets="runtime" />
+  </ItemGroup>
+  <ItemGroup>
+    <!-- IDE에서 제공하는 SDK 어셈블리는 VSIX에 중복 배포하지 않는다. -->
+    <PackageReference Include="Microsoft.VisualStudio.Shell.15.0" Version="17.0.32112.339" ExcludeAssets="runtime" />
+    <PackageReference Include="Microsoft.VisualStudio.Threading" Version="17.0.64" ExcludeAssets="runtime" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" ExcludeAssets="runtime" />
+    <PackageReference Include="Microsoft.VSSDK.BuildTools" Version="17.0.5241" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="all" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\VS2017.AIAssistant\AiAssistantPackage.cs">
+      <Link>AiAssistantPackage.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Commands\OpenAssistantCommand.cs">
+      <Link>Commands\OpenAssistantCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Editing\DocumentSnapshot.cs">
+      <Link>Editing\DocumentSnapshot.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Editing\IFullAccessDocumentService.cs">
+      <Link>Editing\IFullAccessDocumentService.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Editing\IExternalEditingDocumentService.cs">
+      <Link>Editing\IExternalEditingDocumentService.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Chat\ChatWorkspace.cs">
+      <Link>Chat\ChatWorkspace.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Chat\DocumentAttachmentReader.cs">
+      <Link>Chat\DocumentAttachmentReader.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Chat\DocumentWorkerLauncher.cs">
+      <Link>Chat\DocumentWorkerLauncher.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Chat\ConversationCollaboration.cs">
+      <Link>Chat\ConversationCollaboration.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Providers\ProviderExecutionOptions.cs">
+      <Link>Providers\ProviderExecutionOptions.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Providers\ProviderRuntime.cs">
+      <Link>Providers\ProviderRuntime.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Providers\AgentProtocolEvents.cs">
+      <Link>Providers\AgentProtocolEvents.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Providers\AgentFileTracker.cs">
+      <Link>Providers\AgentFileTracker.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Providers\NativeJsonSession.cs">
+      <Link>Providers\NativeJsonSession.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Providers\ProviderRuntimeService.cs">
+      <Link>Providers\ProviderRuntimeService.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Providers\NativeCliDiscovery.cs">
+      <Link>Providers\NativeCliDiscovery.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Providers\CodexRuntimeRunner.cs">
+      <Link>Providers\CodexRuntimeRunner.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Providers\ClaudeRuntimeRunner.cs">
+      <Link>Providers\ClaudeRuntimeRunner.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Views\AssistantControl.Runtime.cs">
+      <Link>Views\AssistantControl.Runtime.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Views\AssistantControl.Progress.cs">
+      <Link>Views\AssistantControl.Progress.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Views\AssistantControl.Viewport.cs">
+      <Link>Views\AssistantControl.Viewport.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Views\AssistantControl.ProgressPresentation.cs">
+      <Link>Views\AssistantControl.ProgressPresentation.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Views\ProgressNotice.cs">
+      <Link>Views\ProgressNotice.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Views\AssistantControl.Thinking.cs">
+      <Link>Views\AssistantControl.Thinking.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Views\AssistantControl.Changes.cs">
+      <Link>Views\AssistantControl.Changes.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Views\AssistantHelpContent.cs">
+      <Link>Views\AssistantHelpContent.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Chat\MarkdownWorkspaceStore.cs">
+      <Link>Chat\MarkdownWorkspaceStore.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Chat\MandatoryInstructionStore.cs">
+      <Link>Chat\MandatoryInstructionStore.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Chat\AssistantSettingsTransaction.cs">
+      <Link>Chat\AssistantSettingsTransaction.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Services\WorkspaceActionService.cs">
+      <Link>Services\WorkspaceActionService.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Services\ScmIdentityService.cs">
+      <Link>Services\ScmIdentityService.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Services\CliGuideService.cs">
+      <Link>Services\CliGuideService.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Views\CliGuideDialog.cs">
+      <Link>Views\CliGuideDialog.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Views\WorkspaceActionsDialog.cs">
+      <Link>Views\WorkspaceActionsDialog.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Views\AssistantControl.Experience.cs">
+      <Link>Views\AssistantControl.Experience.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Views\AssistantControl.Conversations.cs">
+      <Link>Views\AssistantControl.Conversations.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Views\AssistantControl.Options.cs">
+      <Link>Views\AssistantControl.Options.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Views\AssistantControl.Dropdowns.cs">
+      <Link>Views\AssistantControl.Dropdowns.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Views\AssistantControl.Fan.cs">
+      <Link>Views\AssistantControl.Fan.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Providers\CliAccountService.cs">
+      <Link>Providers\CliAccountService.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Views\AssistantControl.Chat.cs">
+      <Link>Views\AssistantControl.Chat.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Views\AssistantControl.Dialogs.cs">
+      <Link>Views\AssistantControl.Dialogs.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Views\AssistantDialogs.cs">
+      <Link>Views\AssistantDialogs.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Editing\EditProposal.cs">
+      <Link>Editing\EditProposal.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Editing\SourceEditSession.cs">
+      <Link>Editing\SourceEditSession.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Providers\CliEditProvider.cs">
+      <Link>Providers\CliEditProvider.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Providers\ProcessJob.cs">
+      <Link>Providers\ProcessJob.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Services\VisualStudioDocumentService.cs">
+      <Link>Services\VisualStudioDocumentService.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Services\VisualStudioExternalEditingScope.cs">
+      <Link>Services\VisualStudioExternalEditingScope.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Properties\AssemblyInfo.cs">
+      <Link>Properties\AssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\ToolWindows\AssistantToolWindow.cs">
+      <Link>ToolWindows\AssistantToolWindow.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Views\AssistantControl.xaml.cs">
+      <DependentUpon>AssistantControl.xaml</DependentUpon>
+      <Link>Views\AssistantControl.xaml.cs</Link>
+    </Compile>
+    <Page Include="..\VS2017.AIAssistant\Views\AssistantControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+      <Link>Views\AssistantControl.xaml</Link>
+    </Page>
+    <Resource Include="..\VS2017.AIAssistant\Assets\Claude.png">
+      <Link>Assets\Claude.png</Link>
+    </Resource>
+    <Resource Include="..\VS2017.AIAssistant\Assets\Codex.png">
+      <Link>Assets\Codex.png</Link>
+    </Resource>
+    <None Include="..\VS2017.AIAssistant\Assets\THIRD-PARTY-NOTICES.md">
+      <Link>Assets\THIRD-PARTY-NOTICES.md</Link>
+    </None>
+    <Content Include="..\..\HowToInstallCLI.md">
+      <Link>Resources\CliGuide\HowToInstallCLI.md</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="..\..\InstallCLI.bat">
+      <Link>Resources\CliGuide\InstallCLI.bat</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="..\..\output\pdf\VisualStudio_AI_Assistant_설치_사용설명서.pdf">
+      <Link>Resources\CliGuide\VisualStudio_AI_Assistant_설치_사용설명서.pdf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="..\..\docs\assets\cli-manual\*.png">
+      <Link>Resources\CliGuide\docs\assets\cli-manual\%(Filename)%(Extension)</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="$(NuGetPackageRoot)microsoft.web.webview2\1.0.4191.47\LICENSE.txt">
+      <Link>Resources\ThirdParty\WebView2\LICENSE.txt</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="$(NuGetPackageRoot)microsoft.web.webview2\1.0.4191.47\NOTICE.txt">
+      <Link>Resources\ThirdParty\WebView2\NOTICE.txt</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Page Include="..\VS2017.AIAssistant\Views\AssistantTheme.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <Link>Views\AssistantTheme.xaml</Link>
+    </Page>
+    <VSCTCompile Include="..\VS2017.AIAssistant\Commands\AssistantCommands.vsct">
+      <ResourceName>Menus.ctmenu</ResourceName>
+      <Link>Commands\AssistantCommands.vsct</Link>
+    </VSCTCompile>
+    <EmbeddedResource Include="..\VS2017.AIAssistant\VSPackage.resx">
+      <MergeWithCTO>true</MergeWithCTO>
+      <ManifestResourceName>VSPackage</ManifestResourceName>
+      <Link>VSPackage.resx</Link>
+    </EmbeddedResource>
+    <None Include="source.extension.vsixmanifest">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="BuildDocumentReader" BeforeTargets="PrepareForBuild">
+    <MSBuild Projects="..\VS2017.AIAssistant.DocumentReader\VS2017.AIAssistant.DocumentReader.csproj" Targets="Build" Condition="!$([System.String]::Copy('$(MSBuildProjectName)').Contains('_wpftmp'))" RemoveProperties="AssemblyName;RootNamespace;OutputType;ProjectGuid;IntermediateOutputPath;BaseIntermediateOutputPath;MSBuildProjectExtensionsPath;TargetFrameworkVersion;TargetFrameworkMoniker;VSToolsPath" Properties="Configuration=$(Configuration);OutputPath=$(MSBuildProjectDirectory)\$(OutputPath)" />
+    <ItemGroup>
+      <Content Include="$(OutputPath)VS2017.AIAssistant.DocumentReader.exe">
+        <Link>VS2017.AIAssistant.DocumentReader.exe</Link>
+        <IncludeInVSIX>true</IncludeInVSIX>
+      </Content>
+      <Content Include="$(OutputPath)VS2017.AIAssistant.DocumentReader.exe.config">
+        <Link>VS2017.AIAssistant.DocumentReader.exe.config</Link>
+        <IncludeInVSIX>true</IncludeInVSIX>
+      </Content>
+    </ItemGroup>
+  </Target>
+  <PropertyGroup>
+    <VSToolsPath Condition="'$(NuGetPackageRoot)' != ''">$(NuGetPackageRoot)microsoft.vssdk.buildtools\17.0.5241\tools</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets" Condition="Exists('$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets')" />
+  <Target Name="EnsureVsSdkTargets" BeforeTargets="PrepareForBuild" Condition="!Exists('$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets') And !$([System.String]::Copy('$(MSBuildProjectName)').Contains('_wpftmp'))">
+    <Error Text="VSSDK 빌드 대상을 찾을 수 없습니다. NuGet 패키지를 복원한 후 전체 .NET Framework MSBuild로 빌드하세요." />
+  </Target>
+</Project>

@@ -1,19 +1,19 @@
 # 개발 및 수동 검증
 
-v0.7.0은 AI별 Markdown 대화 복원, 프로젝트 공통 instruction, 입력 영역의 모델·모드 선택, 첨부 미리보기, 변경 파일 링크와 권한별 프로젝트 작업을 추가했다. 공통 AssistantTheme.xaml은 IDE의 밝은/어두운 테마에 관계없이 검정 계열 팔레트를 유지한다. 설정·첫 사용 안내는 [UX 검증](UX_TESTS.md), 요청·승인·저장은 [소스 편집](SOURCE_EDITING.md), CLI 모드 전달은 [CLI 옵션](CLI_OPTIONS.md)을 참고한다.
+v0.9.0은 VS2017/2019/2022별 패키지, 선택 영역 문맥, 실제 CLI 모델·사용량 조회와 명시적인 전체 액세스를 제공한다. 공통 WPF 화면·서비스를 링크한 프로젝트를 버전별 SDK로 빌드한다. UI·검토 편집·CLI 계약·검증 범위는 사용자 가이드와 TASK-020 보고를 참고한다.
 
 ## 호환성 기준
 
 | 항목 | 현재 설정 |
 |---|---|
-| 설치 대상 | Visual Studio 2017 15.9 이상, `[15.0.28307.0,16.0)` |
+| 설치 대상 | VS2017 `[15.0.28307.0,16.0)` / VS2019 `[16.0,17.0)` / VS2022 `[17.0,18.0)` amd64 |
 | 에디션 | Community 및 상위 에디션 Professional/Enterprise |
-| 프로젝트 | 기존 형식 C# VSIX, .NET Framework 4.6.2, C# 7.0 |
-| VS SDK | Microsoft.VisualStudio.Shell.15.0 15.9.28307 |
-| VSIX 빌드 도구 | Microsoft.VSSDK.BuildTools 15.9.3032 |
-| 진입점 | 도구(Tools) → AI Assistant → Chat 문서 탭 |
+| 프로젝트 | 공통 C# 7.0 소스 링크. VS2017/19 net462, VS2022 net472 |
+| VS SDK | 2017/19 Shell 15.9.28307 / 2022 Shell 17.0.32112.339 |
+| VSIX 빌드 도구 | 2017/19 15.9.3032 / 2022 17.0.5241 |
+| 진입점 | 도구(Tools) → AI Assistant → AI Assistant 문서 탭 |
 
-VS2019 및 VS2022는 향후 목표이다. 현재 매니페스트는 두 버전의 설치를 허용하지 않는다. VS2022는 64비트 IDE이므로 적합한 SDK 및 아키텍처 대상으로 별도 빌드·실행 검증해야 한다.
+`scripts/Sync-VsixTargets.ps1`이 공통 소스 링크와 대상별 매니페스트·SDK 설정을 동기화한다. VS2022는 별도 64비트 SDK 참조를 사용한다. 세 버전은 독립 bin/obj로 빌드하되 공통 DocumentReader 프로젝트 때문에 제품 빌드를 순차 수행한다.
 
 SDK 패키지와 IDE 의존성의 기준을 맞추기 위해 VS2017 15.9를 최소 버전으로 삼는다. VSIX 버전 범위의 minor는 Microsoft 스키마 규칙에 따라 `15.0.28307.0`으로 표기한다. Threading 및 Json의 참조 버전은 SDK 의존성 충돌을 피하도록 고정하며, IDE에서 제공하는 SDK와 해당 종속 DLL은 패키지에 포함하지 않는다.
 
@@ -119,3 +119,19 @@ TASK-005에서는 별도 VS2017 인스턴스에 고정 v0.2.0을 설치하고 �
 안내는 hover 시 선택 카드만 강조하고 클릭 가능한 영역은 고정한다. 상세 절차 그림과 목록 복귀는 같은 본문 안에서 이루어진다. 설정·모델 창은 상단 목차, 주제 간 간격, 스크롤 밖 별도 색상의 동작 하단을 제공한다. 옵션 부채꼴은 공통 포인터 경계와 지연 닫기를 사용하며 반복 MouseEnter가 애니메이션을 재시작하지 않는다.
 
 루트 실행기는 기본14/선택2개 묶음이다. 신규 image-requirements는 tests/review/Test-ImageRequirements.ps1에서 명명40개와 안내·목차23개를 실행한다. tests/review/DropdownExperienceChecks.cs는 실제 WPF 버튼·PopupRoot·선택 결과·A 라우팅·hover/Escape/해제를 검사한다. 고립 UI 검사는 실제 SCM 조회를 비활성화하여 명명 시점 변동을 제거하고, 실제 SCM 동작은 별도63개 검사에서 확인한다. 제품 빌드는 단일 소유자가 수행하며 고정 VSIX/DLL을 이용해 후속 검사를 실행한다.
+
+## v0.9 재현 경로
+
+```powershell
+# 공통 Compile/Page 추가 또는 버전 변경 뒤 대상 동기화
+powershell -NoProfile -File .\scripts\Sync-VsixTargets.ps1
+# 버전별 MSBuild 자동 선택과 해당 프로젝트 빌드
+.\scripts\Build-Vsix.cmd -VisualStudioVersion 2017 -Configuration Release
+.\scripts\Build-Vsix.cmd -VisualStudioVersion 2019 -Configuration Release
+.\scripts\Build-Vsix.cmd -VisualStudioVersion 2022 -Configuration Release
+# 고정 제품으로 기본 검사16묶음 (실제 AI·운영 서버 자동 접속 없음)
+.\VisualStudio_AIChat_ExtentionTest.exe --all --vsix .\releases\v0.9.0\VS2017.AIAssistant-0.9.0.vsix
+```
+
+기본 검사에는 실제 자식 프로세스가 합성 파일을 바꾸고 명령을 실행하는 NativeRuntime, 이미지·선택·보안 8단계 검사가 포함된다. 실제 계정 Codex 전체 액세스는 `tests/task020/Test-LiveNativeRuntime.ps1`, 실제 루프백 SVN·격리 배포는 `tests/task020/Test-LocalServerIntegration.ps1`의 명시적 선택 실행이다. 실제 DB·TFVC 및 Claude 인증 검증과 로컬 fixture를 혼동하지 않는다.
+CLI 설명서 화면은 Microsoft.Web.WebView2 1.0.4191.47의 .NET Framework WPF/Core 및 native loader를 패키징한다. 공식 패키지의 IncludeInVsix 메타데이터를 사용하며 x86/x64 호스트에서 맞는 loader를 선택한다. 고객용 MD·배치·PDF·그림은 원본 경로에서 Content/Link로 동봉하므로 별도 사본을 수동 관리하지 않는다. 최종 후보에는 제품 DLL뿐 아니라 Resources와 runtimes를 함께 고정해야 한다. 루트 실행기는 OPC로 인코딩된 한글 파일명을 복호화하고 지정한 검사 폴더 경계·중복·수량·용량을 검사하여 추출한다. 실제 실행되는 설치 배치는 동봉 원본 SHA-256 검증과 사용자 설치 확인을 모두 통과해야 한다.

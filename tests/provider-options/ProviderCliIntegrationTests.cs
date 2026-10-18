@@ -17,6 +17,7 @@ using VS2017.AIAssistant.Providers;
 /// author       : CodexCode
 /// create date  : 2026-10-18
 /// update date  : 2026-10-18 CodexCode : TASK-015 고정 DLL 및 독립 합성 CLI로 전달 경계 검증.
+///                2026-10-18 CodexOrig : 공통 규칙의 원문 보존과 필수 규칙의 단일 stdin 조합 검증.
 /// </summary>
 /// ---------------------------------------------------------------------
 internal static class ProviderCliIntegrationTests
@@ -118,7 +119,7 @@ internal static class ProviderCliIntegrationTests
         Check(argv.Length >= 2 && argv[argv.Length - 2] == "--" && argv[argv.Length - 1] == "-", "Native stdin delimiter remains separate from variable options");
         string prompt = File.ReadAllText(probe + ".stdin");
         var payload = (Dictionary<string, object>)Json.DeserializeObject(prompt.Substring(prompt.IndexOf('\n') + 1));
-        Check((string)payload["agent_context"] == context.AgentContext && (string)payload["user_instructions"] == "공통 규칙", "Named collaboration context and shared rules remain separate JSON values");
+        Check((string)payload["agent_context"] == context.AgentContext && context.Instructions == "공통 규칙" && (string)payload["user_instructions"] == MandatoryInstructionStore.DefaultInstructions + "\n\n공통 규칙", "Named collaboration context remains separate while mandatory and unchanged shared rules are delivered once");
         Check((string)payload["source_text"] == "return 1;" && !argv.Any(a => a.Contains("검토담당") || a.Contains("공통 규칙")), "Source and named-agent instructions travel through stdin only");
 
         context = new ChatRequestContext("", "fixture-codex", null, null, "high", "standard");

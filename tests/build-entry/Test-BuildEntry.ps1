@@ -213,7 +213,7 @@ $explicit = '-MSBuildPath "' + $engines['2017'] + '" -VsWherePath "missing.exe"'
 $result = Invoke-TestEntry -Batch -Arguments "$explicit -PlanOnly"
 Assert-Entry 'Explicit engine bypasses unavailable discovery' ($result.ExitCode -eq 0) $result
 $result = Invoke-TestEntry -Arguments ('-MSBuildPath "' + $engines['2022'] + '" -PlanOnly')
-Assert-Entry 'Wrong MSBuild file major version is rejected' ($result.ExitCode -eq 1 -and $result.Error -match 'requires MSBuild 15') $result
+Assert-Entry 'Wrong MSBuild file major version is rejected' ($result.ExitCode -eq 1 -and ($result.Error -replace '\s', '') -match 'requiresMSBuild15') $result
 $result = Invoke-TestEntry -Arguments '-MSBuildPath "missing.exe" -PlanOnly'
 Assert-Entry 'Missing engine is rejected' ($result.ExitCode -eq 1) $result
 
@@ -221,7 +221,7 @@ $result = Invoke-TestEntry -Batch -Arguments "$explicit -Configuration Debug"
 $marker = if (Test-Path -LiteralPath $markerPath) { Get-Content -LiteralPath $markerPath -Raw -Encoding UTF8 | ConvertFrom-Json } else { $null }
 Assert-Entry 'Batch forwards configuration/path and preserves build output' ($result.ExitCode -eq 0 -and $null -ne $marker -and $marker.Configuration -eq 'Debug' -and $marker.MSBuildPath -eq $engines['2017'] -and $result.Output -match 'BUILD_OUTPUT_SENTINEL') $result
 $result = Invoke-TestEntry -Batch -Arguments $explicit -FailBuild
-Assert-Entry 'Batch preserves failure status and error output' ($result.ExitCode -eq 1 -and $result.Error -match 'BUILD_FAILURE_SENTINEL' -and $result.Output -match 'BUILD_OUTPUT_SENTINEL') $result
+Assert-Entry 'Batch preserves failure status and error output' ($result.ExitCode -eq 1 -and ($result.Error -replace '\s', '') -match 'BUILD_FAILURE_SENTINEL' -and $result.Output -match 'BUILD_OUTPUT_SENTINEL') $result
 $result = Invoke-TestEntry -Arguments '-VisualStudioVersion 2026 -PlanOnly'
 Assert-Entry 'Unsupported year fails parameter validation' ($result.ExitCode -ne 0) $result
 

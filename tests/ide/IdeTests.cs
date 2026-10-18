@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -32,6 +32,7 @@ namespace CodexCode.IdeIntegration
     /// update date  : 2026-10-18 CodexOrig : Chat 컨텍스트·설정·창 이동 및 검증 흐름 갱신.
     /// update date  : 2026-10-18 CodexOrig : TASK-016 문서 첨부·모델 설정·AI 역할 협업과 실패 복구 흐름 연결.
     /// update date  : 2026-10-18 CodexOrig : TASK-018 이미지 요구와 드롭다운·A~Z 이름에 맞춰 검증 갱신.
+    ///                2026-10-18 CodexOrig : TASK-020 최종 버전·선택·전체 액세스 검사 계약 반영.
     /// </summary>
     /// ---------------------------------------------------------------------
     internal static class IdeTests
@@ -52,32 +53,41 @@ namespace CodexCode.IdeIntegration
         /// update date  : 2026-10-18 CodexOrig : AI 탭 Tag 선택·소스 링크·빈 SQL 승인 저장·Markdown 대화 복원 검증.
         /// update date  : 2026-10-18 CodexOrig : TASK-014 실제 IDE에서 경계 드래그·접기·폭 복원·읽음 저장7개 검증.
         /// update date  : 2026-10-18 CodexOrig : TASK-016 문서 첨부·모델 설정·AI 역할 협업과 실패 복구 흐름 연결.
+        ///                2026-10-18 CodexOrig : TASK-020 최종 버전·선택·전체 액세스 검사 계약 반영.
+        ///                2026-10-18 CodexOrig : 실제 IDE의 진행 카드와 소유 WPF Window 연결 상태를 관찰 기록.
         /// </summary>
         /// ---------------------------------------------------------------------
         internal static async Task RunAsync(Package product, DTE dte, TestConfig config)
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
             progressPath = Path.Combine(config.OutputDirectory, "progress.log");
+            string loadedHash;
+            using (var input = File.OpenRead(product.GetType().Assembly.Location))
+            using (var sha = System.Security.Cryptography.SHA256.Create()) loadedHash = BitConverter.ToString(sha.ComputeHash(input)).Replace("-", "");
+            Check("IDE-00 actual loaded product matches selected VSIX SHA256", loadedHash == config.ExpectedProductSha256);
             var pane = product.FindToolWindow(typeof(AssistantToolWindow), 0, false);
             Check("IDE-01 product package loaded by registered menu", product.GetType().FullName == "VS2017.AIAssistant.AiAssistantPackage");
-            Check("IDE-02 real VS2017 host", dte.Version.StartsWith("15."));
+            Check("IDE-02 actual configured Visual Studio host " + config.ExpectedIdeMajor, dte.Version.StartsWith(config.ExpectedIdeMajor + "."));
             Check("IDE-03 tool window created", pane != null && pane.Frame != null);
             var view = (AssistantControl)pane.Content;
             Check("WORK-01 first provider tab is Claude", Equals(((TabItem)((TabControl)view.FindName("ProviderChoice")).Items[0]).Tag, "Claude"));
             var frame = (IVsWindowFrame)pane.Frame;
             object frameMode;
             frame.GetProperty((int)__VSFPROPID.VSFPROPID_FrameMode, out frameMode);
-            Check("CHAT-01 Chat starts as document tab", pane.Caption == "Chat" && Convert.ToInt32(frameMode) == (int)VSFRAMEMODE.VSFM_MdiChild);
-            frame.SetProperty((int)__VSFPROPID.VSFPROPID_FrameMode, (int)VSFRAMEMODE.VSFM_Float);
-            frame.GetProperty((int)__VSFPROPID.VSFPROPID_FrameMode, out frameMode);
+            File.AppendAllText(progressPath, "Actual caption=" + pane.Caption + "; FrameMode=" + frameMode + "\r\n");
+            Check("CHAT-01 IDE caption removes Chat and retains document tab", pane.Caption == "Claude · Codex" && Convert.ToInt32(frameMode) == (int)VSFRAMEMODE.VSFM_MdiChild);
+            frameMode = await ChangeFrameModeAsync(frame, VSFRAMEMODE.VSFM_Float, dte);
             Check("CHAT-02 Chat can float", Convert.ToInt32(frameMode) == (int)VSFRAMEMODE.VSFM_Float);
-            frame.SetProperty((int)__VSFPROPID.VSFPROPID_FrameMode, (int)VSFRAMEMODE.VSFM_Dock);
-            frame.GetProperty((int)__VSFPROPID.VSFPROPID_FrameMode, out frameMode);
+            frameMode = await ChangeFrameModeAsync(frame, VSFRAMEMODE.VSFM_Dock, dte);
             Check("CHAT-03 Chat can dock", Convert.ToInt32(frameMode) == (int)VSFRAMEMODE.VSFM_Dock);
-            frame.SetProperty((int)__VSFPROPID.VSFPROPID_FrameMode, (int)VSFRAMEMODE.VSFM_MdiChild);
-            frame.GetProperty((int)__VSFPROPID.VSFPROPID_FrameMode, out frameMode);
+            frameMode = await ChangeFrameModeAsync(frame, VSFRAMEMODE.VSFM_MdiChild, dte);
             Check("CHAT-04 Chat returns to document tab", Convert.ToInt32(frameMode) == (int)VSFRAMEMODE.VSFM_MdiChild);
             Check("IDE-04 real document service connected", Button(view, "GenerateButton").IsEnabled);
+            var mainWindow = Application.Current == null ? null : Application.Current.MainWindow;
+            var licenseTexts = mainWindow == null ? new string[0] : Visuals(mainWindow).OfType<TextBlock>().Where(block => block.IsVisible).Select(block => block.Text).ToArray();
+            bool licensePrompt = licenseTexts.Any(text => System.Text.RegularExpressions.Regex.IsMatch(text ?? "", "evaluation period|trial period|license (?:has|is|expired|stale)|평가 기간|라이선스.*(?:만료|갱신)|평가판.*(?:남|만료)", System.Text.RegularExpressions.RegexOptions.IgnoreCase));
+            File.WriteAllText(Path.Combine(config.OutputDirectory, "license-observation.json"), new JavaScriptSerializer().Serialize(new { IdeMajor = config.ExpectedIdeMajor, MainWindowInspected = licenseTexts.Length > 0, BlockingLicenseTextObserved = licensePrompt, CheckedAt = DateTimeOffset.Now, Scope = "현재 테스트 인스턴스의 표시된 WPF 텍스트 관찰. 계정의 라이선스 유효성이나 미래 배너 부재를 인증하지 않음." }));
+            if (licenseTexts.Length > 0) Check("LICENSE-01 no licensing warning observed in actual IDE session", !licensePrompt);
             var service = (IActiveDocumentService)typeof(AssistantControl).GetField("documents", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(view);
             Check("IDE-05 production EnvDTE adapter", service.GetType().FullName == "VS2017.AIAssistant.Services.VisualStudioDocumentService");
             DialogChecks.Run(Path.Combine(config.OutputDirectory, "ux"), Check);
@@ -98,9 +108,57 @@ namespace CodexCode.IdeIntegration
             var textDoc = (TextDocument)sourceDoc.Object("TextDocument");
             var target = service.GetActiveDocument();
             var initial = target.Capture();
+            int selectionOffset = originalDisk.IndexOf("return 1;", StringComparison.Ordinal);
+            int selectionLine = 1 + originalDisk.Substring(0, selectionOffset).Count(character => character == '\n');
+            int selectionColumn = selectionOffset - originalDisk.LastIndexOf('\n', selectionOffset);
+            TextSelection selection = textDoc.Selection;
+            selection.MoveToLineAndOffset(selectionLine, selectionColumn, false);
+            selection.MoveToLineAndOffset(selectionLine, selectionColumn + 9, true);
+            var selected = target.Capture();
+            Check("SELECT-01 actual IDE selected text separately captured", selected.HasSelection && selected.Selection.Text == "return 1;" && selected.Selection.StartOffset == selectionOffset);
+            Check("SELECT-02 selection retains complete source and disk conflict hash", selected.Content == initial.Content && selected.DiskVersion == initial.DiskVersion);
+            selection.MoveToLineAndOffset(selectionLine, selectionColumn + 9, false);
+            selection.MoveToLineAndOffset(selectionLine, selectionColumn, true);
+            Check("SELECT-03 reversed actual IDE selection normalized", target.Capture().Selection.Text == "return 1;");
+            selection.MoveToLineAndOffset(1, 1, false);
+            Check("SELECT-04 cleared selection leaves full source context", !target.Capture().HasSelection && target.Capture().Content == initial.Content);
+            var directDocuments = service as IFullAccessDocumentService;
+            Check("FULL-01 actual saved editor context supports direct execution", directDocuments != null && directDocuments.CaptureFullAccessContext().FilePath == sourcePath);
+            dte.ItemOperations.OpenFile(otherPath); Document otherDoc = dte.ActiveDocument;
+            ((TextDocument)otherDoc.Object("TextDocument")).EndPoint.CreateEditPoint().Insert("// isolated unsaved buffer\r\n");
+            sourceDoc.Activate(); bool unsavedBlocked = false;
+            try { directDocuments.CaptureFullAccessContext(); } catch (InvalidOperationException) { unsavedBlocked = true; }
+            Check("FULL-02 another open unsaved file blocks native direct writes", unsavedBlocked);
+            bool unsavedScopeBlocked = false;
+            try { using (((IExternalEditingDocumentService)service).BeginExternalEditing(null)) { } } catch (InvalidOperationException) { unsavedScopeBlocked = true; }
+            Check("SYNC-01 unsaved open buffer blocks external editing scope", unsavedScopeBlocked && !otherDoc.Saved);
+            otherDoc.Close(vsSaveChanges.vsSaveChangesNo); sourceDoc.Activate();
+            var editingService = (IExternalEditingDocumentService)service;
+            string changedDisk = originalDisk + "\r\n// isolated native reload check\r\n";
+            using (var editing = editingService.BeginExternalEditing(null)) {
+                Check("SYNC-02 saved editor temporarily protects user edits", target.Capture().IsReadOnly);
+                File.WriteAllText(sourcePath, changedDisk, new UTF8Encoding(true));
+                await Task.Delay(250);
+                Check("SYNC-03 external change does not replace protected buffer mid-run", target.Capture().Content == originalDisk && sourceDoc.Saved);
+            }
+            Check("SYNC-04 completed external change reloads without modal or dirty buffer", target.Capture().Content == changedDisk && sourceDoc.Saved);
+            Check("SYNC-05 temporary editor protection restored", !target.Capture().IsReadOnly);
+            using (var editing = editingService.BeginExternalEditing(null)) File.WriteAllBytes(sourcePath, originalBytes);
+            Check("SYNC-06 baseline restored through same synchronization path", target.Capture().Content == originalDisk && sourceDoc.Saved);
+            bool closeStopped = false;
+            using (var editing = editingService.BeginExternalEditing(() => closeStopped = true)) {
+                dte.ItemOperations.OpenFile(otherPath); var reopened = dte.ActiveDocument;
+                Check("SYNC-07 newly opened editor protected during native run", service.GetActiveDocument().Capture().IsReadOnly);
+                reopened.Close(vsSaveChanges.vsSaveChangesNo); dte.ItemOperations.OpenFile(otherPath);
+                Check("SYNC-08 close requests cancellation and reopened editor gets new protection", closeStopped && service.GetActiveDocument().Capture().IsReadOnly);
+            }
+            dte.ActiveDocument.Close(vsSaveChanges.vsSaveChangesNo); sourceDoc.Activate();
+            Check("SYNC-09 closing and reopening restores original editor state", !target.Capture().IsReadOnly && sourceDoc.Saved);
             frame.Show();
             await Task.Delay(100);
             Check("CHAT-05 Chat tab retains last source target", service.GetActiveDocument().Capture().FilePath == sourcePath);
+            ProductUi.SelectProvider(view, "Codex");
+            Text(view, "ExecutablePath").Text = config.FixturePath;
             string attachmentPath = Path.Combine(config.OutputDirectory, "참고.txt");
             File.WriteAllText(attachmentPath, "테스트 참고 조건", new UTF8Encoding(true));
             view.AttachFiles(new[] { attachmentPath });
@@ -116,6 +174,7 @@ namespace CodexCode.IdeIntegration
             textDoc.EndPoint.CreateEditPoint().Insert("// 테스트 미저장 편집\r\n");
             string unsaved = target.Capture().Content;
             Check("IDE-09 unsaved edits captured", target.Capture().HasUnsavedChanges && unsaved.Contains("미저장 편집") && File.ReadAllText(sourcePath) == originalDisk);
+            Text(view, "Instruction").Text = "fixture:ok";
 
             await GenerateAsync(view);
             Check("IDE-10 Codex fixture proposal displayed", Text(view, "ProposedPreview").Text == unsaved.Replace("return 1;", "return 2;"));
@@ -270,15 +329,91 @@ namespace CodexCode.IdeIntegration
                 Check("ADVANCED-08 recreated IDE controls restore AI identity and selected collaborators", restoredRecord.CollaboratorIds.Contains(colleague.Id) && restoredIdentity.Letter == identity.Letter && restoredIdentity.Role == "최종 검토" && restoredIdentity.Name.EndsWith("코덱스" + identity.Letter));
             }
             await CheckImageUiAsync(view);
+            dte.Documents.SaveAll();
+            ProductUi.SelectProvider(view, "Codex");
+            var flags = BindingFlags.Instance | BindingFlags.NonPublic;
+            typeof(AssistantControl).GetMethod("SetAgentFullAccess", flags).Invoke(view, new object[] { true });
+            coordinator.CollaboratorIds = new string[0]; new MarkdownWorkspaceStore().Save(coordinator);
+            Text(view, "ExecutablePath").Text = config.RuntimeFixturePath;
+            Text(view, "Instruction").Text = "Run the isolated native fixture command and report actual files and usage.";
+            await GenerateAsync(view, 30000);
+            Check("FULL-04 actual IDE full runner executes file writes and test command", File.Exists(Path.Combine(config.OutputDirectory, "actual-command-passed.txt")) && File.ReadAllText(Path.Combine(config.OutputDirectory, "NativeFixture.txt")) == "new");
+            string immediateUsage = Convert.ToString(((ToolTip)((Button)view.FindName("TokenUsageButton")).ToolTip).Content);
+            Check("FULL-08 completed request immediately exposes its final reported usage", immediateUsage.Contains("24 tokens"));
+            File.AppendAllText(progressPath, "Native UI provider=" + Convert.ToString(((TabItem)((TabControl)view.FindName("ProviderChoice")).SelectedItem).Tag) + "; immediate usage=" + immediateUsage.Replace("\n", " | ") + "\r\n");
+            await Task.Delay(200);
+            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+            File.AppendAllText(progressPath, "Native UI settled usage=" + Convert.ToString(((ToolTip)((Button)view.FindName("TokenUsageButton")).ToolTip).Content).Replace("\n", " | ") + "\r\n");
+            Check("FULL-05 actual IDE usage tooltip displays reported tokens", Convert.ToString(((ToolTip)((Button)view.FindName("TokenUsageButton")).ToolTip).Content).Contains("24") && Convert.ToString(((ToolTip)((Button)view.FindName("TokenUsageButton")).ToolTip).Content).Contains("tokens"));
+            Check("FULL-06 actual IDE records public progress and completed state", ((ItemsControl)view.FindName("ConversationMessages")).Items.Cast<ChatMessage>().Any(message => message.Role == "system" && message.Text.Contains("명령 실행")) && ((ConversationRecord)((ListBox)view.FindName("ConversationList")).SelectedItem).State == ConversationRunState.Completed);
+            view.UpdateLayout();
+            var actualProgressViews = Visuals(view).OfType<FrameworkElement>().Where(element => element.GetType().Name == "ProgressNoticePresenter").ToArray();
+            File.AppendAllText(progressPath, "Native progress owner observation: cards=" + actualProgressViews.Length + "; owners=" + string.Join(",", actualProgressViews.Select(element => System.Windows.Window.GetWindow(element) == null ? "null" : System.Windows.Window.GetWindow(element).GetType().FullName)) + "\r\n");
+            Check("FULL-07 actual IDE executed change card preserves direct mode", ((TextBlock)view.FindName("ChangeSummary")).Text.Length > 0 && Convert.ToString(Button(view, "PermissionsButton").Content).Contains("전체 액세스"));
+            typeof(AssistantControl).GetMethod("SetAgentFullAccess", flags).Invoke(view, new object[] { false });
+            dte.Documents.CloseAll(vsSaveChanges.vsSaveChangesNo);
+            Check("FULL-03 a solution without an active source permits project context", directDocuments.CaptureFullAccessContext() == null && ((ISourceNavigationService)service).GetProjectDirectory() == Path.GetDirectoryName(config.SolutionPath));
             var json = new JavaScriptSerializer();
             File.WriteAllText(Path.Combine(config.OutputDirectory, "result.json"), json.Serialize(new {
                 Succeeded = failed == 0, Passed = passed, Failed = failed, IdeRuntimeTest = true,
                 HostVersion = dte.Version, RegistryRoot = dte.RegistryRoot,
                 ProductAssembly = product.GetType().Assembly.Location, ProductVersion = product.GetType().Assembly.GetName().Version.ToString(),
+                ProductSha256 = loadedHash,
                 LiveCodexTest = liveRan, LiveSqlDraftTest = liveRan, LiveClaudeTest = false, UserProjectSourceSent = false, Tests = results
             }), new UTF8Encoding(false));
         }
 
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : ChangeFrameModeAsync
+        /// desc         : 실제 프레임 전환의 반환 코드와 완료 상태를 제한 시간 동안 확인한다.
+        /// author       : CodexOrig
+        /// create date  : 2026-10-18
+        /// update date  : 2026-10-18 CodexOrig : TASK-020 IDE별 지연 전환과 실제 실패를 구분.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        private static async System.Threading.Tasks.Task<int> ChangeFrameModeAsync(IVsWindowFrame frame, VSFRAMEMODE requested, DTE dte)
+        {
+            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+            int code = frame.SetProperty((int)__VSFPROPID.VSFPROPID_FrameMode, (int)requested);
+            File.AppendAllText(progressPath, "Frame transition requested=" + requested + "; HRESULT=0x" + code.ToString("X8") + "\r\n");
+            Microsoft.VisualStudio.ErrorHandler.ThrowOnFailure(code);
+            Microsoft.VisualStudio.ErrorHandler.ThrowOnFailure(frame.Show());
+            object actual = null;
+            for (int attempt = 0; attempt < 40; attempt++)
+            {
+                await Task.Delay(50);
+                await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+                Microsoft.VisualStudio.ErrorHandler.ThrowOnFailure(frame.GetProperty((int)__VSFPROPID.VSFPROPID_FrameMode, out actual));
+                if (Convert.ToInt32(actual) == (int)requested) break;
+            }
+            if (requested == VSFRAMEMODE.VSFM_Dock && Convert.ToInt32(actual) != (int)requested)
+            {
+                object automation;
+                Microsoft.VisualStudio.ErrorHandler.ThrowOnFailure(frame.GetProperty((int)__VSFPROPID.VSFPROPID_ExtWindowObject, out automation));
+                var window = automation as EnvDTE.Window;
+                if (window == null) throw new InvalidOperationException("Tool window automation unavailable");
+                File.AppendAllText(progressPath, "Dock automation before: kind=" + window.Kind + "; linkable=" + window.Linkable + "; floating=" + window.IsFloating + "\r\n");
+                window.Linkable = true; window.IsFloating = false;
+                await Task.Delay(200);
+                await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+                Microsoft.VisualStudio.ErrorHandler.ThrowOnFailure(frame.GetProperty((int)__VSFPROPID.VSFPROPID_FrameMode, out actual));
+                File.AppendAllText(progressPath, "Dock automation actual=" + actual + "\r\n");
+                if (Convert.ToInt32(actual) != (int)requested)
+                {
+                    var target = dte.Windows.Item(EnvDTE.Constants.vsWindowKindSolutionExplorer);
+                    target.Visible = true;
+                    var linked = dte.Windows.CreateLinkedWindowFrame(window, target, vsLinkedWindowType.vsLinkedWindowTypeDocked);
+                    linked.Visible = true;
+                    await Task.Delay(200);
+                    await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+                    Microsoft.VisualStudio.ErrorHandler.ThrowOnFailure(frame.GetProperty((int)__VSFPROPID.VSFPROPID_FrameMode, out actual));
+                    File.AppendAllText(progressPath, "Dock explicit Solution Explorer target: children=" + linked.LinkedWindows.Count + "; actual=" + actual + "\r\n");
+                }
+            }
+            File.AppendAllText(progressPath, "Frame transition actual=" + actual + "\r\n");
+            return Convert.ToInt32(actual);
+        }
         /// ---------------------------------------------------------------------
         /// <summary>
         /// name         : CheckImageUiAsync
@@ -286,6 +421,7 @@ namespace CodexCode.IdeIntegration
         /// author       : CodexOrig
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : TASK-018 이미지7~16의 실제 IDE 회귀 추가.
+        ///                2026-10-18 CodexOrig : TASK-020 최종 버전·선택·전체 액세스 검사 계약 반영.
         /// </summary>
         /// ---------------------------------------------------------------------
         private static async Task CheckImageUiAsync(AssistantControl view)
@@ -303,7 +439,7 @@ namespace CodexCode.IdeIntegration
             Click(view, "PermissionsButton"); await Task.Delay(150);
             popup = (Popup)typeof(AssistantControl).GetField("dropdownPopup", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(view);
             var labels = Visuals(popup.Child).OfType<Button>().Select(b => Convert.ToString(b.Content)).ToArray();
-            Check("IMAGES-04 actual IDE permission dropdown exposes three presets and the separate action planner", labels.Any(t => t.Contains("승인 요청")) && labels.Any(t => t.Contains("내 대신 승인")) && labels.Any(t => t.Contains("전체 권한")) && labels.Any(t => t.Contains("DB·형상관리·배포")));
+            Check("IMAGES-04 actual IDE permission dropdown exposes three presets and the separate action planner", labels.Any(t => t.Contains("승인 요청")) && labels.Any(t => t.Contains("작업 도구 허용")) && labels.Any(t => t.Contains("전체 액세스")) && labels.Any(t => t.Contains("DB·형상관리·배포")));
             typeof(AssistantControl).GetMethod("CloseDropdown", BindingFlags.Instance | BindingFlags.NonPublic).Invoke(view, null);
             Click(view, "AgentButton"); await Task.Delay(150);
             popup = (Popup)typeof(AssistantControl).GetField("dropdownPopup", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(view);
@@ -334,6 +470,7 @@ namespace CodexCode.IdeIntegration
         /// author       : CodexOrig
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : 팝업 구조와 버튼을 표시 결과로 검사.
+        ///                2026-10-18 CodexOrig : TASK-020 최종 버전·선택·전체 액세스 검사 계약 반영.
         /// </summary>
         /// ---------------------------------------------------------------------
         private static IEnumerable<DependencyObject> Visuals(DependencyObject root)
@@ -351,6 +488,7 @@ namespace CodexCode.IdeIntegration
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 타임아웃 시 상태 텍스트를 진단에 포함.
+        ///                2026-10-18 CodexOrig : TASK-020 최종 버전·선택·전체 액세스 검사 계약 반영.
         /// </summary>
         /// ---------------------------------------------------------------------
         private static async Task GenerateAsync(AssistantControl view, int timeoutMs = 15000)
@@ -369,6 +507,7 @@ namespace CodexCode.IdeIntegration
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 테스트 전용 승인 절차.
+        ///                2026-10-18 CodexOrig : TASK-020 최종 버전·선택·전체 액세스 검사 계약 반영.
         /// </summary>
         /// ---------------------------------------------------------------------
         private static void ApproveAndApply(AssistantControl view) { ((CheckBox)view.FindName("ReviewApproval")).IsChecked = true; Click(view, "ApplyButton"); }
@@ -380,6 +519,7 @@ namespace CodexCode.IdeIntegration
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 화면 내부 테스트 보조 함수.
+        ///                2026-10-18 CodexOrig : TASK-020 최종 버전·선택·전체 액세스 검사 계약 반영.
         /// </summary>
         /// ---------------------------------------------------------------------
         private static Button Button(AssistantControl view, string name) { return (Button)view.FindName(name); }
@@ -391,6 +531,7 @@ namespace CodexCode.IdeIntegration
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 입력·미리보기 검사 보조 함수.
+        ///                2026-10-18 CodexOrig : TASK-020 최종 버전·선택·전체 액세스 검사 계약 반영.
         /// </summary>
         /// ---------------------------------------------------------------------
         private static TextBox Text(AssistantControl view, string name) { return (TextBox)view.FindName(name); }
@@ -402,6 +543,7 @@ namespace CodexCode.IdeIntegration
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 상태 안내를 포함한 테스트 진단.
+        ///                2026-10-18 CodexOrig : TASK-020 최종 버전·선택·전체 액세스 검사 계약 반영.
         /// </summary>
         /// ---------------------------------------------------------------------
         private static void Click(AssistantControl view, string name)
@@ -417,6 +559,7 @@ namespace CodexCode.IdeIntegration
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 실패를 성공으로 집계하지 않도록 별도 카운트.
+        ///                2026-10-18 CodexOrig : TASK-020 최종 버전·선택·전체 액세스 검사 계약 반영.
         /// </summary>
         /// ---------------------------------------------------------------------
         private static void Check(string name, bool condition)

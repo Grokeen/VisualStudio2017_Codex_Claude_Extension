@@ -1,0 +1,3009 @@
+{
+  "SchemaVersion": 1,
+  "Author": "CodexOrig",
+  "Task": "TASK-020",
+  "StartedAt": "2026-10-18T18:16:40+09:00",
+  "VerifiedAt": "2026-10-18T20:27:30.2938699+09:00",
+  "ProductVersion": "0.9.0",
+  "FrozenCandidate": 6,
+  "RoleSha256": "EC01FB7D5D8551EF6693E0139B6797B9EAE99FF9FD2542F76309D3C1CA173494",
+  "AuditOriginalSha256": "82E1A9C78ABA9944EDBC5E3FA040619AA41CFFC70A64A4C81AE99DF4F23AE3C3",
+  "AuditEvidenceOriginalSha256": "060CDC426B9803B0D59FED958A9042651AA948261C37FE7895481D686A395C74",
+  "BuildResults": [
+    {
+      "Version": "2017",
+      "Configuration": "Debug",
+      "ExitCode": 0,
+      "Warnings": 0,
+      "Log": "artifacts\\task020\\build-candidate6-2017-Debug.log",
+      "LogSha256": "C71D4E8A586EA239C554FDAB9197939D169928090DEEFD740FD621D40107EED4"
+    },
+    {
+      "Version": "2017",
+      "Configuration": "Release",
+      "ExitCode": 0,
+      "Warnings": 0,
+      "Log": "artifacts\\task020\\build-candidate6-2017-Release.log",
+      "LogSha256": "B75AC304306B807579F68EDD081818C8BF4E59F0EA4DF7E022C30DE0058A93B3"
+    },
+    {
+      "Version": "2019",
+      "Configuration": "Debug",
+      "ExitCode": 0,
+      "Warnings": 0,
+      "Log": "artifacts\\task020\\build-candidate6-2019-Debug.log",
+      "LogSha256": "F681842291CAF0CF52908A1BABF15F7772A25128FFFC85798EE833EF87E847ED"
+    },
+    {
+      "Version": "2019",
+      "Configuration": "Release",
+      "ExitCode": 0,
+      "Warnings": 0,
+      "Log": "artifacts\\task020\\build-candidate6-2019-Release.log",
+      "LogSha256": "00075D8ED43E0374B0A5F140A3C566B8FFD305CB39304ED193D981973AED79F2"
+    },
+    {
+      "Version": "2022",
+      "Configuration": "Debug",
+      "ExitCode": 0,
+      "Warnings": 0,
+      "Log": "artifacts\\task020\\build-candidate6-2022-Debug.log",
+      "LogSha256": "B56DA6A1CC54D545A625DA4B2225497366A74EAA65953785CC69EA6936136DE4"
+    },
+    {
+      "Version": "2022",
+      "Configuration": "Release",
+      "ExitCode": 0,
+      "Warnings": 0,
+      "Log": "artifacts\\task020\\build-candidate6-2022-Release.log",
+      "LogSha256": "51458C1506FD91FEBACCB21549115CF3B58D3FE8252ECFDB541547749D6CCFAF"
+    }
+  ],
+  "Sources": [
+    {
+      "Path": "src/VS2017.AIAssistant/AiAssistantPackage.cs",
+      "Sha256": "7DB704AB058019732C95EA4B919EC3223D200F9890262171017F89CBCD1D09CB"
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/source.extension.vsixmanifest",
+      "Sha256": "7C8C21A6BDFFBE033AA8FC0A6452C32CF4C8EB93D800A22C89CADE2A890185B8"
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/VS2017.AIAssistant.csproj",
+      "Sha256": "844C6AC6F8766E5D2678CE1476904361A6FDB4BF37E5B8E6EE895325F56745A3"
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/VSPackage.resx",
+      "Sha256": "FF640F2D91CDE55865B3F5626CA2667E897F9E68892B5725D5197C7F29C91541"
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Assets/Claude.png",
+      "Sha256": "C7D8415B1EDBA67E5337D3684B480B563826F07BE9E28E10CCC14BF92037EF6D"
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Assets/Codex.png",
+      "Sha256": "8D5575EE667FF715CD3E3074D5296EDC68D5AADD89720D203E13131B68B22A04"
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Assets/THIRD-PARTY-NOTICES.md",
+      "Sha256": "AA8D9E7902519C84C8741E3FE62940615B9F9BAD35ABC2938CC5DA8FF9323135"
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Chat/AssistantSettingsTransaction.cs",
+      "Sha256": "56639555F425A32A747EC792F58FD0364505C0FBAA9FCBCEC31C841D3FBF7092"
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Chat/ChatWorkspace.cs",
+      "Sha256": "45E36044D41B0E1EAFADFC3EB88B484F08B650952140A11B7E197A1C6DD7E8C8"
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Chat/ConversationCollaboration.cs",
+      "Sha256": "9B84DF381FB2D09E6D46F08926AF6FEABC5D9171DB68EDF0CB51B5BC58365817"
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Chat/DocumentAttachmentReader.cs",
+      "Sha256": "605DF02064BA365914CF662C234B867A9DFE05069FE688EC343626C033C8DC3E"
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Chat/DocumentFilterWorker.cs",
+      "Sha256": "E1D52D2610C52B9393DC9B32465A1ABB75427E3DC8E8F75B69D62E539264F4EE"
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Chat/DocumentWorkerLauncher.cs",
+      "Sha256": "5F604DCE83697D60E5DD5668915379683BDA502E83DF3F0D0B0C3589842558C9"
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Chat/MarkdownWorkspaceStore.cs",
+      "Sha256": "2465AE378EE9AB1A91CBA814AAFE947B9A2890FAFC556B8C05FEA0632449C2E7"
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Commands/AssistantCommands.vsct",
+      "Sha256": "7133B59D773FDD20BEAA1E714DABBB728016692759A0F17B6EA94F9357C7FA31"
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Commands/OpenAssistantCommand.cs",
+      "Sha256": "263F4B13199B6021284380F238C7066A5CDB920034D36AE010013E4C690F0369"
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Editing/DocumentSnapshot.cs",
+      "Sha256": "184511525B968B067725FB04629ABF0B042F4817C2C32407033A2FCD0551399D"
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Editing/EditProposal.cs",
+      "Sha256": "5132A29DFF41BCB966F7C54DE0286315841F0C82E9DA0A626AF1EEEDA5AB7D1B"
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Editing/IFullAccessDocumentService.cs",
+      "Sha256": "A2750F9CB57CABE4BD18DE6E8833BF2FFFEA5CF22C1AE2D57F78CC910B6BD071"
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Editing/SourceEditSession.cs",
+      "Sha256": "8689541A21D28948F4344298CE6EDA65C0280D4703875F7E63B14E77B43D19AE"
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Properties/AssemblyInfo.cs",
+      "Sha256": "444E5C74A20701518000FB72FCFC9C7B5AA8895AD6EE6F3D78BD69D0F810C79C"
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Providers/AgentFileTracker.cs",
+      "Sha256": "3E58B25E71A1529FC4BB3B5E09F87953402F173AB9E4661D42EDD79370275A00"
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Providers/AgentProtocolEvents.cs",
+      "Sha256": "A92997D312A9122DA7FEA082158C4A64D1DED8565F9451BFC8C9B9C05050726E"
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Providers/ClaudeRuntimeRunner.cs",
+      "Sha256": "990009D0E9E2C4B904035C3ADE97C27D3F9021A5AD128A18AAB2657D48F16B0D"
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Providers/CliAccountService.cs",
+      "Sha256": "1E14F22A1150DD0067507215EEE8BB1F0CA395C74C33D19CAAF81421D0100D6B"
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Providers/CliEditProvider.cs",
+      "Sha256": "B1D4BDF3D80E5D8966B3B861E1C8CD598B31330AEC95228AF0BE4CF5C3D1A584"
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Providers/CodexRuntimeRunner.cs",
+      "Sha256": "724905B04A3206EF6BD598C86EA16114213D3099C1C7B1D51E39D07F096A24F6"
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Providers/NativeJsonSession.cs",
+      "Sha256": "5810DF5D2DAE18F4C9E76DB57041F57CC9C724A865252EA0F8E4FCC173805E8E"
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Providers/ProcessJob.cs",
+      "Sha256": "BA715B1D467121C3483176AAA04AFB5DD454D9172AF920F6C7F968C1F50E8D44"
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Providers/ProviderExecutionOptions.cs",
+      "Sha256": "98926727866565A5A4021BCF1C24DCDAF14CBA88E61EF03B60BF3D99AFF68165"
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Providers/ProviderRuntime.cs",
+      "Sha256": "DD1BAE440B7B34546FD1BE9AB52160993D9AC5CC2CFF34DD1873DAC0438D8755"
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Providers/ProviderRuntimeService.cs",
+      "Sha256": "9BCE5866D50C522CA6BAA2ECB01D73B5CD7073101BB88F4D435F1AF14D5D835E"
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Services/ScmIdentityService.cs",
+      "Sha256": "28CD8005F37C0B59EE75B45334C2A831EC9913B856F374C56D9D9C8307CF44B4"
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Services/VisualStudioDocumentService.cs",
+      "Sha256": "2E40E37DC8F58FDFEC7F4CA6D7EA1FD013466200D9BEF3D08125461E5BC9AA1C"
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Services/WorkspaceActionService.cs",
+      "Sha256": "AB5AA4BAD97B04FA57A7C4904FE8456B04BCA555B745886B9AFCB424A3E38F2C"
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/ToolWindows/AssistantToolWindow.cs",
+      "Sha256": "956E97CBC7DE404C4DBBC26868FE731FD429D28E6DACB3A54EE68C37C6C294EA"
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Views/AssistantControl.Changes.cs",
+      "Sha256": "55DFB2925B0FF4FA91B7BE656C0D71F49FA5761336D8FE68B6B923756E2245B2"
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Views/AssistantControl.Chat.cs",
+      "Sha256": "60636DC2C2BFFBF8858D5B37AEA85F5BA5478F04F5234DDB7A0BABF3B9889FE2"
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Views/AssistantControl.Conversations.cs",
+      "Sha256": "DC0FF3726EEA79BA0BD38A838B0DDDDA089540D182D0D13CCB09C30C67FCFB32"
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Views/AssistantControl.Dialogs.cs",
+      "Sha256": "75D568C098A19E915F80E9D5BD1EFB9C8B6026E9E66249A51DD757B1D153D998"
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Views/AssistantControl.Dropdowns.cs",
+      "Sha256": "721EF66DA14BA83C6D0C30E2BDF0C60FEB191FD2B1468F73DDAEF980602B7DD7"
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Views/AssistantControl.Experience.cs",
+      "Sha256": "285966CE40C1F8BF9BD1EA7C33AACC3D57CE1D471DDCE99065612626A32BFEFD"
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Views/AssistantControl.Fan.cs",
+      "Sha256": "A5B673199D5F085BD2D7C9B1414C64057DFCAC2E5C044E15DA0D0690B876C320"
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Views/AssistantControl.Options.cs",
+      "Sha256": "3575E1F6793C357E599152BDE8D793C2373A952610C6E52AF744B474037DC8C8"
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Views/AssistantControl.Runtime.cs",
+      "Sha256": "817C37C340614A2A978BCF965670B47B5BED78AA165A267FE93AB6DD14E53A4A"
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Views/AssistantControl.Thinking.cs",
+      "Sha256": "26D26E912935AF859810AFDDB88D15BBDD046629CDF1D63762C3A76429FAA880"
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Views/AssistantControl.xaml",
+      "Sha256": "C40440A9E024F056B4FA36F7052DC831E8ABE3959EF40DCCC80E11B1F6D69615"
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Views/AssistantControl.xaml.cs",
+      "Sha256": "1221F1699F18826151ABF7A9B709A87F19755AB1F72C735542A1FEA98702AEF7"
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Views/AssistantDialogs.cs",
+      "Sha256": "757422005F7AB1754DAB068D398B95AC120BF5B78C1E3CDCFB38384D798A15AC"
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Views/AssistantHelpContent.cs",
+      "Sha256": "7BC3AFC0D0DA553357F48DACD448669C856090D80D9C1CA03C0794DF4EB341E8"
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Views/AssistantTheme.xaml",
+      "Sha256": "B8AF45B88F414DF52921C52F1F2413E0214ADA436EBA37C055CCA6451EC841D6"
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Views/WorkspaceActionsDialog.cs",
+      "Sha256": "7A50745A234C2A12BAD40CF0DDE47EB81268DB07D6E6F4ADD2B8EB83B5594DE7"
+    },
+    {
+      "Path": "src/VS2017.AIAssistant.DocumentReader/App.config",
+      "Sha256": "DBA0AC349FA98F542FE90CC4FBBE3033567DAC0515859D049854E81DEFAAAA51"
+    },
+    {
+      "Path": "src/VS2017.AIAssistant.DocumentReader/VS2017.AIAssistant.DocumentReader.csproj",
+      "Sha256": "909B5CDD5C4C125FF324F4E112890C102B574435A1AB8E9B0672D83EB0C427B3"
+    },
+    {
+      "Path": "src/VS2017.AIAssistant.DocumentReader/Properties/AssemblyInfo.cs",
+      "Sha256": "1B67151A709EA78991557E3A16315F1CF1BB17D2ACB5185100A4FFF669AD7D69"
+    }
+  ],
+  "SourceCount": 55,
+  "FrozenSourcesUnchanged": true,
+  "PreservedReleases": [
+    {
+      "Path": "releases/v0.2.0/VS2017.AIAssistant-0.2.0.vsix",
+      "Sha256": "0B7FD44509A6CA02344E645924378EB544966A0831B942A9F7D4B6CDAB872D94",
+      "MatchesPreviousHead": true
+    },
+    {
+      "Path": "releases/v0.3.0/VS2017.AIAssistant-0.3.0.vsix",
+      "Sha256": "A7F1C597BA0CCF7B18AC52DEB29BACE2D6B66E300B9A90C6A55EB5A3E7A88DF2",
+      "MatchesPreviousHead": true
+    },
+    {
+      "Path": "releases/v0.4.0/VS2017.AIAssistant-0.4.0.vsix",
+      "Sha256": "2DD768237916AD7671B1829C279977D8BAC65684B59DFD3DC85DAD3C99523C53",
+      "MatchesPreviousHead": true
+    },
+    {
+      "Path": "releases/v0.5.0/VS2017.AIAssistant-0.5.0.vsix",
+      "Sha256": "DC2DB3178CD6490CCE529EA95E31133CD7B8997F9B146B656C54EC0FA474C768",
+      "MatchesPreviousHead": true
+    },
+    {
+      "Path": "releases/v0.6.0/VS2017.AIAssistant-0.6.0.vsix",
+      "Sha256": "5528C0A15DC365A4933D3DB25FD593D947D71A154397784149979370796FD5CE",
+      "MatchesPreviousHead": true
+    },
+    {
+      "Path": "releases/v0.7.0/VS2017.AIAssistant-0.7.0.vsix",
+      "Sha256": "DB9C5D706760D693A2BB758E9E1E6DC2C0BF1DB4B28FA134F3307B35ABEBC059",
+      "MatchesPreviousHead": true
+    },
+    {
+      "Path": "releases/v0.8.0/VS2017.AIAssistant-0.8.0.vsix",
+      "Sha256": "AE33A8D0AFA3223C46037C56E00DC848D017BA19CACD85072D08E85C11B4DFEB",
+      "MatchesPreviousHead": true
+    }
+  ],
+  "InstalledVisualStudio": [
+    {
+      "InstallationVersion": "16.11.37627.13",
+      "InstallationPath": "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community",
+      "ProductId": "Microsoft.VisualStudio.Product.Community"
+    },
+    {
+      "InstallationVersion": "17.14.37806.7",
+      "InstallationPath": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community",
+      "ProductId": "Microsoft.VisualStudio.Product.Community"
+    },
+    {
+      "InstallationVersion": "15.9.37627.17",
+      "InstallationPath": "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community",
+      "ProductId": "Microsoft.VisualStudio.Product.Community"
+    }
+  ],
+  "Packages": [
+    {
+      "Version": "2017",
+      "Path": "releases/v0.9.0/VS2017.AIAssistant-0.9.0.vsix",
+      "Sha256": "86A41684C788BF516A6D532785290972D661563F0E2AC6441015FBCC5DBD4DAC",
+      "Bytes": 400671,
+      "Payload": [
+        {
+          "Name": "VS2017.AIAssistant.dll",
+          "Bytes": 492544,
+          "Sha256": "7951846AA854364C33A6E0980D40A92461B3DFDD0D60BE84E9B2C74CA1EAFC41"
+        },
+        {
+          "Name": "VS2017.AIAssistant.DocumentReader.exe",
+          "Bytes": 9728,
+          "Sha256": "6574B9AE175F3851275111835029E96A1594BFDAC51077B20484757F3776B7C5"
+        },
+        {
+          "Name": "VS2017.AIAssistant.DocumentReader.exe.config",
+          "Bytes": 159,
+          "Sha256": "DBA0AC349FA98F542FE90CC4FBBE3033567DAC0515859D049854E81DEFAAAA51"
+        }
+      ]
+    },
+    {
+      "Version": "2019",
+      "Path": "releases/v0.9.0/VS2019.AIAssistant-0.9.0.vsix",
+      "Sha256": "EB3E27B3B05773B1F89F87BCDCC315797F5212E1910EBDF7C849CED0DC99F2DE",
+      "Bytes": 401954,
+      "Payload": [
+        {
+          "Name": "VS2017.AIAssistant.dll",
+          "Bytes": 489984,
+          "Sha256": "936909D1686EBD7A025F769798A8A9C61597B8A94F3FADDF225818664F3D290E"
+        },
+        {
+          "Name": "VS2017.AIAssistant.DocumentReader.exe",
+          "Bytes": 9728,
+          "Sha256": "436F0B47CF1361E2AA7EEA449AC0021E3C7EECE7865D6448FD75626C7419B233"
+        },
+        {
+          "Name": "VS2017.AIAssistant.DocumentReader.exe.config",
+          "Bytes": 159,
+          "Sha256": "DBA0AC349FA98F542FE90CC4FBBE3033567DAC0515859D049854E81DEFAAAA51"
+        }
+      ]
+    },
+    {
+      "Version": "2022",
+      "Path": "releases/v0.9.0/VS2022.AIAssistant-0.9.0.vsix",
+      "Sha256": "2A421728B1286C07CE94DCBE691D67FE8A4ED4E5DCDEEFA019FDE05A4D438F60",
+      "Bytes": 402049,
+      "Payload": [
+        {
+          "Name": "VS2017.AIAssistant.dll",
+          "Bytes": 489472,
+          "Sha256": "C159E49AF5968757AA8816CD9AFD2D6FAAB7580CBCE555C7EC1CF2B659B786B3"
+        },
+        {
+          "Name": "VS2017.AIAssistant.DocumentReader.exe",
+          "Bytes": 9728,
+          "Sha256": "4860D4C2F1D11FCE62750A482F3C5637C61F5A54B7073CDACE1B343205AD6153"
+        },
+        {
+          "Name": "VS2017.AIAssistant.DocumentReader.exe.config",
+          "Bytes": 159,
+          "Sha256": "DBA0AC349FA98F542FE90CC4FBBE3033567DAC0515859D049854E81DEFAAAA51"
+        }
+      ]
+    }
+  ],
+  "Launcher": {
+    "Path": "VisualStudio_AIChat_ExtentionTest.exe",
+    "Bytes": 34304,
+    "Sha256": "0269C2A95FDE14D2A28215AAA2C75FADDD72AED5A7A979AEFE6C580D3C93B49E",
+    "DefaultSuites": 16,
+    "CatalogSuites": 18
+  },
+  "Ide": [
+    {
+      "Version": "2017",
+      "AssemblySha256": "7951846AA854364C33A6E0980D40A92461B3DFDD0D60BE84E9B2C74CA1EAFC41",
+      "Result": {
+        "Succeeded": true,
+        "Passed": 91,
+        "Failed": 0,
+        "IdeRuntimeTest": true,
+        "HostVersion": "15.0",
+        "RegistryRoot": "Software\\Microsoft\\VisualStudio\\15.0_c1f368d6CodexCodeTest3ada433b",
+        "ProductAssembly": "c:\\users\\ygree\\appdata\\local\\microsoft\\visualstudio\\15.0_c1f368d6codexcodetest3ada433b\\extensions\\xukx4qxt.4mq\\VS2017.AIAssistant.dll",
+        "ProductVersion": "0.9.0.0",
+        "ProductSha256": "7951846AA854364C33A6E0980D40A92461B3DFDD0D60BE84E9B2C74CA1EAFC41",
+        "LiveCodexTest": false,
+        "LiveSqlDraftTest": false,
+        "LiveClaudeTest": false,
+        "UserProjectSourceSent": false,
+        "Tests": [
+          {
+            "Name": "IDE-00 actual loaded product matches selected VSIX SHA256",
+            "Passed": true
+          },
+          {
+            "Name": "IDE-01 product package loaded by registered menu",
+            "Passed": true
+          },
+          {
+            "Name": "IDE-02 actual configured Visual Studio host 15",
+            "Passed": true
+          },
+          {
+            "Name": "IDE-03 tool window created",
+            "Passed": true
+          },
+          {
+            "Name": "WORK-01 first provider tab is Claude",
+            "Passed": true
+          },
+          {
+            "Name": "CHAT-01 IDE caption removes Chat and retains document tab",
+            "Passed": true
+          },
+          {
+            "Name": "CHAT-02 Chat can float",
+            "Passed": true
+          },
+          {
+            "Name": "CHAT-03 Chat can dock",
+            "Passed": true
+          },
+          {
+            "Name": "CHAT-04 Chat returns to document tab",
+            "Passed": true
+          },
+          {
+            "Name": "IDE-04 real document service connected",
+            "Passed": true
+          },
+          {
+            "Name": "LICENSE-01 no licensing warning observed in actual IDE session",
+            "Passed": true
+          },
+          {
+            "Name": "IDE-05 production EnvDTE adapter",
+            "Passed": true
+          },
+          {
+            "Name": "UX-01 first visible Chat automatically opens four-step guide",
+            "Passed": true
+          },
+          {
+            "Name": "UX-02 first guide is centered and checkbox starts unchecked",
+            "Passed": true
+          },
+          {
+            "Name": "UX-03 hide guide persists without changing paths models rules size",
+            "Passed": true
+          },
+          {
+            "Name": "UX-04 prompt keeps targeted cut copy paste and select all commands",
+            "Passed": true
+          },
+          {
+            "Name": "UX-05 preview retains copy and app settings without write commands",
+            "Passed": true
+          },
+          {
+            "Name": "UX-06 all areas expose settings and manual guide",
+            "Passed": true
+          },
+          {
+            "Name": "UX-07 hidden guide can be reopened manually with stored checkbox",
+            "Passed": true
+          },
+          {
+            "Name": "UX-08 right-click settings opens a centered modal settings window",
+            "Passed": true
+          },
+          {
+            "Name": "UX-09 cancel restores all live settings and does not write disk",
+            "Passed": true
+          },
+          {
+            "Name": "UX-10 dialog and text controls use the same dark palette",
+            "Passed": true
+          },
+          {
+            "Name": "UX-11 save closes dialog and preserves guide and other provider",
+            "Passed": true
+          },
+          {
+            "Name": "UX-16 instruction failure preserves both JSON and Markdown",
+            "Passed": true
+          },
+          {
+            "Name": "UX-12 save failure stays visible in settings popup",
+            "Passed": true
+          },
+          {
+            "Name": "UX-13 failed save preserves original settings file",
+            "Passed": true
+          },
+          {
+            "Name": "UX-14 recreated Chat suppresses automatic guide and restores settings",
+            "Passed": true
+          },
+          {
+            "Name": "UX-15 manual guide can restore automatic display without other changes",
+            "Passed": true
+          },
+          {
+            "Name": "IDE-06 request without source rejected",
+            "Passed": true
+          },
+          {
+            "Name": "SELECT-01 actual IDE selected text separately captured",
+            "Passed": true
+          },
+          {
+            "Name": "SELECT-02 selection retains complete source and disk conflict hash",
+            "Passed": true
+          },
+          {
+            "Name": "SELECT-03 reversed actual IDE selection normalized",
+            "Passed": true
+          },
+          {
+            "Name": "SELECT-04 cleared selection leaves full source context",
+            "Passed": true
+          },
+          {
+            "Name": "FULL-01 actual saved editor context supports direct execution",
+            "Passed": true
+          },
+          {
+            "Name": "FULL-02 another open unsaved file blocks native direct writes",
+            "Passed": true
+          },
+          {
+            "Name": "CHAT-05 Chat tab retains last source target",
+            "Passed": true
+          },
+          {
+            "Name": "CHAT-06 text attachment appears in actual IDE",
+            "Passed": true
+          },
+          {
+            "Name": "CHAT-07 settings restore in recreated IDE control",
+            "Passed": true
+          },
+          {
+            "Name": "CHAT-08 settings isolated from personal profile",
+            "Passed": true
+          },
+          {
+            "Name": "IDE-07 capture exact active buffer",
+            "Passed": true
+          },
+          {
+            "Name": "IDE-08 project and framework context",
+            "Passed": true
+          },
+          {
+            "Name": "IDE-09 unsaved edits captured",
+            "Passed": true
+          },
+          {
+            "Name": "IDE-10 Codex fixture proposal displayed",
+            "Passed": true
+          },
+          {
+            "Name": "WORK-02 change card lists the modified source",
+            "Passed": true
+          },
+          {
+            "Name": "CHAT-09 conversation stacks user and AI turns",
+            "Passed": true
+          },
+          {
+            "Name": "IDE-11 approval starts unchecked",
+            "Passed": true
+          },
+          {
+            "Name": "IDE-12 proposal preserves buffer and disk",
+            "Passed": true
+          },
+          {
+            "Name": "WORK-03 source link navigates to fixed target in actual IDE",
+            "Passed": true
+          },
+          {
+            "Name": "IDE-13 active file switch preserves fixed target",
+            "Passed": true
+          },
+          {
+            "Name": "IDE-14 apply changes only editor buffer",
+            "Passed": true
+          },
+          {
+            "Name": "IDE-15 one IDE Undo restores entire prior buffer",
+            "Passed": true
+          },
+          {
+            "Name": "IDE-16 explicit Save writes proposed text",
+            "Passed": true
+          },
+          {
+            "Name": "IDE-17 UTF8 BOM and CRLF retained",
+            "Passed": true
+          },
+          {
+            "Name": "IDE-18 Restore returns original unsaved content",
+            "Passed": true
+          },
+          {
+            "Name": "IDE-19 Restore leaves disk until explicit save",
+            "Passed": true
+          },
+          {
+            "Name": "IDE-20 edits after proposal block apply",
+            "Passed": true
+          },
+          {
+            "Name": "CHAT-10 Provider tabs separate drafts and attachments",
+            "Passed": true
+          },
+          {
+            "Name": "IDE-21 Claude fixture protocol in real IDE",
+            "Passed": true
+          },
+          {
+            "Name": "IDE-22 Claude proposal applies through actual adapter",
+            "Passed": true
+          },
+          {
+            "Name": "WORK-04 empty SQL query draft preserves disk before approval",
+            "Passed": true
+          },
+          {
+            "Name": "WORK-05 approved SQL query is saved by actual IDE",
+            "Passed": true
+          },
+          {
+            "Name": "WORK-06 new conversation retains prior history and persists new draft",
+            "Passed": true
+          },
+          {
+            "Name": "WORK-07 recreated IDE control restores provider conversation tabs",
+            "Passed": true
+          },
+          {
+            "Name": "SIDEBAR-01 actual IDE exposes a full-height resizable conversation boundary",
+            "Passed": true
+          },
+          {
+            "Name": "SIDEBAR-02 real splitter drag expands the list inside VS2017",
+            "Passed": true
+          },
+          {
+            "Name": "SIDEBAR-03 dragging left collapses the actual IDE sidebar",
+            "Passed": true
+          },
+          {
+            "Name": "SIDEBAR-04 reopening restores the real resized width",
+            "Passed": true
+          },
+          {
+            "Name": "SIDEBAR-05 actual successful AI requests retain completed state in Markdown",
+            "Passed": true
+          },
+          {
+            "Name": "SIDEBAR-06 viewing the IDE conversation clears only its persisted unread marker",
+            "Passed": true
+          },
+          {
+            "Name": "SIDEBAR-07 recreated IDE control restores list preference and width",
+            "Passed": true
+          },
+          {
+            "Name": "ADVANCED-01 actual IDE asynchronously extracts document body into the composer",
+            "Passed": true
+          },
+          {
+            "Name": "ADVANCED-02 actual IDE displays the persisted unique AI name and collaboration count",
+            "Passed": true
+          },
+          {
+            "Name": "ADVANCED-03 actual native peer and coordinator requests deliver a real handoff inside VS2017",
+            "Passed": true
+          },
+          {
+            "Name": "ADVANCED-04 collaboration leaves actual IDE source and disk unchanged before approval",
+            "Passed": true
+          },
+          {
+            "Name": "ADVANCED-05 peer completion and unread status are saved separately in the IDE",
+            "Passed": true
+          },
+          {
+            "Name": "ADVANCED-06 actual collaboration report contains the real participants and result",
+            "Passed": true
+          },
+          {
+            "Name": "ADVANCED-07 model details and capability-controlled Fast are present in the real host",
+            "Passed": true
+          },
+          {
+            "Name": "ADVANCED-08 recreated IDE controls restore AI identity and selected collaborators",
+            "Passed": true
+          },
+          {
+            "Name": "IMAGES-01 actual IDE keeps conversation actions in the scrollable sidebar footer",
+            "Passed": true
+          },
+          {
+            "Name": "IMAGES-02 actual IDE model dropdown is anchored and contains its strength gauge and topic index",
+            "Passed": true
+          },
+          {
+            "Name": "IMAGES-03 Escape closes the actual IDE dropdown without opening another window",
+            "Passed": true
+          },
+          {
+            "Name": "IMAGES-04 actual IDE permission dropdown exposes three presets and the separate action planner",
+            "Passed": true
+          },
+          {
+            "Name": "IMAGES-05 the actual IDE AI dropdown routes its selected name to the original conversation",
+            "Passed": true
+          },
+          {
+            "Name": "IMAGES-06 repeated hover in the actual IDE opens the fan once",
+            "Passed": true
+          },
+          {
+            "Name": "IMAGES-07 the actual IDE tooltip uses the dark palette and wraps a long explanation",
+            "Passed": true
+          },
+          {
+            "Name": "FULL-04 actual IDE full runner executes file writes and test command",
+            "Passed": true
+          },
+          {
+            "Name": "FULL-08 completed request immediately exposes its final reported usage",
+            "Passed": true
+          },
+          {
+            "Name": "FULL-05 actual IDE usage tooltip displays reported tokens",
+            "Passed": true
+          },
+          {
+            "Name": "FULL-06 actual IDE records public progress and completed state",
+            "Passed": true
+          },
+          {
+            "Name": "FULL-07 actual IDE executed change card preserves direct mode",
+            "Passed": true
+          },
+          {
+            "Name": "FULL-03 a solution without an active source permits project context",
+            "Passed": true
+          }
+        ]
+      },
+      "ResultPath": "artifacts/ide/run-3ada433b06d9438ca9237c4640c06e10/result.json",
+      "ResultSha256": "5ED05EAD1ACC8820FB156080C15BCD676690A67EEA246F0D73FEC00915D1B088",
+      "LicenseObservation": {
+        "IdeMajor": "15",
+        "MainWindowInspected": true,
+        "BlockingLicenseTextObserved": false,
+        "CheckedAt": "2026-10-18T11:17:43.132Z",
+        "Scope": "현재 테스트 인스턴스의 표시된 WPF 텍스트 관찰. 계정의 라이선스 유효성이나 미래 배너 부재를 인증하지 않음."
+      },
+      "Compatibility": {
+        "SchemaVersion": 1,
+        "CheckKind": "StaticSourceCompatibility",
+        "Succeeded": true,
+        "ManifestPath": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\source.extension.vsixmanifest",
+        "ProjectPath": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\VS2017.AIAssistant.csproj",
+        "RequiredVersions": [
+          "2017"
+        ],
+        "Matrix": [
+          {
+            "VisualStudio": "2017",
+            "Required": true,
+            "Declared": true,
+            "RequestedArchitecture": "x86",
+            "MatchingRanges": [
+              "[15.0.28307.0,16.0)"
+            ],
+            "ManifestStatus": "Declared"
+          },
+          {
+            "VisualStudio": "2019",
+            "Required": false,
+            "Declared": false,
+            "RequestedArchitecture": "x86",
+            "MatchingRanges": [],
+            "ManifestStatus": "NotDeclared"
+          },
+          {
+            "VisualStudio": "2022",
+            "Required": false,
+            "Declared": false,
+            "RequestedArchitecture": "amd64",
+            "MatchingRanges": [],
+            "ManifestStatus": "NotDeclared"
+          }
+        ],
+        "Frameworks": [
+          "v4.6.2"
+        ],
+        "PlatformTargets": [
+          "anycpu"
+        ],
+        "Packages": [
+          {
+            "Id": "Microsoft.VisualStudio.Shell.15.0",
+            "Version": "15.9.28307"
+          },
+          {
+            "Id": "EnvDTE",
+            "Version": "8.0.2"
+          },
+          {
+            "Id": "Microsoft.VisualStudio.Threading",
+            "Version": "15.8.122"
+          },
+          {
+            "Id": "Newtonsoft.Json",
+            "Version": "13.0.3"
+          },
+          {
+            "Id": "Microsoft.VSSDK.BuildTools",
+            "Version": "15.9.3032"
+          },
+          {
+            "Id": "Microsoft.NETFramework.ReferenceAssemblies",
+            "Version": "1.0.3"
+          }
+        ],
+        "Failures": [],
+        "Warnings": [
+          "Static source checks only: MSBuild imports/conditions, dependencies, VSIX contents, and IDE loading still require build and installation tests."
+        ]
+      }
+    },
+    {
+      "Version": "2019",
+      "AssemblySha256": "936909D1686EBD7A025F769798A8A9C61597B8A94F3FADDF225818664F3D290E",
+      "Result": {
+        "Succeeded": true,
+        "Passed": 91,
+        "Failed": 0,
+        "IdeRuntimeTest": true,
+        "HostVersion": "16.0",
+        "RegistryRoot": "Software\\Microsoft\\VisualStudio\\16.0_04212cb1CodexCodeTest6162d243",
+        "ProductAssembly": "c:\\users\\ygree\\appdata\\local\\microsoft\\visualstudio\\16.0_04212cb1codexcodetest6162d243\\extensions\\sqragr4b.zrp\\VS2017.AIAssistant.dll",
+        "ProductVersion": "0.9.0.0",
+        "ProductSha256": "936909D1686EBD7A025F769798A8A9C61597B8A94F3FADDF225818664F3D290E",
+        "LiveCodexTest": false,
+        "LiveSqlDraftTest": false,
+        "LiveClaudeTest": false,
+        "UserProjectSourceSent": false,
+        "Tests": [
+          {
+            "Name": "IDE-00 actual loaded product matches selected VSIX SHA256",
+            "Passed": true
+          },
+          {
+            "Name": "IDE-01 product package loaded by registered menu",
+            "Passed": true
+          },
+          {
+            "Name": "IDE-02 actual configured Visual Studio host 16",
+            "Passed": true
+          },
+          {
+            "Name": "IDE-03 tool window created",
+            "Passed": true
+          },
+          {
+            "Name": "WORK-01 first provider tab is Claude",
+            "Passed": true
+          },
+          {
+            "Name": "CHAT-01 IDE caption removes Chat and retains document tab",
+            "Passed": true
+          },
+          {
+            "Name": "CHAT-02 Chat can float",
+            "Passed": true
+          },
+          {
+            "Name": "CHAT-03 Chat can dock",
+            "Passed": true
+          },
+          {
+            "Name": "CHAT-04 Chat returns to document tab",
+            "Passed": true
+          },
+          {
+            "Name": "IDE-04 real document service connected",
+            "Passed": true
+          },
+          {
+            "Name": "LICENSE-01 no licensing warning observed in actual IDE session",
+            "Passed": true
+          },
+          {
+            "Name": "IDE-05 production EnvDTE adapter",
+            "Passed": true
+          },
+          {
+            "Name": "UX-01 first visible Chat automatically opens four-step guide",
+            "Passed": true
+          },
+          {
+            "Name": "UX-02 first guide is centered and checkbox starts unchecked",
+            "Passed": true
+          },
+          {
+            "Name": "UX-03 hide guide persists without changing paths models rules size",
+            "Passed": true
+          },
+          {
+            "Name": "UX-04 prompt keeps targeted cut copy paste and select all commands",
+            "Passed": true
+          },
+          {
+            "Name": "UX-05 preview retains copy and app settings without write commands",
+            "Passed": true
+          },
+          {
+            "Name": "UX-06 all areas expose settings and manual guide",
+            "Passed": true
+          },
+          {
+            "Name": "UX-07 hidden guide can be reopened manually with stored checkbox",
+            "Passed": true
+          },
+          {
+            "Name": "UX-08 right-click settings opens a centered modal settings window",
+            "Passed": true
+          },
+          {
+            "Name": "UX-09 cancel restores all live settings and does not write disk",
+            "Passed": true
+          },
+          {
+            "Name": "UX-10 dialog and text controls use the same dark palette",
+            "Passed": true
+          },
+          {
+            "Name": "UX-11 save closes dialog and preserves guide and other provider",
+            "Passed": true
+          },
+          {
+            "Name": "UX-16 instruction failure preserves both JSON and Markdown",
+            "Passed": true
+          },
+          {
+            "Name": "UX-12 save failure stays visible in settings popup",
+            "Passed": true
+          },
+          {
+            "Name": "UX-13 failed save preserves original settings file",
+            "Passed": true
+          },
+          {
+            "Name": "UX-14 recreated Chat suppresses automatic guide and restores settings",
+            "Passed": true
+          },
+          {
+            "Name": "UX-15 manual guide can restore automatic display without other changes",
+            "Passed": true
+          },
+          {
+            "Name": "IDE-06 request without source rejected",
+            "Passed": true
+          },
+          {
+            "Name": "SELECT-01 actual IDE selected text separately captured",
+            "Passed": true
+          },
+          {
+            "Name": "SELECT-02 selection retains complete source and disk conflict hash",
+            "Passed": true
+          },
+          {
+            "Name": "SELECT-03 reversed actual IDE selection normalized",
+            "Passed": true
+          },
+          {
+            "Name": "SELECT-04 cleared selection leaves full source context",
+            "Passed": true
+          },
+          {
+            "Name": "FULL-01 actual saved editor context supports direct execution",
+            "Passed": true
+          },
+          {
+            "Name": "FULL-02 another open unsaved file blocks native direct writes",
+            "Passed": true
+          },
+          {
+            "Name": "CHAT-05 Chat tab retains last source target",
+            "Passed": true
+          },
+          {
+            "Name": "CHAT-06 text attachment appears in actual IDE",
+            "Passed": true
+          },
+          {
+            "Name": "CHAT-07 settings restore in recreated IDE control",
+            "Passed": true
+          },
+          {
+            "Name": "CHAT-08 settings isolated from personal profile",
+            "Passed": true
+          },
+          {
+            "Name": "IDE-07 capture exact active buffer",
+            "Passed": true
+          },
+          {
+            "Name": "IDE-08 project and framework context",
+            "Passed": true
+          },
+          {
+            "Name": "IDE-09 unsaved edits captured",
+            "Passed": true
+          },
+          {
+            "Name": "IDE-10 Codex fixture proposal displayed",
+            "Passed": true
+          },
+          {
+            "Name": "WORK-02 change card lists the modified source",
+            "Passed": true
+          },
+          {
+            "Name": "CHAT-09 conversation stacks user and AI turns",
+            "Passed": true
+          },
+          {
+            "Name": "IDE-11 approval starts unchecked",
+            "Passed": true
+          },
+          {
+            "Name": "IDE-12 proposal preserves buffer and disk",
+            "Passed": true
+          },
+          {
+            "Name": "WORK-03 source link navigates to fixed target in actual IDE",
+            "Passed": true
+          },
+          {
+            "Name": "IDE-13 active file switch preserves fixed target",
+            "Passed": true
+          },
+          {
+            "Name": "IDE-14 apply changes only editor buffer",
+            "Passed": true
+          },
+          {
+            "Name": "IDE-15 one IDE Undo restores entire prior buffer",
+            "Passed": true
+          },
+          {
+            "Name": "IDE-16 explicit Save writes proposed text",
+            "Passed": true
+          },
+          {
+            "Name": "IDE-17 UTF8 BOM and CRLF retained",
+            "Passed": true
+          },
+          {
+            "Name": "IDE-18 Restore returns original unsaved content",
+            "Passed": true
+          },
+          {
+            "Name": "IDE-19 Restore leaves disk until explicit save",
+            "Passed": true
+          },
+          {
+            "Name": "IDE-20 edits after proposal block apply",
+            "Passed": true
+          },
+          {
+            "Name": "CHAT-10 Provider tabs separate drafts and attachments",
+            "Passed": true
+          },
+          {
+            "Name": "IDE-21 Claude fixture protocol in real IDE",
+            "Passed": true
+          },
+          {
+            "Name": "IDE-22 Claude proposal applies through actual adapter",
+            "Passed": true
+          },
+          {
+            "Name": "WORK-04 empty SQL query draft preserves disk before approval",
+            "Passed": true
+          },
+          {
+            "Name": "WORK-05 approved SQL query is saved by actual IDE",
+            "Passed": true
+          },
+          {
+            "Name": "WORK-06 new conversation retains prior history and persists new draft",
+            "Passed": true
+          },
+          {
+            "Name": "WORK-07 recreated IDE control restores provider conversation tabs",
+            "Passed": true
+          },
+          {
+            "Name": "SIDEBAR-01 actual IDE exposes a full-height resizable conversation boundary",
+            "Passed": true
+          },
+          {
+            "Name": "SIDEBAR-02 real splitter drag expands the list inside VS2017",
+            "Passed": true
+          },
+          {
+            "Name": "SIDEBAR-03 dragging left collapses the actual IDE sidebar",
+            "Passed": true
+          },
+          {
+            "Name": "SIDEBAR-04 reopening restores the real resized width",
+            "Passed": true
+          },
+          {
+            "Name": "SIDEBAR-05 actual successful AI requests retain completed state in Markdown",
+            "Passed": true
+          },
+          {
+            "Name": "SIDEBAR-06 viewing the IDE conversation clears only its persisted unread marker",
+            "Passed": true
+          },
+          {
+            "Name": "SIDEBAR-07 recreated IDE control restores list preference and width",
+            "Passed": true
+          },
+          {
+            "Name": "ADVANCED-01 actual IDE asynchronously extracts document body into the composer",
+            "Passed": true
+          },
+          {
+            "Name": "ADVANCED-02 actual IDE displays the persisted unique AI name and collaboration count",
+            "Passed": true
+          },
+          {
+            "Name": "ADVANCED-03 actual native peer and coordinator requests deliver a real handoff inside VS2017",
+            "Passed": true
+          },
+          {
+            "Name": "ADVANCED-04 collaboration leaves actual IDE source and disk unchanged before approval",
+            "Passed": true
+          },
+          {
+            "Name": "ADVANCED-05 peer completion and unread status are saved separately in the IDE",
+            "Passed": true
+          },
+          {
+            "Name": "ADVANCED-06 actual collaboration report contains the real participants and result",
+            "Passed": true
+          },
+          {
+            "Name": "ADVANCED-07 model details and capability-controlled Fast are present in the real host",
+            "Passed": true
+          },
+          {
+            "Name": "ADVANCED-08 recreated IDE controls restore AI identity and selected collaborators",
+            "Passed": true
+          },
+          {
+            "Name": "IMAGES-01 actual IDE keeps conversation actions in the scrollable sidebar footer",
+            "Passed": true
+          },
+          {
+            "Name": "IMAGES-02 actual IDE model dropdown is anchored and contains its strength gauge and topic index",
+            "Passed": true
+          },
+          {
+            "Name": "IMAGES-03 Escape closes the actual IDE dropdown without opening another window",
+            "Passed": true
+          },
+          {
+            "Name": "IMAGES-04 actual IDE permission dropdown exposes three presets and the separate action planner",
+            "Passed": true
+          },
+          {
+            "Name": "IMAGES-05 the actual IDE AI dropdown routes its selected name to the original conversation",
+            "Passed": true
+          },
+          {
+            "Name": "IMAGES-06 repeated hover in the actual IDE opens the fan once",
+            "Passed": true
+          },
+          {
+            "Name": "IMAGES-07 the actual IDE tooltip uses the dark palette and wraps a long explanation",
+            "Passed": true
+          },
+          {
+            "Name": "FULL-04 actual IDE full runner executes file writes and test command",
+            "Passed": true
+          },
+          {
+            "Name": "FULL-08 completed request immediately exposes its final reported usage",
+            "Passed": true
+          },
+          {
+            "Name": "FULL-05 actual IDE usage tooltip displays reported tokens",
+            "Passed": true
+          },
+          {
+            "Name": "FULL-06 actual IDE records public progress and completed state",
+            "Passed": true
+          },
+          {
+            "Name": "FULL-07 actual IDE executed change card preserves direct mode",
+            "Passed": true
+          },
+          {
+            "Name": "FULL-03 a solution without an active source permits project context",
+            "Passed": true
+          }
+        ]
+      },
+      "ResultPath": "artifacts/ide/run-6162d24344ce4c1a833fbfd496620dd8/result.json",
+      "ResultSha256": "13A748183D95F62C0693FC20CA7ADF0CC0FBD4E2EA0D62991A5933262D47AE51",
+      "LicenseObservation": {
+        "IdeMajor": "16",
+        "MainWindowInspected": true,
+        "BlockingLicenseTextObserved": false,
+        "CheckedAt": "2026-10-18T11:19:16.411Z",
+        "Scope": "현재 테스트 인스턴스의 표시된 WPF 텍스트 관찰. 계정의 라이선스 유효성이나 미래 배너 부재를 인증하지 않음."
+      },
+      "Compatibility": {
+        "SchemaVersion": 1,
+        "CheckKind": "StaticSourceCompatibility",
+        "Succeeded": true,
+        "ManifestPath": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2019.AIAssistant\\source.extension.vsixmanifest",
+        "ProjectPath": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2019.AIAssistant\\VS2019.AIAssistant.csproj",
+        "RequiredVersions": [
+          "2019"
+        ],
+        "Matrix": [
+          {
+            "VisualStudio": "2017",
+            "Required": false,
+            "Declared": false,
+            "RequestedArchitecture": "x86",
+            "MatchingRanges": [],
+            "ManifestStatus": "NotDeclared"
+          },
+          {
+            "VisualStudio": "2019",
+            "Required": true,
+            "Declared": true,
+            "RequestedArchitecture": "x86",
+            "MatchingRanges": [
+              "[16.0,17.0)"
+            ],
+            "ManifestStatus": "Declared"
+          },
+          {
+            "VisualStudio": "2022",
+            "Required": false,
+            "Declared": false,
+            "RequestedArchitecture": "amd64",
+            "MatchingRanges": [],
+            "ManifestStatus": "NotDeclared"
+          }
+        ],
+        "Frameworks": [
+          "v4.6.2"
+        ],
+        "PlatformTargets": [
+          "anycpu"
+        ],
+        "Packages": [
+          {
+            "Id": "Microsoft.VisualStudio.Shell.15.0",
+            "Version": "15.9.28307"
+          },
+          {
+            "Id": "EnvDTE",
+            "Version": "8.0.2"
+          },
+          {
+            "Id": "Microsoft.VisualStudio.Threading",
+            "Version": "15.8.122"
+          },
+          {
+            "Id": "Newtonsoft.Json",
+            "Version": "13.0.3"
+          },
+          {
+            "Id": "Microsoft.VSSDK.BuildTools",
+            "Version": "15.9.3032"
+          },
+          {
+            "Id": "Microsoft.NETFramework.ReferenceAssemblies",
+            "Version": "1.0.3"
+          }
+        ],
+        "Failures": [],
+        "Warnings": [
+          "Static source checks only: MSBuild imports/conditions, dependencies, VSIX contents, and IDE loading still require build and installation tests."
+        ]
+      }
+    },
+    {
+      "Version": "2022",
+      "AssemblySha256": "C159E49AF5968757AA8816CD9AFD2D6FAAB7580CBCE555C7EC1CF2B659B786B3",
+      "Result": {
+        "Succeeded": true,
+        "Passed": 91,
+        "Failed": 0,
+        "IdeRuntimeTest": true,
+        "HostVersion": "17.0",
+        "RegistryRoot": "Software\\Microsoft\\VisualStudio\\17.0_0b4009f1CodexCodeTestdff163df",
+        "ProductAssembly": "c:\\users\\ygree\\appdata\\local\\microsoft\\visualstudio\\17.0_0b4009f1codexcodetestdff163df\\extensions\\jpak1yve.src\\VS2017.AIAssistant.dll",
+        "ProductVersion": "0.9.0.0",
+        "ProductSha256": "C159E49AF5968757AA8816CD9AFD2D6FAAB7580CBCE555C7EC1CF2B659B786B3",
+        "LiveCodexTest": false,
+        "LiveSqlDraftTest": false,
+        "LiveClaudeTest": false,
+        "UserProjectSourceSent": false,
+        "Tests": [
+          {
+            "Name": "IDE-00 actual loaded product matches selected VSIX SHA256",
+            "Passed": true
+          },
+          {
+            "Name": "IDE-01 product package loaded by registered menu",
+            "Passed": true
+          },
+          {
+            "Name": "IDE-02 actual configured Visual Studio host 17",
+            "Passed": true
+          },
+          {
+            "Name": "IDE-03 tool window created",
+            "Passed": true
+          },
+          {
+            "Name": "WORK-01 first provider tab is Claude",
+            "Passed": true
+          },
+          {
+            "Name": "CHAT-01 IDE caption removes Chat and retains document tab",
+            "Passed": true
+          },
+          {
+            "Name": "CHAT-02 Chat can float",
+            "Passed": true
+          },
+          {
+            "Name": "CHAT-03 Chat can dock",
+            "Passed": true
+          },
+          {
+            "Name": "CHAT-04 Chat returns to document tab",
+            "Passed": true
+          },
+          {
+            "Name": "IDE-04 real document service connected",
+            "Passed": true
+          },
+          {
+            "Name": "LICENSE-01 no licensing warning observed in actual IDE session",
+            "Passed": true
+          },
+          {
+            "Name": "IDE-05 production EnvDTE adapter",
+            "Passed": true
+          },
+          {
+            "Name": "UX-01 first visible Chat automatically opens four-step guide",
+            "Passed": true
+          },
+          {
+            "Name": "UX-02 first guide is centered and checkbox starts unchecked",
+            "Passed": true
+          },
+          {
+            "Name": "UX-03 hide guide persists without changing paths models rules size",
+            "Passed": true
+          },
+          {
+            "Name": "UX-04 prompt keeps targeted cut copy paste and select all commands",
+            "Passed": true
+          },
+          {
+            "Name": "UX-05 preview retains copy and app settings without write commands",
+            "Passed": true
+          },
+          {
+            "Name": "UX-06 all areas expose settings and manual guide",
+            "Passed": true
+          },
+          {
+            "Name": "UX-07 hidden guide can be reopened manually with stored checkbox",
+            "Passed": true
+          },
+          {
+            "Name": "UX-08 right-click settings opens a centered modal settings window",
+            "Passed": true
+          },
+          {
+            "Name": "UX-09 cancel restores all live settings and does not write disk",
+            "Passed": true
+          },
+          {
+            "Name": "UX-10 dialog and text controls use the same dark palette",
+            "Passed": true
+          },
+          {
+            "Name": "UX-11 save closes dialog and preserves guide and other provider",
+            "Passed": true
+          },
+          {
+            "Name": "UX-16 instruction failure preserves both JSON and Markdown",
+            "Passed": true
+          },
+          {
+            "Name": "UX-12 save failure stays visible in settings popup",
+            "Passed": true
+          },
+          {
+            "Name": "UX-13 failed save preserves original settings file",
+            "Passed": true
+          },
+          {
+            "Name": "UX-14 recreated Chat suppresses automatic guide and restores settings",
+            "Passed": true
+          },
+          {
+            "Name": "UX-15 manual guide can restore automatic display without other changes",
+            "Passed": true
+          },
+          {
+            "Name": "IDE-06 request without source rejected",
+            "Passed": true
+          },
+          {
+            "Name": "SELECT-01 actual IDE selected text separately captured",
+            "Passed": true
+          },
+          {
+            "Name": "SELECT-02 selection retains complete source and disk conflict hash",
+            "Passed": true
+          },
+          {
+            "Name": "SELECT-03 reversed actual IDE selection normalized",
+            "Passed": true
+          },
+          {
+            "Name": "SELECT-04 cleared selection leaves full source context",
+            "Passed": true
+          },
+          {
+            "Name": "FULL-01 actual saved editor context supports direct execution",
+            "Passed": true
+          },
+          {
+            "Name": "FULL-02 another open unsaved file blocks native direct writes",
+            "Passed": true
+          },
+          {
+            "Name": "CHAT-05 Chat tab retains last source target",
+            "Passed": true
+          },
+          {
+            "Name": "CHAT-06 text attachment appears in actual IDE",
+            "Passed": true
+          },
+          {
+            "Name": "CHAT-07 settings restore in recreated IDE control",
+            "Passed": true
+          },
+          {
+            "Name": "CHAT-08 settings isolated from personal profile",
+            "Passed": true
+          },
+          {
+            "Name": "IDE-07 capture exact active buffer",
+            "Passed": true
+          },
+          {
+            "Name": "IDE-08 project and framework context",
+            "Passed": true
+          },
+          {
+            "Name": "IDE-09 unsaved edits captured",
+            "Passed": true
+          },
+          {
+            "Name": "IDE-10 Codex fixture proposal displayed",
+            "Passed": true
+          },
+          {
+            "Name": "WORK-02 change card lists the modified source",
+            "Passed": true
+          },
+          {
+            "Name": "CHAT-09 conversation stacks user and AI turns",
+            "Passed": true
+          },
+          {
+            "Name": "IDE-11 approval starts unchecked",
+            "Passed": true
+          },
+          {
+            "Name": "IDE-12 proposal preserves buffer and disk",
+            "Passed": true
+          },
+          {
+            "Name": "WORK-03 source link navigates to fixed target in actual IDE",
+            "Passed": true
+          },
+          {
+            "Name": "IDE-13 active file switch preserves fixed target",
+            "Passed": true
+          },
+          {
+            "Name": "IDE-14 apply changes only editor buffer",
+            "Passed": true
+          },
+          {
+            "Name": "IDE-15 one IDE Undo restores entire prior buffer",
+            "Passed": true
+          },
+          {
+            "Name": "IDE-16 explicit Save writes proposed text",
+            "Passed": true
+          },
+          {
+            "Name": "IDE-17 UTF8 BOM and CRLF retained",
+            "Passed": true
+          },
+          {
+            "Name": "IDE-18 Restore returns original unsaved content",
+            "Passed": true
+          },
+          {
+            "Name": "IDE-19 Restore leaves disk until explicit save",
+            "Passed": true
+          },
+          {
+            "Name": "IDE-20 edits after proposal block apply",
+            "Passed": true
+          },
+          {
+            "Name": "CHAT-10 Provider tabs separate drafts and attachments",
+            "Passed": true
+          },
+          {
+            "Name": "IDE-21 Claude fixture protocol in real IDE",
+            "Passed": true
+          },
+          {
+            "Name": "IDE-22 Claude proposal applies through actual adapter",
+            "Passed": true
+          },
+          {
+            "Name": "WORK-04 empty SQL query draft preserves disk before approval",
+            "Passed": true
+          },
+          {
+            "Name": "WORK-05 approved SQL query is saved by actual IDE",
+            "Passed": true
+          },
+          {
+            "Name": "WORK-06 new conversation retains prior history and persists new draft",
+            "Passed": true
+          },
+          {
+            "Name": "WORK-07 recreated IDE control restores provider conversation tabs",
+            "Passed": true
+          },
+          {
+            "Name": "SIDEBAR-01 actual IDE exposes a full-height resizable conversation boundary",
+            "Passed": true
+          },
+          {
+            "Name": "SIDEBAR-02 real splitter drag expands the list inside VS2017",
+            "Passed": true
+          },
+          {
+            "Name": "SIDEBAR-03 dragging left collapses the actual IDE sidebar",
+            "Passed": true
+          },
+          {
+            "Name": "SIDEBAR-04 reopening restores the real resized width",
+            "Passed": true
+          },
+          {
+            "Name": "SIDEBAR-05 actual successful AI requests retain completed state in Markdown",
+            "Passed": true
+          },
+          {
+            "Name": "SIDEBAR-06 viewing the IDE conversation clears only its persisted unread marker",
+            "Passed": true
+          },
+          {
+            "Name": "SIDEBAR-07 recreated IDE control restores list preference and width",
+            "Passed": true
+          },
+          {
+            "Name": "ADVANCED-01 actual IDE asynchronously extracts document body into the composer",
+            "Passed": true
+          },
+          {
+            "Name": "ADVANCED-02 actual IDE displays the persisted unique AI name and collaboration count",
+            "Passed": true
+          },
+          {
+            "Name": "ADVANCED-03 actual native peer and coordinator requests deliver a real handoff inside VS2017",
+            "Passed": true
+          },
+          {
+            "Name": "ADVANCED-04 collaboration leaves actual IDE source and disk unchanged before approval",
+            "Passed": true
+          },
+          {
+            "Name": "ADVANCED-05 peer completion and unread status are saved separately in the IDE",
+            "Passed": true
+          },
+          {
+            "Name": "ADVANCED-06 actual collaboration report contains the real participants and result",
+            "Passed": true
+          },
+          {
+            "Name": "ADVANCED-07 model details and capability-controlled Fast are present in the real host",
+            "Passed": true
+          },
+          {
+            "Name": "ADVANCED-08 recreated IDE controls restore AI identity and selected collaborators",
+            "Passed": true
+          },
+          {
+            "Name": "IMAGES-01 actual IDE keeps conversation actions in the scrollable sidebar footer",
+            "Passed": true
+          },
+          {
+            "Name": "IMAGES-02 actual IDE model dropdown is anchored and contains its strength gauge and topic index",
+            "Passed": true
+          },
+          {
+            "Name": "IMAGES-03 Escape closes the actual IDE dropdown without opening another window",
+            "Passed": true
+          },
+          {
+            "Name": "IMAGES-04 actual IDE permission dropdown exposes three presets and the separate action planner",
+            "Passed": true
+          },
+          {
+            "Name": "IMAGES-05 the actual IDE AI dropdown routes its selected name to the original conversation",
+            "Passed": true
+          },
+          {
+            "Name": "IMAGES-06 repeated hover in the actual IDE opens the fan once",
+            "Passed": true
+          },
+          {
+            "Name": "IMAGES-07 the actual IDE tooltip uses the dark palette and wraps a long explanation",
+            "Passed": true
+          },
+          {
+            "Name": "FULL-04 actual IDE full runner executes file writes and test command",
+            "Passed": true
+          },
+          {
+            "Name": "FULL-08 completed request immediately exposes its final reported usage",
+            "Passed": true
+          },
+          {
+            "Name": "FULL-05 actual IDE usage tooltip displays reported tokens",
+            "Passed": true
+          },
+          {
+            "Name": "FULL-06 actual IDE records public progress and completed state",
+            "Passed": true
+          },
+          {
+            "Name": "FULL-07 actual IDE executed change card preserves direct mode",
+            "Passed": true
+          },
+          {
+            "Name": "FULL-03 a solution without an active source permits project context",
+            "Passed": true
+          }
+        ]
+      },
+      "ResultPath": "artifacts/ide/run-dff163df902d496b891f194ced1d060c/result.json",
+      "ResultSha256": "9802A36C32B45297A44E02F571886E396F6AA88B607EF3CC97CE9FB1D1EAFEDD",
+      "LicenseObservation": {
+        "IdeMajor": "17",
+        "MainWindowInspected": true,
+        "BlockingLicenseTextObserved": false,
+        "CheckedAt": "2026-10-18T11:20:49.298Z",
+        "Scope": "현재 테스트 인스턴스의 표시된 WPF 텍스트 관찰. 계정의 라이선스 유효성이나 미래 배너 부재를 인증하지 않음."
+      },
+      "Compatibility": {
+        "SchemaVersion": 1,
+        "CheckKind": "StaticSourceCompatibility",
+        "Succeeded": true,
+        "ManifestPath": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2022.AIAssistant\\source.extension.vsixmanifest",
+        "ProjectPath": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2022.AIAssistant\\VS2022.AIAssistant.csproj",
+        "RequiredVersions": [
+          "2022"
+        ],
+        "Matrix": [
+          {
+            "VisualStudio": "2017",
+            "Required": false,
+            "Declared": false,
+            "RequestedArchitecture": "x86",
+            "MatchingRanges": [],
+            "ManifestStatus": "NotDeclared"
+          },
+          {
+            "VisualStudio": "2019",
+            "Required": false,
+            "Declared": false,
+            "RequestedArchitecture": "x86",
+            "MatchingRanges": [],
+            "ManifestStatus": "NotDeclared"
+          },
+          {
+            "VisualStudio": "2022",
+            "Required": true,
+            "Declared": true,
+            "RequestedArchitecture": "amd64",
+            "MatchingRanges": [
+              "[17.0,18.0)"
+            ],
+            "ManifestStatus": "Declared"
+          }
+        ],
+        "Frameworks": [
+          "v4.7.2"
+        ],
+        "PlatformTargets": [
+          "anycpu"
+        ],
+        "Packages": [
+          {
+            "Id": "Microsoft.VisualStudio.Shell.15.0",
+            "Version": "17.0.32112.339"
+          },
+          {
+            "Id": "Microsoft.VisualStudio.Threading",
+            "Version": "17.0.64"
+          },
+          {
+            "Id": "Newtonsoft.Json",
+            "Version": "13.0.3"
+          },
+          {
+            "Id": "Microsoft.VSSDK.BuildTools",
+            "Version": "17.0.5241"
+          },
+          {
+            "Id": "Microsoft.NETFramework.ReferenceAssemblies",
+            "Version": "1.0.3"
+          },
+          {
+            "Id": "Microsoft.VisualStudio.Validation",
+            "Version": "17.0.34"
+          }
+        ],
+        "Failures": [],
+        "Warnings": [
+          "Static source checks only: MSBuild imports/conditions, dependencies, VSIX contents, and IDE loading still require build and installation tests."
+        ]
+      }
+    }
+  ],
+  "RootRuns": [
+    {
+      "Name": "root-all-final-1",
+      "Log": "artifacts/tl/f3fb027dbe/launcher.log",
+      "LogSha256": "C2E5E7EE41FB873B0240B5162AF02D575C8C2602136A7866E67A77250A1164A3",
+      "Passed": 14,
+      "Total": 16,
+      "Suites": [
+        {
+          "Suite": "compatibility",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "build-entry",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "markdown",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "settings",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "workspace-actions",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "editing",
+          "ExitCode": 1
+        },
+        {
+          "Suite": "foundation",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "experience",
+          "ExitCode": 1
+        },
+        {
+          "Suite": "documents",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "collaboration",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "provider-options",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "provider-cli",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "scm-identity",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "image-requirements",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "image-followup",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "native-runtime",
+          "ExitCode": 0
+        }
+      ]
+    },
+    {
+      "Name": "root-all-final-2",
+      "Log": "artifacts/tl/105f45f8b2/launcher.log",
+      "LogSha256": "7B7945C493CF10E6FE62156B07DBB5A02BD7D7E2349D5ED766A978BFA142E0F7",
+      "Passed": 16,
+      "Total": 16,
+      "Suites": [
+        {
+          "Suite": "compatibility",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "build-entry",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "markdown",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "settings",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "workspace-actions",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "editing",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "foundation",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "experience",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "documents",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "collaboration",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "provider-options",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "provider-cli",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "scm-identity",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "image-requirements",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "image-followup",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "native-runtime",
+          "ExitCode": 0
+        }
+      ]
+    },
+    {
+      "Name": "root-all-final-3",
+      "Log": "artifacts/tl/fab9ffb6ff/launcher.log",
+      "LogSha256": "29B337CAD473280216EFCB0C07E172B1AFF72BE6DF63FEEDF712991F14C465EE",
+      "Passed": 16,
+      "Total": 16,
+      "Suites": [
+        {
+          "Suite": "compatibility",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "build-entry",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "markdown",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "settings",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "workspace-actions",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "editing",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "foundation",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "experience",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "documents",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "collaboration",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "provider-options",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "provider-cli",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "scm-identity",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "image-requirements",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "image-followup",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "native-runtime",
+          "ExitCode": 0
+        }
+      ]
+    },
+    {
+      "Name": "root-candidate6-1",
+      "Log": "artifacts/tl/26d424001c/launcher.log",
+      "LogSha256": "770E67B2DA4073575EA58A2536AFF31AE53042A39D2FF355AAF513549966CAB1",
+      "Passed": 16,
+      "Total": 16,
+      "Suites": [
+        {
+          "Suite": "compatibility",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "build-entry",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "markdown",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "settings",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "workspace-actions",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "editing",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "foundation",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "experience",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "documents",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "collaboration",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "provider-options",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "provider-cli",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "scm-identity",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "image-requirements",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "image-followup",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "native-runtime",
+          "ExitCode": 0
+        }
+      ]
+    },
+    {
+      "Name": "root-candidate6-2",
+      "Log": "artifacts/tl/eb335a73aa/launcher.log",
+      "LogSha256": "4267F547749475A2C0F0630F49789355DC1742D984C335A6D89C0DD2A2458231",
+      "Passed": 16,
+      "Total": 16,
+      "Suites": [
+        {
+          "Suite": "compatibility",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "build-entry",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "markdown",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "settings",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "workspace-actions",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "editing",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "foundation",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "experience",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "documents",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "collaboration",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "provider-options",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "provider-cli",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "scm-identity",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "image-requirements",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "image-followup",
+          "ExitCode": 0
+        },
+        {
+          "Suite": "native-runtime",
+          "ExitCode": 0
+        }
+      ]
+    }
+  ],
+  "ImageFollowup": {
+    "Succeeded": true,
+    "Passed": 229,
+    "Failed": 0,
+    "PassedSuites": 8,
+    "FailedSuites": 0,
+    "Suites": [
+      {
+        "Name": "SelectionContext",
+        "Succeeded": true,
+        "Passed": 38,
+        "Failed": 0,
+        "ReportedFailed": 0,
+        "ExecutionFailure": false,
+        "ExitCode": 0,
+        "Error": "",
+        "ScriptPath": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\tests\\task021\\Test-SelectionContext.ps1",
+        "ResultPath": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\tl\\eb335a73aa\\image-followup\\selection\\result.json",
+        "StandardOutputPath": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\tl\\eb335a73aa\\image-followup\\selection\\stdout.log",
+        "StandardErrorPath": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\tl\\eb335a73aa\\image-followup\\selection\\stderr.log",
+        "ProcessPath": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+        "Arguments": [
+          "-NoLogo",
+          "-NoProfile",
+          "-NonInteractive",
+          "-STA",
+          "-ExecutionPolicy",
+          "Bypass",
+          "-File",
+          "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\tests\\task021\\Test-SelectionContext.ps1",
+          "-AssemblyPath",
+          "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\tl\\eb335a73aa\\image-followup\\input\\VS2017.AIAssistant.dll",
+          "-OutputDirectory",
+          "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\tl\\eb335a73aa\\image-followup\\selection"
+        ],
+        "StartedAt": "2026-10-18T20:25:41.3945088+09:00",
+        "ElapsedSeconds": 3.601
+      },
+      {
+        "Name": "DiffReview",
+        "Succeeded": true,
+        "Passed": 18,
+        "Failed": 0,
+        "ReportedFailed": 0,
+        "ExecutionFailure": false,
+        "ExitCode": 0,
+        "Error": "",
+        "ScriptPath": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\tests\\task021\\Test-DiffReview.ps1",
+        "ResultPath": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\tl\\eb335a73aa\\image-followup\\diff\\result.json",
+        "StandardOutputPath": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\tl\\eb335a73aa\\image-followup\\diff\\stdout.log",
+        "StandardErrorPath": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\tl\\eb335a73aa\\image-followup\\diff\\stderr.log",
+        "ProcessPath": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+        "Arguments": [
+          "-NoLogo",
+          "-NoProfile",
+          "-NonInteractive",
+          "-STA",
+          "-ExecutionPolicy",
+          "Bypass",
+          "-File",
+          "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\tests\\task021\\Test-DiffReview.ps1",
+          "-AssemblyPath",
+          "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\tl\\eb335a73aa\\image-followup\\input\\VS2017.AIAssistant.dll",
+          "-OutputDirectory",
+          "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\tl\\eb335a73aa\\image-followup\\diff"
+        ],
+        "StartedAt": "2026-10-18T20:25:45.0107448+09:00",
+        "ElapsedSeconds": 3.469
+      },
+      {
+        "Name": "HelpContent",
+        "Succeeded": true,
+        "Passed": 14,
+        "Failed": 0,
+        "ReportedFailed": 0,
+        "ExecutionFailure": false,
+        "ExitCode": 0,
+        "Error": "",
+        "ScriptPath": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\tests\\task021\\Test-HelpContent.ps1",
+        "ResultPath": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\tl\\eb335a73aa\\image-followup\\help\\result.json",
+        "StandardOutputPath": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\tl\\eb335a73aa\\image-followup\\help\\stdout.log",
+        "StandardErrorPath": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\tl\\eb335a73aa\\image-followup\\help\\stderr.log",
+        "ProcessPath": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+        "Arguments": [
+          "-NoLogo",
+          "-NoProfile",
+          "-NonInteractive",
+          "-STA",
+          "-ExecutionPolicy",
+          "Bypass",
+          "-File",
+          "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\tests\\task021\\Test-HelpContent.ps1",
+          "-AssemblyPath",
+          "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\tl\\eb335a73aa\\image-followup\\input\\VS2017.AIAssistant.dll",
+          "-OutputDirectory",
+          "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\tl\\eb335a73aa\\image-followup\\help"
+        ],
+        "StartedAt": "2026-10-18T20:25:48.4854626+09:00",
+        "ElapsedSeconds": 3.211
+      },
+      {
+        "Name": "ImageFollowup",
+        "Succeeded": true,
+        "Passed": 56,
+        "Failed": 0,
+        "ReportedFailed": 0,
+        "ExecutionFailure": false,
+        "ExitCode": 0,
+        "Error": "",
+        "ScriptPath": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\tests\\task021\\Test-ImageFollowup.ps1",
+        "ResultPath": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\tl\\eb335a73aa\\image-followup\\images\\result.json",
+        "StandardOutputPath": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\tl\\eb335a73aa\\image-followup\\images\\stdout.log",
+        "StandardErrorPath": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\tl\\eb335a73aa\\image-followup\\images\\stderr.log",
+        "ProcessPath": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+        "Arguments": [
+          "-NoLogo",
+          "-NoProfile",
+          "-NonInteractive",
+          "-STA",
+          "-ExecutionPolicy",
+          "Bypass",
+          "-File",
+          "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\tests\\task021\\Test-ImageFollowup.ps1",
+          "-AssemblyPath",
+          "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\tl\\eb335a73aa\\image-followup\\input\\VS2017.AIAssistant.dll",
+          "-OutputDirectory",
+          "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\tl\\eb335a73aa\\image-followup\\images"
+        ],
+        "StartedAt": "2026-10-18T20:25:51.6991589+09:00",
+        "ElapsedSeconds": 9.062
+      },
+      {
+        "Name": "FanGeometry",
+        "Succeeded": true,
+        "Passed": 21,
+        "Failed": 0,
+        "ReportedFailed": 0,
+        "ExecutionFailure": false,
+        "ExitCode": 0,
+        "Error": "",
+        "ScriptPath": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\tests\\task021\\Test-FanGeometry.ps1",
+        "ResultPath": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\tl\\eb335a73aa\\image-followup\\fan\\result.json",
+        "StandardOutputPath": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\tl\\eb335a73aa\\image-followup\\fan\\stdout.log",
+        "StandardErrorPath": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\tl\\eb335a73aa\\image-followup\\fan\\stderr.log",
+        "ProcessPath": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+        "Arguments": [
+          "-NoLogo",
+          "-NoProfile",
+          "-NonInteractive",
+          "-STA",
+          "-ExecutionPolicy",
+          "Bypass",
+          "-File",
+          "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\tests\\task021\\Test-FanGeometry.ps1",
+          "-AssemblyPath",
+          "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\tl\\eb335a73aa\\image-followup\\input\\VS2017.AIAssistant.dll",
+          "-OutputDirectory",
+          "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\tl\\eb335a73aa\\image-followup\\fan"
+        ],
+        "StartedAt": "2026-10-18T20:26:00.7659493+09:00",
+        "ElapsedSeconds": 2.958
+      },
+      {
+        "Name": "SecureCoding",
+        "Succeeded": true,
+        "Passed": 22,
+        "Failed": 0,
+        "ReportedFailed": 0,
+        "ExecutionFailure": false,
+        "ExitCode": 0,
+        "Error": "",
+        "ScriptPath": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\tests\\task021\\Test-SecureCoding.ps1",
+        "ResultPath": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\tl\\eb335a73aa\\image-followup\\secure\\result.json",
+        "StandardOutputPath": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\tl\\eb335a73aa\\image-followup\\secure\\stdout.log",
+        "StandardErrorPath": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\tl\\eb335a73aa\\image-followup\\secure\\stderr.log",
+        "ProcessPath": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+        "Arguments": [
+          "-NoLogo",
+          "-NoProfile",
+          "-NonInteractive",
+          "-STA",
+          "-ExecutionPolicy",
+          "Bypass",
+          "-File",
+          "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\tests\\task021\\Test-SecureCoding.ps1",
+          "-AssemblyPath",
+          "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\tl\\eb335a73aa\\image-followup\\input\\VS2017.AIAssistant.dll",
+          "-OutputDirectory",
+          "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\tl\\eb335a73aa\\image-followup\\secure"
+        ],
+        "StartedAt": "2026-10-18T20:26:03.7286921+09:00",
+        "ElapsedSeconds": 9.802
+      },
+      {
+        "Name": "SecureExecution",
+        "Succeeded": true,
+        "Passed": 48,
+        "Failed": 0,
+        "ReportedFailed": 0,
+        "ExecutionFailure": false,
+        "ExitCode": 0,
+        "Error": "",
+        "ScriptPath": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\tests\\task021\\Test-SecureExecution.ps1",
+        "ResultPath": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\tl\\eb335a73aa\\image-followup\\secure-execution\\result.json",
+        "StandardOutputPath": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\tl\\eb335a73aa\\image-followup\\secure-execution\\stdout.log",
+        "StandardErrorPath": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\tl\\eb335a73aa\\image-followup\\secure-execution\\stderr.log",
+        "ProcessPath": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+        "Arguments": [
+          "-NoLogo",
+          "-NoProfile",
+          "-NonInteractive",
+          "-STA",
+          "-ExecutionPolicy",
+          "Bypass",
+          "-File",
+          "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\tests\\task021\\Test-SecureExecution.ps1",
+          "-AssemblyPath",
+          "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\tl\\eb335a73aa\\image-followup\\input\\VS2017.AIAssistant.dll",
+          "-OutputDirectory",
+          "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\tl\\eb335a73aa\\image-followup\\secure-execution"
+        ],
+        "StartedAt": "2026-10-18T20:26:13.5333146+09:00",
+        "ElapsedSeconds": 2.458
+      },
+      {
+        "Name": "WorkerOutput",
+        "Succeeded": true,
+        "Passed": 12,
+        "Failed": 0,
+        "ReportedFailed": 0,
+        "ExecutionFailure": false,
+        "ExitCode": 0,
+        "Error": "",
+        "ScriptPath": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\tests\\task021\\Test-WorkerOutput.ps1",
+        "ResultPath": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\tl\\eb335a73aa\\image-followup\\worker-output\\result.json",
+        "StandardOutputPath": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\tl\\eb335a73aa\\image-followup\\worker-output\\stdout.log",
+        "StandardErrorPath": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\tl\\eb335a73aa\\image-followup\\worker-output\\stderr.log",
+        "ProcessPath": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+        "Arguments": [
+          "-NoLogo",
+          "-NoProfile",
+          "-NonInteractive",
+          "-STA",
+          "-ExecutionPolicy",
+          "Bypass",
+          "-File",
+          "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\tests\\task021\\Test-WorkerOutput.ps1",
+          "-AssemblyPath",
+          "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\tl\\eb335a73aa\\image-followup\\input\\VS2017.AIAssistant.dll",
+          "-OutputDirectory",
+          "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\tl\\eb335a73aa\\image-followup\\worker-output"
+        ],
+        "StartedAt": "2026-10-18T20:26:15.9948068+09:00",
+        "ElapsedSeconds": 6.142
+      }
+    ],
+    "AssemblyPath": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\tl\\eb335a73aa\\ProductReference\\VS2017.AIAssistant.dll",
+    "FrozenAssemblyPath": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\tl\\eb335a73aa\\image-followup\\input\\VS2017.AIAssistant.dll",
+    "AssemblySha256": "7951846AA854364C33A6E0980D40A92461B3DFDD0D60BE84E9B2C74CA1EAFC41",
+    "SourceOnly": false,
+    "Sequential": true,
+    "SeparateWindowsPowerShellProcesses": true,
+    "RuntimeDiscoveryDisabled": true,
+    "PersonalSettingsIsolated": true,
+    "StartedAt": "2026-10-18T20:25:41.3709237+09:00",
+    "FinishedAt": "2026-10-18T20:26:22.146025+09:00",
+    "OutputDirectory": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\tl\\eb335a73aa\\image-followup"
+  },
+  "NativeProtocol": {
+    "Summary": {
+      "AssemblyPath": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task020\\candidate6\\2017\\Release\\VS2017.AIAssistant.dll",
+      "AssemblySha256": "7951846AA854364C33A6E0980D40A92461B3DFDD0D60BE84E9B2C74CA1EAFC41",
+      "ExitCode": 0,
+      "Result": "artifacts\\task020\\native-candidate6\\result.json"
+    },
+    "Checks": [
+      {
+        "name": "real transient file lock recovers atomic save",
+        "passed": true
+      },
+      {
+        "name": "persistent lock preserves open state and reports Win32 code",
+        "passed": true
+      },
+      {
+        "name": "failed replacement preserves original and cleans temporary",
+        "passed": true
+      },
+      {
+        "name": "diff source navigation uses actual changed line",
+        "passed": true
+      },
+      {
+        "name": "tracker keeps unchanged middle lines and precise two-line counts",
+        "passed": true
+      },
+      {
+        "name": "tracker reports creation and deletion of zero-byte sources",
+        "passed": true
+      },
+      {
+        "name": "large nonminimal fallback explicitly has unknown line counts",
+        "passed": true
+      },
+      {
+        "name": "reverted file absent from final net changes",
+        "passed": true
+      },
+      {
+        "name": "metadata reads both model pages and actual plan",
+        "passed": true
+      },
+      {
+        "name": "new model and effort discovered without hardcoded tier",
+        "passed": true
+      },
+      {
+        "name": "quota is percentage separate from unknown tokens",
+        "passed": true
+      },
+      {
+        "name": "metadata starts no thread or inference",
+        "passed": true
+      },
+      {
+        "name": "server request with matching pending id is not response",
+        "passed": true
+      },
+      {
+        "name": "Claude control initialize discovers model capabilities",
+        "passed": true
+      },
+      {
+        "name": "partial Claude usage stays unknown for missing input",
+        "passed": true
+      },
+      {
+        "name": "missing cache fields are not estimated zero",
+        "passed": true
+      },
+      {
+        "name": "token overflow stays unknown",
+        "passed": true
+      },
+      {
+        "name": "negative token count rejected",
+        "passed": true
+      },
+      {
+        "name": "unprovided diff has unknown counts",
+        "passed": true
+      },
+      {
+        "name": "actual ++ and -- source lines count",
+        "passed": true
+      },
+      {
+        "name": "standard repeated headers do not inflate changed line counts",
+        "passed": true
+      },
+      {
+        "name": "aggregate diff without git headers retains distinct files",
+        "passed": true
+      },
+      {
+        "name": "private reasoning not exposed as progress",
+        "passed": true
+      },
+      {
+        "name": "Codex full runner performs actual isolated file write",
+        "passed": true
+      },
+      {
+        "name": "Codex actual subprocess assertion completed",
+        "passed": true
+      },
+      {
+        "name": "Codex emits actual token and intermediate events",
+        "passed": true
+      },
+      {
+        "name": "Codex aggregate diff keeps both files",
+        "passed": true
+      },
+      {
+        "name": "Codex repeated patch shows cumulative final diff",
+        "passed": true
+      },
+      {
+        "name": "Codex failure not success and raw error not exposed",
+        "passed": true
+      },
+      {
+        "name": "Codex initialize cancellation normalized",
+        "passed": true
+      },
+      {
+        "name": "Codex cancellation kills child process tree",
+        "passed": true
+      },
+      {
+        "name": "Codex initialize deadline distinct from stop",
+        "passed": true
+      },
+      {
+        "name": "Codex normal mode returns proposal without direct write",
+        "passed": true
+      },
+      {
+        "name": "Codex command-only write detected without native fileChange event",
+        "passed": true
+      },
+      {
+        "name": "Claude full runner performs actual isolated file write",
+        "passed": true
+      },
+      {
+        "name": "Claude actual subprocess assertion completed",
+        "passed": true
+      },
+      {
+        "name": "Claude emits actual token and intermediate events",
+        "passed": true
+      },
+      {
+        "name": "Claude repeated Edit preserves both tool changes in updates",
+        "passed": true
+      },
+      {
+        "name": "Claude final project diff reflects actual net change",
+        "passed": true
+      },
+      {
+        "name": "Claude failure not success and raw error not exposed",
+        "passed": true
+      },
+      {
+        "name": "Claude initialize cancellation normalized",
+        "passed": true
+      },
+      {
+        "name": "Claude cancellation kills child process tree",
+        "passed": true
+      },
+      {
+        "name": "Claude initialize deadline distinct from stop",
+        "passed": true
+      },
+      {
+        "name": "Claude normal mode returns proposal without direct write",
+        "passed": true
+      },
+      {
+        "name": "Claude command-only write detected without native fileChange event",
+        "passed": true
+      },
+      {
+        "name": "unsupported server approval rejected",
+        "passed": true
+      }
+    ],
+    "Passed": 46
+  },
+  "ActualCodexFull": {
+    "Summary": {
+      "AssemblySha256": "7951846AA854364C33A6E0980D40A92461B3DFDD0D60BE84E9B2C74CA1EAFC41",
+      "ExitCode": 0,
+      "Result": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task020\\live-native-candidate6\\result.json"
+    },
+    "Result": {
+      "Succeeded": true,
+      "ActualNativeCodex": true,
+      "ActualFileEdit": true,
+      "ActualSelfTest": true,
+      "IndependentTestExitCode": 0,
+      "UsageEvents": 3,
+      "ProgressEvents": 5,
+      "ChangeEvents": 1,
+      "ReportedCalculator": true,
+      "Model": "",
+      "Effort": "low",
+      "Usage": {
+        "InputTokens": 49586,
+        "OutputTokens": 273,
+        "CachedInputTokens": 45952,
+        "ContextWindow": 475000,
+        "TotalTokens": 49859,
+        "QuotaUsedPercent": null,
+        "QuotaResetsAt": null,
+        "Source": "Codex thread/tokenUsage/updated",
+        "UpdatedAt": "2026-10-18T11:16:13.111Z"
+      },
+      "Reply": "Calculator.cs의 `Calculator.Add`를 `a - b`에서 `a + b`로 수정했습니다. SelfTest.cs와 Verify.ps1은 변경하지 않았습니다.\n\n지정된 검증 명령을 실행했으며 종료 코드 0으로 통과했습니다.",
+      "Changes": [
+        {
+          "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task020\\live-native-candidate6\\Calculator.cs",
+          "Kind": "프로젝트 전후 비교",
+          "Diff": "@@ -1,1 +1,1 @@\n-public static class Calculator { public static int Add(int a, int b) { return a - b; } }\r\n+public static class Calculator { public static int Add(int a, int b) { return a + b; } }\r\n",
+          "HasLineCounts": true,
+          "ReportedAt": "2026-10-18T11:16:13.133Z"
+        },
+        {
+          "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task020\\live-native-candidate6\\self-test-passed.txt",
+          "Kind": "프로젝트 전후 비교",
+          "Diff": "@@ -1,0 +1,1 @@\n+PASS\r\n",
+          "HasLineCounts": true,
+          "ReportedAt": "2026-10-18T11:16:13.134Z"
+        }
+      ]
+    }
+  },
+  "LocalSvnAndDeployment": {
+    "ActualSvnServer": true,
+    "Address": "127.0.0.1 only",
+    "ProductionServerTested": false,
+    "Checks": [
+      {
+        "Name": "actual svnserve listens on loopback only",
+        "Passed": true
+      },
+      {
+        "Name": "approved actual SVN network checkout A",
+        "Passed": true
+      },
+      {
+        "Name": "approved actual SVN network checkout B",
+        "Passed": true
+      },
+      {
+        "Name": "approved actual SVN network commit creates revision 2",
+        "Passed": true
+      },
+      {
+        "Name": "approved actual SVN update receives committed file",
+        "Passed": true
+      },
+      {
+        "Name": "SVN denied without explicit permission",
+        "Passed": true
+      },
+      {
+        "Name": "approved isolated deployment performs an actual command",
+        "Passed": true
+      },
+      {
+        "Name": "only the test server is stopped after verification",
+        "Passed": true
+      }
+    ]
+  },
+  "EarlierIdeFailures": [
+    {
+      "Path": "artifacts/ide/run-5fa5577525be409b82a2d2d02539c08d",
+      "Result": {
+        "Succeeded": false,
+        "FatalError": "System.InvalidOperationException: CHAT-01 AI Assistant caption and document tab\r\n   위치: CodexCode.IdeIntegration.IdeTests.Check(String name, Boolean condition)\r\n   위치: CodexCode.IdeIntegration.IdeTests.<RunAsync>d__4.MoveNext()\r\n--- 예외가 throw된 이전 위치의 스택 추적 끝 ---\r\n   위치: System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)\r\n   위치: System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)\r\n   위치: System.Runtime.CompilerServices.TaskAwaiter.GetResult()\r\n   위치: CodexCode.IdeIntegration.IdeTestPackage.<RunAsync>d__1.MoveNext()",
+        "IdeRuntimeTest": true
+      },
+      "ProgressSha256": "2E2AA08F3A76F129E57B6E426361776DAD79FF5D4E8B12DCD9301BD35213A3F0",
+      "PassedBeforeAbort": 4,
+      "LiveCodexCSharpPassed": false,
+      "LiveCodexSqlPassed": false
+    },
+    {
+      "Path": "artifacts/ide/run-00deaee1d62a42af811dc8b04f394527",
+      "Result": {
+        "Succeeded": false,
+        "FatalError": "System.InvalidOperationException: IDE-10 Codex fixture proposal displayed\r\n   위치: CodexCode.IdeIntegration.IdeTests.Check(String name, Boolean condition)\r\n   위치: CodexCode.IdeIntegration.IdeTests.<RunAsync>d__4.MoveNext()\r\n--- 예외가 throw된 이전 위치의 스택 추적 끝 ---\r\n   위치: System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)\r\n   위치: System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)\r\n   위치: System.Runtime.CompilerServices.TaskAwaiter.GetResult()\r\n   위치: CodexCode.IdeIntegration.IdeTestPackage.<RunAsync>d__1.MoveNext()",
+        "IdeRuntimeTest": true
+      },
+      "ProgressSha256": "20EF21DCEA074D65DE92856217F76C3C6F33289BB9B5E387E92245610919B45D",
+      "PassedBeforeAbort": 42,
+      "LiveCodexCSharpPassed": false,
+      "LiveCodexSqlPassed": false
+    },
+    {
+      "Path": "artifacts/ide/run-3ecd922e9f374bed8135608566cd2256",
+      "Result": {
+        "Succeeded": false,
+        "FatalError": "System.InvalidOperationException: IMAGES-04 actual IDE permission dropdown exposes three presets and the separate action planner\r\n   위치: CodexCode.IdeIntegration.IdeTests.Check(String name, Boolean condition)\r\n   위치: CodexCode.IdeIntegration.IdeTests.<CheckImageUiAsync>d__5.MoveNext()\r\n--- 예외가 throw된 이전 위치의 스택 추적 끝 ---\r\n   위치: System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)\r\n   위치: System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)\r\n   위치: System.Runtime.CompilerServices.TaskAwaiter.GetResult()\r\n   위치: CodexCode.IdeIntegration.IdeTests.<RunAsync>d__4.MoveNext()\r\n--- 예외가 throw된 이전 위치의 스택 추적 끝 ---\r\n   위치: System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)\r\n   위치: System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)\r\n   위치: System.Runtime.CompilerServices.TaskAwaiter.GetResult()\r\n   위치: CodexCode.IdeIntegration.IdeTestPackage.<RunAsync>d__1.MoveNext()",
+        "IdeRuntimeTest": true
+      },
+      "ProgressSha256": "6CE26DB2DFC57B4D547FCD6757676115248AC0CB0CEF1C506AF9C25DFA74E168",
+      "PassedBeforeAbort": 84,
+      "LiveCodexCSharpPassed": true,
+      "LiveCodexSqlPassed": true
+    },
+    {
+      "Path": "artifacts/ide/run-c9efdf3ef3d74a489dad4c0a3805c1ec",
+      "Result": {
+        "Succeeded": false,
+        "FatalError": "System.InvalidOperationException: WORK-04 empty SQL query draft preserves disk before approval\r\n   위치: CodexCode.IdeIntegration.IdeTests.Check(String name, Boolean condition)\r\n   위치: CodexCode.IdeIntegration.IdeTests.<RunAsync>d__4.MoveNext()\r\n--- 예외가 throw된 이전 위치의 스택 추적 끝 ---\r\n   위치: System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)\r\n   위치: System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)\r\n   위치: System.Runtime.CompilerServices.TaskAwaiter.GetResult()\r\n   위치: CodexCode.IdeIntegration.IdeTestPackage.<RunAsync>d__1.MoveNext()",
+        "IdeRuntimeTest": true
+      },
+      "ProgressSha256": "E6D0669053414D48769679D019822B86F027153F8EA34DD01C24D2EA74292EC9",
+      "PassedBeforeAbort": 59,
+      "LiveCodexCSharpPassed": false,
+      "LiveCodexSqlPassed": false
+    },
+    {
+      "Path": "artifacts/ide/run-52b6299b5a49439594688488903b5755",
+      "Result": {
+        "Succeeded": false,
+        "FatalError": "System.InvalidOperationException: CHAT-03 Chat can dock\r\n   위치: CodexCode.IdeIntegration.IdeTests.Check(String name, Boolean condition)\r\n   위치: CodexCode.IdeIntegration.IdeTests.<RunAsync>d__4.MoveNext()\r\n--- 예외가 throw된 이전 위치의 스택 추적 끝 ---\r\n   위치: System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)\r\n   위치: System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)\r\n   위치: System.Runtime.CompilerServices.TaskAwaiter.GetResult()\r\n   위치: CodexCode.IdeIntegration.IdeTestPackage.<RunAsync>d__1.MoveNext()",
+        "IdeRuntimeTest": true
+      },
+      "ProgressSha256": "8006D0BA98741DDB87B05BC51734EA222BF756BC79B91FCB893632F9809CAC94",
+      "PassedBeforeAbort": 7,
+      "LiveCodexCSharpPassed": false,
+      "LiveCodexSqlPassed": false
+    },
+    {
+      "Path": "artifacts/ide/run-05b0f30c7b8e48a38d3a66d9fd9d9c36",
+      "Result": {
+        "Succeeded": false,
+        "FatalError": "System.InvalidOperationException: CHAT-03 Chat can dock\r\n   위치: CodexCode.IdeIntegration.IdeTests.Check(String name, Boolean condition)\r\n   위치: CodexCode.IdeIntegration.IdeTests.<RunAsync>d__4.MoveNext()\r\n--- 예외가 throw된 이전 위치의 스택 추적 끝 ---\r\n   위치: System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)\r\n   위치: System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)\r\n   위치: System.Runtime.CompilerServices.TaskAwaiter.GetResult()\r\n   위치: CodexCode.IdeIntegration.IdeTestPackage.<RunAsync>d__1.MoveNext()",
+        "IdeRuntimeTest": true
+      },
+      "ProgressSha256": "18A1A81E2BC633D9251BBA9713784C9E48F62607BCB80B186E6C37E36AF62B27",
+      "PassedBeforeAbort": 7,
+      "LiveCodexCSharpPassed": false,
+      "LiveCodexSqlPassed": false
+    },
+    {
+      "Path": "artifacts/ide/run-9ae1244b9d8049dabe48597d061d33b5",
+      "Result": {
+        "Succeeded": false,
+        "FatalError": "System.InvalidOperationException: FULL-05 actual IDE usage tooltip displays reported tokens\r\n   위치: CodexCode.IdeIntegration.IdeTests.Check(String name, Boolean condition)\r\n   위치: CodexCode.IdeIntegration.IdeTests.<RunAsync>d__4.MoveNext()\r\n--- 예외가 throw된 이전 위치의 스택 추적 끝 ---\r\n   위치: System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()\r\n   위치: System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)\r\n   위치: System.Runtime.CompilerServices.TaskAwaiter.GetResult()\r\n   위치: CodexCode.IdeIntegration.IdeTestPackage.<RunAsync>d__1.MoveNext()",
+        "IdeRuntimeTest": true
+      },
+      "ProgressSha256": "A6267303D1BC647ADEE88A1A3EAFC2313A610D13D302B2FD7398AE58B77A627E",
+      "PassedBeforeAbort": 86,
+      "LiveCodexCSharpPassed": false,
+      "LiveCodexSqlPassed": false
+    }
+  ],
+  "EarlierActualCodexFailure": {
+    "Succeeded": false,
+    "ActualNativeCodex": true,
+    "ActualFileEdit": true,
+    "ActualSelfTest": true,
+    "IndependentTestExitCode": 0,
+    "UsageEvents": 3,
+    "ProgressEvents": 5,
+    "ChangeEvents": 0,
+    "ReportedCalculator": false,
+    "Model": "",
+    "Effort": "low",
+    "Usage": {
+      "InputTokens": 49208,
+      "OutputTokens": 253,
+      "CachedInputTokens": 45824,
+      "ContextWindow": 475000,
+      "TotalTokens": 49461,
+      "QuotaUsedPercent": null,
+      "QuotaResetsAt": null,
+      "Source": "Codex thread/tokenUsage/updated",
+      "UpdatedAt": "2026-10-18T10:04:04.957Z"
+    },
+    "Reply": "`Calculator.cs`의 `Add`를 `a - b`에서 `a + b`로 수정했습니다. `SelfTest.cs`와 `Verify.ps1`은 수정하지 않았습니다.\n\n지정된 검증 명령을 실행했으며, 출력 없이 종료 코드 0으로 성공했습니다.",
+    "Changes": []
+  },
+  "LicenseBatchChecks": {
+    "ActualObservationExitCode": 0,
+    "MissingEvidence": 2,
+    "SyntheticObservedWarning": 2,
+    "NoLicenseMutation": true,
+    "Succeeded": true
+  },
+  "EarlierUsageRegression": {
+    "Succeeded": false,
+    "CheckKind": "IndependentWpfWorkspaceExperience",
+    "Passed": 125,
+    "Checks": [
+      "Claude is the first and initially selected provider",
+      "The centered conversation date comes from the restored record's actual creation timestamp",
+      "A restored conversation has no fabricated work duration before an actual request runs",
+      "Both provider tabs show real brand images and the background mark stays translucent and non-interactive",
+      "Switching provider replaces the background logo with the selected brand (selected=Codex, state=Codex, before=pack://application:,,,/VS2017.AIAssistant;component/Assets/Claude.png, after=pack://application:,,,/VS2017.AIAssistant;component/Assets/Codex.png)",
+      "The provider tab is labeled Claude without the obsolete Code suffix",
+      "The provider tabs lead the view without obsolete Chat or request headings",
+      "The composer omits the redundant paste button while keyboard paste remains available",
+      "The workspace uses a black tonal background",
+      "The composer allows a model alias and selectable thinking modes",
+      "A real rejected request records failure without inventing an AI invocation",
+      "An Enter key used during Korean IME composition never submits the prompt",
+      "Ctrl+Enter at the prompt limit preserves the existing text without overflow or accidental send",
+      "Ctrl+Enter replaces the selected prompt range with a newline and never sends",
+      "Ordinary typing is delegated to the text editor",
+      "An attached image is displayed as a visible thumbnail above the prompt",
+      "Attachment deletion has an accessible keyboard target and a clear tooltip",
+      "The attachment delete control stays quiet until the image is hovered or focused",
+      "Keyboard focus reveals the attachment delete action",
+      "Deleting an attachment removes it from the prompt and preserves its original file",
+      "A real response received while the conversation is hidden becomes unread and is persisted",
+      "The routed Enter key sends the current prompt to the selected provider exactly once",
+      "The actual request boundary receives the selected model and captured attachment",
+      "The actual request boundary receives the selected thinking mode",
+      "An actual successful proposal marks only its conversation completed",
+      "User messages appear as padded, rounded bubbles aligned to the right",
+      "AI replies appear as an unframed left-hand body distinct from the user bubble",
+      "Both message styles preserve selectable read-only text and the actual copy command",
+      "Receiving an AI proposal changes neither editor buffer nor disk before approval",
+      "The compact change card still requires explicit approval before applying",
+      "A one-line replacement displays one added and one removed line instead of a misleading zero net change",
+      "The changed-file link requests the exact proposed source file and its first changed line",
+      "The options trigger reveals reachable settings and usage-guide actions",
+      "Escape closes the expanded options menu and resets its toggle state",
+      "Transient status feedback is centered over the workspace",
+      "Explicit approval applies the proposal to the editor while preserving the disk until save",
+      "The separate save action writes the approved edit exactly once",
+      "A pending actual request has a running status without an unread completion",
+      "A pending AI request shows an animated thinking indicator even while toast feedback may fade",
+      "Starting a new real request resets its elapsed duration and shows a running status",
+      "The running duration advances with independently measured wall time rather than fixed demonstration text",
+      "Enter and Ctrl+Enter cannot mutate or resend the prompt while a request is running",
+      "Stopping a pending request cancels its provider task without additional source edits or saves",
+      "Actual request cancellation records stopped rather than successful completion",
+      "Stopping the request hides its thinking indicator and releases the repeated animation",
+      "Completing or stopping a request freezes its actual elapsed duration and stops the update timer",
+      "Centered transient feedback fades away after the request stops",
+      "A new conversation receives its actual creation date and no inherited elapsed-work label",
+      "Returning to a previous conversation restores only that conversation's completed work duration and date",
+      "A different provider conversation does not inherit the previous provider's elapsed-work label",
+      "Returning to the original provider restores its own conversation timing without cross-provider leakage",
+      "A real Markdown file lock aborts new conversation creation and preserves the active draft",
+      "A real Markdown save failure aborts provider switching and restores the original visible provider",
+      "Releasing the file lock allows a normal provider switch and persists the previously protected draft",
+      "At the 500-file capacity only the one open conversation is restored into the visible list",
+      "Failing to reserve a replacement at capacity keeps the last conversation open, selected and intact",
+      "A keyboard-accessible drag boundary spans the conversation, review and composer height",
+      "Real GridSplitter drag events expand the conversation column while preserving the message pane",
+      "Completing a resize persists the actual sidebar width and visibility",
+      "Dragging the boundary to the left edge collapses the sidebar and returns its space to the conversation",
+      "The collapsed choice survives a settings reload",
+      "Reopening the sidebar restores its last useful width rather than the collapsed width",
+      "Cancelling a resize restores the previous width without saving a partial drag",
+      "A recreated view restores the user's visible sidebar preference and saved width",
+      "An unread completed response is shown as a live blue dot on its own conversation row",
+      "Confirming the current conversation clears its unread dot without losing its completion result",
+      "Reading a conversation also persists its cleared unread state",
+      "A failed conversation is distinguishable from an unread successful response",
+      "The running conversation row animates its real running state",
+      "Stopping a conversation releases its row animation and retains a stopped marker",
+      "Completed and unread state round-trip through Markdown without losing the response",
+      "A request left running by a previous process restores as interrupted and unread, never falsely running",
+      "Older conversation Markdown without status metadata remains fully readable",
+      "Invalid status metadata is reported as a damaged record rather than displayed as a valid result",
+      "Conversation actions belong to the conversation sidebar rather than the top action row",
+      "The sidebar action row provides horizontal scrolling when the buttons exceed its width",
+      "Conversation actions stay below the visible conversation list",
+      "A single AI selection dropdown replaces name-specific action buttons",
+      "Horizontal scrolling brings the complete AI selector into the narrow sidebar viewport",
+      "The prompt and send action retain usable geometry at window width 420",
+      "Claude retains the first visible position in a single provider row at window width 420",
+      "The prompt and send action retain usable geometry at window width 220",
+      "Claude retains the first visible position in a single provider row at window width 220",
+      "Conversation AI identities follow the user/provider/A-Z format behind one fixed selection button",
+      "Actual model popup exposes only advertised advanced levels and Fast support",
+      "The real model popup saves provider-specific Ultra and Fast settings",
+      "Opening and dismissing the Fast dropdown preserves the saved speed and its visible toggle state",
+      "Changing to an unadvertised model clears unavailable Fast and advanced effort",
+      "Clipboard file paste is intercepted as a document attachment",
+      "Clipboard document extraction supplies body text and preserves the original file",
+      "A selected peer is actually invoked before the coordinator receives that real review result",
+      "Every collaboration call receives the selected model options and captured attachment within the context bound: fixture-deep:ultra:fast:1:435;fixture-deep:ultra:fast:1:468",
+      "Neither peer nor coordinator proposals modify or save source before explicit approval",
+      "Actual handoff states and results are persisted in the collaboration Markdown report",
+      "Peer completion is stored as unread in its own conversation",
+      "Selected collaborators survive a Markdown round trip",
+      "AI role settings keep the required automatic A-Z name read-only",
+      "AI role settings save the role while preserving the automatic name and conversation title",
+      "A locked conversation file rolls AI identity, team and participant selection back together",
+      "A report file lock cannot mask the primary collaboration CLI error",
+      "Failed collaboration records a real failed handoff without fabricating an answer",
+      "Stopping a peer call cancels the actual task and records stopped and cancelled states",
+      "Post-delivery conversation save failure preserves delivered results and the original persistence error",
+      "A failed document batch leaves no partial attachments and re-enables the composer",
+      "Stopping document extraction leaves the input usable without partial attachments",
+      "The user guide presents four actionable illustrated procedure cards",
+      "Hovering a guide card brings it forward and dims the other cards",
+      "Guide animation keeps its clickable area fixed so moving content cannot trigger a hover loop",
+      "Clicking a guide card opens a real illustration and detailed instructions in the same window",
+      "Returning from guide detail restores the original card and keyboard focus",
+      "CLI setup uses the same interactive four-step explanation gallery",
+      "The CLI installation step opens a procedure illustration rather than another modal window",
+      "Settings exposes an icon-labeled topic index above its input sections",
+      "Clicking the last settings topic scrolls to that section while keeping the index visible",
+      "Save and close remain in a visually distinct fixed footer outside the scrolling input body",
+      "An actual tooltip inherits the product's dark background, readable text and padding",
+      "A long actual tooltip wraps inside a bounded popup instead of extending across the screen",
+      "Repeated pointer-enter events open the settings fan once without restarting its animation",
+      "The actual fan sectors route their different angles to distinct help and settings buttons",
+      "The fan overlay cannot intercept the original toggle hit area",
+      "Crossing from the trigger to the fan cancels delayed closing without a reopen loop",
+      "Escape closes the fan and clears its toggle state",
+      "The work tools preset permits SCM and DB while preserving proposal mode",
+      "Work tools preset enables the displayed SCM permission and leaves deployment unchecked",
+      "Full workspace permissions still require an exact plan and individual execution approval"
+    ],
+    "Error": "System.InvalidOperationException: A metadata failure retains reported tokens with a separate connection error; out-of-order preserved=False; metadata=CLI 연결 정보를 조회하지 못했습니다. 실행 파일·버전·로그인을 확인하세요.\r\n   위치: CodexCode.WorkspaceReview.WorkspaceExperience.Check(Boolean condition, String message)\r\n   위치: CodexCode.WorkspaceReview.WorkspaceExperience.CheckRuntimeUsageIsolation(AssistantControl control, String root)\r\n   위치: CodexCode.WorkspaceReview.WorkspaceExperience.CheckAdvancedFeatures(String output)\r\n   위치: CodexCode.WorkspaceReview.WorkspaceExperience.Run(String settingsPath, String output)",
+    "ProductVersion": "0.9.0.0",
+    "AssemblySha256": "B21EDF3BF9143E9C39D1BBF414C0D7ECA3D1C41E929BC1B48982DBA79B134116",
+    "IdeRuntimeTest": false,
+    "AccountLoginAttempted": false,
+    "PersonalSettingsRead": false,
+    "OutputDirectory": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\tl\\c0ff772a9c\\experience",
+    "WorkspaceDirectory": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\tl\\c0ff772a9c\\experience\\workspace-58325ef3ff8044a09f5896493e07a7e5",
+    "CheckedAt": "2026-10-18T20:13:44.2210707+09:00"
+  },
+  "Limits": [
+    "Claude CLI actual account not verified; user uses browser/app only",
+    "Production SQL Server, external TFVC and production deployment not verified",
+    "Loopback SVN and isolated deployment do not prove external production configuration",
+    "IDE license observation is limited to visible WPF text in the tested session; no activation or perpetual guarantee",
+    "Project text comparison has documented limits and does not establish authorship or cover encoding-only changes",
+    "Original TASK019 v0.8 whole-run failures remain preserved; their cause is not retroactively proven"
+  ]
+}

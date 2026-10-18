@@ -83,6 +83,8 @@ namespace VS2017.AIAssistant.Views
         private readonly System.Diagnostics.Stopwatch activityClock = new System.Diagnostics.Stopwatch();
         private DispatcherTimer activityTimer;
         private readonly Dictionary<string, string> conversationActivities = new Dictionary<string, string>();
+        private AssistantDialog activeCliSetupDialog;
+        private CliGuideDialog activeCliManualDialog;
 
         /// ---------------------------------------------------------------------
         /// <summary>
@@ -94,12 +96,15 @@ namespace VS2017.AIAssistant.Views
         /// update date  : 2026-10-18 CodexOrig : TASK-014 대화 목록 배치 복원과 본문 확인 이벤트 연결.
         /// update date  : 2026-10-18 CodexOrig : TASK-016 문서 첨부·모델 설정·AI 역할 협업과 실패 복구 흐름 연결.
         /// update date  : 2026-10-18 CodexCode : TASK-017 이미지 분석 기반 드롭다운·안내·대화 지정 흐름 개선.
+        /// update date  : 2026-10-18 CodexCode : TASK-021 추가 이미지 요구와 감사 보완 흐름 반영.
+        /// update date  : 2026-10-18 CodexCode : TASK-022 최초 로드에서 필수 숨김 instruction 관리 사본 준비.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void InitializeExperience(AssistantSettings settings)
         {
             Resources[VsBrushes.ToolWindowBackgroundKey] = new SolidColorBrush(Color.FromRgb(23, 23, 23));
             Resources[VsBrushes.ToolWindowTextKey] = new SolidColorBrush(Color.FromRgb(235, 235, 235));
+            Instruction.Background = Brushes.Transparent;
             efforts["Codex"] = ValidEffort(settings.CodexEffort); efforts["Claude"] = ValidEffort(settings.ClaudeEffort);
             speeds["Codex"] = settings.CodexSpeed; speeds["Claude"] = settings.ClaudeSpeed;
             workspacePolicy = new WorkspacePermissionPolicy { AllowSourceControl = settings.AllowSourceControl, AllowDatabaseSchema = settings.AllowDatabaseSchema, AllowDeployment = settings.AllowDeployment };
@@ -107,6 +112,16 @@ namespace VS2017.AIAssistant.Views
             string isolated = Environment.GetEnvironmentVariable("VS2017_AI_SETTINGS_PATH");
             if (string.IsNullOrEmpty(root) && !string.IsNullOrEmpty(isolated)) root = Path.Combine(Path.GetDirectoryName(Path.GetFullPath(isolated)), "workspace");
             workspaceStore = new MarkdownWorkspaceStore(root);
+            try
+            {
+                string mandatoryNotice;
+                MandatoryInstructionStore.Ensure(workspaceStore.RootPath, out mandatoryNotice);
+                if (!string.IsNullOrWhiteSpace(mandatoryNotice)) workspaceWarnings.Add(mandatoryNotice);
+            }
+            catch (Exception error) when (error is IOException || error is UnauthorizedAccessException || error is ArgumentException || error is InvalidOperationException || error is NotSupportedException || error is System.Security.SecurityException)
+            {
+                workspaceWarnings.Add("필수 규칙의 숨김 사본을 준비하지 못했습니다. AI 요청에는 내장된 필수 규칙을 적용합니다. (" + error.GetType().Name + ")");
+            }
             InitializeFanMenu();
             collaborationStore = new ConversationCollaborationStore(workspaceStore.RootPath);
             foreach (string name in new[] { "Claude", "Codex" })
@@ -154,7 +169,8 @@ namespace VS2017.AIAssistant.Views
             ClaudeTabLogo.Source = LoadBrand("Claude"); CodexTabLogo.Source = LoadBrand("Codex");
             Loaded += ReadScmIdentity;
             experienceReady = true; InitializeConversationTracking(settings); RefreshExperience();
-            if (workspaceWarnings.Count > 0) StatusLabel.Text = "일부 대화를 복원하지 못했습니다. 최근 알림에서 확인하세요.\n" + string.Join("\n", workspaceWarnings);
+            InitializeRuntime();
+            if (workspaceWarnings.Count > 0) StatusLabel.Text = "일부 초기 설정이나 대화 기록을 준비하지 못했습니다. 최근 알림에서 확인하세요.\n" + string.Join("\n", workspaceWarnings);
         }
 
         /// ---------------------------------------------------------------------
@@ -371,9 +387,10 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : Role 추가 사용자 흐름 구현.
+        /// update date  : 2026-10-18 CodexCode : TASK-022 입력 이벤트의 실제 WPF UI 스레드 경계 명시.
         /// </summary>
         /// ---------------------------------------------------------------------
-        private void PromptKeyDown(object sender, KeyEventArgs e) { if (HandlePromptKey(e.Key, Keyboard.Modifiers)) e.Handled = true; }
+        private void PromptKeyDown(object sender, KeyEventArgs e) { Dispatcher.VerifyAccess(); if (HandlePromptKey(e.Key, Keyboard.Modifiers)) e.Handled = true; }
         /// ---------------------------------------------------------------------
         /// <summary>
         /// name         : HandlePromptKey
@@ -381,10 +398,12 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : Role 추가 사용자 흐름 구현.
+        /// update date  : 2026-10-18 CodexCode : TASK-022 전송·텍스트 편집 전에 실제 Dispatcher 접근 검증.
         /// </summary>
         /// ---------------------------------------------------------------------
         internal bool HandlePromptKey(Key key, ModifierKeys modifiers)
         {
+            Dispatcher.VerifyAccess();
             if (key != Key.Enter || imeComposing || (modifiers & ModifierKeys.Alt) != 0) return false;
             if (busy || disposed) return true;
             if ((modifiers & ModifierKeys.Control) != 0) { if (Instruction.Text.Length - Instruction.SelectionLength + Environment.NewLine.Length <= Instruction.MaxLength) { int position = Instruction.SelectionStart; Instruction.SelectedText = Environment.NewLine; Instruction.CaretIndex = position + Environment.NewLine.Length; } return true; }
@@ -426,7 +445,7 @@ namespace VS2017.AIAssistant.Views
         /// </summary>
         /// ---------------------------------------------------------------------
         private void ModeChanged(object sender, SelectionChangedEventArgs e)
-        { if (experienceReady && !syncingModel && ModeChoice.SelectedValue != null) { efforts[selectedProvider] = ValidEffort(System.Convert.ToString(ModeChoice.SelectedValue)); ModelOptionsButton.Content = "☷ " + EffortLabel(efforts[selectedProvider]) + " ⌄"; } }
+        { if (experienceReady && !syncingModel && ModeChoice.SelectedValue != null) { efforts[selectedProvider] = ValidEffort(System.Convert.ToString(ModeChoice.SelectedValue)); ModelOptionsButton.Content = "☷ " + (String.IsNullOrWhiteSpace(ModelName.Text) ? "기본 모델" : ModelName.Text) + " · " + EffortLabel(efforts[selectedProvider]) + " ⌄"; } }
 
         /// ---------------------------------------------------------------------
         /// <summary>
@@ -572,19 +591,38 @@ namespace VS2017.AIAssistant.Views
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : Role 추가 사용자 흐름 구현.
         /// update date  : 2026-10-18 CodexCode : TASK-017 이미지 분석 기반 드롭다운·안내·대화 지정 흐름 개선.
+        /// update date  : 2026-10-18 CodexCode : TASK-021 추가 이미지 요구와 감사 보완 흐름 반영.
+        /// update date  : 2026-10-18 CodexCode : TASK-022 PDF WebView·설치 확인 화면 진입 및 중복 창 방지.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void CliHelpClicked(object sender, RoutedEventArgs e)
         {
+            Dispatcher.VerifyAccess();
+            if (busy || disposed) return;
+            if (activeCliSetupDialog != null) { activeCliSetupDialog.Activate(); return; }
             var dialog = new AssistantDialog(this, "⚙ CLI 환경 설정", "카드를 선택하면 단계별 상세 그림을 볼 수 있습니다.");
-            dialog.SetGuide(
-                new GuideStep("1", "⇩", "공식 Windows CLI 설치", "사용할 AI의 Windows 네이티브 CLI를 준비하세요.", "아래 공식 설치 안내에서 현재 Windows 설치 방법을 확인하세요.", "확장에서는 codex.exe 또는 claude.exe를 사용합니다. 설치와 이용 조건은 해당 서비스에서 확인합니다."),
-                new GuideStep("2", "▣", "실행 파일 선택", "설정의 찾기에서 실행 파일을 지정하세요.", "설정 → 계정에서 ‘찾기’를 눌러 codex.exe 또는 claude.exe를 선택합니다.", "PATH에 네이티브 실행 파일이 있으면 경로를 비워도 됩니다. .cmd 또는 .bat 래퍼는 선택하지 않습니다."),
-                new GuideStep("3", "↗", "계정 연결", "공식 CLI 또는 브라우저에서 직접 로그인하세요.", "설정의 ‘계정 연결’을 눌러 해당 도구의 로그인 창을 엽니다.", "공식 창에서 인증을 마친 후 확장으로 돌아옵니다. 이 설명 창에는 암호나 토큰을 입력하지 않습니다."),
-                new GuideStep("4", "✓", "연결 확인 후 저장", "로그인 상태를 확인하고 설정을 저장하세요.", "‘연결 확인’을 눌러 실제 CLI 연결 결과를 확인합니다.", "성공하면 ‘설정 저장’을 누릅니다. 모델·생각 강도 드롭다운에서 지원하는 옵션을 고릅니다."));
+            dialog.SetGuide(AssistantHelpContent.CliSetupSteps(selectedProvider));
+            var manual = new Button { Content = "▤ PDF 설명서 · CLI 설치", Margin = new Thickness(0, 0, 8, 0), ToolTip = "동봉된 설치·사용 설명서와 설치 확인 화면을 엽니다." };
+            manual.Click += (buttonSender, args) =>
+            {
+                Dispatcher.VerifyAccess();
+                if (disposed) return;
+                if (activeCliManualDialog != null) { activeCliManualDialog.Activate(); return; }
+                try
+                {
+                    var viewer = new CliGuideDialog(this); activeCliManualDialog = viewer;
+                    viewer.Owner = dialog; viewer.ShowDialog();
+                }
+                catch (Exception error) when (error is IOException || error is UnauthorizedAccessException || error is ArgumentException || error is InvalidOperationException || error is System.ComponentModel.Win32Exception || error is System.Security.SecurityException)
+                { dialog.Message.Text = "설치 설명서를 열지 못했습니다. 설치 파일을 확인한 뒤 다시 시도하세요. (" + error.GetType().Name + ")"; }
+                finally { activeCliManualDialog = null; }
+            };
             var official = new Button { Content = "↗ " + selectedProvider + " 공식 설치 안내", Margin = new Thickness(0, 0, 8, 0) };
             official.Click += (s, a) => System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(selectedProvider == "Claude" ? "https://code.claude.com/docs/en/setup" : "https://developers.openai.com/codex/cli") { UseShellExecute = true });
-            dialog.Actions.Children.Insert(0, official); dialog.ShowDialog();
+            dialog.Actions.Children.Insert(0, official); dialog.Actions.Children.Insert(0, manual);
+            activeCliSetupDialog = dialog;
+            try { dialog.ShowDialog(); }
+            finally { activeCliSetupDialog = null; }
         }
 
         /// ---------------------------------------------------------------------
@@ -594,14 +632,12 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : Role 추가 사용자 흐름 구현.
+        /// update date  : 2026-10-18 CodexCode : TASK-021 추가 이미지 요구와 감사 보완 흐름 반영.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void UpdateChangeCard()
         {
-            if (ChangeCard == null) return; bool changes = pendingProposal != null && pendingProposal.HasChanges;
-            ChangeCard.Visibility = changes || session.CanRestore ? Visibility.Visible : Visibility.Collapsed;
-            if (changes) { reviewFilePath = pendingProposal.Source.FilePath; reviewLine = pendingProposal.FirstChangedLine; ChangeSummary.Text = "변경된 파일 1개 · +" + pendingProposal.AddedLines + " −" + pendingProposal.RemovedLines; TargetLabel.Text = reviewFilePath; TargetLabel.ToolTip = reviewFilePath; }
-            SourceLink.IsEnabled = !string.IsNullOrEmpty(reviewFilePath) && documents is ISourceNavigationService;
+            RefreshChangePresentation();
         }
         /// ---------------------------------------------------------------------
         /// <summary>
@@ -634,11 +670,14 @@ namespace VS2017.AIAssistant.Views
         /// update date  : 2026-10-18 CodexOrig : TASK-014 진행 중 요청을 창 종료 시 중지 상태로 저장.
         /// update date  : 2026-10-18 CodexOrig : TASK-016 문서 첨부·모델 설정·AI 역할 협업과 실패 복구 흐름 연결.
         /// update date  : 2026-10-18 CodexCode : TASK-017 이미지 분석 기반 드롭다운·안내·대화 지정 흐름 개선.
+        /// update date  : 2026-10-18 CodexCode : TASK-022 진행 팝업·대화 viewport 수명 정리 연결.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void DisposeExperience()
         {
-            CloseDropdown(); DisposeFanMenu();
+            // TASK-022: 진행 팝업과 대화 스크롤의 지연 콜백도 창 수명 안에서 해제한다.
+            CloseDropdown(); CloseProgressNotices(); DisposeConversationViewport();
+            DisposeFanMenu(); DisposeRuntime(); UpdateThinkingAnimation(false);
             if (!experienceReady) return;
             var active = activeRecords[selectedProvider];
             if (active.State == ConversationRunState.Running) { active.State = ConversationRunState.Stopped; active.HasUnread = true; }

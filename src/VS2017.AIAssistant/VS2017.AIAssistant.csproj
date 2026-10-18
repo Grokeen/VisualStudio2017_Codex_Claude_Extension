@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -41,9 +41,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.4191.47" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Xml" />
@@ -67,15 +69,36 @@
     <Compile Include="AiAssistantPackage.cs" />
     <Compile Include="Commands\OpenAssistantCommand.cs" />
     <Compile Include="Editing\DocumentSnapshot.cs" />
+    <Compile Include="Editing\IFullAccessDocumentService.cs" />
+    <Compile Include="Editing\IExternalEditingDocumentService.cs" />
     <Compile Include="Chat\ChatWorkspace.cs" />
     <Compile Include="Chat\DocumentAttachmentReader.cs" />
     <Compile Include="Chat\DocumentWorkerLauncher.cs" />
     <Compile Include="Chat\ConversationCollaboration.cs" />
     <Compile Include="Providers\ProviderExecutionOptions.cs" />
+    <Compile Include="Providers\ProviderRuntime.cs" />
+    <Compile Include="Providers\AgentProtocolEvents.cs" />
+    <Compile Include="Providers\AgentFileTracker.cs" />
+    <Compile Include="Providers\NativeJsonSession.cs" />
+    <Compile Include="Providers\ProviderRuntimeService.cs" />
+    <Compile Include="Providers\NativeCliDiscovery.cs" />
+    <Compile Include="Providers\CodexRuntimeRunner.cs" />
+    <Compile Include="Providers\ClaudeRuntimeRunner.cs" />
+    <Compile Include="Views\AssistantControl.Runtime.cs" />
+    <Compile Include="Views\AssistantControl.Progress.cs" />
+    <Compile Include="Views\AssistantControl.Viewport.cs" />
+    <Compile Include="Views\AssistantControl.ProgressPresentation.cs" />
+    <Compile Include="Views\ProgressNotice.cs" />
+    <Compile Include="Views\AssistantControl.Thinking.cs" />
+    <Compile Include="Views\AssistantControl.Changes.cs" />
+    <Compile Include="Views\AssistantHelpContent.cs" />
     <Compile Include="Chat\MarkdownWorkspaceStore.cs" />
+    <Compile Include="Chat\MandatoryInstructionStore.cs" />
     <Compile Include="Chat\AssistantSettingsTransaction.cs" />
     <Compile Include="Services\WorkspaceActionService.cs" />
     <Compile Include="Services\ScmIdentityService.cs" />
+    <Compile Include="Services\CliGuideService.cs" />
+    <Compile Include="Views\CliGuideDialog.cs" />
     <Compile Include="Views\WorkspaceActionsDialog.cs" />
     <Compile Include="Views\AssistantControl.Experience.cs" />
     <Compile Include="Views\AssistantControl.Conversations.cs" />
@@ -91,6 +114,7 @@
     <Compile Include="Providers\CliEditProvider.cs" />
     <Compile Include="Providers\ProcessJob.cs" />
     <Compile Include="Services\VisualStudioDocumentService.cs" />
+    <Compile Include="Services\VisualStudioExternalEditingScope.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ToolWindows\AssistantToolWindow.cs" />
     <Compile Include="Views\AssistantControl.xaml.cs">
@@ -103,6 +127,12 @@
     <Resource Include="Assets\Claude.png" />
     <Resource Include="Assets\Codex.png" />
     <None Include="Assets\THIRD-PARTY-NOTICES.md" />
+    <Content Include="..\..\HowToInstallCLI.md"><Link>Resources\CliGuide\HowToInstallCLI.md</Link><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory><IncludeInVSIX>true</IncludeInVSIX></Content>
+    <Content Include="..\..\InstallCLI.bat"><Link>Resources\CliGuide\InstallCLI.bat</Link><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory><IncludeInVSIX>true</IncludeInVSIX></Content>
+    <Content Include="..\..\output\pdf\VisualStudio_AI_Assistant_설치_사용설명서.pdf"><Link>Resources\CliGuide\VisualStudio_AI_Assistant_설치_사용설명서.pdf</Link><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory><IncludeInVSIX>true</IncludeInVSIX></Content>
+    <Content Include="..\..\docs\assets\cli-manual\*.png"><Link>Resources\CliGuide\docs\assets\cli-manual\%(Filename)%(Extension)</Link><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory><IncludeInVSIX>true</IncludeInVSIX></Content>
+    <Content Include="$(NuGetPackageRoot)microsoft.web.webview2\1.0.4191.47\LICENSE.txt"><Link>Resources\ThirdParty\WebView2\LICENSE.txt</Link><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory><IncludeInVSIX>true</IncludeInVSIX></Content>
+    <Content Include="$(NuGetPackageRoot)microsoft.web.webview2\1.0.4191.47\NOTICE.txt"><Link>Resources\ThirdParty\WebView2\NOTICE.txt</Link><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory><IncludeInVSIX>true</IncludeInVSIX></Content>
     <Page Include="Views\AssistantTheme.xaml"><Generator>MSBuild:Compile</Generator></Page>
     <VSCTCompile Include="Commands\AssistantCommands.vsct">
       <ResourceName>Menus.ctmenu</ResourceName>
@@ -117,14 +147,14 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="BuildDocumentReader" BeforeTargets="PrepareForBuild">
-    <MSBuild Projects="..\VS2017.AIAssistant.DocumentReader\VS2017.AIAssistant.DocumentReader.csproj" Targets="Build" Properties="Configuration=$(Configuration);OutputPath=$(MSBuildProjectDirectory)\$(OutputPath)" />
+    <MSBuild Projects="..\VS2017.AIAssistant.DocumentReader\VS2017.AIAssistant.DocumentReader.csproj" Targets="Build" Condition="!$([System.String]::Copy('$(MSBuildProjectName)').Contains('_wpftmp'))" RemoveProperties="AssemblyName;RootNamespace;OutputType;ProjectGuid;IntermediateOutputPath;BaseIntermediateOutputPath;MSBuildProjectExtensionsPath;TargetFrameworkVersion;TargetFrameworkMoniker;VSToolsPath" Properties="Configuration=$(Configuration);OutputPath=$(MSBuildProjectDirectory)\$(OutputPath)" />
     <ItemGroup>
       <Content Include="$(OutputPath)VS2017.AIAssistant.DocumentReader.exe"><Link>VS2017.AIAssistant.DocumentReader.exe</Link><IncludeInVSIX>true</IncludeInVSIX></Content>
       <Content Include="$(OutputPath)VS2017.AIAssistant.DocumentReader.exe.config"><Link>VS2017.AIAssistant.DocumentReader.exe.config</Link><IncludeInVSIX>true</IncludeInVSIX></Content>
     </ItemGroup>
   </Target>
   <Import Project="$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets" Condition="Exists('$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets')" />
-  <Target Name="EnsureVsSdkTargets" BeforeTargets="PrepareForBuild" Condition="!Exists('$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets')">
+  <Target Name="EnsureVsSdkTargets" BeforeTargets="PrepareForBuild" Condition="!Exists('$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets') And !$([System.String]::Copy('$(MSBuildProjectName)').Contains('_wpftmp'))">
     <Error Text="VSSDK 빌드 대상을 찾을 수 없습니다. NuGet 패키지를 복원한 후 전체 .NET Framework MSBuild로 빌드하세요." />
   </Target>
 </Project>

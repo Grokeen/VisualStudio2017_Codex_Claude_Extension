@@ -32,17 +32,23 @@ if (!$FixturePath) {
 if (!$FixturePath) { throw 'tests/editing/Test-SourceEditing.ps1을 먼저 실행하거나 -FixturePath를 지정하세요.' }
 $FixturePath = (Resolve-Path -LiteralPath $FixturePath).Path
 if ($LiveCodexPath) { $LiveCodexPath = (Resolve-Path -LiteralPath $LiveCodexPath).Path }
-$msbuild = Join-Path $VisualStudioPath 'MSBuild\15.0\Bin\MSBuild.exe'
 $devenv = Join-Path $VisualStudioPath 'Common7\IDE\devenv.exe'
 $installer = Join-Path $VisualStudioPath 'Common7\IDE\VSIXInstaller.exe'
 $vswhere = Join-Path ${env:ProgramFiles(x86)} 'Microsoft Visual Studio\Installer\vswhere.exe'
 $instances = & $vswhere -all -products '*' -format json -utf8 | ConvertFrom-Json
 $instance = $instances | Where-Object { $_.installationPath -eq $VisualStudioPath } | Select-Object -First 1
 if (!$instance) { throw 'VS2017 설치 인스턴스를 찾을 수 없습니다.' }
+$major=([version]$instance.installationVersion).Major
+if($major -notin @(15,16,17)){throw 'VS2017/2019/2022 설치 경로를 지정하세요.'}
+$msbuild=Join-Path $VisualStudioPath $(if($major -eq 15){'MSBuild\15.0\Bin\MSBuild.exe'}else{'MSBuild\Current\Bin\MSBuild.exe'})
 $runId = [guid]::NewGuid().ToString('N')
 $rootSuffix = 'CodexCodeTest' + $runId.Substring(0,8)
 $outputDir = Join-Path $repositoryDir ('artifacts\ide\run-' + $runId)
 $null = New-Item -ItemType Directory -Path $outputDir -Force
+$runtimeFixturePath=Join-Path $outputDir 'NativeProtocolFixture.exe'
+$fixtureCompiler=Join-Path $env:WINDIR 'Microsoft.NET\Framework64\v4.0.30319\csc.exe'
+& $fixtureCompiler /nologo /target:exe "/out:$runtimeFixturePath" /reference:System.Web.Extensions.dll (Join-Path $PSScriptRoot '..\task020\RuntimeProtocolFixture.cs')
+if($LASTEXITCODE -ne 0){throw '실제 IDE용 네이티브 프로토콜 fixture 컴파일 실패.'}
 $outputDir | Set-Content -LiteralPath (Join-Path $repositoryDir 'artifacts\ide-current.txt') -Encoding UTF8
 Add-Type -AssemblyName System.IO.Compression.FileSystem
 $referenceDir = Join-Path $outputDir 'ProductReference'
@@ -60,10 +66,12 @@ try {
 if ($packageDllHash.Replace('-','') -ne (Get-FileHash -LiteralPath $referenceDll -Algorithm SHA256).Hash) {
     throw 'VSIX에서 추출한 테스트 참조 DLL의 해시가 일치하지 않습니다.'
 }
-& $msbuild (Join-Path $PSScriptRoot 'IdeIntegration.csproj') /restore /t:Rebuild /p:Configuration=Release /p:DeployExtension=false "/p:ProductAssemblyPath=$referenceDll" /verbosity:minimal /nologo 2>&1 |
+. (Join-Path $PSScriptRoot 'New-IdeTestTarget.ps1')
+$helperProject=New-IdeTestTarget -Major $major -Directory (Join-Path $outputDir 'HelperProject')
+& $msbuild $helperProject /restore /t:Rebuild /p:Configuration=Release /p:DeployExtension=false "/p:ProductAssemblyPath=$referenceDll" /verbosity:minimal /nologo 2>&1 |
     Tee-Object -FilePath (Join-Path $outputDir 'helper-build.log')
 if ($LASTEXITCODE -ne 0) { throw 'IDE 테스트 패키지 빌드 실패.' }
-$helperVsix = Join-Path $PSScriptRoot 'bin\Release\CodexCode.IdeIntegration.vsix'
+$helperVsix = Join-Path ([IO.Path]::GetDirectoryName($helperProject)) 'bin\Release\CodexCode.IdeIntegration.vsix'
 
 $installStart = Get-Date
 foreach ($packagePath in @($VsixPath, $helperVsix)) {
@@ -105,7 +113,7 @@ $solutionPath = Join-Path $outputDir 'IdeProbe.sln'
 $configPath = Join-Path $outputDir 'config.json'
 [pscustomobject]@{
     OutputDirectory=$outputDir; SolutionPath=$solutionPath; FixturePath=$FixturePath
-    LiveCodexPath=$LiveCodexPath; CloseWhenDone=$true
+    LiveCodexPath=$LiveCodexPath; CloseWhenDone=$true; ExpectedIdeMajor=$major.ToString(); RuntimeFixturePath=$runtimeFixturePath; ExpectedProductSha256=(Get-FileHash -LiteralPath $referenceDll -Algorithm SHA256).Hash
 } | ConvertTo-Json | Set-Content -LiteralPath $configPath -Encoding UTF8
 $startInfo = New-Object Diagnostics.ProcessStartInfo
 $startInfo.FileName = $devenv
@@ -116,6 +124,7 @@ $startInfo.WindowStyle = [Diagnostics.ProcessWindowStyle]::Hidden
 $startInfo.EnvironmentVariables['CODEXCODE_IDE_TEST_CONFIG'] = $configPath
 $startInfo.EnvironmentVariables['VS2017_AI_SETTINGS_PATH'] = Join-Path $outputDir 'ui-settings.json'
 $startInfo.EnvironmentVariables['VS2017_AI_WORKSPACE_PATH'] = Join-Path $outputDir 'workspace'
+$startInfo.EnvironmentVariables['VS2017_AI_DISABLE_RUNTIME_DISCOVERY'] = '1'
 $ideProcess = [Diagnostics.Process]::Start($startInfo)
 [pscustomobject]@{
     ProcessId=$ideProcess.Id; RootSuffix=$rootSuffix; OutputDirectory=$outputDir; VsixPath=$VsixPath

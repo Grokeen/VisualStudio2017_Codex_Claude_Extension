@@ -1,0 +1,701 @@
+{
+  "Task": "TASK-019",
+  "Author": "CodexOrig2",
+  "Role": "Independent auditor",
+  "StartedAt": "2026-10-18T17:37:25.4199231+09:00",
+  "EvidenceCapturedAt": "2026-10-18T17:44:08.2465223+09:00",
+  "Result": "partially-compliant-needs-follow-up",
+  "RoleSHA256": "2689B00E8A29A8400AD717D8BC57D01AC2849C2F30AA9D3A8D5C2AE2B111E27F",
+  "ProductCommit": "eee7cb3f00e6fab40411f366f628468e4087fc15",
+  "ObservedHEAD": "f81818792d6929d91f6d7f17bf79ddb6a7f9f932",
+  "Integrity": {
+    "ReferenceCount": 39,
+    "ReferenceMismatch": 0,
+    "SourceFilesSinceStart": 43,
+    "ChangedSinceStart": 0,
+    "HEAD": "f81818792d6929d91f6d7f17bf79ddb6a7f9f932",
+    "RoleSHA256": "2689B00E8A29A8400AD717D8BC57D01AC2849C2F30AA9D3A8D5C2AE2B111E27F"
+  },
+  "Package": {
+    "PackageSHA256": "AE33A8D0AFA3223C46037C56E00DC848D017BA19CACD85072D08E85C11B4DFEB",
+    "Bytes": 306771,
+    "Embedded": [
+      {
+        "Name": "VS2017.AIAssistant.dll",
+        "Bytes": 360960,
+        "SHA256": "DC8E3B8CAFF3E935100E8B3F287E8716263F2996C0C9C202C4AE36C58440B36A"
+      },
+      {
+        "Name": "VS2017.AIAssistant.DocumentReader.exe",
+        "Bytes": 9728,
+        "SHA256": "5FAF1E32510DF9BD1FECA015E862F9B47499165B6D3090C015885A23171E07C7"
+      },
+      {
+        "Name": "VS2017.AIAssistant.DocumentReader.exe.config",
+        "Bytes": 159,
+        "SHA256": "DBA0AC349FA98F542FE90CC4FBBE3033567DAC0515859D049854E81DEFAAAA51"
+      }
+    ],
+    "InstallationTargets": [
+      {
+        "Id": "Microsoft.VisualStudio.Community",
+        "Version": "[15.0.28307.0,16.0)"
+      }
+    ],
+    "RootExeSHA256": "8F14A59DE451C715702E22B0F45193F6D5A702A7CEE533C470137E1632071353"
+  },
+  "SourceChecks": [
+    {
+      "Path": "src/VS2017.AIAssistant.DocumentReader/App.config",
+      "Expected": "DBA0AC349FA98F542FE90CC4FBBE3033567DAC0515859D049854E81DEFAAAA51",
+      "Actual": "DBA0AC349FA98F542FE90CC4FBBE3033567DAC0515859D049854E81DEFAAAA51",
+      "Matches": true
+    },
+    {
+      "Path": "src/VS2017.AIAssistant.DocumentReader/Properties/AssemblyInfo.cs",
+      "Expected": "1B67151A709EA78991557E3A16315F1CF1BB17D2ACB5185100A4FFF669AD7D69",
+      "Actual": "1B67151A709EA78991557E3A16315F1CF1BB17D2ACB5185100A4FFF669AD7D69",
+      "Matches": true
+    },
+    {
+      "Path": "src/VS2017.AIAssistant.DocumentReader/VS2017.AIAssistant.DocumentReader.csproj",
+      "Expected": "909B5CDD5C4C125FF324F4E112890C102B574435A1AB8E9B0672D83EB0C427B3",
+      "Actual": "909B5CDD5C4C125FF324F4E112890C102B574435A1AB8E9B0672D83EB0C427B3",
+      "Matches": true
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/AiAssistantPackage.cs",
+      "Expected": "7DB704AB058019732C95EA4B919EC3223D200F9890262171017F89CBCD1D09CB",
+      "Actual": "7DB704AB058019732C95EA4B919EC3223D200F9890262171017F89CBCD1D09CB",
+      "Matches": true
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Chat/AssistantSettingsTransaction.cs",
+      "Expected": "43229CF6A3A76C71F09CA1D1C3EB1D10BDB83AA01C0DEEE88E927EED78692FE2",
+      "Actual": "43229CF6A3A76C71F09CA1D1C3EB1D10BDB83AA01C0DEEE88E927EED78692FE2",
+      "Matches": true
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Chat/ChatWorkspace.cs",
+      "Expected": "AC3810AD8E337DDD121B27A1D62E34FA2384EB7AA8215882961A163994305887",
+      "Actual": "AC3810AD8E337DDD121B27A1D62E34FA2384EB7AA8215882961A163994305887",
+      "Matches": true
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Chat/ConversationCollaboration.cs",
+      "Expected": "9B84DF381FB2D09E6D46F08926AF6FEABC5D9171DB68EDF0CB51B5BC58365817",
+      "Actual": "9B84DF381FB2D09E6D46F08926AF6FEABC5D9171DB68EDF0CB51B5BC58365817",
+      "Matches": true
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Chat/DocumentAttachmentReader.cs",
+      "Expected": "605DF02064BA365914CF662C234B867A9DFE05069FE688EC343626C033C8DC3E",
+      "Actual": "605DF02064BA365914CF662C234B867A9DFE05069FE688EC343626C033C8DC3E",
+      "Matches": true
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Chat/DocumentFilterWorker.cs",
+      "Expected": "E1D52D2610C52B9393DC9B32465A1ABB75427E3DC8E8F75B69D62E539264F4EE",
+      "Actual": "E1D52D2610C52B9393DC9B32465A1ABB75427E3DC8E8F75B69D62E539264F4EE",
+      "Matches": true
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Chat/DocumentWorkerLauncher.cs",
+      "Expected": "41B4FF44F9843F7522343A21F4BA2C5639BA106B8925ED922AB0A1E388917AFA",
+      "Actual": "41B4FF44F9843F7522343A21F4BA2C5639BA106B8925ED922AB0A1E388917AFA",
+      "Matches": true
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Chat/MarkdownWorkspaceStore.cs",
+      "Expected": "A84A73FB7D9F5DB0F403D317AEEE7C48F251D28FDABD538279159467E93B4BAE",
+      "Actual": "A84A73FB7D9F5DB0F403D317AEEE7C48F251D28FDABD538279159467E93B4BAE",
+      "Matches": true
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Commands/AssistantCommands.vsct",
+      "Expected": "7133B59D773FDD20BEAA1E714DABBB728016692759A0F17B6EA94F9357C7FA31",
+      "Actual": "7133B59D773FDD20BEAA1E714DABBB728016692759A0F17B6EA94F9357C7FA31",
+      "Matches": true
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Commands/OpenAssistantCommand.cs",
+      "Expected": "263F4B13199B6021284380F238C7066A5CDB920034D36AE010013E4C690F0369",
+      "Actual": "263F4B13199B6021284380F238C7066A5CDB920034D36AE010013E4C690F0369",
+      "Matches": true
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Editing/DocumentSnapshot.cs",
+      "Expected": "A975526BAA6C5E5F07C8EF02E281A6DB1BB47C5D20DC68A0E23FC5E10A4552C8",
+      "Actual": "A975526BAA6C5E5F07C8EF02E281A6DB1BB47C5D20DC68A0E23FC5E10A4552C8",
+      "Matches": true
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Editing/EditProposal.cs",
+      "Expected": "FDA97224542F58C7C000D6CC547C64A82BF2E6296E026BA51BB223554E0D0994",
+      "Actual": "FDA97224542F58C7C000D6CC547C64A82BF2E6296E026BA51BB223554E0D0994",
+      "Matches": true
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Editing/SourceEditSession.cs",
+      "Expected": "8689541A21D28948F4344298CE6EDA65C0280D4703875F7E63B14E77B43D19AE",
+      "Actual": "8689541A21D28948F4344298CE6EDA65C0280D4703875F7E63B14E77B43D19AE",
+      "Matches": true
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Properties/AssemblyInfo.cs",
+      "Expected": "2C8447D620C163A3E628B7C094B87CA74013B8235844DCB996A1747CF5C4CA72",
+      "Actual": "2C8447D620C163A3E628B7C094B87CA74013B8235844DCB996A1747CF5C4CA72",
+      "Matches": true
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Providers/CliAccountService.cs",
+      "Expected": "1E14F22A1150DD0067507215EEE8BB1F0CA395C74C33D19CAAF81421D0100D6B",
+      "Actual": "1E14F22A1150DD0067507215EEE8BB1F0CA395C74C33D19CAAF81421D0100D6B",
+      "Matches": true
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Providers/CliEditProvider.cs",
+      "Expected": "B76D4DE786AF20CF6EE1DC7E4A2DD4D98F22DA3BCDADE2A1A89F4AD910ACA3BA",
+      "Actual": "B76D4DE786AF20CF6EE1DC7E4A2DD4D98F22DA3BCDADE2A1A89F4AD910ACA3BA",
+      "Matches": true
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Providers/ProcessJob.cs",
+      "Expected": "BA715B1D467121C3483176AAA04AFB5DD454D9172AF920F6C7F968C1F50E8D44",
+      "Actual": "BA715B1D467121C3483176AAA04AFB5DD454D9172AF920F6C7F968C1F50E8D44",
+      "Matches": true
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Providers/ProviderExecutionOptions.cs",
+      "Expected": "43B203383D831BCFFF3289A18381F02BC5EB681284B750270684E05C57379233",
+      "Actual": "43B203383D831BCFFF3289A18381F02BC5EB681284B750270684E05C57379233",
+      "Matches": true
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Services/ScmIdentityService.cs",
+      "Expected": "28CD8005F37C0B59EE75B45334C2A831EC9913B856F374C56D9D9C8307CF44B4",
+      "Actual": "28CD8005F37C0B59EE75B45334C2A831EC9913B856F374C56D9D9C8307CF44B4",
+      "Matches": true
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Services/VisualStudioDocumentService.cs",
+      "Expected": "A3AB30870022FCB9675B545CBA35D55A81E3CD6D1325BF00975F1F77DCF90027",
+      "Actual": "A3AB30870022FCB9675B545CBA35D55A81E3CD6D1325BF00975F1F77DCF90027",
+      "Matches": true
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Services/WorkspaceActionService.cs",
+      "Expected": "0FD5AFF7EB90DD680D0B2451AA6C7AF293828B484781F077DF7C8A785B4A7E7E",
+      "Actual": "0FD5AFF7EB90DD680D0B2451AA6C7AF293828B484781F077DF7C8A785B4A7E7E",
+      "Matches": true
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/source.extension.vsixmanifest",
+      "Expected": "2262349653D3A2C81AFE6310C29F0FC2B2336A30FC2CA9F351141FEF3CE6D4FC",
+      "Actual": "2262349653D3A2C81AFE6310C29F0FC2B2336A30FC2CA9F351141FEF3CE6D4FC",
+      "Matches": true
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/ToolWindows/AssistantToolWindow.cs",
+      "Expected": "BB062BF526A1128E2B10E2607AE04CAE76216D7DBA85849C8DC1FF516BA6E652",
+      "Actual": "BB062BF526A1128E2B10E2607AE04CAE76216D7DBA85849C8DC1FF516BA6E652",
+      "Matches": true
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Views/AssistantControl.Chat.cs",
+      "Expected": "6D9DC9188CAA7ED735297C451D6F67267A3E1EBD5A81E07754CDAC0971AF0BE1",
+      "Actual": "6D9DC9188CAA7ED735297C451D6F67267A3E1EBD5A81E07754CDAC0971AF0BE1",
+      "Matches": true
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Views/AssistantControl.Conversations.cs",
+      "Expected": "DC0FF3726EEA79BA0BD38A838B0DDDDA089540D182D0D13CCB09C30C67FCFB32",
+      "Actual": "DC0FF3726EEA79BA0BD38A838B0DDDDA089540D182D0D13CCB09C30C67FCFB32",
+      "Matches": true
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Views/AssistantControl.Dialogs.cs",
+      "Expected": "FF232B927AF194E8A0E38BB7CC357945FC3B5D974C71017EC91501FAC4C3F919",
+      "Actual": "FF232B927AF194E8A0E38BB7CC357945FC3B5D974C71017EC91501FAC4C3F919",
+      "Matches": true
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Views/AssistantControl.Dropdowns.cs",
+      "Expected": "8BF3B42899820271DC68410BEC7DF28314206E13DC198C090D1B113420449055",
+      "Actual": "8BF3B42899820271DC68410BEC7DF28314206E13DC198C090D1B113420449055",
+      "Matches": true
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Views/AssistantControl.Experience.cs",
+      "Expected": "2BE046F76C489EBEDE0380E2F7D702D750CDB06D113609555B29AC3A62C85C12",
+      "Actual": "2BE046F76C489EBEDE0380E2F7D702D750CDB06D113609555B29AC3A62C85C12",
+      "Matches": true
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Views/AssistantControl.Fan.cs",
+      "Expected": "5DEC93F57D14D795D7E6D9D60CDF1DFA415F61E9D5B2639367EF9150747367B4",
+      "Actual": "5DEC93F57D14D795D7E6D9D60CDF1DFA415F61E9D5B2639367EF9150747367B4",
+      "Matches": true
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Views/AssistantControl.Options.cs",
+      "Expected": "8F0612B4B1742C9C8C81CEAC2FC1A9B0C626A882F4EEE42CB542F0DB04DDB688",
+      "Actual": "8F0612B4B1742C9C8C81CEAC2FC1A9B0C626A882F4EEE42CB542F0DB04DDB688",
+      "Matches": true
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Views/AssistantControl.xaml",
+      "Expected": "3939EFD446779020CFC4C6C79F0FB9257FAA214DEAD371F5EAD6AF740746615F",
+      "Actual": "3939EFD446779020CFC4C6C79F0FB9257FAA214DEAD371F5EAD6AF740746615F",
+      "Matches": true
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Views/AssistantControl.xaml.cs",
+      "Expected": "6859143EBE5378E710919E3531F4765589B9969E23BAEE6773FF28D6BA90132A",
+      "Actual": "6859143EBE5378E710919E3531F4765589B9969E23BAEE6773FF28D6BA90132A",
+      "Matches": true
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Views/AssistantDialogs.cs",
+      "Expected": "BA7DE7A6A94A67B4C41CF155539C80D8617174596B39D5DD5C382DC34C87E5F7",
+      "Actual": "BA7DE7A6A94A67B4C41CF155539C80D8617174596B39D5DD5C382DC34C87E5F7",
+      "Matches": true
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Views/AssistantTheme.xaml",
+      "Expected": "20E42F6331C709BAE1A9639D91062F05FF5F93804C1CDC91BDC7A144B47124E6",
+      "Actual": "20E42F6331C709BAE1A9639D91062F05FF5F93804C1CDC91BDC7A144B47124E6",
+      "Matches": true
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Views/WorkspaceActionsDialog.cs",
+      "Expected": "7C9FCBE6B8037A8B0ACE074298D8C70E867EBA82996D3F08E8B5A8C6D5234D62",
+      "Actual": "7C9FCBE6B8037A8B0ACE074298D8C70E867EBA82996D3F08E8B5A8C6D5234D62",
+      "Matches": true
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/VS2017.AIAssistant.csproj",
+      "Expected": "BE1A5B48F324A1E34B04CC01AB0791A7E7BB2FDA850991CE04996F13EDD64FD5",
+      "Actual": "BE1A5B48F324A1E34B04CC01AB0791A7E7BB2FDA850991CE04996F13EDD64FD5",
+      "Matches": true
+    }
+  ],
+  "FirstFullRun": {
+    "ExitCode": 1,
+    "Directory": "artifacts/tl/3084c62b0c",
+    "Suites": [
+      {
+        "Suite": "compatibility",
+        "ExitCode": 0
+      },
+      {
+        "Suite": "build-entry",
+        "ExitCode": 0
+      },
+      {
+        "Suite": "markdown",
+        "ExitCode": 0
+      },
+      {
+        "Suite": "settings",
+        "ExitCode": 0
+      },
+      {
+        "Suite": "workspace-actions",
+        "ExitCode": 0
+      },
+      {
+        "Suite": "editing",
+        "ExitCode": 1
+      },
+      {
+        "Suite": "foundation",
+        "ExitCode": 0
+      },
+      {
+        "Suite": "experience",
+        "ExitCode": 1
+      },
+      {
+        "Suite": "documents",
+        "ExitCode": 0
+      },
+      {
+        "Suite": "collaboration",
+        "ExitCode": 0
+      },
+      {
+        "Suite": "provider-options",
+        "ExitCode": 0
+      },
+      {
+        "Suite": "provider-cli",
+        "ExitCode": 0
+      },
+      {
+        "Suite": "scm-identity",
+        "ExitCode": 0
+      },
+      {
+        "Suite": "image-requirements",
+        "ExitCode": 0
+      }
+    ],
+    "Editing": {
+      "Passed": 89,
+      "Total": 92,
+      "ResultDirectory": "artifacts/source-editing/run-31f35e60efeb4b749a1150ba813107b8",
+      "SyntheticSavedSettingsObservation": {
+        "ClaudePath": "saved-new.exe",
+        "CodexPath": "codex-original.exe"
+      },
+      "FailedChecks": [
+        "UX-09 cancel restores all live settings and does not write disk",
+        "UX-11 save closes dialog and preserves guide and other provider",
+        "UX-15 manual guide can restore automatic display without other changes"
+      ]
+    },
+    "Experience": {
+      "Succeeded": false,
+      "CheckKind": "IndependentWpfWorkspaceExperience",
+      "Passed": 128,
+      "Checks": [
+        "Claude is the first and initially selected provider",
+        "The centered conversation date comes from the restored record's actual creation timestamp",
+        "A restored conversation has no fabricated work duration before an actual request runs",
+        "Both provider tabs show real brand images and the background mark stays translucent and non-interactive",
+        "Switching provider replaces the background logo with the selected brand (selected=Codex, state=Codex, before=pack://application:,,,/VS2017.AIAssistant;component/Assets/Claude.png, after=pack://application:,,,/VS2017.AIAssistant;component/Assets/Codex.png)",
+        "The provider tab is labeled Claude without the obsolete Code suffix",
+        "The provider tabs lead the view without obsolete Chat or request headings",
+        "The composer omits the redundant paste button while keyboard paste remains available",
+        "The workspace uses a black tonal background",
+        "The composer allows a model alias and selectable thinking modes",
+        "A real rejected request records failure without inventing an AI invocation",
+        "An Enter key used during Korean IME composition never submits the prompt",
+        "Ctrl+Enter at the prompt limit preserves the existing text without overflow or accidental send",
+        "Ctrl+Enter replaces the selected prompt range with a newline and never sends",
+        "Ordinary typing is delegated to the text editor",
+        "An attached image is displayed as a visible thumbnail above the prompt",
+        "Attachment deletion has an accessible keyboard target and a clear tooltip",
+        "The attachment delete control stays quiet until the image is hovered or focused",
+        "Keyboard focus reveals the attachment delete action",
+        "Deleting an attachment removes it from the prompt and preserves its original file",
+        "A real response received while the conversation is hidden becomes unread and is persisted",
+        "The routed Enter key sends the current prompt to the selected provider exactly once",
+        "The actual request boundary receives the selected model and captured attachment",
+        "The actual request boundary receives the selected thinking mode",
+        "An actual successful proposal marks only its conversation completed",
+        "User messages appear as padded, rounded bubbles aligned to the right",
+        "AI replies appear as an unframed left-hand body distinct from the user bubble",
+        "Both message styles preserve selectable read-only text and the actual copy command",
+        "Receiving an AI proposal changes neither editor buffer nor disk before approval",
+        "The compact change card still requires explicit approval before applying",
+        "A one-line replacement displays one added and one removed line instead of a misleading zero net change",
+        "The changed-file link requests the exact proposed source file and its first changed line",
+        "The options trigger reveals reachable settings and usage-guide actions",
+        "Escape closes the expanded options menu and resets its toggle state",
+        "Transient status feedback is centered over the workspace",
+        "Explicit approval applies the proposal to the editor while preserving the disk until save",
+        "The separate save action writes the approved edit exactly once",
+        "A pending actual request has a running status without an unread completion",
+        "A pending AI request shows an animated thinking indicator even while toast feedback may fade",
+        "Starting a new real request resets its elapsed duration and shows a running status",
+        "The running duration advances with independently measured wall time rather than fixed demonstration text",
+        "Enter and Ctrl+Enter cannot mutate or resend the prompt while a request is running",
+        "Stopping a pending request cancels its provider task without additional source edits or saves",
+        "Actual request cancellation records stopped rather than successful completion",
+        "Stopping the request hides its thinking indicator and releases the repeated animation",
+        "Completing or stopping a request freezes its actual elapsed duration and stops the update timer",
+        "Centered transient feedback fades away after the request stops",
+        "A new conversation receives its actual creation date and no inherited elapsed-work label",
+        "Returning to a previous conversation restores only that conversation's completed work duration and date",
+        "A different provider conversation does not inherit the previous provider's elapsed-work label",
+        "Returning to the original provider restores its own conversation timing without cross-provider leakage",
+        "A real Markdown file lock aborts new conversation creation and preserves the active draft",
+        "A real Markdown save failure aborts provider switching and restores the original visible provider",
+        "Releasing the file lock allows a normal provider switch and persists the previously protected draft",
+        "At the 500-file capacity only the one open conversation is restored into the visible list",
+        "Failing to reserve a replacement at capacity keeps the last conversation open, selected and intact",
+        "A keyboard-accessible drag boundary spans the conversation, review and composer height",
+        "Real GridSplitter drag events expand the conversation column while preserving the message pane",
+        "Completing a resize persists the actual sidebar width and visibility",
+        "Dragging the boundary to the left edge collapses the sidebar and returns its space to the conversation",
+        "The collapsed choice survives a settings reload",
+        "Reopening the sidebar restores its last useful width rather than the collapsed width",
+        "Cancelling a resize restores the previous width without saving a partial drag",
+        "A recreated view restores the user's visible sidebar preference and saved width",
+        "An unread completed response is shown as a live blue dot on its own conversation row",
+        "Confirming the current conversation clears its unread dot without losing its completion result",
+        "Reading a conversation also persists its cleared unread state",
+        "A failed conversation is distinguishable from an unread successful response",
+        "The running conversation row animates its real running state",
+        "Stopping a conversation releases its row animation and retains a stopped marker",
+        "Completed and unread state round-trip through Markdown without losing the response",
+        "A request left running by a previous process restores as interrupted and unread, never falsely running",
+        "Older conversation Markdown without status metadata remains fully readable",
+        "Invalid status metadata is reported as a damaged record rather than displayed as a valid result",
+        "Conversation actions belong to the conversation sidebar rather than the top action row",
+        "The sidebar action row provides horizontal scrolling when the buttons exceed its width",
+        "Conversation actions stay below the visible conversation list",
+        "A single AI selection dropdown replaces name-specific action buttons",
+        "Horizontal scrolling brings the complete AI selector into the narrow sidebar viewport",
+        "The prompt and send action retain usable geometry at window width 420",
+        "Claude retains the first visible position in a single provider row at window width 420",
+        "The prompt and send action retain usable geometry at window width 220",
+        "Claude retains the first visible position in a single provider row at window width 220",
+        "Conversation AI identities follow the user/provider/A-Z format behind one fixed selection button",
+        "Actual model popup exposes only advertised advanced levels and Fast support",
+        "The real model popup saves provider-specific Ultra and Fast settings",
+        "Opening and dismissing the Fast dropdown preserves the saved speed and its visible toggle state",
+        "Changing to an unadvertised model clears unavailable Fast and advanced effort",
+        "Clipboard file paste is intercepted as a document attachment",
+        "Clipboard document extraction supplies body text and preserves the original file",
+        "A selected peer is actually invoked before the coordinator receives that real review result",
+        "Every collaboration call receives the selected model options and captured attachment within the context bound: fixture-deep:ultra:fast:1:435;fixture-deep:ultra:fast:1:468",
+        "Neither peer nor coordinator proposals modify or save source before explicit approval",
+        "Actual handoff states and results are persisted in the collaboration Markdown report",
+        "Peer completion is stored as unread in its own conversation",
+        "Selected collaborators survive a Markdown round trip",
+        "AI role settings keep the required automatic A-Z name read-only",
+        "AI role settings save the role while preserving the automatic name and conversation title",
+        "A locked conversation file rolls AI identity, team and participant selection back together",
+        "A report file lock cannot mask the primary collaboration CLI error",
+        "Failed collaboration records a real failed handoff without fabricating an answer",
+        "Stopping a peer call cancels the actual task and records stopped and cancelled states",
+        "Post-delivery conversation save failure preserves delivered results and the original persistence error",
+        "A failed document batch leaves no partial attachments and re-enables the composer",
+        "Stopping document extraction leaves the input usable without partial attachments",
+        "The user guide presents four actionable illustrated procedure cards",
+        "Hovering a guide card brings it forward and dims the other cards",
+        "Guide animation keeps its clickable area fixed so moving content cannot trigger a hover loop",
+        "Clicking a guide card opens a real illustration and detailed instructions in the same window",
+        "Returning from guide detail restores the original card and keyboard focus",
+        "CLI setup uses the same interactive four-step explanation gallery",
+        "The CLI installation step opens a procedure illustration rather than another modal window",
+        "Settings exposes an icon-labeled topic index above its input sections",
+        "Clicking the last settings topic scrolls to that section while keeping the index visible",
+        "Save and close remain in a visually distinct fixed footer outside the scrolling input body",
+        "An actual tooltip inherits the product's dark background, readable text and padding",
+        "A long actual tooltip wraps inside a bounded popup instead of extending across the screen",
+        "Repeated pointer-enter events open the settings fan once without restarting its animation",
+        "The settings and help actions occupy different fan angles without overlapping the trigger button",
+        "The fan overlay cannot intercept the original toggle hit area",
+        "Crossing from the trigger to the fan cancels delayed closing without a reopen loop",
+        "Escape closes the fan and clears its toggle state",
+        "The permission dropdown persists all three extension action permissions",
+        "Full permission preset selects the extension workspace action permissions",
+        "Full workspace permissions still require an exact plan and individual execution approval",
+        "Twenty-six real new-conversation actions produce one permanent A-Z AI address per letter",
+        "Every assignable AI name follows the user/provider/single-letter format without duplicate names",
+        "Choosing B from the actual AI dropdown switches to B while preserving A's draft"
+      ],
+      "Error": "System.InvalidOperationException: Closing A archives its conversation without freeing or replacing its permanent AI address\r\n   위치: CodexCode.WorkspaceReview.WorkspaceExperience.Check(Boolean condition, String message)\r\n   위치: CodexCode.WorkspaceReview.WorkspaceExperience.CheckAlphabetRouting(String output)\r\n   위치: CodexCode.WorkspaceReview.WorkspaceExperience.CheckAdvancedFeatures(String output)\r\n   위치: CodexCode.WorkspaceReview.WorkspaceExperience.Run(String settingsPath, String output)",
+      "ProductVersion": "0.8.0.0",
+      "AssemblySha256": "DC8E3B8CAFF3E935100E8B3F287E8716263F2996C0C9C202C4AE36C58440B36A",
+      "IdeRuntimeTest": false,
+      "AccountLoginAttempted": false,
+      "PersonalSettingsRead": false,
+      "OutputDirectory": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\tl\\3084c62b0c\\experience",
+      "WorkspaceDirectory": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\tl\\3084c62b0c\\experience\\workspace-5dcc5328e1a747cbb4c45d7c8532746b",
+      "CheckedAt": "2026-10-18T17:38:33.5129349+09:00"
+    },
+    "TotalSuites": 14,
+    "PassedSuites": 12
+  },
+  "IndividualReruns": {
+    "ExperienceDirectory": "artifacts/tl/4eea83ff8b",
+    "Experience": {
+      "Succeeded": true,
+      "CheckKind": "IndependentWpfWorkspaceExperience",
+      "Passed": 133,
+      "Checks": [
+        "Claude is the first and initially selected provider",
+        "The centered conversation date comes from the restored record's actual creation timestamp",
+        "A restored conversation has no fabricated work duration before an actual request runs",
+        "Both provider tabs show real brand images and the background mark stays translucent and non-interactive",
+        "Switching provider replaces the background logo with the selected brand (selected=Codex, state=Codex, before=pack://application:,,,/VS2017.AIAssistant;component/Assets/Claude.png, after=pack://application:,,,/VS2017.AIAssistant;component/Assets/Codex.png)",
+        "The provider tab is labeled Claude without the obsolete Code suffix",
+        "The provider tabs lead the view without obsolete Chat or request headings",
+        "The composer omits the redundant paste button while keyboard paste remains available",
+        "The workspace uses a black tonal background",
+        "The composer allows a model alias and selectable thinking modes",
+        "A real rejected request records failure without inventing an AI invocation",
+        "An Enter key used during Korean IME composition never submits the prompt",
+        "Ctrl+Enter at the prompt limit preserves the existing text without overflow or accidental send",
+        "Ctrl+Enter replaces the selected prompt range with a newline and never sends",
+        "Ordinary typing is delegated to the text editor",
+        "An attached image is displayed as a visible thumbnail above the prompt",
+        "Attachment deletion has an accessible keyboard target and a clear tooltip",
+        "The attachment delete control stays quiet until the image is hovered or focused",
+        "Keyboard focus reveals the attachment delete action",
+        "Deleting an attachment removes it from the prompt and preserves its original file",
+        "A real response received while the conversation is hidden becomes unread and is persisted",
+        "The routed Enter key sends the current prompt to the selected provider exactly once",
+        "The actual request boundary receives the selected model and captured attachment",
+        "The actual request boundary receives the selected thinking mode",
+        "An actual successful proposal marks only its conversation completed",
+        "User messages appear as padded, rounded bubbles aligned to the right",
+        "AI replies appear as an unframed left-hand body distinct from the user bubble",
+        "Both message styles preserve selectable read-only text and the actual copy command",
+        "Receiving an AI proposal changes neither editor buffer nor disk before approval",
+        "The compact change card still requires explicit approval before applying",
+        "A one-line replacement displays one added and one removed line instead of a misleading zero net change",
+        "The changed-file link requests the exact proposed source file and its first changed line",
+        "The options trigger reveals reachable settings and usage-guide actions",
+        "Escape closes the expanded options menu and resets its toggle state",
+        "Transient status feedback is centered over the workspace",
+        "Explicit approval applies the proposal to the editor while preserving the disk until save",
+        "The separate save action writes the approved edit exactly once",
+        "A pending actual request has a running status without an unread completion",
+        "A pending AI request shows an animated thinking indicator even while toast feedback may fade",
+        "Starting a new real request resets its elapsed duration and shows a running status",
+        "The running duration advances with independently measured wall time rather than fixed demonstration text",
+        "Enter and Ctrl+Enter cannot mutate or resend the prompt while a request is running",
+        "Stopping a pending request cancels its provider task without additional source edits or saves",
+        "Actual request cancellation records stopped rather than successful completion",
+        "Stopping the request hides its thinking indicator and releases the repeated animation",
+        "Completing or stopping a request freezes its actual elapsed duration and stops the update timer",
+        "Centered transient feedback fades away after the request stops",
+        "A new conversation receives its actual creation date and no inherited elapsed-work label",
+        "Returning to a previous conversation restores only that conversation's completed work duration and date",
+        "A different provider conversation does not inherit the previous provider's elapsed-work label",
+        "Returning to the original provider restores its own conversation timing without cross-provider leakage",
+        "A real Markdown file lock aborts new conversation creation and preserves the active draft",
+        "A real Markdown save failure aborts provider switching and restores the original visible provider",
+        "Releasing the file lock allows a normal provider switch and persists the previously protected draft",
+        "At the 500-file capacity only the one open conversation is restored into the visible list",
+        "Failing to reserve a replacement at capacity keeps the last conversation open, selected and intact",
+        "A keyboard-accessible drag boundary spans the conversation, review and composer height",
+        "Real GridSplitter drag events expand the conversation column while preserving the message pane",
+        "Completing a resize persists the actual sidebar width and visibility",
+        "Dragging the boundary to the left edge collapses the sidebar and returns its space to the conversation",
+        "The collapsed choice survives a settings reload",
+        "Reopening the sidebar restores its last useful width rather than the collapsed width",
+        "Cancelling a resize restores the previous width without saving a partial drag",
+        "A recreated view restores the user's visible sidebar preference and saved width",
+        "An unread completed response is shown as a live blue dot on its own conversation row",
+        "Confirming the current conversation clears its unread dot without losing its completion result",
+        "Reading a conversation also persists its cleared unread state",
+        "A failed conversation is distinguishable from an unread successful response",
+        "The running conversation row animates its real running state",
+        "Stopping a conversation releases its row animation and retains a stopped marker",
+        "Completed and unread state round-trip through Markdown without losing the response",
+        "A request left running by a previous process restores as interrupted and unread, never falsely running",
+        "Older conversation Markdown without status metadata remains fully readable",
+        "Invalid status metadata is reported as a damaged record rather than displayed as a valid result",
+        "Conversation actions belong to the conversation sidebar rather than the top action row",
+        "The sidebar action row provides horizontal scrolling when the buttons exceed its width",
+        "Conversation actions stay below the visible conversation list",
+        "A single AI selection dropdown replaces name-specific action buttons",
+        "Horizontal scrolling brings the complete AI selector into the narrow sidebar viewport",
+        "The prompt and send action retain usable geometry at window width 420",
+        "Claude retains the first visible position in a single provider row at window width 420",
+        "The prompt and send action retain usable geometry at window width 220",
+        "Claude retains the first visible position in a single provider row at window width 220",
+        "Conversation AI identities follow the user/provider/A-Z format behind one fixed selection button",
+        "Actual model popup exposes only advertised advanced levels and Fast support",
+        "The real model popup saves provider-specific Ultra and Fast settings",
+        "Opening and dismissing the Fast dropdown preserves the saved speed and its visible toggle state",
+        "Changing to an unadvertised model clears unavailable Fast and advanced effort",
+        "Clipboard file paste is intercepted as a document attachment",
+        "Clipboard document extraction supplies body text and preserves the original file",
+        "A selected peer is actually invoked before the coordinator receives that real review result",
+        "Every collaboration call receives the selected model options and captured attachment within the context bound: fixture-deep:ultra:fast:1:435;fixture-deep:ultra:fast:1:468",
+        "Neither peer nor coordinator proposals modify or save source before explicit approval",
+        "Actual handoff states and results are persisted in the collaboration Markdown report",
+        "Peer completion is stored as unread in its own conversation",
+        "Selected collaborators survive a Markdown round trip",
+        "AI role settings keep the required automatic A-Z name read-only",
+        "AI role settings save the role while preserving the automatic name and conversation title",
+        "A locked conversation file rolls AI identity, team and participant selection back together",
+        "A report file lock cannot mask the primary collaboration CLI error",
+        "Failed collaboration records a real failed handoff without fabricating an answer",
+        "Stopping a peer call cancels the actual task and records stopped and cancelled states",
+        "Post-delivery conversation save failure preserves delivered results and the original persistence error",
+        "A failed document batch leaves no partial attachments and re-enables the composer",
+        "Stopping document extraction leaves the input usable without partial attachments",
+        "The user guide presents four actionable illustrated procedure cards",
+        "Hovering a guide card brings it forward and dims the other cards",
+        "Guide animation keeps its clickable area fixed so moving content cannot trigger a hover loop",
+        "Clicking a guide card opens a real illustration and detailed instructions in the same window",
+        "Returning from guide detail restores the original card and keyboard focus",
+        "CLI setup uses the same interactive four-step explanation gallery",
+        "The CLI installation step opens a procedure illustration rather than another modal window",
+        "Settings exposes an icon-labeled topic index above its input sections",
+        "Clicking the last settings topic scrolls to that section while keeping the index visible",
+        "Save and close remain in a visually distinct fixed footer outside the scrolling input body",
+        "An actual tooltip inherits the product's dark background, readable text and padding",
+        "A long actual tooltip wraps inside a bounded popup instead of extending across the screen",
+        "Repeated pointer-enter events open the settings fan once without restarting its animation",
+        "The settings and help actions occupy different fan angles without overlapping the trigger button",
+        "The fan overlay cannot intercept the original toggle hit area",
+        "Crossing from the trigger to the fan cancels delayed closing without a reopen loop",
+        "Escape closes the fan and clears its toggle state",
+        "The permission dropdown persists all three extension action permissions",
+        "Full permission preset selects the extension workspace action permissions",
+        "Full workspace permissions still require an exact plan and individual execution approval",
+        "Twenty-six real new-conversation actions produce one permanent A-Z AI address per letter",
+        "Every assignable AI name follows the user/provider/single-letter format without duplicate names",
+        "Choosing B from the actual AI dropdown switches to B while preserving A's draft",
+        "Closing A archives its conversation without freeing or replacing its permanent AI address",
+        "The twenty-seventh new request reopens the original A and its draft without creating or deleting conversation files",
+        "A request after the A-Z limit reaches A's actual provider context and leaves source unchanged before approval",
+        "Disposing a conversation closes its dropdown and stops the fan's pending timer",
+        "Disposing the view cancels its pending request and releases the elapsed timer, clock and repeated indicator animation"
+      ],
+      "Error": null,
+      "ProductVersion": "0.8.0.0",
+      "AssemblySha256": "DC8E3B8CAFF3E935100E8B3F287E8716263F2996C0C9C202C4AE36C58440B36A",
+      "IdeRuntimeTest": false,
+      "AccountLoginAttempted": false,
+      "PersonalSettingsRead": false,
+      "OutputDirectory": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\tl\\4eea83ff8b\\experience",
+      "WorkspaceDirectory": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\tl\\4eea83ff8b\\experience\\workspace-bc4a20ff51a54611af21292a33411528",
+      "CheckedAt": "2026-10-18T17:40:19.4365489+09:00"
+    },
+    "Editing": {
+      "Directory": "artifacts/tl/6219b36603",
+      "Passed": 92,
+      "ResultDirectory": "artifacts/source-editing/run-b20518473a6042618b79394220111a65",
+      "Total": 92,
+      "ExitCode": 0
+    }
+  },
+  "LauncherSmoke": {
+    "Passed": 9,
+    "Total": 9,
+    "Directory": "artifacts/ls/e421b544f8",
+    "ExitCode": 0
+  },
+  "ExistingEvidenceOnly": {
+    "Build": {
+      "Evidence": "MarkdownReport/CodexOrig_TASK-018_Builds.json",
+      "Debug": "0 errors, 0 warnings",
+      "Release": "0 errors, 0 warnings"
+    },
+    "ActualIDE": {
+      "Passed": 80,
+      "Evidence": "MarkdownReport/CodexOrig_TASK-018_IDE.json",
+      "Failed": 0,
+      "LaunchEvidence": "MarkdownReport/CodexOrig_TASK-018_IDELaunch.json"
+    }
+  },
+  "Limitations": [
+    "No independent IDE launch or source rebuild in TASK-019",
+    "No live AI calls or operational DB/SCM/deployment in TASK-019",
+    "No fresh full --all after the two passing individual reruns",
+    "Root cause of first-run failures not established",
+    "No commit, push or release by CodexOrig2"
+  ],
+  "VisualSamples": [
+    "MarkdownReport/image-12.png",
+    "MarkdownReport/image-13.png",
+    "MarkdownReport/image-14.png",
+    "docs/assets/guide-hover-0.8.png",
+    "docs/assets/guide-detail-0.8.png",
+    "docs/assets/options-fan-0.8.png",
+    "docs/assets/settings-index-0.8.png"
+  ],
+  "CompletedAt": "2026-10-18T17:45:39.3206423+09:00",
+  "ElapsedSeconds": 493.9
+}

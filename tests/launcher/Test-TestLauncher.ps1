@@ -66,7 +66,7 @@ function Assert-LauncherProbe {
 }
 
 $result = Invoke-LauncherProbe $launcherOriginal '--list'
-Assert-LauncherProbe 'CLI lists fourteen default and two opt-in suites' ($result.ExitCode -eq 0 -and ([regex]::Matches($result.Output,'\tdefault')).Count -eq 14 -and ([regex]::Matches($result.Output,'\topt-in')).Count -eq 2) $result
+Assert-LauncherProbe 'CLI lists sixteen default and two opt-in suites' ($result.ExitCode -eq 0 -and ([regex]::Matches($result.Output,'\tdefault')).Count -eq 16 -and ([regex]::Matches($result.Output,'\topt-in')).Count -eq 2) $result
 $result = Invoke-LauncherProbe $launcherOriginal '--run compatibility'
 Assert-LauncherProbe 'Real compatibility suite succeeds through launcher' ($result.ExitCode -eq 0 -and $result.Output.Contains('44/44 passed.')) $result
 $result = Invoke-LauncherProbe $fixtureExe '--run unknown-suite'
@@ -86,11 +86,31 @@ Add-Type -AssemblyName System.IO.Compression.FileSystem
 $chosenVsix = Join-Path $fixtureDir 'chosen.vsix'
 $archive = [IO.Compression.ZipFile]::Open($chosenVsix,[IO.Compression.ZipArchiveMode]::Create)
 try { $entry=$archive.CreateEntry('VS2017.AIAssistant.dll'); $stream=$entry.Open(); try { $bytes=[Text.Encoding]::UTF8.GetBytes('CHOSEN_PACKAGE'); $stream.Write($bytes,0,$bytes.Length) } finally { $stream.Dispose() } } finally { $archive.Dispose() }
-$decoyRelease = Join-Path $fixtureDir 'releases\v0.8.0'; $null=New-Item -ItemType Directory -Path $decoyRelease -Force
+$archive = [IO.Compression.ZipFile]::Open($chosenVsix,[IO.Compression.ZipArchiveMode]::Update)
+try { foreach ($name in @('Resources/CliGuide/%EC%84%A4%EB%AA%85%EC%84%9C.pdf','Microsoft.Web.WebView2.Core.dll','runtimes/win-x64/native/WebView2Loader.dll')) { $entry=$archive.CreateEntry($name); $writer=New-Object IO.StreamWriter($entry.Open()); try {$writer.Write('VIEWER_ASSET')}finally{$writer.Dispose()} } } finally { $archive.Dispose() }
+$decoyRelease = Join-Path $fixtureDir 'releases\v0.9.0'; $null=New-Item -ItemType Directory -Path $decoyRelease -Force
 [IO.File]::WriteAllText((Join-Path $decoyRelease 'VS2017.AIAssistant.dll'),'WRONG_DEFAULT',$utf8)
-[IO.File]::WriteAllText((Join-Path $fixtureMarkdownDir 'Test-MarkdownWorkspace.ps1'), 'param([string]$AssemblyPath)' + "`r`n" + '[IO.File]::ReadAllText($AssemblyPath)' + "`r`n", $utf8)
+$assetProbe = @'
+param([string]$AssemblyPath)
+[IO.File]::ReadAllText($AssemblyPath)
+$root=[IO.Path]::GetDirectoryName($AssemblyPath)
+foreach($name in @('Resources/CliGuide/설명서.pdf','Microsoft.Web.WebView2.Core.dll','runtimes/win-x64/native/WebView2Loader.dll')) { if([IO.File]::ReadAllText((Join-Path $root $name)) -ne 'VIEWER_ASSET'){throw 'Viewer asset mismatch'} }
+Write-Output 'VIEWER_ASSETS_PASS'
+'@
+[IO.File]::WriteAllText((Join-Path $fixtureMarkdownDir 'Test-MarkdownWorkspace.ps1'), $assetProbe, $utf8)
 $result = Invoke-LauncherProbe $fixtureExe '--run markdown --vsix chosen.vsix'
 Assert-LauncherProbe 'Explicit VSIX payload wins over release DLL decoy' ($result.ExitCode -eq 0 -and $result.Output.Contains('CHOSEN_PACKAGE') -and !$result.Output.Contains('WRONG_DEFAULT')) $result
+Assert-LauncherProbe 'Viewer dependencies and OPC Unicode paths extracted for isolated tests' ($result.ExitCode -eq 0 -and $result.Output.Contains('VIEWER_ASSETS_PASS')) $result
+foreach($attack in @('traversal','duplicate')) {
+    $badVsix=Join-Path $fixtureDir ($attack+'.vsix')
+    $archive=[IO.Compression.ZipFile]::Open($badVsix,[IO.Compression.ZipArchiveMode]::Create)
+    try {
+        $names=if($attack -eq 'traversal'){@('VS2017.AIAssistant.dll','Resources/CliGuide/%2e%2e/%2e%2e/%2e%2e/outside.txt')}else{@('VS2017.AIAssistant.dll','Resources/CliGuide/Guide.pdf','Resources/CliGuide/%47uide.pdf')}
+        foreach($name in $names){$entry=$archive.CreateEntry($name);$writer=New-Object IO.StreamWriter($entry.Open());try{$writer.Write('TEST')}finally{$writer.Dispose()}}
+    }finally{$archive.Dispose()}
+    $badResult=Invoke-LauncherProbe $fixtureExe ('--run markdown --vsix '+$attack+'.vsix')
+    Assert-LauncherProbe ('Viewer asset '+$attack+' is rejected before child execution') ($badResult.ExitCode -ne 0 -and !$badResult.Output.Contains('VIEWER_ASSETS_PASS') -and !(Test-Path -LiteralPath (Join-Path $fixtureDir 'outside.txt'))) $badResult
+}
 
 $marker = Join-Path $fixtureDir 'child-pid.txt'
 [IO.File]::WriteAllText($fixtureScript, '[IO.File]::WriteAllText((Join-Path $PSScriptRoot ''..\..\child-pid.txt''),[string]$PID)' + "`r`nStart-Sleep -Seconds 30`r`n", $utf8)

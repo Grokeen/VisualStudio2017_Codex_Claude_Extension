@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
@@ -170,7 +170,7 @@ namespace VS2017.AIAssistant.Chat
     {
         public string Role { get; set; }
         public string Text { get; set; }
-        public string Speaker { get { return Role == "user" ? "나" : Role == "assistant" ? "AI" : "안내"; } }
+        public string Speaker { get { return Role == "user" ? "나" : Role == "assistant" ? "AI" : (Text ?? "").StartsWith("⌘", StringComparison.Ordinal) ? "명령·테스트" : (Text ?? "").StartsWith("✎", StringComparison.Ordinal) ? "소스 변경" : (Text ?? "").StartsWith("⌕", StringComparison.Ordinal) ? "조회·도구" : "안내"; } }
     }
 
     /// ---------------------------------------------------------------------
@@ -201,6 +201,7 @@ namespace VS2017.AIAssistant.Chat
         /// ---------------------------------------------------------------------
         public void Add(string role, string text)
         {
+            if (role == "system" && Messages.Count > 0 && Messages.Last().Role == role && Messages.Last().Text == text) return;
             Messages.Add(new ChatMessage { Role = role, Text = text });
             while (Messages.Count > 100) Messages.RemoveAt(0);
         }
@@ -215,11 +216,14 @@ namespace VS2017.AIAssistant.Chat
     /// update date  : 2026-10-18 CodexOrig : UI 변경과 독립된 Provider 컨텍스트.
     /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
     /// update date  : 2026-10-18 CodexOrig : TASK-016 문서 첨부·모델 설정·AI 역할 협업과 실패 복구 흐름 연결.
+    ///                2026-10-18 CodexOrig : TASK-020 신규 모델이 광고한 안전한 강도 토큰 수용.
+    ///                2026-10-18 CodexOrig : 필수 규칙을 요청 경계에서만 조합하고 사용자 규칙 원문 보존.
     /// </summary>
     /// ---------------------------------------------------------------------
     public sealed class ChatRequestContext
     {
         public string Instructions { get; private set; }
+        public string EffectiveInstructions { get { return MandatoryInstructionStore.Compose(Instructions); } }
         public string Model { get; private set; }
         public ChatMessage[] History { get; private set; }
         public ChatAttachment[] Attachments { get; private set; }
@@ -236,11 +240,12 @@ namespace VS2017.AIAssistant.Chat
         /// update date  : 2026-10-18 CodexOrig : 최신 10개/24000자 대화 및 첨부 4개 제한.
         /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// update date  : 2026-10-18 CodexOrig : TASK-016 문서 첨부·모델 설정·AI 역할 협업과 실패 복구 흐름 연결.
+        ///                2026-10-18 CodexOrig : TASK-020 신규 모델이 광고한 안전한 강도 토큰 수용.
         /// </summary>
         /// ---------------------------------------------------------------------
         public ChatRequestContext(string instructions = "", string model = "", ChatMessage[] history = null, ChatAttachment[] attachments = null, string reasoningEffort = "auto", string speed = "standard", string agentContext = "")
         {
-            if (!new[] { "auto", "none", "minimal", "low", "medium", "high", "xhigh", "max", "ultra" }.Contains(reasoningEffort)) throw new ArgumentException("지원하지 않는 생각 모드입니다.");
+            if (reasoningEffort == null || !System.Text.RegularExpressions.Regex.IsMatch(reasoningEffort, @"\A[a-z][a-z0-9_-]{0,31}\z")) throw new ArgumentException("지원하지 않는 생각 모드입니다.");
             if (speed != "standard" && speed != "fast") throw new ArgumentException("지원하지 않는 속도입니다.");
             AgentContext = agentContext ?? "";
             if (AgentContext.Length > 8000) throw new ArgumentException("AI 역할·협업 문맥은 8000자 이하입니다.");
@@ -269,6 +274,7 @@ namespace VS2017.AIAssistant.Chat
     /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
     /// update date  : 2026-10-18 CodexOrig : TASK-014 대화 목록 폭·표시 여부를 이전 설정과 호환되게 보관.
     /// update date  : 2026-10-18 CodexOrig : TASK-016 문서 첨부·모델 설정·AI 역할 협업과 실패 복구 흐름 연결.
+    ///                2026-10-18 CodexOrig : TASK-020 명시적인 네이티브 전체 액세스 설정 추가.
     /// </summary>
     /// ---------------------------------------------------------------------
     public sealed class AssistantSettings
@@ -288,6 +294,7 @@ namespace VS2017.AIAssistant.Chat
         public bool AllowSourceControl { get; set; }
         public bool AllowDatabaseSchema { get; set; }
         public bool AllowDeployment { get; set; }
+        public bool AgentFullAccess { get; set; }
         public double HistoryWidth { get; set; } = 220;
         public bool ShowHistory { get; set; } = true;
     }
@@ -329,15 +336,33 @@ namespace VS2017.AIAssistant.Chat
         /// author       : CodexOrig
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : UI가 기본 설정으로 복구할 수 있도록 검사.
+        /// update date  : 2026-10-18 CodexCode : 설정 거래 Mutex로 중간 상태 읽기를 차단하고 BOM 호환 UTF-8을 최대 64KB만 읽음.
         /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// </summary>
         /// ---------------------------------------------------------------------
         public AssistantSettings Load()
         {
-            if (!File.Exists(FilePath)) return new AssistantSettings();
-            if (new FileInfo(FilePath).Length > 65536) throw new InvalidDataException("설정 파일이 너무 큽니다.");
-            var settings = new JavaScriptSerializer().Deserialize<AssistantSettings>(File.ReadAllText(FilePath, Encoding.UTF8));
-            Validate(settings); return settings;
+            using (AssistantSettingsTransaction.AcquireSettingsLock(FilePath))
+            {
+                if (!File.Exists(FilePath)) return new AssistantSettings();
+                using (var input = new FileStream(FilePath, FileMode.Open, FileAccess.Read, FileShare.Read))
+                using (var memory = new MemoryStream())
+                {
+                    if (input.Length > 65536) throw new InvalidDataException("설정 파일은 UTF-8 기준 64KB 이하만 읽을 수 있습니다.");
+                    byte[] buffer = new byte[4096]; int count;
+                    while ((count = input.Read(buffer, 0, Math.Min(buffer.Length, 65537 - (int)memory.Length))) > 0)
+                    {
+                        memory.Write(buffer, 0, count);
+                        if (memory.Length > 65536) throw new InvalidDataException("설정 파일은 UTF-8 기준 64KB 이하만 읽을 수 있습니다.");
+                    }
+                    byte[] bytes = memory.ToArray(); int offset = bytes.Length >= 3 && bytes[0] == 239 && bytes[1] == 187 && bytes[2] == 191 ? 3 : 0;
+                    AssistantSettings settings;
+                    try { settings = new JavaScriptSerializer { MaxJsonLength = 65536, RecursionLimit = 16 }.Deserialize<AssistantSettings>(new UTF8Encoding(false, true).GetString(bytes, offset, bytes.Length - offset)); }
+                    catch (Exception error) when (error is DecoderFallbackException || error is ArgumentException || error is InvalidOperationException)
+                    { throw new InvalidDataException("설정 파일의 UTF-8 또는 JSON 형식이 올바르지 않습니다.", error); }
+                    Validate(settings); return settings;
+                }
+            }
         }
 
         /// ---------------------------------------------------------------------
@@ -347,20 +372,26 @@ namespace VS2017.AIAssistant.Chat
         /// author       : CodexOrig
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : 중간 실패 시 기존 파일 유지 및 임시 파일 정리.
+        /// update date  : 2026-10-18 CodexCode : 설정 거래와 같은 Mutex를 사용하고 직렬화 UTF-8 64KB 초과를 쓰기 전에 거부.
         /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// </summary>
         /// ---------------------------------------------------------------------
         public void Save(AssistantSettings settings)
         {
-            Validate(settings);
-            Directory.CreateDirectory(Path.GetDirectoryName(FilePath));
-            string temp = FilePath + "." + Guid.NewGuid().ToString("N") + ".tmp";
-            try
+            using (AssistantSettingsTransaction.AcquireSettingsLock(FilePath))
             {
-                File.WriteAllText(temp, new JavaScriptSerializer().Serialize(settings), new UTF8Encoding(false));
-                if (File.Exists(FilePath)) File.Replace(temp, FilePath, null); else File.Move(temp, FilePath);
+                Validate(settings);
+                byte[] bytes = new UTF8Encoding(false, true).GetBytes(new JavaScriptSerializer().Serialize(settings));
+                if (bytes.Length > 65536) throw new InvalidDataException("설정 파일은 UTF-8 기준 64KB 이하로 저장해야 합니다.");
+                Directory.CreateDirectory(Path.GetDirectoryName(FilePath));
+                string temp = FilePath + "." + Guid.NewGuid().ToString("N") + ".tmp";
+                try
+                {
+                    File.WriteAllBytes(temp, bytes);
+                    MarkdownWorkspaceStore.CommitTemporaryFile(temp, FilePath);
+                }
+                finally { if (File.Exists(temp)) File.Delete(temp); }
             }
-            finally { if (File.Exists(temp)) File.Delete(temp); }
         }
 
         /// ---------------------------------------------------------------------

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -48,7 +48,7 @@ namespace VS2017.AIAssistant.Views
         private readonly StackPanel databaseBody = new StackPanel();
         private readonly TabControl tabs = new TabControl();
         private readonly StackPanel argumentField, messageField, filesField, destinationField, deploymentField;
-        private WorkspaceActionRequest approvedRequest;
+        private WorkspaceActionPlan approvedPlan;
         private CancellationTokenSource cancellation;
         private bool working;
         private readonly Button savePermissions = new Button { Content = "✓ 권한 저장", Margin = new Thickness(0, 0, 8, 0) };
@@ -62,10 +62,13 @@ namespace VS2017.AIAssistant.Views
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 기본 해제 권한과 명시적 실행 동의 제공.
         /// update date  : 2026-10-18 CodexOrig : TASK-016 문서 첨부·모델 설정·AI 역할 협업과 실패 복구 흐름 연결.
+        /// update date  : 2026-10-18 CodexCode : WPF 단독 창과 조건부 VS COM 소유자 조회의 기반 생성자 계약을 명시.
         /// </summary>
         /// ---------------------------------------------------------------------
         public WorkspaceActionsDialog(AssistantControl source, string projectDirectory, WorkspacePermissionPolicy policy, Action<string> schemaReceived)
+#pragma warning disable VSTHRD010 // base는 WPF Dispatcher를 검사하며 VS 주 스레드 분기 밖에서 COM을 호출하지 않는다.
             : base(source, "⚒ 프로젝트 작업", "작업 권한을 선택하고 정확한 대상을 확인한 뒤 실행하세요.")
+#pragma warning restore VSTHRD010
         {
             this.schemaReceived = schemaReceived; Height = Math.Min(820, MaxHeight); Width = Math.Min(680, MaxWidth);
             directory.Text = projectDirectory ?? ""; policy = policy ?? new WorkspacePermissionPolicy();
@@ -270,10 +273,11 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 검토 이후 입력 변경 방어.
+        /// update date  : 2026-10-18 CodexCode : TASK-021 불변 승인 계획도 입력 변경과 함께 폐기.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void InvalidatePlan()
-        { approvedRequest = null; approval.IsChecked = false; preview.Clear(); RefreshEnabled(); }
+        { approvedPlan = null; approval.IsChecked = false; preview.Clear(); RefreshEnabled(); }
 
         /// ---------------------------------------------------------------------
         /// <summary>
@@ -282,11 +286,12 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 입력 오류를 같은 팝업에 표시.
+        /// update date  : 2026-10-18 CodexCode : TASK-021 파일·checkout 대상까지 정규화된 실제 계획을 승인 스냅샷으로 저장.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void ReviewClicked(object sender, RoutedEventArgs args)
         {
-            try { var request = CaptureRequest(); var plan = service.BuildPlan(request, CurrentPolicy()); request.ExecutablePath = plan.ExecutablePath; request.ProjectDirectory = plan.TargetDirectory; approvedRequest = request; preview.Text = "작업 폴더: " + plan.TargetDirectory + Environment.NewLine + plan.DisplayCommand; approval.IsChecked = false; Message.Text = "명령과 대상을 확인한 뒤 실행 동의를 선택하세요."; }
+            try { var plan = service.BuildPlan(CaptureRequest(), CurrentPolicy()); approvedPlan = plan; preview.Text = "작업 폴더: " + plan.TargetDirectory + Environment.NewLine + plan.DisplayCommand; approval.IsChecked = false; Message.Text = "명령과 대상을 확인한 뒤 실행 동의를 선택하세요."; }
             catch (Exception error) { InvalidatePlan(); Message.Text = "⚠ " + error.Message; }
             RefreshEnabled();
         }
@@ -298,13 +303,15 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 성공 코드와 실패 출력을 구분.
+        /// update date  : 2026-10-18 CodexCode : TASK-021 미리본 불변 계획과 같은 명령임을 재검증한 실행 API 사용.
         /// </summary>
         /// ---------------------------------------------------------------------
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "VSTHRD100", Justification = "WPF/Dispatcher event handler; awaited operation handles cancellation and failures.")]
         private async void RunClicked(object sender, RoutedEventArgs args)
         {
-            if (working || approvedRequest == null || approval.IsChecked != true) return;
-            var request = approvedRequest; var policy = CurrentPolicy();
-            await ExecuteAsync(async token => { var result = await service.RunAsync(request, policy, token); output.Text = result.Output + (string.IsNullOrEmpty(result.Error) ? "" : "\n" + result.Error); Message.Text = result.Succeeded ? "✓ 작업을 완료했습니다." : "⚠ 작업이 종료 코드 " + result.ExitCode + "로 끝났습니다. 결과를 확인하세요."; });
+            if (working || approvedPlan == null || approval.IsChecked != true) return;
+            var plan = approvedPlan; var policy = CurrentPolicy();
+            await ExecuteAsync(async token => { var result = await service.RunApprovedAsync(plan, policy, token); output.Text = result.Output + (string.IsNullOrEmpty(result.Error) ? "" : "\n" + result.Error); Message.Text = result.Succeeded ? "✓ 작업을 완료했습니다." : "⚠ 작업이 종료 코드 " + result.ExitCode + "로 끝났습니다. 결과를 확인하세요."; });
             InvalidatePlan();
         }
 
@@ -317,6 +324,7 @@ namespace VS2017.AIAssistant.Views
         /// update date  : 2026-10-18 CodexCode : 연결 문자열은 AI 컨텍스트와 결과에 포함하지 않음.
         /// </summary>
         /// ---------------------------------------------------------------------
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "VSTHRD100", Justification = "WPF/Dispatcher event handler; awaited operation handles cancellation and failures.")]
         private async void ReadSchemaClicked(object sender, RoutedEventArgs args)
         {
             if (working) return; string text = connection.Text; var policy = CurrentPolicy(); schema.Clear(); shareSchema.IsEnabled = false;
@@ -370,7 +378,7 @@ namespace VS2017.AIAssistant.Views
         private void RefreshEnabled()
         {
             commandBody.IsEnabled = databaseBody.IsEnabled = !working; tabs.IsEnabled = !working;
-            run.IsEnabled = !working && approvedRequest != null && approval.IsChecked == true; cancel.IsEnabled = working;
+            run.IsEnabled = !working && approvedPlan != null && approval.IsChecked == true; cancel.IsEnabled = working;
             savePermissions.IsEnabled = !working;
         }
     }

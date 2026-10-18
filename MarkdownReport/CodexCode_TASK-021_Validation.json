@@ -1,0 +1,319 @@
+﻿{
+    "Task":  "TASK-021",
+    "Author":  "CodexCode",
+    "Status":  "Owned implementation and product verification complete; final IDE/release integration owned by TASK-020",
+    "StartedAt":  "2026-10-18T18:18:33.0000000+09:00",
+    "ScopeCompletedAt":  "2026-10-18T19:31:39.0994100+09:00",
+    "ElapsedSeconds":  4386.1,
+    "RoleSha256":  "5760D468A79F3A4478B8548333E30BF1397F661E02B5F2B4F6594879C12007EF",
+    "AuditReportSha256":  "82E1A9C78ABA9944EDBC5E3FA040619AA41CFFC70A64A4C81AE99DF4F23AE3C3",
+    "Product":  {
+                    "Candidate":  "TASK-020 candidate4/2017/Release",
+                    "AssemblyPath":  "artifacts/task020/candidate4/2017/Release/VS2017.AIAssistant.dll",
+                    "AssemblySha256":  "DEC74A499646CD5611CCA3C210F3B0DB9CEB428BC488F007BBD90A9BAE75E4B0",
+                    "Succeeded":  true,
+                    "Passed":  229,
+                    "Failed":  0,
+                    "PassedSuites":  8,
+                    "ExitCode":  0,
+                    "SummaryPath":  "artifacts/task021/bundle-candidate4-final/summary.json",
+                    "SummarySha256":  "76E7C1A037F721D25E4ED399A24FBE8414EF1DA94DE7E11C1980320AACF8A122",
+                    "Suites":  [
+                                   {
+                                       "Name":  "SelectionContext",
+                                       "Passed":  38,
+                                       "Failed":  0,
+                                       "ExitCode":  0,
+                                       "ResultPath":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task021\\bundle-candidate4-final\\selection\\result.json",
+                                       "StandardOutputPath":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task021\\bundle-candidate4-final\\selection\\stdout.log",
+                                       "StandardErrorPath":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task021\\bundle-candidate4-final\\selection\\stderr.log"
+                                   },
+                                   {
+                                       "Name":  "DiffReview",
+                                       "Passed":  18,
+                                       "Failed":  0,
+                                       "ExitCode":  0,
+                                       "ResultPath":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task021\\bundle-candidate4-final\\diff\\result.json",
+                                       "StandardOutputPath":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task021\\bundle-candidate4-final\\diff\\stdout.log",
+                                       "StandardErrorPath":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task021\\bundle-candidate4-final\\diff\\stderr.log"
+                                   },
+                                   {
+                                       "Name":  "HelpContent",
+                                       "Passed":  14,
+                                       "Failed":  0,
+                                       "ExitCode":  0,
+                                       "ResultPath":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task021\\bundle-candidate4-final\\help\\result.json",
+                                       "StandardOutputPath":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task021\\bundle-candidate4-final\\help\\stdout.log",
+                                       "StandardErrorPath":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task021\\bundle-candidate4-final\\help\\stderr.log"
+                                   },
+                                   {
+                                       "Name":  "ImageFollowup",
+                                       "Passed":  56,
+                                       "Failed":  0,
+                                       "ExitCode":  0,
+                                       "ResultPath":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task021\\bundle-candidate4-final\\images\\result.json",
+                                       "StandardOutputPath":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task021\\bundle-candidate4-final\\images\\stdout.log",
+                                       "StandardErrorPath":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task021\\bundle-candidate4-final\\images\\stderr.log"
+                                   },
+                                   {
+                                       "Name":  "FanGeometry",
+                                       "Passed":  21,
+                                       "Failed":  0,
+                                       "ExitCode":  0,
+                                       "ResultPath":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task021\\bundle-candidate4-final\\fan\\result.json",
+                                       "StandardOutputPath":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task021\\bundle-candidate4-final\\fan\\stdout.log",
+                                       "StandardErrorPath":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task021\\bundle-candidate4-final\\fan\\stderr.log"
+                                   },
+                                   {
+                                       "Name":  "SecureCoding",
+                                       "Passed":  22,
+                                       "Failed":  0,
+                                       "ExitCode":  0,
+                                       "ResultPath":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task021\\bundle-candidate4-final\\secure\\result.json",
+                                       "StandardOutputPath":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task021\\bundle-candidate4-final\\secure\\stdout.log",
+                                       "StandardErrorPath":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task021\\bundle-candidate4-final\\secure\\stderr.log"
+                                   },
+                                   {
+                                       "Name":  "SecureExecution",
+                                       "Passed":  48,
+                                       "Failed":  0,
+                                       "ExitCode":  0,
+                                       "ResultPath":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task021\\bundle-candidate4-final\\secure-execution\\result.json",
+                                       "StandardOutputPath":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task021\\bundle-candidate4-final\\secure-execution\\stdout.log",
+                                       "StandardErrorPath":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task021\\bundle-candidate4-final\\secure-execution\\stderr.log"
+                                   },
+                                   {
+                                       "Name":  "WorkerOutput",
+                                       "Passed":  12,
+                                       "Failed":  0,
+                                       "ExitCode":  0,
+                                       "ResultPath":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task021\\bundle-candidate4-final\\worker-output\\result.json",
+                                       "StandardOutputPath":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task021\\bundle-candidate4-final\\worker-output\\stdout.log",
+                                       "StandardErrorPath":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task021\\bundle-candidate4-final\\worker-output\\stderr.log"
+                                   }
+                               ],
+                    "SeparateProcesses":  true,
+                    "Sequential":  true,
+                    "RuntimeDiscoveryDisabled":  true,
+                    "PersonalSettingsIsolated":  true,
+                    "ActualAIRequestsMadeByThisTest":  false,
+                    "OperationalServerCommandsMadeByThisTest":  false
+                },
+    "IndependentBuild":  {
+                             "Path":  "artifacts/task021/isolated-candidate4",
+                             "OriginalSharedBinObjUsed":  false,
+                             "SourcesCopied":  55,
+                             "SourceHashManifest":  "artifacts/task021/isolated-candidate4/inputs.json",
+                             "SourceHashManifestSha256":  "8FD430901416EA72D333CABA265BB98E9457C11DE0E68CB48A10384E13AEB343",
+                             "ExitCode":  0,
+                             "Warnings":  0,
+                             "Errors":  0,
+                             "AssemblySha256":  "E41330ED2EE1031C632ED50CCA717FF6E6CCEB9B322E5667104DF72331A13E1B",
+                             "Checks":  229,
+                             "AddedToFinalProductCount":  false
+                         },
+    "HistoricalResults":  [
+                              {
+                                  "Path":  "artifacts/task021/fan-candidate1-actual-hit/result.json",
+                                  "Status":  "Actual 200px trigger overlap detected and preserved"
+                              },
+                              {
+                                  "Path":  "artifacts/task021/ui-candidate2/result.json",
+                                  "Status":  "48 passed then actual inherited Foreground defect detected and preserved"
+                              },
+                              {
+                                  "Path":  "artifacts/task021/bundle-candidate3/summary.json",
+                                  "Status":  "228 passed before additional visual file-return defect discovered; not counted as final regression success"
+                              },
+                              {
+                                  "Path":  "artifacts/task021/secure-aba-77e056c894/result.json",
+                                  "Status":  "Actual two-process API with controlled Markdown IO failure reproduced ABA before fix"
+                              },
+                              {
+                                  "Path":  "artifacts/task021/secure-plan-before/result.json",
+                                  "Status":  "Two ambiguous-path approval mismatches detected before fix; no operational SCM command"
+                              }
+                          ],
+    "PostCandidate4OwnedSourceChanges":  [
+                                             {
+                                                 "Path":  "src/VS2017.AIAssistant/Views/AssistantDialogs.cs",
+                                                 "Scope":  "Only comments and local VSTHRD003/VSTHRD010 pragmas; executable statements unchanged"
+                                             },
+                                             {
+                                                 "Path":  "src/VS2017.AIAssistant/Views/WorkspaceActionsDialog.cs",
+                                                 "Scope":  "Only constructor comment and local base-call VSTHRD010 pragma; executable statements unchanged"
+                                             }
+                                         ],
+    "ExclusiveSources":  [
+                             {
+                                 "Path":  "src\\VS2017.AIAssistant\\Editing\\DocumentSnapshot.cs",
+                                 "Sha256":  "184511525B968B067725FB04629ABF0B042F4817C2C32407033A2FCD0551399D"
+                             },
+                             {
+                                 "Path":  "src\\VS2017.AIAssistant\\Editing\\EditProposal.cs",
+                                 "Sha256":  "5132A29DFF41BCB966F7C54DE0286315841F0C82E9DA0A626AF1EEEDA5AB7D1B"
+                             },
+                             {
+                                 "Path":  "src\\VS2017.AIAssistant\\Services\\VisualStudioDocumentService.cs",
+                                 "Sha256":  "2E40E37DC8F58FDFEC7F4CA6D7EA1FD013466200D9BEF3D08125461E5BC9AA1C"
+                             },
+                             {
+                                 "Path":  "src\\VS2017.AIAssistant\\ToolWindows\\AssistantToolWindow.cs",
+                                 "Sha256":  "956E97CBC7DE404C4DBBC26868FE731FD429D28E6DACB3A54EE68C37C6C294EA"
+                             },
+                             {
+                                 "Path":  "src\\VS2017.AIAssistant\\Views\\AssistantControl.Changes.cs",
+                                 "Sha256":  "55DFB2925B0FF4FA91B7BE656C0D71F49FA5761336D8FE68B6B923756E2245B2"
+                             },
+                             {
+                                 "Path":  "src\\VS2017.AIAssistant\\Views\\AssistantControl.Dialogs.cs",
+                                 "Sha256":  "75D568C098A19E915F80E9D5BD1EFB9C8B6026E9E66249A51DD757B1D153D998"
+                             },
+                             {
+                                 "Path":  "src\\VS2017.AIAssistant\\Views\\AssistantControl.Dropdowns.cs",
+                                 "Sha256":  "721EF66DA14BA83C6D0C30E2BDF0C60FEB191FD2B1468F73DDAEF980602B7DD7"
+                             },
+                             {
+                                 "Path":  "src\\VS2017.AIAssistant\\Views\\AssistantControl.Experience.cs",
+                                 "Sha256":  "285966CE40C1F8BF9BD1EA7C33AACC3D57CE1D471DDCE99065612626A32BFEFD"
+                             },
+                             {
+                                 "Path":  "src\\VS2017.AIAssistant\\Views\\AssistantControl.Fan.cs",
+                                 "Sha256":  "A5B673199D5F085BD2D7C9B1414C64057DFCAC2E5C044E15DA0D0690B876C320"
+                             },
+                             {
+                                 "Path":  "src\\VS2017.AIAssistant\\Views\\AssistantControl.Thinking.cs",
+                                 "Sha256":  "26D26E912935AF859810AFDDB88D15BBDD046629CDF1D63762C3A76429FAA880"
+                             },
+                             {
+                                 "Path":  "src\\VS2017.AIAssistant\\Views\\AssistantControl.xaml",
+                                 "Sha256":  "C40440A9E024F056B4FA36F7052DC831E8ABE3959EF40DCCC80E11B1F6D69615"
+                             },
+                             {
+                                 "Path":  "src\\VS2017.AIAssistant\\Views\\AssistantDialogs.cs",
+                                 "Sha256":  "757422005F7AB1754DAB068D398B95AC120BF5B78C1E3CDCFB38384D798A15AC"
+                             },
+                             {
+                                 "Path":  "src\\VS2017.AIAssistant\\Views\\AssistantHelpContent.cs",
+                                 "Sha256":  "7BC3AFC0D0DA553357F48DACD448669C856090D80D9C1CA03C0794DF4EB341E8"
+                             },
+                             {
+                                 "Path":  "src\\VS2017.AIAssistant\\Views\\AssistantTheme.xaml",
+                                 "Sha256":  "B8AF45B88F414DF52921C52F1F2413E0214ADA436EBA37C055CCA6451EC841D6"
+                             },
+                             {
+                                 "Path":  "src\\VS2017.AIAssistant\\Chat\\AssistantSettingsTransaction.cs",
+                                 "Sha256":  "56639555F425A32A747EC792F58FD0364505C0FBAA9FCBCEC31C841D3FBF7092"
+                             },
+                             {
+                                 "Path":  "src\\VS2017.AIAssistant\\Chat\\DocumentWorkerLauncher.cs",
+                                 "Sha256":  "5F604DCE83697D60E5DD5668915379683BDA502E83DF3F0D0B0C3589842558C9"
+                             },
+                             {
+                                 "Path":  "src\\VS2017.AIAssistant\\Services\\WorkspaceActionService.cs",
+                                 "Sha256":  "AB5AA4BAD97B04FA57A7C4904FE8456B04BCA555B745886B9AFCB424A3E38F2C"
+                             },
+                             {
+                                 "Path":  "src\\VS2017.AIAssistant\\Views\\WorkspaceActionsDialog.cs",
+                                 "Sha256":  "7A50745A234C2A12BAD40CF0DDE47EB81268DB07D6E6F4ADD2B8EB83B5594DE7"
+                             }
+                         ],
+    "SharedSource":  {
+                         "Path":  "src/VS2017.AIAssistant/Chat/ChatWorkspace.cs",
+                         "OwnedScope":  "AssistantSettingsStore.Load/Save only",
+                         "WholeFileSha256":  "45E36044D41B0E1EAFADFC3EB88B484F08B650952140A11B7E197A1C6DD7E8C8"
+                     },
+    "Tests":  [
+                  {
+                      "Path":  "tests/task021/DiffReviewChecks.cs",
+                      "Sha256":  "E741CE77EA6181C484B93EEE709E60D3BFE8840FE91FC7F617232C9F26E7D842"
+                  },
+                  {
+                      "Path":  "tests/task021/FanControlStub.cs",
+                      "Sha256":  "9CC7A74364F1ED55A32CC4253EC25C613A406C430388A18317553D9D1DFE2841"
+                  },
+                  {
+                      "Path":  "tests/task021/FanGeometryChecks.cs",
+                      "Sha256":  "90BE68935AEC4ADA82F85693A3D46B2BC68D93EF5DC0E128CD4108CF10884B04"
+                  },
+                  {
+                      "Path":  "tests/task021/HelpContentChecks.cs",
+                      "Sha256":  "62E4A578F3733DB2CC89FD28CE86D4FEB6B16ACFA876C96F268FC1C57AB1606A"
+                  },
+                  {
+                      "Path":  "tests/task021/ImageFollowupChecks.cs",
+                      "Sha256":  "8B457E83F2062C6EEB6ECC4B7698ECE0701EEB9DC98050A131B138AE50240900"
+                  },
+                  {
+                      "Path":  "tests/task021/SecureCodingChecks.cs",
+                      "Sha256":  "B068EC37E9243A1540C2E07EA79B0BD53C60F728BB0F1E0728F95C10B69C3BD0"
+                  },
+                  {
+                      "Path":  "tests/task021/SecureExecutionChecks.cs",
+                      "Sha256":  "940A51A11F56D15CC70032A0A31D478A59FB1D46680706C219268B3FA15E94F1"
+                  },
+                  {
+                      "Path":  "tests/task021/SecureExecutionFixture.cs",
+                      "Sha256":  "9271AB298646D6A0B9F06AE98205AA135B01F82948AF442E431BEB05A3670480"
+                  },
+                  {
+                      "Path":  "tests/task021/SelectionContextChecks.cs",
+                      "Sha256":  "C32C157AC48CF033A8C04B2ADCCC8CA29BFD59E0E35E157AE92F221F28F64A43"
+                  },
+                  {
+                      "Path":  "tests/task021/Test-DiffReview.ps1",
+                      "Sha256":  "EC9B70FE60CA5E675298AB47BEFFCC821ED6C4D00D9552FAB7C4C374DA76A779"
+                  },
+                  {
+                      "Path":  "tests/task021/Test-FanGeometry.ps1",
+                      "Sha256":  "C75A7409166F74579953B4D22E8BDA88B0BDAC416736FC2BD5C96673A14992B2"
+                  },
+                  {
+                      "Path":  "tests/task021/Test-HelpContent.ps1",
+                      "Sha256":  "25AF58800BF386F03D37C895F411F6FA105D1AD0A2921DA2690DC71DCCE9E3A9"
+                  },
+                  {
+                      "Path":  "tests/task021/Test-ImageFollowup.ps1",
+                      "Sha256":  "1403FA27C8C7B86649C09517BCDF1205DD4B19DE50232EAB4793B2DBD6AB0392"
+                  },
+                  {
+                      "Path":  "tests/task021/Test-SecureCoding.ps1",
+                      "Sha256":  "3154DDA019163A6897EEA70BA142FFD6A2F2A34D46D8F23B6069B4D342F98AE5"
+                  },
+                  {
+                      "Path":  "tests/task021/Test-SecureExecution.ps1",
+                      "Sha256":  "C064262E23BABE51EFC9CBAE76105875D57730B23607718D7B8E6F476AC59F87"
+                  },
+                  {
+                      "Path":  "tests/task021/Test-SelectionContext.ps1",
+                      "Sha256":  "E7664CD75301FB125BFADDBA1799368820065B002C8807020E097296F047E21B"
+                  },
+                  {
+                      "Path":  "tests/task021/Test-Task021.ps1",
+                      "Sha256":  "115545C529CFB17A3A40DE6F5F23C68D553F9239103B01FD2BE6707D430428C4"
+                  },
+                  {
+                      "Path":  "tests/task021/Test-WorkerOutput.ps1",
+                      "Sha256":  "8CDA81B6FD9FC020FDEECE842765FB83F8D68821DCD311426E33D7C68C443E81"
+                  },
+                  {
+                      "Path":  "tests/task021/WorkerOutputChecks.cs",
+                      "Sha256":  "8D090CBD4E7F073737043569C4A5B81706DCA8506E075441FECB1A444E24E373"
+                  },
+                  {
+                      "Path":  "tests/task021/WorkerOutputFixture.cs",
+                      "Sha256":  "0298DA368F83D0CF46F5D09AC4DDB4007995D5F5E10CF03ACC225E7B0AAD992E"
+                  }
+              ],
+    "FinalIntegration":  {
+                             "Owner":  "TASK-020 CodexOrig",
+                             "RemainingAtHandoff":  [
+                                                        "Final SDK17 rebuild after three local analyzer explanations",
+                                                        "Actual IDE 2017/2019/2022 tests including selected source, unsaved buffers and solution fallback",
+                                                        "Final root launcher suites and package provenance",
+                                                        "Documentation and GitHub publish after all collaborators finish"
+                                                    ],
+                             "RealClaudeAndOperationalDbTfvcUnverifiedByTask021":  true,
+                             "NoCommitOrPushByTask021":  true
+                         }
+}

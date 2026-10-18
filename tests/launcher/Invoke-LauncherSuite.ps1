@@ -12,7 +12,7 @@ update date  : 2026-10-18 CodexOrig : TASK-018 드롭다운·이미지 요구 �
 #>
 [CmdletBinding()]
 param(
-    [Parameter(Mandatory=$true)][ValidateSet('compatibility','build-entry','markdown','settings','workspace-actions','editing','foundation','experience','documents','collaboration','provider-options','provider-cli','scm-identity','image-requirements','ide','live-codex')][string]$Suite,
+    [Parameter(Mandatory=$true)][ValidateSet('compatibility','build-entry','markdown','settings','workspace-actions','editing','foundation','experience','documents','collaboration','provider-options','provider-cli','scm-identity','image-requirements','image-followup','native-runtime','ide','live-codex')][string]$Suite,
     [string]$AssemblyPath,
     [string]$VsixPath,
     [string]$OutputDirectory,
@@ -39,6 +39,8 @@ try {
         'provider-cli' { $scriptRelativePath = 'tests\provider-options\Test-ProviderCliIntegration.ps1'; $suiteArguments.AssemblyPath = $AssemblyPath }
         'scm-identity' { $scriptRelativePath = 'tests\provider-options\Test-ScmIdentity.ps1'; $suiteArguments.ProductAssemblyPath = $AssemblyPath }
         'image-requirements' { $scriptRelativePath = 'tests\review\Test-ImageRequirements.ps1'; $suiteArguments.AssemblyPath = $AssemblyPath; $suiteArguments.OutputDirectory = $OutputDirectory }
+        'image-followup' { $scriptRelativePath = 'tests\task021\Test-Task021.ps1'; $suiteArguments.AssemblyPath = $AssemblyPath; $suiteArguments.OutputDirectory = $OutputDirectory }
+        'native-runtime' { $scriptRelativePath = 'tests\task020\Test-NativeRuntime.ps1'; $suiteArguments.AssemblyPath = $AssemblyPath; $suiteArguments.OutputDirectory = $OutputDirectory }
         'ide' { $scriptRelativePath = 'tests\ide\Test-IdeIntegration.ps1'; $suiteArguments.VsixPath = $VsixPath }
         'live-codex' { $scriptRelativePath = 'tests\review\Test-LiveChatContext.ps1'; $suiteArguments.AssemblyPath = $AssemblyPath; $suiteArguments.CodexPath = $CodexPath }
     }
@@ -49,6 +51,7 @@ try {
         if ($suiteArguments.ContainsKey($key) -and !(Test-Path -LiteralPath $suiteArguments[$key] -PathType Leaf)) { throw "$key 파일을 찾지 못했습니다." }
     }
     Set-Location -LiteralPath $launcherRoot
+    $env:VS2017_AI_DISABLE_RUNTIME_DISCOVERY = '1'
     Write-Output ('검사 시작: ' + $Suite)
     $global:LASTEXITCODE = 0
     & $scriptFullPath @suiteArguments
@@ -56,6 +59,12 @@ try {
     $suiteExitCode = $LASTEXITCODE
     if ($suiteExitCode -ne 0) { exit $suiteExitCode }
     if (!$suiteSucceeded) { exit 1 }
+    if ($Suite -eq 'image-followup') {
+        $followupDirectory = Join-Path $OutputDirectory 'task022'
+        & (Join-Path $launcherRoot 'tests\task022\Test-Task022.ps1') -AssemblyPath $AssemblyPath -OutputDirectory $followupDirectory
+        if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+        if (!$?) { exit 1 }
+    }
     Write-Output ('검사 완료: ' + $Suite)
     exit 0
 }

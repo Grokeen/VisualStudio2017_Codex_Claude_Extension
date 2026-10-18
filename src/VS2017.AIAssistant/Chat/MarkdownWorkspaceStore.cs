@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
@@ -487,6 +487,7 @@ namespace VS2017.AIAssistant.Chat
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : UTF-8 바이트 크기·링크 경로 검사 및 임시 파일 정리.
+        ///                2026-10-18 CodexOrig : TASK-020 일시적인 Win32 파일 잠금의 제한 재시도와 실패 근거 추가.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void AtomicWrite(string path, string text)
@@ -500,9 +501,40 @@ namespace VS2017.AIAssistant.Chat
             try
             {
                 File.WriteAllText(temporary, text, encoding);
-                if (File.Exists(path)) File.Replace(temporary, path, null); else File.Move(temporary, path);
+                CommitTemporaryFile(temporary, path);
             }
             finally { if (File.Exists(temporary)) File.Delete(temporary); }
+        }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : CommitTemporaryFile
+        /// desc         : 일시적인 Windows 파일 잠금만 짧게 재시도하고 영구 실패 때 기존 파일을 유지한다.
+        /// author       : CodexOrig
+        /// create date  : 2026-10-18
+        /// update date  : 2026-10-18 CodexOrig : TASK-020 감사 F02의 저장 경계와 Win32 오류 진단 보강.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        internal static void CommitTemporaryFile(string temporary, string path)
+        {
+            for (int attempt = 0; ; attempt++)
+            {
+                EnsureNoReparsePoint(Path.GetDirectoryName(path));
+                EnsureNoReparsePoint(path);
+                EnsureNoReparsePoint(temporary);
+                try
+                {
+                    if (File.Exists(path)) File.Replace(temporary, path, null); else File.Move(temporary, path);
+                    return;
+                }
+                catch (IOException error)
+                {
+                    int nativeError = error.HResult & 0xffff;
+                    bool temporaryLock = nativeError == 32 || nativeError == 33 || nativeError == 1175 || nativeError == 1176 || nativeError == 1224;
+                    if (!temporaryLock || attempt >= 5) throw new IOException("기록 파일 교체 실패 (Win32 " + nativeError + ", 시도 " + (attempt + 1) + "). 다른 프로그램의 파일 잠금을 확인하세요. 기존 기록은 보존했습니다.", error);
+                    System.Threading.Thread.Sleep(30);
+                }
+            }
         }
 
         /// ---------------------------------------------------------------------

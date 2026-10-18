@@ -10,14 +10,14 @@ update date  : 2026-10-18 CodexOrig : TASK-018 드롭다운·이미지 요구 �
 -------------------------------------------------------------------------
 #>
 [CmdletBinding()]
-param([string]$AssemblyPath, [string]$OutputDirectory, [string]$Version = '0.8')
+param([string]$AssemblyPath, [string]$OutputDirectory, [string]$Version = '0.9')
 $ErrorActionPreference = 'Stop'
 if ($PSVersionTable.PSEdition -ne 'Desktop' -or [Threading.Thread]::CurrentThread.GetApartmentState() -ne 'STA') { throw 'Windows PowerShell 5.1 -STA로 실행하세요.' }
 $repositoryDir = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..\..'))
 if (!$AssemblyPath) { $AssemblyPath = Join-Path $repositoryDir 'src\VS2017.AIAssistant\bin\Release\VS2017.AIAssistant.dll' }
 if (!$OutputDirectory) { $OutputDirectory = Join-Path $repositoryDir 'docs\assets' }
 $null = New-Item -ItemType Directory -Path $OutputDirectory -Force
-$previewRoot = Join-Path $repositoryDir ('artifacts\task018\preview-' + [guid]::NewGuid().ToString('N'))
+$previewRoot = Join-Path $repositoryDir ('artifacts\task020\preview-' + [guid]::NewGuid().ToString('N'))
 $null = New-Item -ItemType Directory -Path $previewRoot -Force
 Add-Type -AssemblyName PresentationFramework, PresentationCore, WindowsBase, System.Xaml
 $graph = Get-Content (Join-Path $repositoryDir 'src\VS2017.AIAssistant\obj\project.assets.json') -Raw | ConvertFrom-Json

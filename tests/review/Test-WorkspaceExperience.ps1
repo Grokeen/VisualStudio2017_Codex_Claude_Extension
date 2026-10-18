@@ -7,6 +7,7 @@ author       : CodexCode
 create date  : 2026-10-18
 update date  : 2026-10-18 CodexCode : 개인 설정·인증·공유 빌드에 접근하지 않는 격리 검증 구성.
 update date  : 2026-10-18 CodexOrig : TASK-018 드롭다운·이미지 요구 및 기본14개 검사 반영.
+               2026-10-18 CodexOrig : TASK-020 최종 UI 계약과 프로토콜 경계 검증 갱신.
 -------------------------------------------------------------------------
 .SYNOPSIS
     Run Windows PowerShell 5.1 -STA with a frozen product DLL.
@@ -641,6 +642,7 @@ namespace CodexCode.WorkspaceReview
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 입력 이벤트·첨부 제거·소스 이동·승인과 저장의 실제 경계 검증.
         /// update date  : 2026-10-18 CodexOrig : TASK-014 실제 숨김 응답·실패/중지·경계/상태 회귀 연결.
+        ///                2026-10-18 CodexOrig : TASK-020 모델 원본·색상 레이블·그라데이션 브러시의 실제 표시 검증.
         /// </summary>
         /// ---------------------------------------------------------------------
         public static ExperienceResult Run(string settingsPath, string output)
@@ -698,7 +700,7 @@ namespace CodexCode.WorkspaceReview
                 var mode = (ComboBox)control.FindName("ModeChoice");
                 Check(model.IsEditable && mode.Items.Count >= 3,
                     "The composer allows a model alias and selectable thinking modes");
-                model.Text = "synthetic-model";
+                ((TextBox)control.FindName("ModelName")).Text = "synthetic-model";
                 mode.SelectedItem = mode.Items.OfType<ComboBoxItem>().Single(x => Convert.ToString(x.Tag) == "high");
                 var prompt = (TextBox)control.FindName("Instruction");
                 prompt.Text = ""; Click((Button)control.FindName("GenerateButton"));
@@ -769,7 +771,7 @@ namespace CodexCode.WorkspaceReview
                 var approval = (CheckBox)control.FindName("ReviewApproval");
                 Check(approval.IsChecked != true && !((Button)control.FindName("ApplyButton")).IsEnabled,
                     "The compact change card still requires explicit approval before applying");
-                string summary = ((TextBlock)control.FindName("ChangeSummary")).Text;
+                string summary = ((TextBlock)control.FindName("AddedLinesLabel")).Text + " " + ((TextBlock)control.FindName("RemovedLinesLabel")).Text;
                 Check(summary.Contains("+1") && (summary.Contains("−1") || summary.Contains("-1")),
                     "A one-line replacement displays one added and one removed line instead of a misleading zero net change");
                 var source = (Button)control.FindName("SourceLink"); Click(source);
@@ -804,7 +806,8 @@ namespace CodexCode.WorkspaceReview
                 Check(runningRecord.State == ConversationRunState.Running && !runningRecord.HasUnread,
                     "A pending actual request has a running status without an unread completion");
                 var thinking = (FrameworkElement)control.FindName("ThinkingIndicator");
-                Check(thinking.IsVisible && thinking.HasAnimatedProperties,
+                var sweep = ((TextBlock)thinking).Foreground as LinearGradientBrush;
+                Check(thinking.IsVisible && sweep != null && sweep.RelativeTransform.HasAnimatedProperties,
                     "A pending AI request shows an animated thinking indicator even while toast feedback may fade");
                 Check(activity.IsVisible && activity.Text.Contains("작업 중") && ActivitySeconds(activity.Text) == 0,
                     "Starting a new real request resets its elapsed duration and shows a running status");
