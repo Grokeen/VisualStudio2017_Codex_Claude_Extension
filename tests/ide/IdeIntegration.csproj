@@ -41,6 +41,7 @@
     <PackageReference Include="Microsoft.VSSDK.BuildTools" Version="15.9.3032" PrivateAssets="all" />
     <Compile Include="IdeTestPackage.cs" />
     <Compile Include="IdeTests.cs" />
+    <Compile Include="..\ux\DialogChecks.cs"><Link>DialogChecks.cs</Link></Compile>
     <None Include="source.extension.vsixmanifest" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

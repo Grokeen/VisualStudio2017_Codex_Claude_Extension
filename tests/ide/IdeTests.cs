@@ -41,6 +41,7 @@ namespace CodexCode.IdeIntegration
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : IDE 안에서 제품 DLL과 UI를 교체하지 않고 실행.
         /// update date  : 2026-10-18 CodexOrig : Chat 컨텍스트·설정·창 이동 및 검증 흐름 갱신.
+        /// update date  : 2026-10-18 CodexOrig : 격리된 실제 WPF 팝업 UX15를 IDE 호스트에서 검증.
         /// </summary>
         /// ---------------------------------------------------------------------
         internal static async Task RunAsync(Package product, DTE dte, TestConfig config)
@@ -68,6 +69,7 @@ namespace CodexCode.IdeIntegration
             Check("IDE-04 real document service connected", Button(view, "GenerateButton").IsEnabled);
             var service = (IActiveDocumentService)typeof(AssistantControl).GetField("documents", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(view);
             Check("IDE-05 production EnvDTE adapter", service.GetType().FullName == "VS2017.AIAssistant.Services.VisualStudioDocumentService");
+            DialogChecks.Run(Path.Combine(config.OutputDirectory, "ux"), Check);
             Text(view, "ExecutablePath").Text = config.FixturePath;
             Text(view, "Instruction").Text = "fixture:ok";
             await GenerateAsync(view);

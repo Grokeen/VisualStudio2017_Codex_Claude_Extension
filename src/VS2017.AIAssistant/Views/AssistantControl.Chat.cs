@@ -45,6 +45,7 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexOrig
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : 손상된 설정은 기본값으로 복구하고 안내.
+        /// update date  : 2026-10-18 CodexOrig : 중앙 설정 팝업과 첫 사용 안내 연결.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void InitializeChat()
@@ -66,6 +67,7 @@ namespace VS2017.AIAssistant.Views
             CommandManager.AddPreviewCanExecuteHandler(Instruction, PasteCanExecute);
             CommandManager.AddPreviewExecutedHandler(Instruction, PasteExecuted);
             ShowChat();
+            InitializeDialogs(settings.HideWelcome);
         }
 
         /// ---------------------------------------------------------------------
@@ -386,6 +388,7 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexOrig
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : 계정 토큰이나 대화 원문은 저장하지 않음.
+        /// update date  : 2026-10-18 CodexOrig : 안내 선택 보존·저장 후 팝업 닫기·오류 표시.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void SaveSettingsClicked(object sender, RoutedEventArgs e)
@@ -393,12 +396,16 @@ namespace VS2017.AIAssistant.Views
             if (busy || disposed) return;
             try
             {
+                settingsStore.Save(CaptureSettings());
                 SaveDraft(); executablePaths[selectedProvider] = ExecutablePath.Text;
-                settingsStore.Save(new AssistantSettings { CodexPath = executablePaths["Codex"], ClaudePath = executablePaths["Claude"],
-                    CodexModel = models["Codex"], ClaudeModel = models["Claude"], Instructions = RulesText.Text, FontSize = FontSize });
                 StatusLabel.Text = "설정을 저장했습니다. 다음 실행에도 유지됩니다.";
+                if (activeSettingsDialog != null) activeSettingsDialog.DialogResult = true;
             }
-            catch (Exception error) { StatusLabel.Text = "설정 저장 실패: " + error.Message; }
+            catch (Exception error)
+            {
+                StatusLabel.Text = "설정 저장 실패: " + error.Message;
+                if (activeSettingsDialog != null) activeSettingsDialog.Message.Text = StatusLabel.Text;
+            }
         }
 
         /// ---------------------------------------------------------------------

@@ -190,6 +190,7 @@ namespace VS2017.AIAssistant.Chat
     /// author       : CodexOrig
     /// create date  : 2026-10-18
     /// update date  : 2026-10-18 CodexOrig : Provider별 기본 설정 추가.
+    /// update date  : 2026-10-18 CodexOrig : 이전 설정과 호환되는 첫 사용 안내 표시 선택 추가.
     /// </summary>
     /// ---------------------------------------------------------------------
     public sealed class AssistantSettings
@@ -200,6 +201,8 @@ namespace VS2017.AIAssistant.Chat
         public string ClaudeModel { get; set; } = "";
         public string Instructions { get; set; } = "";
         public double FontSize { get; set; } = 14;
+        // 이전 설정 파일에 항목이 없으면 첫 실행 안내를 표시한다.
+        public bool HideWelcome { get; set; }
     }
 
     /// ---------------------------------------------------------------------

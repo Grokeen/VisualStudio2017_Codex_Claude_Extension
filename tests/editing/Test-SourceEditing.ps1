@@ -6,6 +6,7 @@ desc         : 실제 VSIX DLL을 참조하는 편집·CLI·WPF 통합 회귀 �
 author       : CodexCode
 create date  : 2026-10-18
 update date  : 2026-10-18 CodexCode : 독립 fixture exe와 한글·공백 경로를 사용한 검증 추가.
+update date  : 2026-10-18 CodexOrig : 첫 사용·설정 팝업의 공통 UX 검사 컴파일/실행.
 -------------------------------------------------------------------------
 .SYNOPSIS
     Run after building the extension. No live AI calls, authentication or Visual Studio instance.
@@ -55,7 +56,9 @@ foreach ($name in @('mscorlib', 'System', 'System.Core', 'System.Web.Extensions'
     $compileArguments += '/reference:' + (Join-Path $frameworkDir ($name + '.dll'))
 }
 $compileArguments += '/reference:' + $assemblyPath
+$compileArguments += '/reference:' + (Join-Path $testDir 'Microsoft.VisualStudio.Shell.15.0.dll')
 $compileArguments += Join-Path $PSScriptRoot 'EditingTests.cs'
+$compileArguments += Join-Path $PSScriptRoot '..\ux\DialogChecks.cs'
 & $CompilerPath @compileArguments
 if ($LASTEXITCODE -ne 0) { throw "테스트 컴파일 실패: $LASTEXITCODE" }
 $fixturePath = Join-Path $testDir 'Fixture CLI 한글.exe'

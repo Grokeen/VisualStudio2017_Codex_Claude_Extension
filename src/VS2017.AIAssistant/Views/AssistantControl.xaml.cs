@@ -284,6 +284,7 @@ namespace VS2017.AIAssistant.Views
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 생성·중지·적용·저장·복구 상태 반영.
         /// update date  : 2026-10-18 CodexOrig : Chat 컨텍스트·설정·창 이동 및 검증 흐름 갱신.
+        /// update date  : 2026-10-18 CodexOrig : 설정 팝업·안내 진입 버튼도 작업 중 비활성화.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void UpdateButtons()
@@ -295,7 +296,8 @@ namespace VS2017.AIAssistant.Views
             Instruction.IsEnabled = !busy;
             StopButton.IsEnabled = busy;
             AttachButton.IsEnabled = PasteButton.IsEnabled = NewChatButton.IsEnabled = !busy;
-            AttachmentList.IsEnabled = SettingsPanel.IsEnabled = !busy;
+            AttachmentList.IsEnabled = SettingsPanel.IsEnabled = SettingsContent.IsEnabled = !busy;
+            SettingsButton.IsEnabled = HelpButton.IsEnabled = !busy;
             AccountCheckButton.IsEnabled = LoginButton.IsEnabled = SaveSettingsButton.IsEnabled = !busy;
             ReviewApproval.IsEnabled = !busy && pendingProposal != null && pendingProposal.HasChanges;
             ApplyButton.IsEnabled = ReviewApproval.IsEnabled && ReviewApproval.IsChecked == true;
@@ -310,12 +312,14 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 종료 중 비동기 UI 갱신 차단.
+        /// update date  : 2026-10-18 CodexOrig : 종료 시 설정·사용 안내 팝업도 해제.
         /// </summary>
         /// ---------------------------------------------------------------------
         public void Dispose()
         {
             disposed = true;
             if (requestCancellation != null) requestCancellation.Cancel();
+            CloseDialogs();
         }
     }
 }

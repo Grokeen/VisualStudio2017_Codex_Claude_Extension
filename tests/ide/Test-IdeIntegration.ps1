@@ -7,6 +7,7 @@ author       : CodexCode
 create date  : 2026-10-18
 update date  : 2026-10-18 CodexCode : 실제 IDE 실행과 실행별 합성 솔루션·결과 격리.
 update date  : 2026-10-18 CodexOrig : 최신 패키지·Provider 탭·개인 설정 격리 검증.
+update date  : 2026-10-18 CodexOrig : 기본 안내 격리 및 별도 첫 사용 UX15 실제 호스트 검증.
 -------------------------------------------------------------------------
 .SYNOPSIS
     Runs the installed product in a dedicated VS2017 root suffix. Live Codex is opt-in.+#>
@@ -107,6 +108,7 @@ $startInfo = New-Object Diagnostics.ProcessStartInfo
 $startInfo.FileName = $devenv
 $startInfo.Arguments = '/RootSuffix ' + $rootSuffix + ' /NoSplash /ResetSettings General /Log "' + (Join-Path $outputDir 'ActivityLog.xml') + '"'
 $startInfo.UseShellExecute = $false
+@{ HideWelcome=$true; FontSize=14 } | ConvertTo-Json | Set-Content -LiteralPath (Join-Path $outputDir 'ui-settings.json') -Encoding UTF8
 $startInfo.WindowStyle = [Diagnostics.ProcessWindowStyle]::Hidden
 $startInfo.EnvironmentVariables['CODEXCODE_IDE_TEST_CONFIG'] = $configPath
 $startInfo.EnvironmentVariables['VS2017_AI_SETTINGS_PATH'] = Join-Path $outputDir 'ui-settings.json'

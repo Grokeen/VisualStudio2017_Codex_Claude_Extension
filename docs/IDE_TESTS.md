@@ -75,3 +75,9 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\tests\ide\Test-IdeIntegrat
 | CHAT-10 | Provider 탭의 초안/첨부 분리 |
 
 마우스의 실제 드래그 제스처와 로그인 화면의 사람 인증은 이 테스트가 자동화하지 않는다. WPF 회귀는 실제 붙여넣기 이벤트와 파일 첨부 처리, Claude 이미지 프로토콜을 검사한다. 테스트 UI의 모드 전환은 실제 IVsWindowFrame API를 사용한다.
+
+## v0.4.0 설정·첫 사용 안내 (TASK-010)
+
+기존35개(실제 Codex 포함)에 [UX-01~15](UX_TESTS.md)를 추가하여 실제 VS2017 프로세스에서 총50/50 PASS를 확인했다. IDE 실행기는 기본 Chat의 자동 안내를 테스트 설정으로 숨기고, 격리된 제품 컨트롤의 실제 Loaded에서 처음 사용을 재현한다. 개인 설정 파일·클립보드·사용자 프로젝트를 테스트 데이터로 사용하지 않는다. 결과는 MarkdownReport/CodexOrig_TASK-010_IDE.json에 보존했다.
+
+실제 Codex를 지정하지 않으면 기존32개와 UX15개로47개를 실행한다. UX PNG는 실행별 artifacts/ide/run-*/ux/에 저장한다. 제품 DLL과 VSIX의 DLL 해시가 일치하지 않으면 테스트를 시작하지 않는다. 팝업 검사는 실제 WPF 창·Click 이벤트·CenterScreen 좌표를 사용하며 마우스의 물리 클릭을 자동화하는 검사는 아니다.

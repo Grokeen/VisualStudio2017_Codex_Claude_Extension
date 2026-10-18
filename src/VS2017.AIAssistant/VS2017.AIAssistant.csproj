@@ -66,6 +66,8 @@
     <Compile Include="Chat\ChatWorkspace.cs" />
     <Compile Include="Providers\CliAccountService.cs" />
     <Compile Include="Views\AssistantControl.Chat.cs" />
+    <Compile Include="Views\AssistantControl.Dialogs.cs" />
+    <Compile Include="Views\AssistantDialogs.cs" />
     <Compile Include="Editing\EditProposal.cs" />
     <Compile Include="Editing\SourceEditSession.cs" />
     <Compile Include="Providers\CliEditProvider.cs" />
@@ -80,6 +82,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\AssistantTheme.xaml"><Generator>MSBuild:Compile</Generator></Page>
     <VSCTCompile Include="Commands\AssistantCommands.vsct">
       <ResourceName>Menus.ctmenu</ResourceName>
     </VSCTCompile>

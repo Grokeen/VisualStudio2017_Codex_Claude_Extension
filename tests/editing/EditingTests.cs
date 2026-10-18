@@ -26,7 +26,7 @@ using System.Windows.Media.Imaging;
 /// author       : CodexCode
 /// create date  : 2026-10-18
 /// update date  : 2026-10-18 CodexCode : 승인·충돌·복구와 실제 파이프·취소 회귀 테스트 추가.
-    /// update date  : 2026-10-18 CodexOrig : Chat 컨텍스트·첨부·영속 설정·계정 회귀 추가.
+/// update date  : 2026-10-18 CodexOrig : Chat 컨텍스트·첨부·영속 설정·계정 회귀 추가.
 /// </summary>
 /// ---------------------------------------------------------------------
 internal static class EditingTests
@@ -44,6 +44,7 @@ internal static class EditingTests
     /// create date  : 2026-10-18
     /// update date  : 2026-10-18 CodexCode : 테스트 프로세스 및 fixture 진입점 구현.
     /// update date  : 2026-10-18 CodexOrig : Chat 컨텍스트·설정·창 이동 및 검증 흐름 갱신.
+    /// update date  : 2026-10-18 CodexOrig : 실제 첫 실행·중앙 팝업·저장/취소 UX 회귀 연결.
     /// </summary>
     /// ---------------------------------------------------------------------
     [STAThread]
@@ -67,6 +68,7 @@ internal static class EditingTests
         TestProcesses();
         TestUi();
         TestChat();
+        DialogChecks.Run(Path.Combine(root, "ux"), (name, condition) => Check(name, () => Assert(condition)));
         Console.WriteLine("Editing tests: " + passed + "/" + (passed + failed) + " PASS");
         return failed == 0 ? 0 : 1;
     }

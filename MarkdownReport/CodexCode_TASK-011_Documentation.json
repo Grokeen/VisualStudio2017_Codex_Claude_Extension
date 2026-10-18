@@ -1,0 +1,134 @@
+﻿{
+    "Succeeded":  true,
+    "CheckedAt":  "2026-10-18T11:45:24.1325216+09:00",
+    "ProductVersion":  "0.4.0",
+    "LocalReferenceCount":  17,
+    "LocalReferences":  [
+                            {
+                                "Document":  "README.md",
+                                "Target":  "releases/v0.4.0/VS2017.AIAssistant-0.4.0.vsix?raw=true",
+                                "Exists":  true
+                            },
+                            {
+                                "Document":  "README.md",
+                                "Target":  "releases/v0.4.0/README.md",
+                                "Exists":  true
+                            },
+                            {
+                                "Document":  "README.md",
+                                "Target":  "docs/USER_GUIDE.md",
+                                "Exists":  true
+                            },
+                            {
+                                "Document":  "README.md",
+                                "Target":  "releases/v0.4.0/VS2017.AIAssistant-0.4.0.vsix?raw=true",
+                                "Exists":  true
+                            },
+                            {
+                                "Document":  "README.md",
+                                "Target":  "releases/v0.4.0/README.md",
+                                "Exists":  true
+                            },
+                            {
+                                "Document":  "README.md",
+                                "Target":  "docs/USER_GUIDE.md",
+                                "Exists":  true
+                            },
+                            {
+                                "Document":  "README.md",
+                                "Target":  "docs/USER_GUIDE.md",
+                                "Exists":  true
+                            },
+                            {
+                                "Document":  "README.md",
+                                "Target":  "MarkdownReport/CodexCode_TASK-009.md",
+                                "Exists":  true
+                            },
+                            {
+                                "Document":  "README.md",
+                                "Target":  "docs/DEVELOPMENT.md",
+                                "Exists":  true
+                            },
+                            {
+                                "Document":  "README.md",
+                                "Target":  "docs/DEVELOPMENT.md",
+                                "Exists":  true
+                            },
+                            {
+                                "Document":  "README.md",
+                                "Target":  "docs/BUILD_AND_LICENSE.md",
+                                "Exists":  true
+                            },
+                            {
+                                "Document":  "README.md",
+                                "Target":  "MarkdownReport/Update_History.md",
+                                "Exists":  true
+                            },
+                            {
+                                "Document":  "README.md",
+                                "Target":  "docs/assets/chat-0.4-preview.png",
+                                "Exists":  true
+                            },
+                            {
+                                "Document":  "docs/USER_GUIDE.md",
+                                "Target":  "../releases/v0.4.0/README.md",
+                                "Exists":  true
+                            },
+                            {
+                                "Document":  "docs/USER_GUIDE.md",
+                                "Target":  "BUILD_AND_LICENSE.md",
+                                "Exists":  true
+                            },
+                            {
+                                "Document":  "docs/USER_GUIDE.md",
+                                "Target":  "DEVELOPMENT.md",
+                                "Exists":  true
+                            },
+                            {
+                                "Document":  "docs/USER_GUIDE.md",
+                                "Target":  "assets/getting-started-0.4.png",
+                                "Exists":  true
+                            }
+                        ],
+    "PreservedInputs":  [
+                            {
+                                "Path":  "releases/v0.2.0/VS2017.AIAssistant-0.2.0.vsix",
+                                "Unchanged":  true
+                            },
+                            {
+                                "Path":  "releases/v0.3.0/VS2017.AIAssistant-0.3.0.vsix",
+                                "Unchanged":  true
+                            },
+                            {
+                                "Path":  "MarkdownReport/Role.md",
+                                "Unchanged":  true
+                            },
+                            {
+                                "Path":  "MarkdownReport/image-1.png",
+                                "Unchanged":  true
+                            }
+                        ],
+    "VsixSha256":  "2DD768237916AD7671B1829C279977D8BAC65684B59DFD3DC85DAD3C99523C53",
+    "PackagedDllSha256":  "109221E7B9B79D658A5C03E238493FCE762AF05F7FF263A9C38D056B1C367654",
+    "IndependentJourneyPassed":  28,
+    "PreviewImages":  [
+                          {
+                              "Path":  "docs/assets/chat-0.4-preview.png",
+                              "Sha256":  "E540156447196FF1AE51D22914E2A1C5C4E61923CF8E1514A88C9554F88FA4D6",
+                              "FinalDllRendered":  true,
+                              "VisuallyReviewed":  true
+                          },
+                          {
+                              "Path":  "docs/assets/getting-started-0.4.png",
+                              "Sha256":  "7FF4A8FB17CECB96359DD85C52A78C3FAB25FF5576501B3466D858878953CDBD",
+                              "FinalDllRendered":  true,
+                              "VisuallyReviewed":  true
+                          }
+                      ],
+    "IdeResultReviewed":  {
+                              "Succeeded":  true,
+                              "Passed":  50,
+                              "LiveCodex":  true,
+                              "ProductVersion":  "0.4.0.0"
+                          }
+}

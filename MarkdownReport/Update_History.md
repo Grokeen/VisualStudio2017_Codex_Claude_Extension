@@ -102,3 +102,24 @@
 ### TASK-008 최종 배포 완료 — 2026-10-18 03:00:29 KST
 
 전체 소요 27분 34초. TASK-009 종료 및 다른 활성 편집 없음 확인 후 9b3d930 커밋을 origin/main에 반영했습니다. 원격 다운로드 VSIX 66,118바이트 및 SHA-256 A7F1C597BA0CCF7B18AC52DEB29BACE2D6B66E300B9A90C6A55EB5A3E7A88DF2 일치를 확인했습니다. 사용자 요구 기능·README·C# 주석 형식 보정 및 회귀148/148·실제IDE35/35 검증 결과를 함께 배포했습니다.
+
+## TASK-010 — CodexOrig / 2026-10-18 11:45:08 KST
+
+- 작업 시간: 2026-10-18 11:28:35 ~ 11:45:08 KST, 로컬 검증까지 소요 16분 33초.
+- 요청: Role.md 추가 프로젝트8~11번, 우클릭 설정·화면 중앙 팝업·일관된 색상/아이콘·직관적인 첫 사용 안내와 다시 보지 않기.
+- 구현: v0.4.0 설정/안내 공통 테마, 설정 저장 후 닫기·취소 복원·실패 표시, 편집 메뉴/이미지 Ctrl+V 유지, 동적 대화 TextBox 메뉴, 단계별 안내/표시 선택 영속 병합/수동 재열기.
+- 소스: src/VS2017.AIAssistant/Views/AssistantControl*·AssistantDialogs.cs·AssistantTheme.xaml, Chat/ChatWorkspace.cs, csproj·버전/매니페스트. C# 주석은 기존 줄바꿈·콜론 열 형식과 작성자 기록 유지.
+- 검증: Debug/Release 경고·오류0, 편집/UX86·Foundation33·호환성44 = 163/163, 고정 VSIX 실제 VS2017/Codex50/50 PASS. 독립 사용자 여정 TASK-011의 최종 DLL28/28 PASS.
+- 테스트/문서: tests/ux/DialogChecks.cs 및 기존 editing/ide 연결, docs/UX_TESTS.md·DEVELOPMENT.md·IDE_TESTS.md·SOURCE_EDITING.md, Project_Plan.md. README·USER_GUIDE·사용자 화면은 TASK-011 담당 보존.
+- 보고: MarkdownReport/CodexOrig_TASK-010.md·_Validation.json·_IDE.json·assets/task010-settings-*.png.
+- 패키지: releases/v0.4.0/VS2017.AIAssistant-0.4.0.vsix, 77,112바이트, SHA-256 2DD768237916AD7671B1829C279977D8BAC65684B59DFD3DC85DAD3C99523C53. 기존 v0.2/v0.3 보존.
+- 한계: 실제 Claude 계정·VS2019/2022 확장 패키지·다중 모니터/DPI·모든 실제 제스처 검증은 후속 범위. TASK-011 완료 후 GitHub 최종 배포 결과를 추가 기록한다.
+
+## TASK-011 — CodexCode / 2026-10-18 11:45:52 KST
+
+- 작업 시간: 2026-10-18 11:28:11 ~ 2026-10-18 11:45:52 KST, 소요 17분 41초.
+- 내용: Role 8~11과 image-1.png 확인 후 TASK-010과 범위 분담. 사용자 README/상세 가이드에 우클릭·중앙 설정, 첫 안내·숨김/재표시, AI별 설정, 저장/닫기취소 절차 반영.
+- 경로: README.md, docs/USER_GUIDE.md, docs/assets/chat-0.4-preview.png·getting-started-0.4.png, tests/review/Test-OnboardingJourney.ps1, CodexCode_TASK-011.md·_Journey.json·_Documentation.json.
+- 독립 검토: 동적 대화 Loaded 직접 연결 문제를 발견·인계하고 최종 실행에서 정상 메뉴 확인. 작은 안내 창의 footer와 밝음/어두움 화면 검토, 초기 PNG 오프셋 오류와 실제 UI 배치 구분.
+- 검증: 최종 DLL 109221E7...로 실제 WPF 사용 흐름28/28 PASS. 제품 담당자의 회귀86·Foundation33·호환성44 및 실제 IDE50(실제Codex 포함) PASS 확인. 로컬 문서참조17개·릴리스 내장DLL/VSIX해시 정상, 기존 두 릴리스/사용자 입력 원문 보존.
+- 배포: CodexCode 편집 종료, 최종 GitHub 반영은 합의한 TASK-010 CodexOrig에 인계. Claude 실계정/VS2019·2022 지원 한계 유지.

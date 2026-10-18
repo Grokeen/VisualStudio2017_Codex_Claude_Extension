@@ -1,0 +1,35 @@
+{
+  "CheckedAt": "2026-10-18T11:44:36.7554552+09:00",
+  "Succeeded": true,
+  "ProductVersion": "0.4.0",
+  "PackagePath": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.4.0\\VS2017.AIAssistant-0.4.0.vsix",
+  "PackageBytes": 77112,
+  "PackageSHA256": "2DD768237916AD7671B1829C279977D8BAC65684B59DFD3DC85DAD3C99523C53",
+  "AssemblySHA256": "109221E7B9B79D658A5C03E238493FCE762AF05F7FF263A9C38D056B1C367654",
+  "DebugAndReleaseBuildWarnings": 0,
+  "RegressionTests": {
+    "EditingAndChatAndUX": 86,
+    "Compatibility": 44,
+    "Foundation": 33,
+    "Failed": 0,
+    "Passed": 163
+  },
+  "ActualIde": {
+    "LiveCodex": true,
+    "Failed": 0,
+    "LiveClaude": false,
+    "Passed": 50,
+    "ResultPath": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\ide\\run-c82238c7fe6b400898e0d43f87bbe53a\\result.json",
+    "ProductVersion": "0.4.0.0"
+  },
+  "IndependentJourney": {
+    "Passed": 28,
+    "Report": "MarkdownReport/CodexCode_TASK-011_Journey.json",
+    "Succeeded": true
+  },
+  "SourceChangesSinceFreeze": [],
+  "RemainingCompactCodexOrigComments": 0,
+  "UserProjectSourceSent": false,
+  "ManualDragAndKeyGestureVerified": false,
+  "GitHubPublished": false
+}

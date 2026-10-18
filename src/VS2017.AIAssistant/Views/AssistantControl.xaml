@@ -1,10 +1,16 @@
 ﻿<UserControl x:Class="VS2017.AIAssistant.Views.AssistantControl"
  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
  MinWidth="200" MinHeight="300" FontSize="14" AllowDrop="True" PreviewDragOver="AttachmentsDragOver" PreviewDrop="AttachmentsDropped" SizeChanged="ChatSizeChanged">
+ <UserControl.Resources><ResourceDictionary><ResourceDictionary.MergedDictionaries><ResourceDictionary Source="AssistantTheme.xaml"/></ResourceDictionary.MergedDictionaries></ResourceDictionary></UserControl.Resources>
  <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
  <Grid x:Name="LayoutRoot" Margin="10">
   <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="*" MinHeight="90"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
-  <DockPanel><Button x:Name="NewChatButton" DockPanel.Dock="Right" Content="새 대화" Click="NewChatClicked" Padding="7,3"/><TextBlock Text="Chat" FontSize="18" FontWeight="SemiBold" VerticalAlignment="Center"/></DockPanel>
+  <StackPanel><TextBlock Text="Chat" FontSize="18" FontWeight="SemiBold"/>
+   <WrapPanel Margin="0,6,0,0"><Button x:Name="SettingsButton" Content="⚙ 설정" Click="SettingsClicked" Margin="0,0,6,4" ToolTip="계정·모델·규칙·글자 크기 설정"/>
+    <Button x:Name="HelpButton" Content="? 사용 안내" Click="HelpClicked" Margin="0,0,6,4"/>
+    <Button x:Name="NewChatButton" Content="＋ 새 대화" Click="NewChatClicked" Margin="0,0,0,4"/>
+   </WrapPanel>
+  </StackPanel>
   <TabControl x:Name="ProviderChoice" Grid.Row="1" MinHeight="37" Margin="0,8,0,6" SelectedIndex="0" SelectedValuePath="Tag" SelectionChanged="ProviderChanged" BorderThickness="0" Background="Transparent">
    <TabControl.ItemContainerStyle><Style TargetType="TabItem">
     <Setter Property="Foreground" Value="{Binding Foreground, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
@@ -15,38 +21,42 @@
    </Style></TabControl.ItemContainerStyle>
    <TabItem Header="Codex" Tag="Codex"/><TabItem Header="Claude Code" Tag="Claude"/>
   </TabControl>
-  <Expander x:Name="SettingsPanel" Grid.Row="2" Header="설정 · 계정 · instruction" Margin="0,0,0,6" Expanded="SettingsExpanded" Collapsed="PanelCollapsed" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=UserControl}}">
-   <ScrollViewer MaxHeight="300" VerticalScrollBarVisibility="Auto"><StackPanel Margin="2,8,2,6">
+  <Expander x:Name="SettingsPanel" Grid.Row="2" Visibility="Collapsed" Header="⚙ 설정 · 계정 · instruction" Expanded="SettingsExpanded" Collapsed="PanelCollapsed" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=UserControl}}">
+   <ScrollViewer x:Name="SettingsContent" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"><StackPanel Margin="2,0,2,6">
+    <TextBlock x:Name="SettingsProviderLabel" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,12"/>
     <TextBlock Text="CLI 실행 파일 (.exe, 비워두면 PATH 사용)" TextWrapping="Wrap"/>
-    <DockPanel Margin="0,4,0,6"><Button x:Name="BrowseButton" Content="찾기…" DockPanel.Dock="Right" Click="BrowseClicked" Margin="6,0,0,0" Padding="6,3"/><TextBox x:Name="ExecutablePath" VerticalContentAlignment="Center"/></DockPanel>
-    <WrapPanel><Button x:Name="LoginButton" Content="계정 연결" Click="LoginClicked" Padding="7,3" Margin="0,0,6,6"/><Button x:Name="AccountCheckButton" Content="연결 확인" Click="AccountCheckClicked" Padding="7,3" Margin="0,0,0,6"/></WrapPanel>
+    <DockPanel Margin="0,4,0,6"><Button x:Name="BrowseButton" Content="… 찾기" DockPanel.Dock="Right" Click="BrowseClicked" Margin="6,0,0,0"/><TextBox x:Name="ExecutablePath" VerticalContentAlignment="Center"/></DockPanel>
+    <WrapPanel><Button x:Name="LoginButton" Content="↗ 계정 연결" Click="LoginClicked" Margin="0,0,6,6"/><Button x:Name="AccountCheckButton" Content="✓ 연결 확인" Click="AccountCheckClicked" Margin="0,0,0,6"/></WrapPanel>
     <TextBlock x:Name="AccountLabel" Text="공식 CLI의 로그인 계정을 사용합니다." TextWrapping="Wrap" Margin="0,0,0,8"/>
     <TextBlock Text="모델 (비워두면 CLI 기본값)"/><TextBox x:Name="ModelName" MaxLength="120" Margin="0,4,0,8"/>
     <TextBlock Text="instruction · 모든 새 요청에 적용할 규칙" TextWrapping="Wrap"/>
     <TextBox x:Name="RulesText" MaxLength="8000" AcceptsReturn="True" TextWrapping="Wrap" Height="75" VerticalScrollBarVisibility="Auto" Margin="0,4,0,8"/>
     <WrapPanel><TextBlock Text="글자 크기" VerticalAlignment="Center" Margin="0,0,8,6"/>
      <ComboBox x:Name="TextSizeChoice" Width="64" Margin="0,0,8,6" SelectionChanged="TextSizeChanged" SelectedValuePath="Content"><ComboBoxItem Content="10"/><ComboBoxItem Content="12"/><ComboBoxItem Content="14"/><ComboBoxItem Content="16"/><ComboBoxItem Content="18"/><ComboBoxItem Content="20"/><ComboBoxItem Content="24"/><ComboBoxItem Content="28"/></ComboBox>
-     <Button x:Name="SaveSettingsButton" Content="설정 저장" Click="SaveSettingsClicked" Padding="7,3" Margin="0,0,0,6"/>
+     <Button x:Name="SaveSettingsButton" Content="✓ 설정 저장" Click="SaveSettingsClicked" Style="{StaticResource PrimaryButton}" Margin="0,0,0,6"/>
     </WrapPanel>
    </StackPanel></ScrollViewer>
   </Expander>
   <ScrollViewer x:Name="ConversationScroll" Grid.Row="3" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"><StackPanel>
-   <TextBlock Text="현재 파일에 대해 질문하거나 수정을 요청하세요. 대화는 탭별로 쌓입니다." TextWrapping="Wrap" Margin="2,6,2,8"/>
+   <Border BorderBrush="#808080" BorderThickness="1" CornerRadius="6" Padding="10" Margin="0,4,0,8"><StackPanel>
+    <TextBlock Text="1 파일 선택 → 2 요청 → 3 비교·승인 → 4 저장" FontWeight="SemiBold" TextWrapping="Wrap"/>
+    <TextBlock Text="소스 파일을 연 뒤 요청하세요. 첨부는 끌어 놓거나 붙여넣을 수 있습니다." TextWrapping="Wrap" Margin="0,5,0,0"/>
+   </StackPanel></Border>
    <ItemsControl x:Name="ConversationMessages"><ItemsControl.ItemTemplate><DataTemplate>
     <Border BorderBrush="{Binding Foreground, RelativeSource={RelativeSource AncestorType=UserControl}}" BorderThickness="1" CornerRadius="6" Padding="10" Margin="0,4"><StackPanel>
      <TextBlock Text="{Binding Speaker}" FontWeight="SemiBold" Margin="0,0,0,5" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
-     <TextBox Text="{Binding Text, Mode=OneWay}" IsReadOnly="True" TextWrapping="Wrap" BorderThickness="0" Background="Transparent" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+     <TextBox Text="{Binding Text, Mode=OneWay}" Loaded="ChildLoaded" IsReadOnly="True" TextWrapping="Wrap" BorderThickness="0" Background="Transparent" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
     </StackPanel></Border>
    </DataTemplate></ItemsControl.ItemTemplate></ItemsControl>
   </StackPanel></ScrollViewer>
-  <Expander x:Name="ReviewPanel" Grid.Row="4" Header="수정안 검토 · 비교 후 승인" Margin="0,6,0,6" Expanded="ReviewExpanded" Collapsed="PanelCollapsed" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=UserControl}}"><ScrollViewer MaxHeight="340" VerticalScrollBarVisibility="Auto"><StackPanel>
+  <Expander x:Name="ReviewPanel" Grid.Row="4" Header="✓ 수정안 검토 · 비교 후 승인" Margin="0,6,0,6" Expanded="ReviewExpanded" Collapsed="PanelCollapsed" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=UserControl}}"><ScrollViewer MaxHeight="340" VerticalScrollBarVisibility="Auto"><StackPanel>
    <TabControl x:Name="ReviewTabs" Height="190" Margin="0,6,0,0" Background="Transparent" ItemContainerStyle="{Binding ItemContainerStyle, ElementName=ProviderChoice}">
     <TabItem Header="변경 비교"><TextBox x:Name="DiffPreview" IsReadOnly="True" AcceptsReturn="True" FontFamily="Consolas" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" BorderThickness="0"/></TabItem>
     <TabItem Header="원본"><TextBox x:Name="OriginalPreview" IsReadOnly="True" AcceptsReturn="True" FontFamily="Consolas" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" BorderThickness="0"/></TabItem>
     <TabItem Header="수정안"><TextBox x:Name="ProposedPreview" IsReadOnly="True" AcceptsReturn="True" FontFamily="Consolas" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" BorderThickness="0"/></TabItem>
    </TabControl>
    <CheckBox x:Name="ReviewApproval" Margin="0,8,0,0" Checked="ApprovalChanged" Unchecked="ApprovalChanged" IsEnabled="False"><TextBlock Text="비교한 변경을 현재 파일에 적용하는 데 동의합니다." TextWrapping="Wrap" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=UserControl}}"/></CheckBox>
-   <WrapPanel Margin="0,8,0,0"><Button x:Name="ApplyButton" Content="승인 후 적용" Click="ApplyClicked" Padding="7,4" Margin="0,0,6,6" IsEnabled="False"/><Button x:Name="SaveButton" Content="적용 내용 저장" Click="SaveClicked" Padding="7,4" Margin="0,0,6,6" IsEnabled="False"/><Button x:Name="RestoreButton" Content="직전 적용 되돌리기" Click="RestoreClicked" Padding="7,4" Margin="0,0,0,6" IsEnabled="False"/></WrapPanel>
+   <WrapPanel Margin="0,8,0,0"><Button x:Name="ApplyButton" Content="✓ 승인 후 적용" Click="ApplyClicked" Style="{StaticResource PrimaryButton}" Margin="0,0,6,6" IsEnabled="False"/><Button x:Name="SaveButton" Content="▣ 적용 내용 저장" Click="SaveClicked" Margin="0,0,6,6" IsEnabled="False"/><Button x:Name="RestoreButton" Content="↶ 직전 적용 되돌리기" Click="RestoreClicked" Margin="0,0,0,6" IsEnabled="False"/></WrapPanel>
   </StackPanel></ScrollViewer></Expander>
   <StackPanel Grid.Row="5">
    <TextBlock x:Name="TargetLabel" Text="대상: 마지막으로 선택한 소스 파일" TextWrapping="Wrap" Margin="0,2,0,4" FontSize="11" MaxHeight="44" ToolTip="{Binding Text, RelativeSource={RelativeSource Self}}"/>
@@ -55,9 +65,12 @@
     <Image Source="{Binding Thumbnail}" Width="32" Height="28" Margin="0,0,6,0" DockPanel.Dock="Left"/>
     <TextBlock Text="{Binding Label}" TextWrapping="Wrap" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
    </DockPanel></DataTemplate></ListBox.ItemTemplate></ListBox>
-   <TextBox x:Name="Instruction" MinHeight="65" MaxHeight="130" MaxLength="16000" AcceptsReturn="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" Margin="0,5,0,5" AutomationProperties.Name="현재 파일 수정 요청"/>
-   <WrapPanel><Button x:Name="AttachButton" Content="＋ 첨부" Click="AttachClicked" Padding="7,4" Margin="0,0,6,5"/><Button x:Name="PasteButton" Content="붙여넣기" Click="PasteClicked" Padding="7,4" Margin="0,0,6,5"/><Button x:Name="GenerateButton" Content="보내기" Click="GenerateClicked" Padding="12,4" Margin="0,0,6,5" IsEnabled="False"/><Button x:Name="StopButton" Content="중지" Click="StopClicked" Padding="7,4" Margin="0,0,0,5" IsEnabled="False"/></WrapPanel>
-   <TextBlock x:Name="StatusLabel" Text="파일·이미지를 끌어 놓거나 붙여넣고 프롬프트를 보내세요." TextWrapping="Wrap" FontSize="11" MaxHeight="50" ToolTip="{Binding Text, RelativeSource={RelativeSource Self}}"/>
+   <TextBlock Text="✎ 요청 입력" Margin="0,5,0,0" FontWeight="SemiBold"/>
+   <Grid><TextBox x:Name="Instruction" MinHeight="65" MaxHeight="130" MaxLength="16000" AcceptsReturn="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" Margin="0,5,0,5" AutomationProperties.Name="현재 파일 수정 요청"/>
+    <TextBlock Text="예: 이 메서드에 null 검사를 추가해줘" Margin="8,12,8,8" TextWrapping="Wrap" IsHitTestVisible="False" Opacity="0.65"><TextBlock.Style><Style TargetType="TextBlock"><Setter Property="Visibility" Value="Collapsed"/><Style.Triggers><DataTrigger Binding="{Binding Text, ElementName=Instruction}" Value=""><Setter Property="Visibility" Value="Visible"/></DataTrigger></Style.Triggers></Style></TextBlock.Style></TextBlock>
+   </Grid>
+   <WrapPanel><Button x:Name="AttachButton" Content="＋ 첨부" Click="AttachClicked" Margin="0,0,6,5"/><Button x:Name="PasteButton" Content="▤ 붙여넣기" Click="PasteClicked" Margin="0,0,6,5"/><Button x:Name="GenerateButton" Content="➤ 보내기" Click="GenerateClicked" Style="{StaticResource PrimaryButton}" Margin="0,0,6,5" IsEnabled="False"/><Button x:Name="StopButton" Content="■ 중지" Click="StopClicked" Margin="0,0,0,5" IsEnabled="False"/></WrapPanel>
+   <Border BorderBrush="#808080" BorderThickness="1" CornerRadius="4" Padding="8" Margin="0,3,0,0"><DockPanel><TextBlock Text="ⓘ " DockPanel.Dock="Left"/><TextBlock x:Name="StatusLabel" Text="파일·이미지를 끌어 놓거나 붙여넣고 프롬프트를 보내세요." TextWrapping="Wrap" FontSize="11" MaxHeight="50" ToolTip="{Binding Text, RelativeSource={RelativeSource Self}}"/></DockPanel></Border>
   </StackPanel>
  </Grid>
  </ScrollViewer>

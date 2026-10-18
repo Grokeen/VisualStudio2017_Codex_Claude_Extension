@@ -2,7 +2,7 @@
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011"
                  xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
-    <Identity Id="Grokeen.VS2017.AIAssistant" Version="0.3.0" Language="ko-KR" Publisher="Grokeen" />
+    <Identity Id="Grokeen.VS2017.AIAssistant" Version="0.4.0" Language="ko-KR" Publisher="Grokeen" />
     <DisplayName>VS2017 AI Assistant</DisplayName>
     <Description xml:space="preserve">이동 가능한 Chat 탭에서 Codex·Claude와 대화하고 이미지·파일·instruction으로 현재 소스의 수정안을 검토·승인·저장합니다.</Description>
   </Metadata>

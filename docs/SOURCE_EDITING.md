@@ -91,3 +91,7 @@ powershell -NoProfile -NonInteractive -ExecutionPolicy Bypass -File .\tests\edit
 - 대화는 각 AI별로 화면에 최대100개 메시지를 누적한다. 후속 요청에는 해당 탭의 최근10개/24000자 대화와 현재 파일, 공통 instruction(8000자), 현재 첨부를 포함한다. 설정 저장은 LocalAppData/VS2017AIAssistant/settings.json을 사용하며 대화나 인증 토큰을 저장하지 않는다.
 - 계정 연결은 Codex login / Claude auth login으로 공식 CLI를 열고, 연결 확인은 login status / auth status 종료 코드를 사용한다. 실제 인증은 사용자가 CLI/브라우저에서 수행하며 확장에 암호를 입력하지 않는다.
 - 실제 Codex 합성 이미지/텍스트/이전 대화/instruction 검사는 tests/chat/Test-LiveChat.ps1로 재현한다. 실제 Claude 계정 호출은 미검증이며 기본 회귀에서 네이티브 CLI 인수·stream-json 이미지·응답 envelope를 검사한다.
+
+## v0.4.0 설정 진입·첫 사용
+
+설정은 Chat 상단의 ⚙ 설정 또는 우클릭 설정에서 화면 중앙 팝업으로 연다. 저장 성공 후 닫히고, 닫기·Esc·X는 미저장 입력을 복원한다. 텍스트 우클릭 메뉴는 기존 편집 명령을 유지하며 누적 대화의 읽기 전용 텍스트에도 복사·설정·사용 안내를 제공한다. 처음 표시되는 Chat은 네 단계 안내를 연다. 다시 보지 않기 선택은 기존 설정 파일에 HideWelcome만 병합하고 수동 사용 안내로 언제든 재열 수 있다. 상세 검증은 [UX_TESTS.md](UX_TESTS.md)를 참고한다.
