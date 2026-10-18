@@ -1,0 +1,321 @@
+{
+  "SchemaVersion": 1,
+  "Task": "TASK-035",
+  "Author": "CodexOrig",
+  "Version": "0.11.0",
+  "Status": "Verified; GitHub Release publication pending",
+  "StartedAt": "2026-10-19T06:31:12.6242335+09:00",
+  "VerifiedAt": "2026-10-19T06:36:55.5456684+09:00",
+  "ProductSourceFiles": 120,
+  "ProductSourceDifferences": 0,
+  "RoleUnchanged": true,
+  "SourceSnapshot": "candidate15",
+  "SourceManifestSha256": "B64FF86800FDD450EE6C37D0970DAB3B03CAF2C6D803A50662F53AE4F1ADF6EE",
+  "Builds": [
+    {
+      "Version": "2017",
+      "Configuration": "Debug",
+      "ExitCode": 0,
+      "Warnings": 0,
+      "Log": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task025\\build-candidate15-2017-Debug.log"
+    },
+    {
+      "Version": "2017",
+      "Configuration": "Release",
+      "ExitCode": 0,
+      "Warnings": 0,
+      "Log": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task025\\build-candidate15-2017-Release.log"
+    },
+    {
+      "Version": "2019",
+      "Configuration": "Debug",
+      "ExitCode": 0,
+      "Warnings": 0,
+      "Log": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task025\\build-candidate15-2019-Debug.log"
+    },
+    {
+      "Version": "2019",
+      "Configuration": "Release",
+      "ExitCode": 0,
+      "Warnings": 0,
+      "Log": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task025\\build-candidate15-2019-Release.log"
+    },
+    {
+      "Version": "2022",
+      "Configuration": "Debug",
+      "ExitCode": 0,
+      "Warnings": 0,
+      "Log": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task025\\build-candidate15-2022-Debug.log"
+    },
+    {
+      "Version": "2022",
+      "Configuration": "Release",
+      "ExitCode": 0,
+      "Warnings": 0,
+      "Log": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task025\\build-candidate15-2022-Release.log"
+    }
+  ],
+  "DefaultSuites": {
+    "Passed": 16,
+    "Failed": 0,
+    "Run": "artifacts/tl/751016f83d",
+    "Summary": [
+      "compatibility\texit=0",
+      "build-entry\texit=0",
+      "markdown\texit=0",
+      "settings\texit=0",
+      "workspace-actions\texit=0",
+      "editing\texit=0",
+      "foundation\texit=0",
+      "experience\texit=0",
+      "documents\texit=0",
+      "collaboration\texit=0",
+      "provider-options\texit=0",
+      "provider-cli\texit=0",
+      "scm-identity\texit=0",
+      "image-requirements\texit=0",
+      "image-followup\texit=0",
+      "native-runtime\texit=0"
+    ]
+  },
+  "LauncherSmoke": {
+    "Passed": 15,
+    "Failed": 0,
+    "Log": "artifacts/task035/launcher-smoke.log",
+    "ExeSha256": "CE675518991D8FA0CDB4074169A76AE61919D3CBC605CF05D927F84CC0859641"
+  },
+  "PublishedPackages": [
+    {
+      "Year": "2017",
+      "Path": "releases/v0.11.0/VS2017.AIAssistant-0.11.0.vsix",
+      "Sha256": "33EA90EBAC97ACC27CAE6D00A0BD33DC2796A9C0F63D560C64780698828543C2",
+      "ExistingActualIdeChecks": 145,
+      "ExistingActualIdeEvidence": "TASK032",
+      "RerunActualIdeInThisTask": false
+    },
+    {
+      "Year": "2019",
+      "Path": "releases/v0.11.0/VS2019.AIAssistant-0.11.0.vsix",
+      "Sha256": "A54F1AD5C9096B9EEDF15E33CE9331F8A3084DDF28B13F308518AEB147B579CA",
+      "ExistingActualIdeChecks": 145,
+      "ExistingActualIdeEvidence": "TASK032",
+      "RerunActualIdeInThisTask": false
+    },
+    {
+      "Year": "2022",
+      "Path": "releases/v0.11.0/VS2022.AIAssistant-0.11.0.vsix",
+      "Sha256": "94B0D919687F519FA74714D6B6E2DCF02FC55BD271FB820695F70AD306501249",
+      "ExistingActualIdeChecks": 145,
+      "ExistingActualIdeEvidence": "TASK032",
+      "RerunActualIdeInThisTask": false
+    }
+  ],
+  "Bundle": {
+    "Version": "0.11.0",
+    "SourceCommit": "d96338911bdc285140e0f27d353d2238d88a4de6",
+    "CreatedAt": "2026-10-19T06:32:53.5643381+09:00",
+    "BundlePath": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.11.0\\VisualStudio_AI_Assistant-0.11.0.zip",
+    "Entries": 26,
+    "VerifiedEntries": [
+      {
+        "Name": "VS2017.AIAssistant-0.11.0.vsix",
+        "Source": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.11.0\\VS2017.AIAssistant-0.11.0.vsix",
+        "Bytes": 3849597,
+        "Sha256": "33EA90EBAC97ACC27CAE6D00A0BD33DC2796A9C0F63D560C64780698828543C2"
+      },
+      {
+        "Name": "VS2019.AIAssistant-0.11.0.vsix",
+        "Source": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.11.0\\VS2019.AIAssistant-0.11.0.vsix",
+        "Bytes": 3851423,
+        "Sha256": "A54F1AD5C9096B9EEDF15E33CE9331F8A3084DDF28B13F308518AEB147B579CA"
+      },
+      {
+        "Name": "VS2022.AIAssistant-0.11.0.vsix",
+        "Source": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.11.0\\VS2022.AIAssistant-0.11.0.vsix",
+        "Bytes": 3851230,
+        "Sha256": "94B0D919687F519FA74714D6B6E2DCF02FC55BD271FB820695F70AD306501249"
+      },
+      {
+        "Name": "HowToInstallCLI.md",
+        "Source": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\HowToInstallCLI.md",
+        "Bytes": 20265,
+        "Sha256": "6990AF5ED77868C12C80D05FFFB7003DECD02AA0F5E6BC0F970996569B979164"
+      },
+      {
+        "Name": "InstallCLI.bat",
+        "Source": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\InstallCLI.bat",
+        "Bytes": 10233,
+        "Sha256": "81BAE40E698B7E16B4A15093248453C7A79EF5D564306FC9CE9416255D91D5CB"
+      },
+      {
+        "Name": "output/pdf/VisualStudio_AI_Assistant_설치_사용설명서.pdf",
+        "Source": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\output\\pdf\\VisualStudio_AI_Assistant_설치_사용설명서.pdf",
+        "Bytes": 1089143,
+        "Sha256": "EAE9BDD2CA1602677FEAF6BD1F50C19C8F7E29068D33B1DC06215D998C60B30A"
+      },
+      {
+        "Name": "docs/assets/cli-manual/01-overview.png",
+        "Source": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\docs\\assets\\cli-manual\\01-overview.png",
+        "Bytes": 55500,
+        "Sha256": "86738234B9A201914E6BED1776C32A2B007AE8171F50EEA974C3B4BAC3E76B49"
+      },
+      {
+        "Name": "docs/assets/cli-manual/02-package.png",
+        "Source": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\docs\\assets\\cli-manual\\02-package.png",
+        "Bytes": 38432,
+        "Sha256": "CDCAEFF48497A3DD181230D4358428C22F5D86DDDE375CD5FF1BD07DFBA4C753"
+      },
+      {
+        "Name": "docs/assets/cli-manual/03-vsix.png",
+        "Source": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\docs\\assets\\cli-manual\\03-vsix.png",
+        "Bytes": 41222,
+        "Sha256": "D0088EDD998D516763D50D0030B39206EB778778B7DBF219705CC9F72D67C6D8"
+      },
+      {
+        "Name": "docs/assets/cli-manual/04-run-batch.png",
+        "Source": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\docs\\assets\\cli-manual\\04-run-batch.png",
+        "Bytes": 51300,
+        "Sha256": "B5D5B679B0D56026D73F9323140E6894325A4F116984E3F655CB74DE075A91D9"
+      },
+      {
+        "Name": "docs/assets/cli-manual/05-success.png",
+        "Source": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\docs\\assets\\cli-manual\\05-success.png",
+        "Bytes": 57223,
+        "Sha256": "F9845411A901B6B687D873FBD7E93E693ABC52D716D4A912CB691652FFCF775F"
+      },
+      {
+        "Name": "docs/assets/cli-manual/06-login.png",
+        "Source": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\docs\\assets\\cli-manual\\06-login.png",
+        "Bytes": 54992,
+        "Sha256": "859D753C9240ED86525075F43A66A4823ADDE2F6F19A3D13F435695E0448020C"
+      },
+      {
+        "Name": "docs/assets/cli-manual/07-paths.png",
+        "Source": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\docs\\assets\\cli-manual\\07-paths.png",
+        "Bytes": 46859,
+        "Sha256": "70BFA267082C8A6D2DD5A62065B821921BBC011C56ABAA01F2EC401EF4CCD043"
+      },
+      {
+        "Name": "docs/assets/cli-manual/08-attachments.png",
+        "Source": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\docs\\assets\\cli-manual\\08-attachments.png",
+        "Bytes": 36284,
+        "Sha256": "650733944817B5185BEE9C999D699E73643BDCCC0FB060B08515D073317AC9A9"
+      },
+      {
+        "Name": "docs/assets/cli-manual/09-troubleshooting.png",
+        "Source": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\docs\\assets\\cli-manual\\09-troubleshooting.png",
+        "Bytes": 40243,
+        "Sha256": "44F4CB8F53CE709B1F126806E577B5219A2C44A8DF22578DE8513CD157832629"
+      },
+      {
+        "Name": "docs/assets/cli-manual/10-options.png",
+        "Source": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\docs\\assets\\cli-manual\\10-options.png",
+        "Bytes": 45287,
+        "Sha256": "D6C1443DA8C7118BFF1C10CEC72028F6ABCDD3027D9FB99217897A0BF8A89BB7"
+      },
+      {
+        "Name": "docs/assets/cli-manual/11-install-methods.png",
+        "Source": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\docs\\assets\\cli-manual\\11-install-methods.png",
+        "Bytes": 40794,
+        "Sha256": "06A6494284E5B65E161CADEE74F2B3C8B62F4923244A1EAEA4B9C984626A08D0"
+      },
+      {
+        "Name": "docs/assets/cli-manual/12-checklist.png",
+        "Source": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\docs\\assets\\cli-manual\\12-checklist.png",
+        "Bytes": 37931,
+        "Sha256": "E49084EC2B5EC85B2640F598E152828000DDAD9D67A085B17EC97E0ACE0D48E4"
+      },
+      {
+        "Name": "docs/assets/cli-manual/ui-chat.png",
+        "Source": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\docs\\assets\\cli-manual\\ui-chat.png",
+        "Bytes": 52822,
+        "Sha256": "242A2B0809D62C354D5F1E88FA479D3EB335C155C1B57F7BA09793FFE29E0AAC"
+      },
+      {
+        "Name": "docs/assets/cli-manual/ui-guide.png",
+        "Source": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\docs\\assets\\cli-manual\\ui-guide.png",
+        "Bytes": 36260,
+        "Sha256": "321C6221992E58B812B762B605A0F61E8B59DD6074796BC63FF2DC8E55D69625"
+      },
+      {
+        "Name": "docs/assets/cli-manual/ui-models.png",
+        "Source": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\docs\\assets\\cli-manual\\ui-models.png",
+        "Bytes": 19293,
+        "Sha256": "DF3391A04A18C38316D4456711E385A0906A1E5862D15C4A52856164E9B44712"
+      },
+      {
+        "Name": "docs/assets/cli-manual/ui-permissions.png",
+        "Source": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\docs\\assets\\cli-manual\\ui-permissions.png",
+        "Bytes": 27586,
+        "Sha256": "85C9417A1C6CD433FCA2AE35BF1860B77F52A9FB07B09FF9E2D1EEA89B49F891"
+      },
+      {
+        "Name": "docs/assets/cli-manual/ui-review.png",
+        "Source": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\docs\\assets\\cli-manual\\ui-review.png",
+        "Bytes": 64180,
+        "Sha256": "D3838D4919B3BCAFA6E2BEC4E03E376408BAF821245060124F472D1FDEFDA014"
+      },
+      {
+        "Name": "docs/assets/cli-manual/ui-settings.png",
+        "Source": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\docs\\assets\\cli-manual\\ui-settings.png",
+        "Bytes": 55233,
+        "Sha256": "26B64806A1482F83B7110001AA1C7CC62BEA3D383182FE7A53034BF160AA262B"
+      },
+      {
+        "Name": "README.md",
+        "Source": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task035\\bundle-README.md",
+        "Bytes": 1967,
+        "Sha256": "A9A4B2B37484C629E8277F0C842ADFB07D6FD04847F6618D95C9914CBEEE907B"
+      },
+      {
+        "Name": "BUNDLE_SHA256SUMS.txt",
+        "Source": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task035\\BUNDLE_SHA256SUMS.txt",
+        "Bytes": 2576,
+        "Sha256": "DAE648821DB568C67F053F621F7A5EC1DB6BD83559D271CE8C80635A5DD18052"
+      }
+    ],
+    "Assets": [
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.11.0\\VS2017.AIAssistant-0.11.0.vsix",
+        "Name": "VS2017.AIAssistant-0.11.0.vsix",
+        "Bytes": 3849597,
+        "Sha256": "33EA90EBAC97ACC27CAE6D00A0BD33DC2796A9C0F63D560C64780698828543C2"
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.11.0\\VS2019.AIAssistant-0.11.0.vsix",
+        "Name": "VS2019.AIAssistant-0.11.0.vsix",
+        "Bytes": 3851423,
+        "Sha256": "A54F1AD5C9096B9EEDF15E33CE9331F8A3084DDF28B13F308518AEB147B579CA"
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.11.0\\VS2022.AIAssistant-0.11.0.vsix",
+        "Name": "VS2022.AIAssistant-0.11.0.vsix",
+        "Bytes": 3851230,
+        "Sha256": "94B0D919687F519FA74714D6B6E2DCF02FC55BD271FB820695F70AD306501249"
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.11.0\\VisualStudio_AI_Assistant-0.11.0.zip",
+        "Name": "VisualStudio_AI_Assistant-0.11.0.zip",
+        "Bytes": 13087455,
+        "Sha256": "19177D157D9C7170650234C444EDB8C4F1AE1AD5B466FE27357C3FAACA71E97A"
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\VisualStudio_AIChat_ExtentionTest.exe",
+        "Name": "VisualStudio_AIChat_ExtentionTest.exe",
+        "Bytes": 36352,
+        "Sha256": "CE675518991D8FA0CDB4074169A76AE61919D3CBC605CF05D927F84CC0859641"
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.11.0\\RELEASE_SHA256SUMS.txt",
+        "Name": "RELEASE_SHA256SUMS.txt",
+        "Bytes": 503,
+        "Sha256": "965256EF59E840EF183EC8BFD918D74012E8B96B5AC39E6BD898A9E3816574EE"
+      }
+    ]
+  },
+  "PreservedFiles": 47,
+  "PreservedDifferences": 0,
+  "ActualAccountTestsPerformed": false,
+  "ProductionDeploymentPerformed": false,
+  "NormalIdeProfileChanged": false
+}

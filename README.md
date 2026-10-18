@@ -4,7 +4,7 @@
 
 오류 화면과 참고 문서를 보여 주고 자연어로 작업을 요청하세요. 바뀔 코드를 먼저 비교해 승인하거나, **전체 액세스**를 선택해 AI가 직접 파일 수정과 명령·테스트를 수행하게 할 수 있습니다. 대화와 공통 규칙은 내 PC의 Markdown에 남습니다.
 
-**v0.11.0** · [설치 패키지 안내](releases/v0.11.0/README.md) · [자세한 사용법](docs/USER_GUIDE.md)
+**v0.11.0** · [GitHub Releases](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.11.0) · [세 버전 설치 묶음 ZIP](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.11.0/VisualStudio_AI_Assistant-0.11.0.zip) · [설치 안내](releases/v0.11.0/README.md) · [자세한 사용법](docs/USER_GUIDE.md)
 
 | 사용 중인 Visual Studio | 설치 파일 |
 |---|---|

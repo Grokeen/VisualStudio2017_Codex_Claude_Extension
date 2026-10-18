@@ -1,5 +1,7 @@
 ﻿# v0.11.0 — Claude·Codex 협업과 선명한 대화 화면
 
+[GitHub Releases 페이지](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.11.0) · [세 버전 설치 묶음 ZIP](VisualStudio_AI_Assistant-0.11.0.zip?raw=true) · [배포 파일 전체 SHA256](RELEASE_SHA256SUMS.txt) · [릴리스 노트](RELEASE_NOTES.md)
+
 세 버전의 Debug/Release 6빌드를 오류·경고 없이 완료했고, 실제 VS2017·2019·2022에서 각각145개, 기본 전체16묶음 검사를 통과했습니다. CodexOrig2의 독립 감사에서도 최종 세 DLL의 UI·교차 AI15조건씩과 프로젝트 보호 원문의 경계11조건을 확인했으며 검사 범위의 추가 확정 결함은 없습니다.
 
 같은 팀의 Claude와 Codex를 동료로 지정해 한 요청을 검토하고, 주 담당 AI가 결과를 정리하도록 구성할 수 있습니다. 주 담당 외 최대3명이 각자의 CLI·모델·생각 강도·속도를 사용해 순서대로 한 번 검토합니다. 요청·선택 소스·첨부가 선택한 서비스에 공유되며 각 호출에 사용량이 발생합니다. 동료의 수정안은 자동 적용되지 않습니다.

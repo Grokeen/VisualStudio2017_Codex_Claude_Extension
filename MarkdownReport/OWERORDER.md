@@ -371,3 +371,9 @@ C10와 최종C14의 UI/교차AI를 세SKU 실제DLL에서 각각15/15 직접 확
 재현은 VisualStudio_AIChat_ExtentionTest.exe --all --vsix releases/v0.11.0/VS2017.AIAssistant-0.11.0.vsix, 실제 IDE는 tests/ide/Test-IdeIntegration.ps1에 해당 설치폴더/동일SKU VSIX를 지정합니다. 최신 보고/검증은 CodexOrig_TASK-032.md/_Validation.json, 후보 입력은 source120개로 고정했습니다. 실제 Claude 계정·운영 DB/TFVC/운영 배포는 미검증입니다. 작업 경과 00:42:54.1583180. 사용자 설치를 자동 교체하지 않고 v0.11 설치파일3종을 GitHub에게시한 뒤 원격해시로 마감합니다.
 
 - TASK-032 / CodexOrig / GitHub 배포·원격 확인 완료 / 2026-10-19 04:27:32 KST: 제품 커밋 7381415297dd277c3be12df84ce44b26d07a52ff, v0.11.0 세VSIX·최상위실행기·기존CLI MD/BAT/PDF/고객ZIP·C7안내PDF/ZIP 10개를 immutable commit URL에서 재다운로드해 바이트·SHA256 전부일치 확인. CodexOrig_TASK-032_Deployment.json에원격URL/해시기록. 시작03:42:50부터총경과 00:44:42.4498210. 전원소유반납후게시/제품·개인설치추가변경0·기존보호47및과거감사·실패원문보존. TASK032 구현·검증·감사조정·배포작업완료.
+
+## TASK-035 / CodexOrig / 소스 재검증·Release 파일 준비 / 2026-10-19 06:37:32 KST
+
+등록 기준 2026-10-19 06:31:12 KST부터 경과 00:06:19.5545558. 현재 제품 소스120개/Role/기존0.11 VSIX3종이 C14와 동일함을 대조하고 C15 6빌드0오류·0경고, 배포할 VSIX를 지정한 새전체16/16과 새실행기15/15를 통과했다. 이전 실제IDE 각145 및 독립감사는 같은VSIX해시의 기존증거로 구분한다. 기존 VSIX를 덮어쓰거나 제품 버전을 변경하지 않았다.
+
+releases/v0.11.0/VisualStudio_AI_Assistant-0.11.0.zip(26항목), RELEASE_SHA256SUMS.txt(다운로드5개해시), RELEASE_NOTES.md를 생성하고 ZIP원문바이트를 확인했다. README·버전설치안내와 최상위실행기를 마감했다. 제품원본47·과거감사/설치자료 보존, 사용자설치/계정/운영서버 변경0. 보고 CodexOrig_TASK-035.md/_Validation.json. 다른담당자종료유지/035모든검사창종료·GUI예약해제. 정확커밋에 GitHub Release 초안6자산 업로드→서버해시확인→게시→공개다운로드 대조를 이어간다. 자격증명은메모리에서만사용·로그/저장소기록0.
