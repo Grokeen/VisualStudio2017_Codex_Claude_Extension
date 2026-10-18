@@ -369,3 +369,5 @@ C10와 최종C14의 UI/교차AI를 세SKU 실제DLL에서 각각15/15 직접 확
 최종 C14 6빌드0/0·실제2017/2019/2022 각각145·전체16·실행기15·테마각31·번들각10이 통과했습니다. 전체16의247/Workspace145/독립23/문서117은 중복 포함 관계로 보고했습니다. Orig2 독립감사 각C14 15/소스shim11은 추가 확정 지적 없음으로 마감했고, 모든 담당자 소유반납을 확인했습니다. 원본47개와 이전 감사·최초실패를 보존했습니다.
 
 재현은 VisualStudio_AIChat_ExtentionTest.exe --all --vsix releases/v0.11.0/VS2017.AIAssistant-0.11.0.vsix, 실제 IDE는 tests/ide/Test-IdeIntegration.ps1에 해당 설치폴더/동일SKU VSIX를 지정합니다. 최신 보고/검증은 CodexOrig_TASK-032.md/_Validation.json, 후보 입력은 source120개로 고정했습니다. 실제 Claude 계정·운영 DB/TFVC/운영 배포는 미검증입니다. 작업 경과 00:42:54.1583180. 사용자 설치를 자동 교체하지 않고 v0.11 설치파일3종을 GitHub에게시한 뒤 원격해시로 마감합니다.
+
+- TASK-032 / CodexOrig / GitHub 배포·원격 확인 완료 / 2026-10-19 04:27:32 KST: 제품 커밋 7381415297dd277c3be12df84ce44b26d07a52ff, v0.11.0 세VSIX·최상위실행기·기존CLI MD/BAT/PDF/고객ZIP·C7안내PDF/ZIP 10개를 immutable commit URL에서 재다운로드해 바이트·SHA256 전부일치 확인. CodexOrig_TASK-032_Deployment.json에원격URL/해시기록. 시작03:42:50부터총경과 00:44:42.4498210. 전원소유반납후게시/제품·개인설치추가변경0·기존보호47및과거감사·실패원문보존. TASK032 구현·검증·감사조정·배포작업완료.

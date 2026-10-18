@@ -3,7 +3,7 @@
   "Task": "TASK-032",
   "Author": "CodexOrig",
   "Version": "0.11.0",
-  "Status": "Implementation, integration validation and independent audit complete; remote deployment tracked separately",
+  "Status": "Verified and published",
   "StartedAt": "2026-10-19T03:42:50+09:00",
   "VerifiedAt": "2026-10-19T04:22:02.1432825+09:00",
   "Candidate": {
@@ -881,6 +881,23 @@
     "AdditionalConfirmedProductDefects": 0,
     "Scope": "C14 direct UI/collaboration fixture in each actual DLL; unchanged scope source with SDK boundary shim; actual COM/IDE results are root evidence"
   },
-  "IntegrationCompletedAt": "2026-10-19T04:25:44.1583180+09:00",
-  "IntegrationElapsed": "00:42:54.1583180"
+  "IntegrationCompletedAt": "2026-10-19T04:25:44.158318+09:00",
+  "IntegrationElapsed": "00:42:54.1583180",
+  "CompletedAt": "2026-10-19T04:27:32.4498210+09:00",
+  "TotalElapsed": "00:44:42.4498210",
+  "Deployment": {
+    "ProductCommit": "7381415297dd277c3be12df84ce44b26d07a52ff",
+    "Report": "MarkdownReport/CodexOrig_TASK-032_Deployment.json",
+    "VerifiedAt": "2026-10-19T04:26:47.3345848+09:00",
+    "FilesVerified": 10,
+    "EveryFileMatched": true
+  },
+  "StagedWhitespaceCheck": {
+    "ProductAndOwnedChangesPassed": true,
+    "PreservedContributorReportsWithEofBlankLines": [
+      "MarkdownReport/CodexOrig3_TASK-033.md",
+      "MarkdownReport/CodexOrig3_TASK-033_CrossProvider_Followup.md"
+    ],
+    "Reason": "Contributor evidence bytes were preserved as delivered; these two Markdown EOF blank lines do not affect builds or product behavior."
+  }
 }

@@ -390,3 +390,5 @@ TASK-029 검토판을 보존한 별도 C7 Markdown/PDF/ZIP을 만들고 화면 �
 - 동결 C14 120입력0차이·6빌드 오류0/경고0·실제3IDE 각145/145·전체16/16·실행기15/15·각SKU테마31/번들10 PASS. 전체16 안의 실제품247/Workspace145/독립23/문서UI117을 별도 포함관계로 기록했다. 보호47불변, 고객문서 로컬링크55 누락0.
 - Orig3 04:01:32 소유반납, Orig2 TASK034 04:25:05 최종마감/추가지적없음·각C14 DLL15/소스shim11 확인. 기존 담당자024/Orig4/Orig5 종료 유지. 최초 C11 컴파일·C12 사전차단·C13 2022 실패 및 비연결 렌더의 한계를 보존했다. 실제 Claude 계정·운영 DB/TFVC/배포 미검증을 공개한다.
 - MarkdownReport/CodexOrig_TASK-032.md/_Validation.json, CodexOrig2_TASK-034_Audit.md/_Evidence.json, README.md/docs/USER_GUIDE.md, releases/v0.11.0 세VSIX/SHA256SUMS와 최상위 실행기를 통합한다. GitHub 게시·원격10파일 해시는 별도 배포 기록으로 마감한다.
+
+- TASK-032 / CodexOrig / GitHub 배포·원격 확인 완료 / 2026-10-19 04:27:32 KST: 제품 커밋 7381415297dd277c3be12df84ce44b26d07a52ff, v0.11.0 세VSIX·최상위실행기·기존CLI MD/BAT/PDF/고객ZIP·C7안내PDF/ZIP 10개를 immutable commit URL에서 재다운로드해 바이트·SHA256 전부일치 확인. CodexOrig_TASK-032_Deployment.json에원격URL/해시기록. 시작03:42:50부터총경과 00:44:42.4498210. 전원소유반납후게시/제품·개인설치추가변경0·기존보호47및과거감사·실패원문보존. TASK032 구현·검증·감사조정·배포작업완료.
