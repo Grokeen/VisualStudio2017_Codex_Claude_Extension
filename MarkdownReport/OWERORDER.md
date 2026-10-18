@@ -377,3 +377,5 @@ C10와 최종C14의 UI/교차AI를 세SKU 실제DLL에서 각각15/15 직접 확
 등록 기준 2026-10-19 06:31:12 KST부터 경과 00:06:19.5545558. 현재 제품 소스120개/Role/기존0.11 VSIX3종이 C14와 동일함을 대조하고 C15 6빌드0오류·0경고, 배포할 VSIX를 지정한 새전체16/16과 새실행기15/15를 통과했다. 이전 실제IDE 각145 및 독립감사는 같은VSIX해시의 기존증거로 구분한다. 기존 VSIX를 덮어쓰거나 제품 버전을 변경하지 않았다.
 
 releases/v0.11.0/VisualStudio_AI_Assistant-0.11.0.zip(26항목), RELEASE_SHA256SUMS.txt(다운로드5개해시), RELEASE_NOTES.md를 생성하고 ZIP원문바이트를 확인했다. README·버전설치안내와 최상위실행기를 마감했다. 제품원본47·과거감사/설치자료 보존, 사용자설치/계정/운영서버 변경0. 보고 CodexOrig_TASK-035.md/_Validation.json. 다른담당자종료유지/035모든검사창종료·GUI예약해제. 정확커밋에 GitHub Release 초안6자산 업로드→서버해시확인→게시→공개다운로드 대조를 이어간다. 자격증명은메모리에서만사용·로그/저장소기록0.
+
+- TASK-035 / CodexOrig / 정식 GitHub Release 게시·원격 확인 완료 / 2026-10-19 06:39:03 KST: https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.11.0, 태그 v0.11.0 대상 a80e228fa2aa27fc36d5185c83f141b4dfed4bd7. VSIX3·설치ZIP·실행기·체크섬6자산 업로드/서버SHA확인/공개다운로드바이트·SHA256 전부일치. source120차이0·재빌드6개0/0·새전체16/새실행기15·ZIP26항목확인·기존원본47보존. 총경과 00:07:50.5081401(등록06:31:12기준). 제품코드·기존VSIX/과거감사·개인설치추가변경0. 보고 CodexOrig_TASK-035.md/_Validation.json/_Deployment.json. 모든자기검사·GUI·배포작업종료/담당소유반납, 이 마감기록추가push후완료.

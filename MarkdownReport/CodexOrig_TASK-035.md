@@ -1,6 +1,6 @@
-# TASK-035 / CodexOrig / 소스 재검증·GitHub Release 게시
+﻿# TASK-035 / CodexOrig / 소스 재검증·GitHub Release 게시
 
-등록 기준 시작: 2026-10-19 06:31:12 KST. 사용자 요청에 따라 현재 소스를 재검증하고 v0.11.0 설치 묶음과 정식 GitHub Release를 준비했다. 상태는 검증 완료·게시 대기이며 원격 확인 후 배포 JSON으로 마감한다.
+등록 기준 시작: 2026-10-19 06:31:12 KST. 사용자 요청에 따라 현재 소스를 재검증하고 v0.11.0 설치 묶음과 정식 GitHub Release를 게시했다. 업로드6자산의 서버 SHA와 공개 다운로드 바이트·SHA256이 전부 일치한다.
 
 ## 소스와 빌드
 
@@ -31,3 +31,8 @@
 세 VSIX·설치 ZIP·검사 실행기·전체 체크섬의6자산을 GitHub Release 초안에 업로드하고 서버 SHA256과 크기를 대조한다. 검증된 정확한 커밋에 v0.11.0 태그를 연결해 게시하고, 공개 다운로드를 다시 받아 바이트·SHA256을 대조한 뒤 [배포 JSON](CodexOrig_TASK-035_Deployment.json)에 기록한다. GitHub 자동 소스 ZIP/TAR는 그 태그의 소스다. 기존 Git 인증은 메모리에서만 사용하며 자격 증명을 보고서·로그·저장소에 기록하지 않는다.
 
 근거: [GitHub Releases API](https://docs.github.com/en/rest/releases/releases), [Release assets API](https://docs.github.com/en/rest/releases/assets), [TASK032 제품 검증](CodexOrig_TASK-032_Validation.json), [TASK034 감사](CodexOrig2_TASK-034_Audit.md).
+
+
+## 배포 마감
+
+완료 2026-10-19 06:39:03 KST, 등록기준 경과 00:07:50.5081401. [정식 GitHub Release](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.11.0)의 v0.11.0 태그는 검증한 정확한 커밋 a80e228fa2aa27fc36d5185c83f141b4dfed4bd7을 가리킨다. VSIX3·설치 ZIP·실행기·체크섬의6개 자산을 공개 다운로드로 다시 받아 모두 일치했다. [배포 JSON](CodexOrig_TASK-035_Deployment.json)에 각 URL·바이트·해시를 기록했다. GitHub 자동 소스 ZIP/TAR도 이 태그를 기준으로 제공된다.

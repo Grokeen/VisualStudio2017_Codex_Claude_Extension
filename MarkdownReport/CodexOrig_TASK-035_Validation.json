@@ -3,7 +3,7 @@
   "Task": "TASK-035",
   "Author": "CodexOrig",
   "Version": "0.11.0",
-  "Status": "Verified; GitHub Release publication pending",
+  "Status": "Verified; GitHub Release published and all six downloads matched",
   "StartedAt": "2026-10-19T06:31:12.6242335+09:00",
   "VerifiedAt": "2026-10-19T06:36:55.5456684+09:00",
   "ProductSourceFiles": 120,
@@ -317,5 +317,16 @@
   "PreservedDifferences": 0,
   "ActualAccountTestsPerformed": false,
   "ProductionDeploymentPerformed": false,
-  "NormalIdeProfileChanged": false
+  "NormalIdeProfileChanged": false,
+  "CompletedAt": "2026-10-19T06:39:03.1323736+09:00",
+  "Elapsed": "00:07:50.5081401",
+  "Release": {
+    "Url": "https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.11.0",
+    "Id": 416727486,
+    "Tag": "v0.11.0",
+    "TagTarget": "a80e228fa2aa27fc36d5185c83f141b4dfed4bd7",
+    "VerifiedDownloadFiles": 6,
+    "EveryDownloadMatched": true,
+    "DeploymentReport": "MarkdownReport/CodexOrig_TASK-035_Deployment.json"
+  }
 }
