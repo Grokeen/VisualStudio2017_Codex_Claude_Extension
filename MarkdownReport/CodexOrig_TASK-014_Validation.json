@@ -1,8 +1,8 @@
 {
   "Task": "TASK-014",
   "Author": "CodexOrig",
-  "Status": "local-complete-awaiting-task015-016",
-  "StartedAt": "2026-10-18T13:46:29.0000000+09:00",
+  "Status": "published-and-remote-verified",
+  "StartedAt": "2026-10-18T13:46:29+09:00",
   "LocalCompletedAt": "2026-10-18T14:07:42.7985374+09:00",
   "Elapsed": "21분 13초",
   "Package": "releases/v0.6.0/VS2017.AIAssistant-0.6.0.vsix",
@@ -45,5 +45,7 @@
     "Experience": 79
   },
   "RoleEditedByAgent": false,
-  "LaterRoleSHA256": "D25E6ED1167A33AF028BEB0EF23EDCEE918A9118C583BA295993B70C1C310866"
+  "LaterRoleSHA256": "D25E6ED1167A33AF028BEB0EF23EDCEE918A9118C583BA295993B70C1C310866",
+  "PublishedAt": "2026-10-18T14:38:46.3585770+09:00",
+  "DeploymentEvidence": "CodexOrig_TASK-016_Deployment.json"
 }

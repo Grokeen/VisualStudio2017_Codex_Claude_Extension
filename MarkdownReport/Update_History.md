@@ -179,3 +179,7 @@
 - 소스: src/VS2017.AIAssistant/Chat·Views·Providers·Services와 별도 DocumentReader 프로젝트. 실제 동료 순차 CLI→현재 AI 종합·대화별 상태/읽지 않음·실제 Markdown 보고·취소/파일잠금 복구, 비동기 첨부·슬라이더/속도·리비전 원복 포함. 신규 서비스 TASK015, 기존 모델/UI/오케스트레이션·검증/문서/배포 TASK016 소유로 충돌 없이 협업했다.
 - 검증: Debug/Release 경고0·오류0, WPF101/101·실제VS2017/Codex/SQL/native협업73/73·신규서비스고유250/250+추가x86문서47/47, 루트기본13/13 묶음과9/9스모크. 최종 DLL BB80BC8E…/VSIX DB9C5D70… 275314바이트. 제품 소스36개 해시변경0·Role D25E6ED1…/이전릴리스보존, 로컬문서참조46개·최종화면7개 확인.
 - 산출: releases/v0.7.0, 최상위 VisualStudio_AIChat_ExtentionTest.exe, README/상세가이드/CLI·UX·IDE·개발문서, CodexOrig_TASK-016.md 및 Validation/IDE/Experience/Launcher/SourceHashes JSON. 다른작업자전원종료14:34:25확인. 이제검증완료0.6/0.7과전체보고를GitHub에반영하고원격해시확인후배포완료기록을추가한다.
+
+### TASK-014/016 최종 배포 완료 — 2026-10-18 14:38:46 KST
+
+TASK015와전원종료14:34:25확인후검증된v0.6.0·v0.7.0을 da337035378fefec8a3b73f883c68aa20028372f로 origin/main에반영했다. 원격0.6 VSIX184770바이트/5528C0A1…,0.7 VSIX275314바이트/DB9C5D70…,루트exe33792바이트/D1015F87…를다시내려받아모두로컬SHA일치를확인했다. 최종UI101·실제IDE73·신규서비스250+추가x86문서47·루트전체13/13·스모크9/9 PASS. 제품소스36개/Role원문/이전릴리스보존,Project_Plan및배포JSON갱신완료. 이제제품수정없이최종배포보고만후속커밋으로반영하고작업을종료한다. 설치환경의VS2017/2019/2022세버전존재도확인했으며현재확장패키지는VS2017용이다.
