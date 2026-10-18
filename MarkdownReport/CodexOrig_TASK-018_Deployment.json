@@ -1,0 +1,26 @@
+{
+  "Task": "TASK-018",
+  "Author": "CodexOrig",
+  "Status": "published-and-remote-verified",
+  "PublishedAt": "2026-10-18T17:37:44.0356998+09:00",
+  "ProductCommit": "eee7cb3f00e6fab40411f366f628468e4087fc15",
+  "Branch": "main",
+  "OthersCompletedBeforePush": true,
+  "CodexCodeCompletedAt": "2026-10-18T17:31:38+09:00",
+  "Files": [
+    {
+      "Path": "releases/v0.8.0/VS2017.AIAssistant-0.8.0.vsix",
+      "URL": "https://raw.githubusercontent.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/eee7cb3f00e6fab40411f366f628468e4087fc15/releases/v0.8.0/VS2017.AIAssistant-0.8.0.vsix",
+      "Bytes": 306771,
+      "SHA256": "AE33A8D0AFA3223C46037C56E00DC848D017BA19CACD85072D08E85C11B4DFEB",
+      "MatchesLocal": true
+    },
+    {
+      "Path": "VisualStudio_AIChat_ExtentionTest.exe",
+      "URL": "https://raw.githubusercontent.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/eee7cb3f00e6fab40411f366f628468e4087fc15/VisualStudio_AIChat_ExtentionTest.exe",
+      "Bytes": 33792,
+      "SHA256": "8F14A59DE451C715702E22B0F45193F6D5A702A7CEE533C470137E1632071353",
+      "MatchesLocal": true
+    }
+  ]
+}

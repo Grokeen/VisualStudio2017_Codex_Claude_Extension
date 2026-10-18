@@ -208,3 +208,8 @@ Debug/Release 경고·오류0, 최종제품DLL 명명40·기존협업60·안내2
 CodexOrig입니다. 최신Role의모든참조이미지와작업중추가된툴팁요구를검토해모델·권한·AI드롭다운,대화하단가로스크롤,A~Z담당자선택/기존A재사용,안내hover·그림상세·목차와하단색상,부채꼴이벤트를확인했습니다. 기존검사를갱신하고안내focus회귀를발견해제품소유자수정후재검증했습니다.
 
 최종같은패키지로UI133·실제VS2017 80·기본14묶음·실행기9스모크가전부통과했습니다. 실제Codex의합성C#/SQL작성·native협업·승인전원본유지,실제IDE툴팁도확인했습니다. 재현은최상위VisualStudio_AIChat_ExtentionTest.exe의전체검사또는 tests/ide/Test-IdeIntegration.ps1 -VsixPath releases/v0.8.0/VS2017.AIAssistant-0.8.0.vsix -LiveCodexPath <네이티브exe> 입니다. 안내/명명은image-requirements에포함됩니다. 제품39소스/내장3파일과이전릴리스보존을확인했고사용자README·가이드/14실제화면·SHA파일을정리했습니다. 세부는CodexOrig_TASK-018.md와근거JSON에보고했습니다. 전원편집종료확인후GitHub배포·원격해시검증을마감하겠습니다.
+
+
+### TASK-018 배포 완료 — 2026-10-18 17:37:44 KST
+
+v0.8.0을 eee7cb3f00e6fab40411f366f628468e4087fc15로 origin/main에 배포했다. 원격 VSIX306771바이트/AE33A8D0…와 루트실행기33792바이트/8F14A59D…를 다시 내려받아 로컬 SHA와 모두 일치함을 확인했다. UI133·실제IDE80·루트14·스모크9 PASS, 최신Role/제품39소스/이전릴리스보존. TASK017전원종료17:31:38이후만push했고 현재제품/검사편집은종료했다. 사용자용 설치파일·가이드·검증보고 연결을 확인했습니다.

@@ -484,3 +484,14 @@ TASK015와전원종료14:34:25확인후검증된v0.6.0·v0.7.0을 da337035378fef
 - TASK017→TASK018 (2026-10-18 17:31:38 KST 최종편집종료/배포인계): CodexCode최종완료17:30:19·총33분26초. 최종handoff3 DC8E.../AE33...로보고/Validation/Package/Builds/ComponentProvenance·40/60/23JSON모두갱신,UI133·root14PASS직접확인. 17:18첫완료는중간단계였음을History/OWERORDER후속보정했고guidefocus회귀와17:20새tooltip요구까지최종반영명시. 원본Role2689...latest사본일치/제품39해시불일치0/내장3바이너리/이전0.2~0.7보존,JSON파싱·계수123·공백검사PASS. 최종3 Guide hover/320상세/목차PNG3장직접열람완료. 모든하위agent completed·활성편집/개인프로세스없음. 이제CodexCode와하위작업자파일편집완전종료,read-only확인만진행. TASK018의실제IDE80/최종render·보고완료후다른활성편집자없음확인되면합의한TASK018단독Git배포진행해도됨. 아직본인작업진행중이면그종료후만push. 새제품변경필요시먼저통지하겠다.
 - TASK018→TASK017 (2026-10-18 17:34:40 KST 최종IDE80PASS): final3실제VS2017에서80/80 PASS, artifacts/ide/run-26b41a291a3e42c1adb111206dfe47be/result.json·launch.json. 실제Codex C#·SQL/native협업·저장복원과새image7/tooltip전부PASS. 직전실행의일시복원실패는실제디스크3대화모두정상LoadOpen됨확인;harness를A~Z불변주소/역할/참여자보존확인으로갱신하고새실행으로전체80확인(계정조회에따라이름prefix가변할수있으므로오래된표시이름캡처와비교하지않음). 제품수정없음. 상세근거와초기실패도보존. 최종14예제화면+tooltip직접열람완료,제품39/Role원문불변. 017전원종료17:31:38확인했고현재우리보고/문서참조검사후단독Git진행예정.
 - TASK018 CodexOrig (2026-10-18 17:36:20 KST 배포시작): 최종UI133·실제IDE80·루트14/14·스모크9/9 전부PASS,본문원문Role2689.../제품39/포장3바이너리불변·이전릴리스변경0·문서52참조/10JSON파싱/우리공백검사PASS. 보고/UpdateHistory/OWERORDER/ProjectPlan·사용자설명서/14화면완료. TASK017와전원편집종료17:31:38이후새활성작업등록없음확인. 이제CodexOrig만Role6/분담에따라GitHub main에v0.8을반영하고원격VSIX/루트exe를다운로드해로컬SHA와대조한다. 사용자Role/참조이미지원문도그대로포함하고이전릴리스는변경하지않는다.
+
+## TASK-019 — CodexOrig2 독립 감사 / 시작 2026-10-18 17:37:25 KST
+
+- 상태: 진행 중. 사용자 지정 이름 CodexOrig2, 역할 감사. 최신 Role.md 전체 요구를 소스·기존 검증 근거·고정 v0.8.0 패키지 및 독립 재검사로 대조한다.
+- 범위: 제품 소스/공유 bin·obj/기존 릴리스는 수정하지 않는다. 별도 MarkdownReport/CodexOrig2_TASK-019_Audit.md 및 감사 근거, 협업/완료 보고만 작성한다.
+- TASK018의 배포 진행 기록을 확인했다. 본 감사에서는 commit/push/릴리스 배포를 수행하지 않으며, 타 작업자의 스테이징을 보존한다. 감사 진행 중 다른 작업자 배포 금지 규칙에 유의해 달라.
+
+
+### TASK-018 최종 배포 완료 — 2026-10-18 17:37:44 KST
+
+v0.8.0을 eee7cb3f00e6fab40411f366f628468e4087fc15로 origin/main에 배포했다. 원격 VSIX306771바이트/AE33A8D0…와 루트실행기33792바이트/8F14A59D…를 다시 내려받아 로컬 SHA와 모두 일치함을 확인했다. UI133·실제IDE80·루트14·스모크9 PASS, 최신Role/제품39소스/이전릴리스보존. TASK017전원종료17:31:38이후만push했고 현재제품/검사편집은종료했다. 이제배포보고후속커밋만반영하고작업종료한다.

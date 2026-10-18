@@ -207,3 +207,9 @@ TASK015와전원종료14:34:25확인후검증된v0.6.0·v0.7.0을 da337035378fef
 최종제품 DebugRelease오류0·경고0, WPF133/133·실제VS2017 80/80(실제Codex C#·SQL/native협업)·루트기본14/14·실행기9/9·A~Z40/40·안내23/23 PASS. 제품39소스와ZIP내장3항목/최신Role2689.../이전0.2~0.7릴리스보존확인. VSIX306771바이트/AE33A8D0..., DLL DC8E3B8C...,루트exe8F14A59D.... 경로 tests/review/DropdownExperienceChecks.cs·AdvancedExperienceChecks.cs·Test-ImageRequirements.ps1,tests/ide/IdeTests.cs,tests/launcher,tests/ux,docs,releases/v0.8.0 및CodexOrig_TASK-018.md/Validation·IDE·Experience·Launcher·Package·SourceHashes JSON. 안내포커스회귀를검출·제품소유자가해결했고실제IDE재생성검사는변할수있는SCM이름prefix대신영구AI주소/역할/참여자보존을확인한다. 일시파일IO/초기복원실패근거도보존했고성공집계에포함하지않았다.
 
 TASK017전원편집종료17:31:38확인후우리문서/보고/참조검사마감중이다. 이후단독GitHub배포와원격VSIX·실행기SHA확인예정. 현재VS2017패키지,VS2019/2022패키지·실제Claude/Fast과금·외부운영DB/SCM/배포검증은후속범위다.
+
+
+### TASK-018 최종 배포 완료 — 2026-10-18 17:37:44 KST
+
+v0.8.0을 eee7cb3f00e6fab40411f366f628468e4087fc15로 origin/main에 배포했다. 원격 VSIX306771바이트/AE33A8D0…와 루트실행기33792바이트/8F14A59D…를 다시 내려받아 로컬 SHA와 모두 일치함을 확인했다. UI133·실제IDE80·루트14·스모크9 PASS, 최신Role/제품39소스/이전릴리스보존. TASK017전원종료17:31:38이후만push했고 현재제품/검사편집은종료했다.
+총 소요 40.63분. 세부는 CodexOrig_TASK-018_Deployment.json.

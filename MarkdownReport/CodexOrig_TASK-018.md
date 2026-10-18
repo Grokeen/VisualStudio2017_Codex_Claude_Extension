@@ -75,3 +75,10 @@ README는 설치·선택·요청·검토/저장·담당 AI와 협업 사용 순�
 릴리스는 releases/v0.8.0/VS2017.AIAssistant-0.8.0.vsix와 SHA256SUMS.txt/README이며 기존 릴리스는 그대로 보존했다. 현재 VSIX는VS2017 15.9이상용이다. VS2019/2022 테스트환경은 설치되어 있지만 해당 버전용 패키지·실제 Claude 인증/Fast 과금 호출·운영 DB/외부 SVN/TFVC/배포·다중 파일 편집 검증은 후속 범위다.
 
 최종 실제 IDE: [IDE](CodexOrig_TASK-018_IDE.json) **80/80 PASS**, [실행/참조 해시](CodexOrig_TASK-018_IDELaunch.json). 새suffix에최종VSIX를설치하고실제Codex C#·SQL/native협업·초안/대화복원·드롭다운·부채꼴·툴팁을검사했다. 이전실행에서복원목록조회가일시실패했으나디스크3대화는모두정상LoadOpen임확인했다. 진단문구를추가하고표시이름prefix가SCM조회시바뀔수있으므로영구AI주소/역할/참여자보존으로검증기준을갱신한뒤새실행에서80개전체통과했다. 제품을수정하거나실패를성공으로집계하지않았다. 최신로컬검증메타데이터는 [Validation](CodexOrig_TASK-018_Validation.json)에있다.
+
+
+## 최종 배포 — 2026-10-18 17:37:44 KST
+
+v0.8.0을 eee7cb3f00e6fab40411f366f628468e4087fc15로 origin/main에 배포했다. 원격 VSIX306771바이트/AE33A8D0…와 루트실행기33792바이트/8F14A59D…를 다시 내려받아 로컬 SHA와 모두 일치함을 확인했다. UI133·실제IDE80·루트14·스모크9 PASS, 최신Role/제품39소스/이전릴리스보존. TASK017전원종료17:31:38이후만push했고 현재제품/검사편집은종료했다.
+
+총 소요 40.63분. 원격 파일·커밋 근거는 [Deployment](CodexOrig_TASK-018_Deployment.json)에 기록했다.
