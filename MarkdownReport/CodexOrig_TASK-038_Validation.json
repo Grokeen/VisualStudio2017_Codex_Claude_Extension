@@ -820,5 +820,9 @@
   "AuthenticationPerformed": false,
   "ModelRequestPerformed": false,
   "OptionalCustomerWindowsQuestionAnswered": false,
-  "DeliveryZip": "artifacts/task038/VisualStudio_AI_Assistant-0.11.1-FullOffline-win-x64.zip"
+  "DeliveryZip": "artifacts/task038/VisualStudio_AI_Assistant-0.11.1-FullOffline-win-x64.zip",
+  "CompletedAt": "2026-10-19T11:35:04.7554274+09:00",
+  "Elapsed": "00:34:33.7554274",
+  "DeploymentReport": "MarkdownReport/CodexOrig_TASK-038_Deployment.json",
+  "DeploymentVerified": true
 }

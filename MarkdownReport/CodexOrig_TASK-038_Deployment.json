@@ -1,0 +1,33 @@
+﻿{
+    "Task":  "TASK-038",
+    "Supplement":  "OfflineTools1",
+    "SourceCommit":  "97d606d4b64eca25406d418c66919f7b321ab429",
+    "ReleaseId":  416791376,
+    "ReleaseUrl":  "https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.11.1",
+    "VerifiedAt":  "2026-10-19T11:34:33.1371423+09:00",
+    "OriginalTagTarget":  "2b63332327fd0ccdb2041f003b02ab7ecc615a84",
+    "OriginalAssetCount":  7,
+    "OriginalAssetsUnchanged":  true,
+    "TotalAssetCount":  9,
+    "Assets":  [
+                   {
+                       "Name":  "VisualStudio_AI_Assistant-0.11.1-OfflineTools1.zip",
+                       "Bytes":  16940303,
+                       "Sha256":  "C1743C89604DE34B8F0BBC68416017E719C9925759AF807169AC87B16F059E83",
+                       "DownloadedSha256":  "C1743C89604DE34B8F0BBC68416017E719C9925759AF807169AC87B16F059E83",
+                       "Matched":  true,
+                       "Url":  "https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.11.1/VisualStudio_AI_Assistant-0.11.1-OfflineTools1.zip"
+                   },
+                   {
+                       "Name":  "OFFLINE_TOOLS1_SHA256SUMS.txt",
+                       "Bytes":  118,
+                       "Sha256":  "E9A90E8BD5216ED76C8124AE81C56C7CB96B4003BB17A3E4E336455D1F9254AC",
+                       "DownloadedSha256":  "E9A90E8BD5216ED76C8124AE81C56C7CB96B4003BB17A3E4E336455D1F9254AC",
+                       "Matched":  true,
+                       "Url":  "https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.11.1/OFFLINE_TOOLS1_SHA256SUMS.txt"
+                   }
+               ],
+    "NativeCliPayloadPublished":  false,
+    "CustomerPcTested":  false,
+    "InternetPhysicallyDisconnected":  false
+}

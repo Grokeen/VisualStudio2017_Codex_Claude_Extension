@@ -36,3 +36,9 @@ GitHub에는 CLI payload 없이 준비 도구·네 VSIX를 담은 `VisualStudio_
 보관한 재현은 `powershell.exe -NoProfile -ExecutionPolicy Bypass -File tests/compatibility/Test-OfflineCli.ps1 -OutputDirectory <새 폴더>`다. 정확한 원문은 `artifacts/task038/tests-release-final/results.json`, `full-offline-candidate4-validation.json`, `public-bundle-evidence.json`, `prepare-from-public-tools-result.json`, `real-install-candidate4.json`, `real-cli-local-smoke-candidate4.json`에 있다. 설치기 전체/서명 준비·로컬 복사·별도 CLI 실행의 증거를 서로 구분한다.
 
 공식 근거: [Codex Windows 배포 — standalone 런타임 전체 보존](https://learn.chatgpt.com/docs/enterprise/windows-deployment), [Claude 네이티브 설치·Windows 요구사항](https://code.claude.com/docs/en/setup), [Claude 기업 네트워크 설정](https://code.claude.com/docs/en/network-config). 확인일 2026-10-19. 계정 인증의 자세한 방법은 각 공급자의 공식 안내를 따른다.
+
+## 배포 완료 / 2026-10-19 11:35:04 +09:00ST
+
+[v0.11.1 GitHub Release](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.11.1)에 OfflineTools1 ZIP과 체크섬 **2개를 추가 게시**했다. 도구 소스 커밋은 97d606d4b64eca25406d418c66919f7b321ab429이며 원래 태그 대상 2b63332327fd0ccdb2041f003b02ab7ecc615a84와 기존 7개 자산의 ID·크기·SHA는 그대로다. 최종 자산은 9개이며 새 2개를 인증 없는 공개 다운로드로 다시 받아 크기와 SHA256을 모두 확인했다. 네이티브 CLI payload는 공개하지 않았고 고객 전달 완성 ZIP은 위 로컬 경로에 보관했다. [배포 검증 JSON](CodexOrig_TASK-038_Deployment.json)에 실제 URL·해시를 기록했다.
+
+시작 2026-10-19 11:00:31 KST부터 총경과 00:34:33.7554274. 구현·검사·감사 조정·문서·게시·원격 확인을 완료하고 담당 소유권을 반납한다. 고객의 실제 설치·망차단·로그인·모델 사용을 완료했다는 뜻은 아니다.
