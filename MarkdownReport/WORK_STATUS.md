@@ -1378,3 +1378,43 @@ Role 추가 “AI 관련 서버만 열어준다고 함. 나머지는 사용 불�
 - TASK-038 / CodexOrig / 보충 배포·공개 원문 확인 완료 / 2026-10-19 11:35:04 +09:00ST: v0.11.1 ReleaseId416791376에 OfflineTools1 ZIP·체크섬2자산을추가하고인증없는공개다운로드의크기/SHA256모두일치확인. source 97d606d4b64eca25406d418c66919f7b321ab429, 기존태그 2b63332327fd0ccdb2041f003b02ab7ecc615a84/원본7자산ID·크기·SHA불변, 최종9자산/CLIpayload공개0. 최종31/31·Full59/내부58·Public37/내부36·실제C4copy46/버전2·공개tool실제준비46동일·원본47/C17입력122보존 및TASK040미해소0/039반납확인후게시. 고객전달완성ZIP은 artifacts/task038/VisualStudio_AI_Assistant-0.11.1-FullOffline-win-x64.zip(308366787bytes,SHA DB06BF91635D4C3F0B23F057E5CC39EAEB22714E2DC298C8AA477E142F8CA558)에보관. 시작11:00:31부터총경과 00:34:33.7554274. CodexOrig_TASK-038.md/_Validation.json/_Deployment.json에근거마감. 모든작업·검사/GUI·배포종료·소유반납, 고객실제15.7.1/물리망차단/로그인·모델요청미검증유지. 기존개인 docs/assets/cli-install,tmp 폴더불간섭/미공개.
 
 - TASK-038 사용자 Windows 회신 반영 / CodexOrig / 2026-10-19 11:38:11 KST: 사용자가 ‘Windows 10 또는 Windows 11, 64비트’로 확인했다. 기존 x64 완성 묶음과 일치하며 정확한 Windows 빌드는 미제공이므로 Win10 1809 이상 검사는 유지한다. 고객 실제설치·로그인·망차단검증은 여전히 미실행이다. CodexOrig_TASK-038.md/_Validation.json의 미답변 상태를 후속 회신으로 갱신했다. 제품/설치도구/공개릴리스자산/완성ZIP 변경0, 두공개자산과완성ZIP 해시동일확인. 후속기록 소요 00:00:00.6923957. 기록작업종료/소유반납.
+
+
+## TASK-041 / CodexOrig / 배포 묶음 오프라인 설치 재검증 / 2026-10-19 12:25:59 KST
+사용자가 오프라인에서도 동일 설치 가능한지 확인 후 배포를 재요청했다. 041은 새 오프라인 검증 하네스/고정 배포물의 OS 네트워크 격리 실행·VSIX 설치 확인·보고/추가 배포만 소유한다. 제품/C17/기존 릴리스/CLI·계정·과거 감사는 보존한다. Windows Sandbox 미설치·비관리자 호스트이므로 임시 프로세스의 네트워크 권한을 제한하는 AppContainer 가능성을 먼저 검증한다. 실제 망차단 성공은 관측 전 주장하지 않는다. 공유 GUI/설치 테스트가 필요하면 전용 suffix로041만 실행하고, 다른 담당자 종료/감사 후 배포한다.
+
+- TASK041 범위보강 / CodexOrig / 2026-10-19 12:35:32 KST: 실제zero-capability AppContainer에서TCP10013거부·46파일복사후 Move-Item이권한없는상위경로정규화로실패함을확인. 개인동일경로probe에서Directory.Move는성공했다. 041이 scripts/Install-OfflineCli.ps1의최종동일부모이동과필요한검사·OfflineTools2새보충자산/문서를소유한다. 기존원본OfflineTools1/FullC4/실패는불변, 제품C17/기존VSIX변경0. 네트워크원인과AppContainer권한제한을구분한다.
+
+## TASK-043 / CodexOrig3 / 오프라인 설치 문서 후속·소유권 반환 / 2026-10-19 12:37:31 KST
+docs/OFFLINE_INSTALL.md만 수정했다. Windows 10 x64 1809 이상/Windows 11 x64를 CLI 조건으로 표시하고, 준비도구 ZIP과 완성 오프라인 설치 ZIP을 구분했으며, AppContainer 외부 TCP 거부 관측이 케이블 차단/고객 PC 실설치 검증을 뜻하지 않음을 추가했다. 진행 중인 검사 결과 수치는 기재하지 않았다. `git diff --check -- docs/OFFLINE_INSTALL.md` 통과. SHA256 B16F856768F485B67225D23CA7B04E6015208DF83902D23336FB29D040C96D68. 제품/README/스크립트/릴리스/PDF 변경0. 상세 MarkdownReport/CodexOrig3_TASK-043.md. TASK043 문서 소유권을 CodexOrig에 반환한다.
+
+## TASK-042 / CodexOrig2 / 오프라인 네트워크 격리·이동 변경 독립 감사 시작 / 2026-10-19 12:44:02 +09:00
+- 변경3검사파일·설치기·Common·준비기·안내를 AO42_20261019에 고정. 개인 marked task041/run-GUID 안에서만 설치 이동/격리cleanup fixture를검사하고 기존C17/VSIX/OfflineTools1/FullC4/감사·Role를보존한다. 공유GUI/기존계정·프로필/실제사용자CLI/제품source/배포편집0. 새대상PC검사/C5는041후속해시에서검사하고실제고객결과전배포보류조건을분명히구분한다. TASK042보고·개인fixture만소유/041최종통합유지.
+
+## TASK-043 후속 / CodexOrig3 / 대상 PC 검증 도구 안내 추가·소유권 반환 / 2026-10-19 12:46:20 KST
+새 VerifyOfflineSetup.bat 및 scripts/Test-OfflineSetupOnTarget.ps1 동작을 대조하여 docs/OFFLINE_INSTALL.md에 사전확인, IDE 선택/종료, CLI·VSIX 설치, 임시 프로필 --version, 네트워크 확인값의 한계, RESULT 상태, 수동 IDE 창 확인과 최소 회신 정보를 추가했다. 직접 PS1 기본 `ReadyDiagnosticOnly`는 설치 완료가 아님을 명시. `%TEMP%` 결과/로그 경로와 계정·암호·토큰 비공유를 안내했다. `git diff --check -- docs/OFFLINE_INSTALL.md` 통과. SHA256 4C387A0A5B3959184D1AF8A3868E64A3FA1986BE728B43F91BF69CAE71227255. 실제 테스트 PC 설치나 배포는 수행하지 않았고, 제품/README/PDF/스크립트/릴리스 변경0. 보고 MarkdownReport/CodexOrig3_TASK-043_TargetVerifier.md. 문서 소유권을 CodexOrig에 반납한다.
+
+- TASK042→TASK041 / 2026-10-19 12:46:59 +09:00 **R42-01/P2 격리하네스 ACL정리미복원 확정**: 고정OfflineNetworkIsolation.cs SHA6B2754E0...EA59514를개인 marked task041/runGUID에서직접실행. 성공/exit7/timeout3경로모두 token[1,0]·외부TCP10013·자식job정리·임시프로필삭제0성공이나 root와기존seed하위ACL이원래대로돌아오지않음(0/3). 삭제된임시AppContainerSID Modify Allow(OI/CI)명시ACE가root와하위상속에남음. isolation-cleanup-result.json 및 acl-remnant-proof.json 보존. finally의새DirectoryInfo.SetAccessControl(originalAcl)는원본DirectorySecurity에AccessRulesModified가없으면persist되지않는가능성을우선검토권고(원인추론/잔존ACE는직접확정). 원본SDDL로새DirectorySecurity.SetSecurityDescriptorSddlForm 적용등으로복원/ACL전후검사를추가후동일3경로확인필요. 영향은개인전용검사폴더/하네스이며제품설치기사용자폴더변경결함으로확대하지않음. 감사자기존프로필/실제CLI/GUI변경0.
+
+- TASK042 R42-01 원인근거 / 2026-10-19 12:48:15 +09:00: Microsoft 공식 Directory.SetAccessControl 문서(https://learn.microsoft.com/en-us/dotnet/api/system.io.directory.setaccesscontrol?view=netframework-4.8.1)는 생성후수정되지않은DirectorySecurity 객체는persist되지않는다고명시한다. originalAcl을그대로재적용하는현재finally와일치. 새DirectorySecurity에원본SDDL/바이너리를설정해Access섹션을수정상태로복원하라는공식절차도있다. 제개인4실패폴더의증거를보존한뒤제가추가한전용AppContainerSID ACE만제거하여개인정리를마감할예정/다른담당폴더권한은건드리지않는다.
+
+- TASK042→TASK041 / 2026-10-19 12:51:33 +09:00 **R42-01 修正소스 직접확인**: 새nativeCS를fixed-native에고정해동일성공/exit7/timeout3경로모두3/3PASS. root+기존child SDDL전후정확일치, NativeLastAclRestored=true, AppContainer프로필저장소삭제/子process없음/token[1,0]/외부TCP10013/부모가짜비밀미상속도유지. lifecycle-fixed/isolation-cleanup-result.json에전후SDDL포함. 최초4개개인실패폴더는증거보존후제가추가한전용SID명시ACE만표적제거(owned-acl-cleanup.json)/타담당폴더권한변경0. 변경설치기31/31 직접PASS; 대상도구는개인대역bundle에서진단only·기존결과보존·오프라인질문N취소·정확ID/버전/hash/DTD·junction제외5/5PASS. C5원본/최종네트워크helper·대상도구해시연결후최종보고마감예정.
+
+- TASK042→TASK041 / 2026-10-19 12:54:56 +09:00 C5/Tools2후보직접대조완료: Full61/61·내부60/60·46CLI·C17VSIX4, Tools239/39·내부38/38·CLI0. C5SHA33915BF4...FFD177/Tools2SHA34DF74DB...7885B6, 검사한Installer/Common/TargetPS/BAT4개모두두ZIP과SHA일치. 최종안내4C387A...27255/수정nativeSHA도고정확인. R42-01 수정하네스3수명경로3/3 및원래실패/자기ACE정리보존,대상도구5/5·가짜version의6인증환경변수제거·빈설정경로도직접PASS. 보호72/72·제품입력122/122·개인생성AppContainer7개저장소잔존0. 최종C5 nooverride Root6/6은owner자료확인으로분리. 현재보고/JSON/종료기록마감중. **실제테스트PC의VSIX설치/IDE확인결과미수집으로정식추가배포조건미충족·보류유지**.
+
+## TASK-042 / CodexOrig2 / 오프라인 후속 독립 감사 완료 / 2026-10-19 12:56:21 +09:00
+
+시작 2026-10-19 12:43:24 +09:00, 경과 00:12:57. R42-01/P2 전용하네스ACL미복원발견(초기수명0/3)/수정후동일성공·exit7·timeout3/3및전후root/child SDDL정확일치·프로필/자식정리확인으로종결. 원래31/31·Target대역5/5·합성version의인증변수6제거/새설정경로·C5ZIP61/60checksum·Tools239/38checksum/CLI0·검사4파일두묶음일치·보호72/제품122보존. 개인AppContainer7개저장소잔존0,초기자기ACE4개만제거/원문보존/다른담당권한변경0. 최종C5 nooverride Root6/6은통합자료확인으로구분. 미해소확정지적0이지만 **실제오프라인테스트PC의VSIX설치·IDE확인결과미수집으로정식추가배포보류유지**. 감사산출 MarkdownReport/CodexOrig2_TASK-042_Audit.md/_Evidence.json,근거 artifacts/audit-codexorig2-task042/. 제품/Role/과거감사/기존릴리스·실제사용자프로필·CLI/공유build/GUI/계정/Git배포변경0. 모든감사검사·보고종료/소유반납,041이고객검증용C5전달·결과수집·배포판단을소유한다.
+
+
+## TASK042 C6 후속 / CodexOrig2 / 2026-10-19 12:58:15 +09:00
+- 완료042본문/JSON은불변보존하고 C6의Target guard순서변경과원본ZIP/Tools2후보를새후속보고·JSON에연결한다. 실제대상PC결과전추가배포보류유지. 제품/Installer/Common/하네스/기존릴리스추가편집0·실계정/GUI0·개인fixture만소유.
+
+## TASK042 C6 후속 / CodexOrig2 / 감사 완료·소유반납 / 2026-10-19 13:01:01 +09:00
+
+시작 2026-10-19 12:57:39 +09:00, 경과 00:03:22. 새Target E3531A9F...D3E2A2에서guard→exists순서·linkmanifest조회전제외·정상검색유지·UNC조회전거부5/5PASS. C5대비변경은Target1파일/manifestPreparedAt/checksum3개뿐,함수외코드/Installer/Common/CLI/문서/수정native불변. FullC6 SHA6CE80916...8DCC79(61/61·내부60),Tools2C6 SHAB52D393C...F61D66(39/39·내부38·CLI0), 두외부checksum일치. 이전완료042보고/JSON·C5·기존릴리스등보호72/72원문보존/기존R42-01종결유지·새확정지적0. 이전검사는동일SHA범위에연결하며전부재실행으로표현하지않음. 보고 MarkdownReport/CodexOrig2_TASK-042_Followup_C6.md/_Evidence.json, artifacts/audit-codexorig2-task042-c6/. 제품/공유build/GUI/계정/사용자프로필/배포변경0·모든후속감사작업종료/소유반납. **실제테스트PC VSIX설치·IDE결과미수집으로정식추가배포보류유지**,041이C6고객전달/결과수집을소유한다.
+
+
+## TASK-041 / CodexOrig / 검증용 C6 준비·실제 PC 결과 대기 / 2026-10-19 13:03:53 KST
+착수12:24:43 KST, 현재경과 00:39:10.4257023. Windows zero-capability AppContainer에서최종C6원문6/6(토큰/전후TCP10013·설치46/멱등·CLI버전2)·PS5.1설치경계31/31·C6ZIP61/내부60·공개용후보39/내부38·대상검증기함수5/진단/설치거부·UNC조회전거부를확인했다. R42-01하네스ACL복원을수정하고감사자의수명3/3/root-child정확SDDL·프로필/자식정리종결및C6별도5사례확인을받았다. 이전자기임시SID잔여10개만정리/전후근거보존. TASK043문서반납과TASK042/C6감사13:01:01종료·미해소0확인. 제품C17입력122·보호47/감사보호72·기존9개공개자산/태그불변, 실제계정/모델요청/호스트방화벽·네트워크설정변경0.
+공식VSIXInstaller는AppContainer권한제한0x80070005로실제오프라인VSIX성공을확정하지못했다. 사용자가별도오프라인테스트PC있다고회신하여VerifyOfflineSetup.bat와Test-OfflineSetupOnTarget.ps1을동봉했다. 사용자에게 artifacts/task041/VisualStudio_AI_Assistant-0.11.1-OfflineTest2-Final-win-x64.zip(308372411bytes,SHA6CE8091677E29BC075D5C97BE98C6F86414537B02BC33F3DEF33A8DF108DCC79)과옆.sha256을전달한다. 전체해제·모든VS종료후BAT실행→RESULT상태/오류/AI Assistant창열림을받아확인할예정. 사용자오프라인확인값과도구네트워크차단여부false를구분. **실제PC의VSIX설치·IDE확인전정식추가배포보류/전체작업진행중**. 준비작업은codex/offline-verification-task041로컬분기에저장,GitHubpush/새자산게시0. 041이최종결과수집/배포담당유지,다른담당자는소유반납/GUI예약없음. 보고CodexOrig_TASK-041.md/_Validation.json,기존C4/C5/실패/감사원문보존. 사유는추가사용자승인정책이아니라접속되지않은별도실PC검사결과가아직없기때문이다.

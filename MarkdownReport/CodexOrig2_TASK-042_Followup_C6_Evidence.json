@@ -1,0 +1,262 @@
+{
+  "Task": "TASK-042-C6",
+  "Auditor": "CodexOrig2",
+  "Started": "2026-10-19T12:57:39.0000000+09:00",
+  "CompletedAt": "2026-10-19T13:01:01.6754008+09:00",
+  "Elapsed": "00:03:22",
+  "AuditComplete": true,
+  "ParentCompletedReportsModified": false,
+  "OpenConfirmedFindings": [],
+  "PriorR42_01ClosureMaintained": true,
+  "FormalAdditionalDeploymentReady": false,
+  "ActualTargetPcResultReceived": false,
+  "CodeChangeScope": "Find-OfflineInstalledExtension directory/manifest guard ordering only",
+  "DirectGuardChecks": {
+    "SourceSHA": "E3531A9FD1867966C6DE25C92F3DE6883962ECD19EB32191262B863DD4D3E2A2",
+    "Cases": [
+      {
+        "Name": "Correct extension still found while unrelated linked manifest is skipped",
+        "Passed": true
+      },
+      {
+        "Name": "Guard before existence: C:\\dydgyqud\\AO42C6_20261019\\Extensions",
+        "Passed": true
+      },
+      {
+        "Name": "Guard before existence: C:\\dydgyqud\\AO42C6_20261019\\Extensions\\correct\\extension.vsixmanifest",
+        "Passed": true
+      },
+      {
+        "Name": "Linked manifest rejected before existence lookup",
+        "Passed": true
+      },
+      {
+        "Name": "UNC root rejected before any existence lookup",
+        "Passed": true
+      }
+    ],
+    "Passed": 5,
+    "Failed": 0,
+    "ScanEvents": [
+      {
+        "Operation": "Guard",
+        "Path": "C:\\dydgyqud\\AO42C6_20261019\\Extensions"
+      },
+      {
+        "Operation": "Exists",
+        "Path": "C:\\dydgyqud\\AO42C6_20261019\\Extensions"
+      },
+      {
+        "Operation": "Guard",
+        "Path": "C:\\dydgyqud\\AO42C6_20261019\\Extensions\\correct\\extension.vsixmanifest"
+      },
+      {
+        "Operation": "Exists",
+        "Path": "C:\\dydgyqud\\AO42C6_20261019\\Extensions\\correct\\extension.vsixmanifest"
+      },
+      {
+        "Operation": "Guard",
+        "Path": "C:\\dydgyqud\\AO42C6_20261019\\Extensions\\correct\\VS2017.AIAssistant.dll"
+      },
+      {
+        "Operation": "Guard",
+        "Path": "C:\\dydgyqud\\AO42C6_20261019\\Extensions\\unrelated-link\\extension.vsixmanifest"
+      }
+    ],
+    "UNCEvents": [
+      {
+        "Operation": "Guard",
+        "Path": "\\\\audit-c6-do-not-connect\\share\\Extensions"
+      }
+    ],
+    "ActualUNCConnectionAttempted": false,
+    "RealCLIExecuted": false,
+    "InstallerExecuted": false
+  },
+  "SourceAndArtifactLinkage": {
+    "ChangedPayloadFiles": [
+      {
+        "Path": "OFFLINE_SHA256SUMS.txt",
+        "C5": "DAA283717CF90DC9E8BEC9675D65F380A4812D4EE5510D088D6E2BE1F120BCA2",
+        "C6": "BC234186E7FEDF36134B63E362BB48B43DB50B762857E1D5D74499FDBBF50FE3"
+      },
+      {
+        "Path": "offline-manifest.json",
+        "C5": "B595853C3C7C6E35943ACFBCCD74B7B5D9D24B9EE160F9C22F5428AC190C2FD3",
+        "C6": "7D3BCC8E6DD3AA9F8698F491E7C8CB5489B06B073FE76FBABF13A2B66F6612B2"
+      },
+      {
+        "Path": "Test-OfflineSetupOnTarget.ps1",
+        "C5": "99BF964108AEB27D385B2600C5F304472DC3831CBD2D8E721B81501451B895C4",
+        "C6": "E3531A9FD1867966C6DE25C92F3DE6883962ECD19EB32191262B863DD4D3E2A2"
+      }
+    ],
+    "OnlyTargetAndPreparationMetadataChanged": true,
+    "TargetOtherCodeUnchanged": true,
+    "ParseErrorCount": 0,
+    "Files": [
+      {
+        "Name": "Test-OfflineSetupOnTarget.ps1",
+        "C5": "99BF964108AEB27D385B2600C5F304472DC3831CBD2D8E721B81501451B895C4",
+        "C6": "E3531A9FD1867966C6DE25C92F3DE6883962ECD19EB32191262B863DD4D3E2A2",
+        "Tools2": "E3531A9FD1867966C6DE25C92F3DE6883962ECD19EB32191262B863DD4D3E2A2",
+        "Match": true
+      },
+      {
+        "Name": "Install-OfflineCli.ps1",
+        "C5": "921A970EE8E1D5DE1122698EE1E3B461FA465CE73D3BC4349711A888551353A5",
+        "C6": "921A970EE8E1D5DE1122698EE1E3B461FA465CE73D3BC4349711A888551353A5",
+        "Tools2": "921A970EE8E1D5DE1122698EE1E3B461FA465CE73D3BC4349711A888551353A5",
+        "Match": true
+      },
+      {
+        "Name": "OfflineCli.Common.ps1",
+        "C5": "D84D713D088360A5A104BE4A85FAE011E29DEC4FDE2F009E0906DC6F9256F650",
+        "C6": "D84D713D088360A5A104BE4A85FAE011E29DEC4FDE2F009E0906DC6F9256F650",
+        "Tools2": "D84D713D088360A5A104BE4A85FAE011E29DEC4FDE2F009E0906DC6F9256F650",
+        "Match": true
+      },
+      {
+        "Name": "VerifyOfflineSetup.bat",
+        "C5": "70D838B614B1731E322D250059A00B57D6CBEBBE18D1F5D4D8156314EE0BF637",
+        "C6": "70D838B614B1731E322D250059A00B57D6CBEBBE18D1F5D4D8156314EE0BF637",
+        "Tools2": "70D838B614B1731E322D250059A00B57D6CBEBBE18D1F5D4D8156314EE0BF637",
+        "Match": true
+      }
+    ],
+    "NativeMatchesPreviousAudit": true,
+    "GuideSHA": "4C387A0A5B3959184D1AF8A3868E64A3FA1986BE728B43F91BF69CAE71227255",
+    "PreservedCount": 72,
+    "PreservationMismatches": 0,
+    "ActualTargetPcResultReceived": false,
+    "FormalAdditionalDeploymentReady": false
+  },
+  "ManifestOnlyPreparedAtChanged": true,
+  "FullCandidate6": {
+    "SHA256": "6CE8091677E29BC075D5C97BE98C6F86414537B02BC33F3DEF33A8DF108DCC79",
+    "Bytes": 308372411,
+    "EntryCount": 61,
+    "Matched": 61,
+    "InternalCount": 60,
+    "InternalMatched": 60,
+    "ExternalChecksumMatch": true,
+    "CLIFileCount": 46,
+    "VSIX": [
+      {
+        "Name": "VS2017.15.7.AIAssistant-0.11.1.vsix",
+        "SHA256": "3B5551AB9C8A1E8993779FFA66F9D673C36A5F00F7A27B0AC2A6E2E9A770AAD4",
+        "C17Match": true
+      },
+      {
+        "Name": "VS2017.AIAssistant-0.11.1.vsix",
+        "SHA256": "2C7DB6E2B89A4BD708B790B01BA1A71388EB90619CE62BCCB0BE4A3B2F379DD8",
+        "C17Match": true
+      },
+      {
+        "Name": "VS2019.AIAssistant-0.11.1.vsix",
+        "SHA256": "AB4B888656DBF5B2F4BF7711895F9BB82E75AF61B7878A08A66E8BC2A9F3D881",
+        "C17Match": true
+      },
+      {
+        "Name": "VS2022.AIAssistant-0.11.1.vsix",
+        "SHA256": "2CA4E737260ECDF7F4228F7B60E86F298881B1889A0BA4AE92B50B08E4FC2D8C",
+        "C17Match": true
+      }
+    ]
+  },
+  "Tools2Candidate6": {
+    "SHA256": "B52D393C14BBB814EC3D8F955958B2099FC77E51206DA85421EE5298EEF61D66",
+    "Bytes": 16946090,
+    "EntryCount": 39,
+    "Matched": 39,
+    "InternalCount": 38,
+    "InternalMatched": 38,
+    "ExternalChecksumMatch": true,
+    "CLIExecutableEntries": [],
+    "PublishedByAuditor": false
+  },
+  "PriorTestsCarriedByUnchangedBytes": [
+    "TASK042 offline regression31",
+    "TASK042 fixed native lifecycle3/3 and ACL/profile/descendant cleanup",
+    "TASK042 synthetic target version credential removal"
+  ],
+  "NewlyReexecutedTests": "C6 guard-order5/5 and both archive/content checksum validations",
+  "Preservation": {
+    "Count": 72,
+    "Mismatches": 0,
+    "RoleUnchanged": true,
+    "PriorAuditsUnchanged": true,
+    "Candidate5Unchanged": true,
+    "OldReleaseAssetsUnchanged": true
+  },
+  "SideEffects": {
+    "ProductOrInstallerEdited": false,
+    "SharedGUIUsed": false,
+    "SharedBuildExecuted": false,
+    "UserProfileOrAccountChanged": false,
+    "ActualCLIExecuted": false,
+    "UNCConnectionAttempted": false,
+    "Deployed": false,
+    "PrivateSyntheticFixturesOnly": true
+  },
+  "Limitations": [
+    "No actual offline test PC result or IDE confirmation received; formal additional deployment remains on hold",
+    "Earlier AppContainer observations remain OS isolation evidence rather than physical network disconnection",
+    "C6 guard followup does not newly execute all previous runtime tests"
+  ],
+  "ParentReport": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\MarkdownReport\\CodexOrig2_TASK-042_Audit.md",
+  "Report": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\MarkdownReport\\CodexOrig2_TASK-042_Followup_C6.md",
+  "ReportSHA256": "D29905B5CEF12CCC6EC9CB1614CE634A0ACABD46382AA4ACDD84742944AEF60B",
+  "ArtifactHashes": [
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task042-c6\\candidate6-linkage.json",
+      "SHA256": "65AF24FC3832E76BA231C2E30F53D39DDD2F5C8F390491222E74AAD04B6F95B2",
+      "Bytes": 2396
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task042-c6\\guard-order-result.json",
+      "SHA256": "CAA036879E89040124819ADF952A5359AD5003169816C4968A93B3115BF97FE3",
+      "Bytes": 1764
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task042-c6\\line-content-delta.json",
+      "SHA256": "E1C5120864EF8F57A88367054D0EDFB7D21AF6714958293414ACE9083C5258AF",
+      "Bytes": 269
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task042-c6\\protected-final.json",
+      "SHA256": "B04DF7ED8C70E6E9068DC4A25C5EF71F159B1CEFBA458DA1B66E00CB51A98B00",
+      "Bytes": 22428
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task042-c6\\protected-start.json",
+      "SHA256": "473EC2C7981D64B401739D79CFDD53FE8A0668F52EECE63661B8AA3142E2130F",
+      "Bytes": 14796
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task042-c6\\public-tools-candidate6.json",
+      "SHA256": "6CE97B667D56B855E99DF8B15655F5028F6F74FB535C94CB904210EDC7C5C705",
+      "Bytes": 17235
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task042-c6\\Verify-FullCandidateC6.ps1",
+      "SHA256": "A1E392F330E409FFAB609E5865A89DE013EC4FAEED536066C90688E9685B0CB4",
+      "Bytes": 5058
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task042-c6\\Verify-GuardOrderC6.ps1",
+      "SHA256": "41AB57D7B20FD97B962912CC8705B26724038DC61F0C7CCE7A206744638E33CE",
+      "Bytes": 3397
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task042-c6\\Verify-Tools2CandidateC6.ps1",
+      "SHA256": "4059FB4EEC27C23C92A33AD09CD52F6D5C9C0214C663E7056751D258A2AE74EA",
+      "Bytes": 2797
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task042-c6\\candidate6-artifact\\result.json",
+      "SHA256": "C31564967D40AE92C073395C5A01CA05B9348D7D50E7B65EBCF3B15815F06616",
+      "Bytes": 47455
+    }
+  ]
+}

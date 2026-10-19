@@ -93,12 +93,12 @@ try {
         if($entries.Count -ne 1 -or (Get-FileHash -LiteralPath (Join-Path $extensionRoot $name)).Hash -ne $entries[0].Substring(0,64)){throw "확장 체크섬이 일치하지 않습니다: $name"}
         $vsixHashes[$name]=$entries[0].Substring(0,64)
     }
-    $toolFiles=@('OfflineCli.Common.ps1','Install-OfflineCli.ps1','Install-AIAssistant.ps1')
+    $toolFiles=@('OfflineCli.Common.ps1','Install-OfflineCli.ps1','Install-AIAssistant.ps1','Test-OfflineSetupOnTarget.ps1')
     foreach($name in $toolFiles){if(!(Test-Path -LiteralPath (Join-Path $sourceRoot $name))){throw "필수 도구가 없습니다: $name"}}
     $repoRoot=Split-Path -Parent $PSScriptRoot
     $assetRoot=if(Test-Path -LiteralPath (Join-Path $PSScriptRoot 'InstallOfflineCLI.bat')){$PSScriptRoot}else{$repoRoot}
     $guide=if(Test-Path -LiteralPath (Join-Path $assetRoot 'OFFLINE_INSTALL.md')){Join-Path $assetRoot 'OFFLINE_INSTALL.md'}else{Join-Path $repoRoot 'docs/OFFLINE_INSTALL.md'}
-    foreach($p in @($guide,(Join-Path $assetRoot 'InstallOfflineCLI.bat'),(Join-Path $assetRoot 'InstallAIAssistant.bat'))){if(!(Test-Path -LiteralPath $p)){throw "안내/배치 파일이 없습니다: $p"}}
+    foreach($p in @($guide,(Join-Path $assetRoot 'InstallOfflineCLI.bat'),(Join-Path $assetRoot 'InstallAIAssistant.bat'),(Join-Path $assetRoot 'VerifyOfflineSetup.bat'))){if(!(Test-Path -LiteralPath $p)){throw "안내/배치 파일이 없습니다: $p"}}
     $null=New-Item -ItemType Directory -Path $output
     $rows=@(foreach($row in $sourceFiles){
         $target=Resolve-OfflinePayloadPath $output $row.Path
@@ -111,7 +111,7 @@ try {
     foreach($name in $vsixNames){Copy-Item -LiteralPath (Join-Path $extensionRoot $name) -Destination $output}
     foreach($name in $vsixHashes.Keys){if((Get-FileHash -LiteralPath (Join-Path $output $name)).Hash -ne $vsixHashes[$name]){throw '확장 파일 복사 중 변경을 발견했습니다.'}}
     foreach($name in $toolFiles){Copy-Item -LiteralPath (Join-Path $sourceRoot $name) -Destination $output}
-    foreach($name in @('InstallOfflineCLI.bat','InstallAIAssistant.bat')){Copy-Item -LiteralPath (Join-Path $assetRoot $name) -Destination $output}
+    foreach($name in @('InstallOfflineCLI.bat','InstallAIAssistant.bat','VerifyOfflineSetup.bat')){Copy-Item -LiteralPath (Join-Path $assetRoot $name) -Destination $output}
     Copy-Item -LiteralPath $guide -Destination (Join-Path $output 'OFFLINE_INSTALL.md')
     $null=Read-OfflineCliBundle $output
     $sums=@(Get-OfflinePlainFiles $output|ForEach-Object{(Get-FileHash -LiteralPath $_.FullName).Hash+'  '+$_.FullName.Substring($output.Length+1).Replace('\','/')})

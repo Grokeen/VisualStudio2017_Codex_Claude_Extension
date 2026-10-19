@@ -10,4 +10,5 @@
 /InstallAIAssistant.bat -text whitespace=cr-at-eol
 /InstallOfflineCLI.bat -text whitespace=cr-at-eol
 /PrepareOfflineSetup.bat -text whitespace=cr-at-eol
+/VerifyOfflineSetup.bat -text whitespace=cr-at-eol
 /HowToInstallCLI.md -text

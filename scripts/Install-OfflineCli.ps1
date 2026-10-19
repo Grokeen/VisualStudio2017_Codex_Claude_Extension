@@ -6,6 +6,7 @@ desc         : 인터넷·CLI 실행 없이 검증된 로컬 런타임을 새 �
 author       : CodexOrig
 create date  : 2026-10-19
 update date  : 2026-10-19 CodexOrig : TASK-038 기존 CLI·PATH·계정·VS 설정을 보존.
+               2026-10-19 CodexOrig : TASK-041 제한된 토큰에서 상위 경로를 조회하지 않고 동일 부모 안에서 이동.
 -------------------------------------------------------------------------
 #>
 [CmdletBinding()]
@@ -48,9 +49,10 @@ try {
             }
             if(!$stage.StartsWith($root+'\',[StringComparison]::OrdinalIgnoreCase) -or !$destination.StartsWith($root+'\',[StringComparison]::OrdinalIgnoreCase)){throw 'Refusing an unexpected directory move.'}
             Assert-OfflinePlainPath $root
+            Assert-OfflinePlainPath $stage
             Assert-OfflinePlainPath $destination
             if(Test-Path -LiteralPath $destination){throw '설치 중 대상 폴더가 생겼습니다. 기존 내용을 변경하지 않습니다.'}
-            Move-Item -LiteralPath $stage -Destination $destination
+            [IO.Directory]::Move($stage,$destination)
             $state='Installed'
         }
     }

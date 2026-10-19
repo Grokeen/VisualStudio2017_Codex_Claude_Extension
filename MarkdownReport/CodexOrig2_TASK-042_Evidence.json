@@ -1,0 +1,909 @@
+{
+  "Task": "TASK-042",
+  "Auditor": "CodexOrig2",
+  "Started": "2026-10-19T12:43:24.0000000+09:00",
+  "CompletedAt": "2026-10-19T12:56:21.1957298+09:00",
+  "Elapsed": "00:12:57",
+  "AuditComplete": true,
+  "ProductOverallCompleteClaimed": false,
+  "FormalAdditionalDeploymentReady": false,
+  "ActualOfflineTargetResultReceived": false,
+  "FormalAdditionalDeploymentStatus": "HoldUntilActualOfflinePcVSIXInstallationAndIDECheck",
+  "Findings": [
+    {
+      "Id": "R42-01",
+      "Priority": "P2",
+      "Scope": "Test harness dedicated run folder ACL cleanup",
+      "Status": "ClosedInFixedHarness",
+      "InitialNativeSHA": "6B2754E049798E0B7C61C6E6DD582DEE418F2194D0C3B0245BB5D2E48EA59514",
+      "FixedNativeSHA": "E0F9A5CF95E0F3C3855528C3A5880A9911CE935145FDEED1B61523F81283F805",
+      "OriginalLifecyclePassed": 0,
+      "OriginalLifecycleFailed": 3,
+      "FixedLifecyclePassed": 3,
+      "OriginalFailurePreserved": true,
+      "OriginalEvidence": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task042\\acl-remnant-proof.json",
+      "RepairEvidence": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task042\\lifecycle-fixed\\isolation-cleanup-result.json"
+    }
+  ],
+  "OpenConfirmedFindings": [],
+  "DirectChecks": {
+    "OfflineRegressionPassed": 31,
+    "Lifecycle": {
+      "HostToken": [
+        0,
+        0
+      ],
+      "HostTcpConnected": true,
+      "Address": "20.200.245.247",
+      "Cases": [
+        {
+          "Kind": "success",
+          "Root": "C:\\dydgyqud\\AO42_20261019\\task041\\run-32ac705caecd46feb2a917b7953701d5",
+          "ExpectedExitObserved": true,
+          "Exit": 0,
+          "Error": "",
+          "Token": [
+            1,
+            0
+          ],
+          "TCPDenied": true,
+          "NativeError": 10013,
+          "ParentSentinelPresent": false,
+          "ConfigAndProfileIsolated": true,
+          "RootACLRestored": true,
+          "ExistingChildACLRestored": true,
+          "SeedContentUnchanged": true,
+          "AppContainerName": "CodexOrig.Task041.38f08a958677449996fd9d616e013a3c",
+          "ProfileCleanupHResult": 0,
+          "ProfileStorageStillExists": false,
+          "DescendantStillRunning": false,
+          "PhysicalNetworkDisconnected": false,
+          "RealCLIExecuted": false,
+          "Passed": true,
+          "BeforeRootSDDL": "O:S-1-5-21-2897204252-4034183091-2018288912-1001G:S-1-5-21-2897204252-4034183091-2018288912-1001D:AI(A;OICIID;0x1301bf;;;S-1-5-21-2173417042-590788039-655191293-2141994182)(A;OICIID;0x1301bf;;;S-1-5-21-2897204252-4034183091-2018288912-1002)(A;OICIID;0x1301bf;;;S-1-5-21-1229721549-453674482-1810785319-109923246)(A;OICIID;FA;;;BA)(A;OICIID;FA;;;SY)(A;OICIID;0x1200a9;;;BU)(A;ID;0x1301bf;;;AU)(A;OICIIOID;SDGXGWGR;;;AU)",
+          "AfterRootSDDL": "O:S-1-5-21-2897204252-4034183091-2018288912-1001G:S-1-5-21-2897204252-4034183091-2018288912-1001D:AI(A;OICIID;0x1301bf;;;S-1-5-21-2173417042-590788039-655191293-2141994182)(A;OICIID;0x1301bf;;;S-1-5-21-2897204252-4034183091-2018288912-1002)(A;OICIID;0x1301bf;;;S-1-5-21-1229721549-453674482-1810785319-109923246)(A;OICIID;FA;;;BA)(A;OICIID;FA;;;SY)(A;OICIID;0x1200a9;;;BU)(A;ID;0x1301bf;;;AU)(A;OICIIOID;SDGXGWGR;;;AU)",
+          "BeforeSeedSDDL": "O:S-1-5-21-2897204252-4034183091-2018288912-1001G:S-1-5-21-2897204252-4034183091-2018288912-1001D:AI(A;OICIID;0x1301bf;;;S-1-5-21-2173417042-590788039-655191293-2141994182)(A;OICIID;0x1301bf;;;S-1-5-21-2897204252-4034183091-2018288912-1002)(A;OICIID;0x1301bf;;;S-1-5-21-1229721549-453674482-1810785319-109923246)(A;OICIID;FA;;;BA)(A;OICIID;FA;;;SY)(A;OICIID;0x1200a9;;;BU)(A;ID;0x1301bf;;;AU)(A;OICIIOID;SDGXGWGR;;;AU)",
+          "AfterSeedSDDL": "O:S-1-5-21-2897204252-4034183091-2018288912-1001G:S-1-5-21-2897204252-4034183091-2018288912-1001D:AI(A;OICIID;0x1301bf;;;S-1-5-21-2173417042-590788039-655191293-2141994182)(A;OICIID;0x1301bf;;;S-1-5-21-2897204252-4034183091-2018288912-1002)(A;OICIID;0x1301bf;;;S-1-5-21-1229721549-453674482-1810785319-109923246)(A;OICIID;FA;;;BA)(A;OICIID;FA;;;SY)(A;OICIID;0x1200a9;;;BU)(A;ID;0x1301bf;;;AU)(A;OICIIOID;SDGXGWGR;;;AU)",
+          "NativeAclRestoredReported": true
+        },
+        {
+          "Kind": "exit7",
+          "Root": "C:\\dydgyqud\\AO42_20261019\\task041\\run-b1ccf09ab88d48f99160744740396908",
+          "ExpectedExitObserved": true,
+          "Exit": 7,
+          "Error": "",
+          "Token": [
+            1,
+            0
+          ],
+          "TCPDenied": true,
+          "NativeError": 10013,
+          "ParentSentinelPresent": false,
+          "ConfigAndProfileIsolated": true,
+          "RootACLRestored": true,
+          "ExistingChildACLRestored": true,
+          "SeedContentUnchanged": true,
+          "AppContainerName": "CodexOrig.Task041.232be4a25e264a72b097d7019dd71894",
+          "ProfileCleanupHResult": 0,
+          "ProfileStorageStillExists": false,
+          "DescendantStillRunning": false,
+          "PhysicalNetworkDisconnected": false,
+          "RealCLIExecuted": false,
+          "Passed": true,
+          "BeforeRootSDDL": "O:S-1-5-21-2897204252-4034183091-2018288912-1001G:S-1-5-21-2897204252-4034183091-2018288912-1001D:AI(A;OICIID;0x1301bf;;;S-1-5-21-2173417042-590788039-655191293-2141994182)(A;OICIID;0x1301bf;;;S-1-5-21-2897204252-4034183091-2018288912-1002)(A;OICIID;0x1301bf;;;S-1-5-21-1229721549-453674482-1810785319-109923246)(A;OICIID;FA;;;BA)(A;OICIID;FA;;;SY)(A;OICIID;0x1200a9;;;BU)(A;ID;0x1301bf;;;AU)(A;OICIIOID;SDGXGWGR;;;AU)",
+          "AfterRootSDDL": "O:S-1-5-21-2897204252-4034183091-2018288912-1001G:S-1-5-21-2897204252-4034183091-2018288912-1001D:AI(A;OICIID;0x1301bf;;;S-1-5-21-2173417042-590788039-655191293-2141994182)(A;OICIID;0x1301bf;;;S-1-5-21-2897204252-4034183091-2018288912-1002)(A;OICIID;0x1301bf;;;S-1-5-21-1229721549-453674482-1810785319-109923246)(A;OICIID;FA;;;BA)(A;OICIID;FA;;;SY)(A;OICIID;0x1200a9;;;BU)(A;ID;0x1301bf;;;AU)(A;OICIIOID;SDGXGWGR;;;AU)",
+          "BeforeSeedSDDL": "O:S-1-5-21-2897204252-4034183091-2018288912-1001G:S-1-5-21-2897204252-4034183091-2018288912-1001D:AI(A;OICIID;0x1301bf;;;S-1-5-21-2173417042-590788039-655191293-2141994182)(A;OICIID;0x1301bf;;;S-1-5-21-2897204252-4034183091-2018288912-1002)(A;OICIID;0x1301bf;;;S-1-5-21-1229721549-453674482-1810785319-109923246)(A;OICIID;FA;;;BA)(A;OICIID;FA;;;SY)(A;OICIID;0x1200a9;;;BU)(A;ID;0x1301bf;;;AU)(A;OICIIOID;SDGXGWGR;;;AU)",
+          "AfterSeedSDDL": "O:S-1-5-21-2897204252-4034183091-2018288912-1001G:S-1-5-21-2897204252-4034183091-2018288912-1001D:AI(A;OICIID;0x1301bf;;;S-1-5-21-2173417042-590788039-655191293-2141994182)(A;OICIID;0x1301bf;;;S-1-5-21-2897204252-4034183091-2018288912-1002)(A;OICIID;0x1301bf;;;S-1-5-21-1229721549-453674482-1810785319-109923246)(A;OICIID;FA;;;BA)(A;OICIID;FA;;;SY)(A;OICIID;0x1200a9;;;BU)(A;ID;0x1301bf;;;AU)(A;OICIIOID;SDGXGWGR;;;AU)",
+          "NativeAclRestoredReported": true
+        },
+        {
+          "Kind": "timeout",
+          "Root": "C:\\dydgyqud\\AO42_20261019\\task041\\run-ee4dafb16d72479f91b7843a62b0d362",
+          "ExpectedExitObserved": true,
+          "Exit": null,
+          "Error": "System.Management.Automation.MethodInvocationException: Exception calling \"Run\" with \"4\" argument(s): \"Owned AppContainer process timed out.\" ---> System.TimeoutException: Owned AppContainer process timed out.\r\n   at OfflineNetworkIsolation.Run(String root, String executable, String arguments, Int32 timeout)\r\n   at CallSite.Target(Closure , CallSite , Type , Object , Object , Object , Object )\r\n   --- End of inner exception stack trace ---\r\n   at System.Management.Automation.ExceptionHandlingOps.CheckActionPreference(FunctionContext funcContext, Exception exception)\r\n   at System.Management.Automation.Interpreter.ActionCallInstruction`2.Run(InterpretedFrame frame)\r\n   at System.Management.Automation.Interpreter.EnterTryCatchFinallyInstruction.Run(InterpretedFrame frame)\r\n   at System.Management.Automation.Interpreter.EnterTryCatchFinallyInstruction.Run(InterpretedFrame frame)",
+          "Token": [
+            1,
+            0
+          ],
+          "TCPDenied": true,
+          "NativeError": 10013,
+          "ParentSentinelPresent": false,
+          "ConfigAndProfileIsolated": true,
+          "RootACLRestored": true,
+          "ExistingChildACLRestored": true,
+          "SeedContentUnchanged": true,
+          "AppContainerName": "CodexOrig.Task041.35ad97daf83d4366ba77041697a00fe3",
+          "ProfileCleanupHResult": 0,
+          "ProfileStorageStillExists": false,
+          "DescendantStillRunning": false,
+          "PhysicalNetworkDisconnected": false,
+          "RealCLIExecuted": false,
+          "Passed": true,
+          "BeforeRootSDDL": "O:S-1-5-21-2897204252-4034183091-2018288912-1001G:S-1-5-21-2897204252-4034183091-2018288912-1001D:AI(A;OICIID;0x1301bf;;;S-1-5-21-2173417042-590788039-655191293-2141994182)(A;OICIID;0x1301bf;;;S-1-5-21-2897204252-4034183091-2018288912-1002)(A;OICIID;0x1301bf;;;S-1-5-21-1229721549-453674482-1810785319-109923246)(A;OICIID;FA;;;BA)(A;OICIID;FA;;;SY)(A;OICIID;0x1200a9;;;BU)(A;ID;0x1301bf;;;AU)(A;OICIIOID;SDGXGWGR;;;AU)",
+          "AfterRootSDDL": "O:S-1-5-21-2897204252-4034183091-2018288912-1001G:S-1-5-21-2897204252-4034183091-2018288912-1001D:AI(A;OICIID;0x1301bf;;;S-1-5-21-2173417042-590788039-655191293-2141994182)(A;OICIID;0x1301bf;;;S-1-5-21-2897204252-4034183091-2018288912-1002)(A;OICIID;0x1301bf;;;S-1-5-21-1229721549-453674482-1810785319-109923246)(A;OICIID;FA;;;BA)(A;OICIID;FA;;;SY)(A;OICIID;0x1200a9;;;BU)(A;ID;0x1301bf;;;AU)(A;OICIIOID;SDGXGWGR;;;AU)",
+          "BeforeSeedSDDL": "O:S-1-5-21-2897204252-4034183091-2018288912-1001G:S-1-5-21-2897204252-4034183091-2018288912-1001D:AI(A;OICIID;0x1301bf;;;S-1-5-21-2173417042-590788039-655191293-2141994182)(A;OICIID;0x1301bf;;;S-1-5-21-2897204252-4034183091-2018288912-1002)(A;OICIID;0x1301bf;;;S-1-5-21-1229721549-453674482-1810785319-109923246)(A;OICIID;FA;;;BA)(A;OICIID;FA;;;SY)(A;OICIID;0x1200a9;;;BU)(A;ID;0x1301bf;;;AU)(A;OICIIOID;SDGXGWGR;;;AU)",
+          "AfterSeedSDDL": "O:S-1-5-21-2897204252-4034183091-2018288912-1001G:S-1-5-21-2897204252-4034183091-2018288912-1001D:AI(A;OICIID;0x1301bf;;;S-1-5-21-2173417042-590788039-655191293-2141994182)(A;OICIID;0x1301bf;;;S-1-5-21-2897204252-4034183091-2018288912-1002)(A;OICIID;0x1301bf;;;S-1-5-21-1229721549-453674482-1810785319-109923246)(A;OICIID;FA;;;BA)(A;OICIID;FA;;;SY)(A;OICIID;0x1200a9;;;BU)(A;ID;0x1301bf;;;AU)(A;OICIIOID;SDGXGWGR;;;AU)",
+          "NativeAclRestoredReported": true
+        }
+      ],
+      "Passed": 3,
+      "Failed": 0,
+      "RealUserProfilesChanged": false,
+      "RealCLIExecuted": false
+    },
+    "TargetFlow": {
+      "TestKind": "SyntheticBundleAndStubInstallers_NoRealCLIOrVSIX",
+      "Cases": [
+        {
+          "Name": "Default diagnostic never installs or launches IDE",
+          "Passed": true,
+          "Details": {
+            "Task": "TASK-041",
+            "StartedAt": "2026-10-19T12:50:54.0327823+09:00",
+            "Mode": "DiagnosticOnly",
+            "Status": "ReadyDiagnosticOnly",
+            "UserConfirmedInstallDownloadNetworkBlocked": false,
+            "NetworkIsolationEnforcedByTool": false,
+            "AuthenticationPerformed": false,
+            "ModelRequestPerformed": false,
+            "IdeLaunchedByTool": false,
+            "IdeToolWindowConfirmed": false,
+            "OutputDirectory": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task042\\target-flow\\diagnostic",
+            "Steps": [
+              {
+                "Name": "Local CLI and VSIX preflight",
+                "Passed": true
+              }
+            ],
+            "BundleId": "codex-0.163.0_claude-2.1.302_win-x64",
+            "CompletedAt": "2026-10-19T12:50:54.3351794+09:00"
+          }
+        },
+        {
+          "Name": "Existing target result folder preserved",
+          "Passed": true,
+          "Details": 1
+        },
+        {
+          "Name": "Offline confirmation N cancels before actual installation",
+          "Passed": true,
+          "Details": {
+            "Task": "TASK-041",
+            "StartedAt": "2026-10-19T12:50:55.1745519+09:00",
+            "Mode": "Install",
+            "Status": "Failed",
+            "UserConfirmedInstallDownloadNetworkBlocked": false,
+            "NetworkIsolationEnforcedByTool": false,
+            "AuthenticationPerformed": false,
+            "ModelRequestPerformed": false,
+            "IdeLaunchedByTool": false,
+            "IdeToolWindowConfirmed": false,
+            "OutputDirectory": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task042\\target-flow\\cancelled",
+            "Steps": [
+              {
+                "Name": "Local CLI and VSIX preflight",
+                "Passed": true
+              }
+            ],
+            "BundleId": "codex-0.163.0_claude-2.1.302_win-x64",
+            "Failure": "오프라인 대상 PC에서 다시 실행하세요. 설치는 시작하지 않았습니다.",
+            "CompletedAt": "2026-10-19T12:50:55.4821439+09:00"
+          }
+        },
+        {
+          "Name": "Installed-file proof requires exact ID/version/hash and prohibits DTD",
+          "Passed": true,
+          "Details": [
+            {
+              "Directory": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task042\\target-flow\\Extensions\\correct",
+              "ProductId": "Grokeen.VS2017.AIAssistant",
+              "Version": "0.11.1",
+              "DllSha256": "148A420F20C2D48D36351A4FAAD9B6E369B7EE288188CED1C5F8DBDC8B96CB22"
+            }
+          ]
+        },
+        {
+          "Name": "Installed extension scan skips junction folders",
+          "Passed": true,
+          "Details": [
+            {
+              "Directory": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task042\\target-flow\\Extensions\\correct",
+              "ProductId": "Grokeen.VS2017.AIAssistant",
+              "Version": "0.11.1",
+              "DllSha256": "148A420F20C2D48D36351A4FAAD9B6E369B7EE288188CED1C5F8DBDC8B96CB22"
+            }
+          ]
+        }
+      ],
+      "Passed": 5,
+      "Failed": 0,
+      "ActualCustomerPcTested": false,
+      "RealInstallersInvoked": false
+    },
+    "SyntheticTargetVersionScope": {
+      "KeyRemovalCount": 6,
+      "ExpectedRemoved": 6,
+      "CodexConfigPathIsFresh": true,
+      "ClaudeConfigPathIsFresh": true,
+      "Version": {
+        "Tool": "SyntheticCodex",
+        "Version": "codex-cli 0.163.0",
+        "ExitCode": 0,
+        "Sha256": "034700FC71834E49DFC12EF82AB625BBC4DD6545BBAF458B5FD3DEC713CD7B71",
+        "Passed": true
+      },
+      "Passed": true,
+      "OnlySyntheticValuesUsed": true,
+      "RealCLIExecuted": false,
+      "NetworkRequestCodePresent": false,
+      "TargetToolDoesNotEnforceOSNetworkIsolation": true
+    },
+    "FullEntries": 61,
+    "FullEntryMatches": 61,
+    "FullInternalChecksums": 60,
+    "FullInternalMatches": 60,
+    "FullExternalChecksumMatch": true,
+    "PublicEntries": 39,
+    "PublicMatches": 39,
+    "PublicChecksums": 38,
+    "PublicInternalMatches": 38,
+    "PublicExternalChecksumMatch": true,
+    "PublicVendorCLIPayload": 0
+  },
+  "Candidate5": {
+    "SHA256": "33915BF44387155EC95A3823F7107AF50712323D728D2AF2E0B6B3F8F2FFD177",
+    "Bytes": 308372418,
+    "CLIFileCount": 46,
+    "VSIX": [
+      {
+        "Name": "VS2017.15.7.AIAssistant-0.11.1.vsix",
+        "SHA256": "3B5551AB9C8A1E8993779FFA66F9D673C36A5F00F7A27B0AC2A6E2E9A770AAD4",
+        "C17Match": true
+      },
+      {
+        "Name": "VS2017.AIAssistant-0.11.1.vsix",
+        "SHA256": "2C7DB6E2B89A4BD708B790B01BA1A71388EB90619CE62BCCB0BE4A3B2F379DD8",
+        "C17Match": true
+      },
+      {
+        "Name": "VS2019.AIAssistant-0.11.1.vsix",
+        "SHA256": "AB4B888656DBF5B2F4BF7711895F9BB82E75AF61B7878A08A66E8BC2A9F3D881",
+        "C17Match": true
+      },
+      {
+        "Name": "VS2022.AIAssistant-0.11.1.vsix",
+        "SHA256": "2CA4E737260ECDF7F4228F7B60E86F298881B1889A0BA4AE92B50B08E4FC2D8C",
+        "C17Match": true
+      }
+    ],
+    "Scripts": [
+      {
+        "Name": "OfflineCli.Common.ps1",
+        "BundleSHA": "D84D713D088360A5A104BE4A85FAE011E29DEC4FDE2F009E0906DC6F9256F650",
+        "LiveSHA": "D84D713D088360A5A104BE4A85FAE011E29DEC4FDE2F009E0906DC6F9256F650",
+        "Match": true
+      },
+      {
+        "Name": "Install-OfflineCli.ps1",
+        "BundleSHA": "921A970EE8E1D5DE1122698EE1E3B461FA465CE73D3BC4349711A888551353A5",
+        "LiveSHA": "921A970EE8E1D5DE1122698EE1E3B461FA465CE73D3BC4349711A888551353A5",
+        "Match": true
+      },
+      {
+        "Name": "Install-AIAssistant.ps1",
+        "BundleSHA": "E85D78DC5884E4E398657CF1F439A448035711F6E3226FDE0E53341CB1241226",
+        "LiveSHA": "E85D78DC5884E4E398657CF1F439A448035711F6E3226FDE0E53341CB1241226",
+        "Match": true
+      }
+    ],
+    "MetadataPublisherRecords": [
+      {
+        "Name": "codex.exe",
+        "StatusRecorded": "Valid",
+        "SubjectRecorded": "CN=\"OpenAI OpCo, LLC\", O=\"OpenAI OpCo, LLC\", L=San Francisco, S=California, C=US",
+        "SHARecorded": "2692C8C7BB2CF8B0AEFE638741FC90236F4B824C59578CE84994F9DE58200993",
+        "MatchesPayload": true,
+        "AuditorPerformedOnlineTrustCheck": false
+      },
+      {
+        "Name": "codex-code-mode-host.exe",
+        "StatusRecorded": "Valid",
+        "SubjectRecorded": "CN=\"OpenAI OpCo, LLC\", O=\"OpenAI OpCo, LLC\", L=San Francisco, S=California, C=US",
+        "SHARecorded": "07F3869F0849CD54B31CEC1F86EC796F004501BD3A215135C1FACC883A2B9988",
+        "MatchesPayload": true,
+        "AuditorPerformedOnlineTrustCheck": false
+      },
+      {
+        "Name": "codex-command-runner.exe",
+        "StatusRecorded": "Valid",
+        "SubjectRecorded": "CN=\"OpenAI OpCo, LLC\", O=\"OpenAI OpCo, LLC\", L=San Francisco, S=California, C=US",
+        "SHARecorded": "FC89DC66C806F25675B9BE1E7DAFB226807D22761E9741A3BB24B667B803D46C",
+        "MatchesPayload": true,
+        "AuditorPerformedOnlineTrustCheck": false
+      },
+      {
+        "Name": "codex-windows-sandbox-setup.exe",
+        "StatusRecorded": "Valid",
+        "SubjectRecorded": "CN=\"OpenAI OpCo, LLC\", O=\"OpenAI OpCo, LLC\", L=San Francisco, S=California, C=US",
+        "SHARecorded": "2EFC67F77DE2658667C1481E00A1C4C964D3E8F6D4F39B638620D80B9D0F6D8A",
+        "MatchesPayload": true,
+        "AuditorPerformedOnlineTrustCheck": false
+      },
+      {
+        "Name": "claude.exe",
+        "StatusRecorded": "Valid",
+        "SubjectRecorded": "CN=\"Anthropic, PBC\", O=\"Anthropic, PBC\", L=San Francisco, S=California, C=US, SERIALNUMBER=4860621, OID.2.5.4.15=Private Organization, OID.1.3.6.1.4.1.311.60.2.1.2=Delaware, OID.1.3.6.1.4.1.311.60.2.1.3=US",
+        "SHARecorded": "3AB075F78998EFEF8B87F491C2E4A39C309DDDF44E51D0103EBA4F3713D2A0AE",
+        "MatchesPayload": true,
+        "AuditorPerformedOnlineTrustCheck": false
+      }
+    ]
+  },
+  "Tools2": {
+    "SHA256": "34DF74DBCFA8D3C049BE2324BD11F7E865285EEBB1FCD516A8C687EB337885B6",
+    "EntryCount": 39,
+    "Published": false,
+    "CLIIncluded": false
+  },
+  "ArtifactLinkage": {
+    "Files": [
+      {
+        "Name": "Install-OfflineCli.ps1",
+        "Full": "921A970EE8E1D5DE1122698EE1E3B461FA465CE73D3BC4349711A888551353A5",
+        "Public": "921A970EE8E1D5DE1122698EE1E3B461FA465CE73D3BC4349711A888551353A5",
+        "Tested": "921A970EE8E1D5DE1122698EE1E3B461FA465CE73D3BC4349711A888551353A5",
+        "Match": true
+      },
+      {
+        "Name": "OfflineCli.Common.ps1",
+        "Full": "D84D713D088360A5A104BE4A85FAE011E29DEC4FDE2F009E0906DC6F9256F650",
+        "Public": "D84D713D088360A5A104BE4A85FAE011E29DEC4FDE2F009E0906DC6F9256F650",
+        "Tested": "D84D713D088360A5A104BE4A85FAE011E29DEC4FDE2F009E0906DC6F9256F650",
+        "Match": true
+      },
+      {
+        "Name": "Test-OfflineSetupOnTarget.ps1",
+        "Full": "99BF964108AEB27D385B2600C5F304472DC3831CBD2D8E721B81501451B895C4",
+        "Public": "99BF964108AEB27D385B2600C5F304472DC3831CBD2D8E721B81501451B895C4",
+        "Tested": "99BF964108AEB27D385B2600C5F304472DC3831CBD2D8E721B81501451B895C4",
+        "Match": true
+      },
+      {
+        "Name": "VerifyOfflineSetup.bat",
+        "Full": "70D838B614B1731E322D250059A00B57D6CBEBBE18D1F5D4D8156314EE0BF637",
+        "Public": "70D838B614B1731E322D250059A00B57D6CBEBBE18D1F5D4D8156314EE0BF637",
+        "Tested": "70D838B614B1731E322D250059A00B57D6CBEBBE18D1F5D4D8156314EE0BF637",
+        "Match": true
+      }
+    ],
+    "FullGuideSHA": "4C387A0A5B3959184D1AF8A3868E64A3FA1986BE728B43F91BF69CAE71227255",
+    "PublicGuideSHA": "4C387A0A5B3959184D1AF8A3868E64A3FA1986BE728B43F91BF69CAE71227255",
+    "CurrentGuideSHA": "4C387A0A5B3959184D1AF8A3868E64A3FA1986BE728B43F91BF69CAE71227255",
+    "NativeFixedSHA": "E0F9A5CF95E0F3C3855528C3A5880A9911CE935145FDEED1B61523F81283F805",
+    "NativeLiveSHA": "E0F9A5CF95E0F3C3855528C3A5880A9911CE935145FDEED1B61523F81283F805",
+    "CustomerPcResultReceived": false,
+    "FormalAdditionalDeploymentAllowedByCurrentEvidence": false
+  },
+  "FinalSourceHashes": [
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\scripts\\Install-OfflineCli.ps1",
+      "Hash": "921A970EE8E1D5DE1122698EE1E3B461FA465CE73D3BC4349711A888551353A5"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\scripts\\OfflineCli.Common.ps1",
+      "Hash": "D84D713D088360A5A104BE4A85FAE011E29DEC4FDE2F009E0906DC6F9256F650"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\scripts\\Prepare-OfflineSetup.ps1",
+      "Hash": "0374D99DF2D1311BA8DEC432DF7A25DC7CC3C39CF978615975B0AFCA35E13A60"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\scripts\\Test-OfflineSetupOnTarget.ps1",
+      "Hash": "99BF964108AEB27D385B2600C5F304472DC3831CBD2D8E721B81501451B895C4"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\VerifyOfflineSetup.bat",
+      "Hash": "70D838B614B1731E322D250059A00B57D6CBEBBE18D1F5D4D8156314EE0BF637"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\tests\\compatibility\\OfflineNetworkIsolation.cs",
+      "Hash": "E0F9A5CF95E0F3C3855528C3A5880A9911CE935145FDEED1B61523F81283F805"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\tests\\compatibility\\Test-OfflineNetworkIsolation.ps1",
+      "Hash": "E68FF245EAD7DA268C523B150C4E344955566EB8F67566CACC98821E1B32E9B1"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\docs\\OFFLINE_INSTALL.md",
+      "Hash": "4C387A0A5B3959184D1AF8A3868E64A3FA1986BE728B43F91BF69CAE71227255"
+    }
+  ],
+  "OwnerEvidence": {
+    "AuditorExecuted": false,
+    "OriginalWorkingOverrideSummary": {
+      "Task": "TASK-041",
+      "OutputDirectory": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task041\\run-fd476d9b90254cbcb9479e1466e9b7b7",
+      "WorkerExitCode": 0,
+      "WorkingInstallerUsed": true,
+      "AppContainerProfile": "CodexOrig.Task041.883f7fbcfb2741369d78127be6bc5760",
+      "ProfileCleanupHResult": 0,
+      "HostNetworkSettingsChanged": false,
+      "HostFirewallRulesChanged": false,
+      "WorkerNetworkCapabilities": 0,
+      "PhysicalCableDisconnected": false,
+      "CustomerPcTested": false,
+      "AuthenticationPerformed": false,
+      "ModelRequestPerformed": false
+    },
+    "Candidate5Control": {
+      "Port": 443,
+      "BundleZip": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task041\\full-offline-candidate5.zip",
+      "HostToken": [
+        0,
+        0
+      ],
+      "HostConnected": true,
+      "Address": "20.200.245.247",
+      "BundleSha256": "33915BF44387155EC95A3823F7107AF50712323D728D2AF2E0B6B3F8F2FFD177"
+    },
+    "Candidate5Summary": {
+      "Task": "TASK-041",
+      "OutputDirectory": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task041\\run-75bfdff830614fb98697cc23072a09ea",
+      "WorkerExitCode": 0,
+      "WorkingInstallerUsed": false,
+      "AppContainerProfile": "CodexOrig.Task041.216de4c9ac5e454ba3ea1356aad698f7",
+      "ProfileCleanupHResult": 0,
+      "FolderAclRestored": true,
+      "HostNetworkSettingsChanged": false,
+      "HostFirewallRulesChanged": false,
+      "WorkerNetworkCapabilities": 0,
+      "PhysicalCableDisconnected": false,
+      "CustomerPcTested": false,
+      "AuthenticationPerformed": false,
+      "ModelRequestPerformed": false
+    },
+    "Candidate5Results": [
+      {
+        "Name": "Worker token is AppContainer with zero capabilities",
+        "Passed": true,
+        "Token": [
+          1,
+          0
+        ]
+      },
+      {
+        "Name": "BeforeInstallation direct TCP is blocked by Windows",
+        "Passed": true,
+        "NativeSocketError": 10013
+      },
+      {
+        "Name": "Verify, install and idempotent reinstall succeed without networking",
+        "Passed": true,
+        "Files": 46
+      },
+      {
+        "Name": "Codex starts under the same network-disabled token",
+        "Passed": true,
+        "Version": "codex-cli 0.163.0"
+      },
+      {
+        "Name": "Claude starts under the same network-disabled token",
+        "Passed": true,
+        "Version": "2.1.302 (Claude Code)"
+      },
+      {
+        "Name": "AfterInstallation direct TCP is blocked by Windows",
+        "Passed": true,
+        "NativeSocketError": 10013
+      }
+    ]
+  },
+  "Preservation": {
+    "ProtectedCount": 72,
+    "ProtectedMismatches": 0,
+    "ProductInputCount": 122,
+    "ProductMismatches": 0,
+    "PriorReportsUnchanged": true,
+    "RoleUnchanged": true,
+    "OriginalTools1AndFullC4Unchanged": true
+  },
+  "OwnCleanup": {
+    "CreatedAppContainerProfiles": 7,
+    "ProfileStorageRemaining": 0,
+    "OriginalFourACEOnlyCleanup": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task042\\owned-acl-cleanup.json",
+    "UnrelatedFoldersAclChanged": false,
+    "AllEvidenceRetained": true
+  },
+  "SideEffects": {
+    "ProductSourceEdited": false,
+    "SharedBuildExecuted": false,
+    "SharedGUIUsed": false,
+    "ActualUserCLIChanged": false,
+    "ActualAccountUsed": false,
+    "ActualUserProfileRead": false,
+    "RealCLIExecutedByAuditor": false,
+    "NewOwnedWindowsAppContainerProfilesCreated": true,
+    "TemporaryACLChangedOnlyOnOwnedPrivateRunFolders": true,
+    "FirewallOrHostNetworkSettingsChanged": false,
+    "Deployed": false
+  },
+  "Limitations": [
+    "Actual test PC RESULT.json and real VSIX installation/IDE confirmation have not been received",
+    "AppContainer token/capability and direct IPv4 TCP refusal are OS isolation observations, not physical cable removal or system-wide packet capture",
+    "Auditor lifecycle tests used PowerShell workers and sleeping descendants rather than actual vendor CLI",
+    "Root actual C5 six checks include vendor --version only, not authentication/model calls",
+    "VSIXInstaller under AppContainer returned access denied and does not prove offline extension installation",
+    "Target verifier relies on user offline confirmation and does not enforce network isolation"
+  ],
+  "HarnessIssues": [
+    "Initial worker invocation omitted -ExecutionPolicy Bypass; one early failed run retained; arguments corrected before original ACL defect reproduction",
+    "One read-only inspection command had a PowerShell foreach pipeline parse error; no mutation occurred"
+  ],
+  "Sources": [
+    {
+      "Title": "Microsoft Directory.SetAccessControl",
+      "URL": "https://learn.microsoft.com/en-us/dotnet/api/system.io.directory.setaccesscontrol?view=netframework-4.8.1",
+      "Supports": "Unmodified DirectorySecurity objects are not persisted; copy descriptor into new object"
+    },
+    {
+      "Title": "Microsoft Directory.Move",
+      "URL": "https://learn.microsoft.com/en-us/dotnet/api/system.io.directory.move?view=netframework-4.8.1",
+      "Supports": "Move behavior and existing-destination error"
+    },
+    {
+      "Title": "Microsoft AppContainer isolation",
+      "URL": "https://learn.microsoft.com/en-us/windows/win32/secauthz/appcontainer-isolation",
+      "Supports": "Network/file isolation boundary"
+    },
+    {
+      "Title": "Microsoft DeleteAppContainerProfile",
+      "URL": "https://learn.microsoft.com/en-us/windows/win32/api/userenv/nf-userenv-deleteappcontainerprofile",
+      "Supports": "Profile removal and HRESULT semantics"
+    }
+  ],
+  "Report": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\MarkdownReport\\CodexOrig2_TASK-042_Audit.md",
+  "ReportSHA256": "3ACD571F3F4645F0604C7716CE626245E583553A2B547D7ADBF6AA456DC379B8",
+  "ArtifactHashes": [
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task042\\acl-remnant-proof.json",
+      "SHA256": "AB746E6EBE1CBDEB01455A35E42B1657B6DFDD6E70B6C9F4080B11CABAE3FDAB",
+      "Bytes": 1315
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task042\\candidate5-linkage.json",
+      "SHA256": "27D6C01C442AD208410F64B3CE9C6956174138A805404A066C67EC433CE90EC7",
+      "Bytes": 1895
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task042\\Cleanup-OwnedAcls42.ps1",
+      "SHA256": "511086FBBD142E9DD0FDA7E4CE43FC0A6756EC35ED8CAB8BFF41CA4B3BFD86ED",
+      "Bytes": 1478
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task042\\control.json",
+      "SHA256": "2BD41449FAF17480552310EEE9E2F5B80B60592F8C9ABC77C986FBB6B9207E85",
+      "Bytes": 429
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task042\\final-source-hashes.json",
+      "SHA256": "ED6CBBB3714F71554913D7861C4634CF6C467C75E4E2518ADE5ED354C10E661F",
+      "Bytes": 1589
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task042\\frozen-inputs.json",
+      "SHA256": "1EC8D01F8C343BB662E6A0D80CD5310875C462607DEF9F614A9FA33F4A76502C",
+      "Bytes": 1267
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task042\\isolation-cleanup-result.json",
+      "SHA256": "9B6D8266EE84C8E6B0FE9E3046182EC26E3C791AA0A3A7A62E5EA72D8173068A",
+      "Bytes": 4998
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task042\\isolation-cleanup-retry1.log",
+      "SHA256": "DEC729A4D52B1ADD3D061BD43AC7653B84154A9AAE2602D877A8FCB181626556",
+      "Bytes": 37
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task042\\isolation-cleanup.log",
+      "SHA256": "9DBAB041B4C89A68E2BDB6175C3BB0B8A80405565C99C647A063A72050FE575E",
+      "Bytes": 671
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task042\\isolation-exit7.json",
+      "SHA256": "AE07C8A03177DE72DFA17252678D55257110DB0B8B319CEF25DD02804FA7FA96",
+      "Bytes": 807
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task042\\isolation-success.json",
+      "SHA256": "BF603D254D783B6F49A765BC58754470DAFAFB26F3DD05A9BE1254D77C732CF6",
+      "Bytes": 809
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task042\\isolation-timeout.json",
+      "SHA256": "CF76BA62820F7705E949B118B864683669AF3A2E2CBC44F91F6CB9D923B92317",
+      "Bytes": 1725
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task042\\lifecycle-fixed.log",
+      "SHA256": "D6369F12A3255A7062F037537BBCEE5AA2DB49C481E944D61102456079C2A048",
+      "Bytes": 37
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task042\\offline-regression.log",
+      "SHA256": "93C272F182AE4E241941028979EA5EF5F1FB097AD3987369F6DDC1643C81CE9E",
+      "Bytes": 985
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task042\\owned-acl-cleanup.json",
+      "SHA256": "94B9E9F5B957C03B8086B191AAA36CB28E6E113F69378E55EC5A79C706BDB3CB",
+      "Bytes": 9291
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task042\\owned-acl-cleanup.log",
+      "SHA256": "420AF5DA69067687852A4790441DF6EEC092B7EC701B66C068E595364BD8DB8A",
+      "Bytes": 924
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task042\\owned-profile-final-state.json",
+      "SHA256": "92AC2FF4D4DFECFB3ADC2DEAB3605CC0070D3A59261744F3B7AF980B909681AB",
+      "Bytes": 1839
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task042\\product-c17-preservation.json",
+      "SHA256": "4D25F78528F524E33F2CC505D471692A39276AA9ECE9473D87F1B89B1B0E07F8",
+      "Bytes": 39325
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task042\\protected-final.json",
+      "SHA256": "1FFF743DB6CA0B0B0EA03B9F5A9C77DD7FC3848DC31837F58E5F4B4337CDB713",
+      "Bytes": 22324
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task042\\protected-start.json",
+      "SHA256": "F0A7153942F562C66BA560890F62310E6A4E20947B9EA7758FED150DC5339E2B",
+      "Bytes": 16271
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task042\\public-tools-tools2.json",
+      "SHA256": "B56B4796EBBE3F1537C603D25C4DDE4A36AEE9E4998A9DCCEC29B14A4B8C50E6",
+      "Bytes": 17231
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task042\\report-initial-open-R42-01.md",
+      "SHA256": "772B4C9738E92C05466BD317337BE980A13A48C3E5E77F68D316E35428B744A7",
+      "Bytes": 3744
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task042\\summary.json",
+      "SHA256": "8D983BDFB63EBC12FDDD0E16D9A73145D849C5247F28D9518E98A2AB1FE8E66A",
+      "Bytes": 629
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task042\\target-flow.log",
+      "SHA256": "87B3303713B3A29628BB4046242B5F6ACFA467597E35A18F76FF17BEDB788B47",
+      "Bytes": 30
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task042\\target-version.log",
+      "SHA256": "60229AD5408847359FF98E7A02030E62E29A3A1E0D02AEB1E7EC53BC5552ABAE",
+      "Bytes": 646
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task042\\Verify-FullCandidate42.ps1",
+      "SHA256": "A1E392F330E409FFAB609E5865A89DE013EC4FAEED536066C90688E9685B0CB4",
+      "Bytes": 5058
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task042\\Verify-IsolationCleanup42.ps1",
+      "SHA256": "3A68C99C8DD02543EB578A1F79EF8AA5EC6F93845D260F6BB8D3E51E7CC1B596",
+      "Bytes": 6885
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task042\\Verify-TargetFlow42.ps1",
+      "SHA256": "A75D140A7ABB1D095D82672C7DA4126B551068494EF0BA438BF67B292024DCAA",
+      "Bytes": 5941
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task042\\Verify-TargetVersionScope42.ps1",
+      "SHA256": "A2AA561E8073BE29D576FD30576B5EDFDAF07BCD96F1A9539290A29AE72DBB0B",
+      "Bytes": 2314
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task042\\Verify-Tools2Candidate42.ps1",
+      "SHA256": "4059FB4EEC27C23C92A33AD09CD52F6D5C9C0214C663E7056751D258A2AE74EA",
+      "Bytes": 2797
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task042\\worker-results.json",
+      "SHA256": "0308A8C16EDEBC0D9E5C68F6CC400120EEBDBF3573C251F5B963A297C01B5BA5",
+      "Bytes": 981
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task042\\candidate5-artifact\\result.json",
+      "SHA256": "B0C2C0832A6075A76E943C25D172730A0243A52402C08FE82A650587A9BF16E5",
+      "Bytes": 47455
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task042\\lifecycle-fixed\\isolation-cleanup-result.json",
+      "SHA256": "C5A0CE8E7DD9D371AD3522247E202D18A98D9578A95E016DF07FE89EADF700A2",
+      "Bytes": 10728
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task042\\lifecycle-fixed\\isolation-exit7.json",
+      "SHA256": "8CD95DC51D93E180FE62FB7620A676A0DF273C7DFA385053AE73BAB5B2551851",
+      "Bytes": 2627
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task042\\lifecycle-fixed\\isolation-success.json",
+      "SHA256": "2C30687CDECEBE75AD4F2588C085289F7B8915014B849935B54B9983B1FAABD5",
+      "Bytes": 2629
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task042\\lifecycle-fixed\\isolation-timeout.json",
+      "SHA256": "93CD10B5E61C5ECD6510567ACA3977E09C45BAE05379AA01435953EE42EC9E48",
+      "Bytes": 3545
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task042\\owner-c5\\control.json",
+      "SHA256": "94C9CDCC300FDC6B4D313663FB8A4900AB492140DF501702CDFD8D7EF0BA9766",
+      "Bytes": 400
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task042\\owner-c5\\summary.json",
+      "SHA256": "EB93E724505AC3C66BFF758FD3EF9B02BD658476B89ABA6E4D34E1A8AE3826CA",
+      "Bytes": 663
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task042\\owner-c5\\worker-results.json",
+      "SHA256": "0308A8C16EDEBC0D9E5C68F6CC400120EEBDBF3573C251F5B963A297C01B5BA5",
+      "Bytes": 981
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task042\\target-flow\\cancelled.log",
+      "SHA256": "390F798E42E519F951E9A90B1BAAE6CA99352E0F72A1DD3C43349749BC04341D",
+      "Bytes": 496
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task042\\target-flow\\diagnostic.log",
+      "SHA256": "9136CB1C1D96D90D62D791034896398A43B9F10EDCA77AC5FA7B9954507897AE",
+      "Bytes": 386
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task042\\target-flow\\existing.log",
+      "SHA256": "52DA12A0329CA35176E3617E72068DDB9C68335FFDCAB3B9FAC150C1F2678CB1",
+      "Bytes": 1806
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task042\\target-flow\\result.json",
+      "SHA256": "58FF39B14D88230B278C6E5DA3F200DAA425F5C75328C48871251634C7611378",
+      "Bytes": 5618
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task042\\target-flow\\cancelled\\cli-preflight.json",
+      "SHA256": "7D3662599A915691BEA34B9CFA60268CF3CC0391927E352C85731A1229819DD8",
+      "Bytes": 66
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task042\\target-flow\\cancelled\\cli-preflight.log",
+      "SHA256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "Bytes": 0
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task042\\target-flow\\cancelled\\failure.txt",
+      "SHA256": "7C3DD85F55FF0671B5B009DC14C0D83658E85522689824D94E345991B334E76C",
+      "Bytes": 879
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task042\\target-flow\\cancelled\\RESULT.json",
+      "SHA256": "79AD1E411FCEACEAFB92285881DFF236F6198ABD87867E6BC2D88D1D1E728490",
+      "Bytes": 950
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task042\\target-flow\\cancelled\\vsix-preflight.json",
+      "SHA256": "6828E19F7FB6012EEF49FAA776FCA55558D7AB2E1A1EE2B94965F8C8372AF594",
+      "Bytes": 307
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task042\\target-flow\\cancelled\\vsix-preflight.log",
+      "SHA256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "Bytes": 0
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task042\\target-flow\\diagnostic\\cli-preflight.json",
+      "SHA256": "7D3662599A915691BEA34B9CFA60268CF3CC0391927E352C85731A1229819DD8",
+      "Bytes": 66
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task042\\target-flow\\diagnostic\\cli-preflight.log",
+      "SHA256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "Bytes": 0
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task042\\target-flow\\diagnostic\\RESULT.json",
+      "SHA256": "983CC8B70E14278187DC219C1855C4618523C950B067C789F8622D4C41C580E1",
+      "Bytes": 858
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task042\\target-flow\\diagnostic\\vsix-preflight.json",
+      "SHA256": "6828E19F7FB6012EEF49FAA776FCA55558D7AB2E1A1EE2B94965F8C8372AF594",
+      "Bytes": 307
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task042\\target-flow\\diagnostic\\vsix-preflight.log",
+      "SHA256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "Bytes": 0
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task042\\target-flow\\Extensions\\correct\\extension.vsixmanifest",
+      "SHA256": "16D09C10BF48192186D9A084E82A174B027C5EBA5F6E38644308CC17934F04FB",
+      "Bytes": 183
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task042\\target-flow\\Extensions\\correct\\VS2017.AIAssistant.dll",
+      "SHA256": "148A420F20C2D48D36351A4FAAD9B6E369B7EE288188CED1C5F8DBDC8B96CB22",
+      "Bytes": 21
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task042\\target-flow\\Extensions\\dtd\\extension.vsixmanifest",
+      "SHA256": "85E8CEFED3FB9CF2FD969AB037030AB25A039B2E3307A44BCAFC242D63FE70CD",
+      "Bytes": 266
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task042\\target-flow\\Extensions\\dtd\\VS2017.AIAssistant.dll",
+      "SHA256": "148A420F20C2D48D36351A4FAAD9B6E369B7EE288188CED1C5F8DBDC8B96CB22",
+      "Bytes": 21
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task042\\target-flow\\Extensions\\wrong-hash\\extension.vsixmanifest",
+      "SHA256": "16D09C10BF48192186D9A084E82A174B027C5EBA5F6E38644308CC17934F04FB",
+      "Bytes": 183
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task042\\target-flow\\Extensions\\wrong-hash\\VS2017.AIAssistant.dll",
+      "SHA256": "C2885001CED96F8445819DDC41F2DE13F1269141B7C07182AB817E6400C26107",
+      "Bytes": 30
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task042\\target-flow\\Extensions\\wrong-id\\extension.vsixmanifest",
+      "SHA256": "9D4A3572058A986BE94046994B19D2EE6AC706668396C5DBD7258ACA4B1F6AEB",
+      "Bytes": 176
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task042\\target-flow\\Extensions\\wrong-id\\VS2017.AIAssistant.dll",
+      "SHA256": "148A420F20C2D48D36351A4FAAD9B6E369B7EE288188CED1C5F8DBDC8B96CB22",
+      "Bytes": 21
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task042\\target-flow\\Extensions\\wrong-version\\extension.vsixmanifest",
+      "SHA256": "A7E20C5417D73DD0E53295135DAE2BD8194C2EFC52731F3E3B3C22DBF4E146CD",
+      "Bytes": 183
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task042\\target-flow\\Extensions\\wrong-version\\VS2017.AIAssistant.dll",
+      "SHA256": "148A420F20C2D48D36351A4FAAD9B6E369B7EE288188CED1C5F8DBDC8B96CB22",
+      "Bytes": 21
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task042\\target-version\\child-observation.txt",
+      "SHA256": "4D580034573A792314BC407229C81CF37A4FA0B4FCA1CF146A02C86539E4B7C7",
+      "Bytes": 154
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task042\\target-version\\result.json",
+      "SHA256": "749F89DE6AD156EEE1BBAD21C0F85E543DD57A94E2E05397E237AD3D8B93EABC",
+      "Bytes": 649
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task042\\target-version\\SyntheticVersion.cs",
+      "SHA256": "1F70A973B18EA6A085E24D1F0058C78780F9FA17B318F3F76E9799979087D6EE",
+      "Bytes": 634
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task042\\target-version\\SyntheticVersion.exe",
+      "SHA256": "034700FC71834E49DFC12EF82AB625BBC4DD6545BBAF458B5FD3DEC713CD7B71",
+      "Bytes": 3584
+    }
+  ]
+}
