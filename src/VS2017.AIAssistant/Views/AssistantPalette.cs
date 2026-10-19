@@ -21,6 +21,7 @@ namespace VS2017.AIAssistant.Views
             "AssistantSurfaceBrush:242424:FFFFFF", "AssistantBorderBrush:424242:C7CDD4",
             "AssistantMutedForegroundBrush:B6B6B6:505B67", "AssistantLinkBrush:79C5F5:165C98",
             "AssistantPopupBackgroundBrush:1D1E20:FFFFFF", "AssistantPopupBorderBrush:52555C:B8C2CE",
+            "AssistantDialogBorderBrush:7A7F87:737B86",
             "AssistantCodeBackgroundBrush:24282F:EEF2F7", "AssistantSelectionBrush:35414F:DCE9F6",
             "AssistantAddedBrush:57CC8A:19743C", "AssistantRemovedBrush:FF7373:B32632",
             "AssistantWarningBrush:EDA359:8C4A0D", "AssistantErrorBrush:FFA07A:A52D22",
@@ -78,6 +79,7 @@ namespace VS2017.AIAssistant.Views
                 Set(resources, "AssistantLinkBrush", light ? "1558A6" : "8AB4F8");
                 Set(resources, "AssistantPopupBackgroundBrush", light ? "FFFFFF" : "242629");
                 Set(resources, "AssistantPopupBorderBrush", light ? "C7CDD4" : "50545A");
+                Set(resources, "AssistantDialogBorderBrush", light ? "737B86" : "7A7F87");
                 Set(resources, "AssistantCodeBackgroundBrush", light ? "F0F2F5" : "292B2F");
                 Set(resources, "AssistantSelectionBrush", light ? "FFF4A8" : "554D1B");
                 Set(resources, "AssistantAddedBrush", light ? "19743C" : "57CC8A");
@@ -102,6 +104,7 @@ namespace VS2017.AIAssistant.Views
             Set(resources, "AssistantLinkBrush", "8BE9FD");
             Set(resources, "AssistantPopupBackgroundBrush", "2D2F3C");
             Set(resources, "AssistantPopupBorderBrush", "6272A4");
+            Set(resources, "AssistantDialogBorderBrush", "7782A0");
             Set(resources, "AssistantCodeBackgroundBrush", "21222C");
             Set(resources, "AssistantSelectionBrush", "44475A");
             Set(resources, "AssistantAddedBrush", "50FA7B");

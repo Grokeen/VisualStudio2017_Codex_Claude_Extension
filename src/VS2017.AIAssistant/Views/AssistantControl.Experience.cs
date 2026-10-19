@@ -204,12 +204,18 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : Role 추가 사용자 흐름 구현.
+        ///                2026-10-20 CodexOrig : 보조 개발 TASK055 입력 FIFO·문맥 보존 및 중복 작업 최소화.
         /// </summary>
         /// ---------------------------------------------------------------------
         private bool PersistCurrentConversation()
         {
             if (!experienceReady || !activeRecords.ContainsKey(selectedProvider)) return true;
-            try { var chat = ActiveChat; var record = activeRecords[selectedProvider]; chat.Draft = Instruction.Text; record.Draft = chat.Draft; record.Messages = chat.Messages.Select(m => new ChatMessage { Role = m.Role, Text = m.Text }).ToList(); workspaceStore.Save(record); RefreshConversationList(); return true; }
+            try { var chat = ActiveChat; var record = activeRecords[selectedProvider]; chat.Draft = Instruction.Text; record.Draft = chat.Draft; record.Messages = chat.Messages.Select(m => new ChatMessage { Role = m.Role, Text = m.Text }).ToList(); string fingerprint = ConversationFingerprint(record);
+                string previous;
+                if (persistedConversationFingerprints.TryGetValue(record.Id, out previous) && previous == fingerprint) return true;
+                workspaceStore.Save(record);
+                persistedConversationFingerprints[record.Id] = ConversationFingerprint(record);
+                RefreshConversationList(); return true; }
             catch (Exception error) { StatusLabel.Text = "대화 저장 실패: " + error.Message + " 전환하기 전에 다시 저장하세요."; return false; }
         }
 
@@ -263,11 +269,12 @@ namespace VS2017.AIAssistant.Views
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : Role 추가 사용자 흐름 구현.
         /// update date  : 2026-10-18 CodexCode : TASK-017 이미지 분석 기반 드롭다운·안내·대화 지정 흐름 개선.
+        ///                2026-10-20 CodexOrig : 보조 개발 TASK055 대기 요청이 소유한 대화·권한의 전환 차단.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void CreateConversation()
         {
-            if (!experienceReady || busy || disposed) return;
+            if (!experienceReady || busy || queuedRequests.Count > 0 || disposed) return;
             try {
                 CloseDropdown(); if (!PersistCurrentConversation()) return;
                 var route = collaborationStore.RouteNewConversation(selectedProvider, verifiedScmAccount ?? Environment.UserName, () => workspaceStore.Create(selectedProvider), r => workspaceStore.Close(r));
@@ -287,11 +294,12 @@ namespace VS2017.AIAssistant.Views
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : Role 추가 사용자 흐름 구현.
         /// update date  : 2026-10-18 CodexOrig : TASK-014 선택한 대화만 읽음 처리하고 다른 대화 상태 유지.
+        ///                2026-10-20 CodexOrig : 보조 개발 TASK055 대기 요청이 소유한 대화·권한의 전환 차단.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void ConversationSelected(object sender, SelectionChangedEventArgs e)
         {
-            if (switchingConversation || !experienceReady || busy || disposed) return;
+            if (switchingConversation || !experienceReady || busy || queuedRequests.Count > 0 || disposed) return;
             var next = ConversationList.SelectedItem as ConversationRecord; if (next == null) return;
             if (next == activeRecords[selectedProvider]) { MarkCurrentConversationRead(); return; }
             if (!PersistCurrentConversation()) { RefreshConversationList(); return; } activeRecords[selectedProvider] = next; MarkCurrentConversationRead(); ClearProposal(); ShowChat(); UpdateButtons();
@@ -304,11 +312,12 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : Role 추가 사용자 흐름 구현.
+        ///                2026-10-20 CodexOrig : 보조 개발 TASK055 대기 요청이 소유한 대화·권한의 전환 차단.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void RenameChatClicked(object sender, RoutedEventArgs e)
         {
-            if (busy || disposed) return; var record = ConversationList.SelectedItem as ConversationRecord; if (record == null) return;
+            if (busy || queuedRequests.Count > 0 || disposed) return; var record = ConversationList.SelectedItem as ConversationRecord; if (record == null) return;
             var dialog = new AssistantDialog(this, "✎ 대화 이름", "질문에 따라 정해진 제목을 바꿀 수 있습니다.") { Height = 300 };
             var input = new TextBox { Text = record.Title, MaxLength = 120 }; dialog.Body.Content = input;
             var save = new Button { Content = "✓ 이름 저장", Margin = new Thickness(0, 0, 8, 0), IsDefault = true };
@@ -325,11 +334,12 @@ namespace VS2017.AIAssistant.Views
         /// update date  : 2026-10-18 CodexCode : Role 추가 사용자 흐름 구현.
         /// update date  : 2026-10-18 CodexOrig : TASK-016 문서 첨부·모델 설정·AI 역할 협업과 실패 복구 흐름 연결.
         /// update date  : 2026-10-18 CodexCode : TASK-017 이미지 분석 기반 드롭다운·안내·대화 지정 흐름 개선.
+        ///                2026-10-20 CodexOrig : 보조 개발 TASK055 대기 요청이 소유한 대화·권한의 전환 차단.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void CloseChatClicked(object sender, RoutedEventArgs e)
         {
-            if (busy || disposed) return; var record = ConversationList.SelectedItem as ConversationRecord; if (record == null) return;
+            if (busy || queuedRequests.Count > 0 || disposed) return; var record = ConversationList.SelectedItem as ConversationRecord; if (record == null) return;
             try {
                 CloseDropdown(); if (!PersistCurrentConversation()) return;
                 var records = conversationRecords[selectedProvider]; ConversationRecord replacement = null; bool replacementWasClosed = false;
@@ -354,11 +364,12 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : Role 추가 사용자 흐름 구현.
+        ///                2026-10-20 CodexOrig : 보조 개발 TASK055 대기 요청이 소유한 대화·권한의 전환 차단.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void LoadChatClicked(object sender, RoutedEventArgs e)
         {
-            if (busy || disposed || !experienceReady) return;
+            if (busy || queuedRequests.Count > 0 || disposed || !experienceReady) return;
             var picker = new OpenFileDialog { Filter = "저장한 대화 Markdown (*.md)|*.md", CheckFileExists = true, InitialDirectory = workspaceStore.RootPath };
             if (picker.ShowDialog() != true) return;
             try { if (!PersistCurrentConversation()) return; var record = workspaceStore.Load(picker.FileName, selectedProvider); var list = conversationRecords[selectedProvider]; list.RemoveAll(r => r.Id == record.Id); list.Insert(0, record); chats.Remove(record.Id); activeRecords[selectedProvider] = record; ClearProposal(); ShowChat(); UpdateButtons(); HistoryToggle.IsChecked = true; HistoryToggled(this, e); StatusLabel.Text = "대화를 불러왔습니다."; }
@@ -403,13 +414,14 @@ namespace VS2017.AIAssistant.Views
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : Role 추가 사용자 흐름 구현.
         /// update date  : 2026-10-18 CodexCode : TASK-022 전송·텍스트 편집 전에 실제 Dispatcher 접근 검증.
+        ///                2026-10-20 CodexOrig : 보조 개발 TASK055 입력 FIFO·문맥 보존 및 중복 작업 최소화.
         /// </summary>
         /// ---------------------------------------------------------------------
         internal bool HandlePromptKey(Key key, ModifierKeys modifiers)
         {
             Dispatcher.VerifyAccess();
             if (key != Key.Enter || imeComposing || (modifiers & ModifierKeys.Alt) != 0) return false;
-            if (busy || disposed) return true;
+            if (disposed) return true;
             if ((modifiers & ModifierKeys.Control) != 0) { if (Instruction.Text.Length - Instruction.SelectionLength + Environment.NewLine.Length <= Instruction.MaxLength) { int position = Instruction.SelectionStart; Instruction.SelectedText = Environment.NewLine; Instruction.CaretIndex = position + Environment.NewLine.Length; } return true; }
             if (!string.IsNullOrWhiteSpace(Instruction.Text)) GenerateClicked(GenerateButton, new RoutedEventArgs()); return true;
         }
@@ -512,9 +524,10 @@ namespace VS2017.AIAssistant.Views
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : Role 추가 사용자 흐름 구현.
         /// update date  : 2026-10-18 CodexCode : TASK-017 이미지 분석 기반 드롭다운·안내·대화 지정 흐름 개선.
+        ///                2026-10-20 CodexOrig : 보조 개발 TASK055 입력 FIFO·문맥 보존 및 중복 작업 최소화.
         /// </summary>
         /// ---------------------------------------------------------------------
-        private void OptionsHovered(object sender, MouseEventArgs e) { OpenFanMenu(); }
+        private void OptionsHovered(object sender, MouseEventArgs e) { ScheduleFanOpen(); }
         /// ---------------------------------------------------------------------
         /// <summary>
         /// name         : OptionsClicked
@@ -571,11 +584,12 @@ namespace VS2017.AIAssistant.Views
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : Role 추가 사용자 흐름 구현.
         /// update date  : 2026-10-18 CodexCode : TASK-017 이미지 분석 기반 드롭다운·안내·대화 지정 흐름 개선.
+        ///                2026-10-20 CodexOrig : 보조 개발 TASK055 대기 요청이 소유한 대화·권한의 전환 차단.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void OpenWorkspaceActions(object sender, RoutedEventArgs e)
         {
-            if (busy || disposed) return; string directory = "";
+            if (busy || queuedRequests.Count > 0 || disposed) return; string directory = "";
             try { var navigation = documents as ISourceNavigationService; if (navigation != null) directory = navigation.GetProjectDirectory(); else if (documents != null) directory = Path.GetDirectoryName(documents.GetActiveDocument().Capture().FilePath); } catch (Exception) { }
             var actions = new WorkspaceActionsDialog(this, directory, workspacePolicy, request => { if (request.Length > 16000) throw new InvalidOperationException("DB 요청이 16000자 제한을 초과했습니다."); Instruction.Text = request; StatusLabel.Text = "DB 스키마와 요청을 입력란에 넣었습니다. 전송 전에 확인하세요."; });
             actions.PermissionsSaved = policy => {
@@ -606,12 +620,13 @@ namespace VS2017.AIAssistant.Views
         /// update date  : 2026-10-18 CodexCode : TASK-021 추가 이미지 요구와 감사 보완 흐름 반영.
         /// update date  : 2026-10-18 CodexCode : TASK-022 PDF WebView·설치 확인 화면 진입 및 중복 창 방지.
         ///                2026-10-19 CodexCode : 청록색 설치 동작 스타일로 PDF·CLI 진입을 구분.
+        ///                2026-10-20 CodexOrig : 보조 개발 TASK055 대기 요청이 소유한 대화·권한의 전환 차단.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void CliHelpClicked(object sender, RoutedEventArgs e)
         {
             Dispatcher.VerifyAccess();
-            if (busy || disposed) return;
+            if (busy || queuedRequests.Count > 0 || disposed) return;
             if (activeCliSetupDialog != null) { activeCliSetupDialog.Activate(); return; }
             var dialog = new AssistantDialog(this, "⚙ CLI 환경 설정", "카드를 선택하면 단계별 상세 그림을 볼 수 있습니다.");
             dialog.SetGuide(AssistantHelpContent.CliSetupSteps(selectedProvider));

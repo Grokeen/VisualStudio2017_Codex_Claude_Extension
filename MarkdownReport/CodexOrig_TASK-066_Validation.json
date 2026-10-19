@@ -1,0 +1,237 @@
+{
+  "Task": "TASK066",
+  "Owner": "CodexOrig",
+  "FrozenAt": "2026-10-20T04:10:58.0114449+09:00",
+  "C11ActualInstalledFailure": {
+    "Call": "CliGuideService(default installation directory).GetPdfPath()",
+    "ProductCallSucceeded": false,
+    "AssemblyPath": "C:\\Users\\ygree\\AppData\\Local\\Microsoft\\VisualStudio\\15.0_c1f368d6CodexCodeTestdafa9b7f\\Extensions\\e2bbarck.sir\\VS2017.AIAssistant.dll",
+    "AssemblySha256": "01E737C3979FA232510386D8296A8AB9CC9B0E275ECE827D86256ED4ED0E49E6",
+    "AssemblyUnchanged": true,
+    "InstallationDirectory": "C:\\Users\\ygree\\AppData\\Local\\Microsoft\\VisualStudio\\15.0_c1f368d6CodexCodeTestdafa9b7f\\Extensions\\e2bbarck.sir",
+    "ServiceAssemblyLocation": "C:\\Users\\ygree\\AppData\\Local\\Microsoft\\VisualStudio\\15.0_c1f368d6CodexCodeTestdafa9b7f\\Extensions\\e2bbarck.sir\\VS2017.AIAssistant.dll",
+    "PdfFileNameContract": "VisualStudio_AI_Assistant_설치_사용설명서.pdf",
+    "ExpectedPdfPath": "C:\\Users\\ygree\\AppData\\Local\\Microsoft\\VisualStudio\\15.0_c1f368d6CodexCodeTestdafa9b7f\\Extensions\\e2bbarck.sir\\Resources\\CliGuide\\VisualStudio_AI_Assistant_설치_사용설명서.pdf",
+    "ExpectedPdfPathExists": false,
+    "InstalledPdfFiles": [
+      {
+        "Name": "VisualStudio_AI_Assistant_설치_사용설명서_v0.12.1_미리보기.pdf",
+        "Path": "C:\\Users\\ygree\\AppData\\Local\\Microsoft\\VisualStudio\\15.0_c1f368d6CodexCodeTestdafa9b7f\\Extensions\\e2bbarck.sir\\Resources\\CliGuide\\VisualStudio_AI_Assistant_설치_사용설명서_v0.12.1_미리보기.pdf",
+        "Bytes": 1406441,
+        "Sha256": "F853789CE823A1EABE8B4E98226064A9E86F808389CA77033DF83925744F2372"
+      }
+    ],
+    "InstalledPdfsUnchanged": true,
+    "ResolvedPdfPath": null,
+    "ResolvedPdfSha256": null,
+    "Failure": {
+      "Type": "System.IO.FileNotFoundException",
+      "Message": "PDF 설명서를 찾지 못했습니다. 확장 패키지를 다시 설치하거나 텍스트 안내를 이용하세요.",
+      "Detail": "System.IO.FileNotFoundException: PDF 설명서를 찾지 못했습니다. 확장 패키지를 다시 설치하거나 텍스트 안내를 이용하세요.\r\n   at VS2017.AIAssistant.Services.CliGuideService.OpenAsset(String path, Int32 maximum, String label) in C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task054\\candidate11\\source\\src\\VS2017.AIAssistant\\Services\\CliGuideService.cs:line 282\r\n   at VS2017.AIAssistant.Services.CliGuideService.GetPdfPath() in C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task054\\candidate11\\source\\src\\VS2017.AIAssistant\\Services\\CliGuideService.cs:line 96"
+    },
+    "FreshProcessId": 7348,
+    "Process64Bit": true,
+    "ActualInstalledServiceCalled": true,
+    "ExplicitInstallationDirectoryPassed": false,
+    "WindowShown": false,
+    "PdfAppStarted": false,
+    "InstallerStarted": false,
+    "NetworkRequested": false,
+    "ProductSourceModified": false,
+    "CheckedAt": "2026-10-20T04:07:45.7955263+09:00"
+  },
+  "C11Observation": {
+    "Candidate": "C11",
+    "CandidateAssembly": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task054\\candidate11\\2017\\Release\\VS2017.AIAssistant.dll",
+    "InstalledAssemblySha256": "01E737C3979FA232510386D8296A8AB9CC9B0E275ECE827D86256ED4ED0E49E6",
+    "InstalledEqualsCandidate": true,
+    "ChildProcessExitCode": 1,
+    "RegressionReproduced": true,
+    "ProductFailureRetained": true,
+    "ReclassifiedAsProductPass": false,
+    "GUIUsed": false
+  },
+  "C11FailurePreserved": true,
+  "C11ReclassifiedAsPass": false,
+  "C12PrivateExtractedProducts": {
+    "CandidatePath": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task054\\candidate12",
+    "Succeeded": true,
+    "Targets": [
+      {
+        "Target": "2017.Legacy",
+        "Vsix": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task054\\candidate12\\2017.Legacy\\Release\\VS2017.AIAssistant.vsix",
+        "VsixSha256": "AF269930DF77FC9966C0794A80D0EF619DBD3D8CFFCC79A171AE1CA8EB54C4CA",
+        "ReleaseDllSha256": "62846883C6D3101FC71CB222C36E3EEE93265BA2A040AECBF9F53CAFE9A21621",
+        "ExtractedEqualsRelease": true,
+        "Pdf": {
+          "Entry": "Resources/CliGuide/VisualStudio_AI_Assistant_%EC%84%A4%EC%B9%98_%EC%82%AC%EC%9A%A9%EC%84%A4%EB%AA%85%EC%84%9C.pdf",
+          "DecodedName": "Resources/CliGuide/VisualStudio_AI_Assistant_설치_사용설명서.pdf",
+          "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task054\\pdf-path-resolution-c12\\2017.Legacy\\extracted-vsix\\Resources\\CliGuide\\VisualStudio_AI_Assistant_설치_사용설명서.pdf",
+          "Bytes": 1406441,
+          "Sha256": "F853789CE823A1EABE8B4E98226064A9E86F808389CA77033DF83925744F2372"
+        },
+        "ChildExitCode": 0,
+        "ProductCallSucceeded": true,
+        "ResolvedMatchesPackagedPdf": true,
+        "InputsUnchanged": true,
+        "ActualIdeInstalled": false,
+        "PrivateExtractedProduct": true,
+        "ServiceCallEvidence": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task054\\pdf-path-resolution-c12\\2017.Legacy\\service-call\\result.json",
+        "FreshProcessId": 51264,
+        "Failure": null
+      },
+      {
+        "Target": "2017",
+        "Vsix": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task054\\candidate12\\2017\\Release\\VS2017.AIAssistant.vsix",
+        "VsixSha256": "0B805ECCB820046723F8F3B71916F0A0E6D402A68CBE686148748F0C85CC437B",
+        "ReleaseDllSha256": "701855AEE57C337E4495D37620DF542D54F2A6BD9DEC0FEB448395C377F5ACB8",
+        "ExtractedEqualsRelease": true,
+        "Pdf": {
+          "Entry": "Resources/CliGuide/VisualStudio_AI_Assistant_%EC%84%A4%EC%B9%98_%EC%82%AC%EC%9A%A9%EC%84%A4%EB%AA%85%EC%84%9C.pdf",
+          "DecodedName": "Resources/CliGuide/VisualStudio_AI_Assistant_설치_사용설명서.pdf",
+          "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task054\\pdf-path-resolution-c12\\2017\\extracted-vsix\\Resources\\CliGuide\\VisualStudio_AI_Assistant_설치_사용설명서.pdf",
+          "Bytes": 1406441,
+          "Sha256": "F853789CE823A1EABE8B4E98226064A9E86F808389CA77033DF83925744F2372"
+        },
+        "ChildExitCode": 0,
+        "ProductCallSucceeded": true,
+        "ResolvedMatchesPackagedPdf": true,
+        "InputsUnchanged": true,
+        "ActualIdeInstalled": false,
+        "PrivateExtractedProduct": true,
+        "ServiceCallEvidence": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task054\\pdf-path-resolution-c12\\2017\\service-call\\result.json",
+        "FreshProcessId": 45388,
+        "Failure": null
+      },
+      {
+        "Target": "2019",
+        "Vsix": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task054\\candidate12\\2019\\Release\\VS2017.AIAssistant.vsix",
+        "VsixSha256": "B85914EE9637682EF362735D11CC4CA6869BF55CEE697CAEDC3026757A2647B8",
+        "ReleaseDllSha256": "3AB99B801E80049CBBDB1E0DEC46FA4DC0023F21D867A09141DF793CDBCB4E6D",
+        "ExtractedEqualsRelease": true,
+        "Pdf": {
+          "Entry": "Resources/CliGuide/VisualStudio_AI_Assistant_%EC%84%A4%EC%B9%98_%EC%82%AC%EC%9A%A9%EC%84%A4%EB%AA%85%EC%84%9C.pdf",
+          "DecodedName": "Resources/CliGuide/VisualStudio_AI_Assistant_설치_사용설명서.pdf",
+          "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task054\\pdf-path-resolution-c12\\2019\\extracted-vsix\\Resources\\CliGuide\\VisualStudio_AI_Assistant_설치_사용설명서.pdf",
+          "Bytes": 1406441,
+          "Sha256": "F853789CE823A1EABE8B4E98226064A9E86F808389CA77033DF83925744F2372"
+        },
+        "ChildExitCode": 0,
+        "ProductCallSucceeded": true,
+        "ResolvedMatchesPackagedPdf": true,
+        "InputsUnchanged": true,
+        "ActualIdeInstalled": false,
+        "PrivateExtractedProduct": true,
+        "ServiceCallEvidence": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task054\\pdf-path-resolution-c12\\2019\\service-call\\result.json",
+        "FreshProcessId": 34132,
+        "Failure": null
+      },
+      {
+        "Target": "2022",
+        "Vsix": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task054\\candidate12\\2022\\Release\\VS2017.AIAssistant.vsix",
+        "VsixSha256": "BF6873C0DA59ACDC517DA8EA0C77160001FE38001A9CDABC608074CC07E1951C",
+        "ReleaseDllSha256": "1B87CBDDE94E9607D77BCD54D5B7632C9D0A201FD7F0E37035CF58109EFAEB6C",
+        "ExtractedEqualsRelease": true,
+        "Pdf": {
+          "Entry": "Resources/CliGuide/VisualStudio_AI_Assistant_%EC%84%A4%EC%B9%98_%EC%82%AC%EC%9A%A9%EC%84%A4%EB%AA%85%EC%84%9C.pdf",
+          "DecodedName": "Resources/CliGuide/VisualStudio_AI_Assistant_설치_사용설명서.pdf",
+          "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task054\\pdf-path-resolution-c12\\2022\\extracted-vsix\\Resources\\CliGuide\\VisualStudio_AI_Assistant_설치_사용설명서.pdf",
+          "Bytes": 1406441,
+          "Sha256": "F853789CE823A1EABE8B4E98226064A9E86F808389CA77033DF83925744F2372"
+        },
+        "ChildExitCode": 0,
+        "ProductCallSucceeded": true,
+        "ResolvedMatchesPackagedPdf": true,
+        "InputsUnchanged": true,
+        "ActualIdeInstalled": false,
+        "PrivateExtractedProduct": true,
+        "ServiceCallEvidence": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task054\\pdf-path-resolution-c12\\2022\\service-call\\result.json",
+        "FreshProcessId": 44588,
+        "Failure": null
+      }
+    ],
+    "ActualIdeInstalled": false,
+    "PrivateExtractedProductsOnly": true,
+    "GuiUsed": false,
+    "PdfAppStarted": false,
+    "InstallerStarted": false,
+    "NetworkRequested": false,
+    "ProductSourceModified": false,
+    "CheckedAt": "2026-10-20T04:09:47.317502+09:00"
+  },
+  "C12ServiceCallsPassed": 4,
+  "C12ActualIdeInstallationClaimed": false,
+  "GuiUsed": false,
+  "PdfAppStarted": false,
+  "InstallerStarted": false,
+  "NetworkRequested": false,
+  "ProductSourceModified": false,
+  "PackagingScriptsModified": false,
+  "ExistingTask061ReportsModified": false,
+  "EvidenceHashes": [
+    {
+      "Path": "artifacts/task054/pdf-path-regression-c11/result.json",
+      "Sha256": "4B1F36C2A666A9CBB683B21A181DC15E1A051CED313466E4581B53357114B8CD"
+    },
+    {
+      "Path": "artifacts/task054/pdf-path-regression-c11/regression-observation.json",
+      "Sha256": "F4705DD3D0E3EAFB22E950E132C6C7FAF4BFBC7F70A12255207FB5D3F8B8B00D"
+    },
+    {
+      "Path": "artifacts/task054/pdf-path-regression-c11/Probe-CliGuidePdfPath.ps1",
+      "Sha256": "51ACE33A18B3B857DF1B88B6260815B126F2EC0C9579784EBB4F89275685EB27"
+    },
+    {
+      "Path": "artifacts/task054/pdf-path-resolution-c12/result.json",
+      "Sha256": "A4B531B7C6248EB4F845D3A73E6C3A54D23243AF4CF2ED0E6D8A47A72E79AD14"
+    },
+    {
+      "Path": "artifacts/task054/pdf-path-resolution-c12/Probe-CliGuidePdfPath.ps1",
+      "Sha256": "26B1B987CDC66971760028C63746DF0FF56DB0D95CDAFA3A0E664A0798B1B84C"
+    },
+    {
+      "Path": "artifacts/task054/pdf-path-resolution-c12/Probe-CliGuidePdfVsix.ps1",
+      "Sha256": "7DC476DA2CC68FBCFC008D0DF08842CE2A3892608A12816F7390E307E2739238"
+    },
+    {
+      "Path": "artifacts/task054/candidate11-to12.json",
+      "Sha256": "B148A3E9039317E39E03BE87DCA110EE8F199D60BF0422CE47CA539DEB65403F"
+    },
+    {
+      "Path": "MarkdownReport/CodexOrig_TASK-066_PdfPath.md",
+      "Sha256": "44EE7E5841E12270716E6E97A90809208B0684703067323C381FD3F40A0083C2"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task054\\pdf-path-resolution-c12\\2017.Legacy\\service-call\\result.json",
+      "Sha256": "7D0502089E391A4950EF54F5E4BFEF8B624F41AD94E7F5CDAFCE77CEEA1A2528"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task054\\pdf-path-resolution-c12\\2017.Legacy\\extracted-files.json",
+      "Sha256": "843375CFD7B95EB48B0A05E6A7BDD161C66F865A6E0265EC463D13F84D3DE1C0"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task054\\pdf-path-resolution-c12\\2017\\service-call\\result.json",
+      "Sha256": "D29AEE87A577E02459A1242B1C84835D59F079E932B22756AF6CA621713A212E"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task054\\pdf-path-resolution-c12\\2017\\extracted-files.json",
+      "Sha256": "771086DC92743076C263C7588E2B363BF0C613FE0E6BD4CEBF23F91CF0586799"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task054\\pdf-path-resolution-c12\\2019\\service-call\\result.json",
+      "Sha256": "1462A6B97DA46FC58FD276E596EB6492A5F93BC56BC26F4462B32763FFC9F85A"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task054\\pdf-path-resolution-c12\\2019\\extracted-files.json",
+      "Sha256": "82CB59A3B9D834DA0F464FB6A3EE276B699652122D31CAC5390CD1C40FB5DDA4"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task054\\pdf-path-resolution-c12\\2022\\service-call\\result.json",
+      "Sha256": "A945F1180F3AC9D991F6DA3EE0CA93008DD190DA35ADD9F1F2FF9E6AD9EAEBBD"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task054\\pdf-path-resolution-c12\\2022\\extracted-files.json",
+      "Sha256": "18C8C35D1CD72B1D30201F0F4C02EB0A76605875A744AC54A66F0814130D1ABC"
+    }
+  ]
+}

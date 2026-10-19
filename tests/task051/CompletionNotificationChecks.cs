@@ -45,11 +45,11 @@ public static class CompletionNotificationChecks
             typeof(AssistantControl).GetMethod("CompleteProgressRequest", flags).Invoke(control, new object[] { "completed" });
             var iconField = typeof(AssistantControl).GetField("completionNotificationIcon", flags);
             var timerField = typeof(AssistantControl).GetField("completionNotificationLifetime", flags);
-            var icon = (NotifyIcon)iconField.GetValue(control);
+            var icon = iconField.GetValue(control);
             var timer = (DispatcherTimer)timerField.GetValue(control);
-            IconCreated = icon != null && icon.Visible;
+            IconCreated = icon != null && (bool)icon.GetType().GetProperty("Visible").GetValue(icon, null);
             TimerStarted = timer != null && timer.IsEnabled;
-            if (icon != null) icon.BalloonTipShown += (sender, args) => { BalloonShownEvents++; };
+            if (icon != null) icon.GetType().GetEvent("BalloonTipShown").AddEventHandler(icon, new EventHandler((sender, args) => { BalloonShownEvents++; }));
             typeof(AssistantControl).GetMethod("CompleteProgressRequest", flags).Invoke(control, new object[] { "completed" });
             DuplicateCompletionKeptSameIcon = Object.ReferenceEquals(icon, iconField.GetValue(control));
             lifetime = new DispatcherTimer(DispatcherPriority.Background) { Interval = TimeSpan.FromSeconds(22) };

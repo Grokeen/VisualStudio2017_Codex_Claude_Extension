@@ -8,6 +8,7 @@ create date  : 2026-10-18
 update date  : 2026-10-18 CodexCode : 독립 fixture exe와 한글·공백 경로를 사용한 검증 추가.
 update date  : 2026-10-18 CodexOrig : 첫 사용·설정 팝업의 공통 UX 검사 컴파일/실행.
 update date  : 2026-10-18 CodexOrig : 고정 DLL 및 사례별 설정·Markdown 격리, ProductUi 헬퍼 참조.
+update date  : 2026-10-20 CodexOrig : 보조 개발 TASK055 후속, 고정 후보 assets와 새 출력 폴더·해시 연결.
 -------------------------------------------------------------------------
 .SYNOPSIS
     Run after building the extension. No live AI calls, authentication or Visual Studio instance.
@@ -16,7 +17,9 @@ update date  : 2026-10-18 CodexOrig : 고정 DLL 및 사례별 설정·Markdown 
 param(
     [ValidateSet('Debug', 'Release')][string]$Configuration = 'Release',
     [string]$CompilerPath,
-    [string]$AssemblyPath
+    [string]$AssemblyPath,
+    [string]$AssetsPath,
+    [string]$OutputDirectory
 )
 $ErrorActionPreference = 'Stop'
 $repositoryDir = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..\..'))
@@ -36,12 +39,15 @@ if (!$CompilerPath) {
     }
 }
 if (!$CompilerPath -or !(Test-Path -LiteralPath $CompilerPath)) { throw '-CompilerPath에 C# 7.0 이상을 지원하는 csc.exe 경로를 지정하세요.' }
-$assets = Get-Content -LiteralPath (Join-Path $projectDir 'obj\project.assets.json') -Raw | ConvertFrom-Json
+if (!$AssetsPath) { $AssetsPath = Join-Path $projectDir 'obj\project.assets.json' }
+$AssetsPath = [IO.Path]::GetFullPath($AssetsPath)
+$assets = Get-Content -LiteralPath $AssetsPath -Raw | ConvertFrom-Json
 $packageRootDir = $assets.packageFolders.PSObject.Properties.Name | Select-Object -First 1
 $referencePackage = $assets.libraries.PSObject.Properties | Where-Object { $_.Name -like 'Microsoft.NETFramework.ReferenceAssemblies.net462/*' } | Select-Object -First 1
 $frameworkDir = Join-Path $packageRootDir ($referencePackage.Value.path + '/build/.NETFramework/v4.6.2')
 $artifactRootDir = Join-Path $repositoryDir 'artifacts\source-editing'
-$testDir = Join-Path $artifactRootDir ('run-' + [guid]::NewGuid().ToString('N'))
+$testDir = if ($OutputDirectory) { [IO.Path]::GetFullPath($OutputDirectory) } else { Join-Path $artifactRootDir ('run-' + [guid]::NewGuid().ToString('N')) }
+if (Test-Path -LiteralPath $testDir) { throw '기존 검사 출력 폴더를 덮어쓰지 않습니다.' }
 $null = New-Item -ItemType Directory -Path $testDir -Force
 Copy-Item -LiteralPath $assemblyPath -Destination $testDir
 foreach ($dependency in $assets.targets.'.NETFramework,Version=v4.6.2'.PSObject.Properties) {
@@ -76,5 +82,6 @@ try {
     $testExitCode = $LASTEXITCODE
 }
 finally { $env:VS2017_AI_SETTINGS_PATH = $previousSettingsPath; $env:VS2017_AI_WORKSPACE_PATH = $previousWorkspacePath }
+[pscustomobject]@{ProductAssemblyPath=$assemblyPath;ProductAssemblySha256=(Get-FileHash -LiteralPath $assemblyPath).Hash;AssetsPath=$AssetsPath;AssetsSha256=(Get-FileHash -LiteralPath $AssetsPath).Hash;HarnessSha256=(Get-FileHash -LiteralPath (Join-Path $PSScriptRoot 'EditingTests.cs')).Hash;ExitCode=$testExitCode;CheckedAt=[DateTimeOffset]::Now.ToString('o');ActualIde=$false;LiveAi=$false} | ConvertTo-Json | Set-Content -LiteralPath (Join-Path $testDir 'summary.json') -Encoding UTF8
 if ($testExitCode -ne 0) { throw "편집 회귀 테스트 실패: $testExitCode (기록: $testDir)" }
 Write-Output "테스트 산출물: $testDir"

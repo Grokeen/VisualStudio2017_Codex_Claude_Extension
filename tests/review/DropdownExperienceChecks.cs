@@ -208,7 +208,15 @@
             int before = (int)countField.GetValue(control);
             for (int i = 0; i < 15; i++) toggle.RaiseEvent(new MouseEventArgs(Mouse.PrimaryDevice, Environment.TickCount) { RoutedEvent = Mouse.MouseEnterEvent });
             owner.UpdateLayout();
-            Check(fan.IsVisible && (int)countField.GetValue(control) == before + 1, "Repeated pointer-enter events open the settings fan once without restarting its animation");
+            var intent = (DispatcherTimer)typeof(AssistantControl).GetField("fanOpenTimer", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(control);
+            Check(!fan.IsVisible && (int)countField.GetValue(control) == before && intent != null && intent.IsEnabled && intent.Interval.TotalMilliseconds == 220,
+                "Repeated managed pointer-enter events schedule one 220ms hover intent without opening immediately");
+            // Managed MouseEnter does not move the real pointer. Exercise the separate explicit activation path.
+            PrivateCall(control, "OpenFanMenu"); owner.UpdateLayout();
+            Check(fan.IsVisible && (int)countField.GetValue(control) == before + 1 && !intent.IsEnabled,
+                "Explicit activation opens once and consumes pending hover intent");
+            for (int i = 0; i < 15; i++) toggle.RaiseEvent(new MouseEventArgs(Mouse.PrimaryDevice, Environment.TickCount) { RoutedEvent = Mouse.MouseEnterEvent });
+            Check((int)countField.GetValue(control) == before + 1, "Further enter events leave the open fan animation running without restarting it");
             var help = (Button)control.FindName("HelpButton"); var settings = (Button)control.FindName("SettingsButton");
             var helpHit = fan.InputHitTest(new Point(143, 100)) as DependencyObject;
             var settingsHit = fan.InputHitTest(new Point(206, 141)) as DependencyObject;
@@ -297,7 +305,7 @@
                 Check(((ConversationRecord)list.SelectedItem).Id == first.Id && prompt.Text == "A에 보존할 작성 중 요청" && store.LoadOpen("Codex").Length == 26 && Directory.GetFiles(Path.Combine(store.RootPath, "conversations", "codex"), "*.md").Length == 26,
                     "The twenty-seventh new request reopens the original A and its draft without creating or deleting conversation files");
                 prompt.Text = "A로 요청을 전달해 주세요"; Click((Button)control.FindName("GenerateButton"));
-                PumpUntil(() => provider.Calls.Count == 1 && ((Button)control.FindName("GenerateButton")).IsEnabled, 4000);
+                PumpUntil(() => provider.Calls.Count == 1 && !((Button)control.FindName("StopButton")).IsEnabled && ((Button)control.FindName("GenerateButton")).IsEnabled, 4000);
                 Check(provider.Calls[0].AgentContext.Contains(primary.Name) && store.LoadOpen("Codex").Single(r => r.Id == first.Id).State == ConversationRunState.Completed && source.ReplaceCount == 0,
                     "A request after the A-Z limit reaches A's actual provider context and leaves source unchanged before approval");
                 OpenDropdown(control, "AgentButton");

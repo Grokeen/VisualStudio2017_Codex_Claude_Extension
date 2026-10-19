@@ -253,7 +253,7 @@ namespace VS2017.AIAssistant.Views
             group.SetResourceReference(Border.BackgroundProperty,"AssistantSurfaceBrush");group.SetResourceReference(Border.BorderBrushProperty,"AssistantBorderBrush");
             toolbar.Children.Add(group);return content;
         }
-        private static void AddTool(Panel tools,string label,string hint,RoutedEventHandler handler){var button=new Button{Content=label,ToolTip=hint,Padding=new Thickness(9,5,9,5),MinHeight=32,Margin=new Thickness(0,0,4,3)};button.SetResourceReference(FrameworkElement.StyleProperty,typeof(Button));button.Click+=handler;tools.Children.Add(button);}
+        private static void AddTool(Panel tools,string label,string hint,RoutedEventHandler handler){var button=new Button{Content=label,ToolTip=hint,Margin=new Thickness(0,0,4,3)};button.SetResourceReference(FrameworkElement.StyleProperty,"AssistantActionButton");button.Click+=handler;tools.Children.Add(button);}
         /// ---------------------------------------------------------------------
         /// <summary>
         /// name         : ValidText

@@ -509,3 +509,41 @@ v0.12.0-preview.1, Release ID 417485280, source commit e717ccc16c9d8db06d353286a
 최종 4대상 Release 오류0·경고0, 기본16/16, 실제 IDE 145x4, 최종 완성 ZIP 통신 차단6/6과 공개 파일 연결을 확인했다. 고객 오프라인 PC/VS2017 15.7.1 실제 설치와 계정·운영 연동, 전체 테마 전환/물리 창 조작은 확인 전 범위로 유지한다. 시험용 배포 완료를 고객 시험 완료로 보고하지 않는다.
 사용자 마지막 지시의 완료 기준(통합 빌드·컴파일 → 최신 Release 제작 → 배포 → 공개 다운로드·해시 확인)을 CodexOrig2·3·4 및 연구 담당에게 직접 안내했다. CodexCode 직접 전송은 active writer 오류로 거부되어 본 WORK_STATUS 공유 인계와 Root 검증 JSON에 같은 기준·최종 결과를 명시했다. 이번 통합·배포는 Root가 끝까지 수행했으며 중복 배포를 요청하지 않았다. 제품 고정 후보와 기존 감사 보고는 변경하지 않았다.
 시작 2026-10-19 23:40:45 KST, 최종 배포 검증 기록 2026-10-20 01:06:34 +09:00, 경과 01:25:49.4697348.
+
+## 2026-10-20 TASK060 Claude 연동 검증·버전 선검사 보완
+시작 02:27:56 KST, 인계 2026-10-20 02:35:31 +09:00, 경과 00:07:06.8972692. CodexOrig: src/VS2017.AIAssistant/Providers/ClaudeRuntimeRunner.cs의 전체액세스 최소버전 선검사를 추가하고 CliEditProvider.cs의 기존 10초/4096자/Job정리 helper를 공유했다. 개인C6사본 Release 오류·경고0, 회귀177/177 PASS. 실제2.1.302 CLI는 미로그인으로 실제추론 미실행, 인증상태 bool/범주만 기록. tests/task060 및 CodexOrig_TASK-060_ClaudeVerification.md/JSON에 재현·초기실패·공식근거·동결해시 기록. 최종0.12.1 4SKU/감사/배포는 Root054 통합 단계.
+
+
+### 2026-10-20 02:42 KST / TASK055 / CodexOrig 보조 개발 — 구현·개인 검증 동결 인계
+
+Role 01:40 #6/#7: 실행 중 프롬프트 입력·Enter 제출, 실행1+대기8 FIFO, 제출 옵션·문서·대화 고정, 실행 시 선행완료 답변 병합/미래 대기 입력 제외, 취소/실패/Dispose 잔여 미실행, 미승인 수정안 pause 및 명시 건너뛰기를 구현했다. 현재 요청 완료가 다음 초안을 지우지 않는다. 저장 실패는 입력과100개 기록을 복구한다. 변경 없는 탭 전환은 record SHA256이 같으면 디스크·목록 재생성을 생략한다.
+
+소유 5개 C# 파일(AssistantControl.xaml.cs/Chat.cs/Experience.cs/Runtime.cs/RequestQueue.cs)과 tests/task055를 이 시각 이후 동결해 Root TASK054에 인계한다. Root XAML 건너뛰기 버튼 포함 개인 candidate11 VS2017 Release 오류0/경고0, 실제 WPF/TCS·로컬 합성 Claude 자식 순차/Stop/실패 검사56/56. DLL SHA256 5F686CE2E9071B6153CE6737361C30684C8643E3B1E06CFB1F5ACF0DABC53AAE. 40회 비표시 호스트 전환 이전1318ms/2파일갱신, 최종1044ms/갱신0(실제 IDE 시간 아님). 보고 CodexOrig_TASK-055.md / _Evidence.json.
+
+Root가 최신 전체 후보·감사·4대상 빌드/컴파일·실제 IDE·문서·최신 Release 제작·GitHub 게시·익명 다운로드/해시 검증까지 이어서 마감한다. 보조 개발 완료가 전체 배포 완료를 뜻하지 않는다. 공유 bin/obj, commit/push, 버전·기존 Release 수정은 수행하지 않았다. 대기는 메모리 상태이며 재시작 후 자동 replay하지 않는다. 명시 적용 후 바뀐 원본은 기존 대기 snapshot과 맞지 않으면 후속 CLI 전 중단한다.
+### TASK060 C1 후속 / 2026-10-20 02:48:20 +09:00
+CodexOrig: Root0.12.1 C1 네SKU고정DLL에서 합성Claude경계25×4=100/100 PASS. 실제로그인/계정/CLI추론요청추가없음. 기존177근거원문보존, 제품/공유빌드미변경. 결과·각DLL/결과SHA는 CodexOrig_TASK-060_ClaudeVerification_C1.md/JSON. Root최종감사·배포통합인계.
+
+
+
+### 2026-10-20 03:13 KST / TASK055 후속 / CodexOrig 보조 개발 — editing 회귀 동결 인계
+
+Root C2 동일 VS2017 DLL(618CE370…BB4)·동일 candidate assets에서 기존 editing 87/92의 WPF 5실패를 재현했다. 원인은 계속 활성화돼야 하는 FIFO 전송 버튼을 요청 완료 sentinel로 쓴 이전 검사였다. tests/editing 두 파일만 보완해 실행/소비자 종료를 기다리고, 두번째 전송의 미승인안 보존→명시 건너뛰기→기존 CLI 문맥 검사를 유지했다. 동일 제품에서 92/92 통과, 실제 제품 수정0. 원본·실패·수정 결과는 artifacts/task055/editing-c2-original 및 editing-c2-revised에 보존. GUI 예약은 결과 확인 즉시 Root에 반납. 보고 CodexOrig_TASK-055_Followup_Editing.md/_Evidence.json. 약4분 작업이며 이후 테스트 소스 동결, 최종후보 전체회귀·빌드/컴파일·최신 Release 제작·공개 배포·익명 해시 검증은 Root가 마감한다.
+
+
+### 2026-10-20 03:21 KST / TASK055 experience 후속 / CodexOrig 보조 개발 — 실제 오류 표시 수정·GUI 검사 준비
+
+C6의 요청 실패 마감이 대기0/1 모두 원래 CLI 오류를 일반 취소 안내로 덮는 제품 결함을 무창 실제 WPF 0/2로 재현했다. Root가 승인한 RequestQueue.CancelQueuedRequests 한 메서드만 수정해 대기0은 상태 유지, 실제 취소>0은 원래 오류 아래 개수/안내 append로 보완했다. C7 동일 무창2/2 통과(DLL14F2FD37…9B2E), 원본0/2와 실제 StatusLabel 값 모두 artifacts/task055/status-c6-original-v2 및 status-c7-fixed에 보존. 제품 Queue파일SHA75806277…45FD3 동결.
+
+AdvancedExperienceChecks.cs는 미승인안 후 후속실패/취소/협업 입력을 enqueue→기존안 참조 보존 검사→실제 건너뛰기 버튼으로 진행하도록 준비했다. 완료조건은 busy+draining, 기존 primary오류·저장오류·협업·소스보호 assertions 유지. Root inline source/Dropdown과 합쳐 C7 대상으로 정적 library compile 오류0. 실제 experience GUI 실행은 064 IDE 예약 반환 후 Root 지시 대기, 아직 성공 처리하지 않는다. Window.Show/Popup/OS입력0. 보고 CodexOrig_TASK-055_Followup_Experience.md/_Evidence.json. 최종 통합·최신 Release 제작·공개 배포/익명 해시는 Root가 마감.
+
+
+### 2026-10-20 03:31 KST / TASK055 experience C9 GUI 1차 결과
+
+Root 승인/GUI 예약으로 C9 정확한 DLL·assets의 전체 experience를 실행했다. 120개 통과 후 Root DropdownExperienceChecks의 즉시 fan hover 표시 assertion에서 중단. Advanced의 명시 건너뛰기·원래 primary CLI 오류 보존·실패 handoff·취소·전달후저장오류는 통과했고 이후 cross-provider는 미도달. 원문 artifacts/task055/experience-c9-v1 보존, 종료 즉시 GUI 반납. 제품/Root fan assertion은 수정하지 않았고 Root의 지연 hover 전제 진단·재실행 지시 대기다. 보고 CodexOrig_TASK-055_Followup_Experience.md/_Evidence.json 갱신.
+
+## TASK054 / CodexOrig / 소스·검증 동결 및 배포 준비 / 2026-10-20T04:15:14.9503248+09:00
+시작 2026-10-20 02:23:11.405 +09:00, 소스 검증 동결 2026-10-20T04:15:14.9503248+09:00, 경과 112.1분. Role 01:40 이미지56~66과14항목을 역할 분담해 반영했다. C12 입력133개·4SKU Release 오류0/경고0, 실제 전용IDE 각146/146(584/584), 최종 설치경계35/35·정확한최종ZIP AppContainer통신차단CLI6/6. 독립감사 R58-01~05 해결/추가확정결함0으로 미리보기 기술게이트 통과. C11 실제테마 원본77/81의4직렬화행비교실패는 보존하고 비기본값4/4·기존값변경삭제0을 분리했다. Claude로그인/실답변은 사용자지시로제외, 고객15.7.1/제한망실측은미검증이다.
+소스: src/VS2017.AIAssistant/Views/AssistantControl.* 및 CompletionNotification.cs, Chat/AssistantArtifactWriter.cs, Providers/ClaudeRuntimeRunner.cs·CliEditProvider.cs, Assets/CliGuide 고정이름PDF, 4SKU csproj/manifest 및 scripts/Sync-VsixTargets.ps1. 검증 경로: CodexOrig_TASK-054_Validation.md/JSON, CodexOrig2_TASK-058_Audit_C12.md/JSON, TASK064_C11·TASK066 보고, artifacts/task054/candidate12-ide1-summary.json 및 package-inputs-final4.
+아직 전체 완료가 아니다. Root가 source commit/push→최신Release13자산업로드/공개→익명다운로드SHA검증→공개링크갱신까지 마감한다. 기존정식v0.11.1 latest/9자산·이전오프라인/미리보기배포는보존한다. 다른작업자완료확인전게시하지않는다.
+CodexCode TASK063은공유보고서로통합인계됐고 앱목록은notLoaded다. 채팅도구통지는04:14재시도도 'already has an active writer'로실패했다. 성공수신으로기록하지않으며 이공유기록에 동결/인계와 '빌드·컴파일→최신Release제작→실제게시→익명다운로드검증까지완료' 사용자지시를남긴다. Root가인수한제품133입력은동결해드리프트를검사한다.

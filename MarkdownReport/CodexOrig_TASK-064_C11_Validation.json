@@ -1,0 +1,356 @@
+{
+  "Task": "064",
+  "Candidate": "task054/candidate11",
+  "RawPassed": 77,
+  "RawFailed": 4,
+  "RawTotal": 81,
+  "AllRawChecksPassed": false,
+  "OriginalRawFailuresPreserved": true,
+  "ExistingTestSourcesUnchanged": true,
+  "SourceFiles": [
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\tests\\task064\\Test-IdeThemeWorkflow.ps1",
+      "FrozenSha256": "46E706A48D76EC996AA454E6C6127CD71A55CE494E96077154B49D4FEB9CB22E",
+      "CurrentSha256": "46E706A48D76EC996AA454E6C6127CD71A55CE494E96077154B49D4FEB9CB22E",
+      "Unchanged": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\tests\\task064\\ThemeIdePackage.cs",
+      "FrozenSha256": "1B56EB4BDE0A972B96B7AC89FB85C153B657CA5AB6310FFC2BE5CE7F3C9B135A",
+      "CurrentSha256": "1B56EB4BDE0A972B96B7AC89FB85C153B657CA5AB6310FFC2BE5CE7F3C9B135A",
+      "Unchanged": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\tests\\task064\\ThemeRegistrationChecks64.cs",
+      "FrozenSha256": "D7E5C96072A1479FFEA05CADD74F37DB99AB39909361FCE3CACB6C945F6A89A9",
+      "CurrentSha256": "D7E5C96072A1479FFEA05CADD74F37DB99AB39909361FCE3CACB6C945F6A89A9",
+      "Unchanged": true
+    }
+  ],
+  "Runs": [
+    {
+      "Year": "2017",
+      "Run": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task064\\candidate11-2017-sentinel1",
+      "RootSuffix": "ThemeApply64a067c841",
+      "ExpectedRegistryRoot": "Software\\Microsoft\\VisualStudio\\15.0_c1f368d6ThemeApply64a067c841",
+      "RawPassed": 26,
+      "RawFailed": 2,
+      "RawSucceeded": false,
+      "FatalError": null,
+      "RawResultSha256": "CD4E17C4D2614862CD22F1E5B4E1F95FB19E13C4A58A130A972E6A16CCD40D14",
+      "CandidateDllSha256": "01E737C3979FA232510386D8296A8AB9CC9B0E275ECE827D86256ED4ED0E49E6",
+      "VsixSha256": "DC7634520B70915F2AE83139DF678FD05E5FAE5A564C9DBAB76A3A5698C84194",
+      "ThemeVsixSha256": "DA9E78BDDBF664A7C78191F47C399BEE96B05C28C33CFBBBAE74612E04B6C8C1",
+      "LoadedDllMatchesFixedCandidate": true,
+      "HelperSourceMatchesFrozen": true,
+      "HelperDllSha256": "5AB58252903E901ACA037DB02FC60590E922DAC24AB1D04594FA440CD92D2358",
+      "ExitedNormally": true,
+      "ForcedOwnedProcessCleanup": false,
+      "ExpectedPendingPath": "C:\\Users\\ygree\\AppData\\Local\\Grokeen\\VisualStudioThemes\\pending-F3C8AAA7357CEFBC35BA1C4D.txt",
+      "PendingExistsAfter": false,
+      "SettingsAnalysis": [
+        {
+          "Theme": "kakao",
+          "BaselineSentinel": "False",
+          "ActualSentinel": "False",
+          "ExpectedSentinel": "False",
+          "SentinelVerified": true,
+          "ExistingChanged": 0,
+          "ExistingRemoved": 0,
+          "Added": 6,
+          "Differences": [
+            {
+              "Kind": "Added",
+              "Key": "PropertyValue:AutoInsertAttributeQuotes/Category:XAML_Miscellaneous/UserSettings:",
+              "Before": null,
+              "After": "True"
+            },
+            {
+              "Kind": "Added",
+              "Key": "PropertyValue:AutoInsertCommas/Category:XAML_Miscellaneous/UserSettings:",
+              "Before": null,
+              "After": "True"
+            },
+            {
+              "Kind": "Added",
+              "Key": "PropertyValue:AutoInsertEndBraces/Category:XAML_Miscellaneous/UserSettings:",
+              "Before": null,
+              "After": "True"
+            },
+            {
+              "Kind": "Added",
+              "Key": "PropertyValue:AutoInsertEndTags/Category:XAML_Miscellaneous/UserSettings:",
+              "Before": null,
+              "After": "True"
+            },
+            {
+              "Kind": "Added",
+              "Key": "PropertyValue:ShowDesignerErrors/Category:XAML_Miscellaneous/UserSettings:",
+              "Before": null,
+              "After": "True"
+            },
+            {
+              "Kind": "Added",
+              "Key": "PropertyValue:WarnMinTargetCompatibility/Category:XAML_Miscellaneous/UserSettings:",
+              "Before": null,
+              "After": "True"
+            }
+          ]
+        },
+        {
+          "Theme": "dracula",
+          "BaselineSentinel": "False",
+          "ActualSentinel": "False",
+          "ExpectedSentinel": "False",
+          "SentinelVerified": true,
+          "ExistingChanged": 0,
+          "ExistingRemoved": 0,
+          "Added": 6,
+          "Differences": [
+            {
+              "Kind": "Added",
+              "Key": "PropertyValue:AutoInsertAttributeQuotes/Category:XAML_Miscellaneous/UserSettings:",
+              "Before": null,
+              "After": "True"
+            },
+            {
+              "Kind": "Added",
+              "Key": "PropertyValue:AutoInsertCommas/Category:XAML_Miscellaneous/UserSettings:",
+              "Before": null,
+              "After": "True"
+            },
+            {
+              "Kind": "Added",
+              "Key": "PropertyValue:AutoInsertEndBraces/Category:XAML_Miscellaneous/UserSettings:",
+              "Before": null,
+              "After": "True"
+            },
+            {
+              "Kind": "Added",
+              "Key": "PropertyValue:AutoInsertEndTags/Category:XAML_Miscellaneous/UserSettings:",
+              "Before": null,
+              "After": "True"
+            },
+            {
+              "Kind": "Added",
+              "Key": "PropertyValue:ShowDesignerErrors/Category:XAML_Miscellaneous/UserSettings:",
+              "Before": null,
+              "After": "True"
+            },
+            {
+              "Kind": "Added",
+              "Key": "PropertyValue:WarnMinTargetCompatibility/Category:XAML_Miscellaneous/UserSettings:",
+              "Before": null,
+              "After": "True"
+            }
+          ]
+        }
+      ],
+      "UserDefaultProfileChanged": false,
+      "DesktopInputUsed": false,
+      "ActualIdeThemeApiTest": true
+    },
+    {
+      "Year": "2019",
+      "Run": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task064\\candidate11-2019-sentinel1",
+      "RootSuffix": "ThemeApply646c53672e",
+      "ExpectedRegistryRoot": "Software\\Microsoft\\VisualStudio\\16.0_04212cb1ThemeApply646c53672e",
+      "RawPassed": 26,
+      "RawFailed": 2,
+      "RawSucceeded": false,
+      "FatalError": null,
+      "RawResultSha256": "04799491F67366955E0730B39984BACFD438D922514054D1CE4FA5F7849734F2",
+      "CandidateDllSha256": "4B2F3D0C3AC04749D62FB970B1143F97DEDEABF873EEB8E66B53CA5D19859B7F",
+      "VsixSha256": "19543BCB4CE3BDE0200D796507C29DD662104C1C6EED9D4CDBF15C53DB0ADA9A",
+      "ThemeVsixSha256": "19C2C611B731F6BE2B1F07EF7DEC4807BC5814B40D92EB3DE576110C17311AEB",
+      "LoadedDllMatchesFixedCandidate": true,
+      "HelperSourceMatchesFrozen": true,
+      "HelperDllSha256": "32CDD876F99099D71E4813A8319E1C78E8A0D8D7F257A3244E9DC6BEE63FE7CC",
+      "ExitedNormally": true,
+      "ForcedOwnedProcessCleanup": false,
+      "ExpectedPendingPath": "C:\\Users\\ygree\\AppData\\Local\\Grokeen\\VisualStudioThemes\\pending-365A7411E3C3AA810149DB2A.txt",
+      "PendingExistsAfter": false,
+      "SettingsAnalysis": [
+        {
+          "Theme": "kakao",
+          "BaselineSentinel": "0",
+          "ActualSentinel": "0",
+          "ExpectedSentinel": "0",
+          "SentinelVerified": true,
+          "ExistingChanged": 0,
+          "ExistingRemoved": 0,
+          "Added": 9,
+          "Differences": [
+            {
+              "Kind": "Added",
+              "Key": "PropertyValue:AutoNameElements/ToolsOptionsSubCategory:General/ToolsOptionsCategory:XAML Designer/ToolsOptions:/UserSettings:",
+              "Before": null,
+              "After": "false"
+            },
+            {
+              "Kind": "Added",
+              "Key": "PropertyValue:InitialDisplayMode/ToolsOptionsSubCategory:General/ToolsOptionsCategory:XAML Designer/ToolsOptions:/UserSettings:",
+              "Before": null,
+              "After": "2"
+            },
+            {
+              "Kind": "Added",
+              "Key": "PropertyValue:ZoomControlMode/ToolsOptionsSubCategory:General/ToolsOptionsCategory:XAML Designer/ToolsOptions:/UserSettings:",
+              "Before": null,
+              "After": "1"
+            },
+            {
+              "Kind": "Added",
+              "Key": "PropertyValue:AutoToolboxPopulate/ToolsOptionsSubCategory:General/ToolsOptionsCategory:XAML Designer/ToolsOptions:/UserSettings:",
+              "Before": null,
+              "After": "true"
+            },
+            {
+              "Kind": "Added",
+              "Key": "PropertyValue:InitialDisplayOrientation/ToolsOptionsSubCategory:General/ToolsOptionsCategory:XAML Designer/ToolsOptions:/UserSettings:",
+              "Before": null,
+              "After": "2"
+            },
+            {
+              "Kind": "Added",
+              "Key": "PropertyValue:EnableXamlDesigner/ToolsOptionsSubCategory:General/ToolsOptionsCategory:XAML Designer/ToolsOptions:/UserSettings:",
+              "Before": null,
+              "After": "true"
+            },
+            {
+              "Kind": "Added",
+              "Key": "PropertyValue:UnitType/ToolsOptionsSubCategory:General/ToolsOptionsCategory:XAML Designer/ToolsOptions:/UserSettings:",
+              "Before": null,
+              "After": "1"
+            },
+            {
+              "Kind": "Added",
+              "Key": "PropertyValue:UseQuadrantLayout/ToolsOptionsSubCategory:General/ToolsOptionsCategory:XAML Designer/ToolsOptions:/UserSettings:",
+              "Before": null,
+              "After": "false"
+            },
+            {
+              "Kind": "Added",
+              "Key": "PropertyValue:AutoInsertLayout/ToolsOptionsSubCategory:General/ToolsOptionsCategory:XAML Designer/ToolsOptions:/UserSettings:",
+              "Before": null,
+              "After": "true"
+            }
+          ]
+        },
+        {
+          "Theme": "dracula",
+          "BaselineSentinel": "0",
+          "ActualSentinel": "0",
+          "ExpectedSentinel": "0",
+          "SentinelVerified": true,
+          "ExistingChanged": 0,
+          "ExistingRemoved": 0,
+          "Added": 9,
+          "Differences": [
+            {
+              "Kind": "Added",
+              "Key": "PropertyValue:AutoNameElements/ToolsOptionsSubCategory:General/ToolsOptionsCategory:XAML Designer/ToolsOptions:/UserSettings:",
+              "Before": null,
+              "After": "false"
+            },
+            {
+              "Kind": "Added",
+              "Key": "PropertyValue:InitialDisplayMode/ToolsOptionsSubCategory:General/ToolsOptionsCategory:XAML Designer/ToolsOptions:/UserSettings:",
+              "Before": null,
+              "After": "2"
+            },
+            {
+              "Kind": "Added",
+              "Key": "PropertyValue:ZoomControlMode/ToolsOptionsSubCategory:General/ToolsOptionsCategory:XAML Designer/ToolsOptions:/UserSettings:",
+              "Before": null,
+              "After": "1"
+            },
+            {
+              "Kind": "Added",
+              "Key": "PropertyValue:AutoToolboxPopulate/ToolsOptionsSubCategory:General/ToolsOptionsCategory:XAML Designer/ToolsOptions:/UserSettings:",
+              "Before": null,
+              "After": "true"
+            },
+            {
+              "Kind": "Added",
+              "Key": "PropertyValue:InitialDisplayOrientation/ToolsOptionsSubCategory:General/ToolsOptionsCategory:XAML Designer/ToolsOptions:/UserSettings:",
+              "Before": null,
+              "After": "2"
+            },
+            {
+              "Kind": "Added",
+              "Key": "PropertyValue:EnableXamlDesigner/ToolsOptionsSubCategory:General/ToolsOptionsCategory:XAML Designer/ToolsOptions:/UserSettings:",
+              "Before": null,
+              "After": "true"
+            },
+            {
+              "Kind": "Added",
+              "Key": "PropertyValue:UnitType/ToolsOptionsSubCategory:General/ToolsOptionsCategory:XAML Designer/ToolsOptions:/UserSettings:",
+              "Before": null,
+              "After": "1"
+            },
+            {
+              "Kind": "Added",
+              "Key": "PropertyValue:UseQuadrantLayout/ToolsOptionsSubCategory:General/ToolsOptionsCategory:XAML Designer/ToolsOptions:/UserSettings:",
+              "Before": null,
+              "After": "false"
+            },
+            {
+              "Kind": "Added",
+              "Key": "PropertyValue:AutoInsertLayout/ToolsOptionsSubCategory:General/ToolsOptionsCategory:XAML Designer/ToolsOptions:/UserSettings:",
+              "Before": null,
+              "After": "true"
+            }
+          ]
+        }
+      ],
+      "UserDefaultProfileChanged": false,
+      "DesktopInputUsed": false,
+      "ActualIdeThemeApiTest": true
+    },
+    {
+      "Year": "2022",
+      "Run": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task064\\candidate11-2022-basic1",
+      "RootSuffix": "ThemeApply64bf3efac3",
+      "ExpectedRegistryRoot": "Software\\Microsoft\\VisualStudio\\17.0_0b4009f1ThemeApply64bf3efac3",
+      "RawPassed": 25,
+      "RawFailed": 0,
+      "RawSucceeded": true,
+      "FatalError": null,
+      "RawResultSha256": "9138C0AD4EDF9FBB5376ED640F49F3D22FE2F09A5C3FC5F812DA08DDCAA6B919",
+      "CandidateDllSha256": "7137C6E16E8F080E8D82330F63BE2142D2666E21C55005492571CB936106B5F6",
+      "VsixSha256": "7A3F8D98B99CE4B8B44B100208D272C4BB47EAD0E62B4041AD75CE35ECB0AD8B",
+      "ThemeVsixSha256": "CC13D0896C4C98A68529BA01BF17A94BEA5DC27CCBBD83EB0F75DC46F100B8DD",
+      "LoadedDllMatchesFixedCandidate": true,
+      "HelperSourceMatchesFrozen": true,
+      "HelperDllSha256": "D4B4ADD7A85CE7584AAAED9D7318B55AFAA17AFE82454BAFFEF0C33031D566D5",
+      "ExitedNormally": true,
+      "ForcedOwnedProcessCleanup": false,
+      "ExpectedPendingPath": "C:\\Users\\ygree\\AppData\\Local\\Grokeen\\VisualStudioThemes\\pending-DEEFADC86BBFC0F7BF0EBB8F.txt",
+      "PendingExistsAfter": false,
+      "SettingsAnalysis": null,
+      "UserDefaultProfileChanged": false,
+      "DesktopInputUsed": false,
+      "ActualIdeThemeApiTest": true
+    }
+  ],
+  "ActualThemeGuidAndHostColorVerifiedCount": 6,
+  "NondefaultSentinelVerifiedCount": 4,
+  "ExistingPropertyChangedCount": 0,
+  "ExistingPropertyRemovedCount": 0,
+  "AdditionalSerializationRowsPerTheme": {
+    "VS2017": 6,
+    "VS2019": 9,
+    "VS2022": 0
+  },
+  "C9FinalValidationSha256": "FD3AF2A080BEF5D596E4A7FBA9B29C7239151C28DD163D30269C132159023613",
+  "C9FinalValidationUnchanged": true,
+  "OwnedProcessesRemaining": [],
+  "GUIReservationReturned": true,
+  "Customer1571Verified": false,
+  "LiveAiVerified": false,
+  "PhysicalPointerTested": false,
+  "ProductEdited": false,
+  "GitOrReleaseChanged": false,
+  "FrozenAt": "2026-10-20T04:06:03.3221270+09:00"
+}

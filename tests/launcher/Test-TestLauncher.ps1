@@ -67,7 +67,7 @@ function Assert-LauncherProbe {
 }
 
 $result = Invoke-LauncherProbe $launcherOriginal '--list'
-Assert-LauncherProbe 'CLI lists sixteen default and two opt-in suites' ($result.ExitCode -eq 0 -and ([regex]::Matches($result.Output,'\tdefault')).Count -eq 16 -and ([regex]::Matches($result.Output,'\topt-in')).Count -eq 2) $result
+Assert-LauncherProbe 'CLI lists nineteen default and two opt-in suites' ($result.ExitCode -eq 0 -and ([regex]::Matches($result.Output,'\tdefault')).Count -eq 19 -and ([regex]::Matches($result.Output,'\topt-in')).Count -eq 2) $result
 $result = Invoke-LauncherProbe $launcherOriginal '--run compatibility'
 Assert-LauncherProbe 'Real compatibility suite succeeds through launcher' ($result.ExitCode -eq 0 -and $result.Output.Contains('44/44 passed.')) $result
 $result = Invoke-LauncherProbe $fixtureExe '--run unknown-suite'

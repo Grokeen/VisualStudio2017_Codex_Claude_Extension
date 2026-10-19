@@ -1,0 +1,71 @@
+{
+  "audit": "TASK-058 C10 follow-up",
+  "auditor": "CodexOrig2",
+  "status": "INTERIM_C10_ACTUAL_IDE_PENDING",
+  "candidate": "artifacts/task054/candidate10",
+  "version": "0.12.1",
+  "inputs": 132,
+  "inputMismatches": 0,
+  "c9ToC10ChangedInput": "output/pdf/VisualStudio_AI_Assistant_설치_사용설명서_v0.12.1_미리보기.pdf",
+  "productSourcesUnchanged": true,
+  "releaseBuilds": "4 SKUs, exit 0, errors 0, warnings 0 each",
+  "releaseSha256": {
+    "2017": { "dll": "8874066BB0CC81C4B0783FB4040393259DC28D12771829DA1C123D68FA7F6ED5", "vsix": "EB8F482A115E5B46D4CDC93C24FEA0AEDBCEFE702C3B7A88B12FF6CD68B67976" },
+    "2017.Legacy": { "dll": "6CEEBC2EBA0E4E249D755DABB1909FFB86E826DA260B659DA48CB76BAB36C421", "vsix": "A22C833A4E239A1EE2DC8B8F4C5E332F344FC8898642C0523B16E4DAC4324AB0" },
+    "2019": { "dll": "92C8056D191588994FD906E084F5857A14934D208A1FA480B1CD70657EEFFA80", "vsix": "AF3467753595247966F5051B6CF8C51EAF221D9A322199458C3E87A523F36FEA" },
+    "2022": { "dll": "5A5661744C480EFB731A5ABC6621751D1089917F434CA0F833A066BA070C63A6", "vsix": "04151C996EED8EFA5F023806A4028FAE79BBE785A60244E9F581A1BD2C47457F" }
+  },
+  "directTests": {
+    "themeBoundaryPerSku": "28/28 x 4",
+    "notificationContentPerSku": "30/30 x 4",
+    "queueVs2017": "58/58"
+  },
+  "requirements": {
+    "R58-01Privacy": "PASS_C10_HEADLESS_ALL_FOUR",
+    "R58-02SafeSummary": "PASS_C10_HEADLESS_ALL_FOUR_OS_PIXEL_UNVERIFIED",
+    "R58-03ThemeAndSettings": "PENDING_C10_ACTUAL_IDE; C9_TESTED_EXPLICIT_SETTINGS_PRESERVED_4_OF_4_RAW_EXPORT_FAILURES_RETAINED",
+    "R58-04QueueErrorStatus": "PASS_C10_58_OF_58"
+  },
+  "pdf": {
+    "embeddedSha256": "F853789CE823A1EABE8B4E98226064A9E86F808389CA77033DF83925744F2372",
+    "embeddedBytes": 1406441,
+    "embeddedMatchCount": "4/4",
+    "pageCount": 26,
+    "visuallyReviewedPages": [1, 19, 26]
+  },
+  "themePackageIntegrity": {
+    "oneNestedThemeVsixPerSku": true,
+    "nestedMatchesReleaseFilePerSku": true,
+    "sha256": {
+      "2017": "DA9E78BDDBF664A7C78191F47C399BEE96B05C28C33CFBBBAE74612E04B6C8C1",
+      "2017.Legacy": "DA9E78BDDBF664A7C78191F47C399BEE96B05C28C33CFBBBAE74612E04B6C8C1",
+      "2019": "19C2C611B731F6BE2B1F07EF7DEC4807BC5814B40D92EB3DE576110C17311AEB",
+      "2022": "CC13D0896C4C98A68529BA01BF17A94BEA5DC27CCBBD83EB0F75DC46F100B8DD"
+    }
+  },
+  "offlinePreflight": {
+    "aiVsixCount": 4,
+    "themeVsixCount": 3,
+    "archives": 2,
+    "assets": 13,
+    "installerBoundary": "35/35 synthetic SKU and local inventory",
+    "networkDisabledAppContainer": "6/6; direct TCP blocked before/after, idempotent install and CLI versions; no authentication or model request",
+    "networkRequested": false,
+    "cliExecuted": false,
+    "published": false,
+    "customerProfessional1571ActuallyInstalled": false,
+    "packageEvidence": "artifacts/task054/package-inputs-final1/package-validation.json",
+    "installerEvidence": "artifacts/task054/installer-final/results.json",
+    "appContainerEvidence": "artifacts/task041/run-ab2f97f246e3499d9c304a12803dabb2/worker-results.json"
+  },
+  "ideRevisions": [
+    "First C10 IDE run stopped at IDE-06: obsolete request-failure prefix assertion; actual message was '요청 대기 실패: 프로젝트 소스 파일을 선택하거나 저장된 솔루션을 열어 주세요.'; artifacts/ide/run-8b1b04cd30e24fb1905292e9f0665ac1/result.json",
+    "Second run stopped at IDE-06: harness expected a different exception path; original preserved at artifacts/ide/run-b3061d3897d441748d55f656631d525f/result.json",
+    "Third run passed IDE-06 exact guidance/draft/Stop, then stopped at CHAT-09 old >=3 message count; saved chat contains one user and one assistant turn; artifacts/ide/run-b9a501f51eaf4b369878a5fab705f72a/progress.log",
+    "Fourth run stopped at CHAT-09 because the user body includes an automatic attachment suffix, so exact bare 'fixture:ok' was too narrow; artifacts/ide/run-b87aeff4dc8d4d658c345e7cf437aaf1/result.json",
+    "Fifth run passed CHAT-09 with actual user/assistant role and body, then stopped at IMAGES-06 immediate synthetic MouseEnter fan assertion; product uses delayed hover and real pointer state; artifacts/ide/run-687bb77b4f9c4770aea832417c7327e3/result.json",
+    "Harness waits for active Stop to clear rather than Generate to re-enable; product source unchanged"
+  ],
+  "claudeLoginAndLiveAnswer": "excluded at user request",
+  "notVerified": ["C10 actual IDE four SKUs final results", "customer VS2017 Professional 15.7.1", "offline customer environment", "release publication and download"]
+}

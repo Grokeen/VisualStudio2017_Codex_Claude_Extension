@@ -1,0 +1,63 @@
+{
+  "task": "TASK-057",
+  "author": "CodexOrig5",
+  "date_kst": "2026-10-20",
+  "scope": "Research and acceptance guidance for Role 2026-10-20 01:40 item #12 using image56-image65; no product edits.",
+  "reviewed_local_sources": [
+    "MarkdownReport/Role.md#2026-10-20-01:40-item-12",
+    "MarkdownReport/image-56.png",
+    "MarkdownReport/image-57.png",
+    "MarkdownReport/image-58.png",
+    "MarkdownReport/image-59.png",
+    "MarkdownReport/image-60.png",
+    "MarkdownReport/image-61.png",
+    "MarkdownReport/image-62.png",
+    "MarkdownReport/image-63.png",
+    "MarkdownReport/image-64.png",
+    "MarkdownReport/image-65.png",
+    "src/VS2017.AIAssistant/Views/AssistantControl.Experience.cs",
+    "src/VS2017.AIAssistant/Views/AssistantControl.Fan.cs",
+    "src/VS2017.AIAssistant/Views/AssistantMotionTokens.cs",
+    "src/VS2017.AIAssistant/Views/AssistantDialogs.cs"
+  ],
+  "confirmed_current_state": {
+    "fan_hover_open": "OptionsHovered immediately calls OpenFanMenu on MouseEnter",
+    "fan_close_grace_ms": 175,
+    "motion_tokens": {
+      "primary_entry_ms": 220,
+      "micro_interaction_ms": 150,
+      "easing": "CubicEase EaseOut",
+      "windows_setting": "SystemParameters.ClientAreaAnimation"
+    },
+    "design_owner_changes_already_present": "Yes; do not duplicate duration-token implementation"
+  },
+  "research_recommendation": {
+    "hover_open_dwell_test_range_ms": [180, 250],
+    "hover_close_grace_test_range_ms": [250, 300],
+    "normative_timing_value": "None; W3C WCAG 2.2 SC 1.4.13 does not define hover dwell durations",
+    "keyboard_and_click_open": "Immediate; do not apply pointer dwell delay",
+    "popup_behavior": ["dismissible", "hoverable", "persistent while pointer or focus remains in trigger/menu"],
+    "reduce_motion": "Respect ClientAreaAnimation; show immediate static end states and preserve status semantics",
+    "other_image_topics": ["popup/IDE separation and measurable contrast", "compact consistent Markdown/help footer and buttons", "reduced provider-tab whitespace with selected/focus state", "separate tab-switch latency from visual animation"]
+  },
+  "official_primary_sources": [
+    "https://www.w3.org/WAI/WCAG22/Understanding/content-on-hover-or-focus.html",
+    "https://learn.microsoft.com/en-us/windows/apps/develop/ui/controls/tooltips",
+    "https://learn.microsoft.com/en-us/windows/win32/uxguide/ctrl-tooltips-and-infotips",
+    "https://fluent2.microsoft.design/components/web/react/core/tooltip/usage/",
+    "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+    "https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html",
+    "https://www.w3.org/WAI/WCAG22/Understanding/animation-from-interactions.html"
+  ],
+  "handoff": {
+    "root_thread_id": "01a149fc-63c5-79c0-bc83-def5d9a36284",
+    "designer056_thread_id": "01a14fad-b5dc-7532-be87-aaca02cb148d",
+    "sent_to_both": true,
+    "accepted_or_scheduled": "unknown"
+  },
+  "product_source_modified": false,
+  "role_or_existing_reports_modified": false,
+  "build_or_tests_run": false,
+  "release_or_branch_modified": false,
+  "limits": "UI assessment uses the user-supplied screenshots and read-only source. WCAG material is cited as design/accessibility guidance for a native WPF UI, not as a conformance claim."
+}

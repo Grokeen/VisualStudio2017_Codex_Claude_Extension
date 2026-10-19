@@ -1,0 +1,127 @@
+{
+  "audit": "TASK-058 C11 final-candidate follow-up",
+  "auditor": "CodexOrig2",
+  "status": "FAIL_C11_RELEASE_BLOCKED_R58_05_INSTALLED_PDF_PATH",
+  "candidate": "artifacts/task054/candidate11",
+  "version": "0.12.1",
+  "inputs": 132,
+  "inputMismatches": 0,
+  "c10ToC11": "one class-comment indentation line in src/VS2017.AIAssistant/Views/AssistantControl.Fan.cs; executable statements unchanged",
+  "releaseBuilds": "4 SKUs, exit 0, errors 0, warnings 0 each",
+  "releaseSha256": {
+    "2017": { "dll": "01E737C3979FA232510386D8296A8AB9CC9B0E275ECE827D86256ED4ED0E49E6", "vsix": "DC7634520B70915F2AE83139DF678FD05E5FAE5A564C9DBAB76A3A5698C84194" },
+    "2017.Legacy": { "dll": "A09DF16CF6E766413622DE06ED96B3ED9D06B9399C168CCE3332BF734295D4B6", "vsix": "0694FBE074E6A1323EF2739C2CA0D67647B4B2F09E179BA5121CC912879C3C6F" },
+    "2019": { "dll": "4B2F3D0C3AC04749D62FB970B1143F97DEDEABF873EEB8E66B53CA5D19859B7F", "vsix": "19543BCB4CE3BDE0200D796507C29DD662104C1C6EED9D4CDBF15C53DB0ADA9A" },
+    "2022": { "dll": "7137C6E16E8F080E8D82330F63BE2142D2666E21C55005492571CB936106B5F6", "vsix": "7A3F8D98B99CE4B8B44B100208D272C4BB47EAD0E62B4041AD75CE35ECB0AD8B" }
+  },
+  "directTests": {
+    "themeBoundaryPerSku": "28/28 x 4",
+    "notificationContentPerSku": "30/30 x 4",
+    "queueVs2017": "58/58",
+    "windowShown": false,
+    "liveAiUsed": false
+  },
+  "requirements": {
+    "R58-01Privacy": "PASS_C11_HEADLESS_ALL_FOUR",
+    "R58-02SafeSummary": "PASS_C11_HEADLESS_ALL_FOUR_OS_PIXEL_UNVERIFIED",
+    "R58-03ThemeAndSettings": "PENDING_C11_ACTUAL_IDE; C9_EXPLICIT_SETTINGS_PRESERVED_4_OF_4; RAW_EXPORT_FAILURES_RETAINED",
+    "R58-04QueueErrorStatus": "PASS_C11_58_OF_58",
+    "R58-05InstalledPdfPath": "FAIL_C11_P1_GETPDFPATH_FILENOTFOUND",
+    "Role16ActualIde": "PASS_C11_THREE_ACTUAL_IDES_BOTH_THEMES; RAW_EQUALITY_FAIL_4_RETAINED"
+  },
+  "actualIdeIntegration": {
+    "2017.Legacy": {
+      "passed": 145,
+      "failed": 0,
+      "succeeded": true,
+      "productSha256": "A09DF16CF6E766413622DE06ED96B3ED9D06B9399C168CCE3332BF734295D4B6",
+      "evidence": "artifacts/ide/run-cb5f05a756d342aa859f3eecd4e86b1b/result.json"
+    },
+    "2017": {
+      "passed": 145,
+      "failed": 0,
+      "succeeded": true,
+      "productSha256": "01E737C3979FA232510386D8296A8AB9CC9B0E275ECE827D86256ED4ED0E49E6",
+      "evidence": "artifacts/ide/run-dafa9b7f8b8f43248bd3ec7035a11c70/result.json"
+    },
+    "2019": {
+      "passed": 145,
+      "failed": 0,
+      "succeeded": true,
+      "productSha256": "4B2F3D0C3AC04749D62FB970B1143F97DEDEABF873EEB8E66B53CA5D19859B7F",
+      "evidence": "artifacts/ide/run-00fca72ee02c499bb241304c1741bab5/result.json"
+    },
+    "2022": {
+      "passed": 145,
+      "failed": 0,
+      "succeeded": true,
+      "productSha256": "7137C6E16E8F080E8D82330F63BE2142D2666E21C55005492571CB936106B5F6",
+      "evidence": "artifacts/ide/run-fc601cc927554c69afdf4ea93c673c26/result.json"
+    },
+    "total": "580/580 across four SKU actual Visual Studio hosts, synthetic CLI, no live Codex or Claude"
+  },
+  "actualIdeTheme": {
+    "2017": {
+      "rawPassed": 26,
+      "rawFailed": 2,
+      "rawFailures": "kakao-04 and dracula-04 unrelated settings retained exact export equality",
+      "bothThemes": "success, selected GUID, representative host color, pending consumed, temp cleanup, explicit AutoUpdateTags=False preserved",
+      "independentXmlComparison": "baseline 1396 existing unrelated properties; per theme 0 changed, 0 removed, 6 added True rows",
+      "result": "artifacts/task064/candidate11-2017-sentinel1/result.json",
+      "auditDiff": "artifacts/audit-codexorig2-task058/candidate11-2017-settings-independent.json"
+    },
+    "2019": {
+      "rawPassed": 26,
+      "rawFailed": 2,
+      "rawFailures": "kakao-04 and dracula-04 unrelated settings retained exact export equality",
+      "bothThemes": "success, selected GUID, representative host color, pending consumed, temp cleanup, explicit DefaultZoomSetting=0 preserved",
+      "independentXmlComparison": "baseline 1541 existing unrelated properties; per theme 0 changed, 0 removed, 9 XAML Designer General rows added",
+      "installedProfileComparison": "18/18 added values match VS2019 Community General.vssettings",
+      "result": "artifacts/task064/candidate11-2019-sentinel1/result.json",
+      "auditDiff": "artifacts/audit-codexorig2-task058/candidate11-2019-settings-independent.json",
+      "profileComparison": "artifacts/audit-codexorig2-task058/candidate11-2019-profile-comparison.json"
+    },
+    "2022": {
+      "rawPassed": 25,
+      "rawFailed": 0,
+      "succeeded": true,
+      "bothThemes": "success, selected GUID, representative host color, pending consumed, temp cleanup, unrelated raw export equality",
+      "result": "artifacts/task064/candidate11-2022-basic1/result.json"
+    }
+  },
+  "newFinding": {
+    "id": "R58-05",
+    "severity": "P1 release blocker",
+    "expectedName": "VisualStudio_AI_Assistant_설치_사용설명서.pdf",
+    "installedName": "VisualStudio_AI_Assistant_설치_사용설명서_v0.12.1_미리보기.pdf",
+    "directCall": "System.IO.FileNotFoundException from C11 installed VS2017 DLL CliGuideService.GetPdfPath",
+    "evidence": "artifacts/audit-codexorig2-task058/candidate11-installed-pdf-path-failure.json",
+    "releaseGate": "closed until fixed candidate installed-path test passes all four SKUs"
+  },
+  "package": {
+    "embeddedPdfSha256": "F853789CE823A1EABE8B4E98226064A9E86F808389CA77033DF83925744F2372",
+    "pdfMatches": "4/4",
+    "nestedThemeVsixPerSku": "1/1 x 4",
+    "nestedThemeMatchesReleaseFile": "4/4",
+    "nestedThemeSha256": {
+      "2017": "DA9E78BDDBF664A7C78191F47C399BEE96B05C28C33CFBBBAE74612E04B6C8C1",
+      "2017.Legacy": "DA9E78BDDBF664A7C78191F47C399BEE96B05C28C33CFBBBAE74612E04B6C8C1",
+      "2019": "19C2C611B731F6BE2B1F07EF7DEC4807BC5814B40D92EB3DE576110C17311AEB",
+      "2022": "CC13D0896C4C98A68529BA01BF17A94BEA5DC27CCBBD83EB0F75DC46F100B8DD"
+    },
+    "aiVsix": 4,
+    "themeVsix": 3,
+    "archives": 2,
+    "assets": 13,
+    "c11OfflineInstallerBoundary": "35/35 synthetic SKU/local inventory",
+    "c11AppContainerRetest": "6/6 on final3 ZIP; zero network capabilities, TCP blocked before/after, repeat install and two CLI versions; profile and ACL cleanup, no authentication",
+    "fullOfflineZipBytes": 311148298,
+    "fullOfflineZipSha256": "EE7056184395E0188D5F0BA87460CA5D89DCBDC3B96BF0E2DB2144DFD8106FB6",
+    "final2ToFinal3OnlyChangedInput": "docs/OFFLINE_INSTALL.md",
+    "packageEvidence": "artifacts/task054/package-inputs-final3/package-validation.json",
+    "installerEvidence": "artifacts/task054/installer-final2/results.json",
+    "appContainerEvidence": "artifacts/task041/run-dae38a6ef0e04c739b3742c3df4b17f4/worker-results.json"
+  },
+  "claudeLoginAndLiveAnswer": "excluded at user request",
+  "notVerified": ["C11 full visual pixel and physical hover matrix", "customer VS2017 Professional 15.7.1", "release publication/download"]
+}

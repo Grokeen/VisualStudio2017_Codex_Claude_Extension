@@ -27,7 +27,7 @@ if($sourceOnly){
     $compiler='C:/Program Files (x86)/Microsoft Visual Studio/2017/Community/MSBuild/15.0/Bin/Roslyn/csc.exe'
     $referenceDir='C:/Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETFramework/v4.6.2'
     $compilerArgs=@('/nologo','/target:library','/langversion:7','/codepage:65001','/nostdlib+',('/out:'+$productPath),('/lib:'+$referenceDir),'/reference:mscorlib.dll','/reference:System.dll','/reference:System.Core.dll','/reference:System.Drawing.dll','/reference:System.Windows.Forms.dll','/reference:WindowsBase.dll','/reference:PresentationCore.dll','/reference:PresentationFramework.dll','/reference:System.Xaml.dll')
-    foreach($inputPath in @((Join-Path $repositoryDir 'src/VS2017.AIAssistant/Views/ProgressNotice.cs'),(Join-Path $repositoryDir 'src/VS2017.AIAssistant/Views/AssistantControl.ProgressPresentation.cs'),(Join-Path $PSScriptRoot 'ProgressControlFixture.cs'))){$compilerArgs+=$inputPath;$inputs+=Get-FileHash -Algorithm SHA256 -LiteralPath $inputPath | Select-Object Path,Hash}
+    foreach($inputPath in @((Join-Path $repositoryDir 'src/VS2017.AIAssistant/Views/ProgressNotice.cs'),(Join-Path $repositoryDir 'src/VS2017.AIAssistant/Views/CompletionNotification.cs'),(Join-Path $repositoryDir 'src/VS2017.AIAssistant/Views/AssistantControl.ProgressPresentation.cs'),(Join-Path $PSScriptRoot 'ProgressControlFixture.cs'))){$compilerArgs+=$inputPath;$inputs+=Get-FileHash -Algorithm SHA256 -LiteralPath $inputPath | Select-Object Path,Hash}
     & $compiler @compilerArgs
     if($LASTEXITCODE -ne 0){throw '진행 표시 source-only 독립 컴파일 실패'}
 }else{

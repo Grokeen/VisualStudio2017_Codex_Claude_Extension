@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -28,6 +28,7 @@ using System.Windows.Media.Imaging;
 /// update date  : 2026-10-18 CodexCode : 승인·충돌·복구와 실제 파이프·취소 회귀 테스트 추가.
 /// update date  : 2026-10-18 CodexOrig : Chat 컨텍스트·첨부·영속 설정·계정 회귀 추가.
 ///                2026-10-18 CodexOrig : 사용자 규칙 앞에 숨김 필수 규칙이 정확히 한 번 전달되는 CLI 계약 반영.
+///                2026-10-20 CodexOrig : 보조 개발 TASK055 후속, FIFO 완료 조건과 명시 건너뛰기에 맞춘 회귀 보존.
 /// </summary>
 /// ---------------------------------------------------------------------
 internal static class EditingTests
@@ -288,6 +289,7 @@ internal static class EditingTests
     /// update date  : 2026-10-18 CodexCode : UI 승인 체크 및 Provider 전환 시 이전 승인 해제 검증.
     /// update date  : 2026-10-18 CodexOrig : Chat 컨텍스트·설정·창 이동 및 검증 흐름 갱신.
     /// update date  : 2026-10-18 CodexOrig : 기본 Claude 순서와 무관하게 Provider Tag로 편집 회귀 실행.
+    ///                2026-10-20 CodexOrig : 보조 개발 TASK055 후속, FIFO 완료 조건과 명시 건너뛰기에 맞춘 회귀 보존.
     /// </summary>
     /// ---------------------------------------------------------------------
     private static void TestUi()
@@ -302,7 +304,7 @@ internal static class EditingTests
                 ((TextBox)control.FindName("Instruction")).Text = "fixture:ok 한글";
                 var generate = (Button)control.FindName("GenerateButton"); var apply = (Button)control.FindName("ApplyButton");
                 var approval = (CheckBox)control.FindName("ReviewApproval");
-                Click(generate); Assert(!generate.IsEnabled); PumpUntil(() => generate.IsEnabled, 15000);
+                Click(generate); Assert(generate.IsEnabled && ((TextBox)control.FindName("Instruction")).IsEnabled && IsRequestRunning(control), "FIFO submission must keep input/send enabled while the request runs: " + RequestDiagnostic(control)); WaitForRequest(control);
                 Assert(doc.ReplaceCount == 0 && doc.DiskText == original && !apply.IsEnabled && approval.IsEnabled);
                 Assert(((TextBox)control.FindName("DiffPreview")).Text.Contains("return 2;"));
                 RenderReview(control);
@@ -319,7 +321,7 @@ internal static class EditingTests
                 ProductUi.SelectProvider(control, "Codex");
                 control.Initialize(new TestDocuments(doc), new CliEditProvider(TimeSpan.FromSeconds(10)));
                 ((TextBox)control.FindName("ExecutablePath")).Text = fixture; ((TextBox)control.FindName("Instruction")).Text = "fixture:ok";
-                var generate = (Button)control.FindName("GenerateButton"); Click(generate); PumpUntil(() => generate.IsEnabled, 15000);
+                var generate = (Button)control.FindName("GenerateButton"); Click(generate); WaitForRequest(control);
                 ((CheckBox)control.FindName("ReviewApproval")).IsChecked = true;
                 doc.Buffer += "// later edit"; Click((Button)control.FindName("ApplyButton")); Assert(doc.ReplaceCount == 0 && doc.Buffer.EndsWith("// later edit"));
                 ProductUi.SelectProvider(control, "Claude");
@@ -332,7 +334,7 @@ internal static class EditingTests
             {
                 control.Initialize(documents, new CliEditProvider(TimeSpan.FromSeconds(10)));
                 ((TextBox)control.FindName("ExecutablePath")).Text = fixture; ((TextBox)control.FindName("Instruction")).Text = "fixture:ok";
-                var generate = (Button)control.FindName("GenerateButton"); Click(generate); PumpUntil(() => generate.IsEnabled, 15000);
+                var generate = (Button)control.FindName("GenerateButton"); Click(generate); WaitForRequest(control);
                 documents.Current = other;
                 var apply = (Button)control.FindName("ApplyButton");
                 apply.RaiseEvent(new RoutedEventArgs(Button.ClickEvent)); Assert(first.ReplaceCount == 0 && other.ReplaceCount == 0);
@@ -347,9 +349,9 @@ internal static class EditingTests
                 control.Initialize(new TestDocuments(doc), new CliEditProvider(TimeSpan.FromSeconds(10)));
                 ((TextBox)control.FindName("ExecutablePath")).Text = fixture; ((TextBox)control.FindName("Instruction")).Text = "fixture:hang";
                 var generate = (Button)control.FindName("GenerateButton"); Click(generate);
-                Click((Button)control.FindName("StopButton")); PumpUntil(() => generate.IsEnabled, 15000);
+                Click((Button)control.FindName("StopButton")); WaitForRequest(control);
                 Assert(doc.ReplaceCount == 0 && !((Button)control.FindName("ApplyButton")).IsEnabled);
-                ((TextBox)control.FindName("Instruction")).Text = "fixture:ok"; Click(generate); PumpUntil(() => generate.IsEnabled, 15000);
+                ((TextBox)control.FindName("Instruction")).Text = "fixture:ok"; Click(generate); WaitForRequest(control);
                 Assert(((CheckBox)control.FindName("ReviewApproval")).IsEnabled && doc.ReplaceCount == 0);
             }
         });
@@ -363,6 +365,7 @@ internal static class EditingTests
     /// create date  : 2026-10-18
     /// update date  : 2026-10-18 CodexOrig : 새 Role 요구의 데이터 및 화면 회귀 추가.
     /// update date  : 2026-10-18 CodexOrig : 모드 기본값·잘못된 값 및 두 CLI 실제 argv 전달 검증.
+    ///                2026-10-20 CodexOrig : 보조 개발 TASK055 후속, FIFO 완료 조건과 명시 건너뛰기에 맞춘 회귀 보존.
     /// </summary>
     /// ---------------------------------------------------------------------
     private static void TestChat()
@@ -444,9 +447,12 @@ internal static class EditingTests
                 ((TextBox)control.FindName("ModelName")).Text = "fixture-model";
                 control.AttachFiles(new[] { textPath });
                 var generate = (Button)control.FindName("GenerateButton");
-                ((TextBox)control.FindName("Instruction")).Text = "fixture:ok"; Click(generate); PumpUntil(() => generate.IsEnabled, 15000);
-                ((TextBox)control.FindName("Instruction")).Text = "fixture:context"; Click(generate); PumpUntil(() => generate.IsEnabled, 15000);
-                Assert(((ItemsControl)control.FindName("ConversationMessages")).Items.Count == 4 && ((CheckBox)control.FindName("ReviewApproval")).IsEnabled && !((Button)control.FindName("ApplyButton")).IsEnabled);
+                ((TextBox)control.FindName("Instruction")).Text = "fixture:ok"; Click(generate); WaitForRequest(control);
+                object firstProposal = typeof(AssistantControl).GetField("pendingProposal", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(control);
+                ((TextBox)control.FindName("Instruction")).Text = "fixture:context"; Click(generate);
+                Assert(!IsRequestRunning(control) && ReferenceEquals(firstProposal, typeof(AssistantControl).GetField("pendingProposal", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(control)), "Queued follow-up must preserve the first unapproved proposal: " + RequestDiagnostic(control));
+                Click((Button)control.FindName("DiscardProposalButton")); WaitForRequest(control);
+                Assert(((ItemsControl)control.FindName("ConversationMessages")).Items.OfType<ChatMessage>().Count(message => message.Role == "user" || message.Role == "assistant") == 4 && ((CheckBox)control.FindName("ReviewApproval")).IsEnabled && !((Button)control.FindName("ApplyButton")).IsEnabled);
                 Click((Button)control.FindName("NewChatButton"));
                 Assert(((ItemsControl)control.FindName("ConversationMessages")).Items.Count == 0 && ((ListBox)control.FindName("AttachmentList")).Items.Count == 0 && !((Button)control.FindName("ApplyButton")).IsEnabled);
             }
@@ -613,9 +619,10 @@ internal static class EditingTests
     /// author       : CodexCode
     /// create date  : 2026-10-18
     /// update date  : 2026-10-18 CodexCode : 단정 구현.
+    ///                2026-10-20 CodexOrig : 보조 개발 TASK055 후속, FIFO 완료 조건과 명시 건너뛰기에 맞춘 회귀 보존.
     /// </summary>
     /// ---------------------------------------------------------------------
-    private static void Assert(bool condition) { if (!condition) throw new InvalidOperationException("Assertion failed"); }
+    private static void Assert(bool condition, string message = "Assertion failed") { if (!condition) throw new InvalidOperationException(message); }
 
     /// ---------------------------------------------------------------------
     /// <summary>
@@ -726,6 +733,52 @@ internal static class EditingTests
     /// </summary>
     /// ---------------------------------------------------------------------
     private static void Click(Button button) { Assert(button.IsEnabled); button.RaiseEvent(new RoutedEventArgs(Button.ClickEvent)); }
+
+    /// ---------------------------------------------------------------------
+    /// <summary>
+    /// name         : IsRequestRunning
+    /// desc         : FIFO 전송 버튼 활성과 별개인 실제 실행/소비자 상태를 읽는다.
+    /// author       : CodexOrig
+    /// create date  : 2026-10-20
+    /// update date  : 2026-10-20 CodexOrig : 보조 개발 TASK055 후속, 전송 활성 상태를 완료로 오인하지 않음.
+    /// </summary>
+    /// ---------------------------------------------------------------------
+    private static bool IsRequestRunning(AssistantControl control)
+    {
+        return (bool)typeof(AssistantControl).GetField("busy", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(control) ||
+            (bool)typeof(AssistantControl).GetField("drainingRequests", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(control);
+    }
+
+    /// ---------------------------------------------------------------------
+    /// <summary>
+    /// name         : RequestDiagnostic
+    /// desc         : 실제 실행·전송·승인 상태와 사용자 상태 메시지를 실패 근거로 남긴다.
+    /// author       : CodexOrig
+    /// create date  : 2026-10-20
+    /// update date  : 2026-10-20 CodexOrig : 보조 개발 TASK055 후속, WPF 실패 원인과 실행 완료 조건 구분.
+    /// </summary>
+    /// ---------------------------------------------------------------------
+    private static string RequestDiagnostic(AssistantControl control)
+    {
+        return "running=" + IsRequestRunning(control) + ",sendEnabled=" + ((Button)control.FindName("GenerateButton")).IsEnabled +
+            ",approvalEnabled=" + ((CheckBox)control.FindName("ReviewApproval")).IsEnabled + ",status=" + ((TextBlock)control.FindName("StatusLabel")).Text;
+    }
+
+    /// ---------------------------------------------------------------------
+    /// <summary>
+    /// name         : WaitForRequest
+    /// desc         : 입력이 계속 가능한 FIFO에서 실제 요청과 소비자의 종료를 기다린다.
+    /// author       : CodexOrig
+    /// create date  : 2026-10-20
+    /// update date  : 2026-10-20 CodexOrig : 보조 개발 TASK055 후속, 승인/적용/취소 검사는 그대로 유지.
+    /// </summary>
+    /// ---------------------------------------------------------------------
+    private static void WaitForRequest(AssistantControl control)
+    {
+        try { PumpUntil(() => !IsRequestRunning(control), 15000); }
+        catch (Exception error) { throw new InvalidOperationException("Request did not complete: " + RequestDiagnostic(control), error); }
+        Console.WriteLine("UI request finished: " + RequestDiagnostic(control));
+    }
 
     /// ---------------------------------------------------------------------
     /// <summary>

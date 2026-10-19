@@ -58,6 +58,11 @@ $null = New-Item -ItemType Directory -Path $referenceDir
 $referenceDll = Join-Path $referenceDir 'VS2017.AIAssistant.dll'
 $package = [IO.Compression.ZipFile]::OpenRead($VsixPath)
 try {
+    $pdfEntries=@($package.Entries|Where-Object {$_.FullName -match '\.pdf$'})
+    if($pdfEntries.Count -ne 1 -or [Uri]::UnescapeDataString($pdfEntries[0].FullName) -cne 'Resources/CliGuide/VisualStudio_AI_Assistant_설치_사용설명서.pdf'){throw 'Runtime PDF name differs from installed VSIX entry.'}
+    $pdfStream=$pdfEntries[0].Open()
+    try{$pdfSha=[Security.Cryptography.SHA256]::Create();$packagePdfHash=[BitConverter]::ToString($pdfSha.ComputeHash($pdfStream)).Replace('-','')}
+    finally{$pdfStream.Dispose();$pdfSha.Dispose()}
     $entry = $package.GetEntry('VS2017.AIAssistant.dll')
     if (!$entry) { throw '제품 DLL이 없는 VSIX입니다.' }
     $stream = $entry.Open()
@@ -115,7 +120,7 @@ $solutionPath = Join-Path $outputDir 'IdeProbe.sln'
 $configPath = Join-Path $outputDir 'config.json'
 [pscustomobject]@{
     OutputDirectory=$outputDir; SolutionPath=$solutionPath; FixturePath=$FixturePath
-    LiveCodexPath=$LiveCodexPath; CloseWhenDone=$true; ExpectedIdeMajor=$major.ToString(); RuntimeFixturePath=$runtimeFixturePath; ExpectedProductSha256=(Get-FileHash -LiteralPath $referenceDll -Algorithm SHA256).Hash
+    LiveCodexPath=$LiveCodexPath; CloseWhenDone=$true; ExpectedIdeMajor=$major.ToString(); RuntimeFixturePath=$runtimeFixturePath; ExpectedProductSha256=(Get-FileHash -LiteralPath $referenceDll -Algorithm SHA256).Hash;ExpectedGuideSha256=$packagePdfHash
 } | ConvertTo-Json | Set-Content -LiteralPath $configPath -Encoding UTF8
 $startInfo = New-Object Diagnostics.ProcessStartInfo
 $startInfo.FileName = $devenv

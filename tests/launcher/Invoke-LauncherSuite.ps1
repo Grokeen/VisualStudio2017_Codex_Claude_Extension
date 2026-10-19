@@ -13,7 +13,7 @@ update date  : 2026-10-18 CodexOrig : TASK-018 드롭다운·이미지 요구 �
 #>
 [CmdletBinding()]
 param(
-    [Parameter(Mandatory=$true)][ValidateSet('compatibility','build-entry','markdown','settings','workspace-actions','editing','foundation','experience','documents','collaboration','provider-options','provider-cli','scm-identity','image-requirements','image-followup','native-runtime','ide','live-codex')][string]$Suite,
+    [Parameter(Mandatory=$true)][ValidateSet('compatibility','build-entry','markdown','settings','workspace-actions','editing','foundation','experience','documents','collaboration','provider-options','provider-cli','scm-identity','image-requirements','image-followup','native-runtime','request-queue','file-artifacts','notification-content','ide','live-codex')][string]$Suite,
     [string]$AssemblyPath,
     [string]$VsixPath,
     [string]$OutputDirectory,
@@ -42,8 +42,17 @@ try {
         'image-requirements' { $scriptRelativePath = 'tests\review\Test-ImageRequirements.ps1'; $suiteArguments.AssemblyPath = $AssemblyPath; $suiteArguments.OutputDirectory = $OutputDirectory }
         'image-followup' { $scriptRelativePath = 'tests\task021\Test-Task021.ps1'; $suiteArguments.AssemblyPath = $AssemblyPath; $suiteArguments.OutputDirectory = $OutputDirectory }
         'native-runtime' { $scriptRelativePath = 'tests\task020\Test-NativeRuntime.ps1'; $suiteArguments.AssemblyPath = $AssemblyPath; $suiteArguments.OutputDirectory = $OutputDirectory }
+        'request-queue' { $scriptRelativePath = 'tests\task055\Test-RequestQueue.ps1'; $suiteArguments.AssemblyPath = $AssemblyPath; $suiteArguments.OutputDirectory = $OutputDirectory }
+        'file-artifacts' { $scriptRelativePath = 'tests\task061\Test-ArtifactProduct.ps1'; $suiteArguments.AssemblyPath = $AssemblyPath; $suiteArguments.OutputDirectory = $OutputDirectory }
+        'notification-content' { $scriptRelativePath = 'tests\task054\Test-NotificationContent.ps1'; $suiteArguments.AssemblyPath = $AssemblyPath; $suiteArguments.OutputDirectory = $OutputDirectory }
         'ide' { $scriptRelativePath = 'tests\ide\Test-IdeIntegration.ps1'; $suiteArguments.VsixPath = $VsixPath }
         'live-codex' { $scriptRelativePath = 'tests\review\Test-LiveChatContext.ps1'; $suiteArguments.AssemblyPath = $AssemblyPath; $suiteArguments.CodexPath = $CodexPath }
+    }
+    if ($Suite -in @('request-queue','file-artifacts')) {
+        $binaryFolder = [IO.DirectoryInfo]([IO.Path]::GetDirectoryName([IO.Path]::GetFullPath($AssemblyPath)))
+        $skuFolder = $binaryFolder.Parent
+        $exactAssets = Join-Path $skuFolder.Parent.FullName ('source/src/VS'+$skuFolder.Name+'.AIAssistant/obj/project.assets.json')
+        $suiteArguments.AssetsPath = if (Test-Path -LiteralPath $exactAssets) { $exactAssets } else { Join-Path $launcherRoot 'src/VS2017.AIAssistant/obj/project.assets.json' }
     }
     $scriptFullPath = [IO.Path]::GetFullPath((Join-Path $launcherRoot $scriptRelativePath))
     if (!$scriptFullPath.StartsWith($launcherRoot.TrimEnd('\') + '\', [StringComparison]::OrdinalIgnoreCase)) { throw '검사 스크립트가 프로젝트 폴더를 벗어났습니다.' }

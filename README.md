@@ -15,9 +15,9 @@
 | 2019 16.11 · x86 IDE | [VS2019용 다운로드](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.12.0-preview.1/VS2019.AIAssistant-0.12.0.vsix) |
 | 2022 17.x · x64 IDE | [VS2022용 다운로드](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.12.0-preview.1/VS2022.AIAssistant-0.12.0.vsix) |
 
-## v0.12.0 후보 UI 미리보기
+## v0.12.0 공개 미리보기 UI
 
-이번 미리보기에는 완료 알림, 최근 대화의 단계별 불러오기, 설정 페이지 탐색, Markdown 도구 그룹, 앱 전용 Kakao·Dracula 색상 팔레트와 독립 Visual Studio 테마 패키지를 포함합니다. 공통 팝업은 OS의 녹색 제목 표시줄 대신 확장 화면과 어울리는 제목 표시줄을 사용하며, 창 이동과 최소화·최대화·닫기를 제공합니다. 아래 그림은 candidate5 DLL의 분리된 WPF 렌더 캡처이며 실제 Visual Studio IDE 캡처가 아닙니다. 최종 C6의 네 Release 빌드와 기본16묶음·세 IDE/Legacy 통합 검사 및 감사 보완을 완료했고, 고객 오프라인 PC 결과는 별도로 확인합니다.
+이번 미리보기에는 완료 알림, 최근 대화의 단계별 불러오기, 설정 페이지 탐색, Markdown 도구 그룹, 앱 전용 Kakao·Dracula 색상 팔레트와 독립 Visual Studio 테마 패키지를 포함합니다. 공통 팝업은 OS의 녹색 제목 표시줄 대신 확장 화면과 어울리는 제목 표시줄을 사용하며, 창 이동과 최소화·최대화·닫기를 제공합니다. 아래 그림은 별도 WPF 렌더 이미지이며 실제 Visual Studio IDE 캡처가 아닙니다. 고객 오프라인 PC의 설치 결과는 별도로 확인해야 합니다.
 
 ![candidate5 DLL의 테마형 팝업 제목 표시줄과 설정 화면. 별도 WPF 캡처이며 실제 IDE 화면이 아니다.](docs/assets/ui-guide-v0.12.0/candidate5/settings-vs.png)
 
@@ -28,13 +28,45 @@
 
 [v0.12.0 사용 안내와 그림](docs/USER_GUIDE.md#v0120-화면-변경-미리보기) · [PDF 미리보기](output/pdf/VisualStudio_AI_Assistant_설치_사용설명서_v0.12.0_미리보기.pdf)
 
+## v0.12.1 사용자 안내 후보 (미공개)
+
+현재 공개 배포는 **v0.12.0-preview.1**입니다. v0.12.1 후보는 문서 통합 확인을 마쳤지만 아직 공개되지 않았으므로 기존 공개 링크를 사용하세요. 공개 예정 tag는 `v0.12.1-preview.1`, 완성 오프라인 ZIP은 `VisualStudio_AI_Assistant-0.12.1-Preview1-FullOffline-win-x64.zip`, 사용자 안내 PDF Asset은 `VisualStudio_AI_Assistant-0.12.1-Preview-UserGuide.pdf`입니다. 공개 후 이 파일명과 다운로드 주소를 배포 담당자가 전환할 예정입니다. 아래 그림은 이해를 돕는 합성 WPF 렌더이며 실제 Visual Studio/Windows 바탕 화면 캡처나 GIF가 아닙니다.
+
+아래 예시는 WPF `RenderTargetBitmap`으로 별도 렌더한 합성 화면입니다. 실제 Visual Studio IDE·Windows 바탕 화면 캡처가 아니며, 화면 구성을 이해하기 위한 참고 그림입니다.
+
+| 밝은 팝업 | 어두운 팝업 |
+|---|---|
+| ![밝은 배경 합성 화면 위의 설정 팝업. WPF 합성 렌더이며 실제 IDE 캡처가 아니다.](docs/assets/ui-guide-v0.12.1/candidate1/popup-light.png) | ![어두운 배경 합성 화면 위의 설정 팝업. WPF 합성 렌더이며 실제 IDE 캡처가 아니다.](docs/assets/ui-guide-v0.12.1/candidate1/popup-dark.png) |
+
+| 어두운 팝업 제목 표시줄 | 공통 버튼과 간결한 아래쪽 동작 영역 |
+|---|---|
+| ![어두운 팝업의 제목 표시줄 부분 확대. 합성 WPF 렌더.](docs/assets/ui-guide-v0.12.1/candidate1/caption-dark.png) | ![어두운 팝업의 적용·닫기 버튼 영역 부분 확대. 합성 WPF 렌더.](docs/assets/ui-guide-v0.12.1/candidate1/compact-footer-dark.png) |
+
+| Markdown 작성기 | 좁은 패널의 Claude/Codex 탭 |
+|---|---|
+| ![어두운 테마의 Markdown 작성기 컨트롤. WPF 합성 렌더이며 실제 IDE 캡처가 아니다.](docs/assets/ui-guide-v0.12.1/candidate1/markdown-dark.png) | ![폭 200픽셀 합성 패널의 Claude/Codex 탭과 입력 영역.](docs/assets/ui-guide-v0.12.1/candidate1/provider-tabs-200.png) |
+
+다음 두 그림은 입력 말풍선과 IDE 테마 설정 UI를 보여 주는 합성 WPF 렌더이며 실제 Visual Studio/Windows 캡처가 아닙니다. 말풍선 문장은 가상 예시입니다. 실제 VS2017 15.9, VS2019 16.11, VS2022 17.14의 IDE 통합 시험에서 Kakao·Dracula 테마 선택 ID, 대표 환경 색상 적용, 보류 상태 소비와 임시 파일 정리를 확인했습니다. 설치 관리자 버튼의 실제 물리 클릭과 완료, 재시작을 포함한 고객 사용 흐름은 별도 확인이 필요합니다.
+
+| 요청 메시지 말풍선 | Visual Studio 테마 설치 UI |
+|---|---|
+| ![합성 요청 문장이 어두운 사용자 말풍선으로 표시된 예시.](docs/assets/ui-guide-v0.12.1/candidate2/user-bubble.png) | ![표시 설정의 Kakao 및 Dracula 테마 설치 버튼. WPF 합성 렌더이며 실제 Visual Studio 설정 화면이 아니다.](docs/assets/ui-guide-v0.12.1/candidate2/display-ide-themes.png) |
+
+- 요청을 실행하는 동안 다음 요청을 계속 입력할 수 있습니다. 현재 요청 뒤 최대 8개까지 FIFO 순서로 대기하며, 앞 요청이 끝나면 순서대로 실행합니다. 실패·취소·중지 뒤 남은 요청은 자동 실행하지 않습니다.
+- 다음 후보의 성공 알림은 Claude/Codex 브랜드와 고정된 결과 유형(질문 답변·수정안 준비·파일 작업·실행/조회 작업), 보고된 완료 건수를 표시합니다. 요청 제목·원문과 답변 문장은 넣지 않습니다. Windows 알림 설정에 따라 표시되지 않을 수 있습니다.
+- AI 답변을 우클릭해 답변 전체 또는 완결된 단일 코드 블록을 새 로컬 파일로 저장할 수 있습니다. 기존 파일은 덮어쓰지 않으며 PDF·XLSX·실행 파일 내보내기는 지원하지 않습니다.
+- Claude 검사는 로그인 없이 CLI 버전·비인증 초기화·합성 프로토콜/오류/취소만 확인했습니다. 실제 Claude 계정 로그인과 실제 AI 답변을 검증한 결과는 아닙니다.
+- 설정에서 **Kakao 테마 설치·적용** 또는 **Dracula 테마 설치·적용**을 선택하고 VSIX 설치를 완료한 뒤 모든 Visual Studio 창을 닫고 같은 IDE를 다시 여세요. 시작 시 선택한 IDE 테마를 적용합니다. **도구 → 옵션 → 환경 → 일반 → 색 테마**에서 결과를 확인할 수 있습니다. 세 IDE의 통합 시험에서 선택 ID와 대표 색상(Kakao `#FFD9DDE3`, Dracula `#FF282A36`) 적용을 확인했으며, 설치 버튼의 물리 클릭과 고객 PC의 전체 흐름은 별도 검증 범위입니다.
+
+[v0.12.1 사용자 안내 PDF 후보 (미공개)](output/pdf/VisualStudio_AI_Assistant-0.12.1-Preview-UserGuide.pdf) · [사용자 안내](docs/USER_GUIDE.md)
+
 각 버전에 맞는 설치 파일을 사용하세요. Windows 네이티브 `codex.exe` 또는 `claude.exe`와 해당 서비스 계정이 필요합니다. 확장을 직접 빌드할 필요는 없습니다.
 
 **VS2017 15.7.1에서 업데이트 없이 설치:** 위의 **VS2017 15.7용**을 선택하세요. 15.7 당시 SDK로 별도로 컴파일한 패키지이며, 기존 15.9 이상용의 설치 하한만 바꾼 파일이 아닙니다. Community·Professional·Enterprise를 지원합니다. 현재 실제 IDE 검사는 VS2017 15.9에서 수행했으며, 고객의 15.7.1 PC 실행 결과는 별도 확인이 필요합니다.
 
 설치 묶음 ZIP을 모두 풀고 **InstallAIAssistant.bat**를 실행하면 설치된 IDE의 버전·패키지 무결성을 검사하고 해당 버전용 설치기를 엽니다. 여러 IDE가 있으면 설치할 대상을 선택합니다. [설치 오류 해결과 진단 방법](docs/INSTALL_TROUBLESHOOTING.md)을 함께 제공합니다.
 
-**설치할 때 인터넷이 없다면:** 위의 **CLI 포함 완성 오프라인 ZIP**을 내려받아 USB로 옮기고, 모두 압축 해제한 뒤 **VerifyOfflineSetup.bat**을 실행하세요. 확장4종·Codex/Claude 런타임·검사 도구가 포함돼 준비 PC에서 CLI를 다시 수집할 필요가 없습니다. 직접 묶음을 준비하려면 작은 설치 ZIP의 **PrepareOfflineSetup.bat**를 사용합니다. 오프라인 단계에서 CLI 파일을 다운로드하거나 계정 정보를 옮기지 않습니다. [오프라인 설치 안내](docs/OFFLINE_INSTALL.md)와 [새 사용자 PDF](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.12.0-preview.1/VisualStudio_AI_Assistant-0.12.0-Preview-UserGuide.pdf)를 제공하며, 로그인과 AI 사용은 연결 가능한 시점에 진행합니다.
+**설치할 때 인터넷이 없다면:** 공개된 **CLI 포함 완성 오프라인 ZIP**을 내려받아 USB로 옮기고, 압축 해제 뒤 **VerifyOfflineSetup.bat**을 실행하세요. 현재 공개본은 위 v0.12.0 링크이며, v0.12.1 예정 파일 `VisualStudio_AI_Assistant-0.12.1-Preview1-FullOffline-win-x64.zip`은 공개 전입니다. 오프라인 단계에서 CLI 파일을 다운로드하거나 계정 정보를 옮기지 않습니다. [오프라인 설치 안내](docs/OFFLINE_INSTALL.md)와 [v0.12.1 사용자 PDF 후보](output/pdf/VisualStudio_AI_Assistant-0.12.1-Preview-UserGuide.pdf)를 참고하세요. 로그인과 AI 사용은 연결 가능한 시점에 진행합니다.
 
 설치된 확장만 제거하려면 VS2017에서 **도구 → 확장 및 업데이트 → 설치됨**, VS2019·2022에서 **확장 → 확장 관리 → 설치됨**을 여세요. 목록에서 해당 버전의 AI Assistant 항목을 **제거**한 뒤 모든 Visual Studio 창을 닫습니다. 잠시 끄기만 하려면 **사용 안 함**을 선택하고 Visual Studio를 다시 여세요. 버전별 실제 항목 이름과 데이터 보존 안내는 [사용자 안내서](docs/USER_GUIDE.md#visual-studio-ai-assistant-확장-제거)를 참조하세요.
 
@@ -140,6 +172,6 @@ AI 사용량과 비용은 각 계정에 따릅니다. PDF 등 문서 추출은 P
 
 프로젝트 전후 비교는 작은 텍스트 소스의 변경을 보완합니다. 비교 한도와 제외 폴더가 있으며, 다른 프로세스의 동시 변경도 포함될 수 있습니다. [사용 안내](docs/USER_GUIDE.md)의 추적 범위를 확인하세요.
 
-[최신 설치 호환성 검증 기록](MarkdownReport/CodexOrig_TASK-036.md)에서 버전별 IDE·격리 협업 검사와 실제 Claude 계정·운영 DB·TFVC·운영 배포의 미검증 범위를 구분합니다. 테스트 재현에는 최상위 [검사 실행기](VisualStudio_AIChat_ExtentionTest.exe?raw=true)를 사용하세요. 기본 검사는 유료 AI 호출과 운영 서버 접속을 자동 실행하지 않습니다.
+[최신 설치 호환성 검증 기록](MarkdownReport/CodexOrig_TASK-036.md)에서 버전별 IDE·격리 협업 검사와 실제 Claude 계정·운영 DB·TFVC·운영 배포의 미검증 범위를 구분합니다. 테스트 재현에는 최상위 [검사 실행기](VisualStudio_AIChat_ExtentionTest.exe?raw=true)를 사용하세요. 현재 실행기는 기본 검사 19개와 직접 선택 검사 2개를 표시합니다. 기본 검사에서 실제 IDE 실행과 실시간 Codex 대화는 시작하지 않으며, 각 항목의 통과 여부는 최신 후보 검증 보고서에서 확인하세요. 기본 검사는 유료 AI 호출과 운영 서버 접속을 자동 실행하지 않습니다.
 
 [상세 사용법](docs/USER_GUIDE.md) · [테스트 환경](docs/TEST_ENVIRONMENT.md) · [실제 IDE 검사](docs/IDE_TESTS.md) · [빌드·라이선스 안내](docs/BUILD_AND_LICENSE.md) · [개발 안내](docs/DEVELOPMENT.md)

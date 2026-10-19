@@ -17,6 +17,8 @@ namespace VS2017.AIAssistant.Views
     public partial class AssistantControl : UserControl
     {
         private bool busy, disposed;
+        private bool thinkingAnimationActive = false;
+        private void UpdateThinkingAnimation(bool active) { }
         private readonly Canvas FanPanel = new Canvas { HorizontalAlignment = HorizontalAlignment.Right, VerticalAlignment = VerticalAlignment.Top };
         private readonly Button SettingsButton = new Button { Name = "SettingsButton", Content = "⚙ 설정", ToolTip = "계정·규칙·글자 크기" };
         private readonly Button HelpButton = new Button { Name = "HelpButton", Content = "? 사용 안내", ToolTip = "사용 안내" };
@@ -35,6 +37,12 @@ namespace VS2017.AIAssistant.Views
         public AssistantControl()
         {
             busy = false; disposed = false; FontSize = 14; Background = new SolidColorBrush(Color.FromRgb(23, 23, 23)); Foreground = Brushes.WhiteSmoke;
+            // Source-only host는 제품 XAML 사전을 로드하지 않으므로 실제 hit-test용 불투명 팔레트 경계를 명시한다.
+            Resources["AssistantSelectionBrush"] = new SolidColorBrush(Color.FromRgb(33, 61, 88));
+            Resources["AssistantPopupBorderBrush"] = Brushes.Gray;
+            Resources["AssistantLinkBrush"] = Brushes.LightSkyBlue;
+            Resources["AssistantHoverBrush"] = Brushes.DimGray;
+            Resources["AssistantPressedBrush"] = Brushes.SlateGray;
             NameScope.SetNameScope(this, new NameScope());
             RegisterName("FanPanel", FanPanel); RegisterName("SettingsButton", SettingsButton); RegisterName("HelpButton", HelpButton); RegisterName("OptionsToggle", OptionsToggle);
             var layout = new Grid(); layout.Children.Add(OptionsToggle);

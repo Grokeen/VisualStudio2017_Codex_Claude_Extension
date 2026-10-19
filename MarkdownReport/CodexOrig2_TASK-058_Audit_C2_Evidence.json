@@ -1,0 +1,52 @@
+{
+  "audit": "TASK-058 C2 follow-up",
+  "auditor": "CodexOrig2",
+  "checkedAtKst": "2026-10-20 03:08",
+  "candidate": "artifacts/task054/candidate2",
+  "version": "0.12.1",
+  "inputs": 132,
+  "inputMismatches": 0,
+  "buildErrorsPerSku": 0,
+  "buildWarningsPerSku": 0,
+  "releaseSha256": {
+    "2017": { "dll": "618CE370C6551E8E24ABB1DB8D60A885F84B9096DBC0A81C8757890976489BB4", "vsix": "7382CFBCEB42B4F789329085C54F95A2030E50680499440FA466D2F936A16F9E" },
+    "2017.Legacy": { "dll": "3F1EEDB0E5D19842BF2214E104A404751A6B61E038C2F72CE87BBEFB69DC3D50", "vsix": "9CE3241BA92F7EA0A7315EDC5DFD45DE334BF4C37EFC0470502865F38D0B7F50" },
+    "2019": { "dll": "ADD1300BA232A3D7007E7D8BE0988EA814C605287DDDE7D85D4B0428F08B82AB", "vsix": "ED1972A7FE2EBE3F1B4DA8732FF3CF2463EFF4B974F486FD74BB1595258060A0" },
+    "2022": { "dll": "E3C921D922616FA81B11F2C7D53DC945A131CA52699241F3F0702793026164E4", "vsix": "79C4835D9026B7A7694E8A3D39F4A504945E2033AE25FB47E4C1C25136BEAF0E" }
+  },
+  "findings": [
+    { "id": "R58-01", "requirement": "Role #8", "status": "RESOLVED_C2_HEADLESS", "observed": "Four C2 DLLs returned fixed AI 요청 and omitted every synthetic prompt from Body. Real OS rendering remains untested." },
+    { "id": "R58-02", "requirement": "Role #8", "priority": "P2", "status": "OPEN", "observed": "Different requests without completed steps produce the same generic notification body; distinctBodies=1. Completed-step text contains kind counts only." },
+    { "id": "R58-03", "requirement": "Role #16", "priority": "P1", "status": "OPEN_C2", "observed": "Dedicated actual VS2017 test had 11/22 pass; both theme apply attempts left original GUID and pending request, despite packaged themes and visible settings buttons. Root cause not established from this evidence." }
+  ],
+  "requirements": {
+    "Role15": "PASS_HEADLESS_PARTIAL_ACTUAL_IDE",
+    "Role16Packaging": "PASS_ALL_FOUR_SKUS",
+    "Role16SettingsUi": "PASS_HEADLESS_ALL_FOUR_SKUS",
+    "Role16ActualApply": "FAIL_VS2017",
+    "V06": "PASS_HEADLESS_PERFORMANCE_PARTIAL_ACTUAL_IDE",
+    "V07": "PASS_SYNTHETIC_INTEGRATION",
+    "V08": "PARTIAL_PRIVACY_FIXED_TASK_SUMMARY_OPEN"
+  },
+  "performance": { "messagesPerProvider": 100, "charsPerMessage": 8000, "warmupSwitches": 10, "measuredSwitches": 50, "p95Ms": 39.0981, "p99Ms": 43.839, "maxMs": 43.839, "actualIde": false },
+  "evidenceSha256": {
+    "freeze": "460C702E500A5DE42135184BFF019F5D722CE298B5BCF45E05B7EEC473692E54",
+    "notification2017": "5C3DF0F47C44B96F001B451D897D285FE81B413E7FF2D3FE8DAD31661D643EF7",
+    "notification2017Legacy": "7060A275C245530DA37CED72009E8A6EE362BB770EFA51C80A03E220FF1E98C0",
+    "notification2019": "605D2188F0D89E18381863236AFE7D9F9C31C41C1047D59BC2628023E26AB892",
+    "notification2022": "1DEE41A4EC1D3BA5B65608D4EC99E1703B7CAD8E1D052BDE78C7A03EBDF2D5AE",
+    "bubbleActualDllHeadless": "3F4B2D610FCF654BD06C0170C7B842B0C50934CF2A636D939B3567F21D5F35A1",
+    "themeUi2017": "5131526BD9F11F969F1AD79C5E3D0070BC19C10103BDEDC6308E910FD38F19C9",
+    "themeUi2017Legacy": "6E6CA5A5B71BE0EA7C119CB0AF9889498573831C0D4400A02055D9861E889CA5",
+    "themeUi2019": "959DEC1F537973CAEA5AE747A423268A611D4A20922FDEE25814F40269F1D278",
+    "themeUi2022": "D31205A3FAA3D9390976418F525BEF8C7E8FF119C57A0349EF097E13A805AC0A",
+    "themePackageIntegrity": "2B8A9C465B4BAD723E4BDA2F2DDD4BB1B28B7AE81951A73714EDB8A4DDAB74E3",
+    "ownerActualIde2017": "9A799BF77688C8147333FE0CD866BCB5584ECF726A5D7536D5E34DA346B660CC",
+    "queue56": "5A219A59AE64B5068DE04B86B14DC0FC406AE7547F1555CC46DB66D3F66E0867",
+    "longTabCsv": "0A91C1862FE55009593F00383272404B1ABDB046D32067366391E8CB7F1F9CE4",
+    "longTabResult": "1DB1DADE772B75F3873B6585B65068CAE13F0F608C0BFAFE6EFE8446AD8A6DBC",
+    "c2DocsRenderManifest": "7AD5873A3DE0ECC05BFEE3FBDE4FDFA39A713A6D8315F4A9EC0B727021920F19",
+    "candidatePdf": "94FDD30CA5F95CFDFB4F7E48A1F36E4D84D0244E893A2145EEE9CC65EE53BE31"
+  },
+  "notRunByAuditor": ["actual IDE interaction", "actual Windows notification pixels", "VSIXInstaller click", "Claude authenticated AI answer", "release publishing and anonymous download"]
+}

@@ -15,6 +15,7 @@ namespace VS2017.AIAssistant.Providers
     /// author       : CodexOrig
     /// create date  : 2026-10-18
     /// update date  : 2026-10-18 CodexOrig : TASK-020 Claude 전체 액세스와 실제 SDK 결과 처리.
+    ///                2026-10-20 CodexOrig : TASK-060 모델·Fast 최소 CLI 버전을 추론 전에 검증.
     /// </summary>
     /// ---------------------------------------------------------------------
     public sealed class ClaudeRuntimeRunner
@@ -27,6 +28,7 @@ namespace VS2017.AIAssistant.Providers
         /// author       : CodexOrig
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : TASK-020 Claude 전체 액세스와 실제 SDK 결과 처리.
+        ///                2026-10-20 CodexOrig : TASK-060 버전 조회를 전체 실행 제한 시간과 취소 범위에 포함.
         /// </summary>
         /// ---------------------------------------------------------------------
         public async Task<AgentExecutionResult> RunAgentAsync(string executable, string directory, string instruction, ChatRequestContext context, Action<ProviderUsageSnapshot> onUsage, Action<AgentFileChange[]> onChanges, CancellationToken cancellation, Action<AgentProgress> progress = null)
@@ -37,11 +39,14 @@ namespace VS2017.AIAssistant.Providers
             var tracker = await AgentFileTracker.CreateAsync(directory, cancellation).ConfigureAwait(false);
             string path = CliEditProvider.ResolveExecutable(executable, "claude.exe");
             var arguments = new List<string> { "--print", "--input-format", "stream-json", "--output-format", "stream-json", "--verbose", "--include-partial-messages", "--permission-mode", "bypassPermissions", "--no-session-persistence" };
-            arguments.AddRange(new ProviderExecutionOptions("Claude", context.Model, context.ReasoningEffort, context.Speed).BuildProposalArguments());
+            var executionOptions = new ProviderExecutionOptions("Claude", context.Model, context.ReasoningEffort, context.Speed);
+            arguments.AddRange(executionOptions.BuildProposalArguments());
             using (var deadline = CancellationTokenSource.CreateLinkedTokenSource(cancellation)) {
                 if (Timeout <= TimeSpan.Zero || Timeout > TimeSpan.FromHours(24)) throw new ArgumentOutOfRangeException(nameof(Timeout));
                 deadline.CancelAfter(Timeout);
                 try {
+                if (executionOptions.MinimumCliVersion != null)
+                    executionOptions.ValidateCliVersion(await CliEditProvider.ReadCliVersionAsync(path, directory, deadline.Token).ConfigureAwait(false));
                 using (var session = new NativeJsonSession(path, arguments, Path.GetFullPath(directory)))
                 using (deadline.Token.Register(session.Dispose)) {
                     var done = new TaskCompletionSource<AgentExecutionResult>(TaskCreationOptions.RunContinuationsAsynchronously);

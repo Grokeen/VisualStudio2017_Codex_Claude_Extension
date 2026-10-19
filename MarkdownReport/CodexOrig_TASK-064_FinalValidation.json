@@ -1,0 +1,292 @@
+{
+  "Task": "064",
+  "Candidate": "task054/candidate9",
+  "C8PriorSummary": "MarkdownReport/CodexOrig_TASK-064_Validation.json",
+  "C8RawPassed": 71,
+  "C8RawFailed": 4,
+  "C9RawPassed": 50,
+  "C9RawFailed": 4,
+  "AllRawChecksPassed": false,
+  "ReclassifiedRawResults": false,
+  "NondefaultSentinelPreservedCount": 4,
+  "NondefaultSentinelCheckCount": 4,
+  "UserDefaultProfileChanged": false,
+  "DesktopInputUsed": false,
+  "Customer1571Verified": false,
+  "SourceFiles": [
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\tests\\task064\\Test-IdeThemeWorkflow.ps1",
+      "Sha256": "46E706A48D76EC996AA454E6C6127CD71A55CE494E96077154B49D4FEB9CB22E"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\tests\\task064\\ThemeIdePackage.cs",
+      "Sha256": "1B56EB4BDE0A972B96B7AC89FB85C153B657CA5AB6310FFC2BE5CE7F3C9B135A"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\tests\\task064\\ThemeRegistrationChecks64.cs",
+      "Sha256": "D7E5C96072A1479FFEA05CADD74F37DB99AB39909361FCE3CACB6C945F6A89A9"
+    }
+  ],
+  "Runs": [
+    {
+      "Year": "2017",
+      "Run": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task064\\candidate9-2017-sentinel1",
+      "RawSucceeded": false,
+      "RawPassed": 24,
+      "RawFailed": 2,
+      "ResultSha256": "2B43EADA3619CA2A2680DCC4541F27DB33B29AB2E974E8EBDBFEDAD6DAF87AF5",
+      "InstalledDllSha256": "9811B6CCF89A393E444B92E81329922FD5F15E16CC8D9925C5DC9726C2DA6D17",
+      "RootSuffix": "ThemeApply6459d7a7bc",
+      "SentinelProperty": "AutoUpdateTags",
+      "ThemeSettingsAnalysis": [
+        {
+          "Theme": "kakao",
+          "BaselineSentinel": "False",
+          "ActualSentinel": "False",
+          "ExpectedSentinel": "False",
+          "SentinelVerified": true,
+          "ExistingChanged": 0,
+          "ExistingRemoved": 0,
+          "Added": 6,
+          "Differences": [
+            {
+              "Kind": "Added",
+              "Key": "PropertyValue:AutoInsertAttributeQuotes/Category:XAML_Miscellaneous/UserSettings:",
+              "Before": null,
+              "After": "True"
+            },
+            {
+              "Kind": "Added",
+              "Key": "PropertyValue:AutoInsertCommas/Category:XAML_Miscellaneous/UserSettings:",
+              "Before": null,
+              "After": "True"
+            },
+            {
+              "Kind": "Added",
+              "Key": "PropertyValue:AutoInsertEndBraces/Category:XAML_Miscellaneous/UserSettings:",
+              "Before": null,
+              "After": "True"
+            },
+            {
+              "Kind": "Added",
+              "Key": "PropertyValue:AutoInsertEndTags/Category:XAML_Miscellaneous/UserSettings:",
+              "Before": null,
+              "After": "True"
+            },
+            {
+              "Kind": "Added",
+              "Key": "PropertyValue:ShowDesignerErrors/Category:XAML_Miscellaneous/UserSettings:",
+              "Before": null,
+              "After": "True"
+            },
+            {
+              "Kind": "Added",
+              "Key": "PropertyValue:WarnMinTargetCompatibility/Category:XAML_Miscellaneous/UserSettings:",
+              "Before": null,
+              "After": "True"
+            }
+          ]
+        },
+        {
+          "Theme": "dracula",
+          "BaselineSentinel": "False",
+          "ActualSentinel": "False",
+          "ExpectedSentinel": "False",
+          "SentinelVerified": true,
+          "ExistingChanged": 0,
+          "ExistingRemoved": 0,
+          "Added": 6,
+          "Differences": [
+            {
+              "Kind": "Added",
+              "Key": "PropertyValue:AutoInsertAttributeQuotes/Category:XAML_Miscellaneous/UserSettings:",
+              "Before": null,
+              "After": "True"
+            },
+            {
+              "Kind": "Added",
+              "Key": "PropertyValue:AutoInsertCommas/Category:XAML_Miscellaneous/UserSettings:",
+              "Before": null,
+              "After": "True"
+            },
+            {
+              "Kind": "Added",
+              "Key": "PropertyValue:AutoInsertEndBraces/Category:XAML_Miscellaneous/UserSettings:",
+              "Before": null,
+              "After": "True"
+            },
+            {
+              "Kind": "Added",
+              "Key": "PropertyValue:AutoInsertEndTags/Category:XAML_Miscellaneous/UserSettings:",
+              "Before": null,
+              "After": "True"
+            },
+            {
+              "Kind": "Added",
+              "Key": "PropertyValue:ShowDesignerErrors/Category:XAML_Miscellaneous/UserSettings:",
+              "Before": null,
+              "After": "True"
+            },
+            {
+              "Kind": "Added",
+              "Key": "PropertyValue:WarnMinTargetCompatibility/Category:XAML_Miscellaneous/UserSettings:",
+              "Before": null,
+              "After": "True"
+            }
+          ]
+        }
+      ],
+      "ExitedNormally": true,
+      "ForcedCleanup": false
+    },
+    {
+      "Year": "2019",
+      "Run": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task064\\candidate9-2019-sentinel1",
+      "RawSucceeded": false,
+      "RawPassed": 26,
+      "RawFailed": 2,
+      "ResultSha256": "680E3A0975F3DA17CD61A13ED2867C640B789A4607F2C5305A19C68A21652CE2",
+      "InstalledDllSha256": "A63C6097C424575CD80BE7BEFAB2BA1769EE839603B06C50A0C68B17C2D48930",
+      "RootSuffix": "ThemeApply64e6af265f",
+      "SentinelProperty": "DefaultZoomSetting",
+      "ThemeSettingsAnalysis": [
+        {
+          "Theme": "kakao",
+          "BaselineSentinel": "0",
+          "ActualSentinel": "0",
+          "ExpectedSentinel": "0",
+          "SentinelVerified": true,
+          "ExistingChanged": 0,
+          "ExistingRemoved": 0,
+          "Added": 9,
+          "Differences": [
+            {
+              "Kind": "Added",
+              "Key": "PropertyValue:AutoNameElements/ToolsOptionsSubCategory:General/ToolsOptionsCategory:XAML Designer/ToolsOptions:/UserSettings:",
+              "Before": null,
+              "After": "false"
+            },
+            {
+              "Kind": "Added",
+              "Key": "PropertyValue:InitialDisplayMode/ToolsOptionsSubCategory:General/ToolsOptionsCategory:XAML Designer/ToolsOptions:/UserSettings:",
+              "Before": null,
+              "After": "2"
+            },
+            {
+              "Kind": "Added",
+              "Key": "PropertyValue:ZoomControlMode/ToolsOptionsSubCategory:General/ToolsOptionsCategory:XAML Designer/ToolsOptions:/UserSettings:",
+              "Before": null,
+              "After": "1"
+            },
+            {
+              "Kind": "Added",
+              "Key": "PropertyValue:AutoToolboxPopulate/ToolsOptionsSubCategory:General/ToolsOptionsCategory:XAML Designer/ToolsOptions:/UserSettings:",
+              "Before": null,
+              "After": "true"
+            },
+            {
+              "Kind": "Added",
+              "Key": "PropertyValue:InitialDisplayOrientation/ToolsOptionsSubCategory:General/ToolsOptionsCategory:XAML Designer/ToolsOptions:/UserSettings:",
+              "Before": null,
+              "After": "2"
+            },
+            {
+              "Kind": "Added",
+              "Key": "PropertyValue:EnableXamlDesigner/ToolsOptionsSubCategory:General/ToolsOptionsCategory:XAML Designer/ToolsOptions:/UserSettings:",
+              "Before": null,
+              "After": "true"
+            },
+            {
+              "Kind": "Added",
+              "Key": "PropertyValue:UnitType/ToolsOptionsSubCategory:General/ToolsOptionsCategory:XAML Designer/ToolsOptions:/UserSettings:",
+              "Before": null,
+              "After": "1"
+            },
+            {
+              "Kind": "Added",
+              "Key": "PropertyValue:UseQuadrantLayout/ToolsOptionsSubCategory:General/ToolsOptionsCategory:XAML Designer/ToolsOptions:/UserSettings:",
+              "Before": null,
+              "After": "false"
+            },
+            {
+              "Kind": "Added",
+              "Key": "PropertyValue:AutoInsertLayout/ToolsOptionsSubCategory:General/ToolsOptionsCategory:XAML Designer/ToolsOptions:/UserSettings:",
+              "Before": null,
+              "After": "true"
+            }
+          ]
+        },
+        {
+          "Theme": "dracula",
+          "BaselineSentinel": "0",
+          "ActualSentinel": "0",
+          "ExpectedSentinel": "0",
+          "SentinelVerified": true,
+          "ExistingChanged": 0,
+          "ExistingRemoved": 0,
+          "Added": 9,
+          "Differences": [
+            {
+              "Kind": "Added",
+              "Key": "PropertyValue:AutoNameElements/ToolsOptionsSubCategory:General/ToolsOptionsCategory:XAML Designer/ToolsOptions:/UserSettings:",
+              "Before": null,
+              "After": "false"
+            },
+            {
+              "Kind": "Added",
+              "Key": "PropertyValue:InitialDisplayMode/ToolsOptionsSubCategory:General/ToolsOptionsCategory:XAML Designer/ToolsOptions:/UserSettings:",
+              "Before": null,
+              "After": "2"
+            },
+            {
+              "Kind": "Added",
+              "Key": "PropertyValue:ZoomControlMode/ToolsOptionsSubCategory:General/ToolsOptionsCategory:XAML Designer/ToolsOptions:/UserSettings:",
+              "Before": null,
+              "After": "1"
+            },
+            {
+              "Kind": "Added",
+              "Key": "PropertyValue:AutoToolboxPopulate/ToolsOptionsSubCategory:General/ToolsOptionsCategory:XAML Designer/ToolsOptions:/UserSettings:",
+              "Before": null,
+              "After": "true"
+            },
+            {
+              "Kind": "Added",
+              "Key": "PropertyValue:InitialDisplayOrientation/ToolsOptionsSubCategory:General/ToolsOptionsCategory:XAML Designer/ToolsOptions:/UserSettings:",
+              "Before": null,
+              "After": "2"
+            },
+            {
+              "Kind": "Added",
+              "Key": "PropertyValue:EnableXamlDesigner/ToolsOptionsSubCategory:General/ToolsOptionsCategory:XAML Designer/ToolsOptions:/UserSettings:",
+              "Before": null,
+              "After": "true"
+            },
+            {
+              "Kind": "Added",
+              "Key": "PropertyValue:UnitType/ToolsOptionsSubCategory:General/ToolsOptionsCategory:XAML Designer/ToolsOptions:/UserSettings:",
+              "Before": null,
+              "After": "1"
+            },
+            {
+              "Kind": "Added",
+              "Key": "PropertyValue:UseQuadrantLayout/ToolsOptionsSubCategory:General/ToolsOptionsCategory:XAML Designer/ToolsOptions:/UserSettings:",
+              "Before": null,
+              "After": "false"
+            },
+            {
+              "Kind": "Added",
+              "Key": "PropertyValue:AutoInsertLayout/ToolsOptionsSubCategory:General/ToolsOptionsCategory:XAML Designer/ToolsOptions:/UserSettings:",
+              "Before": null,
+              "After": "true"
+            }
+          ]
+        }
+      ],
+      "ExitedNormally": true,
+      "ForcedCleanup": false
+    }
+  ],
+  "GUIReservationReturned": true,
+  "FrozenAt": "2026-10-20T03:41:59.2460195+09:00"
+}

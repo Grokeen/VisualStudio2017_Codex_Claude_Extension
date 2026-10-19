@@ -11,7 +11,7 @@ update date  : 2026-10-19 CodexOrig : TASK-036 NoApplicableSKUsException 설치 
 [CmdletBinding()]
 param(
     [string]$PackageDirectory,
-    [ValidatePattern('^\d+\.\d+\.\d+$')][string]$PackageVersion='0.12.0',
+    [ValidatePattern('^\d+\.\d+\.\d+$')][string]$PackageVersion='0.12.1',
     [string]$InstanceId,
     [switch]$Install,
     [string]$ReportPath,

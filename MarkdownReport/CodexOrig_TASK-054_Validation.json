@@ -1,0 +1,2139 @@
+﻿{
+    "Task":  "TASK-054",
+    "RoleRevision":  "2026-10-20 01:40",
+    "Owner":  "CodexOrig",
+    "StartedAt":  "2026-10-20T02:23:11.405+09:00",
+    "ValidatedAt":  "2026-10-20T04:14:12.6749645+09:00",
+    "Version":  "0.12.1",
+    "Candidate":  "candidate12",
+    "SourceCommitLocation":  "CodexOrig_TASK-054_Deployment.json after publication",
+    "InputCount":  133,
+    "Inputs":  [
+                   {
+                       "RelativePath":  "docs\\assets\\cli-manual\\01-overview.png",
+                       "Hash":  "86738234B9A201914E6BED1776C32A2B007AE8171F50EEA974C3B4BAC3E76B49",
+                       "Bytes":  55500
+                   },
+                   {
+                       "RelativePath":  "docs\\assets\\cli-manual\\02-package.png",
+                       "Hash":  "CDCAEFF48497A3DD181230D4358428C22F5D86DDDE375CD5FF1BD07DFBA4C753",
+                       "Bytes":  38432
+                   },
+                   {
+                       "RelativePath":  "docs\\assets\\cli-manual\\03-vsix.png",
+                       "Hash":  "D0088EDD998D516763D50D0030B39206EB778778B7DBF219705CC9F72D67C6D8",
+                       "Bytes":  41222
+                   },
+                   {
+                       "RelativePath":  "docs\\assets\\cli-manual\\04-run-batch.png",
+                       "Hash":  "B5D5B679B0D56026D73F9323140E6894325A4F116984E3F655CB74DE075A91D9",
+                       "Bytes":  51300
+                   },
+                   {
+                       "RelativePath":  "docs\\assets\\cli-manual\\05-success.png",
+                       "Hash":  "F9845411A901B6B687D873FBD7E93E693ABC52D716D4A912CB691652FFCF775F",
+                       "Bytes":  57223
+                   },
+                   {
+                       "RelativePath":  "docs\\assets\\cli-manual\\06-login.png",
+                       "Hash":  "859D753C9240ED86525075F43A66A4823ADDE2F6F19A3D13F435695E0448020C",
+                       "Bytes":  54992
+                   },
+                   {
+                       "RelativePath":  "docs\\assets\\cli-manual\\07-paths.png",
+                       "Hash":  "70BFA267082C8A6D2DD5A62065B821921BBC011C56ABAA01F2EC401EF4CCD043",
+                       "Bytes":  46859
+                   },
+                   {
+                       "RelativePath":  "docs\\assets\\cli-manual\\08-attachments.png",
+                       "Hash":  "650733944817B5185BEE9C999D699E73643BDCCC0FB060B08515D073317AC9A9",
+                       "Bytes":  36284
+                   },
+                   {
+                       "RelativePath":  "docs\\assets\\cli-manual\\09-troubleshooting.png",
+                       "Hash":  "44F4CB8F53CE709B1F126806E577B5219A2C44A8DF22578DE8513CD157832629",
+                       "Bytes":  40243
+                   },
+                   {
+                       "RelativePath":  "docs\\assets\\cli-manual\\10-options.png",
+                       "Hash":  "D6C1443DA8C7118BFF1C10CEC72028F6ABCDD3027D9FB99217897A0BF8A89BB7",
+                       "Bytes":  45287
+                   },
+                   {
+                       "RelativePath":  "docs\\assets\\cli-manual\\11-install-methods.png",
+                       "Hash":  "06A6494284E5B65E161CADEE74F2B3C8B62F4923244A1EAEA4B9C984626A08D0",
+                       "Bytes":  40794
+                   },
+                   {
+                       "RelativePath":  "docs\\assets\\cli-manual\\12-checklist.png",
+                       "Hash":  "E49084EC2B5EC85B2640F598E152828000DDAD9D67A085B17EC97E0ACE0D48E4",
+                       "Bytes":  37931
+                   },
+                   {
+                       "RelativePath":  "docs\\assets\\cli-manual\\ui-chat.png",
+                       "Hash":  "242A2B0809D62C354D5F1E88FA479D3EB335C155C1B57F7BA09793FFE29E0AAC",
+                       "Bytes":  52822
+                   },
+                   {
+                       "RelativePath":  "docs\\assets\\cli-manual\\ui-guide.png",
+                       "Hash":  "321C6221992E58B812B762B605A0F61E8B59DD6074796BC63FF2DC8E55D69625",
+                       "Bytes":  36260
+                   },
+                   {
+                       "RelativePath":  "docs\\assets\\cli-manual\\ui-models.png",
+                       "Hash":  "DF3391A04A18C38316D4456711E385A0906A1E5862D15C4A52856164E9B44712",
+                       "Bytes":  19293
+                   },
+                   {
+                       "RelativePath":  "docs\\assets\\cli-manual\\ui-permissions.png",
+                       "Hash":  "85C9417A1C6CD433FCA2AE35BF1860B77F52A9FB07B09FF9E2D1EEA89B49F891",
+                       "Bytes":  27586
+                   },
+                   {
+                       "RelativePath":  "docs\\assets\\cli-manual\\ui-review.png",
+                       "Hash":  "D3838D4919B3BCAFA6E2BEC4E03E376408BAF821245060124F472D1FDEFDA014",
+                       "Bytes":  64180
+                   },
+                   {
+                       "RelativePath":  "docs\\assets\\cli-manual\\ui-settings.png",
+                       "Hash":  "26B64806A1482F83B7110001AA1C7CC62BEA3D383182FE7A53034BF160AA262B",
+                       "Bytes":  55233
+                   },
+                   {
+                       "RelativePath":  "docs\\assets\\guide-media\\01-connect.gif",
+                       "Hash":  "59E48449823353475F5204971C0B5C5B3F926DFF7F1F6A239B3AE8C47B956149",
+                       "Bytes":  252810
+                   },
+                   {
+                       "RelativePath":  "docs\\assets\\guide-media\\01-connect.png",
+                       "Hash":  "D70A981083C73399C346D54E520B466958BADD5DD15C925461520071250055A5",
+                       "Bytes":  15425
+                   },
+                   {
+                       "RelativePath":  "docs\\assets\\guide-media\\02-request.gif",
+                       "Hash":  "B08A43114E1E12128BCE6EA32C6CDAF5A1D4ABD5BEDA3C16A24BC9A50FC31CE2",
+                       "Bytes":  211883
+                   },
+                   {
+                       "RelativePath":  "docs\\assets\\guide-media\\02-request.png",
+                       "Hash":  "B83E1AE93DC9482135D844F1B7F22921B1E9D07C8CC57C40F9D5691EFCB09C3F",
+                       "Bytes":  15662
+                   },
+                   {
+                       "RelativePath":  "docs\\assets\\guide-media\\03-review.gif",
+                       "Hash":  "92D4ACC8F2314D9DA0EE8350FE71CE48C2DB633499D3B3E8CD4898C8B7D57EDA",
+                       "Bytes":  123205
+                   },
+                   {
+                       "RelativePath":  "docs\\assets\\guide-media\\03-review.png",
+                       "Hash":  "07DA9122FF6570B2627E8F7A6C0E3AC8D1DBE4FE90EDAFDC3FE22F78D7BF365E",
+                       "Bytes":  16370
+                   },
+                   {
+                       "RelativePath":  "docs\\assets\\guide-media\\04-guide.gif",
+                       "Hash":  "C82293FB4C5D0074BF29D074BBB7419D6FD4821B4E485A5C907B0497CB5A0692",
+                       "Bytes":  200648
+                   },
+                   {
+                       "RelativePath":  "docs\\assets\\guide-media\\04-guide.png",
+                       "Hash":  "FD365AFA59DB76AB110F8BA5F4FA1C392CD8EC8625CD67EE7ED4FE5CFAE8F0C6",
+                       "Bytes":  25621
+                   },
+                   {
+                       "RelativePath":  "docs\\assets\\guide-media\\05-install.gif",
+                       "Hash":  "816F5FA2786BA404BA88066224B8A8F85760980F8564F80E9762E08090A078C3",
+                       "Bytes":  197738
+                   },
+                   {
+                       "RelativePath":  "docs\\assets\\guide-media\\05-install.png",
+                       "Hash":  "BAC8E2E956FD37CC431653D555F9784A8C31A59D738649433851DACD283C5871",
+                       "Bytes":  27286
+                   },
+                   {
+                       "RelativePath":  "HowToInstallCLI.md",
+                       "Hash":  "6990AF5ED77868C12C80D05FFFB7003DECD02AA0F5E6BC0F970996569B979164",
+                       "Bytes":  20265
+                   },
+                   {
+                       "RelativePath":  "InstallCLI.bat",
+                       "Hash":  "81BAE40E698B7E16B4A15093248453C7A79EF5D564306FC9CE9416255D91D5CB",
+                       "Bytes":  10233
+                   },
+                   {
+                       "RelativePath":  "output\\pdf\\VisualStudio_AI_Assistant_설치_사용설명서.pdf",
+                       "Hash":  "EAE9BDD2CA1602677FEAF6BD1F50C19C8F7E29068D33B1DC06215D998C60B30A",
+                       "Bytes":  1089143
+                   },
+                   {
+                       "RelativePath":  "output\\pdf\\VisualStudio_AI_Assistant_설치_사용설명서_v0.12.1_미리보기.pdf",
+                       "Hash":  "F853789CE823A1EABE8B4E98226064A9E86F808389CA77033DF83925744F2372",
+                       "Bytes":  1406441
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant.DocumentReader\\App.config",
+                       "Hash":  "DBA0AC349FA98F542FE90CC4FBBE3033567DAC0515859D049854E81DEFAAAA51",
+                       "Bytes":  159
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant.DocumentReader\\Properties\\AssemblyInfo.cs",
+                       "Hash":  "1B67151A709EA78991557E3A16315F1CF1BB17D2ACB5185100A4FFF669AD7D69",
+                       "Bytes":  267
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant.DocumentReader\\VS2017.AIAssistant.DocumentReader.csproj",
+                       "Hash":  "909B5CDD5C4C125FF324F4E112890C102B574435A1AB8E9B0672D83EB0C427B3",
+                       "Bytes":  1151
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\AiAssistantPackage.cs",
+                       "Hash":  "7DB704AB058019732C95EA4B919EC3223D200F9890262171017F89CBCD1D09CB",
+                       "Bytes":  2458
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\Assets\\Claude.png",
+                       "Hash":  "C7D8415B1EDBA67E5337D3684B480B563826F07BE9E28E10CCC14BF92037EF6D",
+                       "Bytes":  39563
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\Assets\\CliGuide\\VisualStudio_AI_Assistant_설치_사용설명서.pdf",
+                       "Hash":  "F853789CE823A1EABE8B4E98226064A9E86F808389CA77033DF83925744F2372",
+                       "Bytes":  1406441
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\Assets\\Codex.png",
+                       "Hash":  "8D5575EE667FF715CD3E3074D5296EDC68D5AADD89720D203E13131B68B22A04",
+                       "Bytes":  1841
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\Assets\\MarkdownnHighlighting.xshd",
+                       "Hash":  "7359736F9AABBD44C275EB82C45FD82AF593C3AD22A694C408E33CCB1B5B984A",
+                       "Bytes":  1637
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\Assets\\Themes\\Grokeen-VisualStudio-Themes-0.12.1-VS2017.vsix",
+                       "Hash":  "DA9E78BDDBF664A7C78191F47C399BEE96B05C28C33CFBBBAE74612E04B6C8C1",
+                       "Bytes":  57784
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\Assets\\Themes\\Grokeen-VisualStudio-Themes-0.12.1-VS2019.vsix",
+                       "Hash":  "19C2C611B731F6BE2B1F07EF7DEC4807BC5814B40D92EB3DE576110C17311AEB",
+                       "Bytes":  57788
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\Assets\\Themes\\Grokeen-VisualStudio-Themes-0.12.1-VS2022.vsix",
+                       "Hash":  "CC13D0896C4C98A68529BA01BF17A94BEA5DC27CCBBD83EB0F75DC46F100B8DD",
+                       "Bytes":  57815
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\Assets\\ThirdParty\\AvalonEdit\\LICENSE.txt",
+                       "Hash":  "7CFE74F11EAEF7A239E7C63D33595F924E7922FB3E3F3651014389620B228A07",
+                       "Bytes":  1075
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\Assets\\THIRD-PARTY-NOTICES.md",
+                       "Hash":  "CA3B136DF19E7DFFB611106D1728AAC40D4BEF8A12370ED7C01E54EF5D300105",
+                       "Bytes":  2490
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\Chat\\AssistantArtifactWriter.cs",
+                       "Hash":  "CAD70FFABBAEB35DF8AA4D8C25C4D35FF07272FB80D5A1977287E0722380FC95",
+                       "Bytes":  23514
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\Chat\\AssistantSettingsTransaction.cs",
+                       "Hash":  "56639555F425A32A747EC792F58FD0364505C0FBAA9FCBCEC31C841D3FBF7092",
+                       "Bytes":  11716
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\Chat\\ChatWorkspace.cs",
+                       "Hash":  "8F2186CF959C7C2507EA9DB06539307AF7D1512B2FCE3B9EE70EEE22FCE56C95",
+                       "Bytes":  27589
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\Chat\\ConversationCollaboration.cs",
+                       "Hash":  "9B84DF381FB2D09E6D46F08926AF6FEABC5D9171DB68EDF0CB51B5BC58365817",
+                       "Bytes":  75491
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\Chat\\DocumentAttachmentReader.cs",
+                       "Hash":  "605DF02064BA365914CF662C234B867A9DFE05069FE688EC343626C033C8DC3E",
+                       "Bytes":  39711
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\Chat\\DocumentFilterWorker.cs",
+                       "Hash":  "E1D52D2610C52B9393DC9B32465A1ABB75427E3DC8E8F75B69D62E539264F4EE",
+                       "Bytes":  9632
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\Chat\\DocumentWorkerLauncher.cs",
+                       "Hash":  "5F604DCE83697D60E5DD5668915379683BDA502E83DF3F0D0B0C3589842558C9",
+                       "Bytes":  15489
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\Chat\\MandatoryInstructionStore.cs",
+                       "Hash":  "180F376604EF13EC26FBD2D35038BBBB7BE034C8D5BFE6920B398A3F38330130",
+                       "Bytes":  11669
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\Chat\\MarkdownWorkspaceStore.cs",
+                       "Hash":  "2465AE378EE9AB1A91CBA814AAFE947B9A2890FAFC556B8C05FEA0632449C2E7",
+                       "Bytes":  45345
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\Commands\\AssistantCommands.vsct",
+                       "Hash":  "7133B59D773FDD20BEAA1E714DABBB728016692759A0F17B6EA94F9357C7FA31",
+                       "Bytes":  1124
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\Commands\\OpenAssistantCommand.cs",
+                       "Hash":  "263F4B13199B6021284380F238C7066A5CDB920034D36AE010013E4C690F0369",
+                       "Bytes":  4379
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\Editing\\DocumentSnapshot.cs",
+                       "Hash":  "184511525B968B067725FB04629ABF0B042F4817C2C32407033A2FCD0551399D",
+                       "Bytes":  16064
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\Editing\\EditProposal.cs",
+                       "Hash":  "5132A29DFF41BCB966F7C54DE0286315841F0C82E9DA0A626AF1EEEDA5AB7D1B",
+                       "Bytes":  13165
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\Editing\\IExternalEditingDocumentService.cs",
+                       "Hash":  "D8A7E61C72DE6B2ED1D8F0C2C551640495A05AAF692A0FBA25E2FB00E28DBB13",
+                       "Bytes":  1400
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\Editing\\IFullAccessDocumentService.cs",
+                       "Hash":  "A2750F9CB57CABE4BD18DE6E8833BF2FFFEA5CF22C1AE2D57F78CC910B6BD071",
+                       "Bytes":  1292
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\Editing\\SourceEditSession.cs",
+                       "Hash":  "8689541A21D28948F4344298CE6EDA65C0280D4703875F7E63B14E77B43D19AE",
+                       "Bytes":  4293
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\Properties\\AssemblyInfo.cs",
+                       "Hash":  "D4580FF61E70F143200C97B255BC916AA0B0A15BAAC5568791A5211422E33C88",
+                       "Bytes":  596
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\Providers\\AgentFileTracker.cs",
+                       "Hash":  "3E58B25E71A1529FC4BB3B5E09F87953402F173AB9E4661D42EDD79370275A00",
+                       "Bytes":  15186
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\Providers\\AgentProtocolEvents.cs",
+                       "Hash":  "A1AAA2F66DF8352AED19CEC516A6A944781C7B700411B2221A0D734EB7172C3B",
+                       "Bytes":  19150
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\Providers\\ClaudeRuntimeRunner.cs",
+                       "Hash":  "A790A5944EDF5C538BCD75424FA1113C51D92990DAD4363514EA58F3693EE341",
+                       "Bytes":  10456
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\Providers\\CliAccountService.cs",
+                       "Hash":  "1E14F22A1150DD0067507215EEE8BB1F0CA395C74C33D19CAAF81421D0100D6B",
+                       "Bytes":  5153
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\Providers\\CliEditProvider.cs",
+                       "Hash":  "91F8D0A652B9FE72898CF2AF3F6DC32EC5D1ACBBEAFB2A7357F30A6EC54F218B",
+                       "Bytes":  35024
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\Providers\\CodexRuntimeRunner.cs",
+                       "Hash":  "04DC678BC91570BBA1929B2CFF28B347194371743BF9AC379C7FCE3036598CFD",
+                       "Bytes":  19326
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\Providers\\NativeCliDiscovery.cs",
+                       "Hash":  "A5C763E5072408BDF3ECC34150DF959578333131F9F1BA5CA6E10903E9C26DD4",
+                       "Bytes":  5779
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\Providers\\NativeJsonSession.cs",
+                       "Hash":  "5810DF5D2DAE18F4C9E76DB57041F57CC9C724A865252EA0F8E4FCC173805E8E",
+                       "Bytes":  14539
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\Providers\\ProcessJob.cs",
+                       "Hash":  "BA715B1D467121C3483176AAA04AFB5DD454D9172AF920F6C7F968C1F50E8D44",
+                       "Bytes":  4772
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\Providers\\ProviderExecutionOptions.cs",
+                       "Hash":  "98926727866565A5A4021BCF1C24DCDAF14CBA88E61EF03B60BF3D99AFF68165",
+                       "Bytes":  39845
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\Providers\\ProviderRuntime.cs",
+                       "Hash":  "DD1BAE440B7B34546FD1BE9AB52160993D9AC5CC2CFF34DD1873DAC0438D8755",
+                       "Bytes":  12079
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\Providers\\ProviderRuntimeService.cs",
+                       "Hash":  "66EB7C78679F29493820E3F7A3DD264E53069A6E2E0B42097F246F516D71B371",
+                       "Bytes":  16321
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\Services\\CliGuideService.cs",
+                       "Hash":  "1AB7F5AEF02D23CBFB5B1FE4DDA5A1ED38E31306C0678354FCBE7A2B6EFE1218",
+                       "Bytes":  27122
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\Services\\ScmIdentityService.cs",
+                       "Hash":  "28CD8005F37C0B59EE75B45334C2A831EC9913B856F374C56D9D9C8307CF44B4",
+                       "Bytes":  25411
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\Services\\VisualStudioDocumentService.cs",
+                       "Hash":  "F90A2F9B422E281E9805DB84CCF91DC69D3A7EBDD0B3A05AE05DD5A1D147064D",
+                       "Bytes":  28025
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\Services\\VisualStudioExternalEditingScope.cs",
+                       "Hash":  "FC1F51393407C7B8602A37F3D65E81689CAE473B76AE1382F2B7A17197DB6E75",
+                       "Bytes":  25222
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\Services\\WorkspaceActionService.cs",
+                       "Hash":  "AB5AA4BAD97B04FA57A7C4904FE8456B04BCA555B745886B9AFCB424A3E38F2C",
+                       "Bytes":  38097
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\source.extension.vsixmanifest",
+                       "Hash":  "26BF6AC543913733D2064232D9D553D9CDCE369A02A198435A7E1DA0A22A2FF6",
+                       "Bytes":  1299
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\ToolWindows\\AssistantToolWindow.cs",
+                       "Hash":  "956E97CBC7DE404C4DBBC26868FE731FD429D28E6DACB3A54EE68C37C6C294EA",
+                       "Bytes":  3976
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\Views\\AssistantControl.AccountLogin.cs",
+                       "Hash":  "0614E9E14826509152525B93746F70C0313A85931F87DBD18A2AAFD658DD51C1",
+                       "Bytes":  24732
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\Views\\AssistantControl.Artifacts.cs",
+                       "Hash":  "35F69471B88CBA3C1C217243152277C3109619B4C589117FE029DB3A92EA53A3",
+                       "Bytes":  5342
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\Views\\AssistantControl.Changes.cs",
+                       "Hash":  "C7FC42B6BFB242C8CAC85E98D15D10ED4B56DE6EA9A88DC5D007B303A939B425",
+                       "Bytes":  29611
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\Views\\AssistantControl.Chat.cs",
+                       "Hash":  "6D43B20B79666B8F969DE7AB5FC8AEA93CC6DA32B189DB59E8C40275EDC2AB57",
+                       "Bytes":  38855
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\Views\\AssistantControl.Conversations.cs",
+                       "Hash":  "517441CBEA4616FB5CAE004908464FFA67787663AB6E7EB5B0AD58099E91771C",
+                       "Bytes":  11013
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\Views\\AssistantControl.Dialogs.cs",
+                       "Hash":  "EEE87ECD4BD2C831487CFD24D5F4ED7B9EA2E6FE04ADD8EA863808BAF2CFBFA3",
+                       "Bytes":  19201
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\Views\\AssistantControl.Dropdowns.cs",
+                       "Hash":  "5DB28674CA839638E5A0FF56EFCC8F98329CDD0893D3687CF930B154D54F4DB6",
+                       "Bytes":  22790
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\Views\\AssistantControl.Experience.cs",
+                       "Hash":  "CBD8ADB4CEAC976CC0A63F9004726B81D7897EE678B7C68009F2D9503BC8A395",
+                       "Bytes":  56204
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\Views\\AssistantControl.Fan.cs",
+                       "Hash":  "6C2502FDE3D9AFA744DC327BB3BB2F237EF3A57B7BD66A19EED92F089B062B10",
+                       "Bytes":  35544
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\Views\\AssistantControl.HistoryOverlay.cs",
+                       "Hash":  "752F6442270F07011629E86276B7F7893D734EDA9C0AC74D7D10A0A918609190",
+                       "Bytes":  9258
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\Views\\AssistantControl.IdeThemes.cs",
+                       "Hash":  "DC8B19CE3B8AE6B8820CC180E8233EC752F6A084313E6397F2C4600E2AF2A79E",
+                       "Bytes":  23396
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\Views\\AssistantControl.Markdown.cs",
+                       "Hash":  "9F880BF9BF1A409C708B708350461E001BE8A15C2953E18DA8D5F71AC55C4B16",
+                       "Bytes":  13935
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\Views\\AssistantControl.Options.cs",
+                       "Hash":  "C70224C616C4BE81722FB66608E30011445D14711C73989F943ED61C95B5647C",
+                       "Bytes":  30311
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\Views\\AssistantControl.Progress.cs",
+                       "Hash":  "012E396C969F851796D209F18C2D529608CE1C9882D624993FC57E21EFC57826",
+                       "Bytes":  6536
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\Views\\AssistantControl.ProgressPresentation.cs",
+                       "Hash":  "8CA9FDB0FC162686EEA4E4889D1AB4CB3FBF0224772E66FA2289755D5111A08B",
+                       "Bytes":  13920
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\Views\\AssistantControl.RequestQueue.cs",
+                       "Hash":  "7580627721147E4DCDE3345F9BE118254EBC71B6B2DE625CC52662F8C6745FD3",
+                       "Bytes":  21850
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\Views\\AssistantControl.Runtime.cs",
+                       "Hash":  "10EEB4BC58FF38626E9B319C2FB07C7744E18327BF9A8DDFDCD90707C67875DB",
+                       "Bytes":  34647
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\Views\\AssistantControl.Theme.cs",
+                       "Hash":  "54A7194BF21CB9122D80B4CA1B7D8205C1D1D9DC1C88DDA45CD37A57CAC78677",
+                       "Bytes":  18773
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\Views\\AssistantControl.Thinking.cs",
+                       "Hash":  "16ED7C5BF9DE7CEB37A7F6E7C97797CEC6E3A45D50E019440B4D963578DD9E2B",
+                       "Bytes":  8464
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\Views\\AssistantControl.Viewport.cs",
+                       "Hash":  "6852084FA9238C80A8F4393FD045257A55285BD645D0B25767F0598D408CDB2E",
+                       "Bytes":  23802
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\Views\\AssistantControl.xaml",
+                       "Hash":  "BE6A375F049AD87FCF54A1141D74BA5ED9839DF6AE1BAA755AFA2948E42C95E4",
+                       "Bytes":  31804
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\Views\\AssistantControl.xaml.cs",
+                       "Hash":  "B12DBC31A225DD8E745C906AC5CF6AEE8AB9312D7DB4096E19118EDED31AC06C",
+                       "Bytes":  29311
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\Views\\AssistantDialogs.cs",
+                       "Hash":  "4DFA757E981E0BF335EA377FD76129D586238AB2844C9531CBCA5E4A156E0A6D",
+                       "Bytes":  65186
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\Views\\AssistantGuideDetails.cs",
+                       "Hash":  "7AE143F18E1B76E53DC2C22A6874F9D5F778D3535B2FBCA48D20084D603FF70B",
+                       "Bytes":  6838
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\Views\\AssistantGuideMedia.cs",
+                       "Hash":  "814614BE2ABD98169945BE2907847EEDFC0F8AB4155EC018E3315818BAED8C48",
+                       "Bytes":  11324
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\Views\\AssistantHelpContent.cs",
+                       "Hash":  "1E0BB12B90A45EBA0C2AE900721D02BCC5CE9C12DCC9AEEF8886EFBA3CD421A4",
+                       "Bytes":  22968
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\Views\\AssistantMotionTokens.cs",
+                       "Hash":  "610AB8AD676CDC98DB5B9D162819365B31210C520A35ECADC1912B3F9C42640B",
+                       "Bytes":  11456
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\Views\\AssistantPalette.cs",
+                       "Hash":  "D52B0DEFD8E8B737B664668ED8E6A7AD5A2CB48F3F71A36A083F6AE6FF2B597B",
+                       "Bytes":  14982
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\Views\\AssistantTheme.xaml",
+                       "Hash":  "BDDE9A184D294628F5EF0360772770A0E6E653B4AE56FF16ABCA53005DA0C602",
+                       "Bytes":  45243
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\Views\\AssistantThemePolicy.cs",
+                       "Hash":  "BB3536A0ADF6DEDACE97610653B8835CD1BEEB69D37F290C325B26BE078B9E7A",
+                       "Bytes":  4183
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\Views\\ChangeDiffPopup.cs",
+                       "Hash":  "4D17E3C1AEB0AF0A89003E540F22A15E359FD5000C5126824ED3608BE3EC721D",
+                       "Bytes":  16935
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\Views\\CliGuideDialog.cs",
+                       "Hash":  "12EA7BDA3CD5F674F67DB13ED59B91A22A5C1E1163234A247614AAC5046BAEA0",
+                       "Bytes":  31998
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\Views\\CompletionNotification.cs",
+                       "Hash":  "A9FF337EF081C190543C2AB15AB7C374D82F8D2FF5599BD9A452D2B862216070",
+                       "Bytes":  13511
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\Views\\DiffPreviewPresenter.cs",
+                       "Hash":  "70590A73C541B4078887093A792AF81784CD59EA6CB1C2AB1A617811D4AEA4E0",
+                       "Bytes":  18904
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\Views\\MarkdownAnimatedImage.cs",
+                       "Hash":  "A4E4C273DE839A5EF9AC8E066FF807FE823ED909452687D004160C88E18FF7F8",
+                       "Bytes":  26465
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\Views\\MarkdownEditor.cs",
+                       "Hash":  "F5949330D7518E64C34FBA4C6DDCF1440DC43DA5EBCA8C84BE4C341A42D9A753",
+                       "Bytes":  63950
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\Views\\MarkdownEditor.Documents.cs",
+                       "Hash":  "DEC513A9D64FF7F1FED10139C3B353326BEB26DF76D7637F62AF036A9D54BC97",
+                       "Bytes":  19135
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\Views\\MarkdownnCodeHighlighting.cs",
+                       "Hash":  "BD1E2EB7E6289138D61A18E0862EEE31027C49E947EC274C633BE526E8488EB3",
+                       "Bytes":  31401
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\Views\\MarkdownnEditing.cs",
+                       "Hash":  "CFFA1B943917B9BD7C1084A1F7AA486A68E74A28BD6DD69A3790BC9B6B4F9375",
+                       "Bytes":  7200
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\Views\\MarkdownPreview.cs",
+                       "Hash":  "6B5648142F9E0C6D7039E554E0A199171B1A6006B900D5400D587C0D620EB07B",
+                       "Bytes":  10789
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\Views\\MarkdownRendering.cs",
+                       "Hash":  "54699B0B922DCFF6E358BF8A6940CE6E2B80F4EB4BF4C62B7DA0F7E7D32C401A",
+                       "Bytes":  54963
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\Views\\MarkdownRendering.Html.cs",
+                       "Hash":  "556EBAC8CBE614AA7FD377D5F7AB3C508D39202DAC894CF4AFC466A5DD5F48BF",
+                       "Bytes":  12886
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\Views\\ProgressNotice.cs",
+                       "Hash":  "1D360BEE27C2E8B3C4E3E1FB48B80EF3858E9B64FD01CDE8371E74BBF2339D38",
+                       "Bytes":  49287
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\Views\\WorkspaceActionsDialog.cs",
+                       "Hash":  "2CDD1A3B3F583D888751D1421A925930AB0B7BACE7612C5B2FBB88B835DB9890",
+                       "Bytes":  30340
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\VS2017.AIAssistant.csproj",
+                       "Hash":  "AF4FDA152ED0E6F585A89E8B7C74E8C960ADBB33E53A2E65D17FBC2554581908",
+                       "Bytes":  13416
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.AIAssistant\\VSPackage.resx",
+                       "Hash":  "FF640F2D91CDE55865B3F5626CA2667E897F9E68892B5725D5197C7F29C91541",
+                       "Bytes":  646
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.Legacy.AIAssistant\\source.extension.vsixmanifest",
+                       "Hash":  "521B8DD8C334DC38BD9074C701553B9E768C0109045E342A25DB288C7A3A481B",
+                       "Bytes":  1262
+                   },
+                   {
+                       "RelativePath":  "src\\VS2017.Legacy.AIAssistant\\VS2017.Legacy.AIAssistant.csproj",
+                       "Hash":  "F256BF3031D9687CC5EDE1053EAF1BB590ACFB84A4116E001CB1B75536C5DE50",
+                       "Bytes":  21697
+                   },
+                   {
+                       "RelativePath":  "src\\VS2019.AIAssistant\\source.extension.vsixmanifest",
+                       "Hash":  "3A4EB8A6F495DFD83D9A59BB869B8E9CD1BF887AE95356A444722FE694550387",
+                       "Bytes":  1250
+                   },
+                   {
+                       "RelativePath":  "src\\VS2019.AIAssistant\\VS2019.AIAssistant.csproj",
+                       "Hash":  "FE864B70A8269227C2BF30C8BD320E5C28C24178B84BE79661989E28FCBCA503",
+                       "Bytes":  21301
+                   },
+                   {
+                       "RelativePath":  "src\\VS2022.AIAssistant\\source.extension.vsixmanifest",
+                       "Hash":  "773E9493505AD530D50C2AA0589136FF615EDEEDB5A094F4D21EF05C58E28CD7",
+                       "Bytes":  1331
+                   },
+                   {
+                       "RelativePath":  "src\\VS2022.AIAssistant\\VS2022.AIAssistant.csproj",
+                       "Hash":  "48EE6C12CCB89F53D9CB96D68CAD49BB0DFDCB824C0FC0B82B1EB34F5719FCE9",
+                       "Bytes":  21333
+                   }
+               ],
+    "FinalBuilds":  [
+                        {
+                            "Target":  "2017.Legacy",
+                            "Configuration":  "Release",
+                            "ExitCode":  0,
+                            "Warnings":  0,
+                            "Errors":  0,
+                            "Log":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task054\\candidate12\\build-2017.Legacy-Release.log"
+                        },
+                        {
+                            "Target":  "2017",
+                            "Configuration":  "Release",
+                            "ExitCode":  0,
+                            "Warnings":  0,
+                            "Errors":  0,
+                            "Log":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task054\\candidate12\\build-2017-Release.log"
+                        },
+                        {
+                            "Target":  "2019",
+                            "Configuration":  "Release",
+                            "ExitCode":  0,
+                            "Warnings":  0,
+                            "Errors":  0,
+                            "Log":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task054\\candidate12\\build-2019-Release.log"
+                        },
+                        {
+                            "Target":  "2022",
+                            "Configuration":  "Release",
+                            "ExitCode":  0,
+                            "Warnings":  0,
+                            "Errors":  0,
+                            "Log":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task054\\candidate12\\build-2022-Release.log"
+                        }
+                    ],
+    "FinalActualIde":  [
+                           {
+                               "Sku":  "2017.Legacy",
+                               "Candidate":  "candidate12",
+                               "VsixSha256":  "AF269930DF77FC9966C0794A80D0EF619DBD3D8CFFCC79A171AE1CA8EB54C4CA",
+                               "StartedAt":  "2026-10-20T04:07:53.5456089+09:00",
+                               "FinishedAt":  "2026-10-20T04:09:04.3653204+09:00",
+                               "ExitCode":  0,
+                               "Run":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\ide\\run-f295186340904a95aa154769829457e3",
+                               "Passed":  146,
+                               "Failed":  0,
+                               "Succeeded":  true,
+                               "CleanupRecorded":  true,
+                               "Log":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task054\\candidate12-ide1-2017.Legacy.log"
+                           },
+                           {
+                               "Sku":  "2017",
+                               "Candidate":  "candidate12",
+                               "VsixSha256":  "0B805ECCB820046723F8F3B71916F0A0E6D402A68CBE686148748F0C85CC437B",
+                               "StartedAt":  "2026-10-20T04:09:04.3969115+09:00",
+                               "FinishedAt":  "2026-10-20T04:10:19.7830387+09:00",
+                               "ExitCode":  0,
+                               "Run":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\ide\\run-670e5e87056d4f8b9507d91672fadd05",
+                               "Passed":  146,
+                               "Failed":  0,
+                               "Succeeded":  true,
+                               "CleanupRecorded":  true,
+                               "Log":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task054\\candidate12-ide1-2017.log"
+                           },
+                           {
+                               "Sku":  "2019",
+                               "Candidate":  "candidate12",
+                               "VsixSha256":  "B85914EE9637682EF362735D11CC4CA6869BF55CEE697CAEDC3026757A2647B8",
+                               "StartedAt":  "2026-10-20T04:10:19.7860392+09:00",
+                               "FinishedAt":  "2026-10-20T04:12:01.8782878+09:00",
+                               "ExitCode":  0,
+                               "Run":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\ide\\run-4458cd90d6c64a38b3e14ab2f56a061a",
+                               "Passed":  146,
+                               "Failed":  0,
+                               "Succeeded":  true,
+                               "CleanupRecorded":  true,
+                               "Log":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task054\\candidate12-ide1-2019.log"
+                           },
+                           {
+                               "Sku":  "2022",
+                               "Candidate":  "candidate12",
+                               "VsixSha256":  "BF6873C0DA59ACDC517DA8EA0C77160001FE38001A9CDABC608074CC07E1951C",
+                               "StartedAt":  "2026-10-20T04:12:01.8822912+09:00",
+                               "FinishedAt":  "2026-10-20T04:13:38.6017648+09:00",
+                               "ExitCode":  0,
+                               "Run":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\ide\\run-b0d16b6b8e304c57a19ab1ebf9ae4209",
+                               "Passed":  146,
+                               "Failed":  0,
+                               "Succeeded":  true,
+                               "CleanupRecorded":  true,
+                               "Log":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task054\\candidate12-ide1-2022.log"
+                           }
+                       ],
+    "FinalActualIdeChecks":  584,
+    "EarlierActualIdeC11":  [
+                                {
+                                    "Sku":  "2017.Legacy",
+                                    "Candidate":  "candidate11",
+                                    "VsixSha256":  "0694FBE074E6A1323EF2739C2CA0D67647B4B2F09E179BA5121CC912879C3C6F",
+                                    "StartedAt":  "2026-10-20T03:54:06.5976545+09:00",
+                                    "FinishedAt":  "2026-10-20T03:55:18.5048269+09:00",
+                                    "ExitCode":  0,
+                                    "Run":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\ide\\run-cb5f05a756d342aa859f3eecd4e86b1b",
+                                    "Passed":  145,
+                                    "Failed":  0,
+                                    "Succeeded":  true,
+                                    "CleanupRecorded":  true,
+                                    "Log":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task054\\candidate11-ide1-2017.Legacy.log"
+                                },
+                                {
+                                    "Sku":  "2017",
+                                    "Candidate":  "candidate11",
+                                    "VsixSha256":  "DC7634520B70915F2AE83139DF678FD05E5FAE5A564C9DBAB76A3A5698C84194",
+                                    "StartedAt":  "2026-10-20T03:55:18.5334875+09:00",
+                                    "FinishedAt":  "2026-10-20T03:56:32.0896266+09:00",
+                                    "ExitCode":  0,
+                                    "Run":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\ide\\run-dafa9b7f8b8f43248bd3ec7035a11c70",
+                                    "Passed":  145,
+                                    "Failed":  0,
+                                    "Succeeded":  true,
+                                    "CleanupRecorded":  true,
+                                    "Log":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task054\\candidate11-ide1-2017.log"
+                                },
+                                {
+                                    "Sku":  "2019",
+                                    "Candidate":  "candidate11",
+                                    "VsixSha256":  "19543BCB4CE3BDE0200D796507C29DD662104C1C6EED9D4CDBF15C53DB0ADA9A",
+                                    "StartedAt":  "2026-10-20T03:56:32.0936357+09:00",
+                                    "FinishedAt":  "2026-10-20T03:58:10.1372624+09:00",
+                                    "ExitCode":  0,
+                                    "Run":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\ide\\run-00fca72ee02c499bb241304c1741bab5",
+                                    "Passed":  145,
+                                    "Failed":  0,
+                                    "Succeeded":  true,
+                                    "CleanupRecorded":  true,
+                                    "Log":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task054\\candidate11-ide1-2019.log"
+                                },
+                                {
+                                    "Sku":  "2022",
+                                    "Candidate":  "candidate11",
+                                    "VsixSha256":  "7A3F8D98B99CE4B8B44B100208D272C4BB47EAD0E62B4041AD75CE35ECB0AD8B",
+                                    "StartedAt":  "2026-10-20T03:58:10.1402833+09:00",
+                                    "FinishedAt":  "2026-10-20T03:59:58.7784158+09:00",
+                                    "ExitCode":  0,
+                                    "Run":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\ide\\run-fc601cc927554c69afdf4ea93c673c26",
+                                    "Passed":  145,
+                                    "Failed":  0,
+                                    "Succeeded":  true,
+                                    "CleanupRecorded":  true,
+                                    "Log":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task054\\candidate11-ide1-2022.log"
+                                }
+                            ],
+    "Customer1571IdeTested":  false,
+    "EarlierDefaultRegression":  {
+                                     "Task":  "TASK-054",
+                                     "Candidate":  "candidate9",
+                                     "Version":  "0.12.1",
+                                     "Run":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\tl\\729d5c37e8",
+                                     "AssemblySha256":  "9811B6CCF89A393E444B92E81329922FD5F15E16CC8D9925C5DC9726C2DA6D17",
+                                     "Suites":  [
+                                                    {
+                                                        "Suite":  "compatibility",
+                                                        "ExitCode":  0
+                                                    },
+                                                    {
+                                                        "Suite":  "build-entry",
+                                                        "ExitCode":  0
+                                                    },
+                                                    {
+                                                        "Suite":  "markdown",
+                                                        "ExitCode":  0
+                                                    },
+                                                    {
+                                                        "Suite":  "settings",
+                                                        "ExitCode":  0
+                                                    },
+                                                    {
+                                                        "Suite":  "workspace-actions",
+                                                        "ExitCode":  0
+                                                    },
+                                                    {
+                                                        "Suite":  "editing",
+                                                        "ExitCode":  0
+                                                    },
+                                                    {
+                                                        "Suite":  "foundation",
+                                                        "ExitCode":  0
+                                                    },
+                                                    {
+                                                        "Suite":  "experience",
+                                                        "ExitCode":  0
+                                                    },
+                                                    {
+                                                        "Suite":  "documents",
+                                                        "ExitCode":  0
+                                                    },
+                                                    {
+                                                        "Suite":  "collaboration",
+                                                        "ExitCode":  0
+                                                    },
+                                                    {
+                                                        "Suite":  "provider-options",
+                                                        "ExitCode":  0
+                                                    },
+                                                    {
+                                                        "Suite":  "provider-cli",
+                                                        "ExitCode":  0
+                                                    },
+                                                    {
+                                                        "Suite":  "scm-identity",
+                                                        "ExitCode":  0
+                                                    },
+                                                    {
+                                                        "Suite":  "image-requirements",
+                                                        "ExitCode":  0
+                                                    },
+                                                    {
+                                                        "Suite":  "image-followup",
+                                                        "ExitCode":  0
+                                                    },
+                                                    {
+                                                        "Suite":  "native-runtime",
+                                                        "ExitCode":  0
+                                                    },
+                                                    {
+                                                        "Suite":  "request-queue",
+                                                        "ExitCode":  0
+                                                    },
+                                                    {
+                                                        "Suite":  "file-artifacts",
+                                                        "ExitCode":  0
+                                                    },
+                                                    {
+                                                        "Suite":  "notification-content",
+                                                        "ExitCode":  0
+                                                    }
+                                                ],
+                                     "PassedSuites":  19,
+                                     "FailedSuites":  0,
+                                     "AllLiveAiUsed":  false,
+                                     "CheckedAt":  "2026-10-20T03:37:15.3788392+09:00"
+                                 },
+    "C9ToC10":  {
+                    "Prior":  "candidate9",
+                    "Inputs":  132,
+                    "Final":  "candidate10",
+                    "CheckedAt":  "2026-10-20T03:46:01.9657232+09:00",
+                    "Differences":  [
+                                        {
+                                            "Path":  "output\\pdf\\VisualStudio_AI_Assistant_설치_사용설명서_v0.12.1_미리보기.pdf",
+                                            "Before":  "C382A0049B6BF76795885F950C8CC3C5D6DEEEF5C2A40FDF76E4E5C4CFA499DE",
+                                            "After":  "F853789CE823A1EABE8B4E98226064A9E86F808389CA77033DF83925744F2372"
+                                        }
+                                    ],
+                    "ProductSourcesUnchanged":  true
+                },
+    "C10ToC11":  {
+                     "Inputs":  132,
+                     "CheckedAt":  "2026-10-20T03:54:16.7697271+09:00",
+                     "Differences":  [
+                                         {
+                                             "Path":  "src\\VS2017.AIAssistant\\Views\\AssistantControl.Fan.cs",
+                                             "Before":  "BE4EECAF1272EC7710D5EE11E45876D875FFAA0FF028395DD00F283867E59AAB",
+                                             "After":  "6C2502FDE3D9AFA744DC327BB3BB2F237EF3A57B7BD66A19EED92F089B062B10"
+                                         }
+                                     ],
+                     "CommentIndentOnly":  true,
+                     "Final":  "candidate11",
+                     "Prior":  "candidate10"
+                 },
+    "EarlierBrandedNotification":  [
+                                       {
+                                           "Succeeded":  true,
+                                           "Provider":  "Codex",
+                                           "ProviderMatched":  true,
+                                           "RequestSummaryMatched":  true,
+                                           "BrandIconExported":  true,
+                                           "IconCreated":  true,
+                                           "TimerStarted":  true,
+                                           "DuplicateCompletionKeptSameIcon":  true,
+                                           "TimedCleanup":  true,
+                                           "DisposedCleanup":  true,
+                                           "BalloonShownEvents":  1,
+                                           "OsDisplayedNotificationObserved":  true,
+                                           "Failure":  null,
+                                           "AssemblySha256":  "9811B6CCF89A393E444B92E81329922FD5F15E16CC8D9925C5DC9726C2DA6D17",
+                                           "WindowShown":  true,
+                                           "ActualIdeTested":  false,
+                                           "SyntheticRequest":  true,
+                                           "LiveAiUsed":  false,
+                                           "OsNotificationSettingsChanged":  false
+                                       },
+                                       {
+                                           "Succeeded":  true,
+                                           "Provider":  "Claude",
+                                           "ProviderMatched":  true,
+                                           "RequestSummaryMatched":  true,
+                                           "BrandIconExported":  true,
+                                           "IconCreated":  true,
+                                           "TimerStarted":  true,
+                                           "DuplicateCompletionKeptSameIcon":  true,
+                                           "TimedCleanup":  true,
+                                           "DisposedCleanup":  true,
+                                           "BalloonShownEvents":  1,
+                                           "OsDisplayedNotificationObserved":  true,
+                                           "Failure":  null,
+                                           "AssemblySha256":  "E6F7AC600A9D10326F9DB392C06D95BFE21CCCD9623C6F5866277A48FABE9C7A",
+                                           "WindowShown":  true,
+                                           "ActualIdeTested":  false,
+                                           "SyntheticRequest":  true,
+                                           "LiveAiUsed":  false,
+                                           "OsNotificationSettingsChanged":  false
+                                       }
+                                   ],
+    "EarlierTooltip":  {
+                           "Succeeded":  true,
+                           "Passed":  36,
+                           "Checks":  [
+                                          "Product XAML retains a concrete tooltip with the original help text",
+                                          "Trigger Automation Name remains unchanged",
+                                          "Menu item Automation Names remain unchanged",
+                                          "Role 01:40 provides 280ms pointer movement grace",
+                                          "Hover schedules opening without immediately covering the content",
+                                          "Leaving the trigger before dwell cancels delayed opening",
+                                          "Explicit dismissal cancels pending hover opening",
+                                          "WPF keyboard navigation can focus the Help sector",
+                                          "WPF Tab traversal moves from Help to Settings",
+                                          "Managed Escape route closes menu, restores trigger focus and enables closed-state help",
+                                          "200px light closed menu retains tooltip service",
+                                          "200px light actual tooltip Popup is connected before menu opens",
+                                          "200px light opening menu closes the visible tooltip and prevents delayed reopening",
+                                          "200px light reentry does not replay menu opening or revive tooltip",
+                                          "200px light closing restores help availability with menu collapsed",
+                                          "200px light closed-state tooltip can be shown again",
+                                          "200px dark closed menu retains tooltip service",
+                                          "200px dark actual tooltip Popup is connected before menu opens",
+                                          "200px dark opening menu closes the visible tooltip and prevents delayed reopening",
+                                          "200px dark reentry does not replay menu opening or revive tooltip",
+                                          "200px dark closing restores help availability with menu collapsed",
+                                          "200px dark closed-state tooltip can be shown again",
+                                          "260px light closed menu retains tooltip service",
+                                          "260px light actual tooltip Popup is connected before menu opens",
+                                          "260px light opening menu closes the visible tooltip and prevents delayed reopening",
+                                          "260px light reentry does not replay menu opening or revive tooltip",
+                                          "260px light closing restores help availability with menu collapsed",
+                                          "260px light closed-state tooltip can be shown again",
+                                          "260px dark closed menu retains tooltip service",
+                                          "260px dark actual tooltip Popup is connected before menu opens",
+                                          "260px dark opening menu closes the visible tooltip and prevents delayed reopening",
+                                          "260px dark reentry does not replay menu opening or revive tooltip",
+                                          "260px dark closing restores help availability with menu collapsed",
+                                          "260px dark closed-state tooltip can be shown again",
+                                          "Busy-state rejection keeps menu closed and does not suppress closed-state help",
+                                          "Disposal leaves no tooltip or fan timer open"
+                                      ],
+                           "Interactive":  false,
+                           "PersonalSettingsRead":  false,
+                           "CliDiscoveryEnabled":  false,
+                           "AiInvoked":  false
+                       },
+    "Installer":  {
+                      "Task":  "TASK-036",
+                      "TestKind":  "RealPackageWithSyntheticSkuAndReadOnlyLocalInventory",
+                      "Cases":  [
+                                    {
+                                        "Name":  "2017 Community customer 15.7.1 legacy package",
+                                        "Expected":  "Ready",
+                                        "Actual":  "Ready",
+                                        "Passed":  true,
+                                        "Reason":  "설치 조건 확인. 최종 의존성 검사는 VSIXInstaller에서 수행합니다."
+                                    },
+                                    {
+                                        "Name":  "2017 Community 15.8 selects legacy",
+                                        "Expected":  "Ready",
+                                        "Actual":  "Ready",
+                                        "Passed":  true,
+                                        "Reason":  "설치 조건 확인. 최종 의존성 검사는 VSIXInstaller에서 수행합니다."
+                                    },
+                                    {
+                                        "Name":  "2017 Community exact 15.9 RTM",
+                                        "Expected":  "Ready",
+                                        "Actual":  "Ready",
+                                        "Passed":  true,
+                                        "Reason":  "설치 조건 확인. 최종 의존성 검사는 VSIXInstaller에서 수행합니다."
+                                    },
+                                    {
+                                        "Name":  "2017 Community latest installed",
+                                        "Expected":  "Ready",
+                                        "Actual":  "Ready",
+                                        "Passed":  true,
+                                        "Reason":  "설치 조건 확인. 최종 의존성 검사는 VSIXInstaller에서 수행합니다."
+                                    },
+                                    {
+                                        "Name":  "2019 Community matching package",
+                                        "Expected":  "Ready",
+                                        "Actual":  "Ready",
+                                        "Passed":  true,
+                                        "Reason":  "설치 조건 확인. 최종 의존성 검사는 VSIXInstaller에서 수행합니다."
+                                    },
+                                    {
+                                        "Name":  "2022 Community matching x64 package",
+                                        "Expected":  "Ready",
+                                        "Actual":  "Ready",
+                                        "Passed":  true,
+                                        "Reason":  "설치 조건 확인. 최종 의존성 검사는 VSIXInstaller에서 수행합니다."
+                                    },
+                                    {
+                                        "Name":  "2017 Professional customer 15.7.1 legacy package",
+                                        "Expected":  "Ready",
+                                        "Actual":  "Ready",
+                                        "Passed":  true,
+                                        "Reason":  "설치 조건 확인. 최종 의존성 검사는 VSIXInstaller에서 수행합니다."
+                                    },
+                                    {
+                                        "Name":  "2017 Professional 15.8 selects legacy",
+                                        "Expected":  "Ready",
+                                        "Actual":  "Ready",
+                                        "Passed":  true,
+                                        "Reason":  "설치 조건 확인. 최종 의존성 검사는 VSIXInstaller에서 수행합니다."
+                                    },
+                                    {
+                                        "Name":  "2017 Professional exact 15.9 RTM",
+                                        "Expected":  "Ready",
+                                        "Actual":  "Ready",
+                                        "Passed":  true,
+                                        "Reason":  "설치 조건 확인. 최종 의존성 검사는 VSIXInstaller에서 수행합니다."
+                                    },
+                                    {
+                                        "Name":  "2017 Professional latest installed",
+                                        "Expected":  "Ready",
+                                        "Actual":  "Ready",
+                                        "Passed":  true,
+                                        "Reason":  "설치 조건 확인. 최종 의존성 검사는 VSIXInstaller에서 수행합니다."
+                                    },
+                                    {
+                                        "Name":  "2019 Professional matching package",
+                                        "Expected":  "Ready",
+                                        "Actual":  "Ready",
+                                        "Passed":  true,
+                                        "Reason":  "설치 조건 확인. 최종 의존성 검사는 VSIXInstaller에서 수행합니다."
+                                    },
+                                    {
+                                        "Name":  "2022 Professional matching x64 package",
+                                        "Expected":  "Ready",
+                                        "Actual":  "Ready",
+                                        "Passed":  true,
+                                        "Reason":  "설치 조건 확인. 최종 의존성 검사는 VSIXInstaller에서 수행합니다."
+                                    },
+                                    {
+                                        "Name":  "2017 Enterprise customer 15.7.1 legacy package",
+                                        "Expected":  "Ready",
+                                        "Actual":  "Ready",
+                                        "Passed":  true,
+                                        "Reason":  "설치 조건 확인. 최종 의존성 검사는 VSIXInstaller에서 수행합니다."
+                                    },
+                                    {
+                                        "Name":  "2017 Enterprise 15.8 selects legacy",
+                                        "Expected":  "Ready",
+                                        "Actual":  "Ready",
+                                        "Passed":  true,
+                                        "Reason":  "설치 조건 확인. 최종 의존성 검사는 VSIXInstaller에서 수행합니다."
+                                    },
+                                    {
+                                        "Name":  "2017 Enterprise exact 15.9 RTM",
+                                        "Expected":  "Ready",
+                                        "Actual":  "Ready",
+                                        "Passed":  true,
+                                        "Reason":  "설치 조건 확인. 최종 의존성 검사는 VSIXInstaller에서 수행합니다."
+                                    },
+                                    {
+                                        "Name":  "2017 Enterprise latest installed",
+                                        "Expected":  "Ready",
+                                        "Actual":  "Ready",
+                                        "Passed":  true,
+                                        "Reason":  "설치 조건 확인. 최종 의존성 검사는 VSIXInstaller에서 수행합니다."
+                                    },
+                                    {
+                                        "Name":  "2019 Enterprise matching package",
+                                        "Expected":  "Ready",
+                                        "Actual":  "Ready",
+                                        "Passed":  true,
+                                        "Reason":  "설치 조건 확인. 최종 의존성 검사는 VSIXInstaller에서 수행합니다."
+                                    },
+                                    {
+                                        "Name":  "2022 Enterprise matching x64 package",
+                                        "Expected":  "Ready",
+                                        "Actual":  "Ready",
+                                        "Passed":  true,
+                                        "Reason":  "설치 조건 확인. 최종 의존성 검사는 VSIXInstaller에서 수행합니다."
+                                    },
+                                    {
+                                        "Name":  "Below 15.7 SDK build rejected",
+                                        "Expected":  "UnsupportedVersion",
+                                        "Actual":  "UnsupportedVersion",
+                                        "Passed":  true,
+                                        "Reason":  "설치 버전 15.6.27702.99 에 맞지 않습니다. VS2017 15.7/15.8은 15.7 전용, 15.9 이상은 일반 VS2017용을 사용하세요. 15.7 미만은 지원하지 않습니다."
+                                    },
+                                    {
+                                        "Name":  "BuildTools is not an IDE",
+                                        "Expected":  "UnsupportedProduct",
+                                        "Actual":  "UnsupportedProduct",
+                                        "Passed":  true,
+                                        "Reason":  "지원 대상은 Visual Studio 2017/2019/2022 Community·Professional·Enterprise입니다."
+                                    },
+                                    {
+                                        "Name":  "VS2026 not declared",
+                                        "Expected":  "UnsupportedProduct",
+                                        "Actual":  "UnsupportedProduct",
+                                        "Passed":  true,
+                                        "Reason":  "지원 대상은 Visual Studio 2017/2019/2022 Community·Professional·Enterprise입니다."
+                                    },
+                                    {
+                                        "Name":  "Missing CoreEditor",
+                                        "Expected":  "MissingCoreEditor",
+                                        "Actual":  "MissingCoreEditor",
+                                        "Passed":  true,
+                                        "Reason":  "Visual Studio 핵심 편집기를 찾을 수 없습니다. Visual Studio Installer에서 수정/복구하세요."
+                                    },
+                                    {
+                                        "Name":  "Incomplete VS installation",
+                                        "Expected":  "IncompleteInstallation",
+                                        "Actual":  "IncompleteInstallation",
+                                        "Passed":  true,
+                                        "Reason":  "Visual Studio Installer에서 설치/복구를 마치고 필요한 재부팅을 완료하세요."
+                                    },
+                                    {
+                                        "Name":  "Pending reboot",
+                                        "Expected":  "IncompleteInstallation",
+                                        "Actual":  "IncompleteInstallation",
+                                        "Passed":  true,
+                                        "Reason":  "Visual Studio Installer에서 설치/복구를 마치고 필요한 재부팅을 완료하세요."
+                                    },
+                                    {
+                                        "Name":  "ARM64 IDE must not receive x64 package",
+                                        "Expected":  "ArchitectureMismatch",
+                                        "Actual":  "ArchitectureMismatch",
+                                        "Passed":  true,
+                                        "Reason":  "IDE 아키텍처 arm64 를 지원하지 않습니다. VS2022 패키지는 x64(amd64)용입니다."
+                                    },
+                                    {
+                                        "Name":  "Unknown executable architecture fails closed",
+                                        "Expected":  "ArchitectureMismatch",
+                                        "Actual":  "ArchitectureMismatch",
+                                        "Passed":  true,
+                                        "Reason":  "IDE 아키텍처 unknown 를 지원하지 않습니다. VS2022 패키지는 x64(amd64)용입니다."
+                                    },
+                                    {
+                                        "Name":  "Missing year package",
+                                        "Expected":  "InvalidPackage",
+                                        "Actual":  "InvalidPackage",
+                                        "Passed":  true,
+                                        "Reason":  "설치 파일이 없습니다: artifacts\\task054\\installer-final4\\altered-package\\VS2017.AIAssistant-0.12.1.vsix"
+                                    },
+                                    {
+                                        "Name":  "Renamed 2019 VSIX rejected by real identity",
+                                        "Expected":  "InvalidPackage",
+                                        "Actual":  "InvalidPackage",
+                                        "Passed":  true,
+                                        "Reason":  "파일 이름과 VSIX 제품 ID/버전이 다릅니다: VS2017.AIAssistant-0.12.1.vsix"
+                                    },
+                                    {
+                                        "Name":  "Tampered package hash rejected",
+                                        "Expected":  "InvalidPackage",
+                                        "Actual":  "InvalidPackage",
+                                        "Passed":  true,
+                                        "Reason":  "파일 체크섬 불일치: VS2017.AIAssistant-0.12.1.vsix. 설치 묶음을 다시 받으세요."
+                                    },
+                                    {
+                                        "Name":  "Duplicate checksum entry rejected",
+                                        "Expected":  "InvalidPackage",
+                                        "Actual":  "InvalidPackage",
+                                        "Passed":  true,
+                                        "Reason":  "SHA256SUMS.txt의 파일 항목이 없거나 중복입니다: VS2017.AIAssistant-0.12.1.vsix"
+                                    },
+                                    {
+                                        "Name":  "Real local inventory, diagnostic only",
+                                        "Passed":  true,
+                                        "Actual":  3,
+                                        "Expected":  3
+                                    },
+                                    {
+                                        "Name":  "Existing report is preserved",
+                                        "Passed":  true,
+                                        "Actual":  "Exit1/unchanged",
+                                        "Expected":  "Exit1/unchanged"
+                                    },
+                                    {
+                                        "Name":  "Old vswhere without utf8 option preserves Unicode and console encoding",
+                                        "Passed":  true
+                                    },
+                                    {
+                                        "Name":  "Old vswhere missing CoreEditor returns no instances",
+                                        "Passed":  true
+                                    },
+                                    {
+                                        "Name":  "Explicit missing package directory does not fall back",
+                                        "Passed":  true
+                                    }
+                                ],
+                      "Count":  35,
+                      "ActualProfessionalIdeTested":  false,
+                      "CustomerVersion":  "15.7.1",
+                      "CustomerCause":  "OldPackageMinimum15.9;NewLegacyMinimum15.7"
+                  },
+    "NetworkCases":  [
+                         {
+                             "Name":  "Worker token is AppContainer with zero capabilities",
+                             "Passed":  true,
+                             "Token":  [
+                                           1,
+                                           0
+                                       ]
+                         },
+                         {
+                             "Name":  "BeforeInstallation direct TCP is blocked by Windows",
+                             "Passed":  true,
+                             "NativeSocketError":  10013
+                         },
+                         {
+                             "Name":  "Verify, install and idempotent reinstall succeed without networking",
+                             "Passed":  true,
+                             "Files":  46
+                         },
+                         {
+                             "Name":  "Codex starts under the same network-disabled token",
+                             "Passed":  true,
+                             "Version":  "codex-cli 0.163.0"
+                         },
+                         {
+                             "Name":  "Claude starts under the same network-disabled token",
+                             "Passed":  true,
+                             "Version":  "2.1.302 (Claude Code)"
+                         },
+                         {
+                             "Name":  "AfterInstallation direct TCP is blocked by Windows",
+                             "Passed":  true,
+                             "NativeSocketError":  10013
+                         }
+                     ],
+    "NetworkCleanup":  {
+                           "Task":  "TASK-041",
+                           "OutputDirectory":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task041\\run-a51ada1a8fad40519478b22d6cb0a7fb",
+                           "WorkerExitCode":  0,
+                           "WorkingInstallerUsed":  false,
+                           "AppContainerProfile":  "CodexOrig.Task041.00a1ddd60003482ea0000242b9cf4f98",
+                           "ProfileCleanupHResult":  0,
+                           "FolderAclRestored":  true,
+                           "HostNetworkSettingsChanged":  false,
+                           "HostFirewallRulesChanged":  false,
+                           "WorkerNetworkCapabilities":  0,
+                           "PhysicalCableDisconnected":  false,
+                           "CustomerPcTested":  false,
+                           "AuthenticationPerformed":  false,
+                           "ModelRequestPerformed":  false
+                       },
+    "NetworkControl":  {
+                           "Port":  443,
+                           "BundleZip":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task054\\VisualStudio_AI_Assistant-0.12.1-Preview1-FullOffline-win-x64.zip",
+                           "HostToken":  [
+                                             0,
+                                             0
+                                         ],
+                           "HostConnected":  true,
+                           "Address":  "20.200.245.247",
+                           "BundleSha256":  "89A3CDA8BBD21918795205A828657BB27F72B40B04BBD8085A90CC459E57C165"
+                       },
+    "NetworkEvidence":  "artifacts/task041/run-a51ada1a8fad40519478b22d6cb0a7fb",
+    "ThemeEvidence":  "CodexOrig_TASK-064_C11_Validation.json",
+    "Theme":  {
+                  "Task":  "064",
+                  "Candidate":  "task054/candidate11",
+                  "RawPassed":  77,
+                  "RawFailed":  4,
+                  "RawTotal":  81,
+                  "AllRawChecksPassed":  false,
+                  "OriginalRawFailuresPreserved":  true,
+                  "ExistingTestSourcesUnchanged":  true,
+                  "SourceFiles":  [
+                                      {
+                                          "Path":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\tests\\task064\\Test-IdeThemeWorkflow.ps1",
+                                          "FrozenSha256":  "46E706A48D76EC996AA454E6C6127CD71A55CE494E96077154B49D4FEB9CB22E",
+                                          "CurrentSha256":  "46E706A48D76EC996AA454E6C6127CD71A55CE494E96077154B49D4FEB9CB22E",
+                                          "Unchanged":  true
+                                      },
+                                      {
+                                          "Path":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\tests\\task064\\ThemeIdePackage.cs",
+                                          "FrozenSha256":  "1B56EB4BDE0A972B96B7AC89FB85C153B657CA5AB6310FFC2BE5CE7F3C9B135A",
+                                          "CurrentSha256":  "1B56EB4BDE0A972B96B7AC89FB85C153B657CA5AB6310FFC2BE5CE7F3C9B135A",
+                                          "Unchanged":  true
+                                      },
+                                      {
+                                          "Path":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\tests\\task064\\ThemeRegistrationChecks64.cs",
+                                          "FrozenSha256":  "D7E5C96072A1479FFEA05CADD74F37DB99AB39909361FCE3CACB6C945F6A89A9",
+                                          "CurrentSha256":  "D7E5C96072A1479FFEA05CADD74F37DB99AB39909361FCE3CACB6C945F6A89A9",
+                                          "Unchanged":  true
+                                      }
+                                  ],
+                  "Runs":  [
+                               {
+                                   "Year":  "2017",
+                                   "Run":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task064\\candidate11-2017-sentinel1",
+                                   "RootSuffix":  "ThemeApply64a067c841",
+                                   "ExpectedRegistryRoot":  "Software\\Microsoft\\VisualStudio\\15.0_c1f368d6ThemeApply64a067c841",
+                                   "RawPassed":  26,
+                                   "RawFailed":  2,
+                                   "RawSucceeded":  false,
+                                   "FatalError":  null,
+                                   "RawResultSha256":  "CD4E17C4D2614862CD22F1E5B4E1F95FB19E13C4A58A130A972E6A16CCD40D14",
+                                   "CandidateDllSha256":  "01E737C3979FA232510386D8296A8AB9CC9B0E275ECE827D86256ED4ED0E49E6",
+                                   "VsixSha256":  "DC7634520B70915F2AE83139DF678FD05E5FAE5A564C9DBAB76A3A5698C84194",
+                                   "ThemeVsixSha256":  "DA9E78BDDBF664A7C78191F47C399BEE96B05C28C33CFBBBAE74612E04B6C8C1",
+                                   "LoadedDllMatchesFixedCandidate":  true,
+                                   "HelperSourceMatchesFrozen":  true,
+                                   "HelperDllSha256":  "5AB58252903E901ACA037DB02FC60590E922DAC24AB1D04594FA440CD92D2358",
+                                   "ExitedNormally":  true,
+                                   "ForcedOwnedProcessCleanup":  false,
+                                   "ExpectedPendingPath":  "C:\\Users\\ygree\\AppData\\Local\\Grokeen\\VisualStudioThemes\\pending-F3C8AAA7357CEFBC35BA1C4D.txt",
+                                   "PendingExistsAfter":  false,
+                                   "SettingsAnalysis":  [
+                                                            {
+                                                                "Theme":  "kakao",
+                                                                "BaselineSentinel":  "False",
+                                                                "ActualSentinel":  "False",
+                                                                "ExpectedSentinel":  "False",
+                                                                "SentinelVerified":  true,
+                                                                "ExistingChanged":  0,
+                                                                "ExistingRemoved":  0,
+                                                                "Added":  6,
+                                                                "Differences":  [
+                                                                                    {
+                                                                                        "Kind":  "Added",
+                                                                                        "Key":  "PropertyValue:AutoInsertAttributeQuotes/Category:XAML_Miscellaneous/UserSettings:",
+                                                                                        "Before":  null,
+                                                                                        "After":  "True"
+                                                                                    },
+                                                                                    {
+                                                                                        "Kind":  "Added",
+                                                                                        "Key":  "PropertyValue:AutoInsertCommas/Category:XAML_Miscellaneous/UserSettings:",
+                                                                                        "Before":  null,
+                                                                                        "After":  "True"
+                                                                                    },
+                                                                                    {
+                                                                                        "Kind":  "Added",
+                                                                                        "Key":  "PropertyValue:AutoInsertEndBraces/Category:XAML_Miscellaneous/UserSettings:",
+                                                                                        "Before":  null,
+                                                                                        "After":  "True"
+                                                                                    },
+                                                                                    {
+                                                                                        "Kind":  "Added",
+                                                                                        "Key":  "PropertyValue:AutoInsertEndTags/Category:XAML_Miscellaneous/UserSettings:",
+                                                                                        "Before":  null,
+                                                                                        "After":  "True"
+                                                                                    },
+                                                                                    {
+                                                                                        "Kind":  "Added",
+                                                                                        "Key":  "PropertyValue:ShowDesignerErrors/Category:XAML_Miscellaneous/UserSettings:",
+                                                                                        "Before":  null,
+                                                                                        "After":  "True"
+                                                                                    },
+                                                                                    {
+                                                                                        "Kind":  "Added",
+                                                                                        "Key":  "PropertyValue:WarnMinTargetCompatibility/Category:XAML_Miscellaneous/UserSettings:",
+                                                                                        "Before":  null,
+                                                                                        "After":  "True"
+                                                                                    }
+                                                                                ]
+                                                            },
+                                                            {
+                                                                "Theme":  "dracula",
+                                                                "BaselineSentinel":  "False",
+                                                                "ActualSentinel":  "False",
+                                                                "ExpectedSentinel":  "False",
+                                                                "SentinelVerified":  true,
+                                                                "ExistingChanged":  0,
+                                                                "ExistingRemoved":  0,
+                                                                "Added":  6,
+                                                                "Differences":  [
+                                                                                    {
+                                                                                        "Kind":  "Added",
+                                                                                        "Key":  "PropertyValue:AutoInsertAttributeQuotes/Category:XAML_Miscellaneous/UserSettings:",
+                                                                                        "Before":  null,
+                                                                                        "After":  "True"
+                                                                                    },
+                                                                                    {
+                                                                                        "Kind":  "Added",
+                                                                                        "Key":  "PropertyValue:AutoInsertCommas/Category:XAML_Miscellaneous/UserSettings:",
+                                                                                        "Before":  null,
+                                                                                        "After":  "True"
+                                                                                    },
+                                                                                    {
+                                                                                        "Kind":  "Added",
+                                                                                        "Key":  "PropertyValue:AutoInsertEndBraces/Category:XAML_Miscellaneous/UserSettings:",
+                                                                                        "Before":  null,
+                                                                                        "After":  "True"
+                                                                                    },
+                                                                                    {
+                                                                                        "Kind":  "Added",
+                                                                                        "Key":  "PropertyValue:AutoInsertEndTags/Category:XAML_Miscellaneous/UserSettings:",
+                                                                                        "Before":  null,
+                                                                                        "After":  "True"
+                                                                                    },
+                                                                                    {
+                                                                                        "Kind":  "Added",
+                                                                                        "Key":  "PropertyValue:ShowDesignerErrors/Category:XAML_Miscellaneous/UserSettings:",
+                                                                                        "Before":  null,
+                                                                                        "After":  "True"
+                                                                                    },
+                                                                                    {
+                                                                                        "Kind":  "Added",
+                                                                                        "Key":  "PropertyValue:WarnMinTargetCompatibility/Category:XAML_Miscellaneous/UserSettings:",
+                                                                                        "Before":  null,
+                                                                                        "After":  "True"
+                                                                                    }
+                                                                                ]
+                                                            }
+                                                        ],
+                                   "UserDefaultProfileChanged":  false,
+                                   "DesktopInputUsed":  false,
+                                   "ActualIdeThemeApiTest":  true
+                               },
+                               {
+                                   "Year":  "2019",
+                                   "Run":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task064\\candidate11-2019-sentinel1",
+                                   "RootSuffix":  "ThemeApply646c53672e",
+                                   "ExpectedRegistryRoot":  "Software\\Microsoft\\VisualStudio\\16.0_04212cb1ThemeApply646c53672e",
+                                   "RawPassed":  26,
+                                   "RawFailed":  2,
+                                   "RawSucceeded":  false,
+                                   "FatalError":  null,
+                                   "RawResultSha256":  "04799491F67366955E0730B39984BACFD438D922514054D1CE4FA5F7849734F2",
+                                   "CandidateDllSha256":  "4B2F3D0C3AC04749D62FB970B1143F97DEDEABF873EEB8E66B53CA5D19859B7F",
+                                   "VsixSha256":  "19543BCB4CE3BDE0200D796507C29DD662104C1C6EED9D4CDBF15C53DB0ADA9A",
+                                   "ThemeVsixSha256":  "19C2C611B731F6BE2B1F07EF7DEC4807BC5814B40D92EB3DE576110C17311AEB",
+                                   "LoadedDllMatchesFixedCandidate":  true,
+                                   "HelperSourceMatchesFrozen":  true,
+                                   "HelperDllSha256":  "32CDD876F99099D71E4813A8319E1C78E8A0D8D7F257A3244E9DC6BEE63FE7CC",
+                                   "ExitedNormally":  true,
+                                   "ForcedOwnedProcessCleanup":  false,
+                                   "ExpectedPendingPath":  "C:\\Users\\ygree\\AppData\\Local\\Grokeen\\VisualStudioThemes\\pending-365A7411E3C3AA810149DB2A.txt",
+                                   "PendingExistsAfter":  false,
+                                   "SettingsAnalysis":  [
+                                                            {
+                                                                "Theme":  "kakao",
+                                                                "BaselineSentinel":  "0",
+                                                                "ActualSentinel":  "0",
+                                                                "ExpectedSentinel":  "0",
+                                                                "SentinelVerified":  true,
+                                                                "ExistingChanged":  0,
+                                                                "ExistingRemoved":  0,
+                                                                "Added":  9,
+                                                                "Differences":  [
+                                                                                    {
+                                                                                        "Kind":  "Added",
+                                                                                        "Key":  "PropertyValue:AutoNameElements/ToolsOptionsSubCategory:General/ToolsOptionsCategory:XAML Designer/ToolsOptions:/UserSettings:",
+                                                                                        "Before":  null,
+                                                                                        "After":  "false"
+                                                                                    },
+                                                                                    {
+                                                                                        "Kind":  "Added",
+                                                                                        "Key":  "PropertyValue:InitialDisplayMode/ToolsOptionsSubCategory:General/ToolsOptionsCategory:XAML Designer/ToolsOptions:/UserSettings:",
+                                                                                        "Before":  null,
+                                                                                        "After":  "2"
+                                                                                    },
+                                                                                    {
+                                                                                        "Kind":  "Added",
+                                                                                        "Key":  "PropertyValue:ZoomControlMode/ToolsOptionsSubCategory:General/ToolsOptionsCategory:XAML Designer/ToolsOptions:/UserSettings:",
+                                                                                        "Before":  null,
+                                                                                        "After":  "1"
+                                                                                    },
+                                                                                    {
+                                                                                        "Kind":  "Added",
+                                                                                        "Key":  "PropertyValue:AutoToolboxPopulate/ToolsOptionsSubCategory:General/ToolsOptionsCategory:XAML Designer/ToolsOptions:/UserSettings:",
+                                                                                        "Before":  null,
+                                                                                        "After":  "true"
+                                                                                    },
+                                                                                    {
+                                                                                        "Kind":  "Added",
+                                                                                        "Key":  "PropertyValue:InitialDisplayOrientation/ToolsOptionsSubCategory:General/ToolsOptionsCategory:XAML Designer/ToolsOptions:/UserSettings:",
+                                                                                        "Before":  null,
+                                                                                        "After":  "2"
+                                                                                    },
+                                                                                    {
+                                                                                        "Kind":  "Added",
+                                                                                        "Key":  "PropertyValue:EnableXamlDesigner/ToolsOptionsSubCategory:General/ToolsOptionsCategory:XAML Designer/ToolsOptions:/UserSettings:",
+                                                                                        "Before":  null,
+                                                                                        "After":  "true"
+                                                                                    },
+                                                                                    {
+                                                                                        "Kind":  "Added",
+                                                                                        "Key":  "PropertyValue:UnitType/ToolsOptionsSubCategory:General/ToolsOptionsCategory:XAML Designer/ToolsOptions:/UserSettings:",
+                                                                                        "Before":  null,
+                                                                                        "After":  "1"
+                                                                                    },
+                                                                                    {
+                                                                                        "Kind":  "Added",
+                                                                                        "Key":  "PropertyValue:UseQuadrantLayout/ToolsOptionsSubCategory:General/ToolsOptionsCategory:XAML Designer/ToolsOptions:/UserSettings:",
+                                                                                        "Before":  null,
+                                                                                        "After":  "false"
+                                                                                    },
+                                                                                    {
+                                                                                        "Kind":  "Added",
+                                                                                        "Key":  "PropertyValue:AutoInsertLayout/ToolsOptionsSubCategory:General/ToolsOptionsCategory:XAML Designer/ToolsOptions:/UserSettings:",
+                                                                                        "Before":  null,
+                                                                                        "After":  "true"
+                                                                                    }
+                                                                                ]
+                                                            },
+                                                            {
+                                                                "Theme":  "dracula",
+                                                                "BaselineSentinel":  "0",
+                                                                "ActualSentinel":  "0",
+                                                                "ExpectedSentinel":  "0",
+                                                                "SentinelVerified":  true,
+                                                                "ExistingChanged":  0,
+                                                                "ExistingRemoved":  0,
+                                                                "Added":  9,
+                                                                "Differences":  [
+                                                                                    {
+                                                                                        "Kind":  "Added",
+                                                                                        "Key":  "PropertyValue:AutoNameElements/ToolsOptionsSubCategory:General/ToolsOptionsCategory:XAML Designer/ToolsOptions:/UserSettings:",
+                                                                                        "Before":  null,
+                                                                                        "After":  "false"
+                                                                                    },
+                                                                                    {
+                                                                                        "Kind":  "Added",
+                                                                                        "Key":  "PropertyValue:InitialDisplayMode/ToolsOptionsSubCategory:General/ToolsOptionsCategory:XAML Designer/ToolsOptions:/UserSettings:",
+                                                                                        "Before":  null,
+                                                                                        "After":  "2"
+                                                                                    },
+                                                                                    {
+                                                                                        "Kind":  "Added",
+                                                                                        "Key":  "PropertyValue:ZoomControlMode/ToolsOptionsSubCategory:General/ToolsOptionsCategory:XAML Designer/ToolsOptions:/UserSettings:",
+                                                                                        "Before":  null,
+                                                                                        "After":  "1"
+                                                                                    },
+                                                                                    {
+                                                                                        "Kind":  "Added",
+                                                                                        "Key":  "PropertyValue:AutoToolboxPopulate/ToolsOptionsSubCategory:General/ToolsOptionsCategory:XAML Designer/ToolsOptions:/UserSettings:",
+                                                                                        "Before":  null,
+                                                                                        "After":  "true"
+                                                                                    },
+                                                                                    {
+                                                                                        "Kind":  "Added",
+                                                                                        "Key":  "PropertyValue:InitialDisplayOrientation/ToolsOptionsSubCategory:General/ToolsOptionsCategory:XAML Designer/ToolsOptions:/UserSettings:",
+                                                                                        "Before":  null,
+                                                                                        "After":  "2"
+                                                                                    },
+                                                                                    {
+                                                                                        "Kind":  "Added",
+                                                                                        "Key":  "PropertyValue:EnableXamlDesigner/ToolsOptionsSubCategory:General/ToolsOptionsCategory:XAML Designer/ToolsOptions:/UserSettings:",
+                                                                                        "Before":  null,
+                                                                                        "After":  "true"
+                                                                                    },
+                                                                                    {
+                                                                                        "Kind":  "Added",
+                                                                                        "Key":  "PropertyValue:UnitType/ToolsOptionsSubCategory:General/ToolsOptionsCategory:XAML Designer/ToolsOptions:/UserSettings:",
+                                                                                        "Before":  null,
+                                                                                        "After":  "1"
+                                                                                    },
+                                                                                    {
+                                                                                        "Kind":  "Added",
+                                                                                        "Key":  "PropertyValue:UseQuadrantLayout/ToolsOptionsSubCategory:General/ToolsOptionsCategory:XAML Designer/ToolsOptions:/UserSettings:",
+                                                                                        "Before":  null,
+                                                                                        "After":  "false"
+                                                                                    },
+                                                                                    {
+                                                                                        "Kind":  "Added",
+                                                                                        "Key":  "PropertyValue:AutoInsertLayout/ToolsOptionsSubCategory:General/ToolsOptionsCategory:XAML Designer/ToolsOptions:/UserSettings:",
+                                                                                        "Before":  null,
+                                                                                        "After":  "true"
+                                                                                    }
+                                                                                ]
+                                                            }
+                                                        ],
+                                   "UserDefaultProfileChanged":  false,
+                                   "DesktopInputUsed":  false,
+                                   "ActualIdeThemeApiTest":  true
+                               },
+                               {
+                                   "Year":  "2022",
+                                   "Run":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task064\\candidate11-2022-basic1",
+                                   "RootSuffix":  "ThemeApply64bf3efac3",
+                                   "ExpectedRegistryRoot":  "Software\\Microsoft\\VisualStudio\\17.0_0b4009f1ThemeApply64bf3efac3",
+                                   "RawPassed":  25,
+                                   "RawFailed":  0,
+                                   "RawSucceeded":  true,
+                                   "FatalError":  null,
+                                   "RawResultSha256":  "9138C0AD4EDF9FBB5376ED640F49F3D22FE2F09A5C3FC5F812DA08DDCAA6B919",
+                                   "CandidateDllSha256":  "7137C6E16E8F080E8D82330F63BE2142D2666E21C55005492571CB936106B5F6",
+                                   "VsixSha256":  "7A3F8D98B99CE4B8B44B100208D272C4BB47EAD0E62B4041AD75CE35ECB0AD8B",
+                                   "ThemeVsixSha256":  "CC13D0896C4C98A68529BA01BF17A94BEA5DC27CCBBD83EB0F75DC46F100B8DD",
+                                   "LoadedDllMatchesFixedCandidate":  true,
+                                   "HelperSourceMatchesFrozen":  true,
+                                   "HelperDllSha256":  "D4B4ADD7A85CE7584AAAED9D7318B55AFAA17AFE82454BAFFEF0C33031D566D5",
+                                   "ExitedNormally":  true,
+                                   "ForcedOwnedProcessCleanup":  false,
+                                   "ExpectedPendingPath":  "C:\\Users\\ygree\\AppData\\Local\\Grokeen\\VisualStudioThemes\\pending-DEEFADC86BBFC0F7BF0EBB8F.txt",
+                                   "PendingExistsAfter":  false,
+                                   "SettingsAnalysis":  null,
+                                   "UserDefaultProfileChanged":  false,
+                                   "DesktopInputUsed":  false,
+                                   "ActualIdeThemeApiTest":  true
+                               }
+                           ],
+                  "ActualThemeGuidAndHostColorVerifiedCount":  6,
+                  "NondefaultSentinelVerifiedCount":  4,
+                  "ExistingPropertyChangedCount":  0,
+                  "ExistingPropertyRemovedCount":  0,
+                  "AdditionalSerializationRowsPerTheme":  {
+                                                              "VS2017":  6,
+                                                              "VS2019":  9,
+                                                              "VS2022":  0
+                                                          },
+                  "C9FinalValidationSha256":  "FD3AF2A080BEF5D596E4A7FBA9B29C7239151C28DD163D30269C132159023613",
+                  "C9FinalValidationUnchanged":  true,
+                  "OwnedProcessesRemaining":  [
+
+                                              ],
+                  "GUIReservationReturned":  true,
+                  "Customer1571Verified":  false,
+                  "LiveAiVerified":  false,
+                  "PhysicalPointerTested":  false,
+                  "ProductEdited":  false,
+                  "GitOrReleaseChanged":  false,
+                  "FrozenAt":  "2026-10-20T04:06:03.3221270+09:00"
+              },
+    "C11ToC12":  {
+                     "CheckedAt":  "2026-10-20T04:08:03.5899829+09:00",
+                     "InputCount":  133,
+                     "Prior":  "candidate11",
+                     "Changes":  [
+                                     {
+                                         "Path":  "src\\VS2017.AIAssistant\\Assets\\CliGuide\\VisualStudio_AI_Assistant_설치_사용설명서.pdf",
+                                         "Before":  null,
+                                         "After":  "F853789CE823A1EABE8B4E98226064A9E86F808389CA77033DF83925744F2372"
+                                     },
+                                     {
+                                         "Path":  "src\\VS2017.AIAssistant\\VS2017.AIAssistant.csproj",
+                                         "Before":  "AF658849449788680448C5542E0A50A7E3313587E3811CDA2CC16E44593E3BD6",
+                                         "After":  "AF4FDA152ED0E6F585A89E8B7C74E8C960ADBB33E53A2E65D17FBC2554581908"
+                                     },
+                                     {
+                                         "Path":  "src\\VS2017.Legacy.AIAssistant\\VS2017.Legacy.AIAssistant.csproj",
+                                         "Before":  "BEA33A0D4CD5EB1A25A2D34BEC624C6A076ADAE13A3E963037BE91BA96AC1544",
+                                         "After":  "F256BF3031D9687CC5EDE1053EAF1BB590ACFB84A4116E001CB1B75536C5DE50"
+                                     },
+                                     {
+                                         "Path":  "src\\VS2019.AIAssistant\\VS2019.AIAssistant.csproj",
+                                         "Before":  "D04FEBE60FEF54645ABDE325EA420498595850FEBE50957D43179D39400E847E",
+                                         "After":  "FE864B70A8269227C2BF30C8BD320E5C28C24178B84BE79661989E28FCBCA503"
+                                     },
+                                     {
+                                         "Path":  "src\\VS2022.AIAssistant\\VS2022.AIAssistant.csproj",
+                                         "Before":  "5FB51FB620AE6116F27ECC64E145D84CE1BC59FDBADDF2D06F3850D8B353F736",
+                                         "After":  "48EE6C12CCB89F53D9CB96D68CAD49BB0DFDCB824C0FC0B82B1EB34F5719FCE9"
+                                     }
+                                 ],
+                     "AllCSharpAndXamlUnchanged":  true,
+                     "PdfCanonicalAliasAdded":  true,
+                     "Final":  "candidate12"
+                 },
+    "IndependentAudit":  "CodexOrig2_TASK-058_Audit_C12.md",
+    "PdfPathRegression":  {
+                              "Task":  "TASK066",
+                              "Owner":  "CodexOrig",
+                              "FrozenAt":  "2026-10-20T04:10:58.0114449+09:00",
+                              "C11ActualInstalledFailure":  {
+                                                                "Call":  "CliGuideService(default installation directory).GetPdfPath()",
+                                                                "ProductCallSucceeded":  false,
+                                                                "AssemblyPath":  "C:\\Users\\ygree\\AppData\\Local\\Microsoft\\VisualStudio\\15.0_c1f368d6CodexCodeTestdafa9b7f\\Extensions\\e2bbarck.sir\\VS2017.AIAssistant.dll",
+                                                                "AssemblySha256":  "01E737C3979FA232510386D8296A8AB9CC9B0E275ECE827D86256ED4ED0E49E6",
+                                                                "AssemblyUnchanged":  true,
+                                                                "InstallationDirectory":  "C:\\Users\\ygree\\AppData\\Local\\Microsoft\\VisualStudio\\15.0_c1f368d6CodexCodeTestdafa9b7f\\Extensions\\e2bbarck.sir",
+                                                                "ServiceAssemblyLocation":  "C:\\Users\\ygree\\AppData\\Local\\Microsoft\\VisualStudio\\15.0_c1f368d6CodexCodeTestdafa9b7f\\Extensions\\e2bbarck.sir\\VS2017.AIAssistant.dll",
+                                                                "PdfFileNameContract":  "VisualStudio_AI_Assistant_설치_사용설명서.pdf",
+                                                                "ExpectedPdfPath":  "C:\\Users\\ygree\\AppData\\Local\\Microsoft\\VisualStudio\\15.0_c1f368d6CodexCodeTestdafa9b7f\\Extensions\\e2bbarck.sir\\Resources\\CliGuide\\VisualStudio_AI_Assistant_설치_사용설명서.pdf",
+                                                                "ExpectedPdfPathExists":  false,
+                                                                "InstalledPdfFiles":  [
+                                                                                          {
+                                                                                              "Name":  "VisualStudio_AI_Assistant_설치_사용설명서_v0.12.1_미리보기.pdf",
+                                                                                              "Path":  "C:\\Users\\ygree\\AppData\\Local\\Microsoft\\VisualStudio\\15.0_c1f368d6CodexCodeTestdafa9b7f\\Extensions\\e2bbarck.sir\\Resources\\CliGuide\\VisualStudio_AI_Assistant_설치_사용설명서_v0.12.1_미리보기.pdf",
+                                                                                              "Bytes":  1406441,
+                                                                                              "Sha256":  "F853789CE823A1EABE8B4E98226064A9E86F808389CA77033DF83925744F2372"
+                                                                                          }
+                                                                                      ],
+                                                                "InstalledPdfsUnchanged":  true,
+                                                                "ResolvedPdfPath":  null,
+                                                                "ResolvedPdfSha256":  null,
+                                                                "Failure":  {
+                                                                                "Type":  "System.IO.FileNotFoundException",
+                                                                                "Message":  "PDF 설명서를 찾지 못했습니다. 확장 패키지를 다시 설치하거나 텍스트 안내를 이용하세요.",
+                                                                                "Detail":  "System.IO.FileNotFoundException: PDF 설명서를 찾지 못했습니다. 확장 패키지를 다시 설치하거나 텍스트 안내를 이용하세요.\r\n   at VS2017.AIAssistant.Services.CliGuideService.OpenAsset(String path, Int32 maximum, String label) in C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task054\\candidate11\\source\\src\\VS2017.AIAssistant\\Services\\CliGuideService.cs:line 282\r\n   at VS2017.AIAssistant.Services.CliGuideService.GetPdfPath() in C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task054\\candidate11\\source\\src\\VS2017.AIAssistant\\Services\\CliGuideService.cs:line 96"
+                                                                            },
+                                                                "FreshProcessId":  7348,
+                                                                "Process64Bit":  true,
+                                                                "ActualInstalledServiceCalled":  true,
+                                                                "ExplicitInstallationDirectoryPassed":  false,
+                                                                "WindowShown":  false,
+                                                                "PdfAppStarted":  false,
+                                                                "InstallerStarted":  false,
+                                                                "NetworkRequested":  false,
+                                                                "ProductSourceModified":  false,
+                                                                "CheckedAt":  "2026-10-20T04:07:45.7955263+09:00"
+                                                            },
+                              "C11Observation":  {
+                                                     "Candidate":  "C11",
+                                                     "CandidateAssembly":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task054\\candidate11\\2017\\Release\\VS2017.AIAssistant.dll",
+                                                     "InstalledAssemblySha256":  "01E737C3979FA232510386D8296A8AB9CC9B0E275ECE827D86256ED4ED0E49E6",
+                                                     "InstalledEqualsCandidate":  true,
+                                                     "ChildProcessExitCode":  1,
+                                                     "RegressionReproduced":  true,
+                                                     "ProductFailureRetained":  true,
+                                                     "ReclassifiedAsProductPass":  false,
+                                                     "GUIUsed":  false
+                                                 },
+                              "C11FailurePreserved":  true,
+                              "C11ReclassifiedAsPass":  false,
+                              "C12PrivateExtractedProducts":  {
+                                                                  "CandidatePath":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task054\\candidate12",
+                                                                  "Succeeded":  true,
+                                                                  "Targets":  [
+                                                                                  {
+                                                                                      "Target":  "2017.Legacy",
+                                                                                      "Vsix":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task054\\candidate12\\2017.Legacy\\Release\\VS2017.AIAssistant.vsix",
+                                                                                      "VsixSha256":  "AF269930DF77FC9966C0794A80D0EF619DBD3D8CFFCC79A171AE1CA8EB54C4CA",
+                                                                                      "ReleaseDllSha256":  "62846883C6D3101FC71CB222C36E3EEE93265BA2A040AECBF9F53CAFE9A21621",
+                                                                                      "ExtractedEqualsRelease":  true,
+                                                                                      "Pdf":  {
+                                                                                                  "Entry":  "Resources/CliGuide/VisualStudio_AI_Assistant_%EC%84%A4%EC%B9%98_%EC%82%AC%EC%9A%A9%EC%84%A4%EB%AA%85%EC%84%9C.pdf",
+                                                                                                  "DecodedName":  "Resources/CliGuide/VisualStudio_AI_Assistant_설치_사용설명서.pdf",
+                                                                                                  "Path":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task054\\pdf-path-resolution-c12\\2017.Legacy\\extracted-vsix\\Resources\\CliGuide\\VisualStudio_AI_Assistant_설치_사용설명서.pdf",
+                                                                                                  "Bytes":  1406441,
+                                                                                                  "Sha256":  "F853789CE823A1EABE8B4E98226064A9E86F808389CA77033DF83925744F2372"
+                                                                                              },
+                                                                                      "ChildExitCode":  0,
+                                                                                      "ProductCallSucceeded":  true,
+                                                                                      "ResolvedMatchesPackagedPdf":  true,
+                                                                                      "InputsUnchanged":  true,
+                                                                                      "ActualIdeInstalled":  false,
+                                                                                      "PrivateExtractedProduct":  true,
+                                                                                      "ServiceCallEvidence":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task054\\pdf-path-resolution-c12\\2017.Legacy\\service-call\\result.json",
+                                                                                      "FreshProcessId":  51264,
+                                                                                      "Failure":  null
+                                                                                  },
+                                                                                  {
+                                                                                      "Target":  "2017",
+                                                                                      "Vsix":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task054\\candidate12\\2017\\Release\\VS2017.AIAssistant.vsix",
+                                                                                      "VsixSha256":  "0B805ECCB820046723F8F3B71916F0A0E6D402A68CBE686148748F0C85CC437B",
+                                                                                      "ReleaseDllSha256":  "701855AEE57C337E4495D37620DF542D54F2A6BD9DEC0FEB448395C377F5ACB8",
+                                                                                      "ExtractedEqualsRelease":  true,
+                                                                                      "Pdf":  {
+                                                                                                  "Entry":  "Resources/CliGuide/VisualStudio_AI_Assistant_%EC%84%A4%EC%B9%98_%EC%82%AC%EC%9A%A9%EC%84%A4%EB%AA%85%EC%84%9C.pdf",
+                                                                                                  "DecodedName":  "Resources/CliGuide/VisualStudio_AI_Assistant_설치_사용설명서.pdf",
+                                                                                                  "Path":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task054\\pdf-path-resolution-c12\\2017\\extracted-vsix\\Resources\\CliGuide\\VisualStudio_AI_Assistant_설치_사용설명서.pdf",
+                                                                                                  "Bytes":  1406441,
+                                                                                                  "Sha256":  "F853789CE823A1EABE8B4E98226064A9E86F808389CA77033DF83925744F2372"
+                                                                                              },
+                                                                                      "ChildExitCode":  0,
+                                                                                      "ProductCallSucceeded":  true,
+                                                                                      "ResolvedMatchesPackagedPdf":  true,
+                                                                                      "InputsUnchanged":  true,
+                                                                                      "ActualIdeInstalled":  false,
+                                                                                      "PrivateExtractedProduct":  true,
+                                                                                      "ServiceCallEvidence":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task054\\pdf-path-resolution-c12\\2017\\service-call\\result.json",
+                                                                                      "FreshProcessId":  45388,
+                                                                                      "Failure":  null
+                                                                                  },
+                                                                                  {
+                                                                                      "Target":  "2019",
+                                                                                      "Vsix":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task054\\candidate12\\2019\\Release\\VS2017.AIAssistant.vsix",
+                                                                                      "VsixSha256":  "B85914EE9637682EF362735D11CC4CA6869BF55CEE697CAEDC3026757A2647B8",
+                                                                                      "ReleaseDllSha256":  "3AB99B801E80049CBBDB1E0DEC46FA4DC0023F21D867A09141DF793CDBCB4E6D",
+                                                                                      "ExtractedEqualsRelease":  true,
+                                                                                      "Pdf":  {
+                                                                                                  "Entry":  "Resources/CliGuide/VisualStudio_AI_Assistant_%EC%84%A4%EC%B9%98_%EC%82%AC%EC%9A%A9%EC%84%A4%EB%AA%85%EC%84%9C.pdf",
+                                                                                                  "DecodedName":  "Resources/CliGuide/VisualStudio_AI_Assistant_설치_사용설명서.pdf",
+                                                                                                  "Path":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task054\\pdf-path-resolution-c12\\2019\\extracted-vsix\\Resources\\CliGuide\\VisualStudio_AI_Assistant_설치_사용설명서.pdf",
+                                                                                                  "Bytes":  1406441,
+                                                                                                  "Sha256":  "F853789CE823A1EABE8B4E98226064A9E86F808389CA77033DF83925744F2372"
+                                                                                              },
+                                                                                      "ChildExitCode":  0,
+                                                                                      "ProductCallSucceeded":  true,
+                                                                                      "ResolvedMatchesPackagedPdf":  true,
+                                                                                      "InputsUnchanged":  true,
+                                                                                      "ActualIdeInstalled":  false,
+                                                                                      "PrivateExtractedProduct":  true,
+                                                                                      "ServiceCallEvidence":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task054\\pdf-path-resolution-c12\\2019\\service-call\\result.json",
+                                                                                      "FreshProcessId":  34132,
+                                                                                      "Failure":  null
+                                                                                  },
+                                                                                  {
+                                                                                      "Target":  "2022",
+                                                                                      "Vsix":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task054\\candidate12\\2022\\Release\\VS2017.AIAssistant.vsix",
+                                                                                      "VsixSha256":  "BF6873C0DA59ACDC517DA8EA0C77160001FE38001A9CDABC608074CC07E1951C",
+                                                                                      "ReleaseDllSha256":  "1B87CBDDE94E9607D77BCD54D5B7632C9D0A201FD7F0E37035CF58109EFAEB6C",
+                                                                                      "ExtractedEqualsRelease":  true,
+                                                                                      "Pdf":  {
+                                                                                                  "Entry":  "Resources/CliGuide/VisualStudio_AI_Assistant_%EC%84%A4%EC%B9%98_%EC%82%AC%EC%9A%A9%EC%84%A4%EB%AA%85%EC%84%9C.pdf",
+                                                                                                  "DecodedName":  "Resources/CliGuide/VisualStudio_AI_Assistant_설치_사용설명서.pdf",
+                                                                                                  "Path":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task054\\pdf-path-resolution-c12\\2022\\extracted-vsix\\Resources\\CliGuide\\VisualStudio_AI_Assistant_설치_사용설명서.pdf",
+                                                                                                  "Bytes":  1406441,
+                                                                                                  "Sha256":  "F853789CE823A1EABE8B4E98226064A9E86F808389CA77033DF83925744F2372"
+                                                                                              },
+                                                                                      "ChildExitCode":  0,
+                                                                                      "ProductCallSucceeded":  true,
+                                                                                      "ResolvedMatchesPackagedPdf":  true,
+                                                                                      "InputsUnchanged":  true,
+                                                                                      "ActualIdeInstalled":  false,
+                                                                                      "PrivateExtractedProduct":  true,
+                                                                                      "ServiceCallEvidence":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task054\\pdf-path-resolution-c12\\2022\\service-call\\result.json",
+                                                                                      "FreshProcessId":  44588,
+                                                                                      "Failure":  null
+                                                                                  }
+                                                                              ],
+                                                                  "ActualIdeInstalled":  false,
+                                                                  "PrivateExtractedProductsOnly":  true,
+                                                                  "GuiUsed":  false,
+                                                                  "PdfAppStarted":  false,
+                                                                  "InstallerStarted":  false,
+                                                                  "NetworkRequested":  false,
+                                                                  "ProductSourceModified":  false,
+                                                                  "CheckedAt":  "2026-10-20T04:09:47.317502+09:00"
+                                                              },
+                              "C12ServiceCallsPassed":  4,
+                              "C12ActualIdeInstallationClaimed":  false,
+                              "GuiUsed":  false,
+                              "PdfAppStarted":  false,
+                              "InstallerStarted":  false,
+                              "NetworkRequested":  false,
+                              "ProductSourceModified":  false,
+                              "PackagingScriptsModified":  false,
+                              "ExistingTask061ReportsModified":  false,
+                              "EvidenceHashes":  [
+                                                     {
+                                                         "Path":  "artifacts/task054/pdf-path-regression-c11/result.json",
+                                                         "Sha256":  "4B1F36C2A666A9CBB683B21A181DC15E1A051CED313466E4581B53357114B8CD"
+                                                     },
+                                                     {
+                                                         "Path":  "artifacts/task054/pdf-path-regression-c11/regression-observation.json",
+                                                         "Sha256":  "F4705DD3D0E3EAFB22E950E132C6C7FAF4BFBC7F70A12255207FB5D3F8B8B00D"
+                                                     },
+                                                     {
+                                                         "Path":  "artifacts/task054/pdf-path-regression-c11/Probe-CliGuidePdfPath.ps1",
+                                                         "Sha256":  "51ACE33A18B3B857DF1B88B6260815B126F2EC0C9579784EBB4F89275685EB27"
+                                                     },
+                                                     {
+                                                         "Path":  "artifacts/task054/pdf-path-resolution-c12/result.json",
+                                                         "Sha256":  "A4B531B7C6248EB4F845D3A73E6C3A54D23243AF4CF2ED0E6D8A47A72E79AD14"
+                                                     },
+                                                     {
+                                                         "Path":  "artifacts/task054/pdf-path-resolution-c12/Probe-CliGuidePdfPath.ps1",
+                                                         "Sha256":  "26B1B987CDC66971760028C63746DF0FF56DB0D95CDAFA3A0E664A0798B1B84C"
+                                                     },
+                                                     {
+                                                         "Path":  "artifacts/task054/pdf-path-resolution-c12/Probe-CliGuidePdfVsix.ps1",
+                                                         "Sha256":  "7DC476DA2CC68FBCFC008D0DF08842CE2A3892608A12816F7390E307E2739238"
+                                                     },
+                                                     {
+                                                         "Path":  "artifacts/task054/candidate11-to12.json",
+                                                         "Sha256":  "B148A3E9039317E39E03BE87DCA110EE8F199D60BF0422CE47CA539DEB65403F"
+                                                     },
+                                                     {
+                                                         "Path":  "MarkdownReport/CodexOrig_TASK-066_PdfPath.md",
+                                                         "Sha256":  "44EE7E5841E12270716E6E97A90809208B0684703067323C381FD3F40A0083C2"
+                                                     },
+                                                     {
+                                                         "Path":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task054\\pdf-path-resolution-c12\\2017.Legacy\\service-call\\result.json",
+                                                         "Sha256":  "7D0502089E391A4950EF54F5E4BFEF8B624F41AD94E7F5CDAFCE77CEEA1A2528"
+                                                     },
+                                                     {
+                                                         "Path":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task054\\pdf-path-resolution-c12\\2017.Legacy\\extracted-files.json",
+                                                         "Sha256":  "843375CFD7B95EB48B0A05E6A7BDD161C66F865A6E0265EC463D13F84D3DE1C0"
+                                                     },
+                                                     {
+                                                         "Path":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task054\\pdf-path-resolution-c12\\2017\\service-call\\result.json",
+                                                         "Sha256":  "D29AEE87A577E02459A1242B1C84835D59F079E932B22756AF6CA621713A212E"
+                                                     },
+                                                     {
+                                                         "Path":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task054\\pdf-path-resolution-c12\\2017\\extracted-files.json",
+                                                         "Sha256":  "771086DC92743076C263C7588E2B363BF0C613FE0E6BD4CEBF23F91CF0586799"
+                                                     },
+                                                     {
+                                                         "Path":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task054\\pdf-path-resolution-c12\\2019\\service-call\\result.json",
+                                                         "Sha256":  "1462A6B97DA46FC58FD276E596EB6492A5F93BC56BC26F4462B32763FFC9F85A"
+                                                     },
+                                                     {
+                                                         "Path":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task054\\pdf-path-resolution-c12\\2019\\extracted-files.json",
+                                                         "Sha256":  "82CB59A3B9D834DA0F464FB6A3EE276B699652122D31CAC5390CD1C40FB5DDA4"
+                                                     },
+                                                     {
+                                                         "Path":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task054\\pdf-path-resolution-c12\\2022\\service-call\\result.json",
+                                                         "Sha256":  "A945F1180F3AC9D991F6DA3EE0CA93008DD190DA35ADD9F1F2FF9E6AD9EAEBBD"
+                                                     },
+                                                     {
+                                                         "Path":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task054\\pdf-path-resolution-c12\\2022\\extracted-files.json",
+                                                         "Sha256":  "18C8C35D1CD72B1D30201F0F4C02EB0A76605875A744AC54A66F0814130D1ABC"
+                                                     }
+                                                 ]
+                          },
+    "Archives":  [
+                     {
+                         "Path":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.12.1\\VisualStudio_AI_Assistant-0.12.1.zip",
+                         "Entries":  23,
+                         "ChecksumRows":  22,
+                         "AllMatched":  true
+                     },
+                     {
+                         "Path":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task054\\VisualStudio_AI_Assistant-0.12.1-Preview1-FullOffline-win-x64.zip",
+                         "Entries":  70,
+                         "ChecksumRows":  69,
+                         "AllMatched":  true
+                     }
+                 ],
+    "FrozenCli":  {
+                      "ArchiveSha256":  "140F770A8D236C1FB0475A66CB231657E9575FC48D0C5320CACE02B1A7FA682E",
+                      "Files":  46,
+                      "CodexVersion":  "0.163.0",
+                      "ClaudeVersion":  "2.1.302",
+                      "ProfilesIncluded":  false,
+                      "AuthenticationCopied":  false,
+                      "CliExecuted":  false,
+                      "NetworkRequested":  false,
+                      "PublisherEvidence":  [
+                                                {
+                                                    "Name":  "codex.exe",
+                                                    "FrozenStatus":  "Valid",
+                                                    "Publisher":  "CN=\"OpenAI OpCo, LLC\", O=\"OpenAI OpCo, LLC\", L=San Francisco, S=California, C=US",
+                                                    "Thumbprint":  "4E06E67B9ED204E60B4370C084D4C36E3532BA8E",
+                                                    "Sha256":  "2692C8C7BB2CF8B0AEFE638741FC90236F4B824C59578CE84994F9DE58200993",
+                                                    "CertificateMatches":  true,
+                                                    "OnlineChainRevalidated":  false
+                                                },
+                                                {
+                                                    "Name":  "codex-code-mode-host.exe",
+                                                    "FrozenStatus":  "Valid",
+                                                    "Publisher":  "CN=\"OpenAI OpCo, LLC\", O=\"OpenAI OpCo, LLC\", L=San Francisco, S=California, C=US",
+                                                    "Thumbprint":  "4E06E67B9ED204E60B4370C084D4C36E3532BA8E",
+                                                    "Sha256":  "07F3869F0849CD54B31CEC1F86EC796F004501BD3A215135C1FACC883A2B9988",
+                                                    "CertificateMatches":  true,
+                                                    "OnlineChainRevalidated":  false
+                                                },
+                                                {
+                                                    "Name":  "codex-command-runner.exe",
+                                                    "FrozenStatus":  "Valid",
+                                                    "Publisher":  "CN=\"OpenAI OpCo, LLC\", O=\"OpenAI OpCo, LLC\", L=San Francisco, S=California, C=US",
+                                                    "Thumbprint":  "4E06E67B9ED204E60B4370C084D4C36E3532BA8E",
+                                                    "Sha256":  "FC89DC66C806F25675B9BE1E7DAFB226807D22761E9741A3BB24B667B803D46C",
+                                                    "CertificateMatches":  true,
+                                                    "OnlineChainRevalidated":  false
+                                                },
+                                                {
+                                                    "Name":  "codex-windows-sandbox-setup.exe",
+                                                    "FrozenStatus":  "Valid",
+                                                    "Publisher":  "CN=\"OpenAI OpCo, LLC\", O=\"OpenAI OpCo, LLC\", L=San Francisco, S=California, C=US",
+                                                    "Thumbprint":  "4E06E67B9ED204E60B4370C084D4C36E3532BA8E",
+                                                    "Sha256":  "2EFC67F77DE2658667C1481E00A1C4C964D3E8F6D4F39B638620D80B9D0F6D8A",
+                                                    "CertificateMatches":  true,
+                                                    "OnlineChainRevalidated":  false
+                                                },
+                                                {
+                                                    "Name":  "claude.exe",
+                                                    "FrozenStatus":  "Valid",
+                                                    "Publisher":  "CN=\"Anthropic, PBC\", O=\"Anthropic, PBC\", L=San Francisco, S=California, C=US, SERIALNUMBER=4860621, OID.2.5.4.15=Private Organization, OID.1.3.6.1.4.1.311.60.2.1.2=Delaware, OID.1.3.6.1.4.1.311.60.2.1.3=US",
+                                                    "Thumbprint":  "60C2D9C51F09822FFF4F194DE9EEDB67451292D1",
+                                                    "Sha256":  "3AB075F78998EFEF8B87F491C2E4A39C309DDDF44E51D0103EBA4F3713D2A0AE",
+                                                    "CertificateMatches":  true,
+                                                    "OnlineChainRevalidated":  false
+                                                }
+                                            ],
+                      "ManifestHash":  "0DBAA9B1A4EE3293038325F0A172F9D3478938450A659FFF05FB84FDCDF87C80"
+                  },
+    "Assets":  [
+                   {
+                       "Name":  "Grokeen-VisualStudio-Themes-0.12.1-VS2017.vsix",
+                       "Path":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.12.1\\Grokeen-VisualStudio-Themes-0.12.1-VS2017.vsix",
+                       "Bytes":  57784,
+                       "Sha256":  "DA9E78BDDBF664A7C78191F47C399BEE96B05C28C33CFBBBAE74612E04B6C8C1"
+                   },
+                   {
+                       "Name":  "Grokeen-VisualStudio-Themes-0.12.1-VS2019.vsix",
+                       "Path":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.12.1\\Grokeen-VisualStudio-Themes-0.12.1-VS2019.vsix",
+                       "Bytes":  57788,
+                       "Sha256":  "19C2C611B731F6BE2B1F07EF7DEC4807BC5814B40D92EB3DE576110C17311AEB"
+                   },
+                   {
+                       "Name":  "Grokeen-VisualStudio-Themes-0.12.1-VS2022.vsix",
+                       "Path":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.12.1\\Grokeen-VisualStudio-Themes-0.12.1-VS2022.vsix",
+                       "Bytes":  57815,
+                       "Sha256":  "CC13D0896C4C98A68529BA01BF17A94BEA5DC27CCBBD83EB0F75DC46F100B8DD"
+                   },
+                   {
+                       "Name":  "RELEASE_SHA256SUMS.txt",
+                       "Path":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.12.1\\RELEASE_SHA256SUMS.txt",
+                       "Bytes":  1320,
+                       "Sha256":  "2935C2AA257085E7E1ECE260F6A9F7F46F2002FD9B9D46B0B55ED1D6EA57E67E"
+                   },
+                   {
+                       "Name":  "SHA256SUMS.txt",
+                       "Path":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.12.1\\SHA256SUMS.txt",
+                       "Bytes":  739,
+                       "Sha256":  "F9C89A51A609EB2221CF5B8608AA2544588E4985680DFA856980BB2B09F25111"
+                   },
+                   {
+                       "Name":  "VisualStudio_AI_Assistant-0.12.1.zip",
+                       "Path":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.12.1\\VisualStudio_AI_Assistant-0.12.1.zip",
+                       "Bytes":  18168603,
+                       "Sha256":  "6842BA327686A60AB89B4B482A64FFB783D9489B033D867668152048C5786B09"
+                   },
+                   {
+                       "Name":  "VisualStudio_AI_Assistant-0.12.1-Preview1-FullOffline-win-x64.zip",
+                       "Path":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task054\\VisualStudio_AI_Assistant-0.12.1-Preview1-FullOffline-win-x64.zip",
+                       "Bytes":  311147867,
+                       "Sha256":  "89A3CDA8BBD21918795205A828657BB27F72B40B04BBD8085A90CC459E57C165"
+                   },
+                   {
+                       "Name":  "VisualStudio_AI_Assistant-0.12.1-Preview1-FullOffline-win-x64.zip.sha256",
+                       "Path":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task054\\VisualStudio_AI_Assistant-0.12.1-Preview1-FullOffline-win-x64.zip.sha256",
+                       "Bytes":  133,
+                       "Sha256":  "C308B673A452AD046349A736C7AFFDDBA64E9BFD8E9C3AB102A5C545F7B29C31"
+                   },
+                   {
+                       "Name":  "VisualStudio_AI_Assistant-0.12.1-Preview-UserGuide.pdf",
+                       "Path":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.12.1\\VisualStudio_AI_Assistant-0.12.1-Preview-UserGuide.pdf",
+                       "Bytes":  1406441,
+                       "Sha256":  "F853789CE823A1EABE8B4E98226064A9E86F808389CA77033DF83925744F2372"
+                   },
+                   {
+                       "Name":  "VS2017.15.7.AIAssistant-0.12.1.vsix",
+                       "Path":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.12.1\\VS2017.15.7.AIAssistant-0.12.1.vsix",
+                       "Bytes":  4227961,
+                       "Sha256":  "AF269930DF77FC9966C0794A80D0EF619DBD3D8CFFCC79A171AE1CA8EB54C4CA"
+                   },
+                   {
+                       "Name":  "VS2017.AIAssistant-0.12.1.vsix",
+                       "Path":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.12.1\\VS2017.AIAssistant-0.12.1.vsix",
+                       "Bytes":  4227949,
+                       "Sha256":  "0B805ECCB820046723F8F3B71916F0A0E6D402A68CBE686148748F0C85CC437B"
+                   },
+                   {
+                       "Name":  "VS2019.AIAssistant-0.12.1.vsix",
+                       "Path":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.12.1\\VS2019.AIAssistant-0.12.1.vsix",
+                       "Bytes":  4229508,
+                       "Sha256":  "B85914EE9637682EF362735D11CC4CA6869BF55CEE697CAEDC3026757A2647B8"
+                   },
+                   {
+                       "Name":  "VS2022.AIAssistant-0.12.1.vsix",
+                       "Path":  "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.12.1\\VS2022.AIAssistant-0.12.1.vsix",
+                       "Bytes":  4229431,
+                       "Sha256":  "BF6873C0DA59ACDC517DA8EA0C77160001FE38001A9CDABC608074CC07E1951C"
+                   }
+               ],
+    "ExplicitUserNoClaudeLogin":  true,
+    "ClaudeLoginPerformed":  false,
+    "LiveClaudeAnswerTested":  false,
+    "CustomerOfflinePcTested":  false,
+    "PhysicalPointerTested":  false,
+    "DocxWordRendered":  false,
+    "SyntheticScreensLabeled":  true,
+    "OriginalStrictThemeFailuresPreserved":  true,
+    "AllThemeRawComparisonsPassed":  false,
+    "Published":  false,
+    "PublicationEvidence":  "CodexOrig_TASK-054_Deployment.json"
+}

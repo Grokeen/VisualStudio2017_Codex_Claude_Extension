@@ -1,0 +1,89 @@
+{
+  "audit": "TASK-058 C9 follow-up",
+  "auditor": "CodexOrig2",
+  "status": "INTERIM_C9_2017_2019_ACTUAL_IDE_COMPLETE_2022_PENDING",
+  "candidate": "artifacts/task054/candidate9",
+  "version": "0.12.1",
+  "inputs": 132,
+  "inputMismatches": 0,
+  "releaseBuildErrorsPerSku": 0,
+  "releaseBuildWarningsPerSku": 0,
+  "releaseSha256": {
+    "2017": { "dll": "9811B6CCF89A393E444B92E81329922FD5F15E16CC8D9925C5DC9726C2DA6D17", "vsix": "849D026D62FD1B3DD6BA6320A72A63BED69522D94CF81AE373E4D7746ACA0308" },
+    "2017.Legacy": { "dll": "E6F7AC600A9D10326F9DB392C06D95BFE21CCCD9623C6F5866277A48FABE9C7A", "vsix": "14BF70CAC0927C7D6F0DFE5C9821757A013DC1AB42EB2C55E1DF4C760611F810" },
+    "2019": { "dll": "A63C6097C424575CD80BE7BEFAB2BA1769EE839603B06C50A0C68B17C2D48930", "vsix": "06B7D06ABD1F7D7CC51F00CDC0CA0EF167D8F231DB3ACFF11DC62572941D28BD" },
+    "2022": { "dll": "A9922B7ECDA827F23C75A608C84C322C3B83B9545655EC4460ED171AE11B1617", "vsix": "957628712E9190419C9F996B295D36A4E0D077CBFD905936ADF17DFE3C33B3B1" }
+  },
+  "requirements": {
+    "R58-01Privacy": "PASS_HEADLESS_ALL_FOUR",
+    "R58-02SafeSummary": "PASS_HEADLESS_ALL_FOUR_PARTIAL_OS",
+    "R58-04QueueErrorStatus": "PASS_C9_58_OF_58",
+    "Role16ThemeFileBounds": "PASS_C9_28_OF_28_PER_SKU",
+    "Role16ThemePackaging": "PASS_C9_ALL_FOUR",
+    "R58-03ExistingSettings": "PASS_TESTED_EXPLICIT_NONDEFAULT_VALUES_C9_2017_2019",
+    "R58-03RawExportEquality": "FAIL_C9_2017_2019_TWO_PER_HOST_DEFAULT_ROWS_ADDED",
+    "Role16ActualIdeApply": "PASS_C9_2017_2019_BOTH_THEMES_GUID_AND_COLOR; PENDING_C9_2022"
+  },
+  "c9OwnerActualIde": {
+    "VS2017": {
+      "rawChecks": "24/26; two non-theme export equality failures retained",
+      "bothThemes": "selected GUID, representative ToolWindowBackground, pending consumption and temp cleanup passed",
+      "explicitSentinel": "AutoUpdateTags=False in baseline and both post-theme exports; read-only UserSettings False after both themes",
+      "nonThemeDiff": "0 existing values changed, 0 removed, 6 True rows added per theme; six vendor getter fallback values are True",
+      "result": "artifacts/task064/candidate9-2017-sentinel1/result.json",
+      "analysis": "artifacts/task064/candidate9-2017-sentinel1/settings-analysis.json"
+    },
+    "VS2019": {
+      "rawChecks": "26/28; two non-theme export equality failures retained",
+      "bothThemes": "selected GUID, representative ToolWindowBackground, pending consumption and temp cleanup passed",
+      "explicitSentinel": "DefaultZoomSetting=0 in baseline and both post-theme exports; vendor fallback 1; direct read-only store for this property not present in supplied evidence",
+      "nonThemeDiff": "0 existing values changed, 0 removed, 9 XAML Designer General rows added per theme; 18/18 match installed VS2019 Community General.vssettings profile, runtime fallback per property not established",
+      "result": "artifacts/task064/candidate9-2019-sentinel1/result.json",
+      "analysis": "artifacts/task064/candidate9-2019-sentinel1/settings-analysis.json"
+    },
+    "VS2022": "C9 actual IDE run pending; C8 result 25/25 is historical reference only"
+  },
+  "c8OwnerActualIdeReference": {
+    "VS2017": "23/25; GUID, host representative color, pending consumption, cleanup passed; two non-theme export equality checks failed",
+    "VS2019": "23/25; same two non-theme export equality failures",
+    "VS2022": "25/25"
+  },
+  "c9VS2019InstalledProfileComparison": {
+    "checks": 18,
+    "matches": 18,
+    "profileSHA256": "D88A08628471808EA0938F206CEFC049DA6FEF5CE54FCB8AC3FB720A4DD1F16E",
+    "evidence": "artifacts/audit-codexorig2-task058/candidate9-2019-vendor-profile-defaults.json",
+    "limit": "installed default profile values do not prove each runtime fallback or every user profile"
+  },
+  "task064FrozenSummary": {
+    "c8RawPassed": 71,
+    "c8RawFailed": 4,
+    "c9RawPassed": 50,
+    "c9RawFailed": 4,
+    "nondefaultSentinelPreserved": "4/4",
+    "reclassifiedRawResults": false,
+    "defaultUserProfileChanged": false,
+    "source": "MarkdownReport/CodexOrig_TASK-064_FinalValidation.json"
+  },
+  "c9NativeBrandedNotification": {
+    "codexX64": "PASS; BalloonTipShown event 1; icon/timer/duplicate handling and cleanup true; synthetic request outside IDE",
+    "claudeX86": "PASS; BalloonTipShown event 1; icon/timer/duplicate handling and cleanup true; synthetic request outside IDE",
+    "pixelOrLongTermDuplicateValidation": false,
+    "codexEvidence": "artifacts/task054/branded-candidate9-codex-x64/result.json",
+    "claudeEvidence": "artifacts/task054/branded-candidate9-claude-x86/result.json"
+  },
+  "evidenceSha256": {
+    "freeze": "03BFBA81C7BA920BA462D47827A6F3A31BA1E33A3990167F23CB1B201A5B0749",
+    "queue58": "FAE0246AFCFE8F6AB769F2D415EE930D85AFAB08A56B6DEFCBE9FF678A4883EC",
+    "themeBoundary2017": "19F88A4A6E679401B5542045803D51F0E32543EB749CF43C81E957652E7869D1",
+    "themeBoundary2017Legacy": "BCA096A89856351E45EB9E84B1A0E7BC9A693B1B17BF746194D0B6AC186407A4",
+    "themeBoundary2019": "013A6F3AB77787007192D8C08E423E78D6A72064DC0CDFAD27250237DB406A3D",
+    "themeBoundary2022": "CFC451315ED6283B90B396F39792BB743B75EF2DC503FE870DB917B50CB6DD6F",
+    "notification2017": "DC724B4C8D342A6DB494B789DC53FC7F62FE9692A199C85E8DE6B06460D67169",
+    "notification2017Legacy": "618AA2D6A049A69BAB62ED626A0D50BCEF6F6CFA6CD0E0463225FF57F7FDF182",
+    "notification2019": "58F6989A1A42AE580FC625469E88956BAA08FD8381E16B6CD8EC7D46A35BDE00",
+    "notification2022": "4D58971F9E4445300629F4C17AF3BC99E505B770AC3CE371B257C1DD2819D7C1",
+    "themePackageIntegrity": "F2B93C940B9ADDABDBC905380A22EEA5B1259146271D34EE641CCE1C279E6543"
+  },
+  "notRunByAuditor": ["C9 actual Visual Studio GUI (TASK064 owner supplied actual-host artifacts, independently reviewed)", "Windows notification pixels", "release publication and anonymous download"]
+}

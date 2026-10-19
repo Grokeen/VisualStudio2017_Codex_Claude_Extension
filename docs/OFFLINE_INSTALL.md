@@ -8,22 +8,22 @@
 
 - 인터넷에 연결된 준비 PC와 파일을 옮길 USB 또는 승인된 이동 매체
 - 대상 PC에 설치된 지원 Visual Studio
-- 인터넷 준비 PC에서 사용할 **준비 도구 ZIP**과, 그 도구로 만든 **완성 오프라인 설치 ZIP**을 구분하세요. 완성 ZIP은 `PreparedOffline-...zip`처럼 표시되며 VSIX, 설치 도구, Codex·Claude CLI 런타임을 포함합니다. VSIX만 든 공개 설치 ZIP은 CLI 런타임이 포함된 완성 ZIP이 아닙니다.
+- 인터넷 준비 PC에서 사용할 **준비 도구 ZIP**과 **완성 오프라인 설치 ZIP**을 구분하세요. 완성 ZIP은 배포된 `FullOffline-win-x64.zip` 또는 직접 준비한 `PreparedOffline-...zip`이며 VSIX, 설치 도구, Codex·Claude CLI 런타임을 포함합니다. VSIX만 든 작은 설치 ZIP에는 CLI 런타임이 없습니다.
 - Windows x64: Windows 10 버전 1809 이상 또는 Windows 11. PowerShell 5.1 이상이 필요합니다. OS 조건은 동봉 CLI 런타임 기준이며 Visual Studio 패키지 호환 조건과는 별개입니다. `winver`로 Windows 버전을 확인하세요.
 
-v0.12.0 미리보기 설치 묶음은 Visual Studio 버전에 맞춰 아래 VSIX를 포함합니다.
+이 안내의 패키지 버전은 **v0.12.1**입니다. [v0.12.1 미리보기 배포 페이지](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.12.1-preview.1)에서 Visual Studio 버전에 맞는 파일을 선택하세요. 인터넷이 없는 대상 PC에는 [CLI 포함 완성 오프라인 ZIP](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.12.1-preview.1/VisualStudio_AI_Assistant-0.12.1-Preview1-FullOffline-win-x64.zip)을 옮기면 됩니다.
 
 | 설치된 IDE | 설치 파일 |
 |---|---|
-| VS2017 15.7·15.8 | `VS2017.15.7.AIAssistant-0.12.0.vsix` |
-| VS2017 15.9 이상 | `VS2017.AIAssistant-0.12.0.vsix` |
-| VS2019 16.11 | `VS2019.AIAssistant-0.12.0.vsix` |
-| VS2022 17.x x64 | `VS2022.AIAssistant-0.12.0.vsix` |
+| VS2017 15.7·15.8 | `VS2017.15.7.AIAssistant-0.12.1.vsix` |
+| VS2017 15.9 이상 | `VS2017.AIAssistant-0.12.1.vsix` |
+| VS2019 16.11 | `VS2019.AIAssistant-0.12.1.vsix` |
+| VS2022 17.x x64 | `VS2022.AIAssistant-0.12.1.vsix` |
 
 설치 대상과 맞는 VSIX를 사용하세요. VS2017 15.7 전용 패키지는 .NET Framework 4.6.2 이상 등 해당 Visual Studio 구성 요소가 필요합니다.
 
 
-완성 설치 묶음 `VisualStudio_AI_Assistant-0.12.0-Preview1-FullOffline-win-x64.zip`에는 확장 4종과 Codex 0.163.0·Claude 2.1.302 런타임이 포함됩니다. 이 묶음을 받았다면 준비 PC의 CLI 수집 단계를 다시 수행할 필요가 없습니다. 모두 압축 해제한 뒤 `VerifyOfflineSetup.bat`을 실행하세요. `Themes` 폴더의 테마 VSIX는 선택 사항이며 AI 확장 없이도 설치할 수 있습니다. 설치 후 Visual Studio 도구 → 옵션 → 환경 → 일반의 색 테마에서 선택합니다.
+배포된 완성 ZIP을 받았다면 대상 PC에서 압축을 모두 푼 뒤 `VerifyOfflineSetup.bat`을 실행하세요. 별도로 CLI를 내려받아 묶음을 다시 준비할 필요가 없습니다. 번들에는 IDE 전체 색 테마용 독립 VSIX도 포함됩니다. 완성 묶음을 직접 준비하는 경우에만 아래 2절을 진행하세요. `PrepareOfflineSetup.bat`은 기본 버전 0.12.1의 VSIX 네 종류, CLI 런타임, 설치·검증 도구와 이 안내서를 `PreparedOffline-날짜-시간.zip`으로 만듭니다.
 ## 2. 인터넷 PC에서 오프라인 묶음 준비
 
 1. 인터넷에 연결된 준비 PC에서 준비 도구 ZIP을 새 폴더에 모두 압축 해제합니다. 이 준비 도구 ZIP은 완성 설치 ZIP을 만드는 용도이며, 오프라인 대상 PC에 전달할 파일은 아래 절차로 생성되는 완성 설치 ZIP입니다.
@@ -45,7 +45,7 @@ CLI 설치기는 묶음을 검증할 때 CLI를 실행하거나 네트워크에 
 
 같은 준비 폴더에서 `InstallAIAssistant.bat`을 실행합니다. 설치된 Visual Studio를 찾고 대상 버전에 맞는 VSIX를 선택하여 공식 VSIX 설치기를 엽니다. 설치가 끝나면 Visual Studio를 다시 시작하고 **도구 → AI Assistant**를 엽니다.
 
-VS2017 15.7·15.8에는 `VS2017.15.7.AIAssistant-0.12.0.vsix`, VS2017 15.9 이상에는 `VS2017.AIAssistant-0.12.0.vsix`를 사용합니다. VS2019·VS2022는 각각 해당 버전의 패키지를 선택하세요. 다른 Visual Studio 창을 모두 닫아야 예약된 VSIX 설치가 완료될 수 있습니다. 포함된 설치기는 압축 묶음 안의 VSIX를 사용하며 다운로드 명령은 실행하지 않습니다.
+VS2017 15.7·15.8에는 `VS2017.15.7.AIAssistant-0.12.1.vsix`, VS2017 15.9 이상에는 `VS2017.AIAssistant-0.12.1.vsix`를 사용합니다. VS2019·VS2022는 각각 해당 버전의 패키지를 선택하세요. 다른 Visual Studio 창을 모두 닫아야 예약된 VSIX 설치가 완료될 수 있습니다. 포함된 설치기는 압축 묶음 안의 VSIX를 사용하며 다운로드 명령은 실행하지 않습니다.
 
 이 묶음은 확장과 CLI 런타임만 제공합니다. 대상 PC에 해당 Visual Studio 자체나 VSIX가 요구하는 Windows·Visual Studio 구성 요소가 빠져 있으면 자동으로 추가 설치하지 않습니다. VSIX 설치기가 필수 구성 요소 부족을 보고하면 조직의 IT 담당자가 지원되는 Visual Studio 구성 요소를 먼저 설치한 뒤 다시 시도하세요.
 
@@ -58,6 +58,15 @@ VS2017 15.7·15.8에는 `VS2017.15.7.AIAssistant-0.12.0.vsix`, VS2017 15.9 이�
 AI 모델 서비스 연결만 허용된 환경에서는 첫 로그인까지 완료된다고 단정할 수 없습니다. 최초 인증은 선택한 계정·조직·인증 방식에 따라 별도의 공식 로그인 화면이나 조직 인증 절차가 필요할 수 있고, 모델 요청에 쓰는 연결과 요구사항이 다를 수 있습니다. 회사 네트워크 담당자에게 사용할 공급자와 인증 방식을 알리고, 해당 공급자의 공식 인증·네트워크 문서를 기준으로 필요한 연결이 허용되는지 확인하세요. 이 안내는 고정 도메인 허용 목록이나 방화벽 변경 방법을 지정하지 않습니다.
 
 Visual Studio 설정의 위치는 확장을 설치한 뒤 **도구 → AI Assistant → 설정**에서 찾을 수 있습니다. 계정 인증 방법은 네트워크 연결이 허용되는 시점에 제품의 공식 로그인 화면과 각 CLI의 공식 안내를 따르세요. 현재 CLI의 `InstallCLI.bat`은 인터넷에서 내려받는 온라인 설치 도구이므로 대상 PC에서 실행하지 마세요. 오프라인 설치에는 이 문서의 `InstallOfflineCLI.bat`을 사용합니다.
+
+### Visual Studio 전체 테마 설치와 재시작 적용
+
+1. 확장 설치 후 Visual Studio에서 **도구 → AI Assistant → 설정**을 열고 **Kakao 테마 설치·적용** 또는 **Dracula 테마 설치·적용**을 선택합니다. 이 기능은 확장 내부 대화창 팔레트와 별개로 Visual Studio IDE 전체 테마 패키지를 설치합니다.
+2. 해당 Visual Studio 버전의 공식 VSIX 설치 관리자가 열리면 안내에 따라 설치를 완료합니다. 설치 관리자에서 완료를 확인하고, 실행 중인 Visual Studio 창을 모두 닫습니다.
+3. 같은 Visual Studio 설치 인스턴스를 다시 시작합니다. 확장에 저장된 선택을 읽어 시작 시 IDE 테마 적용을 시도합니다.
+4. **도구 → 옵션 → 환경 → 일반 → 색 테마**에서 선택한 테마가 활성화됐는지 확인합니다. 적용되지 않았다면 이 메뉴에서 수동 선택을 시도하고, 선택 이름과 IDE 버전을 기록해 지원 요청에 전달하세요.
+
+실제 Visual Studio 2017 15.9, 2019 16.11, 2022 17.14 통합 시험에서 Kakao·Dracula 테마 선택 ID와 대표 환경 색상(Kakao `#FFD9DDE3`, Dracula `#FF282A36`), 보류 상태 처리 및 임시 파일 정리를 확인했습니다. 설치 버튼의 물리 클릭, 설치 관리자 완료, IDE 재시작을 포함한 고객 전체 사용 흐름은 별도 확인 범위입니다. VS2017 Professional 15.7.1 및 고객 제한망 PC의 실제 설치·적용도 아직 실측하지 않았습니다.
 
 공급자별 인증·네트워크 요구사항은 변경될 수 있으므로 설정 시점에 공식 문서를 확인하세요: [Codex CLI 시작 및 로그인](https://developers.openai.com/codex/cli), [Claude Code 인증](https://code.claude.com/docs/en/authentication), [Claude Code 기업 네트워크 설정](https://code.claude.com/docs/en/network-config).
 

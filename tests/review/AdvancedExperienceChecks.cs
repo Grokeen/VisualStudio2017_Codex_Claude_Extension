@@ -155,6 +155,59 @@
         }
         /// ---------------------------------------------------------------------
         /// <summary>
+        /// name         : AdvancedRequestRunning
+        /// desc         : 전송 버튼 활성과 별개인 실제 작업과 FIFO 소비자의 실행 여부를 읽는다.
+        /// author       : CodexOrig
+        /// create date  : 2026-10-20
+        /// update date  : 2026-10-20 CodexOrig : TASK055 후속, 새 FIFO 완료 조건 연결.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        private static bool AdvancedRequestRunning(AssistantControl control)
+        {
+            var flags = BindingFlags.Instance | BindingFlags.NonPublic;
+            return (bool)typeof(AssistantControl).GetField("busy", flags).GetValue(control) || (bool)typeof(AssistantControl).GetField("drainingRequests", flags).GetValue(control);
+        }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : WaitForAdvancedRequest
+        /// desc         : 실제 비동기 요청이 끝난 뒤 기존 실패·취소·협업 기대를 검사하도록 기다린다.
+        /// author       : CodexOrig
+        /// create date  : 2026-10-20
+        /// update date  : 2026-10-20 CodexOrig : TASK055 후속, 진단 상태 메시지를 덮거나 기대를 완화하지 않음.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        private static void WaitForAdvancedRequest(AssistantControl control, int milliseconds)
+        {
+            try { PumpUntil(() => !AdvancedRequestRunning(control), milliseconds); }
+            catch (Exception error) { throw new InvalidOperationException("Advanced request did not finish: " + ((TextBlock)control.FindName("StatusLabel")).Text, error); }
+        }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : SubmitAdvancedRequest
+        /// desc         : 미승인 수정안이 남으면 다음 요청을 대기에 넣은 뒤 사용자 건너뛰기로 진행한다.
+        /// author       : CodexOrig
+        /// create date  : 2026-10-20
+        /// update date  : 2026-10-20 CodexOrig : TASK055 후속, 기존 수정안을 자동 제거하지 않고 실제 명시 버튼 사용.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        private static void SubmitAdvancedRequest(AssistantControl control, string prompt)
+        {
+            var flags = BindingFlags.Instance | BindingFlags.NonPublic;
+            var previous = typeof(AssistantControl).GetField("pendingProposal", flags).GetValue(control) as EditProposal;
+            ((TextBox)control.FindName("Instruction")).Text = prompt;
+            Click((Button)control.FindName("GenerateButton"));
+            if (previous != null && previous.HasChanges) {
+                Check(!AdvancedRequestRunning(control) && ReferenceEquals(previous, typeof(AssistantControl).GetField("pendingProposal", flags).GetValue(control)), "A queued follow-up preserves the unapproved proposal until explicit skip: " + prompt);
+                var skip = (Button)control.FindName("DiscardProposalButton");
+                Check(skip.IsEnabled && skip.Visibility == Visibility.Visible, "The actual skip control is available at the pending review queue gate: " + prompt);
+                Click(skip);
+            }
+        }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
         /// name         : CheckAdvancedFeatures
         /// desc         : 문서·모델·협업·권한의 실제 WPF 사용자 경로와 저장 실패를 검증한다.
         /// author       : CodexOrig
@@ -162,6 +215,7 @@
         /// update date  : 2026-10-18 CodexOrig : TASK-016 독립 UI 검토 및 오류 복구 회귀.
         ///                2026-10-18 CodexOrig : TASK-020 현재 모델·권한·색상·부채꼴 검사 계약 반영.
         ///                2026-10-19 CodexOrig : 단일 모델 드롭다운 재열기로 Fast 저장·복원 확인.
+        ///                2026-10-20 CodexOrig : TASK055 후속, FIFO 승인 대기를 명시 건너뛰기로 해소하고 기존 오류·협업 검증 유지.
         /// </summary>
         /// ---------------------------------------------------------------------
         private static void CheckAdvancedFeatures(string output)
@@ -213,11 +267,11 @@
                 string rtf = Path.Combine(root, "Reference.rtf"); File.WriteAllText(rtf, "{\\rtf1\\ansi DOCUMENT-BODY-014}");
                 var data = new DataObject(DataFormats.FileDrop, new[] { rtf });
                 Check((bool)PrivateCall(control, "PasteAttachmentData", data), "Clipboard file paste is intercepted as a document attachment");
-                var attachmentList = (ListBox)control.FindName("AttachmentList"); PumpUntil(() => attachmentList.Items.Count == 1 && ((Button)control.FindName("GenerateButton")).IsEnabled, 5000);
+                var attachmentList = (ListBox)control.FindName("AttachmentList"); PumpUntil(() => attachmentList.Items.Count == 1 && !AdvancedRequestRunning(control), 5000);
                 var attachment = (ChatAttachment)attachmentList.Items[0];
                 Check(attachment.IsDocument && attachment.Text.Contains("DOCUMENT-BODY-014") && File.Exists(rtf), "Clipboard document extraction supplies body text and preserves the original file");
                 var prompt = (TextBox)control.FindName("Instruction"); prompt.Text = "변경을 검토해 주세요"; Click((Button)control.FindName("GenerateButton"));
-                PumpUntil(() => provider.Calls.Count == 2 && ((Button)control.FindName("GenerateButton")).IsEnabled, 5000);
+                PumpUntil(() => provider.Calls.Count == 2 && !AdvancedRequestRunning(control), 5000);
                 Check(provider.Calls[0].AgentContext.Contains(reviewerName) && provider.Calls[1].AgentContext.Contains(coordinatorName) && provider.Calls[1].AgentContext.Contains("real fixture review result"), "A selected peer is actually invoked before the coordinator receives that real review result");
                 Check(provider.Calls.All(c => c.Speed == "fast" && c.ReasoningEffort == "ultra" && c.Attachments.Length == 1 && c.AgentContext.Length <= 8000), "Every collaboration call receives the selected model options and captured attachment within the context bound: " + string.Join(";", provider.Calls.Select(c => c.Model + ":" + c.ReasoningEffort + ":" + c.Speed + ":" + c.Attachments.Length + ":" + c.AgentContext.Length)));
                 Check(document.ReplaceCount == 0 && document.SaveCount == 0 && File.ReadAllText(document.Path).Contains("return 1;"), "Neither peer nor coordinator proposals modify or save source before explicit approval");
@@ -239,15 +293,15 @@
                 }
                 provider.FailAt = provider.Calls.Count + 1;
                 locked = new FileStream(collaboration.ReportPath, FileMode.Open, FileAccess.ReadWrite, FileShare.None);
-                prompt.Text = "실패 검사"; Click((Button)control.FindName("GenerateButton")); PumpUntil(() => ((Button)control.FindName("GenerateButton")).IsEnabled, 5000);
+                SubmitAdvancedRequest(control, "실패 검사"); WaitForAdvancedRequest(control, 5000);
                 Check(main.State == ConversationRunState.Failed && ((TextBlock)control.FindName("StatusLabel")).Text.Contains("fixture primary CLI failure"), "A report file lock cannot mask the primary collaboration CLI error");
                 locked.Dispose(); locked = null;
                 Check(collaboration.ListOutbox(main.Id, "Codex").Any(h => h.State == CollaborationHandoffState.Failed && h.ErrorText.Contains("fixture primary")), "Failed collaboration records a real failed handoff without fabricating an answer");
-                provider.FailAt = 0; provider.HoldAt = provider.Calls.Count + 1; prompt.Text = "중지 검사"; Click((Button)control.FindName("GenerateButton")); PumpUntil(() => provider.Pending != null, 2000); Click((Button)control.FindName("StopButton")); PumpUntil(() => ((Button)control.FindName("GenerateButton")).IsEnabled, 3000);
+                provider.FailAt = 0; provider.HoldAt = provider.Calls.Count + 1; SubmitAdvancedRequest(control, "중지 검사"); PumpUntil(() => provider.Pending != null && AdvancedRequestRunning(control), 2000); Click((Button)control.FindName("StopButton")); WaitForAdvancedRequest(control, 3000);
                 Check(main.State == ConversationRunState.Stopped && provider.Pending.Task.IsCanceled && collaboration.ListOutbox(main.Id, "Codex").Any(h => h.State == CollaborationHandoffState.Cancelled), "Stopping a peer call cancels the actual task and records stopped and cancelled states");
                 provider.HoldAt = 0; bool didLock = false;
                 provider.BeforeReturn = () => { if (!didLock) { didLock = true; locked = new FileStream(store.GetPath(peer), FileMode.Open, FileAccess.ReadWrite, FileShare.None); } };
-                prompt.Text = "전달 후 저장 실패 검사"; Click((Button)control.FindName("GenerateButton")); PumpUntil(() => ((Button)control.FindName("GenerateButton")).IsEnabled, 5000);
+                SubmitAdvancedRequest(control, "전달 후 저장 실패 검사"); WaitForAdvancedRequest(control, 5000);
                 Check(main.State == ConversationRunState.Failed && !((TextBlock)control.FindName("StatusLabel")).Text.Contains("상태에서") && collaboration.ListOutbox(main.Id, "Codex").Count(h => h.State == CollaborationHandoffState.Delivered) == 2, "Post-delivery conversation save failure preserves delivered results and the original persistence error");
                 locked.Dispose(); locked = null; provider.BeforeReturn = null;
                 attachmentList.ItemsSource = null;
@@ -255,7 +309,7 @@
                 var batch = (Task)PrivateCall(control, "AttachFilesFromUiAsync", new object[] { new[] { rtf, Path.Combine(root, "missing.docx") } }); PumpUntil(() => batch.IsCompleted, 5000);
                 Check(activeChat.Attachments.Count == 0 && ((TextBlock)control.FindName("StatusLabel")).Text.Contains("첨부 실패"), "A failed document batch leaves no partial attachments and re-enables the composer");
                 var cancellation = (Task)PrivateCall(control, "AttachFilesFromUiAsync", new object[] { new[] { rtf } }); Click((Button)control.FindName("StopButton")); PumpUntil(() => cancellation.IsCompleted, 5000);
-                Check(activeChat.Attachments.Count == 0 && ((Button)control.FindName("GenerateButton")).IsEnabled, "Stopping document extraction leaves the input usable without partial attachments");
+                Check(activeChat.Attachments.Count == 0 && !((Button)control.FindName("StopButton")).IsEnabled && ((Button)control.FindName("GenerateButton")).IsEnabled, "Stopping document extraction leaves the input usable without partial attachments");
                 InspectDropdown(control, "PermissionsButton", dropdown => {
                     Click(Descendants(dropdown).OfType<Button>().Single(b => Convert.ToString(b.Content).EndsWith("작업 도구 허용")));
                 });
@@ -286,6 +340,7 @@
         /// author       : CodexOrig
         /// create date  : 2026-10-19
         /// update date  : 2026-10-19 CodexOrig : TASK032 실제 계정 호출 대신 관찰 가능한 제공자 경계를 사용.
+        ///                2026-10-20 CodexOrig : TASK055 후속, FIFO 승인 대기를 명시 건너뛰기로 해소하고 기존 오류·협업 검증 유지.
         /// </summary>
         /// ---------------------------------------------------------------------
         private static void CheckCrossProviderCollaboration(AssistantControl control, CollaborationProvider provider, SyntheticDocument document, MarkdownWorkspaceStore store, ConversationCollaborationStore collaboration, string root)
@@ -309,7 +364,7 @@
             });
             var prompt = (TextBox)control.FindName("Instruction"); var send = (Button)control.FindName("GenerateButton");
             byte[] original = File.ReadAllBytes(document.Path);
-            prompt.Text = "다른 AI의 검토를 요청합니다"; Click(send); PumpUntil(() => send.IsEnabled && provider.Calls.Count >= 1, 5000);
+            SubmitAdvancedRequest(control, "다른 AI의 검토를 요청합니다"); PumpUntil(() => !AdvancedRequestRunning(control) && provider.Calls.Count >= 1, 5000);
             Check(provider.ProviderNames.SequenceEqual(new[] { "Claude", "Codex" }), "Codex coordinator actually calls Claude before synthesizing its review");
             Check(provider.Calls.Count == 2 && provider.Calls[0].Model == "sonnet" && provider.Calls[0].ReasoningEffort == "high" && provider.Calls[0].Speed == "standard" && provider.ExecutableNames[0] == executable["Claude"], "Claude reviewer receives its own CLI model effort and speed rather than Codex options");
             Check(collaboration.ListOutbox(main.Id, "Codex").Any(x => x.ToProvider == "Claude" && x.State == CollaborationHandoffState.Delivered) && store.LoadOpen("Claude").Single(x => x.Id == other.Id).HasUnread, "Cross-provider review and unread completion persist to the correct conversation");
@@ -318,19 +373,19 @@
             ((TextBox)control.FindName("ExecutablePath")).Text = executable["Claude"];
             executable["Codex"] = System.IO.Path.Combine(root, "synthetic-codex.exe");
             provider.Calls.Clear(); provider.ProviderNames.Clear(); provider.ExecutableNames.Clear();
-            prompt.Text = "Codex에게 역방향 검토 요청"; Click(send); PumpUntil(() => send.IsEnabled && provider.Calls.Count >= 1, 5000);
+            SubmitAdvancedRequest(control, "Codex에게 역방향 검토 요청"); PumpUntil(() => !AdvancedRequestRunning(control) && provider.Calls.Count >= 1, 5000);
             Check(provider.ProviderNames.SequenceEqual(new[] { "Codex", "Claude" }) && provider.ExecutableNames[0] == executable["Codex"], "Claude coordinator uses the Codex CLI for the reverse review");
             Check(provider.Calls.Count == 2 && provider.Calls[0].Model == models["Codex"] && provider.Calls[1].AgentContext.Contains("real fixture review result"), "Reverse review uses Codex model settings and the real returned review in synthesis");
             provider.Calls.Clear(); provider.FailAt = 1;
-            prompt.Text = "다른 제공자 실패 검사"; Click(send); PumpUntil(() => send.IsEnabled, 5000);
+            SubmitAdvancedRequest(control, "다른 제공자 실패 검사"); WaitForAdvancedRequest(control, 5000);
             Check(other.State == ConversationRunState.Failed && provider.Calls.Count == 1, "Cross-provider failure stops synthesis and records a failed request");
             provider.Calls.Clear(); provider.FailAt = 0; provider.HoldAt = 1;
-            prompt.Text = "다른 제공자 취소 검사"; Click(send); PumpUntil(() => provider.Pending != null && !send.IsEnabled, 5000); Click((Button)control.FindName("StopButton")); PumpUntil(() => send.IsEnabled, 5000);
+            SubmitAdvancedRequest(control, "다른 제공자 취소 검사"); PumpUntil(() => provider.Pending != null && AdvancedRequestRunning(control) && send.IsEnabled, 5000); Click((Button)control.FindName("StopButton")); WaitForAdvancedRequest(control, 5000);
             Check(other.State == ConversationRunState.Stopped && provider.Calls.Count == 1 && provider.Pending.Task.IsCanceled, "Cross-provider cancellation stops its actual provider task without synthesis");
             provider.Calls.Clear(); provider.HoldAt = 0;
             var ambiguous = new ConversationRecord { Id = main.Id, Provider = "Claude", IsOpen = true };
             records["Claude"].Add(ambiguous);
-            try { prompt.Text = "중복 주소 검사"; Click(send); PumpUntil(() => send.IsEnabled, 5000); Check(provider.Calls.Count == 0 && other.State == ConversationRunState.Failed, "Ambiguous cross-provider conversation IDs are rejected before calling any AI"); }
+            try { SubmitAdvancedRequest(control, "중복 주소 검사"); WaitForAdvancedRequest(control, 5000); Check(provider.Calls.Count == 0 && other.State == ConversationRunState.Failed, "Ambiguous cross-provider conversation IDs are rejected before calling any AI"); }
             finally { records["Claude"].Remove(ambiguous); }
             Check(original.SequenceEqual(File.ReadAllBytes(document.Path)) && document.ReplaceCount == 0 && document.SaveCount == 0, "Cross-provider success failure and cancellation never apply peer edits to source");
         }

@@ -1,0 +1,109 @@
+{
+  "Task": "TASK060",
+  "Owner": "CodexOrig",
+  "RoleRequirement": "2026-10-20 01:40 #14 Claude verification",
+  "StartedAt": "2026-10-20T02:27:56+09:00",
+  "HandoffAt": "2026-10-20T02:35:02.8972692+09:00",
+  "Elapsed": "00:07:06.8972692",
+  "State": "Provider source frozen; final 0.12.1 four-target integration pending Root",
+  "ProductSources": [
+    {
+      "Path": "src/VS2017.AIAssistant/Providers/ClaudeRuntimeRunner.cs",
+      "SHA256": "A790A5944EDF5C538BCD75424FA1113C51D92990DAD4363514EA58F3693EE341"
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Providers/CliEditProvider.cs",
+      "SHA256": "91F8D0A652B9FE72898CF2AF3F6DC32EC5D1ACBBEAFB2A7357F30A6EC54F218B"
+    }
+  ],
+  "PrivateBuild": {
+    "Baseline": "TASK051 C6 0.12.0 source + two TASK060 Providers",
+    "Path": "artifacts/task060/fixed-source-c2",
+    "Target": "2017",
+    "Configuration": "Release",
+    "ExitCode": 0,
+    "Warnings": 0,
+    "Errors": 0,
+    "DllSHA256": "0B137EF54821DB7DEC151D2912C29C635E1A05AECCF0ABD3852C6F9565EBF502"
+  },
+  "Suites": [
+    {
+      "Name": "runtime",
+      "Passed": 67,
+      "Failed": 0,
+      "Result": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task060\\fixed-c2-2017-tests\\runtime\\result.json",
+      "ResultSHA256": "45FCEEEC9138357E2E8A91DF417ECDD46B7E89DE303AB58123DDD656253A119D"
+    },
+    {
+      "Name": "provider-cli",
+      "Passed": 15,
+      "Failed": 0,
+      "Result": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task060\\fixed-c2-2017-tests\\provider-cli\\result.json",
+      "ResultSHA256": "9D53071B05566229BDD30DF4DD52E9FFEA521BBA9215E37BC1A40465CB9CB2BE"
+    },
+    {
+      "Name": "provider-options",
+      "Passed": 65,
+      "Failed": 0,
+      "Result": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task060\\fixed-c2-2017-tests\\provider-options\\result.json",
+      "ResultSHA256": "DA645073DFA55DE65818A85495636AF1227D99004E55D0F8D88B40D34602822F"
+    },
+    {
+      "Name": "claude-boundaries",
+      "Passed": 25,
+      "Failed": 0,
+      "Result": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task060\\fixed-c2-followup-tests\\claude-boundaries\\result.json",
+      "ResultSHA256": "3788E736744D675226023CD6A2FC829081D6541A7E157F46BEF94BE7BA6DDD55"
+    },
+    {
+      "Name": "native-cli",
+      "Passed": 5,
+      "Failed": 0,
+      "Result": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task060\\fixed-c2-followup-tests\\native-cli\\result.json",
+      "ResultSHA256": "F864F8E1E406797C4009F3C7C41696E9CB0F04CAF39FA0C41CFF680F1887F584"
+    }
+  ],
+  "TotalPassed": 177,
+  "TotalFailed": 0,
+  "NativeCli": {
+    "Version": "2.1.302",
+    "SHA256": "3AB075F78998EFEF8B87F491C2E4A39C309DDDF44E51D0103EBA4F3713D2A0AE",
+    "Signature": "Valid",
+    "SignedByAnthropic": true,
+    "LoggedIn": false,
+    "AuthExitCode": 1,
+    "Category": "authentication-required",
+    "ProductAccountCheck": false,
+    "InitializeAccepted": true,
+    "InitializeModelCount": 5,
+    "InferencePerformed": false,
+    "UserPromptSent": false,
+    "RawAuthOrInitializeOutputSaved": false,
+    "CredentialFilesReadByTest": false
+  },
+  "InitialFailures": [
+    {
+      "Category": "fixture UTF8 input encoding corrected",
+      "Path": "artifacts/task060/baseline-c6-2017/claude-boundaries/result.json"
+    },
+    {
+      "Category": "confirmed missing full-access version preflight",
+      "Path": "artifacts/task060/version-gap-repro-c6/claude-boundaries/result.json"
+    },
+    {
+      "Category": "temporary CS0103 helper argument typo corrected",
+      "Path": "artifacts/task060/fixed-source-c1/build-2017-Release.log"
+    }
+  ],
+  "Sources": [
+    "https://code.claude.com/docs/en/cli-reference",
+    "https://code.claude.com/docs/en/agent-sdk/streaming-vs-single-mode",
+    "https://code.claude.com/docs/en/permissions",
+    "https://code.claude.com/docs/en/fast-mode",
+    "https://code.claude.com/docs/en/model-config"
+  ],
+  "FinalCandidateVerified": false,
+  "SharedBuildChanged": false,
+  "ReleaseChanged": false,
+  "CustomerOfflinePCVerified": false
+}

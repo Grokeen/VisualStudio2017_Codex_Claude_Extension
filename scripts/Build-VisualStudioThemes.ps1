@@ -11,7 +11,7 @@ update date  : 2026-10-20 CodexOrig : 설치·레지스트리·현재 사용자 
 [CmdletBinding()]
 param(
     [Parameter(Mandatory=$true)][string]$OutputDirectory,
-    [ValidatePattern('^\d+\.\d+\.\d+$')][string]$Version='0.12.0'
+    [ValidatePattern('^\d+\.\d+\.\d+$')][string]$Version='0.12.1'
 )
 $ErrorActionPreference='Stop'
 Add-Type -AssemblyName System.Drawing

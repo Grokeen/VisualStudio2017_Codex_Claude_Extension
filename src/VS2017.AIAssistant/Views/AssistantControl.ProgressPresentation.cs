@@ -25,7 +25,9 @@ namespace VS2017.AIAssistant.Views
         private ProgressNotice progressNotice;
         private ChatMessage progressNoticeRow;
         private readonly List<ChatMessage> progressReplyRows = new List<ChatMessage>();
-        private NotifyIcon completionNotificationIcon;
+        private BrandedCompletionNotification completionNotificationIcon;
+        private string completionRequestProvider;
+        private string completionResultKind = "answer";
         private DispatcherTimer completionNotificationLifetime;
         private bool completionNotificationUnloadedHooked;
 
@@ -36,6 +38,7 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 작업 이벤트가 없는 요청에는 빈 안내 카드를 추가하지 않음.
+        ///                2026-10-20 CodexOrig : 실행 제공자만 고정하고 감사 R58-01에 따라 요청 제목은 알림에 전달하지 않음.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void BeginProgressRequest()
@@ -48,6 +51,8 @@ namespace VS2017.AIAssistant.Views
             progressNoticeOwner = disposed ? null : ActiveChat;
             progressNotice = disposed ? null : new ProgressNotice();
             progressNoticeRow = null;
+            completionRequestProvider = CurrentRequestProvider == "Codex" ? "Codex" : "Claude";
+            completionResultKind = "answer";
         }
 
         /// ---------------------------------------------------------------------
@@ -141,10 +146,11 @@ namespace VS2017.AIAssistant.Views
         /// ---------------------------------------------------------------------
         /// <summary>
         /// name         : ShowCompletionNotification
-        /// desc         : 요청 본문을 노출하지 않는 Windows 작업 표시줄 알림을 잠시 표시한다.
+        /// desc         : 요청 원문 없이 앱이 확인한 결과 유형과 보고된 완료 수를 브랜드 알림으로 표시한다.
         /// author       : CodexCode
         /// create date  : 2026-10-19
         /// update date  : 2026-10-19 CodexCode : TASK049 VSIX의 Start 메뉴 등록 없이 지원되는 NotifyIcon 사용.
+        ///                2026-10-20 CodexOrig : TASK054 제공자 로고 hBalloonIcon·안전 요약과 이전 제공자 자원 해제.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void ShowCompletionNotification()
@@ -153,9 +159,11 @@ namespace VS2017.AIAssistant.Views
             {
                 if (disposed) return;
                 if (!completionNotificationUnloadedHooked) { Unloaded += CompletionNotificationUnloaded; completionNotificationUnloadedHooked = true; }
+                if (completionNotificationIcon != null && completionNotificationIcon.Provider != completionRequestProvider)
+                    DisposeCompletionNotification();
                 if (completionNotificationIcon == null)
-                    completionNotificationIcon = new NotifyIcon { Icon = SystemIcons.Information, Text = "Visual Studio AI Assistant", Visible = true };
-                completionNotificationIcon.ShowBalloonTip(8000, "AI 작업 완료", "Visual Studio에서 결과를 확인하세요.", ToolTipIcon.Info);
+                    completionNotificationIcon = new BrandedCompletionNotification(completionRequestProvider);
+                completionNotificationIcon.Show(completionRequestProvider + " 작업 완료", CompletionNotificationContent.Body(completionResultKind, progressNotice));
                 if (completionNotificationLifetime == null)
                 {
                     completionNotificationLifetime = new DispatcherTimer { Interval = TimeSpan.FromSeconds(20) };
@@ -191,8 +199,6 @@ namespace VS2017.AIAssistant.Views
             {
                 var icon = completionNotificationIcon;
                 completionNotificationIcon = null;
-                try { icon.Visible = false; }
-                catch (Exception) { }
                 try { icon.Dispose(); }
                 catch (Exception) { }
             }

@@ -1,0 +1,72 @@
+{
+  "audit": "TASK-058 C12 PDF-path fix follow-up",
+  "auditor": "CodexOrig2",
+  "status": "PASS_C12_PREPUBLICATION_TECHNICAL_GATE_WITH_LIMITS",
+  "candidate": "artifacts/task054/candidate12",
+  "version": "0.12.1",
+  "inputs": 133,
+  "inputMismatches": 0,
+  "c11ToC12": "one canonical PDF asset added and four csproj Content Include paths changed; all C# and XAML sources unchanged",
+  "releaseBuilds": "4 SKUs, exit 0, errors 0, warnings 0 each",
+  "releaseSha256": {
+    "2017": { "dll": "701855AEE57C337E4495D37620DF542D54F2A6BD9DEC0FEB448395C377F5ACB8", "vsix": "0B805ECCB820046723F8F3B71916F0A0E6D402A68CBE686148748F0C85CC437B" },
+    "2017.Legacy": { "dll": "62846883C6D3101FC71CB222C36E3EEE93265BA2A040AECBF9F53CAFE9A21621", "vsix": "AF269930DF77FC9966C0794A80D0EF619DBD3D8CFFCC79A171AE1CA8EB54C4CA" },
+    "2019": { "dll": "3AB99B801E80049CBBDB1E0DEC46FA4DC0023F21D867A09141DF793CDBCB4E6D", "vsix": "B85914EE9637682EF362735D11CC4CA6869BF55CEE697CAEDC3026757A2647B8" },
+    "2022": { "dll": "1B87CBDDE94E9607D77BCD54D5B7632C9D0A201FD7F0E37035CF58109EFAEB6C", "vsix": "BF6873C0DA59ACDC517DA8EA0C77160001FE38001A9CDABC608074CC07E1951C" }
+  },
+  "directTests": {
+    "themeBoundaryPerSku": "28/28 x 4",
+    "notificationContentPerSku": "30/30 x 4",
+    "queueVs2017": "58/58",
+    "windowShown": false,
+    "liveAiUsed": false
+  },
+  "r58_05": {
+    "c11Failure": "actual installed VS2017 CliGuideService.GetPdfPath FileNotFoundException",
+    "c12VsixPdfEntry": "Resources/CliGuide/VisualStudio_AI_Assistant_설치_사용설명서.pdf",
+    "pdfCountPerSku": "1/1 x 4",
+    "pdfSha256PerSku": "F853789CE823A1EABE8B4E98226064A9E86F808389CA77033DF83925744F2372",
+    "actualInstalledCall": {
+      "2017.Legacy": "PASS; C12 actual IDE GUIDE-01 and auditor direct installed service call; canonical filename and PDF SHA match",
+      "2017": "PASS; C12 actual IDE GUIDE-01 and auditor direct installed service call; canonical filename and PDF SHA match",
+      "2019": "PASS; C12 actual IDE GUIDE-01 and auditor direct installed service call; canonical filename and PDF SHA match",
+      "2022": "PASS; C12 actual IDE GUIDE-01 and auditor direct installed service call; canonical filename and PDF SHA match",
+      "auditEvidence2017Legacy": "artifacts/audit-codexorig2-task058/candidate12-installed-pdf-2017-legacy.json",
+      "auditEvidence2017": "artifacts/audit-codexorig2-task058/candidate12-installed-pdf-2017.json",
+      "auditEvidence2019": "artifacts/audit-codexorig2-task058/candidate12-installed-pdf-2019.json",
+      "auditEvidence2022": "artifacts/audit-codexorig2-task058/candidate12-installed-pdf-2022.json"
+    }
+  },
+  "actualIdeIntegration": {
+    "2017.Legacy": "146/146, artifacts/ide/run-f295186340904a95aa154769829457e3/result.json",
+    "2017": "146/146, artifacts/ide/run-670e5e87056d4f8b9507d91672fadd05/result.json",
+    "2019": "146/146, artifacts/ide/run-4458cd90d6c64a38b3e14ab2f56a061a/result.json",
+    "2022": "146/146, artifacts/ide/run-b0d16b6b8e304c57a19ab1ebf9ae4209/result.json",
+    "total": "584/584"
+  },
+  "finalPackagePreflight": {
+    "aiVsix": 4,
+    "themeVsix": 3,
+    "archives": 2,
+    "assets": 13,
+    "fullOfflineZipBytes": 311147867,
+    "fullOfflineZipSha256": "89A3CDA8BBD21918795205A828657BB27F72B40B04BBD8085A90CC459E57C165",
+    "installerBoundary": "35/35 synthetic SKU/local inventory",
+    "networkDisabledAppContainer": "6/6 on exact final ZIP; zero network capabilities, profile and ACL cleanup",
+    "packageEvidence": "artifacts/task054/package-inputs-final4/package-validation.json",
+    "installerEvidence": "artifacts/task054/installer-final4/results.json",
+    "appContainerEvidence": "artifacts/task041/run-a51ada1a8fad40519478b22d6cb0a7fb/worker-results.json"
+  },
+  "themeContinuity": "C11 actual three IDE both themes; C12 runtime sources and nested theme VSIX unchanged; C12 boundary 112/112; no C12 actual theme workflow yet",
+  "findings": {
+    "r58_01": "resolved by C12 direct notification content tests 30/30 x 4",
+    "r58_02": "resolved by C12 direct notification content tests 30/30 x 4",
+    "r58_03": "resolved for tested hosts: C11 actual IDE three host/two theme evidence carried forward, C12 source and nested theme VSIX unchanged, C12 boundary 112/112; C12 actual theme workflow not separately rerun",
+    "r58_04": "resolved by C12 VS2017 queue/status integration 58/58",
+    "r58_05": "resolved by C12 actual IDE GUIDE-01 4/4 and independent installed service calls 4/4",
+    "additionalConfirmedDefects": 0,
+    "c11RawThemeExportEqualityFailuresRetained": 4
+  },
+  "releaseGate": "pre-publication technical source/package gate PASS; publish and 13 anonymous asset download/hash checks pending",
+  "claudeLoginAndLiveAnswer": "excluded at user request"
+}

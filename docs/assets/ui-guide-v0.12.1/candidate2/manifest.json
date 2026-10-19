@@ -1,0 +1,59 @@
+{
+  "Task": "TASK056 C2 documentation assets",
+  "Candidate": "Root C2",
+  "AssemblyPath": "artifacts/task054/candidate2/2017/Release/VS2017.AIAssistant.dll",
+  "AssemblySha256": "618CE370C6551E8E24ABB1DB8D60A885F84B9096DBC0A81C8757890976489BB4",
+  "AssetsPath": "artifacts/task054/candidate2/source/src/VS2017.AIAssistant/obj/project.assets.json",
+  "Renderer": "artifacts/task056/c2-docs/Render-C2Docs.ps1 + C2DocsRenderChecks.cs",
+  "RendererResultPath": "artifacts/task056/c2-docs-render-final2/result.json",
+  "CaptureMethod": "WPF RenderTargetBitmap after Measure/Arrange/UpdateLayout",
+  "NoWindowCreated": true,
+  "WindowShowCalled": false,
+  "OsInteraction": false,
+  "DesktopCapture": false,
+  "PointerCapture": false,
+  "ActualVisualStudioScreenshot": false,
+  "ActualVisualStudioThemeRead": false,
+  "SyntheticHost": "Themed control background from the selected app palette; no real IDE surround",
+  "SyntheticData": "Prompt text, agent label, and conversation timestamp are examples. No account, project, or customer conversation data included.",
+  "ButtonBehavior": "Kakao/Dracula installer buttons are displayed only; no click or installer invocation.",
+  "UserBubbleMetrics": {
+    "Width": 1060,
+    "Height": 526.8199999999999,
+    "BubbleWidth": 680,
+    "BubbleHeight": 134.78666666666666,
+    "Background": "#FF282828",
+    "Foreground": "#FFEBEBEB",
+    "TextContrast": 12.36706143661075,
+    "OriginalMessagePreserved": true
+  },
+  "DisplaySettingsMetrics": {
+    "Width": 994,
+    "Height": 551.09,
+    "InstallButtons": [
+      "Kakao 테마 설치·적용",
+      "Dracula 테마 설치·적용"
+    ],
+    "LightMode": true,
+    "Palette": "Visual Studio"
+  },
+  "Images": [
+    {
+      "File": "user-bubble.png",
+      "Description": "Role #15 synthetic user message bubble with theme surface and readable foreground",
+      "Width": 1060,
+      "Height": 527,
+      "Sha256": "0870C8597C700D8FBD92B618E349C37FF1A9E4BEAB27107A5528D8AA1E3F08F1",
+      "Bytes": 20375
+    },
+    {
+      "File": "display-ide-themes.png",
+      "Description": "Role #16 display settings section with independent Kakao and Dracula Visual Studio theme install actions",
+      "Width": 994,
+      "Height": 552,
+      "Sha256": "43017AB687422E97C2F882A42FA04CAF80CC7B597B082FC68FDC59462AF1F1ED",
+      "Bytes": 51970
+    }
+  ],
+  "CreatedAt": "2026-10-20T03:06:30"
+}

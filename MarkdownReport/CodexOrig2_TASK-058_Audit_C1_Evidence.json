@@ -1,0 +1,39 @@
+{
+  "audit": "TASK-058 second audit, candidate C1",
+  "auditor": "CodexOrig2",
+  "checkedAtKst": "2026-10-20 02:51",
+  "candidate": "artifacts/task054/candidate1",
+  "version": "0.12.1",
+  "inputFiles": 128,
+  "inputMismatches": 0,
+  "release": {
+    "VS2017": { "dllSha256": "3E527BBC4D93BD0E0B9969B06C85651F2BAD2CD74A1C650E5CA347564053A995", "vsixSha256": "55D286AE84F94C97236715C578A0521CE207886F71599804F40826725568C281" },
+    "VS2017Legacy": { "dllSha256": "D07D78824C67EC6ACCCF9EB98DECE62F6617A5FD34CCA92F5D25F11D05E4B9EB", "vsixSha256": "BD831C8870DBB042338CAA524599DA124606AD17924AA50FE0BF894836FC271E" },
+    "VS2019": { "dllSha256": "9081A66E338679BF020DE625BED1EA0F511849EAADB38D8A3CBD4501F58C4529", "vsixSha256": "13DCACDFF13614639D64DA9196C5DDDE9BA8B820B2979CB67DA9180B62E7868E" },
+    "VS2022": { "dllSha256": "CF94A149AA968421A231F71C543F560F09680F2614F604A2180054C0F69784F0", "vsixSha256": "80C7EE5DB7C9D0EEE05FF93646AEF45E18106557687807EF621ECC7391BC1335" }
+  },
+  "statuses": {
+    "V01": "PARTIAL", "V02": "PARTIAL", "V03": "PARTIAL", "V04": "PARTIAL", "V05": "PARTIAL", "V06": "PASS_HEADLESS_LATENCY_PARTIAL_IDE", "V07": "PASS_SYNTHETIC_INTEGRATION", "V08": "FAIL", "V09": "PARTIAL", "V10": "PARTIAL", "V11": "PASS_DIRECT_API_PARTIAL_UI", "V12": "PASS_NO_LOGIN_BOUNDARY_LIVE_AI_OUT_OF_SCOPE", "Role15": "DEFERRED_C2", "Role16": "DEFERRED_C2"
+  },
+  "finding": {
+    "id": "R58-01", "priority": "P2", "requirement": "V08 / Role #8",
+    "observed": "SafeRequestTitle returned the unchanged synthetic prompt containing a person name and salary amount, and Body uses that output in the OS notification text.",
+    "syntheticInput": "직원 홍길동의 연봉 9000만원 보고서를 검토해줘",
+    "actualOutput": "직원 홍길동의 연봉 9000만원 보고서를 검토해줘",
+    "productDllSha256": "3E527BBC4D93BD0E0B9969B06C85651F2BAD2CD74A1C650E5CA347564053A995"
+  },
+  "deferredC2Baseline": [
+    { "requirement": "Role #15", "observed": "C1 user-message template uses transparent background, zero border and zero padding." },
+    { "requirement": "Role #16", "observed": "All four C1 VSIX ZIPs have 50 entries and zero nested .vsix or Themes/ entries." }
+  ],
+  "evidence": {
+    "freeze": { "path": "artifacts/audit-codexorig2-task058/candidate1-freeze.json", "sha256": "13F14A9A8C29625F1B449682DA49BF653D51BEA303823F7C751E66B5ED1DC411" },
+    "independentBoundary": { "path": "artifacts/audit-codexorig2-task058/candidate1-boundary-result.json", "passed": 14, "failed": 1, "sha256": "627838F8C89ACE3544D41C63409C71289B7B76AC4E1792477053B26C61828570" },
+    "candidateQueue": { "path": "artifacts/audit-codexorig2-task058/candidate1-queue-result.json", "passed": 56, "failed": 0, "switch40ElapsedMs": 806, "switchDiskWrites": 0, "sha256": "4D36E9CDE7863BBE6565C888DBD2358173F55BE4E1804B85064C725838454936" },
+    "longConversationLatency": { "path": "artifacts/audit-codexorig2-task058/candidate1-long-tab-latency.csv", "messagesPerProvider": 100, "charsPerMessage": 8000, "samples": 50, "warmupSwitches": 10, "p95Ms": 40.3188, "p99Ms": 76.1844, "maxMs": 76.1844, "sha256": "01116554F1E55763E7594DFEBE3D4F73E12D5E26EB283C59123675312C099DE6" },
+    "ownerArtifactMenu": { "path": "artifacts/task061/product-candidate1/result.json", "passed": 68, "failed": 0, "sha256": "4C575AF7EC72ED787697B9035B57AB5B33874B5B7E13773259E0502225E5AF37" },
+    "ownerCaption": { "path": "artifacts/task056/CaptionFixEvidence.json", "passed": 17, "failed": 0, "sha256": "5544967928F698ACC83F582DB091C2D985E4D463B0DBACB605E52AFDAC32DC2B" },
+    "ownerClaude": { "path": "MarkdownReport/CodexOrig_TASK-060_ClaudeVerification_C1.json", "passedPerTarget": 25, "targets": 4, "sha256": "D2A2C2F9D135CFF4FE0B118E69238B1F76B3CEC83F46052831C456DE56062C11" }
+  },
+  "notRun": ["actual Visual Studio host screenshot and physical input", "real OS notification presentation", "real SaveFileDialog physical click", "actual Word visual rendering", "Claude authenticated AI answer", "release deployment and anonymous download hash"]
+}

@@ -1,0 +1,21 @@
+{
+  "task": "TASK064-supplement",
+  "author": "CodexOrig5",
+  "date_kst": "2026-10-20",
+  "scope": "Read-only official documentation research on Visual Studio .vssettings structure and overall theme versus Fonts and Colors.",
+  "primary_sources": [
+    "https://learn.microsoft.com/en-us/visualstudio/ide/reference/import-and-export-settings-command?view=visualstudio",
+    "https://learn.microsoft.com/en-us/visualstudio/ide/how-to-change-fonts-and-colors-in-visual-studio?view=vs-2022",
+    "https://learn.microsoft.com/en-us/visualstudio/ide/reference/fonts-and-colors-environment-options-dialog-box?view=visualstudio",
+    "https://learn.microsoft.com/en-us/visualstudio/ide/personalizing-the-visual-studio-ide?view=visualstudio"
+  ],
+  "conclusion": "Microsoft documents .vssettings XML as an open schema with category, subcategory, and property-value nesting; a minimal probe should preserve wrappers/identifiers from that SKU's actual exported settings file. Whole IDE theme and Fonts and Colors are distinct settings and acceptance checks.",
+  "owner_supplied_status_not_independently_rerun": "CodexOrig reports that replacing the Theme GUID in a full actual export imports both tested themes; the previous minimal XML omitted Environment_Group; #064 is testing a wrapped FontsCategory-only probe.",
+  "unsupported_claims_avoided": [
+    "No documented public EnvDTE ColorTheme property was found in the cited official docs; this is not a definitive proof that no public API exists.",
+    "Microsoft docs do not normatively specify the Environment_Group serialization or a complete minimal XML recipe across VS2017/2019/2022."
+  ],
+  "product_or_ide_settings_modified": false,
+  "visual_studio_started_by_author": false,
+  "tests_run_by_author": false
+}

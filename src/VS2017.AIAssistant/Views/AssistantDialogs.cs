@@ -158,7 +158,7 @@ namespace VS2017.AIAssistant.Views
                     new WindowInteropHelper(this).Owner = handle;
             }
             var layout = new Grid();
-            layout.SetResourceReference(Panel.BackgroundProperty, "AssistantBackgroundBrush");
+            layout.SetResourceReference(Panel.BackgroundProperty, "AssistantPopupBackgroundBrush");
             layout.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
             layout.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
             layout.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
@@ -203,20 +203,27 @@ namespace VS2017.AIAssistant.Views
             Grid.SetRow(content, 3); layout.Children.Add(content);
             var footer = new StackPanel();
             FooterContent = new ContentControl { HorizontalContentAlignment = HorizontalAlignment.Stretch }; footer.Children.Add(FooterContent);
-            Message = new TextBlock { TextWrapping = TextWrapping.Wrap, Margin = new Thickness(0, 0, 0, 8) };
+            Message = new TextBlock { Text = String.Empty, TextWrapping = TextWrapping.Wrap, Margin = new Thickness(0, 0, 0, 8) };
+            var messageStyle = new Style(typeof(TextBlock));
+            var emptyMessage = new DataTrigger { Binding = new Binding(nameof(TextBlock.Text)) { RelativeSource = new RelativeSource(RelativeSourceMode.Self) }, Value = String.Empty };
+            emptyMessage.Setters.Add(new Setter(UIElement.VisibilityProperty, Visibility.Collapsed));
+            messageStyle.Triggers.Add(emptyMessage);
+            Message.Style = messageStyle;
             footer.Children.Add(Message);
             Actions = new WrapPanel { HorizontalAlignment = HorizontalAlignment.Right };
-            var actionStyle = new Style(typeof(Button));
-            actionStyle.Setters.Add(new Setter(FrameworkElement.MinHeightProperty, 34.0));
+            var actionStyle = new Style(typeof(Button), (Style)FindResource("AssistantActionButton"));
             actionStyle.Setters.Add(new Setter(FrameworkElement.MinWidthProperty, 84.0));
-            actionStyle.Setters.Add(new Setter(Control.PaddingProperty, new Thickness(12, 7, 12, 7)));
             Actions.Resources.Add(typeof(Button), actionStyle);
-            var close = new Button { Content = "× 닫기", HorizontalContentAlignment = HorizontalAlignment.Center, VerticalContentAlignment = VerticalAlignment.Center, IsCancel = true, MinWidth = 84, Margin = new Thickness(8, 0, 0, 0) };
+            var close = new Button { Content = "× 닫기", HorizontalContentAlignment = HorizontalAlignment.Center, VerticalContentAlignment = VerticalAlignment.Center, IsCancel = true, Margin = new Thickness(8, 0, 0, 0) };
             close.Click += (sender, args) => Close();
             Actions.Children.Add(close); footer.Children.Add(Actions);
-            Footer = new Border { Child = footer, BorderThickness = new Thickness(0, 1, 0, 0), Padding = new Thickness(20, 14, 20, 16), Margin = new Thickness(0, 16, 0, 0) };
+            Footer = new Border { Child = footer, BorderThickness = new Thickness(0, 1, 0, 0), Padding = new Thickness(16, 8, 16, 10), Margin = new Thickness(0, 8, 0, 0) };
             Footer.SetResourceReference(Border.BackgroundProperty, "AssistantSurfaceBrush"); Footer.SetResourceReference(Border.BorderBrushProperty, "AssistantBorderBrush");
-            Grid.SetRow(Footer, 4); layout.Children.Add(Footer); Content = layout;
+            Grid.SetRow(Footer, 4); layout.Children.Add(Footer);
+            var dialogSurface = new Border { Child = layout, BorderThickness = new Thickness(1) };
+            dialogSurface.SetResourceReference(Border.BackgroundProperty, "AssistantPopupBackgroundBrush");
+            dialogSurface.SetResourceReference(Border.BorderBrushProperty, "AssistantDialogBorderBrush");
+            Content = dialogSurface;
             CommandBindings.Add(new CommandBinding(SystemCommands.CloseWindowCommand, (sender, args) => Close(), (sender, args) => args.CanExecute = true));
             CommandBindings.Add(new CommandBinding(SystemCommands.MinimizeWindowCommand, (sender, args) => SystemCommands.MinimizeWindow(this), (sender, args) => args.CanExecute = true));
             CommandBindings.Add(new CommandBinding(SystemCommands.MaximizeWindowCommand, (sender, args) => SystemCommands.MaximizeWindow(this), (sender, args) => args.CanExecute = WindowState != WindowState.Maximized));
@@ -236,7 +243,7 @@ namespace VS2017.AIAssistant.Views
 
         private Button CreateCaptionButton(string glyph, string accessibleName, string automationId, RoutedCommand command)
         {
-            var style = new Style(typeof(Button));
+            var style = new Style(typeof(Button), (Style)FindResource("AssistantActionButton"));
             style.Setters.Add(new Setter(FrameworkElement.WidthProperty, 42.0));
             style.Setters.Add(new Setter(FrameworkElement.HeightProperty, 36.0));
             style.Setters.Add(new Setter(Control.PaddingProperty, new Thickness(0)));
@@ -246,12 +253,6 @@ namespace VS2017.AIAssistant.Views
             style.Setters.Add(new Setter(Control.ForegroundProperty, new DynamicResourceExtension("AssistantForegroundBrush")));
             style.Setters.Add(new Setter(Control.FontFamilyProperty, new FontFamily("Segoe UI Symbol")));
             style.Setters.Add(new Setter(Control.FontSizeProperty, 17.0));
-            var hover = new Trigger { Property = UIElement.IsMouseOverProperty, Value = true };
-            hover.Setters.Add(new Setter(Control.BackgroundProperty, new DynamicResourceExtension("AssistantHoverBrush")));
-            style.Triggers.Add(hover);
-            var pressed = new Trigger { Property = ButtonBase.IsPressedProperty, Value = true };
-            pressed.Setters.Add(new Setter(Control.BackgroundProperty, new DynamicResourceExtension("AssistantPressedBrush")));
-            style.Triggers.Add(pressed);
             var button = new Button { Content = glyph, Style = style, Command = command, CommandTarget = this, Focusable = true, HorizontalContentAlignment = HorizontalAlignment.Center, VerticalContentAlignment = VerticalAlignment.Center };
             AutomationProperties.SetName(button, accessibleName);
             AutomationProperties.SetAutomationId(button, automationId);

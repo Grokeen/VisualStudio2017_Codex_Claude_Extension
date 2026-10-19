@@ -1,0 +1,98 @@
+{
+  "Task": "TASK056 documentation assets",
+  "Candidate": "Root C1",
+  "AssemblyPath": "artifacts/task054/candidate1/2017/Release/VS2017.AIAssistant.dll",
+  "AssemblySha256": "3E527BBC4D93BD0E0B9969B06C85651F2BAD2CD74A1C650E5CA347564053A995",
+  "AssetsPath": "artifacts/task054/candidate1/source/src/VS2017.AIAssistant/obj/project.assets.json",
+  "Renderer": "artifacts/task056/ui-tests/caption-fix1/fixture/Test-UiLayout.ps1 + UiRenderChecks.cs",
+  "RendererResultPath": "artifacts/task056/docs-render-candidate1/result.json",
+  "RendererChecks": {
+    "Succeeded": true,
+    "Passed": 17,
+    "Failed": 0,
+    "RenderedImages": 8,
+    "WindowPosition": "offscreen -24000,-24000"
+  },
+  "CaptureMethod": "WPF offscreen RenderTargetBitmap",
+  "SyntheticHostBackdrops": {
+    "Light": "#F0F0F0",
+    "Dark": "#1E1E1E"
+  },
+  "ActualVisualStudioScreenshot": false,
+  "OperatingSystemDesktopCapture": false,
+  "PointerCapture": false,
+  "AccountProjectConversationScenes": "Not included; no real user data. Any future guide examples must remain synthetic.",
+  "Images": [
+    {
+      "File": "popup-light.png",
+      "Description": "Light theme popup over synthetic light host",
+      "SourceRendererImage": "vs-light-popup-over-host.png",
+      "Crop": null,
+      "Width": 900,
+      "Height": 660,
+      "Sha256": "3B4FFB3308A44361071ED58E7306B382F29F59C8C028761B707BDA007D3D3C7C",
+      "Bytes": 18501
+    },
+    {
+      "File": "popup-dark.png",
+      "Description": "Dark theme popup and caption over synthetic dark host",
+      "SourceRendererImage": "vs-dark-popup-over-host.png",
+      "Crop": null,
+      "Width": 900,
+      "Height": 660,
+      "Sha256": "1FCAAD8FE3A94E34465B06A0BAE34E506D93BF8C44052DB2E2D272F22D3AD9C0",
+      "Bytes": 18227
+    },
+    {
+      "File": "caption-dark.png",
+      "Description": "Dark popup caption crop, derived from popup-dark.png",
+      "SourceRendererImage": "vs-dark-popup-over-host.png",
+      "Crop": {
+        "X": 70,
+        "Y": 60,
+        "Width": 760,
+        "Height": 44
+      },
+      "Width": 760,
+      "Height": 44,
+      "Sha256": "ACAF490404229F65A3D7E3E05EF2921E71695500EC43339A3C76C231F395C12F",
+      "Bytes": 2273
+    },
+    {
+      "File": "compact-footer-dark.png",
+      "Description": "Dark compact footer crop with primary and secondary actions, derived from popup-dark.png",
+      "SourceRendererImage": "vs-dark-popup-over-host.png",
+      "Crop": {
+        "X": 70,
+        "Y": 545,
+        "Width": 760,
+        "Height": 55
+      },
+      "Width": 760,
+      "Height": 55,
+      "Sha256": "636980D906FDF9F77E71704E70712D1FCEC8D5EFCBCAA521E77E090931C5646D",
+      "Bytes": 2328
+    },
+    {
+      "File": "markdown-dark.png",
+      "Description": "Dark theme Markdown editor",
+      "SourceRendererImage": "vs-dark-markdown.png",
+      "Crop": null,
+      "Width": 960,
+      "Height": 700,
+      "Sha256": "550BB2F429052AEDB0F5CF3FAB4A8F6B8B6DC377CC933D9AFB73E6CBFB28E737",
+      "Bytes": 29303
+    },
+    {
+      "File": "provider-tabs-200.png",
+      "Description": "Provider tabs in a 200px panel",
+      "SourceRendererImage": "provider-tabs-200.png",
+      "Crop": null,
+      "Width": 200,
+      "Height": 420,
+      "Sha256": "ED6A2A7B02F0C5503A4FF46C2247C22C686F2E442BD32A331B507FC3C509BA4D",
+      "Bytes": 18413
+    }
+  ],
+  "CreatedAt": "2026-10-20T02:52:44"
+}

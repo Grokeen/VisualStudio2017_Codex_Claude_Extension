@@ -1,0 +1,69 @@
+{
+  "task": "TASK-065",
+  "author": "CodexOrig5",
+  "date_kst": "2026-10-20",
+  "scope": "Current extension UI comparison with official UX/design guidance and follow-up event-motion review; no product source changes.",
+  "workspace_sources": [
+    "MarkdownReport/Role.md",
+    "MarkdownReport/CodexOrig4_TASK-056_UI.md",
+    "MarkdownReport/CodexOrig4_TASK-048_MotionReview.md",
+    "MarkdownReport/CodexOrig5_TASK-048_DesignReview.md",
+    "MarkdownReport/CodexOrig5_TASK-057_HoverMotionReview.md",
+    "MarkdownReport/CodexOrig4_TASK-048_Validation.json",
+    "MarkdownReport/CodexOrig5_TASK-057_HoverMotionReview_Validation.json",
+    "src/VS2017.AIAssistant/Views/AssistantMotionTokens.cs",
+    "src/VS2017.AIAssistant/Views/AssistantControl.Fan.cs",
+    "src/VS2017.AIAssistant/Views/AssistantControl.xaml"
+  ],
+  "confirmed_current_motion": {
+    "primary_entry_ms": 220,
+    "micro_interaction_ms": 150,
+    "easing": "CubicEase EaseOut",
+    "os_preference": "SystemParameters.ClientAreaAnimation",
+    "fan_open_dwell_and_close_timers_are_separate_from_animation_duration": true
+  },
+  "recommendation": {
+    "primary_entry_test_ms": [
+      250,
+      270
+    ],
+    "micro_interaction_ms": [
+      150,
+      167
+    ],
+    "blanket_slowdown": false,
+    "keep_interactions_interruptible": true,
+    "validate_os_motion_off": true,
+    "ui_priority": [
+      "compact composer hierarchy",
+      "consistent selected/focus/disabled states",
+      "limit secondary toolbar clutter",
+      "keyboard/accessibility path"
+    ]
+  },
+  "official_sources": [
+    "https://code.visualstudio.com/api/ux-guidelines/panel",
+    "https://code.visualstudio.com/api/ux-guidelines/views",
+    "https://code.visualstudio.com/api/ux-guidelines/webviews",
+    "https://www.jetbrains.com/help/idea/accessibility.html",
+    "https://www.jetbrains.com/help/idea/ide-viewing-modes.html",
+    "https://fluent2.microsoft.design/design-tokens",
+    "https://learn.microsoft.com/en-us/windows/apps/design/motion/timing-and-easing",
+    "https://learn.microsoft.com/en-us/windows/apps/design/motion/",
+    "https://developer.apple.com/design/human-interface-guidelines/motion",
+    "https://m3.material.io/styles/motion/overview/how-it-works"
+  ],
+  "handoff": {
+    "recipient": "CodexOrig4 / 서브 개발자 / 디자인",
+    "thread_id": "01a14fad-b5dc-7532-be87-aaca02cb148d",
+    "message_sent": true
+  },
+  "product_source_modified": false,
+  "existing_role_or_reports_modified": false,
+  "tests_or_builds_run": false,
+  "limitations": [
+    "Actual customer use inside Visual Studio was not observed.",
+    "Timing values are design-test candidates, not standards requirements.",
+    "Repository has pre-existing uncommitted work from parallel contributors; this task added only its two task-specific report files."
+  ]
+}

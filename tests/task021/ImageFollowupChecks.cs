@@ -62,7 +62,8 @@ public static class ImageFollowupChecks
             owner=new Window{Content=control,Width=730,Height=900,ShowInTaskbar=false,Title="Isolated image follow-up review"};owner.Show();Pump();
             var tabs=Named<TabControl>(control,"ProviderChoice");var first=(TabItem)tabs.Items[0];first.ApplyTemplate();
             var tabSurface=(Border)first.Template.FindName("B",first);
-            Assert(tabSurface.Margin.Right>=14,"Provider tabs have at least fourteen pixels of explicit separation");
+            // 2026-10-20 Role #5 replaces the older >=14px request with compact separation.
+            Assert(tabSurface.Margin.Right>=6 && tabSurface.Margin.Right<=12,"Provider tabs retain a compact visible gap between six and twelve pixels");
             Assert(Transparent(tabSurface.Background)&&Transparent(Named<Control>(control,"OptionsToggle").Background)&&Transparent(Named<Control>(control,"HistoryToggle").Background),"Tabs, settings menu and history toggle blend into their background");
             Assert(new[]{"AttachButton","PermissionsButton","ModelOptionsButton"}.All(n=>Transparent(Named<Control>(control,n).Background)),"Composer secondary controls use the shared borderless surface appearance");
             Assert(Transparent(Named<TextBox>(control,"Instruction").Background)&&Named<TextBox>(control,"Instruction").BorderThickness==new Thickness(0),"Prompt background and border blend into the enclosing composer surface");

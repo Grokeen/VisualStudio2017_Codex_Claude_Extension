@@ -345,42 +345,41 @@ namespace VS2017.AIAssistant.Views
         /// update date  : 2026-10-18 CodexOrig : TASK-020 실제 연결·사용량·전체 액세스 UI.
         ///                2026-10-18 CodexOrig : 완료 사용량 순서 보존·연결 조회 실패와 실제 토큰 분리.
         ///                2026-10-18 CodexOrig : 외부 편집기 보호·완료 후 늦은 중간 카드 게시 차단.
+        ///                2026-10-20 CodexOrig : 보조 개발 TASK055 입력 FIFO·문맥 보존 및 중복 작업 최소화.
         /// </summary>
         /// ---------------------------------------------------------------------
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "VSTHRD109", Justification = "검증한 WPF Click 경로에서만 호출하며 Dispatcher.VerifyAccess로 같은 UI 계약을 검사한다.")]
-        private async Task RunFullAccessFromUiAsync()
+        private async Task<bool> RunFullAccessFromUiAsync(QueuedUiRequest queued)
         {
             Dispatcher.VerifyAccess();
-            ChatSession chat = ActiveChat; ConversationRecord record = activeRecords[selectedProvider];
+            ChatSession chat = queued.Chat; ConversationRecord record = queued.Record;
             AgentFileChange[] changes = new AgentFileChange[0];
             IExternalEditingScope externalEditing = null;
             string progressOutcome = "failed";
             bool requestFinished = false;
             try {
-                if (String.IsNullOrWhiteSpace(Instruction.Text)) throw new InvalidOperationException("실행할 작업과 테스트 요청을 입력하세요.");
-                var navigation = documents as ISourceNavigationService;
-                if (navigation == null) throw new InvalidOperationException("전체 액세스로 작업할 프로젝트 폴더를 열어 주세요.");
-                string directory = navigation.GetProjectDirectory();
+                RequireQueuedOwnership(queued);
+                string directory = queued.Directory;
+                DocumentSnapshot activeSource = queued.Source;
                 var fullAccessDocuments = documents as IFullAccessDocumentService;
-                DocumentSnapshot activeSource = fullAccessDocuments != null ? fullAccessDocuments.CaptureFullAccessContext() : documents.GetActiveDocument().Capture();
+                if (activeSource != null) activeSource.RequireUnchanged(fullAccessDocuments != null ? fullAccessDocuments.CaptureFullAccessContext() : queued.Document.Capture());
                 if (activeSource != null) {
                     activeSource.RequireValidSelection();
                     if (activeSource.HasUnsavedChanges) throw new InvalidOperationException("CLI 직접 수정 전에 편집 중인 파일을 저장하세요.");
                 }
                 if (activeSource == null && record.CollaboratorIds.Length > 0) throw new InvalidOperationException("함께 검토할 AI가 지정되어 있습니다. 협업 검토에 사용할 소스를 선택하거나 AI 설정에서 참여자를 해제하세요.");
-                MandatoryInstructionStore.Ensure(workspaceStore.RootPath);
-                if (File.Exists(workspaceStore.InstructionsPath)) RulesText.Text = workspaceStore.LoadInstructions();
                 string editorContext = activeSource == null ? "선택한 편집 파일 없음. 현재 프로젝트 폴더의 사용자 요청을 수행하세요." : "현재 편집 파일: " + activeSource.FilePath + (activeSource.HasSelection ? "\n선택한 코드(" + activeSource.Selection.StartLine + "~" + activeSource.Selection.EndLine + "행):\n" + activeSource.Selection.Text : "");
-                var context = new ChatRequestContext(RulesText.Text, ModelName.Text, chat.Messages.ToArray(), chat.Attachments.ToArray(), efforts[selectedProvider], speeds[selectedProvider], editorContext.Length > 8000 ? editorContext.Substring(0, 8000) : editorContext);
-                new ProviderExecutionOptions(selectedProvider, context.Model, context.ReasoningEffort, context.Speed);
-                ClearProposal(); chat.Add("user", Instruction.Text); FollowConversation(true); busy = true;
+                var executionContext = BuildQueuedExecutionContext(queued);
+                var context = new ChatRequestContext(executionContext.Instructions, executionContext.Model, executionContext.History, executionContext.Attachments, executionContext.ReasoningEffort, executionContext.Speed, editorContext.Length > 8000 ? editorContext.Substring(0, 8000) : editorContext);
+                new ProviderExecutionOptions(queued.Provider, context.Model, context.ReasoningEffort, context.Speed);
+                ClearProposal(); FollowConversation(true); busy = true;
                 SetConversationState(record, ConversationRunState.Running);
                 if (!PersistCurrentConversation()) throw new IOException("대화 기록을 저장하지 못해 실행하지 않았습니다.");
                 requestCancellation = new CancellationTokenSource(); BeginRuntimeRequest();
                 StatusLabel.Text = "전체 액세스 실행 중 · 파일 수정과 명령·테스트가 실제로 수행됩니다."; UpdateButtons();
                 if (record.CollaboratorIds.Length > 0) {
-                    pendingDocument = documents.GetActiveDocument();
-                    context = await RunCollaboratorsAsync(record, activeSource, Instruction.Text, context, requestCancellation.Token);
+                    pendingDocument = queued.Document ?? documents.GetActiveDocument();
+                    context = await RunCollaboratorsAsync(record, activeSource, queued.Instruction, context, requestCancellation.Token);
                 }
                 else context = new ChatRequestContext(context.Instructions, context.Model, context.History, context.Attachments, context.ReasoningEffort, context.Speed, collaborationStore.BuildPromptContext(record.Id, record.Provider));
                 string combinedContext = editorContext.Substring(0, Math.Min(2000, editorContext.Length)) + "\n" + context.AgentContext;
@@ -397,14 +396,16 @@ namespace VS2017.AIAssistant.Views
                 var synchronizedDocuments = documents as IExternalEditingDocumentService;
                 if (synchronizedDocuments != null) externalEditing = synchronizedDocuments.BeginExternalEditing(() => requestCancellation.Cancel());
                 AgentExecutionResult result;
-                if (selectedProvider == "Codex") result = await new CodexRuntimeRunner().RunAgentAsync(ExecutablePath.Text, directory, Instruction.Text, context, RuntimeUsageUpdated, reportChanges, requestCancellation.Token, RuntimeProgressUpdated);
-                else result = await new ClaudeRuntimeRunner().RunAgentAsync(ExecutablePath.Text, directory, Instruction.Text, context, RuntimeUsageUpdated, reportChanges, requestCancellation.Token, RuntimeProgressUpdated);
-                if (disposed) return;
+                if (queued.Provider == "Codex") result = await new CodexRuntimeRunner().RunAgentAsync(queued.Executable, directory, queued.Instruction, context, RuntimeUsageUpdated, reportChanges, requestCancellation.Token, RuntimeProgressUpdated);
+                else result = await new ClaudeRuntimeRunner().RunAgentAsync(queued.Executable, directory, queued.Instruction, context, RuntimeUsageUpdated, reportChanges, requestCancellation.Token, RuntimeProgressUpdated);
+                if (disposed) return false;
+                requestCancellation.Token.ThrowIfCancellationRequested();
+                RequireQueuedOwnership(queued);
                 requestFinished = true;
                 ApplyRuntimeUsage(result.Usage, connection, request, Interlocked.Increment(ref runtimeUsageEventSequence));
                 AddRuntimeFinalReply(result.Text); PresentRuntimeChanges(result.Changes, "전체 액세스 · 실행 중 확인된 변경");
                 progressOutcome = "completed";
-                SetConversationState(record, ConversationRunState.Completed); Instruction.Clear();
+                SetConversationState(record, ConversationRunState.Completed);
                 StatusLabel.Text = "전체 액세스 실행 완료 · CLI가 수행한 실제 결과와 파일 변경을 확인하세요.";
             }
             catch (OperationCanceledException) {
@@ -432,6 +433,7 @@ namespace VS2017.AIAssistant.Views
                     }
                 }
             }
+            return progressOutcome == "completed";
         }
 
         /// ---------------------------------------------------------------------

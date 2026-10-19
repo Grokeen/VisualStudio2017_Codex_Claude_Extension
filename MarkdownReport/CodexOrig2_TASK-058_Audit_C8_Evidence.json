@@ -1,0 +1,42 @@
+{
+  "audit": "TASK-058 C8 follow-up",
+  "auditor": "CodexOrig2",
+  "status": "INTERIM_NON_THEME_SETTING_COMPARISON_PENDING",
+  "candidate": "artifacts/task054/candidate8",
+  "version": "0.12.1",
+  "inputs": 132,
+  "inputMismatches": 0,
+  "releaseBuildErrorsPerSku": 0,
+  "releaseBuildWarningsPerSku": 0,
+  "releaseSha256": {
+    "2017": { "dll": "11A381D3F22B7980E9AE3100613F2ECBC949547F81C988B057D570A0BD287318", "vsix": "090BF0173DCF7DAA3D1BC536B6A81F1BA3366A5DFCDF09AAC596196033070CC4" },
+    "2017.Legacy": { "dll": "DA99DE3C6C81A67210718EA1BBA46798B48AC4C428BE8112F245544DCF59DC76", "vsix": "6148404C96C405BAD2601CB73A7120F0F323C84A6C2DFAD12D443F253EC7077B" },
+    "2019": { "dll": "D0DBEED55C559BEF6F2EFDB5DE25C6647B05EE4C64A62E9B88A6FE780674CD78", "vsix": "73C08DCC23D531F89ED096963EAE6C96B415EA6A3031799CDF95D664E57D1855" },
+    "2022": { "dll": "8B592E5135A53FF3EE42B843ADD284F9BDB43BA99B9211667BEE8E39FA4FDA4A", "vsix": "C4539CFB6705D8FF430C7891DFA4C5EECD55E5AA2F5228FEC3F0BBBD8E44DB2A" }
+  },
+  "findings": [
+    { "id": "R58-01", "status": "PASS_HEADLESS", "observed": "Raw prompt and private detail absent in four actual C8 DLL notification methods." },
+    { "id": "R58-02", "status": "PASS_HEADLESS_PARTIAL_OS", "observed": "Trusted answer/proposal/file result categories remain distinct in four actual C8 DLLs." },
+    { "id": "R58-04", "status": "RESOLVED_C8", "observed": "C6 status-only 0/2 became C8 2/2: primary CLI error remains, and actual queued cancellation appends count." },
+    { "id": "R58-03", "status": "PARTIAL_NON_THEME_SETTING_COMPARISON_PENDING", "observed": "TASK064 C8 VS2017 v2 and VS2019 v1 each 23/25; VS2022 v1 25/25. All three hosts changed both theme GUIDs and representative colors and consumed pending/cleaned temps. VS2017/2019 each had two non-theme export equality failures; actual setting change versus export normalization is not yet established." }
+  ],
+  "regressions": { "queueStatusPassed": 2, "queueStatusFailed": 0, "queueMainPassed": 56, "queueMainFailed": 0, "themeUiHeadlessFourSku": true, "themeXmlFourSku": true, "themePackageIntegrityFourSku": true },
+  "evidenceSha256": {
+    "freeze": "7E83E2E44CF430DD56669B88AA0AF7F400CE633E6E71CC377F43746AF036ECCD",
+    "queueStatus": "8200BB1F5C76197618F7AD6DF7C7B98741D5B0CD41F09B085651467F803FCBC0",
+    "queueMain": "2975BB70DD632D81CDA150341480F5BAC854C5BEB0F139842284C5FD2A441471",
+    "themePackageIntegrity": "F2B93C940B9ADDABDBC905380A22EEA5B1259146271D34EE641CCE1C279E6543",
+    "themeXml2017": "0CD6A8AA80AB9330989CD03529BF2A32D384D5EEBE241FB50651B12D5397FBB8",
+    "themeXml2017Legacy": "0493FA01961FE635B72642D8F15FE6088BE96DF8D3CB3BA0B5CFFEE391AB623E",
+    "themeXml2019": "6F83BCE2D2BBF77ADD0DB19203B5BD614DDFA0FDA5BF34C3134B0076C49A0546",
+    "themeXml2022": "84711E083DF1DFCD8A4D2D4E61ED6F0BB010B5F67E0F785DB92E23C1DCA0909F",
+    "notification2017": "D1A88457EB14C34F5F83FEDBF591B928AA1EBAE5623A1533D2B487E013DF7813",
+    "notification2017Legacy": "3BDE323D1F210250C2176626230AF35375AB0165045755A847FA918B7B24FA3E",
+    "notification2019": "B27FDA14DE4253F711E9792EC0067D4A2C50EA943325BF01FA4770B472BEF142",
+    "notification2022": "8DC42DF46C6D70882C0E5518DA696E3325513D0DAD5F93267563D826C9E6C5F6",
+    "ownerActualVs2017V2": "C376D7B0590FDE3F3BEE48506B588F6713FAD4A8BFADC2F2FBF8FB2D3695DBFE",
+    "ownerActualVs2019V1": "792BC5C86BD7EBD88E940107B68808393693687175E07BCAC112FF6303ACCCC8",
+    "ownerActualVs2022V1": "20D0EDCAFBE3BD0767AC50DC7721A2ADF92D00A2FDDE95DFBFFC2F54CB10DE9A"
+  },
+  "notRunByAuditor": ["actual Visual Studio UI (owner TASK064 evidence reviewed)", "Windows notification pixels", "release publication and anonymous download"]
+}

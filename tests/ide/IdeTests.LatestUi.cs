@@ -239,17 +239,18 @@ namespace CodexCode.IdeIntegration
         /// ---------------------------------------------------------------------
         /// <summary>
         /// name         : CheckConversationAppearanceAsync
-        /// desc         : 실제 IDE 테마 안에서 사용자 메시지와 본문의 투명·회색 표시 및 화면을 확인한다.
+        /// desc         : 실제 IDE 테마 안에서 사용자 말풍선과 투명 본문·로고 표시를 확인한다.
         /// author       : CodexOrig
         /// create date  : 2026-10-19
         /// update date  : 2026-10-19 CodexOrig : TASK032 합성 메시지만 추가하고 종료 시 원래 테마·대화로 복구.
+        ///                2026-10-20 CodexOrig : 최신 Role #15 오른쪽 테마 말풍선 계약으로 교체.
         /// </summary>
         /// ---------------------------------------------------------------------
         private static async Task CheckConversationAppearanceAsync(AssistantControl view, string output)
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
             var chat = (ChatSession)typeof(AssistantControl).GetProperty("ActiveChat", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(view, null);
-            var message = new ChatMessage { Role = "user", Text = "UI032 사용자 메시지 · 회색 글자와 투명 배경" };
+            var message = new ChatMessage { Role = "user", Text = "UI054 사용자 메시지 · 오른쪽 테마 말풍선" };
             var choice = (ComboBox)view.FindName("ThemeModeChoice"); object previous = choice.SelectedValue;
             var toast = (Border)view.FindName("ToastHost"); var previousToast = toast.Visibility;
             var originalMessages = chat.Messages.ToArray(); chat.Messages.Clear(); chat.Messages.Add(message);
@@ -264,8 +265,8 @@ namespace CodexCode.IdeIntegration
                     await Task.Delay(100); await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(); view.UpdateLayout();
                     var preview = Visuals(view).OfType<MarkdownPreview>().Single(x => x.Markdown == message.Text);
                     var bubble = Visuals(view).OfType<Border>().Single(x => x.Name == "MessageBubble" && Visuals(x).Contains(preview));
-                    Check("UI032 " + mode + " actual user message has no opaque surface", IsTransparent(bubble.Background) && IsTransparent(preview.Background) && IsTransparent(preview.TextView.Background) && IsTransparent(preview.TextView.Document.Background));
-                    Check("UI032 " + mode + " actual user text follows theme gray", ((SolidColorBrush)preview.Foreground).Color == ((SolidColorBrush)view.FindResource("AssistantMutedForegroundBrush")).Color);
+                    Check("UI054 " + mode + " actual user message uses right aligned themed bubble", !IsTransparent(bubble.Background) && ((SolidColorBrush)bubble.Background).Color == ((SolidColorBrush)view.FindResource("AssistantControlBackgroundBrush")).Color && bubble.HorizontalAlignment == HorizontalAlignment.Right && bubble.CornerRadius == new CornerRadius(12) && bubble.Padding == new Thickness(12, 9, 12, 9) && IsTransparent(preview.Background) && IsTransparent(preview.TextView.Background) && IsTransparent(preview.TextView.Document.Background));
+                    Check("UI054 " + mode + " actual user text follows readable theme foreground", ((SolidColorBrush)preview.Foreground).Color == ((SolidColorBrush)view.FindResource("AssistantForegroundBrush")).Color);
                     Check("UI032 " + mode + " actual conversation documents keep transparent backgrounds", Visuals(view).OfType<MarkdownPreview>().Where(x => x.Name == "MessageBody").All(x => IsTransparent(x.Background) && IsTransparent(x.TextView.Document.Background)));
                     int width = Math.Max(1, (int)Math.Ceiling(view.ActualWidth)), height = Math.Max(1, (int)Math.Ceiling(view.ActualHeight));
                     var bitmap = new System.Windows.Media.Imaging.RenderTargetBitmap(width, height, 96, 96, PixelFormats.Pbgra32); bitmap.Render(view);

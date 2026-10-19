@@ -39,13 +39,17 @@ public static class UiLayoutChecks
                     AutomationProperties.GetName(provider.Items[0] as DependencyObject) != AutomationProperties.GetName(provider.Items[1] as DependencyObject),
                     "Provider tabs expose distinct accessible names");
             dialog = new AssistantDialog(source, "설정 UI 검사", "좌측 목록에서 설정 화면을 선택합니다.") { Width = 900, Height = 740 };
-            var dialogGrid = dialog.Content as Grid;
+            var dialogSurface = dialog.Content as Border;
+            var dialogGrid = dialogSurface == null ? null : dialogSurface.Child as Grid;
             var headerBand = dialogGrid == null ? null : dialogGrid.Children.OfType<Border>().FirstOrDefault(item => Grid.GetRow(item) == 0);
             var sharedActionStyle = dialog.Actions.Resources[typeof(Button)] as Style;
+            var baseActionStyle = sharedActionStyle == null ? null : sharedActionStyle.BasedOn;
             Assert(headerBand != null && headerBand.BorderThickness.Bottom == 1 && dialog.Footer.BorderThickness.Top == 1,
                 "Popups share a surface header and divided footer chrome");
-            Assert(sharedActionStyle != null && sharedActionStyle.Setters.OfType<Setter>().Any(setter => setter.Property == FrameworkElement.MinHeightProperty) &&
-                sharedActionStyle.Setters.OfType<Setter>().Any(setter => setter.Property == FrameworkElement.MinWidthProperty),
+            Assert(sharedActionStyle != null && baseActionStyle != null &&
+                sharedActionStyle.Setters.OfType<Setter>().Any(setter => setter.Property == FrameworkElement.MinWidthProperty) &&
+                baseActionStyle.Setters.OfType<Setter>().Any(setter => setter.Property == FrameworkElement.MinHeightProperty) &&
+                baseActionStyle.Setters.OfType<Setter>().Any(setter => setter.Property == Control.PaddingProperty),
                 "Popup action buttons share minimum size and padding resources");
             var host = new StackPanel();
             var sections = new[]

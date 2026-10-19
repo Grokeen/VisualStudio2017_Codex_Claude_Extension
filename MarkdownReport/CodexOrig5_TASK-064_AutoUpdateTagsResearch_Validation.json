@@ -1,0 +1,76 @@
+{
+  "task": "TASK064-AutoUpdateTags-followup",
+  "author": "CodexOrig5",
+  "date_kst": "2026-10-20",
+  "scope": "Read-only installed Microsoft XAML package metadata/IL and installed default VS profile review; no IDE launch, GUI changes, product source edits, or settings changes.",
+  "finding": {
+    "option": "XAML_Miscellaneous.AutoUpdateTags",
+    "meaning": "When editing an XAML element's start or end tag name, automatically rename the matching paired tag to keep the element tags aligned.",
+    "default_value": true,
+    "confidence": "High for installed VS 2017 and 2019 package getter fallback; high for installed VS 2019 default field and VS 2022 default profiles / getter fallback.",
+    "not_a_theme_or_font_color_setting": true
+  },
+  "evidence": [
+    {
+      "visual_studio": "2017 Community",
+      "file": "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\Common7\\IDE\\PrivateAssemblies\\Microsoft.VisualStudio.DesignTools.XamlDesignerHost.dll",
+      "file_version": "15.0.36227.7",
+      "metadata": "MS.Internal.XamlSettings.get_AutoUpdateTags reads Microsoft.VisualStudio.TextEditor.Xaml.Miscellaneous.AutoUpdateTags and supplies bool true to GetValueOrDefault when unset."
+    },
+    {
+      "visual_studio": "2019 Community",
+      "file": "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\Common7\\IDE\\CommonExtensions\\Microsoft\\DesignTools\\Microsoft.VisualStudio.DesignTools.XamlDesignerHost.dll",
+      "file_version": "16.0.34830.201",
+      "metadata": "Getter fallback true and default constant AutoUpdateTags=true."
+    },
+    {
+      "visual_studio": "2022 Community",
+      "file": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\Common7\\IDE\\CommonExtensions\\Microsoft\\XamlLanguageService\\Microsoft.VisualStudio.DesignTools.XamlLanguageService.dll",
+      "metadata": "XamlMiscPage getter returns true when settings service is unavailable; OnBufferChanged gates ProcessBufferChange with AutoUpdateTags; ProcessBufferChange calls RenameElementTags for matched start/end tag-name edits."
+    },
+    {
+      "visual_studio": "2022 Community default profile",
+      "file": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\Common7\\IDE\\Profiles\\General.vssettings",
+      "metadata": "XAML_Miscellaneous PropertyValue AutoUpdateTags is True."
+    }
+  ],
+  "visual_studio_2017_general_profile": "AutoUpdateTags property row absent; package getter fallback confirms default true, so absence is not evidence of false.",
+  "official_docs": [
+    "https://learn.microsoft.com/en-us/visualstudio/ide/reference/import-and-export-settings-command?view=visualstudio",
+    "https://learn.microsoft.com/en-us/visualstudio/ide/personalizing-the-visual-studio-ide?view=visualstudio"
+  ],
+  "official_doc_limit": "Microsoft Learn results do not document AutoUpdateTags itself; the semantic finding comes from the installed vendor package metadata/IL. No unsupported public-contract claim is made.",
+  "product_or_user_settings_modified": false,
+  "visual_studio_started": false,
+  "xaml_designer_zoom_setting_followup": {
+    "setting": "ToolsOptions/XAML Designer/General/DefaultZoomSetting",
+    "enum_values": {
+      "LastUsed": 0,
+      "FitAll": 1
+    },
+    "default_value": 1,
+    "meaning": "Default zoom for the XAML designer; value 1 is FitAll.",
+    "vs2019": "Default field and GetValueOrDefault fallback are 1.",
+    "vs2022": "Default field is 1; installed profiles serialize 1.",
+    "vs2017": "No matching setting in installed XAML package/default profiles.",
+    "interpretation": "A newly exported row with value 1 matches the package default; raw addition alone does not establish a user-visible setting change.",
+    "source": "https://learn.microsoft.com/en-us/visualstudio/xaml-tools/xaml-designer"
+  },
+  "vs2017_c9_additional_xaml_defaults": {
+    "file": "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\Common7\\IDE\\PrivateAssemblies\\Microsoft.VisualStudio.DesignTools.XamlDesignerHost.dll",
+    "file_version": "15.0.36227.7",
+    "method": "MS.Internal.XamlSettings getter IL",
+    "api": "ISettingsManager.GetValueOrDefault<bool>(key, true)",
+    "settings": [
+      "AutoInsertAttributeQuotes",
+      "AutoInsertCommas",
+      "AutoInsertEndBraces",
+      "AutoInsertEndTags",
+      "ShowDesignerErrors",
+      "WarnMinTargetCompatibility"
+    ],
+    "default_value_for_each_key": true,
+    "root_reported_auto_update_tags_false_preserved": true,
+    "interpretation": "New True rows equal the package fallback when absent; actual per-user change is decided only from isolated store before/after values."
+  }
+}

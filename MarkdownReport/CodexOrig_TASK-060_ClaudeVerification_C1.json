@@ -1,0 +1,82 @@
+{
+  "Task": "TASK060-C1",
+  "Owner": "CodexOrig",
+  "CheckedAt": "2026-10-20T02:48:03.0886342+09:00",
+  "Candidate": "artifacts/task054/candidate1",
+  "CandidateVersion": "0.12.1",
+  "UserConstraint": "이번에는 로그인 없이 검사해줘",
+  "SourceFreeze": [
+    {
+      "Path": "src/VS2017.AIAssistant/Providers/ClaudeRuntimeRunner.cs",
+      "SHA256": "A790A5944EDF5C538BCD75424FA1113C51D92990DAD4363514EA58F3693EE341"
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Providers/CliEditProvider.cs",
+      "SHA256": "91F8D0A652B9FE72898CF2AF3F6DC32EC5D1ACBBEAFB2A7357F30A6EC54F218B"
+    }
+  ],
+  "Targets": [
+    {
+      "Target": "2017.Legacy",
+      "ExitCode": 0,
+      "Passed": 25,
+      "Failed": 0,
+      "AssemblyPath": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task054\\candidate1\\2017.Legacy\\Release\\VS2017.AIAssistant.dll",
+      "AssemblySHA256": "D07D78824C67EC6ACCCF9EB98DECE62F6617A5FD34CCA92F5D25F11D05E4B9EB",
+      "ResultPath": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task060\\candidate1-2017.Legacy\\claude-boundaries\\result.json",
+      "ResultSHA256": "3788E736744D675226023CD6A2FC829081D6541A7E157F46BEF94BE7BA6DDD55",
+      "AssetsPath": "artifacts/task054/candidate1/source/src/VS2017.Legacy.AIAssistant/obj/project.assets.json",
+      "AssetsResolverNeeded": false
+    },
+    {
+      "Target": "2017",
+      "ExitCode": 0,
+      "Passed": 25,
+      "Failed": 0,
+      "AssemblyPath": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task054\\candidate1\\2017\\Release\\VS2017.AIAssistant.dll",
+      "AssemblySHA256": "3E527BBC4D93BD0E0B9969B06C85651F2BAD2CD74A1C650E5CA347564053A995",
+      "ResultPath": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task060\\candidate1-2017\\claude-boundaries\\result.json",
+      "ResultSHA256": "3788E736744D675226023CD6A2FC829081D6541A7E157F46BEF94BE7BA6DDD55",
+      "AssetsPath": "artifacts/task054/candidate1/source/src/VS2017.AIAssistant/obj/project.assets.json",
+      "AssetsResolverNeeded": false
+    },
+    {
+      "Target": "2019",
+      "ExitCode": 0,
+      "Passed": 25,
+      "Failed": 0,
+      "AssemblyPath": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task054\\candidate1\\2019\\Release\\VS2017.AIAssistant.dll",
+      "AssemblySHA256": "9081A66E338679BF020DE625BED1EA0F511849EAADB38D8A3CBD4501F58C4529",
+      "ResultPath": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task060\\candidate1-2019\\claude-boundaries\\result.json",
+      "ResultSHA256": "3788E736744D675226023CD6A2FC829081D6541A7E157F46BEF94BE7BA6DDD55",
+      "AssetsPath": "artifacts/task054/candidate1/source/src/VS2019.AIAssistant/obj/project.assets.json",
+      "AssetsResolverNeeded": false
+    },
+    {
+      "Target": "2022",
+      "ExitCode": 0,
+      "Passed": 25,
+      "Failed": 0,
+      "AssemblyPath": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task054\\candidate1\\2022\\Release\\VS2017.AIAssistant.dll",
+      "AssemblySHA256": "CF94A149AA968421A231F71C543F560F09680F2614F604A2180054C0F69784F0",
+      "ResultPath": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task060\\candidate1-2022\\claude-boundaries\\result.json",
+      "ResultSHA256": "3788E736744D675226023CD6A2FC829081D6541A7E157F46BEF94BE7BA6DDD55",
+      "AssetsPath": "artifacts/task054/candidate1/source/src/VS2022.AIAssistant/obj/project.assets.json",
+      "AssetsResolverNeeded": false
+    }
+  ],
+  "TotalPassed": 100,
+  "TotalFailed": 0,
+  "Original177ReportsUnchanged": true,
+  "ActualClaudeCliExecuted": false,
+  "NativeAuthRepeated": false,
+  "LoginPerformed": false,
+  "LiveInferencePerformed": false,
+  "CredentialFilesRead": false,
+  "GuiShown": false,
+  "ProductChanged": false,
+  "SharedBuildChanged": false,
+  "ReleaseChanged": false,
+  "IntegrationOwner": "Root054",
+  "ReleaseVerificationComplete": false
+}

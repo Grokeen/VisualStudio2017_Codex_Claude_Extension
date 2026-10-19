@@ -52,6 +52,8 @@ namespace VS2017.AIAssistant.Views
         private Chat.ChatSession ActiveChat { get { return chat; } }
         public ItemsControl ConversationMessages { get; private set; }
         private bool GetCompletionNotificationsEnabled() { return false; }
+        internal string CurrentRequestProvider { get { return "Claude"; } }
+        internal string CurrentRequestTitle { get { return "합성 진행 검사"; } }
         /// <summary>
         /// name         : AssistantControl
         /// desc         : 테스트 컬렉션을 바인딩하고 표시하지 않는다.

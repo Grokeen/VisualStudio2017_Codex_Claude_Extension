@@ -1,0 +1,50 @@
+﻿{
+  "Task": "TASK055 Followup Editing",
+  "CompletedAt": "2026-10-20T03:13:21.5670032+09:00",
+  "ProductChanged": false,
+  "GuiReservationReturned": true,
+  "Original": {
+    "Passed": 87,
+    "Total": 92,
+    "Summary": {
+      "ProductAssemblyPath": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task054\\candidate2\\2017\\Release\\VS2017.AIAssistant.dll",
+      "ProductAssemblySha256": "618CE370C6551E8E24ABB1DB8D60A885F84B9096DBC0A81C8757890976489BB4",
+      "AssetsPath": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task054\\candidate2\\source\\src\\VS2017.AIAssistant\\obj\\project.assets.json",
+      "AssetsSha256": "5DCD09E84AC3D4BCC68E1122D06EF88BCF73D3CEE4F1E13F47B0C2D044F1A658",
+      "HarnessSha256": "38AAB68235B2A63777288CC73416C9E5F0021BC0105F89D3306B1FCAAB05CED6",
+      "ExitCode": 1,
+      "CheckedAt": "2026-10-20T03:11:36.3199226+09:00",
+      "ActualIde": false,
+      "LiveAi": false
+    },
+    "LogSha256": "63275464D21CAC2A452DAE8F7B9DC073BF6CC5389F9B3DA3EBB0F3CA3664CCE9"
+  },
+  "Revised": {
+    "Passed": 92,
+    "Total": 92,
+    "Summary": {
+      "ProductAssemblyPath": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task054\\candidate2\\2017\\Release\\VS2017.AIAssistant.dll",
+      "ProductAssemblySha256": "618CE370C6551E8E24ABB1DB8D60A885F84B9096DBC0A81C8757890976489BB4",
+      "AssetsPath": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task054\\candidate2\\source\\src\\VS2017.AIAssistant\\obj\\project.assets.json",
+      "AssetsSha256": "5DCD09E84AC3D4BCC68E1122D06EF88BCF73D3CEE4F1E13F47B0C2D044F1A658",
+      "HarnessSha256": "927B7A7BFEEC9C4FB9DFF98DCB4BB540516A2F3B90018CEB81A36785CD3BCA45",
+      "ExitCode": 0,
+      "CheckedAt": "2026-10-20T03:12:18.3683483+09:00",
+      "ActualIde": false,
+      "LiveAi": false
+    },
+    "LogSha256": "8F5F75F07257D9AFEBC68A8B4BA628D5E4F06C97E8E0D453D27924D40C204896"
+  },
+  "Files": [
+    {
+      "Path": "tests/editing/EditingTests.cs",
+      "SHA256": "927B7A7BFEEC9C4FB9DFF98DCB4BB540516A2F3B90018CEB81A36785CD3BCA45"
+    },
+    {
+      "Path": "tests/editing/Test-SourceEditing.ps1",
+      "SHA256": "5686423442064595166CB0B3F0A86077A09DE8FF0C0C46DC701C36B4FF42388B"
+    }
+  ],
+  "RootMustRetestFinalCandidate": true,
+  "ReleaseOrDeploymentPerformed": false
+}

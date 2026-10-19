@@ -264,9 +264,10 @@ namespace VS2017.AIAssistant.Providers
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : TASK-015 Claude print Fast 최소 버전과 취소·10초 제한 검증.
+        ///                2026-10-20 CodexOrig : TASK-060 전체 액세스 경로와 같은 제한·취소 보장을 공유.
         /// </summary>
         /// ---------------------------------------------------------------------
-        private static async Task<Version> ReadCliVersionAsync(string executable, string workingDirectory, CancellationToken cancellationToken)
+        internal static async Task<Version> ReadCliVersionAsync(string executable, string workingDirectory, CancellationToken cancellationToken)
         {
             using (var deadline = new CancellationTokenSource(TimeSpan.FromSeconds(10)))
             using (var linked = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, deadline.Token))

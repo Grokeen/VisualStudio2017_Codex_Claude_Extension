@@ -234,17 +234,25 @@ namespace CodexCode.Task021
                 view.FontSize = 28; owner.UpdateLayout(); Pump(50); Capture(view, System.IO.Path.Combine(output, "fan-font28.png"));
                 Check(result, FindVisuals(help).OfType<TextBlock>().Any(t => t.Text == "안내" && t.FontSize == 28) && FindVisuals(settings).OfType<TextBlock>().Any(t => t.Text == "설정" && t.FontSize == 28), "Sector labels inherit the selected large text size rather than freezing to a tiny font");
                 view.FontSize = 14; Call(view, "ScheduleFanClose");
-                Check(result, ((DispatcherTimer)Field(view, "fanCloseTimer")).IsEnabled, "Pointer exit schedules the shared 175 millisecond close timer");
+                Check(result, ((DispatcherTimer)Field(view, "fanCloseTimer")).IsEnabled && ((DispatcherTimer)Field(view, "fanCloseTimer")).Interval == TimeSpan.FromMilliseconds(280), "Pointer exit schedules the Role 01:40 280 millisecond close grace");
                 Pump(90); Check(result, (bool)Field(view, "fanMenuOpen"), "The crossing grace period does not close prematurely");
                 Call(view, "FanRegionEntered", panel, null);
                 Check(result, !((DispatcherTimer)Field(view, "fanCloseTimer")).IsEnabled, "Entering either shared menu region cancels pending close");
-                Call(view, "ScheduleFanClose"); Pump(250);
+                Call(view, "ScheduleFanClose"); Pump(340);
                 Check(result, !(bool)Field(view, "fanMenuOpen") && trigger.IsChecked == false, "A pointer and focus outside both regions closes the menu after the grace period");
+                Call(view, "ScheduleFanOpen");
+                Check(result, ((DispatcherTimer)Field(view, "fanOpenTimer")).IsEnabled && ((DispatcherTimer)Field(view, "fanOpenTimer")).Interval == TimeSpan.FromMilliseconds(220) && !(bool)Field(view, "fanMenuOpen"), "Hover intent waits 220ms without immediately covering the content");
+                Call(view, "FanRegionLeft", trigger, null);
+                Check(result, !((DispatcherTimer)Field(view, "fanOpenTimer")).IsEnabled, "Crossing past the trigger cancels unexecuted opening");
+                Call(view, "ScheduleFanOpen"); Call(view, "CloseFanMenu");
+                Check(result, !((DispatcherTimer)Field(view, "fanOpenTimer")).IsEnabled, "Dismissal cancels a pending hover before its tick");
+                Call(view, "ScheduleFanOpen"); Call(view, "OpenFanMenu");
+                Check(result, (bool)Field(view, "fanMenuOpen") && !((DispatcherTimer)Field(view, "fanOpenTimer")).IsEnabled, "Explicit click or keyboard open bypasses dwell and consumes its reservation");
                 Call(view, "OpenFanMenu"); Call(view, "FanOwnerDeactivated", owner, EventArgs.Empty);
                 Check(result, !(bool)Field(view, "fanMenuOpen"), "Owner deactivation closes the fan immediately");
                 Call(view, "OpenFanMenu"); Call(view, "ScheduleFanClose"); int last = (int)Field(view, "fanOpenCount");
                 Call(view, "DisposeFanMenu"); Call(view, "DisposeFanMenu"); Call(view, "OpenFanMenu"); Pump(230);
-                Check(result, Field(view, "fanCloseTimer") == null && !(bool)Field(view, "fanMenuOpen") && (int)Field(view, "fanOpenCount") == last, "Disposal releases the timer and blocks delayed reopening");
+                Check(result, Field(view, "fanCloseTimer") == null && Field(view, "fanOpenTimer") == null && !(bool)Field(view, "fanMenuOpen") && (int)Field(view, "fanOpenCount") == last, "Disposal releases both timers and blocks delayed reopening");
                 result.Succeeded = true;
             }
             catch (Exception error) { result.Error = error.ToString(); }

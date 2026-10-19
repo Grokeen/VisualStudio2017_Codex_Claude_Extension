@@ -57,6 +57,7 @@ namespace VS2017.AIAssistant.Views
             themeInitialized = true;
             RestoreVisualThemePreset(settings.VisualThemePreset);
             RestoreThemeMode(settings.ThemeMode);
+            InitializeIdeThemeInstallation();
             Loaded += AssistantThemeLoaded; Unloaded += AssistantThemeUnloaded;
         }
 

@@ -19,6 +19,7 @@ using VS2017.AIAssistant.ToolWindows;
 using VS2017.AIAssistant.Views;
 using Microsoft.VisualStudio.Shell.Interop;
 using VS2017.AIAssistant.Chat;
+using VS2017.AIAssistant.Services;
 
 namespace CodexCode.IdeIntegration
 {
@@ -34,6 +35,8 @@ namespace CodexCode.IdeIntegration
     /// update date  : 2026-10-18 CodexOrig : TASK-018 이미지 요구와 드롭다운·A~Z 이름에 맞춰 검증 갱신.
     ///                2026-10-18 CodexOrig : TASK-020 최종 버전·선택·전체 액세스 검사 계약 반영.
     ///                2026-10-19 CodexOrig : TASK-025 실제 IDE의 Markdown·테마·좁은 목록 검사 분리 연결.
+    ///                2026-10-20 CodexOrig : TASK-054 제출 전 검증과 FIFO 입력의 실제 대화 역할·초안 보존 확인.
+    ///                2026-10-20 CodexOrig : 실제 설치된 PDF의 서비스 경로와 선택 VSIX 해시 회귀 추가.
     /// </summary>
     /// ---------------------------------------------------------------------
     internal static partial class IdeTests
@@ -67,6 +70,14 @@ namespace CodexCode.IdeIntegration
             using (var input = File.OpenRead(product.GetType().Assembly.Location))
             using (var sha = System.Security.Cryptography.SHA256.Create()) loadedHash = BitConverter.ToString(sha.ComputeHash(input)).Replace("-", "");
             Check("IDE-00 actual loaded product matches selected VSIX SHA256", loadedHash == config.ExpectedProductSha256);
+            var installedGuide = new CliGuideService();
+            string installedGuidePath = installedGuide.GetPdfPath();
+            string installedGuideHash;
+            using (var input = File.OpenRead(installedGuidePath))
+            using (var sha = System.Security.Cryptography.SHA256.Create()) installedGuideHash = BitConverter.ToString(sha.ComputeHash(input)).Replace("-", "");
+            Check("GUIDE-01 actual installed PDF resolves through product service and matches selected VSIX",
+                Path.GetFileName(installedGuidePath) == CliGuideService.PdfFileName && installedGuideHash == config.ExpectedGuideSha256);
+            File.WriteAllText(Path.Combine(config.OutputDirectory, "installed-guide.json"), new JavaScriptSerializer().Serialize(new { Path = installedGuidePath, Sha256 = installedGuideHash, ExpectedSha256 = config.ExpectedGuideSha256, PdfApplicationLaunched = false }));
             var pane = product.FindToolWindow(typeof(AssistantToolWindow), 0, false);
             Check("IDE-01 product package loaded by registered menu", product.GetType().FullName == "VS2017.AIAssistant.AiAssistantPackage");
             Check("IDE-02 actual configured Visual Studio host " + config.ExpectedIdeMajor, dte.Version.StartsWith(config.ExpectedIdeMajor + "."));
@@ -97,7 +108,9 @@ namespace CodexCode.IdeIntegration
             Text(view, "ExecutablePath").Text = config.FixturePath;
             Text(view, "Instruction").Text = "fixture:ok";
             await GenerateAsync(view);
-            Check("IDE-06 request without source rejected", ((TextBlock)view.FindName("StatusLabel")).Text.StartsWith("요청 실패:"));
+            Check("IDE-06 request without source rejected before enqueue and preserves draft",
+                ((TextBlock)view.FindName("StatusLabel")).Text == "요청 대기 실패: 프로젝트 소스 파일을 선택하거나 저장된 솔루션을 열어 주세요."
+                && Text(view, "Instruction").Text == "fixture:ok" && !Button(view, "StopButton").IsEnabled);
 
             dte.Solution.Open(config.SolutionPath);
             string sourcePath = Path.Combine(Path.GetDirectoryName(config.SolutionPath), "Probe.cs");
@@ -188,7 +201,10 @@ namespace CodexCode.IdeIntegration
             await GenerateAsync(view);
             Check("IDE-10 Codex fixture proposal displayed", Text(view, "ProposedPreview").Text == unsaved.Replace("return 1;", "return 2;"));
             Check("WORK-02 change card lists the modified source", ((TextBlock)view.FindName("ChangeSummary")).Text.Contains("1"));
-            Check("CHAT-09 conversation stacks user and AI turns", ((ItemsControl)view.FindName("ConversationMessages")).Items.Count >= 3);
+            var submittedTurns = ((ItemsControl)view.FindName("ConversationMessages")).Items.OfType<ChatMessage>().ToArray();
+            Check("CHAT-09 conversation stacks submitted user and AI turns",
+                submittedTurns.Length >= 2 && submittedTurns.Any(message => message.Role == "user" && message.Text == "fixture:ok\n첨부: 참고.txt")
+                && submittedTurns.Any(message => message.Role == "assistant" && message.Text == "테스트 수정안"));
             Check("IDE-11 approval starts unchecked", ((CheckBox)view.FindName("ReviewApproval")).IsChecked != true && !Button(view, "ApplyButton").IsEnabled);
             Check("IDE-12 proposal preserves buffer and disk", target.Capture().Content == unsaved && File.ReadAllText(sourcePath) == originalDisk);
             dte.ItemOperations.OpenFile(otherPath);
@@ -460,9 +476,16 @@ namespace CodexCode.IdeIntegration
             choice.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent)); await Task.Delay(150);
             Check("IMAGES-05 the actual IDE AI dropdown routes its selected name to the original conversation", !popup.IsOpen && ((ConversationRecord)((ListBox)view.FindName("ConversationList")).SelectedItem).Id == selected.Id && agent.Name.EndsWith("코덱스" + agent.Letter));
             var trigger = (ToggleButton)view.FindName("OptionsToggle");
+            typeof(AssistantControl).GetMethod("CloseFan", BindingFlags.Instance | BindingFlags.NonPublic).Invoke(view, null);
             int before = (int)typeof(AssistantControl).GetField("fanOpenCount", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(view);
             for (int i = 0; i < 10; i++) trigger.RaiseEvent(new MouseEventArgs(Mouse.PrimaryDevice, 0) { RoutedEvent = Mouse.MouseEnterEvent });
-            Check("IMAGES-06 repeated hover in the actual IDE opens the fan once", (int)typeof(AssistantControl).GetField("fanOpenCount", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(view) == before + 1);
+            var hoverTimer = (System.Windows.Threading.DispatcherTimer)typeof(AssistantControl).GetField("fanOpenTimer", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(view);
+            bool intentScheduled = hoverTimer.IsEnabled && hoverTimer.Interval.TotalMilliseconds == 220
+                && (int)typeof(AssistantControl).GetField("fanOpenCount", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(view) == before;
+            typeof(AssistantControl).GetMethod("OpenFanMenu", BindingFlags.Instance | BindingFlags.NonPublic).Invoke(view, null);
+            for (int i = 0; i < 10; i++) trigger.RaiseEvent(new MouseEventArgs(Mouse.PrimaryDevice, 0) { RoutedEvent = Mouse.MouseEnterEvent });
+            Check("IMAGES-06 synthetic hover schedules intent and explicit opening runs once in the actual IDE",
+                intentScheduled && !hoverTimer.IsEnabled && (int)typeof(AssistantControl).GetField("fanOpenCount", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(view) == before + 1);
             typeof(AssistantControl).GetMethod("CloseFan", BindingFlags.Instance | BindingFlags.NonPublic).Invoke(view, null);
             var modelButton = Button(view, "ModelOptionsButton"); object originalTip = modelButton.ToolTip;
             var tip = new ToolTip { Content = string.Join(" ", Enumerable.Repeat("모델의 강도와 속도를 확인하고 선택 적용을 누르세요.", 12)), PlacementTarget = modelButton, StaysOpen = true };
@@ -506,8 +529,12 @@ namespace CodexCode.IdeIntegration
         {
             Click(view, "GenerateButton");
             var clock = System.Diagnostics.Stopwatch.StartNew();
-            while (!Button(view, "GenerateButton").IsEnabled && clock.ElapsedMilliseconds < timeoutMs) await Task.Delay(50);
-            if (!Button(view, "GenerateButton").IsEnabled) throw new TimeoutException("Generate timed out: " + ((TextBlock)view.FindName("StatusLabel")).Text);
+            var flags = BindingFlags.Instance | BindingFlags.NonPublic;
+            var busyField = typeof(AssistantControl).GetField("busy", flags);
+            var drainingField = typeof(AssistantControl).GetField("drainingRequests", flags);
+            Func<bool> active = () => Button(view, "StopButton").IsEnabled || (bool)busyField.GetValue(view) || (bool)drainingField.GetValue(view);
+            while (active() && clock.ElapsedMilliseconds < timeoutMs) await Task.Delay(50);
+            if (active()) throw new TimeoutException("Generate timed out: " + ((TextBlock)view.FindName("StatusLabel")).Text);
             File.AppendAllText(progressPath, "Generate: " + ((TextBlock)view.FindName("StatusLabel")).Text + "\r\n");
         }
 

@@ -1,0 +1,41 @@
+{
+  "audit": "TASK-058 C6 follow-up",
+  "auditor": "CodexOrig2",
+  "candidate": "artifacts/task054/candidate6",
+  "version": "0.12.1",
+  "inputs": 132,
+  "inputMismatches": 0,
+  "releaseBuildErrorsPerSku": 0,
+  "releaseBuildWarningsPerSku": 0,
+  "releaseSha256": {
+    "2017": { "dll": "BECE45F7C93D95DB9C8FB5B635DF9A080FF7388031F651DC0FF4FE09497D9DBA", "vsix": "A1BCB8BD8BCF2EC561BAEDB5EED5D87B5873489E3F0ADD7D39932C027B44878F" },
+    "2017.Legacy": { "dll": "02E14203888D7A741D238DDAD3F178D9DF083E6DBF5F14BAE8718AAC85FA7267", "vsix": "3D8413DA830A60790E97575FE2021BFD161D522680F9CD83C3D46D8B7438F639" },
+    "2019": { "dll": "6CD244D89D3C8A316794143426FDA9BD1F3722B79795886619010BC59AA6A62E", "vsix": "EA628563AC6EC95983E330F918646E33BD215908943D61291CAE502ECC247100" },
+    "2022": { "dll": "609761C739AA09B2259DBEEDD6421A2A5996D5CE55CB029007EE36341252DA00", "vsix": "86B771F1284BD88674D2ECF1C2F2EB3C832FC7E4854D88F224DB8DD663BB0F7A" }
+  },
+  "findings": [
+    { "id": "R58-01", "requirement": "Role #8 privacy", "status": "PASS_HEADLESS_C6", "observed": "Four product DLLs omit raw prompt and file detail from notification title and body." },
+    { "id": "R58-02", "requirement": "Role #8 safe task summary", "status": "PASS_HEADLESS_C6_PARTIAL_OS", "observed": "Known answer/proposal and completed file categories have distinct safe text; actual Windows notification presentation remains untested." },
+    { "id": "R58-03", "requirement": "Role #16 IDE theme apply", "priority": "P1", "status": "FAIL_ACTUAL_VS2017", "observed": "TASK064 dedicated VS2017 C6 result 16/22; both Kakao and Dracula failed success state, pending consumption and exported GUID change. Exact cause is not established." },
+    { "id": "R58-04", "requirement": "Role #7 error/queue visibility", "priority": "P2", "status": "FAIL_C6", "observed": "Independent fixed-DLL status-only suite 0/2; queued=0 and queued=1 both replace controlled primary CLI error with generic queued cancellation notice." }
+  ],
+  "regressions": { "queueMainPassed": 56, "queueMainFailed": 0, "queueStatusPassed": 0, "queueStatusFailed": 2, "themeUiHeadlessAllFour": true, "themeBundledOnePerSku": true, "themeLockedReadMs": 458, "themeLockedDeleteMs": 445 },
+  "evidenceSha256": {
+    "freeze": "F84CDFB90AA3080BCE34EBD4C61925B30C0FEA5358366009EE1CAF13D475EBE7",
+    "notification2017": "EA347D8FC0E3DA56287B3C7335265F62B902CD8F99EE5B5BD72B8A0C0274B3B0",
+    "notification2017Legacy": "6071E0B208AEE218A450EC5AE776B089E0B5AD41BA695509514F9531DF2DC049",
+    "notification2019": "88A11EE4D4A227CE978EEB6525030A577EAE0C96FB51E108E0303132C9EC74C5",
+    "notification2022": "52A8D20CC63FAAC152DC77F551D7007240A907AEF53B210FF6400734BCBEE9E6",
+    "themeAsync": "7E9D99FE179D31121E7EB4249959AC531E3521BB7901732C85D5E6F123DD51E5",
+    "themePackageIntegrity": "3ACBA40E3BE8E760EBFF7332F097D43FB021C44F77131B13B4FBB02B97642BF7",
+    "themeUi2017": "B0F5E3B7BCB0D1D2135340C69E16E9D148C3116EA83EC92ECBA4FE1C55344497",
+    "themeUi2017Legacy": "372E9FAF8893AD7210FA0914CF0519A32CDDEB640A73ABF82FF314B257DA9BF9",
+    "themeUi2019": "1A9856F580D015004CB41C6408328F72B3E09BB25D7037A0802C8B3B00A3BE08",
+    "themeUi2022": "6C2DAF9955BC4CEAD13DFA6AE6EBD478804FBAA3A8CFE03C3D07A9726BC78E38",
+    "queueMain": "176B9C40F5FA645F05C7C7406337B05EC63BD6310B0B9E5252DD4F2738237159",
+    "queueStatus": "EFE60814C19B143AAA65763B726D23D8271F76B3555CF6704DACF8EABAC081BE",
+    "ownerActualVs2017": "46BFF63AB699DB07A9777CA5FEB59256E63F90B7EB7542C18BB35FEA55A324FE",
+    "candidatePdf": "C382A0049B6BF76795885F950C8CC3C5D6DEEEF5C2A40FDF76E4E5C4CFA499DE"
+  },
+  "notRunByAuditor": ["Visual Studio GUI", "actual Windows notification pixels", "VS2019/2022 actual theme apply", "Claude authenticated AI answer", "release publication"]
+}

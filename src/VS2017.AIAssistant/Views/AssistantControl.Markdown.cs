@@ -51,6 +51,7 @@ namespace VS2017.AIAssistant.Views
                 var source = new MenuItem { Header = "Markdown 원문 복사", Icon = new TextBlock { Text = "M↓", FontWeight = FontWeights.Bold } };
                 source.Click += (copySender, copyArgs) => { Dispatcher.VerifyAccess(); CopyMarkdownSource(preview.Markdown); };
                 menu.Items.Insert(0, source); menu.Items.Insert(1, new Separator());
+                AddArtifactActions(menu, preview);
                 preview.TextView.ContextMenu = menu;
             }
         }

@@ -20,11 +20,12 @@ namespace VS2017.AIAssistant.Views
     /// update date  : 2026-10-18 CodexCode : TASK-017 원점 위 버튼 이동과 반복 hover 애니메이션 제거.
     /// update date  : 2026-10-18 CodexCode : TASK-021 두 버튼의 표시·클릭 영역을 실제 환형 부채꼴로 변경.
     ///                2026-10-19 CodexOrig : TASK-045 열린 부채꼴을 가리는 원점 툴팁 억제 및 닫힘 후 복구.
+    ///                2026-10-20 CodexOrig : TASK054 hover 의도 지연과 넓어진 안쪽 구획·명확한 메뉴 대비.
     /// </summary>
     /// ---------------------------------------------------------------------
     public partial class AssistantControl
     {
-        private DispatcherTimer fanCloseTimer;
+        private DispatcherTimer fanCloseTimer, fanOpenTimer;
         private bool fanMenuInitialized, fanMenuOpen, fanMenuDisposed;
         private int fanOpenCount;
         private Geometry fanHelpSector, fanSettingsSector;
@@ -42,6 +43,7 @@ namespace VS2017.AIAssistant.Views
         /// update date  : 2026-10-18 CodexCode : 상단 40픽셀의 원점에는 메뉴 hit 영역을 생성하지 않음.
         /// update date  : 2026-10-18 CodexCode : TASK-021 사각 버튼과 공용 배경을 독립된 두 환형 부채꼴 버튼으로 교체.
         /// update date  : 2026-10-18 CodexCode : 실제 트리거 경계는 레이아웃 완료 후 다시 계산해 축소 시 겹침 방지.
+        ///                2026-10-20 CodexOrig : 열기 220ms·닫기 280ms와 종료 시 예약 정리 연결.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void InitializeFanMenu()
@@ -64,8 +66,10 @@ namespace VS2017.AIAssistant.Views
             FanPanel.LayoutTransform = fanLayoutScale;
             FanPanel.LayoutUpdated += FanMenuLayoutUpdated;
             UpdateFanScale();
-            fanCloseTimer = new DispatcherTimer(DispatcherPriority.Input, Dispatcher) { Interval = TimeSpan.FromMilliseconds(175) };
+            fanCloseTimer = new DispatcherTimer(DispatcherPriority.Input, Dispatcher) { Interval = TimeSpan.FromMilliseconds(280) };
             fanCloseTimer.Tick += FanCloseTick;
+            fanOpenTimer = new DispatcherTimer(DispatcherPriority.Input, Dispatcher) { Interval = TimeSpan.FromMilliseconds(220) };
+            fanOpenTimer.Tick += FanOpenTick;
             OptionsToggle.MouseEnter += FanRegionEntered;
             OptionsToggle.MouseLeave += FanRegionLeft;
             FanPanel.MouseEnter += FanRegionEntered;
@@ -91,6 +95,7 @@ namespace VS2017.AIAssistant.Views
         ///                2026-10-18 CodexOrig : 안내 구획의 중심 각도·가변 높이 글자 중앙 정렬.
         ///                2026-10-18 CodexCode : TASK-022 고정 caption 구역 안에 Grid와 양축 정렬로 아이콘·문구 중심 유지.
         ///                2026-10-19 CodexOrig4 : 부채꼴의 기본·hover·pressed·focus를 공통 팔레트의 동적 자원에 연결.
+        ///                2026-10-20 CodexOrig : 본문과 구획을 구분하는 선택 표면과 팝업 경계 자원 사용.
         /// </summary>
         /// ---------------------------------------------------------------------
         private static void ConfigureFanButton(Button button, Geometry sector, double angle, string icon, string label, string accessibleName, int tabIndex)
@@ -101,8 +106,8 @@ namespace VS2017.AIAssistant.Views
             button.HorizontalContentAlignment = HorizontalAlignment.Center; button.VerticalContentAlignment = VerticalAlignment.Center;
             button.RenderTransform = Transform.Identity;
             button.Clip = sector; button.FocusVisualStyle = null;
-            button.SetResourceReference(Control.BackgroundProperty, "AssistantSurfaceBrush");
-            button.SetResourceReference(Control.BorderBrushProperty, "AssistantBorderBrush");
+            button.SetResourceReference(Control.BackgroundProperty, "AssistantSelectionBrush");
+            button.SetResourceReference(Control.BorderBrushProperty, "AssistantPopupBorderBrush");
             button.SetBinding(Control.ForegroundProperty, new Binding("Foreground") {
                 RelativeSource = new RelativeSource(RelativeSourceMode.FindAncestor, typeof(AssistantControl), 1) });
             button.TabIndex = tabIndex;
@@ -159,6 +164,7 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : TASK-021 두 구획 사이의 2도 간격과 원점의 빈 원을 유지.
+        ///                2026-10-20 CodexOrig : 안쪽 반지름 64→44로 트리거 아래의 접근 간격을 줄임.
         /// </summary>
         /// ---------------------------------------------------------------------
         private static Geometry CreateFanSector(double startAngle, double endAngle)
@@ -168,8 +174,8 @@ namespace VS2017.AIAssistant.Views
             {
                 drawing.BeginFigure(FanPolarPoint(174, startAngle), true, true);
                 drawing.ArcTo(FanPolarPoint(174, endAngle), new Size(174, 174), 0, false, SweepDirection.Clockwise, true, false);
-                drawing.LineTo(FanPolarPoint(64, endAngle), true, false);
-                drawing.ArcTo(FanPolarPoint(64, startAngle), new Size(64, 64), 0, false, SweepDirection.Counterclockwise, true, false);
+                drawing.LineTo(FanPolarPoint(44, endAngle), true, false);
+                drawing.ArcTo(FanPolarPoint(44, startAngle), new Size(44, 44), 0, false, SweepDirection.Counterclockwise, true, false);
             }
             geometry.Freeze(); return geometry;
         }
@@ -266,12 +272,14 @@ namespace VS2017.AIAssistant.Views
         /// update date  : 2026-10-18 CodexCode : fanOpenCount로 실제 열림과 hover 재진입을 구분해 검증 가능.
         /// update date  : 2026-10-18 CodexCode : TASK-021 독립 부채꼴 버튼의 고정 모양 안에서만 펼침 효과 재생.
         ///                2026-10-19 CodexOrig : TASK-045 원점의 예약·현재 툴팁을 닫아 메뉴 글자 가림 방지.
+        ///                2026-10-20 CodexOrig : 명시적 열기는 hover 예약을 취소하고 즉시 동작.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void OpenFanMenu()
         {
             if (fanMenuDisposed || disposed || busy) { CloseFanMenu(); return; }
             InitializeFanMenu();
+            fanOpenTimer.Stop();
             fanCloseTimer.Stop(); OptionsToggle.IsChecked = true;
             ToolTipService.SetIsEnabled(OptionsToggle, false);
             var triggerToolTip = OptionsToggle.ToolTip as ToolTip;
@@ -281,6 +289,39 @@ namespace VS2017.AIAssistant.Views
             FanPanel.Visibility = Visibility.Visible;
             AnimateFanContent(HelpButton, -5, 4, 0);
             AnimateFanContent(SettingsButton, -2, 6, 55);
+        }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : ScheduleFanOpen
+        /// desc         : 지나가는 포인터는 본문을 가리지 않고 원점에 잠시 머물 때만 메뉴를 예약한다.
+        /// author       : CodexOrig
+        /// create date  : 2026-10-20
+        /// update date  : 2026-10-20 CodexOrig : TASK054 hover 의도 220ms, 클릭·키보드의 즉시 열기와 분리.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        private void ScheduleFanOpen()
+        {
+            if (fanMenuDisposed || disposed || busy) return;
+            InitializeFanMenu();
+            fanCloseTimer.Stop();
+            if (!fanMenuOpen && !fanOpenTimer.IsEnabled) fanOpenTimer.Start();
+        }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : FanOpenTick
+        /// desc         : 예약이 끝나도 실제 포인터가 원점에 남아 있을 때만 고정 hit 영역을 펼친다.
+        /// author       : CodexOrig
+        /// create date  : 2026-10-20
+        /// update date  : 2026-10-20 CodexOrig : 이탈·비활성·종료 후 남은 예약으로 다시 열리는 문제 방지.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        private void FanOpenTick(object sender, EventArgs args)
+        {
+            if (fanOpenTimer != null) fanOpenTimer.Stop();
+            if (!fanMenuDisposed && !disposed && !busy && OptionsToggle.IsMouseOver &&
+                (fanOwnerWindow == null || fanOwnerWindow.IsActive)) OpenFanMenu();
         }
 
         /// ---------------------------------------------------------------------
@@ -339,10 +380,12 @@ namespace VS2017.AIAssistant.Views
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 반복 호출해도 같은 닫힘 상태를 유지.
         ///                2026-10-19 CodexOrig : TASK-045 메뉴를 접은 상태에서는 원점 도움말 다시 허용.
+        ///                2026-10-20 CodexOrig : Escape·창 비활성·Unloaded에서도 미실행 열기 예약 취소.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void CloseFanMenu()
         {
+            if (fanOpenTimer != null) fanOpenTimer.Stop();
             if (fanCloseTimer != null) fanCloseTimer.Stop();
             bool restoreFocus = FanPanel.IsKeyboardFocusWithin && OptionsToggle.IsVisible &&
                 !disposed && (fanOwnerWindow == null || fanOwnerWindow.IsActive);
@@ -404,9 +447,14 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 원점과 부채꼴을 하나의 hover 흐름으로 취급.
+        ///                2026-10-20 CodexOrig : 원점을 지나 떠난 경우 hover 열기 예약도 취소.
         /// </summary>
         /// ---------------------------------------------------------------------
-        private void FanRegionLeft(object sender, MouseEventArgs args) { ScheduleFanClose(); }
+        private void FanRegionLeft(object sender, MouseEventArgs args)
+        {
+            if (ReferenceEquals(sender, OptionsToggle) && fanOpenTimer != null) fanOpenTimer.Stop();
+            ScheduleFanClose();
+        }
 
         /// ---------------------------------------------------------------------
         /// <summary>
@@ -496,12 +544,14 @@ namespace VS2017.AIAssistant.Views
         /// update date  : 2026-10-18 CodexCode : 열린 메뉴 종료와 중복 Dispose를 안전하게 처리.
         /// update date  : 2026-10-18 CodexCode : TASK-021 창 크기 변경 이벤트도 종료 시 해제.
         /// update date  : 2026-10-18 CodexCode : 실제 원점 경계 추적용 레이아웃 이벤트 해제.
+        ///                2026-10-20 CodexOrig : 열기 타이머도 중지·구독 해제해 종료 뒤 표시 방지.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void DisposeFanMenu()
         {
             if (fanMenuDisposed) return;
             CloseFanMenu(); fanMenuDisposed = true;
+            if (fanOpenTimer != null) { fanOpenTimer.Tick -= FanOpenTick; fanOpenTimer = null; }
             if (fanCloseTimer != null) { fanCloseTimer.Tick -= FanCloseTick; fanCloseTimer = null; }
             OptionsToggle.MouseEnter -= FanRegionEntered; OptionsToggle.MouseLeave -= FanRegionLeft;
             FanPanel.MouseEnter -= FanRegionEntered; FanPanel.MouseLeave -= FanRegionLeft;

@@ -8,6 +8,7 @@ create date  : 2026-10-18
 update date  : 2026-10-18 CodexOrig : TASK-020 감사 F01, 32비트 SDK15와 64비트 SDK17 분리.
                2026-10-19 CodexOrig : TASK-025 공통 프로젝트 내부 Content도 버전별 링크 경로로 연결.
                2026-10-19 CodexOrig : TASK-036 VS2017 15.7 SDK 구버전 패키지를 별도로 생성.
+               2026-10-20 CodexOrig : TASK-054 VSIX의 실제 PDF 이름을 런타임 고정 경로와 맞춘다.
 -------------------------------------------------------------------------
 #>
 [CmdletBinding()]
@@ -15,6 +16,10 @@ param()
 $ErrorActionPreference='Stop'
 $repositoryDir=[IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
 $baseDir=Join-Path $repositoryDir 'src\VS2017.AIAssistant'
+$guideSource=Join-Path $repositoryDir 'output\pdf\VisualStudio_AI_Assistant_설치_사용설명서_v0.12.1_미리보기.pdf'
+$guideDirectory=Join-Path $baseDir 'Assets\CliGuide'
+$null=New-Item -ItemType Directory -Path $guideDirectory -Force
+Copy-Item -LiteralPath $guideSource -Destination (Join-Path $guideDirectory 'VisualStudio_AI_Assistant_설치_사용설명서.pdf') -Force
 $utf8=New-Object Text.UTF8Encoding($true)
 foreach($target in @('2017.Legacy','2019','2022')) {
     $legacy=$target -eq '2017.Legacy'
@@ -84,6 +89,13 @@ foreach($target in @('2017.Legacy','2019','2022')) {
                 $null=$item.AppendChild($link)
             }
         }
+    }
+    # 각 AI VSIX에는 현재 IDE 연도의 독립 오프라인 테마 설치 파일 하나만 넣는다.
+    $themeYear=if($legacy){'2017'}else{$target}
+    foreach($themeContent in $project.SelectNodes('//m:Content[contains(@Include,"Grokeen-VisualStudio-Themes-")]',$namespace)) {
+        $themeContent.SetAttribute('Include',($themeContent.GetAttribute('Include').Replace('-VS2017.vsix',('-VS'+$themeYear+'.vsix'))))
+        $themeLink=$themeContent.SelectSingleNode('m:Link',$namespace)
+        if($themeLink){$themeLink.InnerText=$themeLink.InnerText.Replace('-VS2017.vsix',('-VS'+$themeYear+'.vsix'))}
     }
     $settings=New-Object Xml.XmlWriterSettings
     $settings.Encoding=$utf8; $settings.Indent=$true

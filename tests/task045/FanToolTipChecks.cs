@@ -99,7 +99,13 @@ namespace CodexOrig.Task045
             Check(tip != null && Convert.ToString(tip.Content) == "설정 및 사용 안내", "Product XAML retains a concrete tooltip with the original help text");
             Check(AutomationProperties.GetName(trigger) == "설정 및 사용 안내 메뉴", "Trigger Automation Name remains unchanged");
             Check(AutomationProperties.GetName(Field<Button>("HelpButton")) == "사용 안내" && AutomationProperties.GetName(Field<Button>("SettingsButton")) == "설정", "Menu item Automation Names remain unchanged");
-            Check(Field<DispatcherTimer>("fanCloseTimer").Interval == TimeSpan.FromMilliseconds(175), "Existing 175ms pointer movement grace remains unchanged");
+            Check(Field<DispatcherTimer>("fanCloseTimer").Interval == TimeSpan.FromMilliseconds(280), "Role 01:40 provides 280ms pointer movement grace");
+            Call("ScheduleFanOpen");
+            Check(Field<DispatcherTimer>("fanOpenTimer").IsEnabled && !Field<bool>("fanMenuOpen"), "Hover schedules opening without immediately covering the content");
+            Call("FanRegionLeft", trigger, new MouseEventArgs(Mouse.PrimaryDevice, 0));
+            Check(!Field<DispatcherTimer>("fanOpenTimer").IsEnabled, "Leaving the trigger before dwell cancels delayed opening");
+            Call("ScheduleFanOpen"); Call("CloseFanMenu");
+            Check(!Field<DispatcherTimer>("fanOpenTimer").IsEnabled, "Explicit dismissal cancels pending hover opening");
             Window.GetWindow(view).Activate(); Call("OpenFanMenu"); Pump(250);
             Button help = Field<Button>("HelpButton"), settings = Field<Button>("SettingsButton");
             Keyboard.Focus(help); Pump(30);

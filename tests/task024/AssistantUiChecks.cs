@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -135,6 +135,7 @@ public static class AssistantUiChecks
     /// author       : CodexOrig
     /// create date  : 2026-10-19
     /// update date  : 2026-10-19 CodexOrig : TASK032 사용자 메시지 투명·회색 및 가로 띠 로고 가림 회귀.
+    ///                2026-10-20 CodexOrig : 최신 Role #15 오른쪽 말풍선 계약으로 교체하고 본문 투명·로고 검사는 유지.
     /// </summary>
     /// ---------------------------------------------------------------------
     private static void CheckMessageAppearance(AssistantControl control, string directory)
@@ -147,7 +148,7 @@ public static class AssistantUiChecks
             providers.SelectedValue = provider;
             var chat = (ChatSession)typeof(AssistantControl).GetProperty("ActiveChat", Hidden).GetValue(control, null);
             chat.Messages.Clear();
-            chat.Add("user", "사용자 입력 · 배경 없이 회색으로 표시");
+            chat.Add("user", "사용자 입력 · 오른쪽 회색 말풍선으로 표시");
             for (int line = 0; line < 18; line++) chat.Add("assistant", "본문 표시 " + line + " · 로고를 가리는 가로 바탕을 확인합니다.");
             foreach (bool light in new[] { true, false })
             {
@@ -159,8 +160,8 @@ public static class AssistantUiChecks
                 scroll.ScrollToHome(); control.UpdateLayout();
                 var user = Descendants(control).OfType<MarkdownPreview>().Single(x => x.Markdown.StartsWith("사용자 입력", StringComparison.Ordinal));
                 var bubble = Descendants(control).OfType<Border>().Single(x => x.Name == "MessageBubble" && Descendants(x).Contains(user));
-                Assert(IsClear(bubble.Background) && IsClear(user.Background) && IsClear(user.TextView.Background) && IsClear(user.TextView.Document.Background), label + " user message has no opaque bubble or document background");
-                Assert(((SolidColorBrush)user.Foreground).Color == ((SolidColorBrush)control.FindResource("AssistantMutedForegroundBrush")).Color, label + " user message uses the theme gray foreground");
+                Assert(!IsClear(bubble.Background) && ((SolidColorBrush)bubble.Background).Color == ((SolidColorBrush)control.FindResource("AssistantControlBackgroundBrush")).Color && bubble.HorizontalAlignment == HorizontalAlignment.Right && bubble.CornerRadius == new CornerRadius(12) && bubble.Padding == new Thickness(12, 9, 12, 9) && IsClear(user.Background) && IsClear(user.TextView.Background) && IsClear(user.TextView.Document.Background), label + " user message uses a right aligned themed bubble with transparent inner document");
+                Assert(((SolidColorBrush)user.Foreground).Color == ((SolidColorBrush)control.FindResource("AssistantForegroundBrush")).Color, label + " user message uses the theme readable foreground");
                 Assert(Descendants(control).OfType<MarkdownPreview>().Where(x => x.Name == "MessageBody").All(x => IsClear(x.Background) && IsClear(x.TextView.Document.Background)), label + " every conversation document keeps a transparent background behind its text");
                 var actual = RenderAppearance(control, System.IO.Path.Combine(directory, label + ".png"));
                 File.WriteAllLines(System.IO.Path.Combine(directory, label + "-layout.txt"), Descendants(control).OfType<MarkdownPreview>().Where(x => x.Name == "MessageBody").Select(x => x.Markdown + " y=" + x.TransformToAncestor(control).Transform(new Point()).Y + " h=" + x.ActualHeight + " textHeight=" + x.TextView.ActualHeight + " color=" + x.Foreground + " text=" + new TextRange(x.TextView.Document.ContentStart, x.TextView.Document.ContentEnd).Text));

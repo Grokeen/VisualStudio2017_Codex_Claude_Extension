@@ -124,6 +124,7 @@ namespace CodexCode.IdeIntegration
         public string ExpectedIdeMajor { get; set; } = "15";
         public string RuntimeFixturePath { get; set; }
         public string ExpectedProductSha256 { get; set; }
+        public string ExpectedGuideSha256 { get; set; }
         public bool CloseWhenDone { get; set; }
     }
 }

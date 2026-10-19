@@ -404,6 +404,7 @@ namespace CodexCode.WorkspaceReview
         /// update date  : 2026-10-18 CodexCode : 오른쪽 둥근 사용자 말풍선·왼쪽 무테 AI 본문과 복사 기능 검사.
         ///                2026-10-19 CodexOrig : Markdown 본문에서도 실제 RichTextBox 선택 복사와 원문 바인딩을 검사.
         ///                2026-10-19 CodexOrig : 사용자 요청에 따라 오른쪽 배치를 유지하며 무배경·회색 본문을 검사.
+        ///                2026-10-20 CodexOrig : 최신 Role #15가 이전 무배경 지시를 대체하여 테마 말풍선·본문 보존 검사.
         /// </summary>
         /// ---------------------------------------------------------------------
         private static void CheckMessagePresentation(AssistantControl control)
@@ -414,8 +415,8 @@ namespace CodexCode.WorkspaceReview
             var user = bubbles.Last(x => ((ChatMessage)x.DataContext).Role == "user");
             var assistant = bubbles.Last(x => ((ChatMessage)x.DataContext).Role == "assistant");
             Check(user.HorizontalAlignment == HorizontalAlignment.Right &&
-                ((SolidColorBrush)user.Background).Color.A == 0 && user.Padding == new Thickness(0),
-                "User messages retain right alignment with no bubble background or padding");
+                ((SolidColorBrush)user.Background).Color == ((SolidColorBrush)control.FindResource("AssistantControlBackgroundBrush")).Color && user.Padding == new Thickness(12, 9, 12, 9) && user.CornerRadius == new CornerRadius(12),
+                "User messages use right aligned rounded themed bubbles with readable padding");
             Check(assistant.Background is SolidColorBrush && ((SolidColorBrush)assistant.Background).Color.A == 0 &&
                 assistant.BorderThickness == new Thickness(0) && assistant.Padding == new Thickness(0) &&
                 assistant.TranslatePoint(new Point(0, 0), messages).X < user.TranslatePoint(new Point(0, 0), messages).X,
@@ -710,9 +711,10 @@ namespace CodexCode.WorkspaceReview
                 ((TextBox)control.FindName("ModelName")).Text = "synthetic-model";
                 mode.SelectedItem = mode.Items.OfType<ComboBoxItem>().Single(x => Convert.ToString(x.Tag) == "high");
                 var prompt = (TextBox)control.FindName("Instruction");
+                var idleState = ((ConversationRecord)((ListBox)control.FindName("ConversationList")).SelectedItem).State;
                 prompt.Text = ""; Click((Button)control.FindName("GenerateButton"));
-                Check(((ConversationRecord)((ListBox)control.FindName("ConversationList")).SelectedItem).State == ConversationRunState.Failed && provider.Calls == 0,
-                    "A real rejected request records failure without inventing an AI invocation");
+                Check(((ConversationRecord)((ListBox)control.FindName("ConversationList")).SelectedItem).State == idleState && provider.Calls == 0,
+                    "An empty unsubmitted request leaves conversation state unchanged and never invokes AI");
                 prompt.Text = "한국어 조합 중인 요청";
                 var composition = new TextComposition(InputManager.Current, prompt, "가");
                 prompt.RaiseEvent(new TextCompositionEventArgs(Keyboard.PrimaryDevice, composition)
@@ -821,10 +823,13 @@ namespace CodexCode.WorkspaceReview
                 PumpUntil(() => ActivitySeconds(activity.Text) >= 1, 3500);
                 Check(Math.Abs(ActivitySeconds(activity.Text) - (int)requestWatch.Elapsed.TotalSeconds) <= 1,
                     "The running duration advances with independently measured wall time rather than fixed demonstration text");
-                string busyPrompt = prompt.Text;
-                HandleKey(control, Key.Return, ModifierKeys.None); HandleKey(control, Key.Return, ModifierKeys.Control);
-                Check(provider.Calls == 2 && prompt.Text == busyPrompt && !((Button)control.FindName("GenerateButton")).IsEnabled,
-                    "Enter and Ctrl+Enter cannot mutate or resend the prompt while a request is running");
+                prompt.Text = "대기 중 입력할 다음 작업"; prompt.CaretIndex = prompt.Text.Length;
+                HandleKey(control, Key.Return, ModifierKeys.Control);
+                Check(prompt.Text.Contains("\n") && provider.Calls == 2 && prompt.IsEnabled,
+                    "Ctrl+Enter edits the next draft while the current request runs without a second AI invocation");
+                HandleKey(control, Key.Return, ModifierKeys.None);
+                Check(provider.Calls == 2 && prompt.Text.Length == 0 && prompt.IsEnabled && ((Button)control.FindName("GenerateButton")).IsEnabled,
+                    "Enter submits the next draft to the sequential queue and keeps the input available");
                 Click((Button)control.FindName("StopButton"));
                 PumpUntil(() => !((Button)control.FindName("StopButton")).IsEnabled && ((Button)control.FindName("GenerateButton")).IsEnabled, 2000);
                 Check(provider.Pending.Task.IsCanceled && document.ReplaceCount == 1 && document.SaveCount == 1,

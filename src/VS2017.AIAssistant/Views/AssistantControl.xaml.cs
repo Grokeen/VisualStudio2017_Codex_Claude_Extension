@@ -97,6 +97,7 @@ namespace VS2017.AIAssistant.Views
         /// update date  : 2026-10-18 CodexOrig : TASK-014 실제 요청 시작·성공·실패·취소를 대화별 상태로 기록.
         /// update date  : 2026-10-18 CodexOrig : TASK-016 문서 첨부·모델 설정·AI 역할 협업과 실패 복구 흐름 연결.
         ///                2026-10-18 CodexOrig : TASK-020 전체 액세스 분기와 선택 문맥·요청별 실제 사용량 연결.
+        ///                2026-10-20 CodexOrig : 보조 개발 TASK055 입력 FIFO·문맥 보존 및 중복 작업 최소화.
         /// </summary>
         /// ---------------------------------------------------------------------
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "VSTHRD100", Justification = "WPF/Dispatcher event handler; awaited operation handles cancellation and failures.")]
@@ -104,44 +105,65 @@ namespace VS2017.AIAssistant.Views
         private async void GenerateClicked(object sender, RoutedEventArgs e)
         {
             Dispatcher.VerifyAccess();
-            if (busy || documents == null || disposed) return;
-            if (AgentFullAccessEnabled) { await RunFullAccessFromUiAsync(); return; }
+            if (documents == null || provider == null || disposed) return;
+            try
+            {
+                EnqueueCurrentRequest();
+                await DrainRequestQueueAsync();
+            }
+            catch (Exception error) { if (!disposed) StatusLabel.Text = "요청 대기 실패: " + error.Message; }
+        }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : RunQueuedEditAsync
+        /// desc         : TASK055 대기 시점의 고정 문맥으로 수정안을 생성하며 다음 입력을 보존한다.
+        /// author       : CodexOrig
+        /// create date  : 2026-10-20
+        /// update date  : 2026-10-20 CodexOrig : 보조 개발 TASK055 FIFO·취소·미승인 검토 경계 연결.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "VSTHRD109", Justification = "WPF 대기열 단일 소비자의 UI 경로에서만 호출하며 Dispatcher.VerifyAccess로 진입을 검증한다.")]
+        private async System.Threading.Tasks.Task<bool> RunQueuedEditAsync(QueuedUiRequest request)
+        {
+            Dispatcher.VerifyAccess();
             ClearProposal();
-            ChatSession chat = ActiveChat;
-            ConversationRecord record = activeRecords[selectedProvider];
+            ChatSession chat = request.Chat;
+            ConversationRecord record = request.Record;
             string progressOutcome = "failed";
             try
             {
-                if (string.IsNullOrWhiteSpace(Instruction.Text)) throw new InvalidOperationException("수정 요청을 입력하세요.");
-                pendingDocument = documents.GetActiveDocument();
-                DocumentSnapshot source = pendingDocument.Capture();
+                pendingDocument = request.Document;
+                DocumentSnapshot source = request.Source;
+                RequireQueuedOwnership(request);
+                source.RequireUnchanged(pendingDocument.Capture());
                 source.RequireValidSelection();
-                MandatoryInstructionStore.Ensure(workspaceStore.RootPath);
-                if (System.IO.File.Exists(workspaceStore.InstructionsPath)) RulesText.Text = workspaceStore.LoadInstructions();
                 TargetLabel.Text = "대상: " + source.FilePath + (source.HasUnsavedChanges ? " (미저장 편집 내용 포함)" : "");
                 if (source.HasSelection) TargetLabel.Text += " · 선택 " + source.Selection.StartLine + "~" + source.Selection.EndLine + "행";
                 OriginalPreview.Text = source.Content;
-                new ProviderExecutionOptions(selectedProvider, ModelName.Text, efforts[selectedProvider], speeds[selectedProvider]);
-                var context = new ChatRequestContext(RulesText.Text, ModelName.Text, chat.Messages.ToArray(), chat.Attachments.ToArray(), efforts[selectedProvider], speeds[selectedProvider]);
-                chat.Add("user", Instruction.Text + (context.Attachments.Length == 0 ? "" : "\n첨부: " + string.Join(", ", context.Attachments.Select(a => a.Name))));
+                var context = BuildQueuedExecutionContext(request);
                 FollowConversation(true);
                 busy = true;
                 SetConversationState(record, ConversationRunState.Running);
                 if (!PersistCurrentConversation()) throw new InvalidOperationException("대화 기록을 저장한 뒤 다시 요청하세요.");
                 requestCancellation = new CancellationTokenSource();
                 BeginRuntimeRequest();
-                StatusLabel.Text = selectedProvider + " 수정안 생성 중…";
+                StatusLabel.Text = request.Provider + " 수정안 생성 중…";
                 UpdateButtons();
-                context = await RunCollaboratorsAsync(record, source, Instruction.Text, context, requestCancellation.Token);
-                var contextProvider = provider as IAiContextEditProvider;
+                context = await RunCollaboratorsAsync(record, source, request.Instruction, context, requestCancellation.Token);
+                var contextProvider = request.EditProvider as IAiContextEditProvider;
                 if (contextProvider == null && (context.Attachments.Length > 0 || context.Instructions.Length > 0 || context.History.Length > 0))
                     throw new InvalidOperationException("이 Provider는 대화 컨텍스트를 지원하지 않습니다.");
                 EditProposal proposal = contextProvider == null
-                    ? await provider.GenerateAsync(selectedProvider, ExecutablePath.Text, source, Instruction.Text, requestCancellation.Token)
-                    : await contextProvider.GenerateWithContextAsync(selectedProvider, ExecutablePath.Text, source, Instruction.Text, context, requestCancellation.Token);
-                if (disposed) return;
+                    ? await request.EditProvider.GenerateAsync(request.Provider, request.Executable, source, request.Instruction, requestCancellation.Token)
+                    : await contextProvider.GenerateWithContextAsync(request.Provider, request.Executable, source, request.Instruction, context, requestCancellation.Token);
+                if (disposed) return false;
+                requestCancellation.Token.ThrowIfCancellationRequested();
+                RequireQueuedOwnership(request);
                 source.RequireUnchanged(pendingDocument.Capture());
+                source.RequireUnchanged(proposal.Source);
                 pendingProposal = proposal;
+                completionResultKind = proposal.HasChanges ? "proposal" : "answer";
                 AddRuntimeFinalReply(proposal.Summary);
                 FollowConversation(false);
                 ProposedPreview.Text = proposal.ProposedText;
@@ -149,7 +171,6 @@ namespace VS2017.AIAssistant.Views
                 StatusLabel.Text = proposal.Summary + (proposal.HasChanges ? "\n변경 비교 후 적용을 승인하세요." : "\n적용할 변경이 없습니다.");
                 ReviewTabs.SelectedIndex = 0;
                 ReviewPanel.IsExpanded = proposal.HasChanges;
-                Instruction.Clear();
                 EmptyHint.Visibility = Visibility.Collapsed;
                 progressOutcome = "completed";
                 SetConversationState(record, ConversationRunState.Completed);
@@ -165,6 +186,7 @@ namespace VS2017.AIAssistant.Views
                     if (!disposed) { UpdateButtons(); FollowConversation(false); PersistCurrentConversation(); }
                 }
             }
+            return progressOutcome == "completed";
         }
 
         /// ---------------------------------------------------------------------
@@ -176,21 +198,25 @@ namespace VS2017.AIAssistant.Views
         /// update date  : 2026-10-18 CodexCode : 승인 전·처리 중 적용 차단.
         /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         ///                2026-10-18 CodexOrig : TASK-020 실제로 적용한 변경의 이력 카드 기록.
+        ///                2026-10-20 CodexOrig : 보조 개발 TASK055 입력 FIFO·문맥 보존 및 중복 작업 최소화.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void ApplyClicked(object sender, RoutedEventArgs e)
         {
             if (busy || disposed) return;
+            bool applied = false;
             try
             {
                 session.Apply(pendingDocument, pendingProposal, ReviewApproval.IsChecked == true);
                 RecordProposalApplied(pendingProposal);
                 pendingProposal = null;
+                applied = true;
                 ReviewApproval.IsChecked = false;
                 StatusLabel.Text = "편집기에 적용했습니다. 확인 후 '적용 내용 저장' 또는 Ctrl+S로 저장하세요.";
             }
             catch (Exception exception) { StatusLabel.Text = "적용 실패: " + exception.Message; }
             UpdateButtons();
+            if (applied) ResumeRequestQueue();
         }
 
         /// ---------------------------------------------------------------------
@@ -246,11 +272,14 @@ namespace VS2017.AIAssistant.Views
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 취소 요청 후 중복 클릭 방지.
         /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
+        ///                2026-10-20 CodexOrig : 보조 개발 TASK055 입력 FIFO·문맥 보존 및 중복 작업 최소화.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void StopClicked(object sender, RoutedEventArgs e)
         {
+            CancelQueuedRequests("대기 요청을 중지했습니다.");
             if (requestCancellation != null) requestCancellation.Cancel();
+            UpdateButtons();
             StopButton.IsEnabled = false;
         }
 
@@ -265,6 +294,7 @@ namespace VS2017.AIAssistant.Views
         /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// update date  : 2026-10-18 CodexOrig : TASK-014 직접 선택한 AI의 대화를 읽음 처리.
         ///                2026-10-18 CodexOrig : TASK-020 선택 항목·내부 제공자 동기화 및 연결 세대 초기화.
+        ///                2026-10-20 CodexOrig : 보조 개발 TASK055 입력 FIFO·문맥 보존 및 중복 작업 최소화.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void ProviderChanged(object sender, SelectionChangedEventArgs e)
@@ -273,7 +303,7 @@ namespace VS2017.AIAssistant.Views
             if (!ReferenceEquals(e.OriginalSource, ProviderChoice)) return;
             string nextProvider = Convert.ToString((ProviderChoice.SelectedItem as TabItem)?.Tag);
             if (nextProvider == selectedProvider || (nextProvider != "Codex" && nextProvider != "Claude")) return;
-            if (busy) { ProviderChoice.SelectedItem = ProviderChoice.Items.Cast<TabItem>().First(t => Convert.ToString(t.Tag) == selectedProvider); return; }
+            if (busy || queuedRequests.Count > 0) { ProviderChoice.SelectedItem = ProviderChoice.Items.Cast<TabItem>().First(t => Convert.ToString(t.Tag) == selectedProvider); return; }
             executablePaths[selectedProvider] = ExecutablePath.Text;
             SaveDraft();
             if (!PersistCurrentConversation())
@@ -282,9 +312,10 @@ namespace VS2017.AIAssistant.Views
                 return;
             }
             selectedProvider = nextProvider;
-            RuntimeProviderChanged();
             string path;
-            ExecutablePath.Text = executablePaths.TryGetValue(selectedProvider, out path) ? path : "";
+            string nextPath = executablePaths.TryGetValue(selectedProvider, out path) ? path : "";
+            if (ExecutablePath.Text == nextPath) RuntimeProviderChanged();
+            else ExecutablePath.Text = nextPath;
             ShowChat();
             MarkCurrentConversationRead();
             ClearProposal();
@@ -353,27 +384,30 @@ namespace VS2017.AIAssistant.Views
         /// update date  : 2026-10-18 CodexOrig : TASK-016 문서 첨부·모델 설정·AI 역할 협업과 실패 복구 흐름 연결.
         /// update date  : 2026-10-18 CodexCode : TASK-017 이미지 분석 기반 드롭다운·안내·대화 지정 흐름 개선.
         ///                2026-10-18 CodexOrig : TASK-020 실제 생각 중 그라데이션과 대화별 적용 상태 반영.
+        ///                2026-10-20 CodexOrig : 보조 개발 TASK055 입력 FIFO·문맥 보존 및 중복 작업 최소화.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void UpdateButtons()
         {
-            GenerateButton.IsEnabled = !busy && documents != null && provider != null;
-            ProviderChoice.IsEnabled = !busy;
+            GenerateButton.IsEnabled = !disposed && documents != null && provider != null && queuedRequests.Count < MaximumQueuedRequests;
+            ProviderChoice.IsEnabled = !busy && queuedRequests.Count == 0;
             if (busy) { CloseDropdown(); CloseFan(); }
             ExecutablePath.IsEnabled = !busy;
             BrowseButton.IsEnabled = !busy;
-            Instruction.IsEnabled = !busy;
-            StopButton.IsEnabled = busy;
-            AttachButton.IsEnabled = PasteButton.IsEnabled = NewChatButton.IsEnabled = !busy;
-            AttachmentList.IsEnabled = SettingsPanel.IsEnabled = SettingsContent.IsEnabled = !busy;
-            SettingsButton.IsEnabled = HelpButton.IsEnabled = !busy;
-            AccountCheckButton.IsEnabled = LoginButton.IsEnabled = SaveSettingsButton.IsEnabled = !busy;
+            Instruction.IsEnabled = !disposed;
+            StopButton.IsEnabled = busy || queuedRequests.Count > 0;
+            AttachButton.IsEnabled = PasteButton.IsEnabled = NewChatButton.IsEnabled = !busy && queuedRequests.Count == 0;
+            AttachmentList.IsEnabled = SettingsPanel.IsEnabled = SettingsContent.IsEnabled = !busy && queuedRequests.Count == 0;
+            SettingsButton.IsEnabled = HelpButton.IsEnabled = !busy && queuedRequests.Count == 0;
+            AccountCheckButton.IsEnabled = LoginButton.IsEnabled = SaveSettingsButton.IsEnabled = !busy && queuedRequests.Count == 0;
             ReviewApproval.IsEnabled = !busy && pendingProposal != null && pendingProposal.HasChanges;
             ApplyButton.IsEnabled = ReviewApproval.IsEnabled && ReviewApproval.IsChecked == true;
+            var discard = FindName("DiscardProposalButton") as Button;
+            if (discard != null) { discard.Visibility = HasPendingReview && queuedRequests.Count > 0 ? Visibility.Visible : Visibility.Collapsed; discard.IsEnabled = !busy && !disposed && HasPendingReview && queuedRequests.Count > 0; }
             SaveButton.IsEnabled = !busy && session.CanSave && CanUsePresentedEditSession();
             RestoreButton.IsEnabled = !busy && session.CanRestore && CanUsePresentedEditSession();
-            if (RequestModel != null) RequestModel.IsEnabled = ModeChoice.IsEnabled = PermissionsButton.IsEnabled = LoadChatButton.IsEnabled = ConversationList.IsEnabled = OptionsToggle.IsEnabled = !busy;
-            if (ModelOptionsButton != null) { ModelOptionsButton.IsEnabled = AgentButton.IsEnabled = !busy; var capability = ProviderModelCatalog.ForProvider(selectedProvider).Find(ModelName.Text); FastToggle.IsEnabled = !busy && capability != null && capability.SupportsFast; }
+            if (RequestModel != null) RequestModel.IsEnabled = ModeChoice.IsEnabled = PermissionsButton.IsEnabled = LoadChatButton.IsEnabled = ConversationList.IsEnabled = OptionsToggle.IsEnabled = !busy && queuedRequests.Count == 0;
+            if (ModelOptionsButton != null) { ModelOptionsButton.IsEnabled = AgentButton.IsEnabled = !busy && queuedRequests.Count == 0; var capability = ProviderModelCatalog.ForProvider(selectedProvider).Find(ModelName.Text); FastToggle.IsEnabled = !busy && queuedRequests.Count == 0 && capability != null && capability.SupportsFast; }
             UpdateChangeCard();
             UpdateActivity(busy);
             UpdateThinkingAnimation(busy);
@@ -390,6 +424,7 @@ namespace VS2017.AIAssistant.Views
         /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// update date  : 2026-10-18 CodexOrig : TASK-016 문서 첨부·모델 설정·AI 역할 협업과 실패 복구 흐름 연결.
         ///                2026-10-19 CodexOrig : TASK-025 팝업·테마 해제 전 WPF UI 스레드를 실제 검증.
+        ///                2026-10-20 CodexOrig : 보조 개발 TASK055 입력 FIFO·문맥 보존 및 중복 작업 최소화.
         /// </summary>
         /// ---------------------------------------------------------------------
         public void Dispose()
@@ -400,6 +435,7 @@ namespace VS2017.AIAssistant.Views
             DisposeExperience();
             DisposeCompletionNotification();
             disposed = true;
+            CancelQueuedRequests(null);
             if (requestCancellation != null) requestCancellation.Cancel();
             CloseDialogs();
             if (optionsDialog != null) optionsDialog.Close();

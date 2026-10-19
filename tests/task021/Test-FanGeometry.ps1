@@ -61,7 +61,7 @@ try {
         $fanMode = 'FrozenProductAssembly'
     }
     else {
-        Add-Type -ReferencedAssemblies $fanReferences -Path @((Join-Path $fanRepo 'src\VS2017.AIAssistant\Views\AssistantControl.Fan.cs'), (Join-Path $PSScriptRoot 'FanControlStub.cs'), (Join-Path $PSScriptRoot 'FanGeometryChecks.cs'))
+        Add-Type -ReferencedAssemblies $fanReferences -Path @((Join-Path $fanRepo 'src\VS2017.AIAssistant\Views\AssistantMotionTokens.cs'), (Join-Path $fanRepo 'src\VS2017.AIAssistant\Views\AssistantControl.Fan.cs'), (Join-Path $PSScriptRoot 'FanControlStub.cs'), (Join-Path $PSScriptRoot 'FanGeometryChecks.cs'))
         $fanView = New-Object VS2017.AIAssistant.Views.AssistantControl
     }
     $fanResult = [CodexCode.Task021.FanGeometryChecks]::Run($fanView, $OutputDirectory)

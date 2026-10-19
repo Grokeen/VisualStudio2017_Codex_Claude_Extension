@@ -134,10 +134,12 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexCode
         /// create date  : 2026-10-19
         /// update date  : 2026-10-19 CodexCode : TASK049 저장 모델과 화면 표시 컬렉션 분리.
+        ///                2026-10-20 CodexOrig : 보조 개발 TASK055 입력 FIFO·문맥 보존 및 중복 작업 최소화.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void BindVisibleConversation(ChatSession chat)
         {
+            if (ReferenceEquals(visibleConversationChat, chat)) return;
             CancelConversationPrepend();
             if (visibleConversationChat != null) visibleConversationChat.Messages.CollectionChanged -= VisibleConversationChanged;
             visibleConversationChat = chat;

@@ -1,0 +1,53 @@
+{
+  "Task": "064",
+  "Candidate": "task054/candidate8",
+  "RawPassed": 71,
+  "RawFailed": 4,
+  "AllPassed": false,
+  "ActualThemeGuidsAndHostColorsVerifiedAllThree": true,
+  "PendingLegacySettingsSerializationDiagnosis": true,
+  "Runs": [
+    {
+      "Year": "2017",
+      "Run": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task064\\candidate8-2017-v2",
+      "RawSucceeded": false,
+      "Passed": 23,
+      "Failed": 2,
+      "DllSha256": "11A381D3F22B7980E9AE3100613F2ECBC949547F81C988B057D570A0BD287318",
+      "RootSuffix": "ThemeApply6422c8766b",
+      "ActualIdeRuntimeTest": true,
+      "DesktopInputUsed": false,
+      "ExitedNormally": true,
+      "ForcedCleanup": false
+    },
+    {
+      "Year": "2019",
+      "Run": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task064\\candidate8-2019-v1",
+      "RawSucceeded": false,
+      "Passed": 23,
+      "Failed": 2,
+      "DllSha256": "D0DBEED55C559BEF6F2EFDB5DE25C6647B05EE4C64A62E9B88A6FE780674CD78",
+      "RootSuffix": "ThemeApply64145a9532",
+      "ActualIdeRuntimeTest": true,
+      "DesktopInputUsed": false,
+      "ExitedNormally": true,
+      "ForcedCleanup": false
+    },
+    {
+      "Year": "2022",
+      "Run": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task064\\candidate8-2022-v1",
+      "RawSucceeded": true,
+      "Passed": 25,
+      "Failed": 0,
+      "DllSha256": "8B592E5135A53FF3EE42B843ADD284F9BDB43BA99B9211667BEE8E39FA4FDA4A",
+      "RootSuffix": "ThemeApply64f6c7d39c",
+      "ActualIdeRuntimeTest": true,
+      "DesktopInputUsed": false,
+      "ExitedNormally": true,
+      "ForcedCleanup": false
+    }
+  ],
+  "UserDefaultProfileChanged": false,
+  "Customer1571Verified": false,
+  "CheckedAt": "2026-10-20T03:31:03.3084100+09:00"
+}

@@ -137,6 +137,18 @@
     <Compile Include="..\VS2017.AIAssistant\Views\AssistantControl.ProgressPresentation.cs">
       <Link>Views\AssistantControl.ProgressPresentation.cs</Link>
     </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Views\CompletionNotification.cs">
+      <Link>Views\CompletionNotification.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Views\AssistantControl.RequestQueue.cs">
+      <Link>Views\AssistantControl.RequestQueue.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Views\AssistantControl.Artifacts.cs">
+      <Link>Views\AssistantControl.Artifacts.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Chat\AssistantArtifactWriter.cs">
+      <Link>Chat\AssistantArtifactWriter.cs</Link>
+    </Compile>
     <Compile Include="..\VS2017.AIAssistant\Views\ProgressNotice.cs">
       <Link>Views\ProgressNotice.cs</Link>
     </Compile>
@@ -178,6 +190,9 @@
     </Compile>
     <Compile Include="..\VS2017.AIAssistant\Views\AssistantControl.Theme.cs">
       <Link>Views\AssistantControl.Theme.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Views\AssistantControl.IdeThemes.cs">
+      <Link>Views\AssistantControl.IdeThemes.cs</Link>
     </Compile>
     <Compile Include="..\VS2017.AIAssistant\Views\AssistantGuideDetails.cs">
       <Link>Views\AssistantGuideDetails.cs</Link>
@@ -315,7 +330,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <Content Include="..\..\output\pdf\VisualStudio_AI_Assistant_설치_사용설명서_v0.12.0_미리보기.pdf">
+    <Content Include="..\VS2017.AIAssistant\Assets\Themes\Grokeen-VisualStudio-Themes-0.12.1-VS2022.vsix">
+      <Link>Themes\Grokeen-VisualStudio-Themes-0.12.1-VS2022.vsix</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="..\VS2017.AIAssistant\Assets\CliGuide\VisualStudio_AI_Assistant_설치_사용설명서.pdf">
       <Link>Resources\CliGuide\VisualStudio_AI_Assistant_설치_사용설명서.pdf</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>

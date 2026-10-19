@@ -1,0 +1,272 @@
+{
+  "Task": "TASK061",
+  "Owner": "CodexOrig",
+  "FrozenAt": "2026-10-20T02:34:00+09:00",
+  "SourceFrozen": true,
+  "Inputs": [
+    {
+      "Path": "src/VS2017.AIAssistant/Chat/AssistantArtifactWriter.cs",
+      "SHA256": "CAD70FFABBAEB35DF8AA4D8C25C4D35FF07272FB80D5A1977287E0722380FC95"
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Views/AssistantControl.Artifacts.cs",
+      "SHA256": "35F69471B88CBA3C1C217243152277C3109619B4C589117FE029DB3A92EA53A3"
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Views/AssistantControl.Markdown.cs",
+      "SHA256": "9F880BF9BF1A409C708B708350461E001BE8A15C2953E18DA8D5F71AC55C4B16"
+    },
+    {
+      "Path": "tests/task061/ArtifactChecks.cs",
+      "SHA256": "EBBFBA6A49E106860CBA466C5840832BBB3E82E38F6CC1C9989346AB257703B3"
+    },
+    {
+      "Path": "tests/task061/Test-Artifacts.ps1",
+      "SHA256": "B6B48507038AD5AA04ACBAB776BD7DCA938DD35D9190D31600C44937FAA91DBA"
+    },
+    {
+      "Path": "tests/task061/Test-DocxReadback.py",
+      "SHA256": "A41B416E8484EBB5B97F5D07AAEAE05379A6E162CF8347254F5580F6725271A4"
+    }
+  ],
+  "X86": {
+    "Succeeded": true,
+    "Passed": 24,
+    "Failed": 0,
+    "PointerBytes": 4,
+    "Tests": [
+      {
+        "Name": "Markdown exact UTF8",
+        "Passed": true
+      },
+      {
+        "Name": "Text exact UTF8",
+        "Passed": true
+      },
+      {
+        "Name": "Empty answer creates empty text",
+        "Passed": true
+      },
+      {
+        "Name": "Cancel no IO even invalid path and content",
+        "Passed": true
+      },
+      {
+        "Name": "Existing file preserved",
+        "Passed": true
+      },
+      {
+        "Name": "Directory target preserved",
+        "Passed": true
+      },
+      {
+        "Name": "Unsupported formats cannot masquerade as text",
+        "Passed": true
+      },
+      {
+        "Name": "All allowed code and structured text preserve bytes",
+        "Passed": true
+      },
+      {
+        "Name": "Relative UNC device ADS drive-relative paths refused",
+        "Passed": true
+      },
+      {
+        "Name": "Reserved names and ambiguous trailing spaces refused",
+        "Passed": true
+      },
+      {
+        "Name": "Missing parent not created",
+        "Passed": true
+      },
+      {
+        "Name": "Large answer rejected before file creation",
+        "Passed": true
+      },
+      {
+        "Name": "Invalid UTF16 not silently changed",
+        "Passed": true
+      },
+      {
+        "Name": "HTML literal script images and URLs are inert",
+        "Passed": true
+      },
+      {
+        "Name": "DOCX real package and XML Unicode paragraphs tabs",
+        "Passed": true
+      },
+      {
+        "Name": "DOCX invalid XML character leaves no file",
+        "Passed": true
+      },
+      {
+        "Name": "Single fence extracts only exact code",
+        "Passed": true
+      },
+      {
+        "Name": "Tilde longer fence CRLF and unknown language",
+        "Passed": true
+      },
+      {
+        "Name": "Incomplete multiple and unfenced answers not guessed",
+        "Passed": true
+      },
+      {
+        "Name": "Fence info cannot supply path or executable extension",
+        "Passed": true
+      },
+      {
+        "Name": "Exactly one concurrent creator wins and no originals replaced",
+        "Passed": true
+      },
+      {
+        "Name": "Reparse intermediate directory cannot redirect output",
+        "Passed": true
+      },
+      {
+        "Name": "UI menu offers AI answer and only single code block",
+        "Passed": true
+      },
+      {
+        "Name": "Failure paths leave no temporary files",
+        "Passed": true
+      }
+    ],
+    "ExternalAiUsed": false,
+    "ActualNativeSaveDialogUsed": false,
+    "ExistingFileOverwriteSupported": false,
+    "GeneratedDocx": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task061\\source-final-x86\\documents\\sample.docx"
+  },
+  "X64": {
+    "Succeeded": true,
+    "Passed": 24,
+    "Failed": 0,
+    "PointerBytes": 8,
+    "Tests": [
+      {
+        "Name": "Markdown exact UTF8",
+        "Passed": true
+      },
+      {
+        "Name": "Text exact UTF8",
+        "Passed": true
+      },
+      {
+        "Name": "Empty answer creates empty text",
+        "Passed": true
+      },
+      {
+        "Name": "Cancel no IO even invalid path and content",
+        "Passed": true
+      },
+      {
+        "Name": "Existing file preserved",
+        "Passed": true
+      },
+      {
+        "Name": "Directory target preserved",
+        "Passed": true
+      },
+      {
+        "Name": "Unsupported formats cannot masquerade as text",
+        "Passed": true
+      },
+      {
+        "Name": "All allowed code and structured text preserve bytes",
+        "Passed": true
+      },
+      {
+        "Name": "Relative UNC device ADS drive-relative paths refused",
+        "Passed": true
+      },
+      {
+        "Name": "Reserved names and ambiguous trailing spaces refused",
+        "Passed": true
+      },
+      {
+        "Name": "Missing parent not created",
+        "Passed": true
+      },
+      {
+        "Name": "Large answer rejected before file creation",
+        "Passed": true
+      },
+      {
+        "Name": "Invalid UTF16 not silently changed",
+        "Passed": true
+      },
+      {
+        "Name": "HTML literal script images and URLs are inert",
+        "Passed": true
+      },
+      {
+        "Name": "DOCX real package and XML Unicode paragraphs tabs",
+        "Passed": true
+      },
+      {
+        "Name": "DOCX invalid XML character leaves no file",
+        "Passed": true
+      },
+      {
+        "Name": "Single fence extracts only exact code",
+        "Passed": true
+      },
+      {
+        "Name": "Tilde longer fence CRLF and unknown language",
+        "Passed": true
+      },
+      {
+        "Name": "Incomplete multiple and unfenced answers not guessed",
+        "Passed": true
+      },
+      {
+        "Name": "Fence info cannot supply path or executable extension",
+        "Passed": true
+      },
+      {
+        "Name": "Exactly one concurrent creator wins and no originals replaced",
+        "Passed": true
+      },
+      {
+        "Name": "Reparse intermediate directory cannot redirect output",
+        "Passed": true
+      },
+      {
+        "Name": "UI menu offers AI answer and only single code block",
+        "Passed": true
+      },
+      {
+        "Name": "Failure paths leave no temporary files",
+        "Passed": true
+      }
+    ],
+    "ExternalAiUsed": false,
+    "ActualNativeSaveDialogUsed": false,
+    "ExistingFileOverwriteSupported": false,
+    "GeneratedDocx": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task061\\source-final-x64\\documents\\sample.docx"
+  },
+  "DocxIndependentReadback": {
+    "Succeeded": true,
+    "Reader": "python-docx",
+    "Paragraphs": [
+      "# 파일 생성 검증",
+      "한글과 English <tag> & 따옴표 \" ' 😀",
+      "첫째\t둘째",
+      "  앞뒤 공백  ",
+      ""
+    ],
+    "PageWidthInches": 8.5,
+    "PageHeightInches": 11,
+    "Relationships": [],
+    "Sha256": "D3ACE8606B690416BEE0C40E6F258F2B0134A076394A995C3DA1519EB7324CA8",
+    "ActualWordOrLibreOfficeOpened": false,
+    "VisualRenderVerified": false,
+    "Limitation": "Word and LibreOffice are not installed; renderer attempt failed before conversion."
+  },
+  "ActualNativeSaveDialogUsed": false,
+  "ActualWordOrLibreOfficeOpened": false,
+  "VisualRenderVerified": false,
+  "SharedBuildRun": false,
+  "DeployedByThisSubtask": false,
+  "RootOwnsIntegrationAndPublication": true
+}
