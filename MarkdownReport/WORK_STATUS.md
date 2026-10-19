@@ -1582,3 +1582,9 @@ C4→C5 입력 차이는 AssistantDialogs.cs 1개, C5→C6는 미리보기PDF 1�
 ## TASK051 최종 검증·배포 준비 마감 / CodexOrig / 2026-10-20 00:58:52 +09:00
 C6 입력124/124 변경0, 네SKU Release 오류·경고0. 최종 기본16/16, 실제 IDE 2017/2019/2022 및 Legacy(2017 15.9 호스트) 각145/145, 이력각10/10, caption 감사각19/19, 설치35/35, 독립테마69/69·세IDE 시험프로필 테마만 설치/구성등록 및 AI확장등록없음 확인. C6 합성 Windows BalloonTipShown1회·자원정리, 최종140F770A... 완성ZIP은 새 통신차단 검사6/6 및 ACL/Profile정리통과. 두ZIP 내부 checksum은21/21·67/67(한글파일명UTF8)이고 공개자산13개를 고정했다.
 CodexCode049/Designer050/Orig3문서/Orig2감사 구현·후속소유반납을 모두 접수했다. CodexCode 대화의 direct message는 active writer 때문에 수신되지 않아 이 공유 인계에 빌드/최신Release/배포 마감조건과 Root의 수행 책임을 명시한다. 제품·문서 동결, 소스검증 완료를 배포완료로 보고하지 않는다. Root는 새 v0.12.0-preview.1(기존정식/기존오프라인시험보존) 13파일 게시와 익명 원격 SHA 검증까지 계속한다. 고객15.7.1/오프라인PC·실계정/운영DB·SCM·모든테마실전환/물리dragresize 미검증은 분리 유지. 보고 CodexOrig_TASK-051.md 및 _Validation.json.
+
+## TASK051 공개 배포·원격 검증 완료 / CodexOrig / 2026-10-20 01:06:34 +09:00
+v0.12.0-preview.1, Release ID 417485280, source commit e717ccc16c9d8db06d353286a17aea133f07d428 를 공개했다. 주소: https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.12.0-preview.1 . 13개 자산을 인증 없는 새 HTTP 클라이언트로 재다운로드하여 크기·SHA256 13/13 일치를 확인했다. 기존 v0.11.1 정식 9자산/태그/최신 정식 지정 및 v0.11.1-offline-test.2의 2자산/태그가 그대로임을 API로 확인했다. 게시·원격 검증 근거는 MarkdownReport/CodexOrig_TASK-051_Deployment.json에 남겼다.
+최종 4대상 Release 오류0·경고0, 기본16/16, 실제 IDE 145x4, 최종 완성 ZIP 통신 차단6/6과 공개 파일 연결을 확인했다. 고객 오프라인 PC/VS2017 15.7.1 실제 설치와 계정·운영 연동, 전체 테마 전환/물리 창 조작은 확인 전 범위로 유지한다. 시험용 배포 완료를 고객 시험 완료로 보고하지 않는다.
+사용자 마지막 지시의 완료 기준(통합 빌드·컴파일 → 최신 Release 제작 → 배포 → 공개 다운로드·해시 확인)을 CodexOrig2·3·4 및 연구 담당에게 직접 안내했다. CodexCode 직접 전송은 active writer 오류로 거부되어 본 WORK_STATUS 공유 인계와 Root 검증 JSON에 같은 기준·최종 결과를 명시했다. 이번 통합·배포는 Root가 끝까지 수행했으며 중복 배포를 요청하지 않았다. 제품 고정 후보와 기존 감사 보고는 변경하지 않았다.
+시작 2026-10-19 23:40:45 KST, 최종 배포 검증 기록 2026-10-20 01:06:34 +09:00, 경과 01:25:49.4697348.
