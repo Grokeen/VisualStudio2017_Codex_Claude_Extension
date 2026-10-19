@@ -426,3 +426,18 @@
 
 3. 외부 환경에서 수정됐다는 문구가 다시 나온다고 함. 확인 요청.
     - ![외부 수정 문구](image-39.png)
+
+
+
+### 사용자 설치중 오류 발생.
+2026-10-19 08:52 발생
+
+```
+2026-10-19 오전 8:45:50 - 설치된 제품 찾음 - Visual Studio Professional 2017
+2026-10-19 오전 8:45:50 - VSIXInstaller.NoApplicableSKUsException: 이 확장은 현재 설치되어 있는 제품에 설치할 수 없습니다.
+   위치: VSIXInstaller.App.GetInstallableData(String vsixPath, Boolean isRepairSupported, IEnumerable`1& skuData)
+   위치: VSIXInstaller.App.Initialize(Boolean isRepairSupported)
+   위치: VSIXInstaller.App.Initialize()
+   위치: System.Threading.Tasks.Task`1.InnerInvoke()
+   위치: System.Threading.Tasks.Task.Execute()
+```

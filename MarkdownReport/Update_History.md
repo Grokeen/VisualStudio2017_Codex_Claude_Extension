@@ -1,4 +1,4 @@
-
+﻿
 
 
 
@@ -400,3 +400,10 @@ TASK-029 검토판을 보존한 별도 C7 Markdown/PDF/ZIP을 만들고 화면 �
 releases/v0.11.0/VisualStudio_AI_Assistant-0.11.0.zip(26항목), RELEASE_SHA256SUMS.txt(다운로드5개해시), RELEASE_NOTES.md를 생성하고 ZIP원문바이트를 확인했다. README·버전설치안내와 최상위실행기를 마감했다. 제품원본47·과거감사/설치자료 보존, 사용자설치/계정/운영서버 변경0. 보고 CodexOrig_TASK-035.md/_Validation.json. 다른담당자종료유지/035모든검사창종료·GUI예약해제. 정확커밋에 GitHub Release 초안6자산 업로드→서버해시확인→게시→공개다운로드 대조를 이어간다. 자격증명은메모리에서만사용·로그/저장소기록0.
 
 - TASK-035 / CodexOrig / 정식 GitHub Release 게시·원격 확인 완료 / 2026-10-19 06:39:03 KST: https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.11.0, 태그 v0.11.0 대상 a80e228fa2aa27fc36d5185c83f141b4dfed4bd7. VSIX3·설치ZIP·실행기·체크섬6자산 업로드/서버SHA확인/공개다운로드바이트·SHA256 전부일치. source120차이0·재빌드6개0/0·새전체16/새실행기15·ZIP26항목확인·기존원본47보존. 총경과 00:07:50.5081401(등록06:31:12기준). 제품코드·기존VSIX/과거감사·개인설치추가변경0. 보고 CodexOrig_TASK-035.md/_Validation.json/_Deployment.json. 모든자기검사·GUI·배포작업종료/담당소유반납, 이 마감기록추가push후완료.
+
+## TASK-036 / CodexOrig / 구현·자기검증 완료 / 2026-10-19 09:17:26 KST
+시작08:53:47 KST부터 경과 00:23:39.5490714. 고객15.7.1/업데이트불가 지시를 반영해 Shell15.7·Threading15.6 전용 프로젝트와 일반2017/2019/2022 총4패키지를 v0.11.1로 생성했다. C17 입력122불변·8빌드0오류0경고·실제4번IDE 각145(구버전은개발PC15.9host)·설치35·구SDK31·실행기15·runtime16원문일치·ZIP31항목/7자산·보호47불변을확인했다. 전체실행15/16의foundation은구버전소스선택하네스수정후45재실행통과하여최종16묶음성공으로구분한다. C16 Avalon/WebView2누락실IDE실패와14/16, C17초기하네스실패와패커partialZIP 보존. scripts/Sync-VsixTargets.ps1,build.ps1,Install-AIAssistant.ps1/InstallAIAssistant.bat, Legacy프로젝트·버전·실행기/검사도구·README/사용/개발/설치안내를수정했다. 최종제품/설치기편집종료·GUI예약해제, 메타보고·GitHub배포만036유지. TASK037 감사마감/소유반납후에만게시. 고객실제15.7.1 Professional실행·실계정/운영연동미검증.
+
+## TASK-037 / CodexOrig2 / 독립 호환성 감사 완료 / 2026-10-19 09:18:19 +09:00
+
+시작 2026-10-19 09:03:45 +09:00, 경과 00:14:34. C16/C17 입력각122전부일치·C17독립선택40/40·대역CLI15/15·공통payload43/43·ZIP31/31·내부checksum30/30·보호원본54/54 통과. C16 DLL누락/구vswhere·명시경로보완확인. README R37-01은감사자의저장소/ZIP입력혼동으로철회/잘못된초안과정정근거모두보존,제품·ZIP변경불필요. C17실제4회각145/145와전체첫15/16→foundation45/1재실행성공은036자료확인으로구분. 고객Professional15.7.1실IDE성공미확인유지. 추가확정결함0/제품·Role·기존감사·공유build·GUI·실제설치·계정·Git배포변경0. 보고 MarkdownReport/CodexOrig2_TASK-037_Audit.md 및 _Evidence.json,근거 artifacts/audit-codexorig2-task037/. 감사작업종료·담당소유반납. 036최종배포/원격검증소유유지.

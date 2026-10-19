@@ -7,10 +7,11 @@ author       : CodexOrig4
 create date  : 2026-10-19
 update date  : 2026-10-19 CodexOrig4 : source fixture/고정 제품 DLL 결과를 구분하고 GUI 없이 PNG를 렌더링한다.
                2026-10-19 CodexOrig : SDK17 standalone 검사의 설치 IDE interop 의존성만 명시적으로 해석.
+               2026-10-19 CodexOrig : TASK-036 구버전 SDK 자산을 명시해 15.7 런타임 경계를 별도 검사.
 -------------------------------------------------------------------------
 #>
 [CmdletBinding()]
-param([string]$AssemblyPath,[string]$OutputDirectory,[switch]$AnalyzeSdk)
+param([string]$AssemblyPath,[string]$OutputDirectory,[switch]$AnalyzeSdk,[string]$SdkAssetsPath)
 Set-StrictMode -Version Latest
 $ErrorActionPreference='Stop'
 if([Threading.Thread]::CurrentThread.GetApartmentState() -ne 'STA'){throw 'Windows PowerShell 5.1 -STA required.'}
@@ -27,7 +28,7 @@ if(![string]::IsNullOrWhiteSpace($AssemblyPath)){
     if($shellReference.Version.Major -ge 17){$assetsRelative='src/VS2022.AIAssistant/obj/project.assets.json'}
     elseif($shellReference.Version.Major -ge 16){$assetsRelative='src/VS2019.AIAssistant/obj/project.assets.json'}
 }
-$assetsPath=Join-Path $repository $assetsRelative
+$assetsPath=if($SdkAssetsPath){(Resolve-Path -LiteralPath $SdkAssetsPath).Path}else{Join-Path $repository $assetsRelative}
 $assets=Get-Content -LiteralPath $assetsPath -Raw -Encoding UTF8|ConvertFrom-Json
 $packageRoot=$assets.packageFolders.PSObject.Properties.Name|Select-Object -First 1
 $references=@{}

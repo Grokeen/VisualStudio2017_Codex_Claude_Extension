@@ -89,7 +89,7 @@ $archive = [IO.Compression.ZipFile]::Open($chosenVsix,[IO.Compression.ZipArchive
 try { $entry=$archive.CreateEntry('VS2017.AIAssistant.dll'); $stream=$entry.Open(); try { $bytes=[Text.Encoding]::UTF8.GetBytes('CHOSEN_PACKAGE'); $stream.Write($bytes,0,$bytes.Length) } finally { $stream.Dispose() } } finally { $archive.Dispose() }
 $archive = [IO.Compression.ZipFile]::Open($chosenVsix,[IO.Compression.ZipArchiveMode]::Update)
 try { foreach ($name in @('Resources/CliGuide/%EC%84%A4%EB%AA%85%EC%84%9C.pdf','Microsoft.Web.WebView2.Core.dll','runtimes/win-x64/native/WebView2Loader.dll','Resources/GuideMedia/01-connect.gif','Resources/GuideMedia/01-connect.png','ICSharpCode.AvalonEdit.dll','Resources/ThirdParty/AvalonEdit/LICENSE.txt')) { $entry=$archive.CreateEntry($name); $writer=New-Object IO.StreamWriter($entry.Open()); try {$writer.Write('VIEWER_ASSET')}finally{$writer.Dispose()} } } finally { $archive.Dispose() }
-$decoyRelease = Join-Path $fixtureDir 'releases\v0.11.0'; $null=New-Item -ItemType Directory -Path $decoyRelease -Force
+$decoyRelease = Join-Path $fixtureDir 'releases\v0.11.1'; $null=New-Item -ItemType Directory -Path $decoyRelease -Force
 [IO.File]::WriteAllText((Join-Path $decoyRelease 'VS2017.AIAssistant.dll'),'WRONG_DEFAULT',$utf8)
 $assetProbe = @'
 param([string]$AssemblyPath)

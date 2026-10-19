@@ -1,6 +1,6 @@
 ﻿# AI Assistant 사용 안내
 
-Claude·Codex와 대화를 이어 가고, 현재 파일의 수정안을 비교해 적용하는 방법입니다. [v0.11.0 설치 파일과 버전별 지원 조건](../releases/v0.11.0/README.md)을 확인하고 시작하세요. VS2017·2019·2022 각각의 패키지를 제공합니다.
+Claude·Codex와 대화를 이어 가고, 현재 파일의 수정안을 비교해 적용하는 방법입니다. [v0.11.1 설치 파일과 버전별 지원 조건](../releases/v0.11.1/README.md)을 확인하고 시작하세요. VS2017 15.7·15.8용, VS2017 15.9 이상용, VS2019용, VS2022 x64용을 제공합니다.
 
 ## 설치와 AI 연결
 
@@ -21,13 +21,14 @@ Claude·Codex와 대화를 이어 가고, 현재 파일의 수정안을 비교�
 
 | Visual Studio | 메뉴 경로 | 설치 목록에 표시되는 이름 |
 |---|---|---|
-| 2017 (15.9 이상) | **도구 → 확장 및 업데이트 → 설치됨** | `VS2017 AI Assistant` |
+| 2017 (15.7·15.8 전용) | **도구 → 확장 및 업데이트 → 설치됨** | `VS2017 AI Assistant (15.7+)` |
+| 2017 (15.9 이상용) | **도구 → 확장 및 업데이트 → 설치됨** | `VS2017 AI Assistant` |
 | 2019 (16.11) | **확장 → 확장 관리 → 설치됨** | `Visual Studio AI Assistant 2019` |
 | 2022 (17.x) | **확장 → 확장 관리 → 설치됨** | `Visual Studio AI Assistant 2022` |
 
 표에서 사용 중인 Visual Studio에 맞는 이름을 찾아 **제거**를 선택합니다. 제거 작업이 예약되면 해당 버전의 Visual Studio 창을 모두 닫아 완료하세요. 메뉴 이름이 다르면 IDE 검색에서 **Manage Extensions/확장 관리**를 찾으세요. 이 절차는 선택한 IDE의 확장만 제거하며 Visual Studio 자체나 Claude·Codex CLI는 제거하지 않습니다.
 
-확장을 다시 설치하려면 [버전별 설치 파일 안내](../releases/v0.11.0/README.md)에서 사용 중인 IDE에 맞는 VSIX를 실행하세요. 대화와 설정은 기본적으로 `%LOCALAPPDATA%\VS2017AIAssistant` 아래에 별도로 저장되므로, 이전 기록을 보존하려면 이 폴더를 수동으로 삭제하지 마세요. 이 안내는 사용자 데이터 삭제 절차를 포함하지 않습니다.
+확장을 다시 설치하려면 [버전별 설치 파일 안내](../releases/v0.11.1/README.md)에서 사용 중인 IDE에 맞는 VSIX를 실행하세요. 대화와 설정은 기본적으로 `%LOCALAPPDATA%\VS2017AIAssistant` 아래에 별도로 저장되므로, 이전 기록을 보존하려면 이 폴더를 수동으로 삭제하지 마세요. 이 안내는 사용자 데이터 삭제 절차를 포함하지 않습니다.
 
 Microsoft 공식 안내: [확장 찾기·관리·사용 안 함·제거](https://learn.microsoft.com/en-us/visualstudio/ide/finding-and-using-visual-studio-extensions?view=visualstudio) · [Visual Studio 2017 확장 및 업데이트](https://learn.microsoft.com/en-us/visualstudio/releases/2017/vs2017-relnotes-v15.0#modify-extensions-in-bulk).
 

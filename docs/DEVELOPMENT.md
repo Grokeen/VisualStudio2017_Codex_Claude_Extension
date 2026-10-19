@@ -1,21 +1,25 @@
 # 개발 및 수동 검증
 
-v0.9.0은 VS2017/2019/2022별 패키지, 선택 영역 문맥, 실제 CLI 모델·사용량 조회와 명시적인 전체 액세스를 제공한다. 공통 WPF 화면·서비스를 링크한 프로젝트를 버전별 SDK로 빌드한다. UI·검토 편집·CLI 계약·검증 범위는 사용자 가이드와 TASK-020 보고를 참고한다.
+v0.11.1은 VS2017 15.7용/15.9 이상용·VS2019·VS2022의 네 패키지를 제공한다. 공통 WPF 화면·서비스를 링크한 프로젝트를 버전별 SDK로 빌드한다. VS2017 15.7.1에서 업데이트 없이 설치하도록 구 SDK 빌드를 별도로 추가했다.
 
 ## 호환성 기준
 
 | 항목 | 현재 설정 |
 |---|---|
-| 설치 대상 | VS2017 `[15.0.28307.0,16.0)` / VS2019 `[16.0,17.0)` / VS2022 `[17.0,18.0)` amd64 |
+| 설치 대상 | VS2017 구버전 `[15.0.27703.0,16.0)` / 일반 `[15.0.28307.0,16.0)` / VS2019 `[16.0,17.0)` / VS2022 `[17.0,18.0)` amd64 |
 | 에디션 | Community 및 상위 에디션 Professional/Enterprise |
 | 프로젝트 | 공통 C# 7.0 소스 링크. VS2017/19 net462, VS2022 net472 |
-| VS SDK | 2017/19 Shell 15.9.28307 / 2022 Shell 17.0.32112.339 |
+| VS SDK | 2017 구버전 Shell 15.7.27703·Threading 15.6.31 / 2017 일반·2019 Shell 15.9.28307 / 2022 Shell 17.0.32112.339 |
 | VSIX 빌드 도구 | 2017/19 15.9.3032 / 2022 17.0.5241 |
 | 진입점 | 도구(Tools) → AI Assistant → AI Assistant 문서 탭 |
 
-`scripts/Sync-VsixTargets.ps1`이 공통 소스 링크와 대상별 매니페스트·SDK 설정을 동기화한다. VS2022는 별도 64비트 SDK 참조를 사용한다. 세 버전은 독립 bin/obj로 빌드하되 공통 DocumentReader 프로젝트 때문에 제품 빌드를 순차 수행한다.
+`scripts/Sync-VsixTargets.ps1`이 공통 소스 링크와 대상별 매니페스트·SDK 설정을 동기화한다. VS2022는 별도 64비트 SDK 참조를 사용한다. 네 대상은 독립 bin/obj로 빌드하되 공통 DocumentReader 프로젝트 때문에 제품 빌드를 순차 수행한다.
 
-SDK 패키지와 IDE 의존성의 기준을 맞추기 위해 VS2017 15.9를 최소 버전으로 삼는다. VSIX 버전 범위의 minor는 Microsoft 스키마 규칙에 따라 `15.0.28307.0`으로 표기한다. Threading 및 Json의 참조 버전은 SDK 의존성 충돌을 피하도록 고정하며, IDE에서 제공하는 SDK와 해당 종속 DLL은 패키지에 포함하지 않는다.
+일반 VS2017 패키지의 최소 버전은 15.9이며, 별도 `VS2017.Legacy.AIAssistant`는 15.7 SDK와 Threading으로 컴파일한다. 구버전용도 15.9 호스트에서 검사할 수 있도록 상위 호환 범위를 선언하되, 설치 도구는 15.7·15.8에만 구버전용을 기본 선택하고 15.9 이상에는 일반 패키지를 선택한다. 두 패키지는 같은 확장 ID이므로 한 IDE에 함께 설치하지 않는다.
+
+VSIX 범위의 minor는 Microsoft 스키마 규칙에 따라 0으로 표기한다. IDE 제공 SDK DLL은 동봉하지 않는다. BuildTools는 고객 IDE에서 실행되는 SDK가 아닌 빌드 도구이며 구버전용에도 15.9.3032 패커를 사용한다. 15.7 패커에서 NuGet 런타임 DLL이 누락됐던 초기 C16 실패를 보존하고 C17에서 AvalonEdit/WebView2 DLL 포함을 재검증했다. 구 Threading의 중복 AsyncUsageAnalyzers 이벤트 진단은 기존 VSTHRD100 주석을 인식하는 현대 분석기로 검사하며, `AvoidAsyncVoid`만 구버전 프로젝트에서 제외한다.
+
+고객 15.7.1 Professional 실환경은 이 개발 PC에 없다. 15.7 SDK 컴파일·SDK DLL을 사용한 독립 검사·15.9 호스트 통합 검사와 고객 PC의 설치/실행 성공은 구분해야 한다.
 
 ## 개발 PC 준비
 
@@ -32,6 +36,10 @@ Windows PowerShell에서 저장소 루트 기준으로 실행한다.
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\build.ps1
+
+# VS2017 15.7 전용 (일반 프로젝트를 구 SDK 설정으로 링크 생성)
+powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\Sync-VsixTargets.ps1
+powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\build.ps1 -VisualStudioVersion 2017.Legacy
 ```
 
 MSBuild를 자동으로 찾지 못하면 전체 Framework MSBuild.exe 경로를 `-MSBuildPath`로 지정한다. NuGet.exe로 미리 복원해야 하는 독립 도구 환경은 `-NuGetPath`도 지원한다. `dotnet build`는 이 legacy WPF/VSSDK 프로젝트의 빌드 경로가 아니다.

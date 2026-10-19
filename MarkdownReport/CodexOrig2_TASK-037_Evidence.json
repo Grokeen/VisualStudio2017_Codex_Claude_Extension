@@ -1,0 +1,865 @@
+{
+  "Task": "TASK-037",
+  "Auditor": "CodexOrig2",
+  "Started": "2026-10-19T09:03:45.0000000+09:00",
+  "CompletedAt": "2026-10-19T09:18:19.4575529+09:00",
+  "Elapsed": "00:14:34",
+  "AuditComplete": true,
+  "ProductOverallCompleteClaimed": false,
+  "Conclusion": "NoAdditionalConfirmedDefectsInTestedC17Scope",
+  "OpenConfirmedFindings": [],
+  "WithdrawnFindings": [
+    {
+      "Id": "R37-01",
+      "Reason": "Auditor compared repository README instead of ZIP README",
+      "Status": "Withdrawn",
+      "Correction": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\bundle-readme-correction.json",
+      "ProductChanged": false
+    }
+  ],
+  "Candidates": [
+    {
+      "Number": 16,
+      "InputCount": 122,
+      "Mismatches": [],
+      "Builds": [
+        {
+          "Version": "2017.Legacy",
+          "Configuration": "Debug",
+          "ExitCode": 0,
+          "Warnings": 0,
+          "Log": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task025\\build-candidate16-2017.Legacy-Debug.log"
+        },
+        {
+          "Version": "2017.Legacy",
+          "Configuration": "Release",
+          "ExitCode": 0,
+          "Warnings": 0,
+          "Log": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task025\\build-candidate16-2017.Legacy-Release.log"
+        },
+        {
+          "Version": "2017",
+          "Configuration": "Debug",
+          "ExitCode": 0,
+          "Warnings": 0,
+          "Log": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task025\\build-candidate16-2017-Debug.log"
+        },
+        {
+          "Version": "2017",
+          "Configuration": "Release",
+          "ExitCode": 0,
+          "Warnings": 0,
+          "Log": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task025\\build-candidate16-2017-Release.log"
+        },
+        {
+          "Version": "2019",
+          "Configuration": "Debug",
+          "ExitCode": 0,
+          "Warnings": 0,
+          "Log": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task025\\build-candidate16-2019-Debug.log"
+        },
+        {
+          "Version": "2019",
+          "Configuration": "Release",
+          "ExitCode": 0,
+          "Warnings": 0,
+          "Log": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task025\\build-candidate16-2019-Release.log"
+        },
+        {
+          "Version": "2022",
+          "Configuration": "Debug",
+          "ExitCode": 0,
+          "Warnings": 0,
+          "Log": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task025\\build-candidate16-2022-Debug.log"
+        },
+        {
+          "Version": "2022",
+          "Configuration": "Release",
+          "ExitCode": 0,
+          "Warnings": 0,
+          "Log": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task025\\build-candidate16-2022-Release.log"
+        }
+      ]
+    },
+    {
+      "Number": 17,
+      "InputCount": 122,
+      "Mismatches": [],
+      "Builds": [
+        {
+          "Version": "2017.Legacy",
+          "Configuration": "Debug",
+          "ExitCode": 0,
+          "Warnings": 0,
+          "Log": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task025\\build-candidate17-2017.Legacy-Debug.log"
+        },
+        {
+          "Version": "2017.Legacy",
+          "Configuration": "Release",
+          "ExitCode": 0,
+          "Warnings": 0,
+          "Log": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task025\\build-candidate17-2017.Legacy-Release.log"
+        },
+        {
+          "Version": "2017",
+          "Configuration": "Debug",
+          "ExitCode": 0,
+          "Warnings": 0,
+          "Log": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task025\\build-candidate17-2017-Debug.log"
+        },
+        {
+          "Version": "2017",
+          "Configuration": "Release",
+          "ExitCode": 0,
+          "Warnings": 0,
+          "Log": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task025\\build-candidate17-2017-Release.log"
+        },
+        {
+          "Version": "2019",
+          "Configuration": "Debug",
+          "ExitCode": 0,
+          "Warnings": 0,
+          "Log": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task025\\build-candidate17-2019-Debug.log"
+        },
+        {
+          "Version": "2019",
+          "Configuration": "Release",
+          "ExitCode": 0,
+          "Warnings": 0,
+          "Log": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task025\\build-candidate17-2019-Release.log"
+        },
+        {
+          "Version": "2022",
+          "Configuration": "Debug",
+          "ExitCode": 0,
+          "Warnings": 0,
+          "Log": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task025\\build-candidate17-2022-Debug.log"
+        },
+        {
+          "Version": "2022",
+          "Configuration": "Release",
+          "ExitCode": 0,
+          "Warnings": 0,
+          "Log": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task025\\build-candidate17-2022-Release.log"
+        }
+      ]
+    }
+  ],
+  "C16ToC17Changes": [
+    {
+      "Path": "src\\VS2017.Legacy.AIAssistant\\VS2017.Legacy.AIAssistant.csproj",
+      "C16": "D5DFE83B3A3DBA294739F2DAE49F5A44195FD8D905F2780B95BA86AB1CFA59E1",
+      "C17": "95BA9685247A06C26327D140766A4E2C59B1AD273F77955B3661DA9198D976CF"
+    }
+  ],
+  "DirectTests": {
+    "C16SelectorPassed": 40,
+    "C16SelectorTotal": 40,
+    "C17SelectorPassed": 40,
+    "C17SelectorTotal": 40,
+    "FakeCLIPassed": 15,
+    "FakeCLITotal": 15,
+    "CommonPayloadMatched": 43,
+    "CommonPayloadTotal": 43,
+    "ZipMatched": 31,
+    "ZipTotal": 31,
+    "InternalChecksumMatched": 30,
+    "InternalChecksumTotal": 30
+  },
+  "InstallerSHA256": "E85D78DC5884E4E398657CF1F439A448035711F6E3226FDE0E53341CB1241226",
+  "Packages": [
+    {
+      "Name": "VS2017.15.7.AIAssistant-0.11.1.vsix",
+      "VSIXSHA": "3B5551AB9C8A1E8993779FFA66F9D673C36A5F00F7A27B0AC2A6E2E9A770AAD4",
+      "CandidateVSIXMatch": true,
+      "DLLSHA": "C1F34A3BE35AA6289ADBF80045C133EF1AA3739B86CD6C95197910D33504B214",
+      "CandidateDLLMatch": true,
+      "LiveReleaseMatch": true
+    },
+    {
+      "Name": "VS2017.AIAssistant-0.11.1.vsix",
+      "VSIXSHA": "2C7DB6E2B89A4BD708B790B01BA1A71388EB90619CE62BCCB0BE4A3B2F379DD8",
+      "CandidateVSIXMatch": true,
+      "DLLSHA": "38C447920501991D15685C8DEC35485D4B1757ADC8CF6F65AE97A5723DFD7CCA",
+      "CandidateDLLMatch": true,
+      "LiveReleaseMatch": true
+    },
+    {
+      "Name": "VS2019.AIAssistant-0.11.1.vsix",
+      "VSIXSHA": "AB4B888656DBF5B2F4BF7711895F9BB82E75AF61B7878A08A66E8BC2A9F3D881",
+      "CandidateVSIXMatch": true,
+      "DLLSHA": "30872439515A8B8FACCE1166C051499F536CFB05B330173FDBEA8C3F968FA541",
+      "CandidateDLLMatch": true,
+      "LiveReleaseMatch": true
+    },
+    {
+      "Name": "VS2022.AIAssistant-0.11.1.vsix",
+      "VSIXSHA": "2CA4E737260ECDF7F4228F7B60E86F298881B1889A0BA4AE92B50B08E4FC2D8C",
+      "CandidateVSIXMatch": true,
+      "DLLSHA": "5F779A8456560F342478B28AD0E6A6289EF433FDB90A79FD4CCDFA4FEE6B6312",
+      "CandidateDLLMatch": true,
+      "LiveReleaseMatch": true
+    }
+  ],
+  "SDK": [
+    "Microsoft.VisualStudio.Shell.15.0/15.7.27703",
+    "Microsoft.VisualStudio.Shell.Framework/15.7.27703",
+    "Microsoft.VisualStudio.Threading/15.6.31",
+    "Microsoft.VSSDK.BuildTools/15.9.3032"
+  ],
+  "LegacyReferences": [
+    "mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+    "PresentationFramework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35",
+    "System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+    "WindowsBase, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35",
+    "Microsoft.VisualStudio.Shell.15.0, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a",
+    "Microsoft.VisualStudio.Shell.Framework, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a",
+    "Microsoft.VisualStudio.Threading, Version=15.6.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a",
+    "System.Data, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+    "EnvDTE, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a",
+    "Microsoft.VisualStudio.Shell.Interop, Version=7.1.40304.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a",
+    "Microsoft.VisualStudio.TextManager.Interop, Version=7.1.40304.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a",
+    "System.Xaml, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+    "PresentationCore, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35",
+    "System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a",
+    "System.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+    "System.Xml, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+    "ICSharpCode.AvalonEdit, Version=6.3.1.120, Culture=neutral, PublicKeyToken=9cc39be672370310",
+    "System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+    "Microsoft.Web.WebView2.Wpf, Version=1.0.4191.47, Culture=neutral, PublicKeyToken=2a8ab48044d2601e",
+    "Microsoft.Web.WebView2.Core, Version=1.0.4191.47, Culture=neutral, PublicKeyToken=2a8ab48044d2601e",
+    "System.Web.Extensions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35",
+    "System.IO.Compression, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+    "System.Design, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
+  ],
+  "Bundle": {
+    "BundleSHA": "62B4D4A231B8D8338FCF0D1B241B755A9F2603E602D6671DD55D0EE46C871E71",
+    "Bytes": 16925451,
+    "EntryCount": 31,
+    "VerifiedCount": 31,
+    "UnsafeCount": 0,
+    "DuplicateCount": 0,
+    "MissingRequired": [],
+    "ReleaseChecksumMatches": true,
+    "InstallerMatchesAuditedSnapshot": true
+  },
+  "OwnerIDE": [
+    {
+      "Run": "run-b26cd533a1274509ad7d30358fce139e",
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\ide\\run-b26cd533a1274509ad7d30358fce139e\\result.json",
+      "SHA256": "966C837F78CA7E290D6B7CC8BF3F907EE909162F18AF179B7E2614ABFAF7DC11",
+      "Succeeded": true,
+      "Passed": 145,
+      "Failed": 0,
+      "HostVersion": "15.0",
+      "ProductSHA": "C1F34A3BE35AA6289ADBF80045C133EF1AA3739B86CD6C95197910D33504B214",
+      "LiveCodex": false,
+      "LiveClaude": false,
+      "EvidenceOwner": "TASK036",
+      "AuditorExecuted": false
+    },
+    {
+      "Run": "run-46f24ccd0d2d48d3847e9900cfafa627",
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\ide\\run-46f24ccd0d2d48d3847e9900cfafa627\\result.json",
+      "SHA256": "AEB60BF5DFFD08FC721BD02640CEC8728ED4D7155FAD08DC46A0B260F09A233B",
+      "Succeeded": true,
+      "Passed": 145,
+      "Failed": 0,
+      "HostVersion": "15.0",
+      "ProductSHA": "38C447920501991D15685C8DEC35485D4B1757ADC8CF6F65AE97A5723DFD7CCA",
+      "LiveCodex": false,
+      "LiveClaude": false,
+      "EvidenceOwner": "TASK036",
+      "AuditorExecuted": false
+    },
+    {
+      "Run": "run-5657308c0e9f4aa9bd052b108a7a3afc",
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\ide\\run-5657308c0e9f4aa9bd052b108a7a3afc\\result.json",
+      "SHA256": "78FAC2C10718EF47C29E5DF6B12271E6B618133802E9C55C28F201FF15CCD35F",
+      "Succeeded": true,
+      "Passed": 145,
+      "Failed": 0,
+      "HostVersion": "16.0",
+      "ProductSHA": "30872439515A8B8FACCE1166C051499F536CFB05B330173FDBEA8C3F968FA541",
+      "LiveCodex": false,
+      "LiveClaude": false,
+      "EvidenceOwner": "TASK036",
+      "AuditorExecuted": false
+    },
+    {
+      "Run": "run-080a26457bde4098a4889aaa6975aa3e",
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\ide\\run-080a26457bde4098a4889aaa6975aa3e\\result.json",
+      "SHA256": "C59FE54B2B01711A263C11C63DB172A00D9600B5E31CFC28394BFE26A3A4ED34",
+      "Succeeded": true,
+      "Passed": 145,
+      "Failed": 0,
+      "HostVersion": "17.0",
+      "ProductSHA": "5F779A8456560F342478B28AD0E6A6289EF433FDB90A79FD4CCDFA4FEE6B6312",
+      "LiveCodex": false,
+      "LiveClaude": false,
+      "EvidenceOwner": "TASK036",
+      "AuditorExecuted": false
+    }
+  ],
+  "OwnerSuite": {
+    "AuditorExecuted": false,
+    "Initial": "15/16",
+    "InitialSummary": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\tl\\0256434fa6\\summary.txt",
+    "InitialPreserved": true,
+    "Retry": "foundation 45 assertions, exit0, one suite",
+    "RetrySummary": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\tl\\5eaf2785a3\\summary.txt",
+    "Aggregate": "16 distinct suites successful after harness correction",
+    "ProductChanged": false
+  },
+  "Preservation": {
+    "Count": 54,
+    "Mismatches": 0,
+    "RoleUnchanged": true,
+    "PriorAuditsUnchanged": true,
+    "PriorReleasesUnchanged": true
+  },
+  "SideEffects": {
+    "ProductSourceEdited": false,
+    "RoleEdited": false,
+    "SharedBuildExecuted": false,
+    "SharedBinObjWritten": false,
+    "RealInstallerInvoked": false,
+    "GUIUsed": false,
+    "AccountsUsed": false,
+    "Deployed": false
+  },
+  "Limitations": [
+    "Customer Professional15.7.1 IDE is unavailable and untested",
+    "Legacy actual IDE run used Community2017 15.9 host",
+    "Actual customer vswhere version and full original installation log/hash unknown",
+    "Framework/WebView2 final dependency validation belongs to VSIXInstaller",
+    "No live provider accounts, production SQL/TFVC or deployment verified"
+  ],
+  "HarnessIssues": [
+    "dot-source parameter collision corrected; failed output c16 preserved",
+    "same AssemblyIdentity ReflectionOnlyLoadFrom isolated per child process; c16-retry1 preserved",
+    "PS5 BOM/native stderr handling corrected; cli and cli-retry1 preserved",
+    "PS5 enriched string JSON serialization stalled; private verified PID only terminated; cli-retry2 logs preserved; cli-retry3 15/15 passed"
+  ],
+  "Sources": [
+    {
+      "Title": "Microsoft VS2017 Release History",
+      "URL": "https://learn.microsoft.com/en-us/visualstudio/releases/2017/vs2017-relnotes-history",
+      "Supports": "15.7.1 build 15.7.27703.2000, 15.7.0 build 15.7.27703.1"
+    },
+    {
+      "Title": "Microsoft VSIX Schema",
+      "URL": "https://learn.microsoft.com/en-us/visualstudio/extensibility/vsix-extension-schema-2-0-reference?view=vs-2022",
+      "Supports": "SKU inheritance, normalized minor version, ProductArchitecture"
+    },
+    {
+      "Title": "Microsoft vswhere Encoding",
+      "URL": "https://github.com/microsoft/vswhere/wiki/Encoding",
+      "Supports": "-utf8 introduced in 2.5, console encoding behavior"
+    }
+  ],
+  "Report": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\MarkdownReport\\CodexOrig2_TASK-037_Audit.md",
+  "ReportSHA256": "DF73CFE0A74915C4081CA99FC446B1A43E0C6782393226D0C0CA6EAC5D411A99",
+  "ArtifactHashes": [
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\bundle-internal-checksums.json",
+      "SHA256": "1460598098F9E702C3E285F0CFB8F17851B0A783F612D4A9C0758B57A53E8935",
+      "Bytes": 2703
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\bundle-readme-correction.json",
+      "SHA256": "207C732CAF4561C04F7B9EF0D158051B97245B3FE43423C646E1966A480B7F4C",
+      "Bytes": 842
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\bundle-readme-links.json",
+      "SHA256": "CE2C5DA1F91B90DAA49A5B2500DD4DBE4E519C1E6CAF169F0E82B7B9AEABEFF2",
+      "Bytes": 1472
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\bundle.json",
+      "SHA256": "FB010409AC9D394EFD7E9C6EE2F66ADA423E939D9CA2D35E20284AE27898ED99",
+      "Bytes": 12693
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\c14-c17-delta.json",
+      "SHA256": "50E110FEB9B2F259F5AD901C6F365C2201EABF9CFB058F4D465A3FAC662D3EFC",
+      "Bytes": 1672
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\FakeHost.cs",
+      "SHA256": "0571BFAAFC7A34F5A7820B75F2750650656FC284334650B967E2EFF40E6C5655",
+      "Bytes": 937
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\initial-inputs.json",
+      "SHA256": "5BD2638E00A22B72AC69753352E53B51A74653565F8F2C712EDB7A193045A0C0",
+      "Bytes": 687
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\integrity.json",
+      "SHA256": "378EC36DEDAD33FDA8177D1A9ECE1A1FBE03338B272F601E4478743BBFD5603A",
+      "Bytes": 114358
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\owner-ide-results.json",
+      "SHA256": "463150AB827ACF7BF2049FEC4D13CCC33A1DB2BC44A8B78AB2087CBCFA14532C",
+      "Bytes": 2301
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\protected-final.json",
+      "SHA256": "D09DBE8A6F1DAA488DABA3776624F1B9DBC1BC0E1B0ACFD81BE65890C6AC568D",
+      "Bytes": 17128
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\protected-start.json",
+      "SHA256": "019FBC09F6D76017A70C20AFEDAFC59851D71E42D97733374B71A4F48C1FFB81",
+      "Bytes": 11026
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\report-draft-withdrawn-R37-01.md",
+      "SHA256": "F9BF112532D2E28B7FF4EEE364630BD6C7B992612528A1850327C5BCDE653F09",
+      "Bytes": 9049
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\Verify-Audit37.ps1",
+      "SHA256": "BE9EC8277127A7BB53F13724251BF3AD7BA32464F905103271B18B0A9CF57A98",
+      "Bytes": 6827
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\Verify-Bundle37.ps1",
+      "SHA256": "E65DA1FE2226E3DD47B1865F7CC179FD9004198D5804703680B069C7602B43BF",
+      "Bytes": 2778
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\Verify-Cli37.ps1",
+      "SHA256": "E28BA71E2AB4BF6A7A83023101121093107ED614B749E5CD4A0AF307109AFA9F",
+      "Bytes": 7609
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\Verify-Integrity37.ps1",
+      "SHA256": "9E687F90378ACF34889018B7A62A93719D6448D2F0090C8D8EFB0E2DA8C69BA6",
+      "Bytes": 4653
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\c16-retry1\\invalid-package\\SHA256SUMS.txt",
+      "SHA256": "E288FCD70D71375106DF6769ECA0C1FD601660232958B1551455D9C20CB7D01F",
+      "Bytes": 103
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\c16-retry1\\invalid-package\\VS2017.15.7.AIAssistant-0.11.1.vsix",
+      "SHA256": "32F290675AB34D17AA8E6B866A7527A686388283E00C62F774E63C9561C6F19A",
+      "Bytes": 3851431
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\c16-retry1\\VS2017.15.7.AIAssistant-0.11.1\\VS2017.AIAssistant.dll",
+      "SHA256": "B9CEB036B8DCFBDDF3DC584524A6C4B6F16370DB0B0654374A5B8A6E058A5753",
+      "Bytes": 723968
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\c16-retry1\\VS2017.AIAssistant-0.11.1\\VS2017.AIAssistant.dll",
+      "SHA256": "9EF7E185349027D1715B1BD0F992FA64754C2A6C12F7B6A3825B129EB382D5D6",
+      "Bytes": 723968
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\c16-retry2\\result.json",
+      "SHA256": "A84A3BFB13EB20EA559BF009FC94F14E9288048019BBF1D5B835711C282D906A",
+      "Bytes": 113997
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\c16-retry2\\invalid-package\\SHA256SUMS.txt",
+      "SHA256": "E288FCD70D71375106DF6769ECA0C1FD601660232958B1551455D9C20CB7D01F",
+      "Bytes": 103
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\c16-retry2\\invalid-package\\VS2017.15.7.AIAssistant-0.11.1.vsix",
+      "SHA256": "32F290675AB34D17AA8E6B866A7527A686388283E00C62F774E63C9561C6F19A",
+      "Bytes": 3851431
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\c16-retry2\\VS2017.15.7.AIAssistant-0.11.1\\VS2017.AIAssistant.dll",
+      "SHA256": "B9CEB036B8DCFBDDF3DC584524A6C4B6F16370DB0B0654374A5B8A6E058A5753",
+      "Bytes": 723968
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\c16-retry2\\VS2017.AIAssistant-0.11.1\\VS2017.AIAssistant.dll",
+      "SHA256": "9EF7E185349027D1715B1BD0F992FA64754C2A6C12F7B6A3825B129EB382D5D6",
+      "Bytes": 723968
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\c16-retry2\\VS2019.AIAssistant-0.11.1\\VS2017.AIAssistant.dll",
+      "SHA256": "CFF8DDC80F0927A21AEDDE859A080F8CAAC6903413FBBFEBF2AE88B6F3D9F5C5",
+      "Bytes": 721920
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\c16-retry2\\VS2022.AIAssistant-0.11.1\\VS2017.AIAssistant.dll",
+      "SHA256": "76AB8A49E1DE6E811E5DD9671AD41282A2382197D3A87D3BA07E8A8E0F159398",
+      "Bytes": 720384
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\c17\\result.json",
+      "SHA256": "540916667E0985131FA2BCA54CA97CB1C2B7FEF076B8213973C393E59FD5411D",
+      "Bytes": 114286
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\c17\\invalid-package\\SHA256SUMS.txt",
+      "SHA256": "87543AB653555DA927D3406A0240860F4CE19068832736DCEE9ACD6CD0D0DF3D",
+      "Bytes": 103
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\c17\\invalid-package\\VS2017.15.7.AIAssistant-0.11.1.vsix",
+      "SHA256": "AB4B888656DBF5B2F4BF7711895F9BB82E75AF61B7878A08A66E8BC2A9F3D881",
+      "Bytes": 3851428
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\c17\\VS2017.15.7.AIAssistant-0.11.1\\VS2017.AIAssistant.dll",
+      "SHA256": "C1F34A3BE35AA6289ADBF80045C133EF1AA3739B86CD6C95197910D33504B214",
+      "Bytes": 723968
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\c17\\VS2017.AIAssistant-0.11.1\\VS2017.AIAssistant.dll",
+      "SHA256": "38C447920501991D15685C8DEC35485D4B1757ADC8CF6F65AE97A5723DFD7CCA",
+      "Bytes": 723968
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\c17\\VS2019.AIAssistant-0.11.1\\VS2017.AIAssistant.dll",
+      "SHA256": "30872439515A8B8FACCE1166C051499F536CFB05B330173FDBEA8C3F968FA541",
+      "Bytes": 721920
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\c17\\VS2022.AIAssistant-0.11.1\\VS2017.AIAssistant.dll",
+      "SHA256": "5F779A8456560F342478B28AD0E6A6289EF433FDB90A79FD4CCDFA4FEE6B6312",
+      "Bytes": 720384
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\cli-retry1\\c16-old-vswhere-calls.txt",
+      "SHA256": "E2CC3644F659BB78B49829846FE19557768025BA791948718751ED61CB51D623",
+      "Bytes": 37
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\cli-retry1\\c16-old-vswhere.log",
+      "SHA256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "Bytes": 0
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\cli-retry1\\result.json",
+      "SHA256": "A1CC1182F74DF1B29F92EB41066C27074B3FBA4F14F2BA0019386D710A84B2C3",
+      "Bytes": 233
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\cli-retry2\\c16-old-vswhere-calls.txt",
+      "SHA256": "E2CC3644F659BB78B49829846FE19557768025BA791948718751ED61CB51D623",
+      "Bytes": 37
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\cli-retry2\\c16-old-vswhere.log",
+      "SHA256": "6B57927738EC3AE439794B40ED4A56A3DEE770C68B8536C34B7CB70E2448BF47",
+      "Bytes": 1866
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\cli-retry2\\c17-discovery-fails-calls.txt",
+      "SHA256": "75714C914B47ABD20F867AE071B7C1E68C3E40D9C47C963417F9024951C6E791",
+      "Bytes": 93
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\cli-retry2\\c17-discovery-fails.log",
+      "SHA256": "ED161AE81162417F39BAD0B7B8973552156D4B328C9428F029DA26205CFEA2EC",
+      "Bytes": 1754
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\cli-retry2\\c17-existing-report-calls.txt",
+      "SHA256": "56F6B2F6024E9A418EAB0FF0D6826A34449B07168C238AB98B11F9D8ED2C75A4",
+      "Bytes": 116
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\cli-retry2\\c17-existing-report.log",
+      "SHA256": "0B85A71386FA8D3FC87FFCB2CDFED96A71C9AF793792EF1A74D38B6C2407183D",
+      "Bytes": 1784
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\cli-retry2\\c17-install-legacy37-calls.txt",
+      "SHA256": "56F6B2F6024E9A418EAB0FF0D6826A34449B07168C238AB98B11F9D8ED2C75A4",
+      "Bytes": 116
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\cli-retry2\\c17-install-legacy37-launch.txt",
+      "SHA256": "AFA80CBD62CABF26B7EB689D16A4AB5641E0217F15941CC06287C707D5801004",
+      "Bytes": 335
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\cli-retry2\\c17-install-legacy37.json",
+      "SHA256": "EC0C64DEDFA7A9F796CA4E0A8E55E0E2B4AB2D112BA275C45270359FBC08710D",
+      "Bytes": 6999
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\cli-retry2\\c17-install-legacy37.log",
+      "SHA256": "692DB9B1B9573B6EC9F853A2401FEE0556C2AC546B3086F1ADE8697348CE0899",
+      "Bytes": 2032
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\cli-retry2\\c17-install-nineteen37-calls.txt",
+      "SHA256": "56F6B2F6024E9A418EAB0FF0D6826A34449B07168C238AB98B11F9D8ED2C75A4",
+      "Bytes": 116
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\cli-retry2\\c17-install-nineteen37-launch.txt",
+      "SHA256": "9703E865CFFF2686FC9A0AFFC8C6E31856558C4DF167CAE8FA2C5CBBB38B6502",
+      "Bytes": 332
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\cli-retry2\\c17-install-nineteen37.json",
+      "SHA256": "B01682AF0A4A19CCAA4AD5D948C91C215091DF83B702450A9C8B0559ED5C7DF9",
+      "Bytes": 6999
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\cli-retry2\\c17-install-nineteen37.log",
+      "SHA256": "27CCD2B9BF1D11D37FFE23565C1BAE1A97B747DB7881351E2F321E8597D89080",
+      "Bytes": 2030
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\cli-retry2\\c17-install-normal37-calls.txt",
+      "SHA256": "56F6B2F6024E9A418EAB0FF0D6826A34449B07168C238AB98B11F9D8ED2C75A4",
+      "Bytes": 116
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\cli-retry2\\c17-install-normal37-launch.txt",
+      "SHA256": "F5E008B14AB029175F020113C69F3F4958C6916C6CB9B740A6DD1F8F0EC544D9",
+      "Bytes": 330
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\cli-retry2\\c17-install-normal37.json",
+      "SHA256": "6CE4A2C6E5707649317E34835F556207E7F41C02E82AD54D45CC034C80730A8E",
+      "Bytes": 6999
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\cli-retry2\\c17-install-normal37.log",
+      "SHA256": "45E11D590623B9D677785F8A4B37D518A90E12B283C9BB8B49906468C9EE6610",
+      "Bytes": 2022
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\cli-retry2\\c17-install-twentytwo37-calls.txt",
+      "SHA256": "56F6B2F6024E9A418EAB0FF0D6826A34449B07168C238AB98B11F9D8ED2C75A4",
+      "Bytes": 116
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\cli-retry2\\c17-install-twentytwo37-launch.txt",
+      "SHA256": "C63BB0A5949978F9ED38BE9EF8D3ACCC3F39211B2B61831E8CEAA9C366219222",
+      "Bytes": 333
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\cli-retry2\\c17-install-twentytwo37.json",
+      "SHA256": "66C0B9E2904FD4239EF714006B59066988C61F7CD511BBADCE1F940C48E13F12",
+      "Bytes": 6999
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\cli-retry2\\c17-install-twentytwo37.log",
+      "SHA256": "B03AC1156F1870B7BF705EE6FE27A8D6BFC70E6540B1FE67184BA8439C8ED30E",
+      "Bytes": 2034
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\cli-retry2\\c17-no-fallback-calls.txt",
+      "SHA256": "56F6B2F6024E9A418EAB0FF0D6826A34449B07168C238AB98B11F9D8ED2C75A4",
+      "Bytes": 116
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\cli-retry2\\c17-no-fallback.json",
+      "SHA256": "6107D97CB98DE70BF0562147953144038CA6F62AD5E497917DFB10A99439E7E0",
+      "Bytes": 3512
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\cli-retry2\\c17-no-fallback.log",
+      "SHA256": "784B59AA2C51E91974B18CB34A48296889B3BA424C0E255683AB831BFB15EE18",
+      "Bytes": 3656
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\cli-retry2\\c17-old-vswhere-calls.txt",
+      "SHA256": "56F6B2F6024E9A418EAB0FF0D6826A34449B07168C238AB98B11F9D8ED2C75A4",
+      "Bytes": 116
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\cli-retry2\\c17-old-vswhere.json",
+      "SHA256": "8C7BB3FFA071A30CC322FF2AEA20DC63B193BBF705D664BEC98A0CC6A8123326",
+      "Bytes": 6999
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\cli-retry2\\c17-old-vswhere.log",
+      "SHA256": "465A72B05F6BFC4D38CAB54BE6CB702DB8F1737AB35C5600FD6FB3BBEC454BEC",
+      "Bytes": 1624
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\cli-retry2\\c17-unknown-instance-calls.txt",
+      "SHA256": "56F6B2F6024E9A418EAB0FF0D6826A34449B07168C238AB98B11F9D8ED2C75A4",
+      "Bytes": 116
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\cli-retry2\\c17-unknown-instance.json",
+      "SHA256": "D72B3811A6C292EE387C3A98F8D825420C514B1C6B0FE52CA6DCF7D99E506F54",
+      "Bytes": 6999
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\cli-retry2\\c17-unknown-instance.log",
+      "SHA256": "A799AD6C95DDCB57D5C0F074A59115B27C6F923EA553AC450583EC449A74BAC0",
+      "Bytes": 3404
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\cli-retry3\\c16-old-vswhere-calls.txt",
+      "SHA256": "E2CC3644F659BB78B49829846FE19557768025BA791948718751ED61CB51D623",
+      "Bytes": 37
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\cli-retry3\\c16-old-vswhere.log",
+      "SHA256": "6B57927738EC3AE439794B40ED4A56A3DEE770C68B8536C34B7CB70E2448BF47",
+      "Bytes": 1866
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\cli-retry3\\c17-discovery-fails-calls.txt",
+      "SHA256": "75714C914B47ABD20F867AE071B7C1E68C3E40D9C47C963417F9024951C6E791",
+      "Bytes": 93
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\cli-retry3\\c17-discovery-fails.log",
+      "SHA256": "ED161AE81162417F39BAD0B7B8973552156D4B328C9428F029DA26205CFEA2EC",
+      "Bytes": 1754
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\cli-retry3\\c17-existing-report-calls.txt",
+      "SHA256": "56F6B2F6024E9A418EAB0FF0D6826A34449B07168C238AB98B11F9D8ED2C75A4",
+      "Bytes": 116
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\cli-retry3\\c17-existing-report.log",
+      "SHA256": "0B85A71386FA8D3FC87FFCB2CDFED96A71C9AF793792EF1A74D38B6C2407183D",
+      "Bytes": 1784
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\cli-retry3\\c17-install-legacy37-calls.txt",
+      "SHA256": "56F6B2F6024E9A418EAB0FF0D6826A34449B07168C238AB98B11F9D8ED2C75A4",
+      "Bytes": 116
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\cli-retry3\\c17-install-legacy37-launch.txt",
+      "SHA256": "00F93E8615B53FDE227FD12E5416111D484434A0305B67CF409DE0F26008BDB2",
+      "Bytes": 335
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\cli-retry3\\c17-install-legacy37.json",
+      "SHA256": "B2BCA2B76410971AB7DD7A242C90E8A969CA12F0C4B30796EC9A320B5EE37380",
+      "Bytes": 6999
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\cli-retry3\\c17-install-legacy37.log",
+      "SHA256": "0F9947A37858AE7D760EA7A3DCC75A6BEF0AD118C53E262C6FFB698BDC20F0A1",
+      "Bytes": 2032
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\cli-retry3\\c17-install-nineteen37-calls.txt",
+      "SHA256": "56F6B2F6024E9A418EAB0FF0D6826A34449B07168C238AB98B11F9D8ED2C75A4",
+      "Bytes": 116
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\cli-retry3\\c17-install-nineteen37-launch.txt",
+      "SHA256": "5966C4F041E1E0895089D80F7D138DE19881176834B6A737CC083FF97515E43B",
+      "Bytes": 332
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\cli-retry3\\c17-install-nineteen37.json",
+      "SHA256": "64B183ADE804444E5158A6723AAC62A33BF7E6840F3BF8710A20A126560850BB",
+      "Bytes": 6999
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\cli-retry3\\c17-install-nineteen37.log",
+      "SHA256": "410E4E47D5CD598E8BE91A9D2DAA78006838668A9F2974C9A32A32E6540AF007",
+      "Bytes": 2030
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\cli-retry3\\c17-install-normal37-calls.txt",
+      "SHA256": "56F6B2F6024E9A418EAB0FF0D6826A34449B07168C238AB98B11F9D8ED2C75A4",
+      "Bytes": 116
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\cli-retry3\\c17-install-normal37-launch.txt",
+      "SHA256": "BEA83010874873EE028B01EC4E822673F5971A551DF9016A214391224D1C58AE",
+      "Bytes": 330
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\cli-retry3\\c17-install-normal37.json",
+      "SHA256": "2758F1EE2D9911A619C915B7843DBF21C8E272D8FD1BECE67D7119846B3E5905",
+      "Bytes": 6999
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\cli-retry3\\c17-install-normal37.log",
+      "SHA256": "26D03AE0B891C779857219EAEED36B6DD91663F8837A3D2729A61E0456C0738B",
+      "Bytes": 2022
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\cli-retry3\\c17-install-twentytwo37-calls.txt",
+      "SHA256": "56F6B2F6024E9A418EAB0FF0D6826A34449B07168C238AB98B11F9D8ED2C75A4",
+      "Bytes": 116
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\cli-retry3\\c17-install-twentytwo37-launch.txt",
+      "SHA256": "20AF9C3878C518A9F47F074F8C157B8EE98F0F466111619D793A02A854D6DB0A",
+      "Bytes": 333
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\cli-retry3\\c17-install-twentytwo37.json",
+      "SHA256": "028BA3202C361F670E26856FD48027365964EA5BED4B8D50FB4D21718F42A47E",
+      "Bytes": 6999
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\cli-retry3\\c17-install-twentytwo37.log",
+      "SHA256": "6F13F07B6FF0B8C5A616A5AA7DE79A615DD249A75E6D08144428B04447F3DDFE",
+      "Bytes": 2034
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\cli-retry3\\c17-no-fallback-calls.txt",
+      "SHA256": "56F6B2F6024E9A418EAB0FF0D6826A34449B07168C238AB98B11F9D8ED2C75A4",
+      "Bytes": 116
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\cli-retry3\\c17-no-fallback.json",
+      "SHA256": "73D225B38D0F2E35A2AF85A67C576ADCDDAFBC87E8D91EFE4A30E5B0196E330A",
+      "Bytes": 3512
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\cli-retry3\\c17-no-fallback.log",
+      "SHA256": "7BB48A0D7C9544C94AAFE72DB33A13936DD9A6733CA35119E78104360EBB2B16",
+      "Bytes": 3656
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\cli-retry3\\c17-old-vswhere-calls.txt",
+      "SHA256": "56F6B2F6024E9A418EAB0FF0D6826A34449B07168C238AB98B11F9D8ED2C75A4",
+      "Bytes": 116
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\cli-retry3\\c17-old-vswhere.json",
+      "SHA256": "32BCA1FA5CFE4BC7115354825929DA8AA07499DBEE75625D66DFDB3C7CAE1617",
+      "Bytes": 6999
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\cli-retry3\\c17-old-vswhere.log",
+      "SHA256": "CB950BBF53E0B9A4EAA8589A5422200138236840E1F6001876C2A6052CB4FAC5",
+      "Bytes": 1624
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\cli-retry3\\c17-unknown-instance-calls.txt",
+      "SHA256": "56F6B2F6024E9A418EAB0FF0D6826A34449B07168C238AB98B11F9D8ED2C75A4",
+      "Bytes": 116
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\cli-retry3\\c17-unknown-instance.json",
+      "SHA256": "A82C603142C2D85077FA4AE17F0D926E52A61E85DD4D1237A36644AE35EA44D1",
+      "Bytes": 6999
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\cli-retry3\\c17-unknown-instance.log",
+      "SHA256": "6F294DE2366AE8B3BEAB60EE951B8805E6A40FFF16E06CBA457C393F62F10AA6",
+      "Bytes": 3404
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task037\\cli-retry3\\result.json",
+      "SHA256": "E4BA2D1373BBEEDEFD42E20134AF05E9998A04EF7ECB61A0CA19263DCB13807D",
+      "Bytes": 26535
+    }
+  ]
+}

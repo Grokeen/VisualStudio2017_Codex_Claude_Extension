@@ -7,4 +7,5 @@
 *.gif binary
 # These original guide assets are also packaged and checked by their raw bytes.
 /InstallCLI.bat -text
+/InstallAIAssistant.bat -text whitespace=cr-at-eol
 /HowToInstallCLI.md -text

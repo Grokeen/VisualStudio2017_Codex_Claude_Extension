@@ -4,15 +4,20 @@
 
 오류 화면과 참고 문서를 보여 주고 자연어로 작업을 요청하세요. 바뀔 코드를 먼저 비교해 승인하거나, **전체 액세스**를 선택해 AI가 직접 파일 수정과 명령·테스트를 수행하게 할 수 있습니다. 대화와 공통 규칙은 내 PC의 Markdown에 남습니다.
 
-**v0.11.0** · [GitHub Releases](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.11.0) · [세 버전 설치 묶음 ZIP](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.11.0/VisualStudio_AI_Assistant-0.11.0.zip) · [설치 안내](releases/v0.11.0/README.md) · [자세한 사용법](docs/USER_GUIDE.md)
+**v0.11.1** · [GitHub Releases](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.11.1) · [네 환경 설치 묶음 ZIP](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.11.1/VisualStudio_AI_Assistant-0.11.1.zip) · [설치 안내](releases/v0.11.1/README.md) · [자세한 사용법](docs/USER_GUIDE.md)
 
 | 사용 중인 Visual Studio | 설치 파일 |
 |---|---|
-| 2017 15.9 이상 · x86 IDE | [VS2017용 다운로드](releases/v0.11.0/VS2017.AIAssistant-0.11.0.vsix?raw=true) |
-| 2019 16.11 · x86 IDE | [VS2019용 다운로드](releases/v0.11.0/VS2019.AIAssistant-0.11.0.vsix?raw=true) |
-| 2022 17.x · x64 IDE | [VS2022용 다운로드](releases/v0.11.0/VS2022.AIAssistant-0.11.0.vsix?raw=true) |
+| 2017 15.7·15.8 · x86 IDE | [VS2017 15.7용 다운로드](releases/v0.11.1/VS2017.15.7.AIAssistant-0.11.1.vsix?raw=true) |
+| 2017 15.9 이상 · x86 IDE | [VS2017용 다운로드](releases/v0.11.1/VS2017.AIAssistant-0.11.1.vsix?raw=true) |
+| 2019 16.11 · x86 IDE | [VS2019용 다운로드](releases/v0.11.1/VS2019.AIAssistant-0.11.1.vsix?raw=true) |
+| 2022 17.x · x64 IDE | [VS2022용 다운로드](releases/v0.11.1/VS2022.AIAssistant-0.11.1.vsix?raw=true) |
 
 각 버전에 맞는 설치 파일을 사용하세요. Windows 네이티브 `codex.exe` 또는 `claude.exe`와 해당 서비스 계정이 필요합니다. 확장을 직접 빌드할 필요는 없습니다.
+
+**VS2017 15.7.1에서 업데이트 없이 설치:** 위의 **VS2017 15.7용**을 선택하세요. 15.7 당시 SDK로 별도로 컴파일한 패키지이며, 기존 15.9 이상용의 설치 하한만 바꾼 파일이 아닙니다. Community·Professional·Enterprise를 지원합니다. 현재 실제 IDE 검사는 VS2017 15.9에서 수행했으며, 고객의 15.7.1 PC 실행 결과는 별도 확인이 필요합니다.
+
+설치 묶음 ZIP을 모두 풀고 **InstallAIAssistant.bat**를 실행하면 설치된 IDE의 버전·패키지 무결성을 검사하고 해당 버전용 설치기를 엽니다. 여러 IDE가 있으면 설치할 대상을 선택합니다. [설치 오류 해결과 진단 방법](docs/INSTALL_TROUBLESHOOTING.md)을 함께 제공합니다.
 
 설치된 확장만 제거하려면 VS2017에서 **도구 → 확장 및 업데이트 → 설치됨**, VS2019·2022에서 **확장 → 확장 관리 → 설치됨**을 여세요. 목록에서 해당 버전의 AI Assistant 항목을 **제거**한 뒤 모든 Visual Studio 창을 닫습니다. 잠시 끄기만 하려면 **사용 안 함**을 선택하고 Visual Studio를 다시 여세요. 버전별 실제 항목 이름과 데이터 보존 안내는 [사용자 안내서](docs/USER_GUIDE.md#visual-studio-ai-assistant-확장-제거)를 참조하세요.
 
@@ -100,7 +105,7 @@ GIF가 재생되지 않는 환경에서는 [연결](docs/assets/guide-media/01-c
 
 목록 아래 **AI 지정하여 대화**에서 담당자를 고릅니다. 이름은 사용자명+AI명+A~Z 형식이고, 슬롯을 모두 사용하면 기존 A로 돌아갑니다. 역할·팀과 동료를 지정하면 실제 동료 검토를 받은 뒤 현재 AI가 결과를 종합합니다. 전체 액세스에서도 동료는 수정안을 검토하고 최종 담당자가 직접 실행합니다.
 
-**v0.11.0**에서는 같은 팀의 열린 Claude·Codex 대화를 서로 교차해 최대 3명까지 선택할 수 있습니다. Claude를 주 담당으로 두고 Codex를 동료로 두거나 그 반대로 구성할 수 있습니다. 전송을 누르면 각 동료의 저장된 CLI·모델·생각 강도·응답 속도를 사용해 순서대로 한 차례 검토하고, 현재 AI가 결과를 정리합니다. 요청·선택 소스·첨부가 선택한 각 AI 서비스에 공유되며 사용량과 시간이 추가됩니다. 재귀 자동 대화는 하지 않습니다. 실제 Claude CLI 계정 연결은 별도 로그인이 필요하며, 격리 검사를 실제 계정 성공으로 해석하지 않습니다. [협업 사용 안내](docs/USER_GUIDE.md#대화-ai-이름과-협업).
+**v0.11.0부터** 같은 팀의 열린 Claude·Codex 대화를 서로 교차해 최대 3명까지 선택할 수 있습니다. Claude를 주 담당으로 두고 Codex를 동료로 두거나 그 반대로 구성할 수 있습니다. 전송을 누르면 각 동료의 저장된 CLI·모델·생각 강도·응답 속도를 사용해 순서대로 한 차례 검토하고, 현재 AI가 결과를 정리합니다. 요청·선택 소스·첨부가 선택한 각 AI 서비스에 공유되며 사용량과 시간이 추가됩니다. 재귀 자동 대화는 하지 않습니다. 실제 Claude CLI 계정 연결은 별도 로그인이 필요하며, 격리 검사를 실제 계정 성공으로 해석하지 않습니다. [협업 사용 안내](docs/USER_GUIDE.md#대화-ai-이름과-협업).
 
 공통 규칙은 `%LOCALAPPDATA%\VS2017AIAssistant\workspace\instructions.md`, 대화는 같은 위치의 AI별 Markdown에 보관합니다. 공통 규칙은 모든 프로젝트에서 공유합니다. 첨부 원본은 대화에 저장하지 않으므로 다시 연 대화에서 필요하면 새로 첨부하세요.
 
@@ -118,6 +123,6 @@ AI 사용량과 비용은 각 계정에 따릅니다. PDF 등 문서 추출은 P
 
 프로젝트 전후 비교는 작은 텍스트 소스의 변경을 보완합니다. 비교 한도와 제외 폴더가 있으며, 다른 프로세스의 동시 변경도 포함될 수 있습니다. [사용 안내](docs/USER_GUIDE.md)의 추적 범위를 확인하세요.
 
-[최신 검증·감사 대응 기록](MarkdownReport/CodexOrig_TASK-032.md)에서 버전별 IDE·격리 협업 검사와 실제 Claude 계정·운영 DB·TFVC·운영 배포의 미검증 범위를 구분합니다. 테스트 재현에는 최상위 [검사 실행기](VisualStudio_AIChat_ExtentionTest.exe?raw=true)를 사용하세요. 기본 검사는 유료 AI 호출과 운영 서버 접속을 자동 실행하지 않습니다.
+[최신 설치 호환성 검증 기록](MarkdownReport/CodexOrig_TASK-036.md)에서 버전별 IDE·격리 협업 검사와 실제 Claude 계정·운영 DB·TFVC·운영 배포의 미검증 범위를 구분합니다. 테스트 재현에는 최상위 [검사 실행기](VisualStudio_AIChat_ExtentionTest.exe?raw=true)를 사용하세요. 기본 검사는 유료 AI 호출과 운영 서버 접속을 자동 실행하지 않습니다.
 
 [상세 사용법](docs/USER_GUIDE.md) · [테스트 환경](docs/TEST_ENVIRONMENT.md) · [실제 IDE 검사](docs/IDE_TESTS.md) · [빌드·라이선스 안내](docs/BUILD_AND_LICENSE.md) · [개발 안내](docs/DEVELOPMENT.md)

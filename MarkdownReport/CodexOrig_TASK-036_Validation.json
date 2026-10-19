@@ -1,0 +1,880 @@
+{
+  "SchemaVersion": 1,
+  "Task": "TASK-036",
+  "Version": "0.11.1",
+  "CheckedAt": "2026-10-19T09:16:12.2622483+09:00",
+  "StartedAt": "2026-10-19T08:53:47+09:00",
+  "Elapsed": "00:22:25.2652484",
+  "CustomerReportedVersion": "15.7.1",
+  "CustomerUpdateAllowed": false,
+  "CustomerFailureCondition": "Original VS2017 package requires 15.9; customer uses 15.7.1",
+  "CustomerActualIdeTested": false,
+  "FrozenCandidate": "candidate17",
+  "SourceInputs": {
+    "value": [
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\docs\\assets\\cli-manual\\01-overview.png",
+        "Hash": "86738234B9A201914E6BED1776C32A2B007AE8171F50EEA974C3B4BAC3E76B49",
+        "Bytes": 55500
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\docs\\assets\\cli-manual\\02-package.png",
+        "Hash": "CDCAEFF48497A3DD181230D4358428C22F5D86DDDE375CD5FF1BD07DFBA4C753",
+        "Bytes": 38432
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\docs\\assets\\cli-manual\\03-vsix.png",
+        "Hash": "D0088EDD998D516763D50D0030B39206EB778778B7DBF219705CC9F72D67C6D8",
+        "Bytes": 41222
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\docs\\assets\\cli-manual\\04-run-batch.png",
+        "Hash": "B5D5B679B0D56026D73F9323140E6894325A4F116984E3F655CB74DE075A91D9",
+        "Bytes": 51300
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\docs\\assets\\cli-manual\\05-success.png",
+        "Hash": "F9845411A901B6B687D873FBD7E93E693ABC52D716D4A912CB691652FFCF775F",
+        "Bytes": 57223
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\docs\\assets\\cli-manual\\06-login.png",
+        "Hash": "859D753C9240ED86525075F43A66A4823ADDE2F6F19A3D13F435695E0448020C",
+        "Bytes": 54992
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\docs\\assets\\cli-manual\\07-paths.png",
+        "Hash": "70BFA267082C8A6D2DD5A62065B821921BBC011C56ABAA01F2EC401EF4CCD043",
+        "Bytes": 46859
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\docs\\assets\\cli-manual\\08-attachments.png",
+        "Hash": "650733944817B5185BEE9C999D699E73643BDCCC0FB060B08515D073317AC9A9",
+        "Bytes": 36284
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\docs\\assets\\cli-manual\\09-troubleshooting.png",
+        "Hash": "44F4CB8F53CE709B1F126806E577B5219A2C44A8DF22578DE8513CD157832629",
+        "Bytes": 40243
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\docs\\assets\\cli-manual\\10-options.png",
+        "Hash": "D6C1443DA8C7118BFF1C10CEC72028F6ABCDD3027D9FB99217897A0BF8A89BB7",
+        "Bytes": 45287
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\docs\\assets\\cli-manual\\11-install-methods.png",
+        "Hash": "06A6494284E5B65E161CADEE74F2B3C8B62F4923244A1EAEA4B9C984626A08D0",
+        "Bytes": 40794
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\docs\\assets\\cli-manual\\12-checklist.png",
+        "Hash": "E49084EC2B5EC85B2640F598E152828000DDAD9D67A085B17EC97E0ACE0D48E4",
+        "Bytes": 37931
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\docs\\assets\\cli-manual\\ui-chat.png",
+        "Hash": "242A2B0809D62C354D5F1E88FA479D3EB335C155C1B57F7BA09793FFE29E0AAC",
+        "Bytes": 52822
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\docs\\assets\\cli-manual\\ui-guide.png",
+        "Hash": "321C6221992E58B812B762B605A0F61E8B59DD6074796BC63FF2DC8E55D69625",
+        "Bytes": 36260
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\docs\\assets\\cli-manual\\ui-models.png",
+        "Hash": "DF3391A04A18C38316D4456711E385A0906A1E5862D15C4A52856164E9B44712",
+        "Bytes": 19293
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\docs\\assets\\cli-manual\\ui-permissions.png",
+        "Hash": "85C9417A1C6CD433FCA2AE35BF1860B77F52A9FB07B09FF9E2D1EEA89B49F891",
+        "Bytes": 27586
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\docs\\assets\\cli-manual\\ui-review.png",
+        "Hash": "D3838D4919B3BCAFA6E2BEC4E03E376408BAF821245060124F472D1FDEFDA014",
+        "Bytes": 64180
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\docs\\assets\\cli-manual\\ui-settings.png",
+        "Hash": "26B64806A1482F83B7110001AA1C7CC62BEA3D383182FE7A53034BF160AA262B",
+        "Bytes": 55233
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\docs\\assets\\guide-media\\01-connect.gif",
+        "Hash": "59E48449823353475F5204971C0B5C5B3F926DFF7F1F6A239B3AE8C47B956149",
+        "Bytes": 252810
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\docs\\assets\\guide-media\\01-connect.png",
+        "Hash": "D70A981083C73399C346D54E520B466958BADD5DD15C925461520071250055A5",
+        "Bytes": 15425
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\docs\\assets\\guide-media\\02-request.gif",
+        "Hash": "B08A43114E1E12128BCE6EA32C6CDAF5A1D4ABD5BEDA3C16A24BC9A50FC31CE2",
+        "Bytes": 211883
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\docs\\assets\\guide-media\\02-request.png",
+        "Hash": "B83E1AE93DC9482135D844F1B7F22921B1E9D07C8CC57C40F9D5691EFCB09C3F",
+        "Bytes": 15662
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\docs\\assets\\guide-media\\03-review.gif",
+        "Hash": "92D4ACC8F2314D9DA0EE8350FE71CE48C2DB633499D3B3E8CD4898C8B7D57EDA",
+        "Bytes": 123205
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\docs\\assets\\guide-media\\03-review.png",
+        "Hash": "07DA9122FF6570B2627E8F7A6C0E3AC8D1DBE4FE90EDAFDC3FE22F78D7BF365E",
+        "Bytes": 16370
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\docs\\assets\\guide-media\\04-guide.gif",
+        "Hash": "C82293FB4C5D0074BF29D074BBB7419D6FD4821B4E485A5C907B0497CB5A0692",
+        "Bytes": 200648
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\docs\\assets\\guide-media\\04-guide.png",
+        "Hash": "FD365AFA59DB76AB110F8BA5F4FA1C392CD8EC8625CD67EE7ED4FE5CFAE8F0C6",
+        "Bytes": 25621
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\docs\\assets\\guide-media\\05-install.gif",
+        "Hash": "816F5FA2786BA404BA88066224B8A8F85760980F8564F80E9762E08090A078C3",
+        "Bytes": 197738
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\docs\\assets\\guide-media\\05-install.png",
+        "Hash": "BAC8E2E956FD37CC431653D555F9784A8C31A59D738649433851DACD283C5871",
+        "Bytes": 27286
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\HowToInstallCLI.md",
+        "Hash": "6990AF5ED77868C12C80D05FFFB7003DECD02AA0F5E6BC0F970996569B979164",
+        "Bytes": 20265
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\InstallCLI.bat",
+        "Hash": "81BAE40E698B7E16B4A15093248453C7A79EF5D564306FC9CE9416255D91D5CB",
+        "Bytes": 10233
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\output\\pdf\\VisualStudio_AI_Assistant_설치_사용설명서.pdf",
+        "Hash": "EAE9BDD2CA1602677FEAF6BD1F50C19C8F7E29068D33B1DC06215D998C60B30A",
+        "Bytes": 1089143
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant.DocumentReader\\App.config",
+        "Hash": "DBA0AC349FA98F542FE90CC4FBBE3033567DAC0515859D049854E81DEFAAAA51",
+        "Bytes": 159
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant.DocumentReader\\Properties\\AssemblyInfo.cs",
+        "Hash": "1B67151A709EA78991557E3A16315F1CF1BB17D2ACB5185100A4FFF669AD7D69",
+        "Bytes": 267
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant.DocumentReader\\VS2017.AIAssistant.DocumentReader.csproj",
+        "Hash": "909B5CDD5C4C125FF324F4E112890C102B574435A1AB8E9B0672D83EB0C427B3",
+        "Bytes": 1151
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\AiAssistantPackage.cs",
+        "Hash": "7DB704AB058019732C95EA4B919EC3223D200F9890262171017F89CBCD1D09CB",
+        "Bytes": 2458
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Assets\\Claude.png",
+        "Hash": "C7D8415B1EDBA67E5337D3684B480B563826F07BE9E28E10CCC14BF92037EF6D",
+        "Bytes": 39563
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Assets\\Codex.png",
+        "Hash": "8D5575EE667FF715CD3E3074D5296EDC68D5AADD89720D203E13131B68B22A04",
+        "Bytes": 1841
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Assets\\MarkdownnHighlighting.xshd",
+        "Hash": "7359736F9AABBD44C275EB82C45FD82AF593C3AD22A694C408E33CCB1B5B984A",
+        "Bytes": 1637
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Assets\\ThirdParty\\AvalonEdit\\LICENSE.txt",
+        "Hash": "7CFE74F11EAEF7A239E7C63D33595F924E7922FB3E3F3651014389620B228A07",
+        "Bytes": 1075
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Assets\\THIRD-PARTY-NOTICES.md",
+        "Hash": "CA3B136DF19E7DFFB611106D1728AAC40D4BEF8A12370ED7C01E54EF5D300105",
+        "Bytes": 2490
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Chat\\AssistantSettingsTransaction.cs",
+        "Hash": "56639555F425A32A747EC792F58FD0364505C0FBAA9FCBCEC31C841D3FBF7092",
+        "Bytes": 11716
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Chat\\ChatWorkspace.cs",
+        "Hash": "68CB357CB386432E87C3D23F47AF52C54E267D04B6AE49D4C3C9DCC7F33902AF",
+        "Bytes": 27001
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Chat\\ConversationCollaboration.cs",
+        "Hash": "9B84DF381FB2D09E6D46F08926AF6FEABC5D9171DB68EDF0CB51B5BC58365817",
+        "Bytes": 75491
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Chat\\DocumentAttachmentReader.cs",
+        "Hash": "605DF02064BA365914CF662C234B867A9DFE05069FE688EC343626C033C8DC3E",
+        "Bytes": 39711
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Chat\\DocumentFilterWorker.cs",
+        "Hash": "E1D52D2610C52B9393DC9B32465A1ABB75427E3DC8E8F75B69D62E539264F4EE",
+        "Bytes": 9632
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Chat\\DocumentWorkerLauncher.cs",
+        "Hash": "5F604DCE83697D60E5DD5668915379683BDA502E83DF3F0D0B0C3589842558C9",
+        "Bytes": 15489
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Chat\\MandatoryInstructionStore.cs",
+        "Hash": "180F376604EF13EC26FBD2D35038BBBB7BE034C8D5BFE6920B398A3F38330130",
+        "Bytes": 11669
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Chat\\MarkdownWorkspaceStore.cs",
+        "Hash": "2465AE378EE9AB1A91CBA814AAFE947B9A2890FAFC556B8C05FEA0632449C2E7",
+        "Bytes": 45345
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Commands\\AssistantCommands.vsct",
+        "Hash": "7133B59D773FDD20BEAA1E714DABBB728016692759A0F17B6EA94F9357C7FA31",
+        "Bytes": 1124
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Commands\\OpenAssistantCommand.cs",
+        "Hash": "263F4B13199B6021284380F238C7066A5CDB920034D36AE010013E4C690F0369",
+        "Bytes": 4379
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Editing\\DocumentSnapshot.cs",
+        "Hash": "184511525B968B067725FB04629ABF0B042F4817C2C32407033A2FCD0551399D",
+        "Bytes": 16064
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Editing\\EditProposal.cs",
+        "Hash": "5132A29DFF41BCB966F7C54DE0286315841F0C82E9DA0A626AF1EEEDA5AB7D1B",
+        "Bytes": 13165
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Editing\\IExternalEditingDocumentService.cs",
+        "Hash": "D8A7E61C72DE6B2ED1D8F0C2C551640495A05AAF692A0FBA25E2FB00E28DBB13",
+        "Bytes": 1400
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Editing\\IFullAccessDocumentService.cs",
+        "Hash": "A2750F9CB57CABE4BD18DE6E8833BF2FFFEA5CF22C1AE2D57F78CC910B6BD071",
+        "Bytes": 1292
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Editing\\SourceEditSession.cs",
+        "Hash": "8689541A21D28948F4344298CE6EDA65C0280D4703875F7E63B14E77B43D19AE",
+        "Bytes": 4293
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Properties\\AssemblyInfo.cs",
+        "Hash": "63B65C8E9882A510EB0668A5E1065B2D0F81D6A8354DB640EA91FDB8C63F0D93",
+        "Bytes": 596
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Providers\\AgentFileTracker.cs",
+        "Hash": "3E58B25E71A1529FC4BB3B5E09F87953402F173AB9E4661D42EDD79370275A00",
+        "Bytes": 15186
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Providers\\AgentProtocolEvents.cs",
+        "Hash": "A1AAA2F66DF8352AED19CEC516A6A944781C7B700411B2221A0D734EB7172C3B",
+        "Bytes": 19150
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Providers\\ClaudeRuntimeRunner.cs",
+        "Hash": "8D66FA6C0B21416C47E25A22740C2C2D5D8FA04411D47517D6E6E9B942F5EA30",
+        "Bytes": 9941
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Providers\\CliAccountService.cs",
+        "Hash": "1E14F22A1150DD0067507215EEE8BB1F0CA395C74C33D19CAAF81421D0100D6B",
+        "Bytes": 5153
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Providers\\CliEditProvider.cs",
+        "Hash": "12E922FD3D8E2B89B091B1BB64982F23B750DD07535E76A5A7FA34741201454F",
+        "Bytes": 34897
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Providers\\CodexRuntimeRunner.cs",
+        "Hash": "04DC678BC91570BBA1929B2CFF28B347194371743BF9AC379C7FCE3036598CFD",
+        "Bytes": 19326
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Providers\\NativeCliDiscovery.cs",
+        "Hash": "A5C763E5072408BDF3ECC34150DF959578333131F9F1BA5CA6E10903E9C26DD4",
+        "Bytes": 5779
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Providers\\NativeJsonSession.cs",
+        "Hash": "5810DF5D2DAE18F4C9E76DB57041F57CC9C724A865252EA0F8E4FCC173805E8E",
+        "Bytes": 14539
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Providers\\ProcessJob.cs",
+        "Hash": "BA715B1D467121C3483176AAA04AFB5DD454D9172AF920F6C7F968C1F50E8D44",
+        "Bytes": 4772
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Providers\\ProviderExecutionOptions.cs",
+        "Hash": "98926727866565A5A4021BCF1C24DCDAF14CBA88E61EF03B60BF3D99AFF68165",
+        "Bytes": 39845
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Providers\\ProviderRuntime.cs",
+        "Hash": "DD1BAE440B7B34546FD1BE9AB52160993D9AC5CC2CFF34DD1873DAC0438D8755",
+        "Bytes": 12079
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Providers\\ProviderRuntimeService.cs",
+        "Hash": "66EB7C78679F29493820E3F7A3DD264E53069A6E2E0B42097F246F516D71B371",
+        "Bytes": 16321
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Services\\CliGuideService.cs",
+        "Hash": "1AB7F5AEF02D23CBFB5B1FE4DDA5A1ED38E31306C0678354FCBE7A2B6EFE1218",
+        "Bytes": 27122
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Services\\ScmIdentityService.cs",
+        "Hash": "28CD8005F37C0B59EE75B45334C2A831EC9913B856F374C56D9D9C8307CF44B4",
+        "Bytes": 25411
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Services\\VisualStudioDocumentService.cs",
+        "Hash": "F90A2F9B422E281E9805DB84CCF91DC69D3A7EBDD0B3A05AE05DD5A1D147064D",
+        "Bytes": 28025
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Services\\VisualStudioExternalEditingScope.cs",
+        "Hash": "FC1F51393407C7B8602A37F3D65E81689CAE473B76AE1382F2B7A17197DB6E75",
+        "Bytes": 25222
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Services\\WorkspaceActionService.cs",
+        "Hash": "AB5AA4BAD97B04FA57A7C4904FE8456B04BCA555B745886B9AFCB424A3E38F2C",
+        "Bytes": 38097
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\source.extension.vsixmanifest",
+        "Hash": "83AD6B2347771800474C2E2660A6A829447D4D061A462386C090D996D1483C5B",
+        "Bytes": 1299
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\ToolWindows\\AssistantToolWindow.cs",
+        "Hash": "956E97CBC7DE404C4DBBC26868FE731FD429D28E6DACB3A54EE68C37C6C294EA",
+        "Bytes": 3976
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\AssistantControl.AccountLogin.cs",
+        "Hash": "0614E9E14826509152525B93746F70C0313A85931F87DBD18A2AAFD658DD51C1",
+        "Bytes": 24732
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\AssistantControl.Changes.cs",
+        "Hash": "C7FC42B6BFB242C8CAC85E98D15D10ED4B56DE6EA9A88DC5D007B303A939B425",
+        "Bytes": 29611
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\AssistantControl.Chat.cs",
+        "Hash": "E84C1F8088BD6EC6F11BD4E93FF99778938A83AC3C9A5A355240CA25FB6A159A",
+        "Bytes": 33051
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\AssistantControl.Conversations.cs",
+        "Hash": "517441CBEA4616FB5CAE004908464FFA67787663AB6E7EB5B0AD58099E91771C",
+        "Bytes": 11013
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\AssistantControl.Dialogs.cs",
+        "Hash": "FE437CC2CDE3175F1350D42F50F2D9A28A9BE3C7D30A5E38D042EFFF88D7A4E3",
+        "Bytes": 18241
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\AssistantControl.Dropdowns.cs",
+        "Hash": "5DB28674CA839638E5A0FF56EFCC8F98329CDD0893D3687CF930B154D54F4DB6",
+        "Bytes": 22790
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\AssistantControl.Experience.cs",
+        "Hash": "0EBCF5EB2678D9B15971EC652376C8E1979C490CD4CBAC9729823FDB51EDA71B",
+        "Bytes": 53326
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\AssistantControl.Fan.cs",
+        "Hash": "104E3F5F54621736D6987390B8129790B0584A3ED5527235FE1E1983F6178336",
+        "Bytes": 31456
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\AssistantControl.HistoryOverlay.cs",
+        "Hash": "752F6442270F07011629E86276B7F7893D734EDA9C0AC74D7D10A0A918609190",
+        "Bytes": 9258
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\AssistantControl.Markdown.cs",
+        "Hash": "233318AB4245A3F93C8BB5B64E568D8C6530B651A17913441A073C9AC4FD8990",
+        "Bytes": 13468
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\AssistantControl.Options.cs",
+        "Hash": "C70224C616C4BE81722FB66608E30011445D14711C73989F943ED61C95B5647C",
+        "Bytes": 30311
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\AssistantControl.Progress.cs",
+        "Hash": "012E396C969F851796D209F18C2D529608CE1C9882D624993FC57E21EFC57826",
+        "Bytes": 6536
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\AssistantControl.ProgressPresentation.cs",
+        "Hash": "2DC30CF24D6511CC4836C44E3CCF5D63F83205D1E463765749B8E540317408B0",
+        "Bytes": 8471
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\AssistantControl.Runtime.cs",
+        "Hash": "131CACBFF2AFC6BCE88A9AEDD72727D42D6C9C89A72319B61CEAD7E21966A5FC",
+        "Bytes": 34730
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\AssistantControl.Theme.cs",
+        "Hash": "AD8B61C8A8793CA71326312A3BB44E3E028B59E5E666DC90AB9DC5D7B436461C",
+        "Bytes": 16382
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\AssistantControl.Thinking.cs",
+        "Hash": "AABFFAF502818935D50EEF202E8F5646A2F1A56B794EE52357428E480C2E3F76",
+        "Bytes": 8283
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\AssistantControl.Viewport.cs",
+        "Hash": "09558A0BDD4B2741B5E50C9FB8EA0A8403C8F3C9EACDEB9067E885DE1987AEF5",
+        "Bytes": 18250
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\AssistantControl.xaml",
+        "Hash": "F70D30C78AB19BF939FADA4BAE250BE72C0E990CC89AD4203F373AF80856483B",
+        "Bytes": 29607
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\AssistantControl.xaml.cs",
+        "Hash": "39692A58B8876CBF135CF119BC38E6EDCB446AB4135755858765BDE05FD8CE4A",
+        "Bytes": 26552
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\AssistantDialogs.cs",
+        "Hash": "B7AEEFEB75CA8A7D3C2B53A68F441C284542B33CF7D6918F9B751DE87EDF777E",
+        "Bytes": 51761
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\AssistantGuideDetails.cs",
+        "Hash": "7AE143F18E1B76E53DC2C22A6874F9D5F778D3535B2FBCA48D20084D603FF70B",
+        "Bytes": 6838
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\AssistantGuideMedia.cs",
+        "Hash": "9D38D101CF39DB133CDD4B4283524E909A7385D0F47FAFA942F070EB2C926A10",
+        "Bytes": 11186
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\AssistantHelpContent.cs",
+        "Hash": "1E0BB12B90A45EBA0C2AE900721D02BCC5CE9C12DCC9AEEF8886EFBA3CD421A4",
+        "Bytes": 22968
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\AssistantPalette.cs",
+        "Hash": "8A515C30719F37E02E493D46A74180335FD69634ABF139D30D6F37FA2B30F840",
+        "Bytes": 10084
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\AssistantTheme.xaml",
+        "Hash": "2C7D43523E38B7250306D6074CD83AE9CC17FCECF20C6B556C9BCC37BB2EC30F",
+        "Bytes": 44958
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\AssistantThemePolicy.cs",
+        "Hash": "BB3536A0ADF6DEDACE97610653B8835CD1BEEB69D37F290C325B26BE078B9E7A",
+        "Bytes": 4183
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\ChangeDiffPopup.cs",
+        "Hash": "4D17E3C1AEB0AF0A89003E540F22A15E359FD5000C5126824ED3608BE3EC721D",
+        "Bytes": 16935
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\CliGuideDialog.cs",
+        "Hash": "12EA7BDA3CD5F674F67DB13ED59B91A22A5C1E1163234A247614AAC5046BAEA0",
+        "Bytes": 31998
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\DiffPreviewPresenter.cs",
+        "Hash": "70590A73C541B4078887093A792AF81784CD59EA6CB1C2AB1A617811D4AEA4E0",
+        "Bytes": 18904
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\MarkdownAnimatedImage.cs",
+        "Hash": "A4E4C273DE839A5EF9AC8E066FF807FE823ED909452687D004160C88E18FF7F8",
+        "Bytes": 26465
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\MarkdownEditor.cs",
+        "Hash": "267A40A54D3B7F25A47DE3CF9284046FB21AF68D9DEDD71BC6CF569AB688EF3F",
+        "Bytes": 62252
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\MarkdownEditor.Documents.cs",
+        "Hash": "DEC513A9D64FF7F1FED10139C3B353326BEB26DF76D7637F62AF036A9D54BC97",
+        "Bytes": 19135
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\MarkdownnCodeHighlighting.cs",
+        "Hash": "BD1E2EB7E6289138D61A18E0862EEE31027C49E947EC274C633BE526E8488EB3",
+        "Bytes": 31401
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\MarkdownnEditing.cs",
+        "Hash": "CFFA1B943917B9BD7C1084A1F7AA486A68E74A28BD6DD69A3790BC9B6B4F9375",
+        "Bytes": 7200
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\MarkdownPreview.cs",
+        "Hash": "6B5648142F9E0C6D7039E554E0A199171B1A6006B900D5400D587C0D620EB07B",
+        "Bytes": 10789
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\MarkdownRendering.cs",
+        "Hash": "E9658E9692F68B1C7F7FBD76A3A2D4D6C49F4C6F08BB5330EACE56311604F2FD",
+        "Bytes": 45343
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\MarkdownRendering.Html.cs",
+        "Hash": "556EBAC8CBE614AA7FD377D5F7AB3C508D39202DAC894CF4AFC466A5DD5F48BF",
+        "Bytes": 12886
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\ProgressNotice.cs",
+        "Hash": "14690B6063236852678E5CC45DA4A19DCB4DCD02480A4169AD112A41FDAC1FC0",
+        "Bytes": 48060
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\WorkspaceActionsDialog.cs",
+        "Hash": "2CDD1A3B3F583D888751D1421A925930AB0B7BACE7612C5B2FBB88B835DB9890",
+        "Bytes": 30340
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\VS2017.AIAssistant.csproj",
+        "Hash": "A5FE7C9CC83D9826D182E4A4C277C3E148B67124FAD1AF3BB83C84E60DF7E38D",
+        "Bytes": 12611
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\VSPackage.resx",
+        "Hash": "FF640F2D91CDE55865B3F5626CA2667E897F9E68892B5725D5197C7F29C91541",
+        "Bytes": 646
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.Legacy.AIAssistant\\source.extension.vsixmanifest",
+        "Hash": "E8DFEC89FA5558B563DE21F1D52DBE7B2404515040F367A6326ABE6876D2DFBB",
+        "Bytes": 1262
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.Legacy.AIAssistant\\VS2017.Legacy.AIAssistant.csproj",
+        "Hash": "95BA9685247A06C26327D140766A4E2C59B1AD273F77955B3661DA9198D976CF",
+        "Bytes": 20456
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2019.AIAssistant\\source.extension.vsixmanifest",
+        "Hash": "A73EBE7BD9E72AE89FD99C95A46C1264584120320056C4199F9347823B20FBD2",
+        "Bytes": 1250
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2019.AIAssistant\\VS2019.AIAssistant.csproj",
+        "Hash": "941D5F1A7F255ACE0D24B3E92B47AEC8056F4411C373FB090DD4532702809A98",
+        "Bytes": 20060
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2022.AIAssistant\\source.extension.vsixmanifest",
+        "Hash": "6FC62D8E31C3D07A3665FA206F6C3789038A3A6EA7EA662070472549CA512299",
+        "Bytes": 1331
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2022.AIAssistant\\VS2022.AIAssistant.csproj",
+        "Hash": "3974FF28BAD847589FFC8FC585627C9BCCB9FF5404898B025534E50B883BF054",
+        "Bytes": 20092
+      }
+    ],
+    "Count": 122
+  },
+  "SourceInputsUnchanged": true,
+  "Builds": {
+    "value": [
+      {
+        "Version": "2017.Legacy",
+        "Configuration": "Debug",
+        "ExitCode": 0,
+        "Warnings": 0,
+        "Log": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task025\\build-candidate17-2017.Legacy-Debug.log"
+      },
+      {
+        "Version": "2017.Legacy",
+        "Configuration": "Release",
+        "ExitCode": 0,
+        "Warnings": 0,
+        "Log": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task025\\build-candidate17-2017.Legacy-Release.log"
+      },
+      {
+        "Version": "2017",
+        "Configuration": "Debug",
+        "ExitCode": 0,
+        "Warnings": 0,
+        "Log": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task025\\build-candidate17-2017-Debug.log"
+      },
+      {
+        "Version": "2017",
+        "Configuration": "Release",
+        "ExitCode": 0,
+        "Warnings": 0,
+        "Log": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task025\\build-candidate17-2017-Release.log"
+      },
+      {
+        "Version": "2019",
+        "Configuration": "Debug",
+        "ExitCode": 0,
+        "Warnings": 0,
+        "Log": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task025\\build-candidate17-2019-Debug.log"
+      },
+      {
+        "Version": "2019",
+        "Configuration": "Release",
+        "ExitCode": 0,
+        "Warnings": 0,
+        "Log": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task025\\build-candidate17-2019-Release.log"
+      },
+      {
+        "Version": "2022",
+        "Configuration": "Debug",
+        "ExitCode": 0,
+        "Warnings": 0,
+        "Log": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task025\\build-candidate17-2022-Debug.log"
+      },
+      {
+        "Version": "2022",
+        "Configuration": "Release",
+        "ExitCode": 0,
+        "Warnings": 0,
+        "Log": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task025\\build-candidate17-2022-Release.log"
+      }
+    ],
+    "Count": 8
+  },
+  "Packages": {
+    "value": [
+      {
+        "Target": "2017.Legacy",
+        "File": "VS2017.15.7.AIAssistant-0.11.1.vsix",
+        "Sha256": "3B5551AB9C8A1E8993779FFA66F9D673C36A5F00F7A27B0AC2A6E2E9A770AAD4",
+        "DLL": "C1F34A3BE35AA6289ADBF80045C133EF1AA3739B86CD6C95197910D33504B214"
+      },
+      {
+        "Target": "2017",
+        "File": "VS2017.AIAssistant-0.11.1.vsix",
+        "Sha256": "2C7DB6E2B89A4BD708B790B01BA1A71388EB90619CE62BCCB0BE4A3B2F379DD8",
+        "DLL": "38C447920501991D15685C8DEC35485D4B1757ADC8CF6F65AE97A5723DFD7CCA"
+      },
+      {
+        "Target": "2019",
+        "File": "VS2019.AIAssistant-0.11.1.vsix",
+        "Sha256": "AB4B888656DBF5B2F4BF7711895F9BB82E75AF61B7878A08A66E8BC2A9F3D881",
+        "DLL": "30872439515A8B8FACCE1166C051499F536CFB05B330173FDBEA8C3F968FA541"
+      },
+      {
+        "Target": "2022",
+        "File": "VS2022.AIAssistant-0.11.1.vsix",
+        "Sha256": "2CA4E737260ECDF7F4228F7B60E86F298881B1889A0BA4AE92B50B08E4FC2D8C",
+        "DLL": "5F779A8456560F342478B28AD0E6A6289EF433FDB90A79FD4CCDFA4FEE6B6312"
+      }
+    ],
+    "Count": 4
+  },
+  "ActualIde": [
+    {
+      "Target": "2017.Legacy",
+      "HostVersion": "15.0",
+      "Passed": 145,
+      "Failed": 0,
+      "LoadedProductSha256": "C1F34A3BE35AA6289ADBF80045C133EF1AA3739B86CD6C95197910D33504B214",
+      "VsixSha256": "3B5551AB9C8A1E8993779FFA66F9D673C36A5F00F7A27B0AC2A6E2E9A770AAD4",
+      "Run": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\ide\\run-b26cd533a1274509ad7d30358fce139e",
+      "Customer157ProfessionalTested": false
+    },
+    {
+      "Target": "2017",
+      "HostVersion": "15.0",
+      "Passed": 145,
+      "Failed": 0,
+      "LoadedProductSha256": "38C447920501991D15685C8DEC35485D4B1757ADC8CF6F65AE97A5723DFD7CCA",
+      "VsixSha256": "2C7DB6E2B89A4BD708B790B01BA1A71388EB90619CE62BCCB0BE4A3B2F379DD8",
+      "Run": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\ide\\run-46f24ccd0d2d48d3847e9900cfafa627",
+      "Customer157ProfessionalTested": false
+    },
+    {
+      "Target": "2019",
+      "HostVersion": "16.0",
+      "Passed": 145,
+      "Failed": 0,
+      "LoadedProductSha256": "30872439515A8B8FACCE1166C051499F536CFB05B330173FDBEA8C3F968FA541",
+      "VsixSha256": "AB4B888656DBF5B2F4BF7711895F9BB82E75AF61B7878A08A66E8BC2A9F3D881",
+      "Run": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\ide\\run-5657308c0e9f4aa9bd052b108a7a3afc",
+      "Customer157ProfessionalTested": false
+    },
+    {
+      "Target": "2022",
+      "HostVersion": "17.0",
+      "Passed": 145,
+      "Failed": 0,
+      "LoadedProductSha256": "5F779A8456560F342478B28AD0E6A6289EF433FDB90A79FD4CCDFA4FEE6B6312",
+      "VsixSha256": "2CA4E737260ECDF7F4228F7B60E86F298881B1889A0BA4AE92B50B08E4FC2D8C",
+      "Run": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\ide\\run-080a26457bde4098a4889aaa6975aa3e",
+      "Customer157ProfessionalTested": false
+    }
+  ],
+  "InstallerChecks": 35,
+  "InstallerEvidence": "artifacts/task036/tests-c17-extra/results.json",
+  "LegacySdkBoundaryChecks": 31,
+  "LegacySdkBoundaryEvidence": "artifacts/task036/legacy-sdk-theme-c17/result.json",
+  "LegacySdkShellPath": "C:\\Users\\ygree\\.nuget\\packages\\microsoft.visualstudio.shell.15.0\\15.7.27703\\lib\\net45\\Microsoft.VisualStudio.Shell.15.0.dll",
+  "DefaultSuites": {
+    "OriginalFullRun": "artifacts/tl/0256434fa6",
+    "OriginalPassed": 15,
+    "OriginalFailed": 1,
+    "Failure": "Foundation compared legacy package to modern source manifest",
+    "RecoveredRun": "artifacts/tl/5eaf2785a3",
+    "RecoveredSuite": "foundation",
+    "RecoveredChecks": 45,
+    "CombinedPassed": 16,
+    "FreshSingleFull16PassClaimed": false
+  },
+  "LauncherSmokePassed": 15,
+  "LauncherEvidence": "artifacts/ls/26bf6b4da8",
+  "RuntimeDependencyByteMatches": 16,
+  "ProtectedOriginalsUnchanged": 47,
+  "BundleEntries": 31,
+  "ReleaseAssets": [
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.11.1\\VS2017.15.7.AIAssistant-0.11.1.vsix",
+      "Name": "VS2017.15.7.AIAssistant-0.11.1.vsix",
+      "Bytes": 3849667,
+      "Sha256": "3B5551AB9C8A1E8993779FFA66F9D673C36A5F00F7A27B0AC2A6E2E9A770AAD4"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.11.1\\VS2017.AIAssistant-0.11.1.vsix",
+      "Name": "VS2017.AIAssistant-0.11.1.vsix",
+      "Bytes": 3849596,
+      "Sha256": "2C7DB6E2B89A4BD708B790B01BA1A71388EB90619CE62BCCB0BE4A3B2F379DD8"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.11.1\\VS2019.AIAssistant-0.11.1.vsix",
+      "Name": "VS2019.AIAssistant-0.11.1.vsix",
+      "Bytes": 3851428,
+      "Sha256": "AB4B888656DBF5B2F4BF7711895F9BB82E75AF61B7878A08A66E8BC2A9F3D881"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.11.1\\VS2022.AIAssistant-0.11.1.vsix",
+      "Name": "VS2022.AIAssistant-0.11.1.vsix",
+      "Bytes": 3851232,
+      "Sha256": "2CA4E737260ECDF7F4228F7B60E86F298881B1889A0BA4AE92B50B08E4FC2D8C"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.11.1\\VisualStudio_AI_Assistant-0.11.1.zip",
+      "Name": "VisualStudio_AI_Assistant-0.11.1.zip",
+      "Bytes": 16925451,
+      "Sha256": "62B4D4A231B8D8338FCF0D1B241B755A9F2603E602D6671DD55D0EE46C871E71"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\VisualStudio_AIChat_ExtentionTest.exe",
+      "Name": "VisualStudio_AIChat_ExtentionTest.exe",
+      "Bytes": 36352,
+      "Sha256": "6DC09F6BE23D54C4C5289A2CFB302F49CD7650F674A04B485748B671756DA3E2"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.11.1\\RELEASE_SHA256SUMS.txt",
+      "Name": "RELEASE_SHA256SUMS.txt",
+      "Bytes": 606,
+      "Sha256": "84387F39266F7A63A7761B3658DD34BD8270F06A994DC0E715E9ABB774DEF3F7"
+    }
+  ],
+  "PreservedFailures": [
+    "artifacts/task025/candidate16",
+    "artifacts/task036/release-c16",
+    "artifacts/ide/run-e85ebca58020478da2ec93aa8266a183",
+    "artifacts/tl/2740a33299",
+    "artifacts/tl/0256434fa6",
+    "artifacts/task036/bundle-incomplete-c17-ps5encoding.zip"
+  ],
+  "Limitations": [
+    "Customer VS2017 15.7.1 Professional installation and runtime not executed on this development PC.",
+    "Actual Legacy IDE checks use installed VS2017 Community 15.9.37627.17.",
+    "No actual Claude account or production DB/TFVC/deployment integration tested."
+  ],
+  "InstallationSourceInputs": [
+    {
+      "Path": "scripts/Install-AIAssistant.ps1",
+      "Sha256": "E85D78DC5884E4E398657CF1F439A448035711F6E3226FDE0E53341CB1241226"
+    },
+    {
+      "Path": "InstallAIAssistant.bat",
+      "Sha256": "67FFE79505F0B3829FDE89CFBE400A3DA29D88224A4E3DC3645839035C893372"
+    },
+    {
+      "Path": "tests/compatibility/Test-AIAssistantInstaller.ps1",
+      "Sha256": "902B39A848D8D92A5A54CE793D915DB596410EDEC90041D01F167AA350798053"
+    },
+    {
+      "Path": "tests/foundation/Test-FoundationPackage.ps1",
+      "Sha256": "F1A7EC0B1C1C7B8641ECA484E09FBB3FC7E4228E2B599D4A322FF6B99DEDECDE"
+    },
+    {
+      "Path": "tests/task026/Test-ThemeRuntime.ps1",
+      "Sha256": "2C16CF5DE3D802D1EF6CAEA166ABD6909C4A3AD13522C0C1F98D7E5DAB5311E0"
+    }
+  ],
+  "InstalledHostBuilds": {
+    "VS2017": "15.9.37627.17",
+    "VS2019": "16.11.37627.13",
+    "VS2022": "17.14.37806.7"
+  },
+  "IndependentAudit": {
+    "Task": "TASK-037",
+    "Complete": true,
+    "ConfirmedOpenFindings": 0,
+    "Report": "MarkdownReport/CodexOrig2_TASK-037_Audit.md",
+    "Evidence": "MarkdownReport/CodexOrig2_TASK-037_Evidence.json",
+    "EvidenceSha256": "730BDE3EE3DF3C36DB7CCD37C917019CF08B739915C114F19865A2763BCE0C21",
+    "InstallerSha256": "E85D78DC5884E4E398657CF1F439A448035711F6E3226FDE0E53341CB1241226",
+    "SelectorPassed": 40,
+    "FakeCliPassed": 15,
+    "CommonPayloadMatched": 43,
+    "ZipEntriesMatched": 31,
+    "WithdrawnFinding": "R37-01 wrong source README input, withdrawn after direct ZIP entry read"
+  }
+}

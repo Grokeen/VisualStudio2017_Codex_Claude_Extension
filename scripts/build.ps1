@@ -6,12 +6,13 @@
     create date: 2026-10-17
     update date: 2026-10-17 CodexCode : VS 탐색, 종료 코드 검사 및 CLI 배포 방지 추가.
                  2026-10-18 CodexOrig : TASK-020 버전별 프로젝트 빌드 지원.
+                 2026-10-19 CodexOrig : TASK-036 VS2017.Legacy의 구 SDK 전용 빌드 지원.
 #>
 [CmdletBinding()]
 param(
     [ValidateSet('Debug', 'Release')]
     [string]$Configuration = 'Release',
-    [ValidateSet('2017','2019','2022')][string]$VisualStudioVersion = '2017',
+    [ValidateSet('2017.Legacy','2017','2019','2022')][string]$VisualStudioVersion = '2017',
     [string]$MSBuildPath,
     [string]$NuGetPath
 )
@@ -26,7 +27,7 @@ if (!(Test-Path -LiteralPath $targetPath)) { throw "대상 프로젝트가 없�
 if ([string]::IsNullOrWhiteSpace($MSBuildPath)) {
     $vswherePath = Join-Path ${env:ProgramFiles(x86)} 'Microsoft Visual Studio\Installer\vswhere.exe'
     if (Test-Path -LiteralPath $vswherePath) {
-        $engineRange = switch ($VisualStudioVersion) { '2017' { '[15.0,16.0)' } '2019' { '[16.0,17.0)' } '2022' { '[17.0,18.0)' } }
+        $engineRange = switch ($VisualStudioVersion) { '2017.Legacy' { '[15.0,16.0)' } '2017' { '[15.0,16.0)' } '2019' { '[16.0,17.0)' } '2022' { '[17.0,18.0)' } }
         $MSBuildPath = & $vswherePath -latest -version $engineRange -products '*' `
             -requires Microsoft.Component.MSBuild -find 'MSBuild\**\Bin\MSBuild.exe' |
             Select-Object -First 1

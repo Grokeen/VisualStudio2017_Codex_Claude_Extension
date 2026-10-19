@@ -230,6 +230,7 @@ internal static class TestLauncher
     /// update date  : 2026-10-18 CodexOrig : TASK-016 문서 첨부·모델 설정·AI 역할 협업과 실패 복구 흐름 연결.
     /// update date  : 2026-10-18 CodexOrig : TASK-018 0.8 기본 경로와 이미지 요구 검사 묶음 연결.
     ///                2026-10-18 CodexOrig : TASK-020 최종 버전·선택·전체 액세스 검사 계약 반영.
+    ///                2026-10-19 CodexOrig : TASK-036 0.11.1 기본 패키지 경로 변경.
     /// </summary>
     /// ---------------------------------------------------------------------
     private static void PrepareInputs(TestSuite[] suites, LauncherOptions options, string output, Action<string> log)
@@ -238,14 +239,14 @@ internal static class TestLauncher
         if (explicitVsix) options.Vsix = ResolveFile(options.Vsix, ".vsix");
         if (suites.Any(s => s.Vsix) || (suites.Any(s => s.Assembly) && string.IsNullOrWhiteSpace(options.Assembly)))
         {
-            if (string.IsNullOrWhiteSpace(options.Vsix)) options.Vsix = File.Exists(Path.Combine(Root, "releases/v0.11.0/VS2017.AIAssistant-0.11.0.vsix")) ? "releases/v0.11.0/VS2017.AIAssistant-0.11.0.vsix" : "src/VS2017.AIAssistant/bin/Release/VS2017.AIAssistant.vsix";
+            if (string.IsNullOrWhiteSpace(options.Vsix)) options.Vsix = File.Exists(Path.Combine(Root, "releases/v0.11.1/VS2017.AIAssistant-0.11.1.vsix")) ? "releases/v0.11.1/VS2017.AIAssistant-0.11.1.vsix" : "src/VS2017.AIAssistant/bin/Release/VS2017.AIAssistant.vsix";
             if (suites.Any(s => s.Vsix) || File.Exists(Path.Combine(Root, options.Vsix))) options.Vsix = ResolveFile(options.Vsix, ".vsix");
         }
         if (suites.Any(s => s.Assembly))
         {
             if (string.IsNullOrWhiteSpace(options.Assembly))
             {
-                if (!explicitVsix && File.Exists(Path.Combine(Root, "releases/v0.11.0/VS2017.AIAssistant.dll"))) options.Assembly = "releases/v0.11.0/VS2017.AIAssistant.dll";
+                if (!explicitVsix && File.Exists(Path.Combine(Root, "releases/v0.11.1/VS2017.AIAssistant.dll"))) options.Assembly = "releases/v0.11.1/VS2017.AIAssistant.dll";
                 else if (!string.IsNullOrWhiteSpace(options.Vsix) && File.Exists(options.Vsix))
                 {
                     string destination = Path.Combine(output, "ProductReference"); Directory.CreateDirectory(destination);
@@ -473,7 +474,7 @@ internal sealed class LauncherForm : Form
         layout.RowStyles.Add(new RowStyle(SizeType.Percent, 100)); layout.RowStyles.Add(new RowStyle(SizeType.AutoSize)); Controls.Add(layout);
         layout.Controls.Add(new Label { Text = "실행할 검사를 고르세요 · IDE·실제 AI 검사는 직접 선택할 때만 실행됩니다.", AutoSize = true, Padding = new Padding(0, 0, 0, 8) }, 0, 0);
         foreach (var suite in TestLauncher.Suites) suites.Items.Add(suite, false); layout.Controls.Add(suites, 0, 1);
-        layout.Controls.Add(new Label { Text = "DLL / VSIX 경로 (비우면 배포 v0.11.0 → 기존 Release 산출물, 자동 빌드 없음)", AutoSize = true, Padding = new Padding(0, 8, 0, 0) }, 0, 2);
+        layout.Controls.Add(new Label { Text = "DLL / VSIX 경로 (비우면 배포 v0.11.1 → 기존 Release 산출물, 자동 빌드 없음)", AutoSize = true, Padding = new Padding(0, 8, 0, 0) }, 0, 2);
         var paths = new TableLayoutPanel { Dock = DockStyle.Fill, AutoSize = true, ColumnCount = 2, RowCount = 3 }; paths.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 95)); paths.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
         paths.Controls.Add(new Label { Text = "제품 DLL", AutoSize = true }, 0, 0); paths.Controls.Add(assembly, 1, 0); paths.Controls.Add(new Label { Text = "제품 VSIX", AutoSize = true }, 0, 1); paths.Controls.Add(vsix, 1, 1); paths.Controls.Add(new Label { Text = "Codex .exe", AutoSize = true }, 0, 2); paths.Controls.Add(codex, 1, 2); layout.Controls.Add(paths, 0, 3);
         assembly.Text = options.Assembly ?? ""; vsix.Text = options.Vsix ?? ""; codex.Text = options.Codex ?? "";

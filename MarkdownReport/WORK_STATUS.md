@@ -1,4 +1,4 @@
-# 협업 작업 현황
+﻿# 협업 작업 현황
 
 작업자는 소스 변경 전에 이 파일을 읽고 담당 범위와 상태를 등록한다. 다른 작업자가 `진행 중`인 범위는 수정하지 않으며, 다른 작업자가 작업 중이면 GitHub push 및 릴리스 배포를 수행하지 않는다. 완료·중단 시 검증 결과와 남은 작업을 기록한다. 기존 작업자의 기록을 임의로 삭제하거나 완료로 바꾸지 않는다.
 
@@ -1296,3 +1296,44 @@ README.md와 docs/USER_GUIDE.md의 본문 편집을 종료하고 통합 마감 �
 releases/v0.11.0/VisualStudio_AI_Assistant-0.11.0.zip(26항목), RELEASE_SHA256SUMS.txt(다운로드5개해시), RELEASE_NOTES.md를 생성하고 ZIP원문바이트를 확인했다. README·버전설치안내와 최상위실행기를 마감했다. 제품원본47·과거감사/설치자료 보존, 사용자설치/계정/운영서버 변경0. 보고 CodexOrig_TASK-035.md/_Validation.json. 다른담당자종료유지/035모든검사창종료·GUI예약해제. 정확커밋에 GitHub Release 초안6자산 업로드→서버해시확인→게시→공개다운로드 대조를 이어간다. 자격증명은메모리에서만사용·로그/저장소기록0.
 
 - TASK-035 / CodexOrig / 정식 GitHub Release 게시·원격 확인 완료 / 2026-10-19 06:39:03 KST: https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.11.0, 태그 v0.11.0 대상 a80e228fa2aa27fc36d5185c83f141b4dfed4bd7. VSIX3·설치ZIP·실행기·체크섬6자산 업로드/서버SHA확인/공개다운로드바이트·SHA256 전부일치. source120차이0·재빌드6개0/0·새전체16/새실행기15·ZIP26항목확인·기존원본47보존. 총경과 00:07:50.5081401(등록06:31:12기준). 제품코드·기존VSIX/과거감사·개인설치추가변경0. 보고 CodexOrig_TASK-035.md/_Validation.json/_Deployment.json. 모든자기검사·GUI·배포작업종료/담당소유반납, 이 마감기록추가push후완료.
+
+## TASK-036 / CodexOrig / 사용자 VS2017 Professional 설치 오류 조사·보완 / 2026-10-19 08:56:00 KST
+Role.md 08:52의 NoApplicableSKUsException을 확인했다. Community는 상위SKU에도 적용되므로 에디션만 원인으로 단정하지 않는다. 고객 VSIX파일명/정확한15.x빌드 요청 중이며 036은 설치매니페스트/설치전진단/패키징/회귀/버전/문서/보고와 공유빌드·전용IDE테스트를 소유한다. 기존 v0.11.0 배포/원본47/감사/비추적 cli-install,tmp는 보존한다. 새패키지 고정 후 지정된 CodexOrig2에 독립감사를 요청하고 다른담당자 종료 후 검증된 새버전만 배포한다.
+
+## TASK-036 독립 설치 매니페스트 검토 / CodexCode / 2026-10-19 08:58 KST
+
+Role 08:52 NoApplicableSKUsException에 대해 릴리스 v0.11.0 세 VSIX 내부 extension.vsixmanifest와 SHA를 읽기 전용으로 대조했다. VS2017 SHA 33EA90EB...28543C2는 Community 대상 [15.0.28307.0,16.0), CoreEditor 동범위,.NET[4.6.2,); 2019는[16.0,17.0),2022는[17.0,18.0)/amd64다. Microsoft 공식 VSIX 스키마에 따르면 Community 대상은 Professional에도 적용되므로 에디션명만 원인으로 확정할 수 없다. 고객 실행 VSIX 파일명·해시와 Professional 정확한15.x빌드, 전체 설치 로그가 아직 필요하다. 기존릴리스 ZIP에 세VSIX가 함께 있어 패키지 오선택 가능성도 점검해야 한다. 상세 MarkdownReport/CodexCode_TASK-036_ManifestReview.md. 제품/매니페스트/공유build/GUI/기존릴리스/설치상태 변경0, TASK036 해당 편집·진단·회귀·배포 소유는 CodexOrig 유지. 이 독립 검토 소유반납.
+
+- TASK036 범위 조정 / CodexOrig / 2026-10-19 09:01 KST: 사용자 회신으로 고객 VS2017 Professional 버전15.7.1 확인. 기존하한15.9 제외가 설치차단 조건이다. 이어 사용자가 "업데이트 불가능, 여러 버전으로" 명시하여 업데이트 전제 해결안을 취소한다. 15.7 SDK로 별도 구버전용 프로젝트/패키지와 15.9+/2019/2022용 총4빌드 대상, 설치 자동선택·진단, 새릴리스를 구현한다. 기존 v0.11.0/SDK15.9 프로젝트를 구버전매니페스트만 바꿔 재사용하지 않는다. 실제15.7 Professional 설치본은 이 개발PC에 없으므로 컴파일/실제15.9host/SDK정적 API대조와 고객15.7실행 성공을 구분한다. Code독립검토는 소유반납확인, 과거검토 보존.
+
+## TASK-036 사용자 추가 조건 / CodexCode 전달 / 2026-10-19 09:00 KST
+
+사용자가 방금 고객 Visual Studio가 **Professional 2017 15.7.1**이며 해당 PC는 **업데이트 불가**라고 명시했다. 기존 v0.11.0 VS2017 VSIX 내부 InstallationTarget/CoreEditor 하한 [15.0.28307.0,16.0)은 15.7.1보다 높으므로 현재 설치 오류와 부합한다. 사용자 요청은 다른 Codex와 함께 여러 VS버전에서 작업·검증하는 것이다. TASK036 CodexOrig의 매니페스트/버전/공유build/IDE/배포 소유를 존중한다. 15.7.1 지원 별도 패키지의 실제 VS2017 15.7 API/SDK 호환성 검증과 기존15.9·2019·2022 회귀를 분리해 수행해야 한다. CodexCode는 독립 호환성 근거·검토만 맡고 제품/매니페스트/기존tests/공유build/GUI를 건드리지 않는다. 사용자 PC 업데이트 전제는 사용하지 않는다.
+
+- CodexCode 호환성 근거 09:01 KST: 로컬 NuGet cache에 Microsoft.VisualStudio.Shell.15.0 **15.7.27703**, Microsoft.VisualStudio.Threading **15.6.31**, Microsoft.VSSDK.BuildTools **15.7.109**가 이미 있다. 현 VS2017 csproj는 각각15.9.28307/15.8.122/15.9.3032를 참조한다. Microsoft 공식 이력에서 VS2017 **15.7.1 빌드15.7.27703.2000** 확인(https://learn.microsoft.com/en-us/visualstudio/releases/2017/vs2017-relnotes-history). 단순 매니페스트 하향만으로 런타임 호환이 증명되지 않으므로 구 SDK 참조로 별도 격리 빌드/실제15.7 IDE 검증 필요. CodexCode는 공유제품/빌드 충돌없이 독립 점검 예정.
+
+- CodexCode 독립검토 09:02 KST / TASK036 CodexOrig 즉시 반영 권고: 현재 tests/compatibility/Test-AIAssistantInstaller.ps1의 'customer 15.7.1' fixture `15.7.27703.1`은 Microsoft 공식 이력상 **15.7.0**이며, 실제 **15.7.1 = 15.7.27703.2000**. 정확한 고객값과 경계27702/27703,28306/28307을 테스트해야 한다. 새 legacy manifest 초안 [15.0.27703.0,15.0.28307.0)은 고객을 포함하지만 현 scripts/Install-AIAssistant.ps1 초안은 VS$Year.*-0.11.0/Identity0.11.0/Year2017 한 가지 선택으로 legacy 패키지를 찾지 못하고 '15.9 이상으로 업데이트' 안내를 출력한다. 새 0.11.1/구버전 패키지 선택과 정확한 메시지로 연결하고, 명시 -PackageDirectory에 SHA가 없으면 구0.11 경로로 조용히 fallback하는 동작도 제거 권고. CoreEditor prerequisite 버전 범위 검증 및 Professional 양쪽 경계·두2017인스턴스/2019/2022 별도 경로를 검사해야 한다. CodexCode 및 read-only 협업 점검의 결과이며 제품/설치기/test 변경은 하지 않았다.
+
+- CodexCode 독립 패키지 확인 09:03 KST: 새 Legacy Release VSIX SHA `103BE3F9D20D96FC89DCEC29E28F230FE0CE6016DD48BBB80D1CEBE8D5EA0FB5` 내부에 catalog.json/manifest.json/제품DLL 존재, Identity Grokeen.VS2017.AIAssistant v0.11.1, Community/CoreEditor [15.0.27703.0,16.0). DLL 실제 참조는 Shell15.0 v15.0.0.0, Shell.Framework15.0.0.0, Threading15.6.0.0, EnvDTE8.0.0.0; Newtonsoft 직접참조 없음. 15.7 SDK 컴파일 근거는 있으나 고객 실제15.7 Professional 로드/기능성공 증거는 아니다. 현재 Legacy 범위가 15.9 일반 VSIX와 겹치고 Identity/version도 같아 수동 설치 시 선택 혼동 가능; 전용 범위를 `[15.0.27703.0,15.0.28307.0)`로 명확히 분리하거나 안내·설치기가 중복을 의도적으로 다루도록 검토 권고. 이 시각 고정되지 않은 빌드초안SHA라 최종 후보 검증에 재사용 금지.
+
+- CodexCode 추가 설치기 호환성 주의 09:04 KST: Microsoft vswhere 공식 위키(https://github.com/microsoft/vswhere/wiki/Encoding)는 `-utf8` 옵션이 **vswhere 2.5 이상**에서만 가능하다고 명시한다. VS2017 15.7.1은2018-05-08 배포이고 위키 수정시점은2018-06-13이므로 고객 PC에 동봉된 vswhere가 2.5 미만일 가능성을 배제할 수 없다(실제 고객 도구 버전 미확인). 현 Install-AIAssistant.ps1은 vswhere 두 호출 모두 -utf8을 전제한다. 오프라인15.7.1에서 설치 전진단이 이 이유로 실패하지 않도록 구버전 인식/안내 또는 옵션없는 안전한 대체 경로를 검토 권고. VSIX 파일 직접 설치의 매니페스트 판정과 설치 보조 스크립트 호환은 별개다. 고객측 vswhere 버전/실행은 아직 검증하지 않았다.
+
+- CodexCode 09:04 KST: 위 독립검토의 고객15.7.1 공식빌드·Legacy SDK/DLL 정적근거·설치선택/오프라인 vswhere 위험을 MarkdownReport/CodexCode_TASK-036_CompatibilityReview.md에 고정했다. 초기 초안 검토이고 최종 후보가 아니며 실제 고객 Professional15.7.1 로드 미검증. 기존 ManifestReview 원문 유지/제품·공유빌드·GUI·릴리스 변경0.
+
+- CodexCode 선택기 독립 fixture 검증 09:06 KST: 현재 v0.11.1 네 VSIX와 scripts/Install-AIAssistant.ps1을 읽는 별도 artifacts/task036-codexcode/Verify-Selector.ps1로 **9/9 PASS**, 결과 selector-results.json. Professional 15.7.27703.2000은 Ready/2017-15.7 VSIX, 15.8도 legacy, 15.9.28307.0 이상은 일반2017, 2019/2022는 각 연도 패키지 선택. 경계미만15.7.27702.9999은 UnsupportedVersion. 이는 합성 인스턴스와 실제패키지 메타데이터의 선택 검사이며 고객 IDE 설치/실행/구버전vswhere 확인은 아니다. 중간초안 실행이므로 최종후보에서 동결·재검증 필요; 09:02 지적한 '구0.11 경로'는 스크립트가 이미0.11.1 경로로 변경해 이전 초안 한계로 처리한다.
+
+## TASK-037 / CodexOrig2 독립 호환성 감사 재개 / 2026-10-19 09:09 KST
+- C16 122입력 및 설치기·BAT·4패키지·안내를 개인 AO37_20261019에 고정. C16 Legacy 실제15.9에서 AvalonEdit 누락 실패 인계수신/원문 보존하며 C17 보완을 기다리는 동안 선택기·SDK·의존성을 검사한다. 고객15.7 Professional 실IDE 부재를 분명히 구분한다. 제품/공유build/GUI/설치/기존보고/Role 편집0. TASK037 새 보고·증거·독립fixture만 소유하며 통합/배포는036 유지.
+
+- TASK037→TASK036 / 2026-10-19 09:14 KST 신규확정 배포문서 지적 R37-01/P2: 최종 C17 ZIP SHA62B4D4A2...C871E71의 README.md(릴리스 README 원문 복사) 안 설치 진단 ../../docs/INSTALL_TROUBLESHOOTING.md, 자세한 사용법 ../../docs/USER_GUIDE.md, CLI ../../HowToInstallCLI.md 세 링크가 ZIP 추출 폴더 밖으로 나간다. ZIP에는 진단·CLI는 루트에 있고 USER_GUIDE.md는 없다. artifacts/audit-codexorig2-task037/bundle-readme-links.json에 원문 href/정규화 경로/31entry 대조 보존. 압축본 전용 README에서 루트 INSTALL_TROUBLESHOOTING.md·HowToInstallCLI.md 및 유효한 온라인 USER_GUIDE 링크 등으로 연결 후 새 ZIP/체크섬·읽기검증 필요. 제품패키지4해시/입력122변경은 불필요하며 담당036만수정. 독립 선택40/40·fakeCLI15/15·공통payload43/43·ZIP31/31바이트 확인, 고객실제15.7미검증 유지. 감사자 제품/GUI/배포0.
+
+- TASK037 정정 / 2026-10-19 09:17 KST: **09:14 R37-01/P2 지적을 철회한다.** 감사자가 releases/v0.11.1/README.md를 ZIP 내부 README로 오인한 입력 대조 실수다. 동일 ZIP SHA62B4D4A2...C871E71을 직접 ZipFile.GetEntry('README.md')로 읽으면 2491byte 전용 설치 묶음 README이고, bundle-evidence README.Source는 artifacts/task036/bundle-README.md다. ../../ 링크가 없고 진단/CLI는 루트 파일명 안내, USER_GUIDE는 올바른 온라인URL이다. 제품·ZIP은 변경할 필요 없음. 잘못된 첫 분석 JSON/감사초안은 감사 추적용으로 보존하고 철회·정정 근거를 별도 기록한다. 감사자 최종보고에서 미해소 제품/배포 지적으로 집계하지 않는다.
+
+- TASK037 정정확인 / 2026-10-19 09:17:13 +09:00ST: 새 감사본문에서 R37-01을 명시철회/미해소0으로정정완료. 직접보존한 ZIP README raw SHA C624B362...4532013B(2491bytes)·bundle-readme-correction.json 생성, 내부 checksum30/30도 직접일치. 같은제품/ZIP유지. 2022포함실제4회각145/145는036원문읽기확인/감사자GUI0. 현재 Evidence/보존검증/종료기록만마감중.
+
+## TASK-036 / CodexOrig / 구현·자기검증 완료 / 2026-10-19 09:17:26 KST
+시작08:53:47 KST부터 경과 00:23:39.5490714. 고객15.7.1/업데이트불가 지시를 반영해 Shell15.7·Threading15.6 전용 프로젝트와 일반2017/2019/2022 총4패키지를 v0.11.1로 생성했다. C17 입력122불변·8빌드0오류0경고·실제4번IDE 각145(구버전은개발PC15.9host)·설치35·구SDK31·실행기15·runtime16원문일치·ZIP31항목/7자산·보호47불변을확인했다. 전체실행15/16의foundation은구버전소스선택하네스수정후45재실행통과하여최종16묶음성공으로구분한다. C16 Avalon/WebView2누락실IDE실패와14/16, C17초기하네스실패와패커partialZIP 보존. scripts/Sync-VsixTargets.ps1,build.ps1,Install-AIAssistant.ps1/InstallAIAssistant.bat, Legacy프로젝트·버전·실행기/검사도구·README/사용/개발/설치안내를수정했다. 최종제품/설치기편집종료·GUI예약해제, 메타보고·GitHub배포만036유지. TASK037 감사마감/소유반납후에만게시. 고객실제15.7.1 Professional실행·실계정/운영연동미검증.
+
+## TASK-037 / CodexOrig2 / 독립 호환성 감사 완료 / 2026-10-19 09:18:19 +09:00
+
+시작 2026-10-19 09:03:45 +09:00, 경과 00:14:34. C16/C17 입력각122전부일치·C17독립선택40/40·대역CLI15/15·공통payload43/43·ZIP31/31·내부checksum30/30·보호원본54/54 통과. C16 DLL누락/구vswhere·명시경로보완확인. README R37-01은감사자의저장소/ZIP입력혼동으로철회/잘못된초안과정정근거모두보존,제품·ZIP변경불필요. C17실제4회각145/145와전체첫15/16→foundation45/1재실행성공은036자료확인으로구분. 고객Professional15.7.1실IDE성공미확인유지. 추가확정결함0/제품·Role·기존감사·공유build·GUI·실제설치·계정·Git배포변경0. 보고 MarkdownReport/CodexOrig2_TASK-037_Audit.md 및 _Evidence.json,근거 artifacts/audit-codexorig2-task037/. 감사작업종료·담당소유반납. 036최종배포/원격검증소유유지.

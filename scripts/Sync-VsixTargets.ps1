@@ -7,6 +7,7 @@ author       : CodexOrig
 create date  : 2026-10-18
 update date  : 2026-10-18 CodexOrig : TASK-020 감사 F01, 32비트 SDK15와 64비트 SDK17 분리.
                2026-10-19 CodexOrig : TASK-025 공통 프로젝트 내부 Content도 버전별 링크 경로로 연결.
+               2026-10-19 CodexOrig : TASK-036 VS2017 15.7 SDK 구버전 패키지를 별도로 생성.
 -------------------------------------------------------------------------
 #>
 [CmdletBinding()]
@@ -15,14 +16,15 @@ $ErrorActionPreference='Stop'
 $repositoryDir=[IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
 $baseDir=Join-Path $repositoryDir 'src\VS2017.AIAssistant'
 $utf8=New-Object Text.UTF8Encoding($true)
-foreach($target in @('2019','2022')) {
+foreach($target in @('2017.Legacy','2019','2022')) {
+    $legacy=$target -eq '2017.Legacy'
     $directory=Join-Path $repositoryDir ('src\VS'+$target+'.AIAssistant')
     $null=New-Item -ItemType Directory -Path $directory -Force
     [xml]$project=[IO.File]::ReadAllText((Join-Path $baseDir 'VS2017.AIAssistant.csproj'))
     $namespace=New-Object Xml.XmlNamespaceManager($project.NameTable)
     $namespace.AddNamespace('m','http://schemas.microsoft.com/developer/msbuild/2003')
-    $major=if($target -eq '2019'){16}else{17}
-    $project.SelectSingleNode('//m:ProjectGuid',$namespace).InnerText=if($target -eq '2019'){'{56BC0D5B-F8BC-4CB5-B5B8-60A0A29ED4A9}'}else{'{C2CE87AB-0890-46C4-96E4-8276D8E0AEB1}'}
+    $major=if($legacy){15}elseif($target -eq '2019'){16}else{17}
+    $project.SelectSingleNode('//m:ProjectGuid',$namespace).InnerText=if($legacy){'{FC79C70B-802F-4207-B5B0-13446CC2DDC4}'}elseif($target -eq '2019'){'{56BC0D5B-F8BC-4CB5-B5B8-60A0A29ED4A9}'}else{'{C2CE87AB-0890-46C4-96E4-8276D8E0AEB1}'}
     $project.SelectSingleNode('//m:MinimumVisualStudioVersion',$namespace).InnerText=($major.ToString()+'.0')
     if($target -eq '2022') {
         $project.SelectSingleNode('//m:TargetFrameworkVersion',$namespace).InnerText='v4.7.2'
@@ -37,6 +39,27 @@ foreach($target in @('2019','2022')) {
         $validation.SetAttribute('Version','17.0.34')
         $validation.SetAttribute('ExcludeAssets','runtime')
         $null=$packages.AppendChild($validation)
+    }
+    if($legacy) {
+        # WPF/Timer 이벤트의 async void는 기존 VSTHRD100 주석과 최신 분석기로 검증한다.
+        # 15.6의 중복 분석기는 해당 SuppressMessage 이름을 인식하지 못한다.
+        $noWarn=$project.CreateElement('NoWarn',$project.DocumentElement.NamespaceURI)
+        $noWarn.InnerText='$(NoWarn);AvoidAsyncVoid'
+        $null=$project.SelectSingleNode('//m:PropertyGroup',$namespace).AppendChild($noWarn)
+        # BuildTools는 고객 IDE가 로드하는 SDK가 아니다. 15.9 패커로 NuGet 런타임 DLL 누락을 방지한다.
+        $versions=@{'Microsoft.VisualStudio.Shell.15.0'='15.7.27703';'Microsoft.VisualStudio.Threading'='15.6.31';'Microsoft.VSSDK.BuildTools'='15.9.3032'}
+        foreach($package in $project.SelectNodes('//m:PackageReference',$namespace)) {
+            if($versions.ContainsKey($package.Include)){$package.SetAttribute('Version',$versions[$package.Include])}
+        }
+        # 실행 SDK는 15.7로 고정하고 빌드 전용 분석기는 기존 제품과 통일한다.
+        # AsyncUsageAnalyzers의 과거 이벤트 진단은 현재 VSTHRD100 분석으로 대체한다.
+        $packages=$project.SelectSingleNode('//m:PackageReference',$namespace).ParentNode
+        foreach($entry in @(@('Microsoft.VisualStudio.SDK.Analyzers','15.8.33',''),@('Microsoft.VisualStudio.Threading.Analyzers','15.8.122',''),@('AsyncUsageAnalyzers','1.0.0-alpha003','all'))) {
+            $analyzer=$project.CreateElement('PackageReference',$project.DocumentElement.NamespaceURI)
+            $analyzer.SetAttribute('Include',$entry[0]);$analyzer.SetAttribute('Version',$entry[1]);$analyzer.SetAttribute('PrivateAssets','all')
+            if($entry[2]){$analyzer.SetAttribute('ExcludeAssets',$entry[2])}
+            $null=$packages.AppendChild($analyzer)
+        }
     }
     # WPF 임시 프로젝트도 NuGet 복원에서 확인한 SDK 경로를 사용한다.
     $sdkVersion=if($target -eq '2022'){'17.0.5241'}else{'15.9.3032'}
@@ -69,10 +92,10 @@ foreach($target in @('2019','2022')) {
     [xml]$manifest=[IO.File]::ReadAllText((Join-Path $baseDir 'source.extension.vsixmanifest'))
     $ns=New-Object Xml.XmlNamespaceManager($manifest.NameTable);$ns.AddNamespace('v','http://schemas.microsoft.com/developer/vsx-schema/2011')
     $identity=$manifest.SelectSingleNode('//v:Identity',$ns)
-    $identity.SetAttribute('Id','Grokeen.VS'+$target+'.AIAssistant')
-    $manifest.SelectSingleNode('//v:DisplayName',$ns).InnerText='Visual Studio AI Assistant '+$target
+    $identity.SetAttribute('Id',$(if($legacy){'Grokeen.VS2017.AIAssistant'}else{'Grokeen.VS'+$target+'.AIAssistant'}))
+    $manifest.SelectSingleNode('//v:DisplayName',$ns).InnerText=$(if($legacy){'VS2017 AI Assistant (15.7+)'}else{'Visual Studio AI Assistant '+$target})
     $install=$manifest.SelectSingleNode('//v:InstallationTarget',$ns)
-    $range='['+$major+'.0,'+($major+1)+'.0)'
+    $range=if($legacy){'[15.0.27703.0,16.0)'}else{'['+$major+'.0,'+($major+1)+'.0)'}
     $install.SetAttribute('Version',$range)
     $architecture=$manifest.CreateElement('ProductArchitecture',$manifest.DocumentElement.NamespaceURI)
     $architecture.InnerText=if($target -eq '2022'){'amd64'}else{'x86'}
