@@ -819,10 +819,18 @@
   "InternetPhysicallyDisconnected": false,
   "AuthenticationPerformed": false,
   "ModelRequestPerformed": false,
-  "OptionalCustomerWindowsQuestionAnswered": false,
+  "OptionalCustomerWindowsQuestionAnswered": true,
   "DeliveryZip": "artifacts/task038/VisualStudio_AI_Assistant-0.11.1-FullOffline-win-x64.zip",
   "CompletedAt": "2026-10-19T11:35:04.7554274+09:00",
   "Elapsed": "00:34:33.7554274",
   "DeploymentReport": "MarkdownReport/CodexOrig_TASK-038_Deployment.json",
-  "DeploymentVerified": true
+  "DeploymentVerified": true,
+  "CustomerWindowsReply": {
+    "ReportedOperatingSystem": "Windows 10 or Windows 11",
+    "ReportedArchitecture": "x64",
+    "ExactBuildProvided": false,
+    "Windows10MinimumBuildStillRequired": 17763,
+    "CustomerInstallationVerified": false,
+    "RecordedAt": "2026-10-19T11:38:10.9152990+09:00"
+  }
 }

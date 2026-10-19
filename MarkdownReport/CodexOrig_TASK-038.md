@@ -9,7 +9,7 @@
 - manifest와 metadata를 읽기 전에 부모부터 파일까지 연결 경로를 거부한다. UNC·네트워크 드라이브·경로 이탈·ADS·예약 이름·추가 파일·계정 자료·중복 경로와 1MiB 초과 JSON을 거부한다. 보고서 경로도 복사 전에 검사하며 기존 로그를 덮어쓰지 않는다.
 - README·사용 안내·설치 오류 문서에서 새 [오프라인 안내](../docs/OFFLINE_INSTALL.md)로 연결한다. CodexOrig3가 실제 도구명·경로·로그·필수 구성 요소 및 AI 서버 연결과 최초 인증의 차이를 설명했다. VSIX/CLI만 포함하므로 빠진 Windows·Visual Studio 구성 요소를 추가 설치하지 않는다.
 
-완성 ZIP을 전부 압축 해제하고 **InstallOfflineCLI.bat → InstallAIAssistant.bat → 확장 설정에서 출력된 CLI 경로 지정 → 허용된 연결에서 공식 로그인·실제 요청 확인** 순서로 사용한다. VS2017 15.7·15.8에는 기존 전용 VSIX가 선택된다. Windows x64, 동봉 Claude 기준 Windows 10 1809/Server 2019 이상이 필요하다. 고객 Windows 버전 질문에는 아직 답변이 없으므로 그 조건을 확정 사실로 취급하지 않았다.
+완성 ZIP을 전부 압축 해제하고 **InstallOfflineCLI.bat → InstallAIAssistant.bat → 확장 설정에서 출력된 CLI 경로 지정 → 허용된 연결에서 공식 로그인·실제 요청 확인** 순서로 사용한다. VS2017 15.7·15.8에는 기존 전용 VSIX가 선택된다. Windows x64, 동봉 Claude 기준 Windows 10 1809/Server 2019 이상이 필요하다. 배포 당시에는 Windows 질문의 답변을 기다렸으며, 후속 사용자 회신으로 **Windows 10 또는 Windows 11, 64비트**를 확인했다. 정확한 Windows 빌드는 전달받지 않았으므로 Windows 10의 1809 이상 여부는 설치기에서 확인하며, 고객 PC 실설치 성공으로 기록하지 않는다. 기존 x64 묶음의 변경은 필요하지 않다.
 
 ## 최종 파일과 검증
 
