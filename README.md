@@ -19,6 +19,8 @@
 
 설치 묶음 ZIP을 모두 풀고 **InstallAIAssistant.bat**를 실행하면 설치된 IDE의 버전·패키지 무결성을 검사하고 해당 버전용 설치기를 엽니다. 여러 IDE가 있으면 설치할 대상을 선택합니다. [설치 오류 해결과 진단 방법](docs/INSTALL_TROUBLESHOOTING.md)을 함께 제공합니다.
 
+**설치할 때 인터넷이 없다면:** [오프라인 준비 도구 ZIP](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.11.1/VisualStudio_AI_Assistant-0.11.1-OfflineTools1.zip)을 인터넷 PC에서 풀고 공식 CLI를 설치한 뒤 **PrepareOfflineSetup.bat**를 실행하세요. 생성된 **PreparedOffline ZIP 전체**를 USB로 옮겨 **InstallOfflineCLI.bat**, **InstallAIAssistant.bat** 순서로 실행합니다. 오프라인 단계에서는 CLI 파일을 다운로드하거나 계정 정보를 옮기지 않습니다. [오프라인 설치 안내](docs/OFFLINE_INSTALL.md)에서 경로 지정과 로그 확인 방법을 볼 수 있습니다. 로그인과 AI 사용은 연결 가능한 시점에 진행합니다.
+
 설치된 확장만 제거하려면 VS2017에서 **도구 → 확장 및 업데이트 → 설치됨**, VS2019·2022에서 **확장 → 확장 관리 → 설치됨**을 여세요. 목록에서 해당 버전의 AI Assistant 항목을 **제거**한 뒤 모든 Visual Studio 창을 닫습니다. 잠시 끄기만 하려면 **사용 안 함**을 선택하고 Visual Studio를 다시 여세요. 버전별 실제 항목 이름과 데이터 보존 안내는 [사용자 안내서](docs/USER_GUIDE.md#visual-studio-ai-assistant-확장-제거)를 참조하세요.
 
 확장을 처음 열면 협업과 소스 주석 규칙을 담은 숨김 필수 지침을 생성합니다. 직접 작성한 공통 지침은 별도로 보존하며, 두 지침을 AI 요청에 함께 전달합니다.

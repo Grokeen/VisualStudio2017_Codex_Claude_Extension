@@ -8,4 +8,6 @@
 # These original guide assets are also packaged and checked by their raw bytes.
 /InstallCLI.bat -text
 /InstallAIAssistant.bat -text whitespace=cr-at-eol
+/InstallOfflineCLI.bat -text whitespace=cr-at-eol
+/PrepareOfflineSetup.bat -text whitespace=cr-at-eol
 /HowToInstallCLI.md -text

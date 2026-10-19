@@ -441,3 +441,8 @@
    위치: System.Threading.Tasks.Task`1.InnerInvoke()
    위치: System.Threading.Tasks.Task.Execute()
 ```
+
+
+추가된 문제.
+- 버전 인식은 되나, 인터넷이 안되는 환경이라 그런가 설치가 진행이 안된다고 함.
+- ai 관련 서버만 열어준다고 함. 나머지는 사용 불가.

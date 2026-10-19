@@ -1,4 +1,4 @@
-﻿# 협업 작업 현황
+# 협업 작업 현황
 
 작업자는 소스 변경 전에 이 파일을 읽고 담당 범위와 상태를 등록한다. 다른 작업자가 `진행 중`인 범위는 수정하지 않으며, 다른 작업자가 작업 중이면 GitHub push 및 릴리스 배포를 수행하지 않는다. 완료·중단 시 검증 결과와 남은 작업을 기록한다. 기존 작업자의 기록을 임의로 삭제하거나 완료로 바꾸지 않는다.
 
@@ -1339,3 +1339,38 @@ Role 08:52 NoApplicableSKUsException에 대해 릴리스 v0.11.0 세 VSIX 내부
 시작 2026-10-19 09:03:45 +09:00, 경과 00:14:34. C16/C17 입력각122전부일치·C17독립선택40/40·대역CLI15/15·공통payload43/43·ZIP31/31·내부checksum30/30·보호원본54/54 통과. C16 DLL누락/구vswhere·명시경로보완확인. README R37-01은감사자의저장소/ZIP입력혼동으로철회/잘못된초안과정정근거모두보존,제품·ZIP변경불필요. C17실제4회각145/145와전체첫15/16→foundation45/1재실행성공은036자료확인으로구분. 고객Professional15.7.1실IDE성공미확인유지. 추가확정결함0/제품·Role·기존감사·공유build·GUI·실제설치·계정·Git배포변경0. 보고 MarkdownReport/CodexOrig2_TASK-037_Audit.md 및 _Evidence.json,근거 artifacts/audit-codexorig2-task037/. 감사작업종료·담당소유반납. 036최종배포/원격검증소유유지.
 
 - TASK-036 / CodexOrig / GitHub Release 게시·공개다운로드 검증 완료 / 2026-10-19 09:21:10 KST: https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.11.1. 태그대상 2b63332327fd0ccdb2041f003b02ab7ecc615a84, ReleaseId416791376. 네VSIX·설치ZIP·실행기·체크섬 총7자산의서버SHA/크기와공개다운로드바이트·SHA를모두대조했다. 기존v0.11.0자산/태그변경0, 보호47·감사보호54 보존. 독립TASK037 09:18:19종료·소유반납과다른채팅idle/notLoaded를확인한후게시했다. 사용자15.7.1업데이트불가조건의새전용파일을제공하며고객실제PC설치/실행성공미확인한계유지. CodexOrig_TASK-036.md/_Validation.json/_Deployment.json에근거기록. 시작08:53:47부터총경과 00:27:23.6704976. TASK036모든제품·테스트·GUI·배포작업종료/소유반납. 비추적 docs/assets/cli-install 및 tmp 폴더는게시하지않고유지했다.
+## TASK-038 / CodexOrig / 오프라인 환경 설치·사용 범위 보완 / 2026-10-19 11:02 KST
+Role 추가 "버전 인식은 되나 인터넷이 안 되는 환경"을 확인했다. 038은 로컬 VSIX/CLI 오프라인 설치 진단·준비 묶음/설치도구·검사·문서·새배포만 소유하고, v0.11.0/0.11.1·기존 CLI 설치 원본/문서/감사를 보존한다. 설치때만오프라인/항상망차단/사내프록시의 범위는 사용자에게질문했으며 답변전에도 로컬설치단계의 외부접속의존과 필수파일을점검한다. AI 서버가 필요한 실제모델호출을인터넷없이성공했다고표시하지 않는다. 제품UI수정이필요하면범위등록후진행, 구현90%에서 지정Orig2감사·추가화면문서가필요하면Orig3요청, 다른담당자진행중배포금지유지.
+
+## TASK-038 독립 오프라인 설치 검토 / CodexCode / 2026-10-19 11:05 KST
+사용자 회신에 따라 우선 범위를 VSIX의 반입·설치·IDE 창 열기로 확정했다. 기존 v0.11.1 ZIP SHA62B4D4A2...C871E71과 압축 내30/30 파일 무결성을 새 폴더 추출로 확인했고, 동봉 설치 PowerShell 사전검사는 로컬 VS2017 15.9/2019/2022 모두 Ready였다. 설치용 BAT/PS1에는 다운로드 명령0; InstallCLI.bat에는 Invoke-WebRequest가 있으므로 오프라인 VSIX 절차에 넣지 않아야 한다. 15.7 전용 VSIX는 .NET Framework 4.6.2 이상과 CoreEditor를 요구한다. 고객 Professional 15.7.1의 실제 설치·화면 열기 및 완전 망차단 시험은 아직 미검증. 상세 MarkdownReport/CodexCode_TASK-038_OfflineInstallAudit.md, 재현 artifacts/task038-codexcode/Verify-OfflineBundle.ps1/evidence.json. CodexOrig 소유 설치 도구·배포문서·제품·GitHub 배포는 수정하지 않았다.
+- 2026-10-19 11:06 KST CodexCode 추가: 동봉 사전검사 라이브러리에 합성 Professional 2017 15.7.27703.2000을 넣어 Ready 및 VS2017.15.7.AIAssistant-0.11.1.vsix 선택을 확인했다. 고객 실기 검사로 대체하지 않는다. 보고·evidence.json 갱신.
+
+## TASK-039 / CodexOrig3 / 오프라인 설치 설명서 작성·소유반납 / 2026-10-19 11:13:25 KST
+Role 추가 요청 및 038 소유자 설명을 기준으로 새 docs/OFFLINE_INSTALL.md를 작성했다. PrepareOfflineSetup.bat/Prepare-OfflineSetup.ps1와 InstallOfflineCLI.bat/Install-OfflineCli.ps1/OfflineCli.Common.ps1, InstallAIAssistant.bat/Install-AIAssistant.ps1의 실제 파일명·입출력·검증·로그·CLI 기본 경로·Win10 1809+/Server2019+ x64 조건을 대조했다. 준비 PC의 공식 게시자 서명 확인, Codex full standalone 런타임 파일 구성, profile/token 미복사, 오프라인 단계의 manifest SHA/PE 검증 및 네트워크/CLI 미실행, v0.11.1 VSIX SKU 분기를 설명한다. 연결 가능한 시점에 공식 로그인·AI 요청을 확인하도록 분리하고 고객 15.7.1 실설치 미검증을 명시했다. 실제 AI 성공/배포 완료는 주장하지 않는다. C17 제품, 기존 온라인 CLI 문서/BAT, README/USER_GUIDE, 기존 PDF/ZIP 및 GitHub 자산은 수정하지 않았다. 문서 SHA256 D46B596AFCEF997C198BAC4AC15031608E975C75FF094A8FF1248E9FEF13B862; 보고서 MarkdownReport/CodexOrig3_TASK-039.md SHA256 E38AC77A295B4DDB9411E12BE4FB0910E58E0D724816A1EAEFBC99559072CA23.
+
+**배포 전 인계:** artifacts/task038/full-offline-candidate1.zip SHA256  내 문서 확정 전 생성되어 내부 OFFLINE_INSTALL.md SHA256  최종 문서와 다르다(최종 SHA256 D46B596AFCEF997C198BAC4AC15031608E975C75FF094A8FF1248E9FEF13B862). 후보 폴더/ZIP은 보존했으며, root가 확정 문서·최종 스크립트로 FullOffline ZIP을 재생성·검증한 뒤 배포해야 한다. TASK-039 문서 편집은 종료하고 문서 소유권을 root에 반납한다. 고객 Windows 버전 질문 및 038 검증/배포 마감을 root가 계속 소유한다.
+
+## TASK-040 / CodexOrig2 / 오프라인 설치 독립 감사 시작 / 2026-10-19 11:17:13 +09:00
+- 사용자 확장·CLI 설치만 오프라인/AI 사용은연결가능 조건을 기준으로 C2완성묶음과3PS1·2BAT·안내·검사를 AO40_20261019에 고정. 계정/프로필을 읽거나 실제CLI를 실행하지 않고 개인사본·대역fixture에서 무결성·경로·미실행·미접속·기존파일보존을 감사한다. 제품/Role/기존온라인설치원본·과거감사/릴리스/공유build/GUI/사용자설치변경0. 새TASK040보고·fixture만소유,038최종통합·배포소유유지.
+
+- TASK040→TASK038 / 2026-10-19 11:18:43 +09:00 **R40-01/P2 신규확정**: 고정 OfflineCli.Common SHA7E45FBE2...6D6D8601의 Read-OfflineCliBundle은 root만 Assert-OfflinePlainPath하고 offline-manifest.json 자체는검사하지않는다. 개인 로컬외부JSON을가리키는 manifest 파일SymbolicLink를정상수용했으며, 외부JSON에110만공백을붙여1MiB초과해도 link.Length=0이므로상한도우회된다. 독립fixture Verify-ManifestBoundary40.ps1 결과 plain만기대통과/두link기대거부실제수용(1PASS2FAIL), artifacts/audit-codexorig2-task040/manifest-boundary-initial/result.json. 실제UNC접속시험은하지않았고 네트워크target연결가능성은소스상추론이다. manifestGetItem/GetContent 전 Assert-OfflinePlainPath를적용하고 leaf/상한을실파일에서확인권고. Prepare의 codex-package.json metadata도 root검사후직접읽어같은파일수준경계를함께검토부탁. 제품/원본편집0/개인fixture외FS변경0. 기존동일28검사는개인복제본에서28/28PASS.
+
+- TASK040 / 2026-10-19 11:22:23 +09:00 R40-01 재현·요청을 MarkdownReport/CodexOrig2_TASK-040_Audit.md에 중간고정했다(현재미해소). C2 Full59/59·내부58/58, 공개도구37/37·내부36/36·CLI실행파일0 직접검증. Guarded 진단/설치/멱등에서금지호출·CLI표식0/PATH불변. 가짜게시자대역의준비실행에서개인합성프로필4개미복사·불변/current1회해석 확인. 실제서명·실사용자프로필·CLI실행·계정·운영망차단은감사자가수행하지않음. 첫준비fixture의mock list scriptScope오류는개인하네스수정후재실행/초기로그보존. 마감전038수정후보에서R40-01동일2사례거부확인필요.
+
+- TASK040→TASK038 / 2026-10-19 11:24:14 +09:00 **R40-01 소스수정 직접확인**: 고정fixed-source의동일 Verify-ManifestBoundary40 plain/manifestlink/oversizelink 모두기대대로3/3PASS(원래실패2거부). Prepare metadata링크도최초oldcode수용을대역서명으로재현후수정code에서연결경로오류·서명호출0·출력폴더0으로차단확인. 결과 manifest-boundary-fixed/result.json,preparation-scope-metadata-link-retry1/result.json,preparation-scope-metadata-fixed/result.json. 갱신기존검사도새개인fixed-repo에서31/31PASS. R40-01은새FullC3/공개ZIP에정확codehash가연결되면최종종결예정. C2실패·28PASS·원래묶음·첫fixture권한/scope오류로그모두보존. 제품/공유build/GUI/계정/사용자CLI변경0.
+
+- TASK040→TASK038 / 2026-10-19 11:25:21 +09:00 **R40-01 C3패키지까지종결확인**: prepare-candidate3 완료로그후개인FullC3/새PublicZIP복사검사. FullC3 SHA FB61C1C6...3753E49,59/59 entry/내부58/58·CLI46·C17VSIX4동일·최종3scriptSHA연결. 새공개ZIP SHA DB58E77B...034FD5,37/37 entry/내부36/36·CLI0·서명/metadata수정의검사한3PS1SHA동일. 같은C3code의guarded진단→설치→재설치에서금지호출·CLI표식0. R40-01 최초실패3개중manifestlink2/preparemetadatalink1은고정수정소스에서모두기대거부,기존31/31PASS. 현재감사JSON/보고·보존67/제품122·종료기록만마감중,최종배포038소유유지.
+
+## TASK-039 후속 / CodexOrig3 / 네트워크 허용·최초 인증 문서 반영 / 2026-10-19 11:27:57 KST
+Role 추가 “AI 관련 서버만 열어준다고 함. 나머지는 사용 불가”를 반영해 docs/OFFLINE_INSTALL.md에 모델 연결과 최초 인증 차이, 선택된 공급자·인증 방식의 공식 연결 요구사항을 네트워크 담당자에게 확인하는 절차를 보강했다. 고정 도메인/방화벽 변경 또는 우회 절차는 기재하지 않았다. VSIX가 요구하는 Visual Studio/Windows 구성 요소는 FullOffline에 포함되지 않고 누락 시 IT 담당자가 설치해야 한다고 명시했다. 대상 PC에서 온라인 다운로드형 InstallCLI.bat을 실행하지 않고 InstallOfflineCLI.bat을 사용하도록 재강조했다. Codex CLI 시작·인증, Claude 인증/기업 네트워크 공식 문서를 교차 확인했다. git diff --check 통과. 수정 대상은 docs/OFFLINE_INSTALL.md 하나이며 코드·스크립트·UI·PDF/ZIP·릴리스 0. 문서 SHA256 47BABB457DCB087F4BCBCC12EB90FF6E7C48736D8230DF831E47D1A06C10B8A7, 상세 MarkdownReport/CodexOrig3_TASK-039_Network_Followup.md. 문서 소유권을 CodexOrig에 반납하고 C4 패키지에 현재 문서를 반영해야 한다.
+
+## TASK-040 / CodexOrig2 / 오프라인 설치 독립 감사 완료 / 2026-10-19 11:30:51 +09:00
+
+시작 2026-10-19 11:16:08 +09:00, 경과 00:14:43. R40-01/P2(manifest/metadata 파일링크·1MiB상한우회) 최초실패3개를보존하고수정소스및최종Full/candidate4·공개도구SHA에서종결. 기존초기28/28→수정31/31·독립manifest3/3·metadata조회전차단·대역준비프로필4미복사·guarded3모드표식/금지호출0·Full59/59/내부58·공개37/37/내부36/CLI0·보호원본67/67·제품C17122보존확인. 코드변경없는최종문서도패키지와대조. 미해소확정지적0; 실제고객15.7.1·완전망차단·실계정/AI요청은미검증. 제품/Role/과거감사/기존CLI원본·사용자설치·공유build·GUI·계정·Git배포변경0. MarkdownReport/CodexOrig2_TASK-040_Audit.md/_Evidence.json 및 artifacts/audit-codexorig2-task040/ 근거마감. 감사검사·보고모두종료/담당소유반납,038최종게시·원격해시·고객전달마감소유유지.
+
+
+- TASK040 C4 최종인계 / 2026-10-19 11:31:15 +09:00: 11:30후속인계의C4 SHA DB06BF91...8CA558/공개C1743C89...059E83/새checksum파일E9A90E8B...9254AC가감사자의이미직접검사한고정바이트와같음. 별도후속근거 artifacts/audit-codexorig2-task040/final-c4-linkage.json에C3→C4변경3파일(문서/PreparedAt/체크섬)·최종3PS1동일·Full/Public/source 안내서47BABB...10B8A7일치확인. TASK040 본보고/JSON은이미C4기준11:30:51최종완료/소유반납; 추가제품/테스트/문서편집계획0·GUI예약없음. 이후038이새2공개자산원격게시와고객전달마감을담당한다. 실제고객PC·물리망차단·로그인/AI성공미검증유지.
+
+## TASK-038 / CodexOrig / 최종검증·배포인계 / 2026-10-19 11:33:12 +09:00ST
+최종31/31·FullC4 59/58checksum·Public37/36checksum·공개tool실제준비46동일·실제C4copy46/CLIversion2 및C17입력122/보호47/기존7자산동일확인. TASK039 11:27:57문서반납, TASK040 11:30:51감사종결·11:31:15 C4해시인계, 다른프로젝트채팅idle/notLoaded확인. 제품/설치기/검사추가편집0·GUI예약없음. root만보고·명시Git스테이징/추가Release2자산·원격검증소유. PublicZIP SHA C1743C89604DE34B8F0BBC68416017E719C9925759AF807169AC87B16F059E83, FullZIP SHA DB06BF91635D4C3F0B23F057E5CC39EAEB22714E2DC298C8AA477E142F8CA558. 기존태그·일곱자산변경금지/CLI payload공개0. 고객실제Windows/15.7.1/망차단/로그인성공미확인유지.

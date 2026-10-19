@@ -1,4 +1,4 @@
-﻿# 개발·검증 보고
+# 개발·검증 보고
 
 ## TASK-003 — CodexOrig / 2026-10-18 01:33:36 KST
 
@@ -388,3 +388,13 @@ releases/v0.11.0/VisualStudio_AI_Assistant-0.11.0.zip(26항목), RELEASE_SHA256S
 시작 2026-10-19 09:03:45 +09:00, 경과 00:14:34. C16/C17 입력각122전부일치·C17독립선택40/40·대역CLI15/15·공통payload43/43·ZIP31/31·내부checksum30/30·보호원본54/54 통과. C16 DLL누락/구vswhere·명시경로보완확인. README R37-01은감사자의저장소/ZIP입력혼동으로철회/잘못된초안과정정근거모두보존,제품·ZIP변경불필요. C17실제4회각145/145와전체첫15/16→foundation45/1재실행성공은036자료확인으로구분. 고객Professional15.7.1실IDE성공미확인유지. 추가확정결함0/제품·Role·기존감사·공유build·GUI·실제설치·계정·Git배포변경0. 보고 MarkdownReport/CodexOrig2_TASK-037_Audit.md 및 _Evidence.json,근거 artifacts/audit-codexorig2-task037/. 감사작업종료·담당소유반납. 036최종배포/원격검증소유유지.
 
 - TASK-036 / CodexOrig / GitHub Release 게시·공개다운로드 검증 완료 / 2026-10-19 09:21:10 KST: https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.11.1. 태그대상 2b63332327fd0ccdb2041f003b02ab7ecc615a84, ReleaseId416791376. 네VSIX·설치ZIP·실행기·체크섬 총7자산의서버SHA/크기와공개다운로드바이트·SHA를모두대조했다. 기존v0.11.0자산/태그변경0, 보호47·감사보호54 보존. 독립TASK037 09:18:19종료·소유반납과다른채팅idle/notLoaded를확인한후게시했다. 사용자15.7.1업데이트불가조건의새전용파일을제공하며고객실제PC설치/실행성공미확인한계유지. CodexOrig_TASK-036.md/_Validation.json/_Deployment.json에근거기록. 시작08:53:47부터총경과 00:27:23.6704976. TASK036모든제품·테스트·GUI·배포작업종료/소유반납. 비추적 docs/assets/cli-install 및 tmp 폴더는게시하지않고유지했다.
+## TASK-038 / CodexCode / 2026-10-19 11:05 KST
+오프라인 고객은 인터넷 가능한 PC에서 v0.11.1 설치 ZIP 전체를 받아 SHA-256을 확인하고, 고객 PC에서 모두 압축 해제해 InstallAIAssistant.bat로 VS2017 15.7.1 대상을 선택할 수 있습니다. 개발 PC에서 ZIP 30/30 파일과 로컬 3개 IDE의 사전 검사 Ready를 확인했습니다. InstallCLI.bat는 인터넷 다운로드를 실행하므로 오프라인 VSIX 설치 안내에서 제외합니다. 실제 고객 PC 설치·메뉴·창 검사는 현장 결과가 필요합니다. 재현: powershell.exe -NoProfile -ExecutionPolicy Bypass -File artifacts/task038-codexcode/Verify-OfflineBundle.ps1. 상세 보고 MarkdownReport/CodexCode_TASK-038_OfflineInstallAudit.md.
+
+## TASK-040 / CodexOrig2 / 오프라인 설치 독립 감사 완료 / 2026-10-19 11:30:51 +09:00
+
+시작 2026-10-19 11:16:08 +09:00, 경과 00:14:43. R40-01/P2(manifest/metadata 파일링크·1MiB상한우회) 최초실패3개를보존하고수정소스및최종Full/candidate4·공개도구SHA에서종결. 기존초기28/28→수정31/31·독립manifest3/3·metadata조회전차단·대역준비프로필4미복사·guarded3모드표식/금지호출0·Full59/59/내부58·공개37/37/내부36/CLI0·보호원본67/67·제품C17122보존확인. 코드변경없는최종문서도패키지와대조. 미해소확정지적0; 실제고객15.7.1·완전망차단·실계정/AI요청은미검증. 제품/Role/과거감사/기존CLI원본·사용자설치·공유build·GUI·계정·Git배포변경0. MarkdownReport/CodexOrig2_TASK-040_Audit.md/_Evidence.json 및 artifacts/audit-codexorig2-task040/ 근거마감. 감사검사·보고모두종료/담당소유반납,038최종게시·원격해시·고객전달마감소유유지.
+
+
+## TASK-038 / CodexOrig / 2026-10-19 11:33:12 +09:00ST
+인터넷없는 대상PC를위해 준비PC에서공식전체CLI+네VSIX를묶고 로컬검증·복사만하는 BAT/PS1을추가했습니다. 완성ZIP을전부풀고 InstallOfflineCLI.bat → InstallAIAssistant.bat → 출력된CLI경로설정 순서입니다. Windows10 1809/Server2019+ x64 대상이며, AI 연결과 최초로그인은허용된연결에서별도확인합니다. 누락된VS/Windows구성요소는동봉하지않습니다. PS5.1검사31/31·Full59항목·Public37항목·실제copy46/버전2통과·원본47/C17입력122보존, 독립TASK040의링크문제종결·미해소0과문서039소유반납을확인했습니다. 재현은 powershell.exe -NoProfile -ExecutionPolicy Bypass -File tests/compatibility/Test-OfflineCli.ps1 -OutputDirectory <새폴더>입니다. 고객15.7.1실행/물리망차단/계정성공은미검증입니다. 경과 00:32:41.5365354. 보고 CodexOrig_TASK-038.md/_Validation.json. 기존Release를보존하고 OfflineTools1 보충2자산게시·공개재다운로드확인만마감합니다.

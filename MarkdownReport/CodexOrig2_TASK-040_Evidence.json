@@ -1,0 +1,1661 @@
+{
+  "Task": "TASK-040",
+  "Auditor": "CodexOrig2",
+  "Started": "2026-10-19T11:16:08.0000000+09:00",
+  "CompletedAt": "2026-10-19T11:30:51.0597010+09:00",
+  "Elapsed": "00:14:43",
+  "AuditComplete": true,
+  "ProductOverallCompleteClaimed": false,
+  "UserScope": "Offline extension and CLI installation; connectivity can be available for AI use; model-server access does not prove login connectivity",
+  "Findings": [
+    {
+      "Id": "R40-01",
+      "Priority": "P2",
+      "Status": "ClosedInFixedCodeAndFinalArtifacts",
+      "Original": "Manifest symlink accepted and 1MiB cap bypassed; preparer metadata link accepted",
+      "OriginalEvidence": [
+        "manifest-boundary-initial/result.json",
+        "preparation-scope-metadata-link-retry1/result.json"
+      ],
+      "CorrectionEvidence": [
+        "manifest-boundary-fixed/result.json",
+        "preparation-scope-metadata-fixed/result.json",
+        "fixed-script-linkage.json"
+      ],
+      "OriginalFailuresPreserved": true
+    }
+  ],
+  "OpenConfirmedFindings": [],
+  "DirectChecks": {
+    "BaselineRegressionPassed": 28,
+    "UpdatedRegressionPassed": 31,
+    "ManifestBoundary": {
+      "CommonSHA256": "D84D713D088360A5A104BE4A85FAE011E29DEC4FDE2F009E0906DC6F9256F650",
+      "Cases": [
+        {
+          "Case": "plain",
+          "ExpectedAccepted": true,
+          "ActualAccepted": true,
+          "Passed": true,
+          "LinkPath": "C:\\dydgyqud\\AO40_20261019\\boundary-fixed-plain\\offline-manifest.json",
+          "IsReparsePoint": false,
+          "LinkReportedLength": 2000,
+          "OutsideTarget": null,
+          "TargetLength": 0,
+          "Files": 7,
+          "Message": "",
+          "NetworkUsed": false
+        },
+        {
+          "Case": "symlink",
+          "ExpectedAccepted": false,
+          "ActualAccepted": false,
+          "Passed": true,
+          "LinkPath": "C:\\dydgyqud\\AO40_20261019\\boundary-fixed-symlink\\offline-manifest.json",
+          "IsReparsePoint": true,
+          "LinkReportedLength": 0,
+          "OutsideTarget": "C:\\dydgyqud\\AO40_20261019\\outside-fixed-symlink.json",
+          "TargetLength": 2000,
+          "Files": 0,
+          "Message": "연결 경로는 사용하지 않습니다: C:\\dydgyqud\\AO40_20261019\\boundary-fixed-symlink\\offline-manifest.json",
+          "NetworkUsed": false
+        },
+        {
+          "Case": "oversize-symlink",
+          "ExpectedAccepted": false,
+          "ActualAccepted": false,
+          "Passed": true,
+          "LinkPath": "C:\\dydgyqud\\AO40_20261019\\boundary-fixed-oversize-symlink\\offline-manifest.json",
+          "IsReparsePoint": true,
+          "LinkReportedLength": 0,
+          "OutsideTarget": "C:\\dydgyqud\\AO40_20261019\\outside-fixed-oversize-symlink.json",
+          "TargetLength": 1102000,
+          "Files": 0,
+          "Message": "연결 경로는 사용하지 않습니다: C:\\dydgyqud\\AO40_20261019\\boundary-fixed-oversize-symlink\\offline-manifest.json",
+          "NetworkUsed": false
+        }
+      ],
+      "Passed": 3,
+      "Failed": 0,
+      "RealCLIExecuted": false,
+      "OnlyPrivateLocalFilesUsed": true
+    },
+    "PreparationMetadataBoundary": {
+      "MetadataLink": true,
+      "ExpectedAccepted": false,
+      "ActualAccepted": false,
+      "Passed": true,
+      "Error": "연결 경로는 사용하지 않습니다: C:\\dydgyqud\\AO40_20261019\\source-metadata-fixed\\profile\\.codex\\packages\\standalone\\release\\codex-package.json",
+      "SignatureCalls": 0,
+      "OutputExists": false,
+      "ActualCLIExecuted": false
+    },
+    "SyntheticPreparationScope": {
+      "Prepared": true,
+      "TrustCheckKind": "MockedPublisherForSyntheticPE_ThisDoesNotVerifyActualSignatures",
+      "SignatureCalls": [
+        "C:\\dydgyqud\\AO40_20261019\\source-retry1\\profile\\.codex\\packages\\standalone\\release\\bin\\codex.exe",
+        "C:\\dydgyqud\\AO40_20261019\\source-retry1\\profile\\.codex\\packages\\standalone\\release\\bin\\codex-code-mode-host.exe",
+        "C:\\dydgyqud\\AO40_20261019\\source-retry1\\profile\\.codex\\packages\\standalone\\release\\codex-resources\\codex-command-runner.exe",
+        "C:\\dydgyqud\\AO40_20261019\\source-retry1\\profile\\.codex\\packages\\standalone\\release\\codex-resources\\codex-windows-sandbox-setup.exe",
+        "C:\\dydgyqud\\AO40_20261019\\source-retry1\\claude.exe"
+      ],
+      "SignatureCallCount": 5,
+      "CLIFileCount": 7,
+      "ProfileFilesCopied": 0,
+      "ProfileSentinelsUnchanged": [
+        {
+          "Name": ".credentials.json",
+          "ContentUnchanged": true
+        },
+        {
+          "Name": "auth.json",
+          "ContentUnchanged": true
+        },
+        {
+          "Name": "config.toml",
+          "ContentUnchanged": true
+        },
+        {
+          "Name": "sentinel.txt",
+          "ContentUnchanged": true
+        }
+      ],
+      "CliMarkerExists": false,
+      "CurrentJunctionResolved": true,
+      "Output": "C:\\dydgyqud\\AO40_20261019\\synthetic-prepared-retry1",
+      "ActualUserProfilesRead": false,
+      "ActualCLIExecuted": false
+    },
+    "GuardedInstallation": {
+      "TripwireCreated": false,
+      "CLIMarkerCreated": false,
+      "ModeReports": [
+        "VerifiedOnly",
+        "Installed",
+        "AlreadyInstalled"
+      ],
+      "ActualCLIExecuted": false,
+      "NetworkIsolationApplied": false
+    },
+    "FinalFullEntryMatches": 59,
+    "FinalFullEntryCount": 59,
+    "FinalFullInternalChecksumMatches": 58,
+    "FinalFullInternalChecksumCount": 58,
+    "FinalPublicEntryMatches": 37,
+    "FinalPublicEntryCount": 37,
+    "FinalPublicInternalChecksumMatches": 36,
+    "FinalPublicInternalChecksumCount": 36,
+    "PublicVendorCLIPayloadCount": 0
+  },
+  "FinalFull": {
+    "Candidate": "candidate4",
+    "SHA256": "DB06BF91635D4C3F0B23F057E5CC39EAEB22714E2DC298C8AA477E142F8CA558",
+    "Bytes": 308366787,
+    "ManifestCLIFileCount": 46,
+    "VSIX": [
+      {
+        "Name": "VS2017.15.7.AIAssistant-0.11.1.vsix",
+        "SHA256": "3B5551AB9C8A1E8993779FFA66F9D673C36A5F00F7A27B0AC2A6E2E9A770AAD4",
+        "C17Match": true
+      },
+      {
+        "Name": "VS2017.AIAssistant-0.11.1.vsix",
+        "SHA256": "2C7DB6E2B89A4BD708B790B01BA1A71388EB90619CE62BCCB0BE4A3B2F379DD8",
+        "C17Match": true
+      },
+      {
+        "Name": "VS2019.AIAssistant-0.11.1.vsix",
+        "SHA256": "AB4B888656DBF5B2F4BF7711895F9BB82E75AF61B7878A08A66E8BC2A9F3D881",
+        "C17Match": true
+      },
+      {
+        "Name": "VS2022.AIAssistant-0.11.1.vsix",
+        "SHA256": "2CA4E737260ECDF7F4228F7B60E86F298881B1889A0BA4AE92B50B08E4FC2D8C",
+        "C17Match": true
+      }
+    ],
+    "Scripts": [
+      {
+        "Name": "OfflineCli.Common.ps1",
+        "BundleSHA": "D84D713D088360A5A104BE4A85FAE011E29DEC4FDE2F009E0906DC6F9256F650",
+        "LiveSHA": "D84D713D088360A5A104BE4A85FAE011E29DEC4FDE2F009E0906DC6F9256F650",
+        "Match": true
+      },
+      {
+        "Name": "Install-OfflineCli.ps1",
+        "BundleSHA": "908EE57AF2174D81F2283EACBF8CB47C76457A11E00D67DC3864CB3A3301F443",
+        "LiveSHA": "908EE57AF2174D81F2283EACBF8CB47C76457A11E00D67DC3864CB3A3301F443",
+        "Match": true
+      },
+      {
+        "Name": "Install-AIAssistant.ps1",
+        "BundleSHA": "E85D78DC5884E4E398657CF1F439A448035711F6E3226FDE0E53341CB1241226",
+        "LiveSHA": "E85D78DC5884E4E398657CF1F439A448035711F6E3226FDE0E53341CB1241226",
+        "Match": true
+      }
+    ],
+    "PublisherRecords": [
+      {
+        "Name": "codex.exe",
+        "StatusRecorded": "Valid",
+        "SubjectRecorded": "CN=\"OpenAI OpCo, LLC\", O=\"OpenAI OpCo, LLC\", L=San Francisco, S=California, C=US",
+        "SHARecorded": "2692C8C7BB2CF8B0AEFE638741FC90236F4B824C59578CE84994F9DE58200993",
+        "MatchesPayload": true,
+        "AuditorPerformedOnlineTrustCheck": false
+      },
+      {
+        "Name": "codex-code-mode-host.exe",
+        "StatusRecorded": "Valid",
+        "SubjectRecorded": "CN=\"OpenAI OpCo, LLC\", O=\"OpenAI OpCo, LLC\", L=San Francisco, S=California, C=US",
+        "SHARecorded": "07F3869F0849CD54B31CEC1F86EC796F004501BD3A215135C1FACC883A2B9988",
+        "MatchesPayload": true,
+        "AuditorPerformedOnlineTrustCheck": false
+      },
+      {
+        "Name": "codex-command-runner.exe",
+        "StatusRecorded": "Valid",
+        "SubjectRecorded": "CN=\"OpenAI OpCo, LLC\", O=\"OpenAI OpCo, LLC\", L=San Francisco, S=California, C=US",
+        "SHARecorded": "FC89DC66C806F25675B9BE1E7DAFB226807D22761E9741A3BB24B667B803D46C",
+        "MatchesPayload": true,
+        "AuditorPerformedOnlineTrustCheck": false
+      },
+      {
+        "Name": "codex-windows-sandbox-setup.exe",
+        "StatusRecorded": "Valid",
+        "SubjectRecorded": "CN=\"OpenAI OpCo, LLC\", O=\"OpenAI OpCo, LLC\", L=San Francisco, S=California, C=US",
+        "SHARecorded": "2EFC67F77DE2658667C1481E00A1C4C964D3E8F6D4F39B638620D80B9D0F6D8A",
+        "MatchesPayload": true,
+        "AuditorPerformedOnlineTrustCheck": false
+      },
+      {
+        "Name": "claude.exe",
+        "StatusRecorded": "Valid",
+        "SubjectRecorded": "CN=\"Anthropic, PBC\", O=\"Anthropic, PBC\", L=San Francisco, S=California, C=US, SERIALNUMBER=4860621, OID.2.5.4.15=Private Organization, OID.1.3.6.1.4.1.311.60.2.1.2=Delaware, OID.1.3.6.1.4.1.311.60.2.1.3=US",
+        "SHARecorded": "3AB075F78998EFEF8B87F491C2E4A39C309DDDF44E51D0103EBA4F3713D2A0AE",
+        "MatchesPayload": true,
+        "AuditorPerformedOnlineTrustCheck": false
+      }
+    ],
+    "AST": [
+      {
+        "File": "OfflineCli.Common.ps1",
+        "ParseErrors": 0,
+        "ForbiddenCommands": [],
+        "NetworkTypes": [],
+        "Commands": [
+          {
+            "Name": "Set-StrictMode",
+            "InvocationOperator": "Unknown",
+            "Text": "Set-StrictMode -Version Latest"
+          },
+          {
+            "Name": "New-Object",
+            "InvocationOperator": "Unknown",
+            "Text": "New-Object IO.DriveInfo([IO.Path]::GetPathRoot($current))"
+          },
+          {
+            "Name": "Join-Path",
+            "InvocationOperator": "Unknown",
+            "Text": "Join-Path $cursor $segment"
+          },
+          {
+            "Name": "Get-Item",
+            "InvocationOperator": "Unknown",
+            "Text": "Get-Item -LiteralPath $cursor -Force -ErrorAction SilentlyContinue"
+          },
+          {
+            "Name": "Assert-OfflinePlainPath",
+            "InvocationOperator": "Unknown",
+            "Text": "Assert-OfflinePlainPath $Root"
+          },
+          {
+            "Name": "New-Object",
+            "InvocationOperator": "Unknown",
+            "Text": "New-Object 'System.Collections.Generic.Queue[string]'"
+          },
+          {
+            "Name": "Get-ChildItem",
+            "InvocationOperator": "Unknown",
+            "Text": "Get-ChildItem -LiteralPath $directory -Force"
+          },
+          {
+            "Name": "Where-Object",
+            "InvocationOperator": "Unknown",
+            "Text": "Where-Object {$_ -match '[. ]$' -or $_ -match '^(?i:con|prn|aux|nul|com[1-9]|lpt[1-9])(?:\\.|$)'}"
+          },
+          {
+            "Name": "Join-Path",
+            "InvocationOperator": "Unknown",
+            "Text": "Join-Path $base $Relative"
+          },
+          {
+            "Name": "Assert-OfflinePlainPath",
+            "InvocationOperator": "Unknown",
+            "Text": "Assert-OfflinePlainPath $path"
+          },
+          {
+            "Name": "New-Object",
+            "InvocationOperator": "Unknown",
+            "Text": "New-Object IO.BinaryReader([IO.File]::OpenRead($Path))"
+          },
+          {
+            "Name": "Assert-OfflinePlainPath",
+            "InvocationOperator": "Unknown",
+            "Text": "Assert-OfflinePlainPath $root"
+          },
+          {
+            "Name": "Join-Path",
+            "InvocationOperator": "Unknown",
+            "Text": "Join-Path $root 'offline-manifest.json'"
+          },
+          {
+            "Name": "Assert-OfflinePlainPath",
+            "InvocationOperator": "Unknown",
+            "Text": "Assert-OfflinePlainPath $path"
+          },
+          {
+            "Name": "Get-Item",
+            "InvocationOperator": "Unknown",
+            "Text": "Get-Item -LiteralPath $path -Force"
+          },
+          {
+            "Name": "Get-Content",
+            "InvocationOperator": "Unknown",
+            "Text": "Get-Content -LiteralPath $path -Raw -Encoding UTF8"
+          },
+          {
+            "Name": "ConvertFrom-Json",
+            "InvocationOperator": "Unknown",
+            "Text": "ConvertFrom-Json"
+          },
+          {
+            "Name": "New-Object",
+            "InvocationOperator": "Unknown",
+            "Text": "New-Object 'System.Collections.Generic.HashSet[string]' ([StringComparer]::OrdinalIgnoreCase)"
+          },
+          {
+            "Name": "Resolve-OfflinePayloadPath",
+            "InvocationOperator": "Unknown",
+            "Text": "Resolve-OfflinePayloadPath $root $row.Path"
+          },
+          {
+            "Name": "Get-Item",
+            "InvocationOperator": "Unknown",
+            "Text": "Get-Item -LiteralPath $file"
+          },
+          {
+            "Name": "Get-FileHash",
+            "InvocationOperator": "Unknown",
+            "Text": "Get-FileHash -LiteralPath $file -Algorithm SHA256"
+          },
+          {
+            "Name": "Join-Path",
+            "InvocationOperator": "Unknown",
+            "Text": "Join-Path $root 'cli/codex/codex-package.json'"
+          },
+          {
+            "Name": "Get-Item",
+            "InvocationOperator": "Unknown",
+            "Text": "Get-Item -LiteralPath $metadataPath"
+          },
+          {
+            "Name": "Get-Content",
+            "InvocationOperator": "Unknown",
+            "Text": "Get-Content -LiteralPath $metadataPath -Raw -Encoding UTF8"
+          },
+          {
+            "Name": "ConvertFrom-Json",
+            "InvocationOperator": "Unknown",
+            "Text": "ConvertFrom-Json"
+          },
+          {
+            "Name": "Where-Object",
+            "InvocationOperator": "Unknown",
+            "Text": "Where-Object {$_ -like '*.exe'}"
+          },
+          {
+            "Name": "Get-OfflinePeArchitecture",
+            "InvocationOperator": "Unknown",
+            "Text": "Get-OfflinePeArchitecture (Join-Path $root $name)"
+          },
+          {
+            "Name": "Join-Path",
+            "InvocationOperator": "Unknown",
+            "Text": "Join-Path $root $name"
+          },
+          {
+            "Name": "Get-OfflinePlainFiles",
+            "InvocationOperator": "Unknown",
+            "Text": "Get-OfflinePlainFiles (Join-Path $root 'cli')"
+          },
+          {
+            "Name": "Join-Path",
+            "InvocationOperator": "Unknown",
+            "Text": "Join-Path $root 'cli'"
+          }
+        ]
+      },
+      {
+        "File": "Install-OfflineCli.ps1",
+        "ParseErrors": 0,
+        "ForbiddenCommands": [],
+        "NetworkTypes": [],
+        "Commands": [
+          {
+            "Name": "Join-Path",
+            "InvocationOperator": "Unknown",
+            "Text": "Join-Path $env:LOCALAPPDATA 'Programs/VisualStudioAIAssistant/OfflineCLI'"
+          },
+          {
+            "Name": "Join-Path",
+            "InvocationOperator": "Unknown",
+            "Text": "Join-Path $PSScriptRoot 'OfflineCli.Common.ps1'"
+          },
+          {
+            "Name": "Test-Path",
+            "InvocationOperator": "Unknown",
+            "Text": "Test-Path -LiteralPath $common"
+          },
+          {
+            "Name": "Join-Path",
+            "InvocationOperator": "Unknown",
+            "Text": "Join-Path $PSScriptRoot 'scripts/OfflineCli.Common.ps1'"
+          },
+          {
+            "Name": null,
+            "InvocationOperator": "Dot",
+            "Text": ". $common"
+          },
+          {
+            "Name": "Join-Path",
+            "InvocationOperator": "Unknown",
+            "Text": "Join-Path ([IO.Path]::GetTempPath()) ('OfflineCLI-install-'+[guid]::NewGuid().ToString('N')+'.json')"
+          },
+          {
+            "Name": "Assert-OfflinePlainPath",
+            "InvocationOperator": "Unknown",
+            "Text": "Assert-OfflinePlainPath $ReportPath"
+          },
+          {
+            "Name": "Test-Path",
+            "InvocationOperator": "Unknown",
+            "Text": "Test-Path -LiteralPath $ReportPath"
+          },
+          {
+            "Name": "Test-Path",
+            "InvocationOperator": "Unknown",
+            "Text": "Test-Path -LiteralPath (Split-Path -Parent ([IO.Path]::GetFullPath($ReportPath))) -PathType Container"
+          },
+          {
+            "Name": "Split-Path",
+            "InvocationOperator": "Unknown",
+            "Text": "Split-Path -Parent ([IO.Path]::GetFullPath($ReportPath))"
+          },
+          {
+            "Name": "Read-OfflineCliBundle",
+            "InvocationOperator": "Unknown",
+            "Text": "Read-OfflineCliBundle $BundleDirectory"
+          },
+          {
+            "Name": "Assert-OfflinePlainPath",
+            "InvocationOperator": "Unknown",
+            "Text": "Assert-OfflinePlainPath $root"
+          },
+          {
+            "Name": "Join-Path",
+            "InvocationOperator": "Unknown",
+            "Text": "Join-Path $root $manifest.BundleId"
+          },
+          {
+            "Name": "Test-Path",
+            "InvocationOperator": "Unknown",
+            "Text": "Test-Path -LiteralPath $destination"
+          },
+          {
+            "Name": "Assert-OfflinePlainPath",
+            "InvocationOperator": "Unknown",
+            "Text": "Assert-OfflinePlainPath $destination"
+          },
+          {
+            "Name": "Resolve-OfflinePayloadPath",
+            "InvocationOperator": "Unknown",
+            "Text": "Resolve-OfflinePayloadPath $destination $row.Path"
+          },
+          {
+            "Name": "Get-FileHash",
+            "InvocationOperator": "Unknown",
+            "Text": "Get-FileHash -LiteralPath $file"
+          },
+          {
+            "Name": "Get-OfflinePlainFiles",
+            "InvocationOperator": "Unknown",
+            "Text": "Get-OfflinePlainFiles (Join-Path $destination 'cli')"
+          },
+          {
+            "Name": "Join-Path",
+            "InvocationOperator": "Unknown",
+            "Text": "Join-Path $destination 'cli'"
+          },
+          {
+            "Name": "New-Item",
+            "InvocationOperator": "Unknown",
+            "Text": "New-Item -ItemType Directory -Path $root -Force"
+          },
+          {
+            "Name": "Join-Path",
+            "InvocationOperator": "Unknown",
+            "Text": "Join-Path $root ('.install-'+[guid]::NewGuid().ToString('N'))"
+          },
+          {
+            "Name": "New-Item",
+            "InvocationOperator": "Unknown",
+            "Text": "New-Item -ItemType Directory -Path $stage"
+          },
+          {
+            "Name": "Resolve-OfflinePayloadPath",
+            "InvocationOperator": "Unknown",
+            "Text": "Resolve-OfflinePayloadPath $BundleDirectory $row.Path"
+          },
+          {
+            "Name": "Resolve-OfflinePayloadPath",
+            "InvocationOperator": "Unknown",
+            "Text": "Resolve-OfflinePayloadPath $stage $row.Path"
+          },
+          {
+            "Name": "New-Item",
+            "InvocationOperator": "Unknown",
+            "Text": "New-Item -ItemType Directory -Path (Split-Path -Parent $target) -Force"
+          },
+          {
+            "Name": "Split-Path",
+            "InvocationOperator": "Unknown",
+            "Text": "Split-Path -Parent $target"
+          },
+          {
+            "Name": "Copy-Item",
+            "InvocationOperator": "Unknown",
+            "Text": "Copy-Item -LiteralPath $source -Destination $target"
+          },
+          {
+            "Name": "Get-FileHash",
+            "InvocationOperator": "Unknown",
+            "Text": "Get-FileHash -LiteralPath $target"
+          },
+          {
+            "Name": "Assert-OfflinePlainPath",
+            "InvocationOperator": "Unknown",
+            "Text": "Assert-OfflinePlainPath $root"
+          },
+          {
+            "Name": "Assert-OfflinePlainPath",
+            "InvocationOperator": "Unknown",
+            "Text": "Assert-OfflinePlainPath $destination"
+          },
+          {
+            "Name": "Test-Path",
+            "InvocationOperator": "Unknown",
+            "Text": "Test-Path -LiteralPath $destination"
+          },
+          {
+            "Name": "Move-Item",
+            "InvocationOperator": "Unknown",
+            "Text": "Move-Item -LiteralPath $stage -Destination $destination"
+          },
+          {
+            "Name": "Join-Path",
+            "InvocationOperator": "Unknown",
+            "Text": "Join-Path $destination 'cli/codex/bin/codex.exe'"
+          },
+          {
+            "Name": "Join-Path",
+            "InvocationOperator": "Unknown",
+            "Text": "Join-Path $destination 'cli/claude/claude.exe'"
+          },
+          {
+            "Name": "ConvertTo-Json",
+            "InvocationOperator": "Unknown",
+            "Text": "ConvertTo-Json -Depth 6"
+          },
+          {
+            "Name": "Set-Content",
+            "InvocationOperator": "Unknown",
+            "Text": "Set-Content -LiteralPath $ReportPath -Encoding UTF8"
+          },
+          {
+            "Name": "Write-Host",
+            "InvocationOperator": "Unknown",
+            "Text": "Write-Host \"오프라인 CLI 결과: $state / 검증 $($report.FilesVerified)개\""
+          },
+          {
+            "Name": "Write-Host",
+            "InvocationOperator": "Unknown",
+            "Text": "Write-Host \"Codex 경로: $($report.CodexExecutable)\""
+          },
+          {
+            "Name": "Write-Host",
+            "InvocationOperator": "Unknown",
+            "Text": "Write-Host \"Claude 경로: $($report.ClaudeExecutable)\""
+          },
+          {
+            "Name": "Write-Host",
+            "InvocationOperator": "Unknown",
+            "Text": "Write-Host \"로그: $ReportPath\""
+          },
+          {
+            "Name": "Write-Host",
+            "InvocationOperator": "Unknown",
+            "Text": "Write-Host 'VS 설정에 위 경로를 지정하세요. 로그인·AI 사용은 네트워크 연결 후 본인 계정으로 진행합니다.'"
+          },
+          {
+            "Name": "Write-Error",
+            "InvocationOperator": "Unknown",
+            "Text": "Write-Error $_"
+          }
+        ]
+      }
+    ],
+    "SensitivePaths": []
+  },
+  "FinalPublic": {
+    "Label": "final",
+    "SHA256": "C1743C89604DE34B8F0BBC68416017E719C9925759AF807169AC87B16F059E83",
+    "ExternalChecksumMatch": true,
+    "EntryCount": 37,
+    "CLIExecutableEntries": [],
+    "ReadmeInput": "Actual ZIP entry bytes"
+  },
+  "ProductInputs": [
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\docs\\assets\\cli-manual\\01-overview.png",
+      "Expected": "86738234B9A201914E6BED1776C32A2B007AE8171F50EEA974C3B4BAC3E76B49",
+      "Actual": "86738234B9A201914E6BED1776C32A2B007AE8171F50EEA974C3B4BAC3E76B49",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\docs\\assets\\cli-manual\\02-package.png",
+      "Expected": "CDCAEFF48497A3DD181230D4358428C22F5D86DDDE375CD5FF1BD07DFBA4C753",
+      "Actual": "CDCAEFF48497A3DD181230D4358428C22F5D86DDDE375CD5FF1BD07DFBA4C753",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\docs\\assets\\cli-manual\\03-vsix.png",
+      "Expected": "D0088EDD998D516763D50D0030B39206EB778778B7DBF219705CC9F72D67C6D8",
+      "Actual": "D0088EDD998D516763D50D0030B39206EB778778B7DBF219705CC9F72D67C6D8",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\docs\\assets\\cli-manual\\04-run-batch.png",
+      "Expected": "B5D5B679B0D56026D73F9323140E6894325A4F116984E3F655CB74DE075A91D9",
+      "Actual": "B5D5B679B0D56026D73F9323140E6894325A4F116984E3F655CB74DE075A91D9",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\docs\\assets\\cli-manual\\05-success.png",
+      "Expected": "F9845411A901B6B687D873FBD7E93E693ABC52D716D4A912CB691652FFCF775F",
+      "Actual": "F9845411A901B6B687D873FBD7E93E693ABC52D716D4A912CB691652FFCF775F",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\docs\\assets\\cli-manual\\06-login.png",
+      "Expected": "859D753C9240ED86525075F43A66A4823ADDE2F6F19A3D13F435695E0448020C",
+      "Actual": "859D753C9240ED86525075F43A66A4823ADDE2F6F19A3D13F435695E0448020C",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\docs\\assets\\cli-manual\\07-paths.png",
+      "Expected": "70BFA267082C8A6D2DD5A62065B821921BBC011C56ABAA01F2EC401EF4CCD043",
+      "Actual": "70BFA267082C8A6D2DD5A62065B821921BBC011C56ABAA01F2EC401EF4CCD043",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\docs\\assets\\cli-manual\\08-attachments.png",
+      "Expected": "650733944817B5185BEE9C999D699E73643BDCCC0FB060B08515D073317AC9A9",
+      "Actual": "650733944817B5185BEE9C999D699E73643BDCCC0FB060B08515D073317AC9A9",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\docs\\assets\\cli-manual\\09-troubleshooting.png",
+      "Expected": "44F4CB8F53CE709B1F126806E577B5219A2C44A8DF22578DE8513CD157832629",
+      "Actual": "44F4CB8F53CE709B1F126806E577B5219A2C44A8DF22578DE8513CD157832629",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\docs\\assets\\cli-manual\\10-options.png",
+      "Expected": "D6C1443DA8C7118BFF1C10CEC72028F6ABCDD3027D9FB99217897A0BF8A89BB7",
+      "Actual": "D6C1443DA8C7118BFF1C10CEC72028F6ABCDD3027D9FB99217897A0BF8A89BB7",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\docs\\assets\\cli-manual\\11-install-methods.png",
+      "Expected": "06A6494284E5B65E161CADEE74F2B3C8B62F4923244A1EAEA4B9C984626A08D0",
+      "Actual": "06A6494284E5B65E161CADEE74F2B3C8B62F4923244A1EAEA4B9C984626A08D0",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\docs\\assets\\cli-manual\\12-checklist.png",
+      "Expected": "E49084EC2B5EC85B2640F598E152828000DDAD9D67A085B17EC97E0ACE0D48E4",
+      "Actual": "E49084EC2B5EC85B2640F598E152828000DDAD9D67A085B17EC97E0ACE0D48E4",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\docs\\assets\\cli-manual\\ui-chat.png",
+      "Expected": "242A2B0809D62C354D5F1E88FA479D3EB335C155C1B57F7BA09793FFE29E0AAC",
+      "Actual": "242A2B0809D62C354D5F1E88FA479D3EB335C155C1B57F7BA09793FFE29E0AAC",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\docs\\assets\\cli-manual\\ui-guide.png",
+      "Expected": "321C6221992E58B812B762B605A0F61E8B59DD6074796BC63FF2DC8E55D69625",
+      "Actual": "321C6221992E58B812B762B605A0F61E8B59DD6074796BC63FF2DC8E55D69625",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\docs\\assets\\cli-manual\\ui-models.png",
+      "Expected": "DF3391A04A18C38316D4456711E385A0906A1E5862D15C4A52856164E9B44712",
+      "Actual": "DF3391A04A18C38316D4456711E385A0906A1E5862D15C4A52856164E9B44712",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\docs\\assets\\cli-manual\\ui-permissions.png",
+      "Expected": "85C9417A1C6CD433FCA2AE35BF1860B77F52A9FB07B09FF9E2D1EEA89B49F891",
+      "Actual": "85C9417A1C6CD433FCA2AE35BF1860B77F52A9FB07B09FF9E2D1EEA89B49F891",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\docs\\assets\\cli-manual\\ui-review.png",
+      "Expected": "D3838D4919B3BCAFA6E2BEC4E03E376408BAF821245060124F472D1FDEFDA014",
+      "Actual": "D3838D4919B3BCAFA6E2BEC4E03E376408BAF821245060124F472D1FDEFDA014",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\docs\\assets\\cli-manual\\ui-settings.png",
+      "Expected": "26B64806A1482F83B7110001AA1C7CC62BEA3D383182FE7A53034BF160AA262B",
+      "Actual": "26B64806A1482F83B7110001AA1C7CC62BEA3D383182FE7A53034BF160AA262B",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\docs\\assets\\guide-media\\01-connect.gif",
+      "Expected": "59E48449823353475F5204971C0B5C5B3F926DFF7F1F6A239B3AE8C47B956149",
+      "Actual": "59E48449823353475F5204971C0B5C5B3F926DFF7F1F6A239B3AE8C47B956149",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\docs\\assets\\guide-media\\01-connect.png",
+      "Expected": "D70A981083C73399C346D54E520B466958BADD5DD15C925461520071250055A5",
+      "Actual": "D70A981083C73399C346D54E520B466958BADD5DD15C925461520071250055A5",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\docs\\assets\\guide-media\\02-request.gif",
+      "Expected": "B08A43114E1E12128BCE6EA32C6CDAF5A1D4ABD5BEDA3C16A24BC9A50FC31CE2",
+      "Actual": "B08A43114E1E12128BCE6EA32C6CDAF5A1D4ABD5BEDA3C16A24BC9A50FC31CE2",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\docs\\assets\\guide-media\\02-request.png",
+      "Expected": "B83E1AE93DC9482135D844F1B7F22921B1E9D07C8CC57C40F9D5691EFCB09C3F",
+      "Actual": "B83E1AE93DC9482135D844F1B7F22921B1E9D07C8CC57C40F9D5691EFCB09C3F",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\docs\\assets\\guide-media\\03-review.gif",
+      "Expected": "92D4ACC8F2314D9DA0EE8350FE71CE48C2DB633499D3B3E8CD4898C8B7D57EDA",
+      "Actual": "92D4ACC8F2314D9DA0EE8350FE71CE48C2DB633499D3B3E8CD4898C8B7D57EDA",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\docs\\assets\\guide-media\\03-review.png",
+      "Expected": "07DA9122FF6570B2627E8F7A6C0E3AC8D1DBE4FE90EDAFDC3FE22F78D7BF365E",
+      "Actual": "07DA9122FF6570B2627E8F7A6C0E3AC8D1DBE4FE90EDAFDC3FE22F78D7BF365E",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\docs\\assets\\guide-media\\04-guide.gif",
+      "Expected": "C82293FB4C5D0074BF29D074BBB7419D6FD4821B4E485A5C907B0497CB5A0692",
+      "Actual": "C82293FB4C5D0074BF29D074BBB7419D6FD4821B4E485A5C907B0497CB5A0692",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\docs\\assets\\guide-media\\04-guide.png",
+      "Expected": "FD365AFA59DB76AB110F8BA5F4FA1C392CD8EC8625CD67EE7ED4FE5CFAE8F0C6",
+      "Actual": "FD365AFA59DB76AB110F8BA5F4FA1C392CD8EC8625CD67EE7ED4FE5CFAE8F0C6",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\docs\\assets\\guide-media\\05-install.gif",
+      "Expected": "816F5FA2786BA404BA88066224B8A8F85760980F8564F80E9762E08090A078C3",
+      "Actual": "816F5FA2786BA404BA88066224B8A8F85760980F8564F80E9762E08090A078C3",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\docs\\assets\\guide-media\\05-install.png",
+      "Expected": "BAC8E2E956FD37CC431653D555F9784A8C31A59D738649433851DACD283C5871",
+      "Actual": "BAC8E2E956FD37CC431653D555F9784A8C31A59D738649433851DACD283C5871",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\HowToInstallCLI.md",
+      "Expected": "6990AF5ED77868C12C80D05FFFB7003DECD02AA0F5E6BC0F970996569B979164",
+      "Actual": "6990AF5ED77868C12C80D05FFFB7003DECD02AA0F5E6BC0F970996569B979164",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\InstallCLI.bat",
+      "Expected": "81BAE40E698B7E16B4A15093248453C7A79EF5D564306FC9CE9416255D91D5CB",
+      "Actual": "81BAE40E698B7E16B4A15093248453C7A79EF5D564306FC9CE9416255D91D5CB",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\output\\pdf\\VisualStudio_AI_Assistant_설치_사용설명서.pdf",
+      "Expected": "EAE9BDD2CA1602677FEAF6BD1F50C19C8F7E29068D33B1DC06215D998C60B30A",
+      "Actual": "EAE9BDD2CA1602677FEAF6BD1F50C19C8F7E29068D33B1DC06215D998C60B30A",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant.DocumentReader\\App.config",
+      "Expected": "DBA0AC349FA98F542FE90CC4FBBE3033567DAC0515859D049854E81DEFAAAA51",
+      "Actual": "DBA0AC349FA98F542FE90CC4FBBE3033567DAC0515859D049854E81DEFAAAA51",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant.DocumentReader\\Properties\\AssemblyInfo.cs",
+      "Expected": "1B67151A709EA78991557E3A16315F1CF1BB17D2ACB5185100A4FFF669AD7D69",
+      "Actual": "1B67151A709EA78991557E3A16315F1CF1BB17D2ACB5185100A4FFF669AD7D69",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant.DocumentReader\\VS2017.AIAssistant.DocumentReader.csproj",
+      "Expected": "909B5CDD5C4C125FF324F4E112890C102B574435A1AB8E9B0672D83EB0C427B3",
+      "Actual": "909B5CDD5C4C125FF324F4E112890C102B574435A1AB8E9B0672D83EB0C427B3",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\AiAssistantPackage.cs",
+      "Expected": "7DB704AB058019732C95EA4B919EC3223D200F9890262171017F89CBCD1D09CB",
+      "Actual": "7DB704AB058019732C95EA4B919EC3223D200F9890262171017F89CBCD1D09CB",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Assets\\Claude.png",
+      "Expected": "C7D8415B1EDBA67E5337D3684B480B563826F07BE9E28E10CCC14BF92037EF6D",
+      "Actual": "C7D8415B1EDBA67E5337D3684B480B563826F07BE9E28E10CCC14BF92037EF6D",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Assets\\Codex.png",
+      "Expected": "8D5575EE667FF715CD3E3074D5296EDC68D5AADD89720D203E13131B68B22A04",
+      "Actual": "8D5575EE667FF715CD3E3074D5296EDC68D5AADD89720D203E13131B68B22A04",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Assets\\MarkdownnHighlighting.xshd",
+      "Expected": "7359736F9AABBD44C275EB82C45FD82AF593C3AD22A694C408E33CCB1B5B984A",
+      "Actual": "7359736F9AABBD44C275EB82C45FD82AF593C3AD22A694C408E33CCB1B5B984A",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Assets\\ThirdParty\\AvalonEdit\\LICENSE.txt",
+      "Expected": "7CFE74F11EAEF7A239E7C63D33595F924E7922FB3E3F3651014389620B228A07",
+      "Actual": "7CFE74F11EAEF7A239E7C63D33595F924E7922FB3E3F3651014389620B228A07",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Assets\\THIRD-PARTY-NOTICES.md",
+      "Expected": "CA3B136DF19E7DFFB611106D1728AAC40D4BEF8A12370ED7C01E54EF5D300105",
+      "Actual": "CA3B136DF19E7DFFB611106D1728AAC40D4BEF8A12370ED7C01E54EF5D300105",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Chat\\AssistantSettingsTransaction.cs",
+      "Expected": "56639555F425A32A747EC792F58FD0364505C0FBAA9FCBCEC31C841D3FBF7092",
+      "Actual": "56639555F425A32A747EC792F58FD0364505C0FBAA9FCBCEC31C841D3FBF7092",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Chat\\ChatWorkspace.cs",
+      "Expected": "68CB357CB386432E87C3D23F47AF52C54E267D04B6AE49D4C3C9DCC7F33902AF",
+      "Actual": "68CB357CB386432E87C3D23F47AF52C54E267D04B6AE49D4C3C9DCC7F33902AF",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Chat\\ConversationCollaboration.cs",
+      "Expected": "9B84DF381FB2D09E6D46F08926AF6FEABC5D9171DB68EDF0CB51B5BC58365817",
+      "Actual": "9B84DF381FB2D09E6D46F08926AF6FEABC5D9171DB68EDF0CB51B5BC58365817",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Chat\\DocumentAttachmentReader.cs",
+      "Expected": "605DF02064BA365914CF662C234B867A9DFE05069FE688EC343626C033C8DC3E",
+      "Actual": "605DF02064BA365914CF662C234B867A9DFE05069FE688EC343626C033C8DC3E",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Chat\\DocumentFilterWorker.cs",
+      "Expected": "E1D52D2610C52B9393DC9B32465A1ABB75427E3DC8E8F75B69D62E539264F4EE",
+      "Actual": "E1D52D2610C52B9393DC9B32465A1ABB75427E3DC8E8F75B69D62E539264F4EE",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Chat\\DocumentWorkerLauncher.cs",
+      "Expected": "5F604DCE83697D60E5DD5668915379683BDA502E83DF3F0D0B0C3589842558C9",
+      "Actual": "5F604DCE83697D60E5DD5668915379683BDA502E83DF3F0D0B0C3589842558C9",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Chat\\MandatoryInstructionStore.cs",
+      "Expected": "180F376604EF13EC26FBD2D35038BBBB7BE034C8D5BFE6920B398A3F38330130",
+      "Actual": "180F376604EF13EC26FBD2D35038BBBB7BE034C8D5BFE6920B398A3F38330130",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Chat\\MarkdownWorkspaceStore.cs",
+      "Expected": "2465AE378EE9AB1A91CBA814AAFE947B9A2890FAFC556B8C05FEA0632449C2E7",
+      "Actual": "2465AE378EE9AB1A91CBA814AAFE947B9A2890FAFC556B8C05FEA0632449C2E7",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Commands\\AssistantCommands.vsct",
+      "Expected": "7133B59D773FDD20BEAA1E714DABBB728016692759A0F17B6EA94F9357C7FA31",
+      "Actual": "7133B59D773FDD20BEAA1E714DABBB728016692759A0F17B6EA94F9357C7FA31",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Commands\\OpenAssistantCommand.cs",
+      "Expected": "263F4B13199B6021284380F238C7066A5CDB920034D36AE010013E4C690F0369",
+      "Actual": "263F4B13199B6021284380F238C7066A5CDB920034D36AE010013E4C690F0369",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Editing\\DocumentSnapshot.cs",
+      "Expected": "184511525B968B067725FB04629ABF0B042F4817C2C32407033A2FCD0551399D",
+      "Actual": "184511525B968B067725FB04629ABF0B042F4817C2C32407033A2FCD0551399D",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Editing\\EditProposal.cs",
+      "Expected": "5132A29DFF41BCB966F7C54DE0286315841F0C82E9DA0A626AF1EEEDA5AB7D1B",
+      "Actual": "5132A29DFF41BCB966F7C54DE0286315841F0C82E9DA0A626AF1EEEDA5AB7D1B",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Editing\\IExternalEditingDocumentService.cs",
+      "Expected": "D8A7E61C72DE6B2ED1D8F0C2C551640495A05AAF692A0FBA25E2FB00E28DBB13",
+      "Actual": "D8A7E61C72DE6B2ED1D8F0C2C551640495A05AAF692A0FBA25E2FB00E28DBB13",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Editing\\IFullAccessDocumentService.cs",
+      "Expected": "A2750F9CB57CABE4BD18DE6E8833BF2FFFEA5CF22C1AE2D57F78CC910B6BD071",
+      "Actual": "A2750F9CB57CABE4BD18DE6E8833BF2FFFEA5CF22C1AE2D57F78CC910B6BD071",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Editing\\SourceEditSession.cs",
+      "Expected": "8689541A21D28948F4344298CE6EDA65C0280D4703875F7E63B14E77B43D19AE",
+      "Actual": "8689541A21D28948F4344298CE6EDA65C0280D4703875F7E63B14E77B43D19AE",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Properties\\AssemblyInfo.cs",
+      "Expected": "63B65C8E9882A510EB0668A5E1065B2D0F81D6A8354DB640EA91FDB8C63F0D93",
+      "Actual": "63B65C8E9882A510EB0668A5E1065B2D0F81D6A8354DB640EA91FDB8C63F0D93",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Providers\\AgentFileTracker.cs",
+      "Expected": "3E58B25E71A1529FC4BB3B5E09F87953402F173AB9E4661D42EDD79370275A00",
+      "Actual": "3E58B25E71A1529FC4BB3B5E09F87953402F173AB9E4661D42EDD79370275A00",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Providers\\AgentProtocolEvents.cs",
+      "Expected": "A1AAA2F66DF8352AED19CEC516A6A944781C7B700411B2221A0D734EB7172C3B",
+      "Actual": "A1AAA2F66DF8352AED19CEC516A6A944781C7B700411B2221A0D734EB7172C3B",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Providers\\ClaudeRuntimeRunner.cs",
+      "Expected": "8D66FA6C0B21416C47E25A22740C2C2D5D8FA04411D47517D6E6E9B942F5EA30",
+      "Actual": "8D66FA6C0B21416C47E25A22740C2C2D5D8FA04411D47517D6E6E9B942F5EA30",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Providers\\CliAccountService.cs",
+      "Expected": "1E14F22A1150DD0067507215EEE8BB1F0CA395C74C33D19CAAF81421D0100D6B",
+      "Actual": "1E14F22A1150DD0067507215EEE8BB1F0CA395C74C33D19CAAF81421D0100D6B",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Providers\\CliEditProvider.cs",
+      "Expected": "12E922FD3D8E2B89B091B1BB64982F23B750DD07535E76A5A7FA34741201454F",
+      "Actual": "12E922FD3D8E2B89B091B1BB64982F23B750DD07535E76A5A7FA34741201454F",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Providers\\CodexRuntimeRunner.cs",
+      "Expected": "04DC678BC91570BBA1929B2CFF28B347194371743BF9AC379C7FCE3036598CFD",
+      "Actual": "04DC678BC91570BBA1929B2CFF28B347194371743BF9AC379C7FCE3036598CFD",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Providers\\NativeCliDiscovery.cs",
+      "Expected": "A5C763E5072408BDF3ECC34150DF959578333131F9F1BA5CA6E10903E9C26DD4",
+      "Actual": "A5C763E5072408BDF3ECC34150DF959578333131F9F1BA5CA6E10903E9C26DD4",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Providers\\NativeJsonSession.cs",
+      "Expected": "5810DF5D2DAE18F4C9E76DB57041F57CC9C724A865252EA0F8E4FCC173805E8E",
+      "Actual": "5810DF5D2DAE18F4C9E76DB57041F57CC9C724A865252EA0F8E4FCC173805E8E",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Providers\\ProcessJob.cs",
+      "Expected": "BA715B1D467121C3483176AAA04AFB5DD454D9172AF920F6C7F968C1F50E8D44",
+      "Actual": "BA715B1D467121C3483176AAA04AFB5DD454D9172AF920F6C7F968C1F50E8D44",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Providers\\ProviderExecutionOptions.cs",
+      "Expected": "98926727866565A5A4021BCF1C24DCDAF14CBA88E61EF03B60BF3D99AFF68165",
+      "Actual": "98926727866565A5A4021BCF1C24DCDAF14CBA88E61EF03B60BF3D99AFF68165",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Providers\\ProviderRuntime.cs",
+      "Expected": "DD1BAE440B7B34546FD1BE9AB52160993D9AC5CC2CFF34DD1873DAC0438D8755",
+      "Actual": "DD1BAE440B7B34546FD1BE9AB52160993D9AC5CC2CFF34DD1873DAC0438D8755",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Providers\\ProviderRuntimeService.cs",
+      "Expected": "66EB7C78679F29493820E3F7A3DD264E53069A6E2E0B42097F246F516D71B371",
+      "Actual": "66EB7C78679F29493820E3F7A3DD264E53069A6E2E0B42097F246F516D71B371",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Services\\CliGuideService.cs",
+      "Expected": "1AB7F5AEF02D23CBFB5B1FE4DDA5A1ED38E31306C0678354FCBE7A2B6EFE1218",
+      "Actual": "1AB7F5AEF02D23CBFB5B1FE4DDA5A1ED38E31306C0678354FCBE7A2B6EFE1218",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Services\\ScmIdentityService.cs",
+      "Expected": "28CD8005F37C0B59EE75B45334C2A831EC9913B856F374C56D9D9C8307CF44B4",
+      "Actual": "28CD8005F37C0B59EE75B45334C2A831EC9913B856F374C56D9D9C8307CF44B4",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Services\\VisualStudioDocumentService.cs",
+      "Expected": "F90A2F9B422E281E9805DB84CCF91DC69D3A7EBDD0B3A05AE05DD5A1D147064D",
+      "Actual": "F90A2F9B422E281E9805DB84CCF91DC69D3A7EBDD0B3A05AE05DD5A1D147064D",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Services\\VisualStudioExternalEditingScope.cs",
+      "Expected": "FC1F51393407C7B8602A37F3D65E81689CAE473B76AE1382F2B7A17197DB6E75",
+      "Actual": "FC1F51393407C7B8602A37F3D65E81689CAE473B76AE1382F2B7A17197DB6E75",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Services\\WorkspaceActionService.cs",
+      "Expected": "AB5AA4BAD97B04FA57A7C4904FE8456B04BCA555B745886B9AFCB424A3E38F2C",
+      "Actual": "AB5AA4BAD97B04FA57A7C4904FE8456B04BCA555B745886B9AFCB424A3E38F2C",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\source.extension.vsixmanifest",
+      "Expected": "83AD6B2347771800474C2E2660A6A829447D4D061A462386C090D996D1483C5B",
+      "Actual": "83AD6B2347771800474C2E2660A6A829447D4D061A462386C090D996D1483C5B",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\ToolWindows\\AssistantToolWindow.cs",
+      "Expected": "956E97CBC7DE404C4DBBC26868FE731FD429D28E6DACB3A54EE68C37C6C294EA",
+      "Actual": "956E97CBC7DE404C4DBBC26868FE731FD429D28E6DACB3A54EE68C37C6C294EA",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\AssistantControl.AccountLogin.cs",
+      "Expected": "0614E9E14826509152525B93746F70C0313A85931F87DBD18A2AAFD658DD51C1",
+      "Actual": "0614E9E14826509152525B93746F70C0313A85931F87DBD18A2AAFD658DD51C1",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\AssistantControl.Changes.cs",
+      "Expected": "C7FC42B6BFB242C8CAC85E98D15D10ED4B56DE6EA9A88DC5D007B303A939B425",
+      "Actual": "C7FC42B6BFB242C8CAC85E98D15D10ED4B56DE6EA9A88DC5D007B303A939B425",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\AssistantControl.Chat.cs",
+      "Expected": "E84C1F8088BD6EC6F11BD4E93FF99778938A83AC3C9A5A355240CA25FB6A159A",
+      "Actual": "E84C1F8088BD6EC6F11BD4E93FF99778938A83AC3C9A5A355240CA25FB6A159A",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\AssistantControl.Conversations.cs",
+      "Expected": "517441CBEA4616FB5CAE004908464FFA67787663AB6E7EB5B0AD58099E91771C",
+      "Actual": "517441CBEA4616FB5CAE004908464FFA67787663AB6E7EB5B0AD58099E91771C",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\AssistantControl.Dialogs.cs",
+      "Expected": "FE437CC2CDE3175F1350D42F50F2D9A28A9BE3C7D30A5E38D042EFFF88D7A4E3",
+      "Actual": "FE437CC2CDE3175F1350D42F50F2D9A28A9BE3C7D30A5E38D042EFFF88D7A4E3",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\AssistantControl.Dropdowns.cs",
+      "Expected": "5DB28674CA839638E5A0FF56EFCC8F98329CDD0893D3687CF930B154D54F4DB6",
+      "Actual": "5DB28674CA839638E5A0FF56EFCC8F98329CDD0893D3687CF930B154D54F4DB6",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\AssistantControl.Experience.cs",
+      "Expected": "0EBCF5EB2678D9B15971EC652376C8E1979C490CD4CBAC9729823FDB51EDA71B",
+      "Actual": "0EBCF5EB2678D9B15971EC652376C8E1979C490CD4CBAC9729823FDB51EDA71B",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\AssistantControl.Fan.cs",
+      "Expected": "104E3F5F54621736D6987390B8129790B0584A3ED5527235FE1E1983F6178336",
+      "Actual": "104E3F5F54621736D6987390B8129790B0584A3ED5527235FE1E1983F6178336",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\AssistantControl.HistoryOverlay.cs",
+      "Expected": "752F6442270F07011629E86276B7F7893D734EDA9C0AC74D7D10A0A918609190",
+      "Actual": "752F6442270F07011629E86276B7F7893D734EDA9C0AC74D7D10A0A918609190",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\AssistantControl.Markdown.cs",
+      "Expected": "233318AB4245A3F93C8BB5B64E568D8C6530B651A17913441A073C9AC4FD8990",
+      "Actual": "233318AB4245A3F93C8BB5B64E568D8C6530B651A17913441A073C9AC4FD8990",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\AssistantControl.Options.cs",
+      "Expected": "C70224C616C4BE81722FB66608E30011445D14711C73989F943ED61C95B5647C",
+      "Actual": "C70224C616C4BE81722FB66608E30011445D14711C73989F943ED61C95B5647C",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\AssistantControl.Progress.cs",
+      "Expected": "012E396C969F851796D209F18C2D529608CE1C9882D624993FC57E21EFC57826",
+      "Actual": "012E396C969F851796D209F18C2D529608CE1C9882D624993FC57E21EFC57826",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\AssistantControl.ProgressPresentation.cs",
+      "Expected": "2DC30CF24D6511CC4836C44E3CCF5D63F83205D1E463765749B8E540317408B0",
+      "Actual": "2DC30CF24D6511CC4836C44E3CCF5D63F83205D1E463765749B8E540317408B0",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\AssistantControl.Runtime.cs",
+      "Expected": "131CACBFF2AFC6BCE88A9AEDD72727D42D6C9C89A72319B61CEAD7E21966A5FC",
+      "Actual": "131CACBFF2AFC6BCE88A9AEDD72727D42D6C9C89A72319B61CEAD7E21966A5FC",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\AssistantControl.Theme.cs",
+      "Expected": "AD8B61C8A8793CA71326312A3BB44E3E028B59E5E666DC90AB9DC5D7B436461C",
+      "Actual": "AD8B61C8A8793CA71326312A3BB44E3E028B59E5E666DC90AB9DC5D7B436461C",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\AssistantControl.Thinking.cs",
+      "Expected": "AABFFAF502818935D50EEF202E8F5646A2F1A56B794EE52357428E480C2E3F76",
+      "Actual": "AABFFAF502818935D50EEF202E8F5646A2F1A56B794EE52357428E480C2E3F76",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\AssistantControl.Viewport.cs",
+      "Expected": "09558A0BDD4B2741B5E50C9FB8EA0A8403C8F3C9EACDEB9067E885DE1987AEF5",
+      "Actual": "09558A0BDD4B2741B5E50C9FB8EA0A8403C8F3C9EACDEB9067E885DE1987AEF5",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\AssistantControl.xaml",
+      "Expected": "F70D30C78AB19BF939FADA4BAE250BE72C0E990CC89AD4203F373AF80856483B",
+      "Actual": "F70D30C78AB19BF939FADA4BAE250BE72C0E990CC89AD4203F373AF80856483B",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\AssistantControl.xaml.cs",
+      "Expected": "39692A58B8876CBF135CF119BC38E6EDCB446AB4135755858765BDE05FD8CE4A",
+      "Actual": "39692A58B8876CBF135CF119BC38E6EDCB446AB4135755858765BDE05FD8CE4A",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\AssistantDialogs.cs",
+      "Expected": "B7AEEFEB75CA8A7D3C2B53A68F441C284542B33CF7D6918F9B751DE87EDF777E",
+      "Actual": "B7AEEFEB75CA8A7D3C2B53A68F441C284542B33CF7D6918F9B751DE87EDF777E",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\AssistantGuideDetails.cs",
+      "Expected": "7AE143F18E1B76E53DC2C22A6874F9D5F778D3535B2FBCA48D20084D603FF70B",
+      "Actual": "7AE143F18E1B76E53DC2C22A6874F9D5F778D3535B2FBCA48D20084D603FF70B",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\AssistantGuideMedia.cs",
+      "Expected": "9D38D101CF39DB133CDD4B4283524E909A7385D0F47FAFA942F070EB2C926A10",
+      "Actual": "9D38D101CF39DB133CDD4B4283524E909A7385D0F47FAFA942F070EB2C926A10",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\AssistantHelpContent.cs",
+      "Expected": "1E0BB12B90A45EBA0C2AE900721D02BCC5CE9C12DCC9AEEF8886EFBA3CD421A4",
+      "Actual": "1E0BB12B90A45EBA0C2AE900721D02BCC5CE9C12DCC9AEEF8886EFBA3CD421A4",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\AssistantPalette.cs",
+      "Expected": "8A515C30719F37E02E493D46A74180335FD69634ABF139D30D6F37FA2B30F840",
+      "Actual": "8A515C30719F37E02E493D46A74180335FD69634ABF139D30D6F37FA2B30F840",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\AssistantTheme.xaml",
+      "Expected": "2C7D43523E38B7250306D6074CD83AE9CC17FCECF20C6B556C9BCC37BB2EC30F",
+      "Actual": "2C7D43523E38B7250306D6074CD83AE9CC17FCECF20C6B556C9BCC37BB2EC30F",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\AssistantThemePolicy.cs",
+      "Expected": "BB3536A0ADF6DEDACE97610653B8835CD1BEEB69D37F290C325B26BE078B9E7A",
+      "Actual": "BB3536A0ADF6DEDACE97610653B8835CD1BEEB69D37F290C325B26BE078B9E7A",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\ChangeDiffPopup.cs",
+      "Expected": "4D17E3C1AEB0AF0A89003E540F22A15E359FD5000C5126824ED3608BE3EC721D",
+      "Actual": "4D17E3C1AEB0AF0A89003E540F22A15E359FD5000C5126824ED3608BE3EC721D",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\CliGuideDialog.cs",
+      "Expected": "12EA7BDA3CD5F674F67DB13ED59B91A22A5C1E1163234A247614AAC5046BAEA0",
+      "Actual": "12EA7BDA3CD5F674F67DB13ED59B91A22A5C1E1163234A247614AAC5046BAEA0",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\DiffPreviewPresenter.cs",
+      "Expected": "70590A73C541B4078887093A792AF81784CD59EA6CB1C2AB1A617811D4AEA4E0",
+      "Actual": "70590A73C541B4078887093A792AF81784CD59EA6CB1C2AB1A617811D4AEA4E0",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\MarkdownAnimatedImage.cs",
+      "Expected": "A4E4C273DE839A5EF9AC8E066FF807FE823ED909452687D004160C88E18FF7F8",
+      "Actual": "A4E4C273DE839A5EF9AC8E066FF807FE823ED909452687D004160C88E18FF7F8",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\MarkdownEditor.cs",
+      "Expected": "267A40A54D3B7F25A47DE3CF9284046FB21AF68D9DEDD71BC6CF569AB688EF3F",
+      "Actual": "267A40A54D3B7F25A47DE3CF9284046FB21AF68D9DEDD71BC6CF569AB688EF3F",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\MarkdownEditor.Documents.cs",
+      "Expected": "DEC513A9D64FF7F1FED10139C3B353326BEB26DF76D7637F62AF036A9D54BC97",
+      "Actual": "DEC513A9D64FF7F1FED10139C3B353326BEB26DF76D7637F62AF036A9D54BC97",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\MarkdownnCodeHighlighting.cs",
+      "Expected": "BD1E2EB7E6289138D61A18E0862EEE31027C49E947EC274C633BE526E8488EB3",
+      "Actual": "BD1E2EB7E6289138D61A18E0862EEE31027C49E947EC274C633BE526E8488EB3",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\MarkdownnEditing.cs",
+      "Expected": "CFFA1B943917B9BD7C1084A1F7AA486A68E74A28BD6DD69A3790BC9B6B4F9375",
+      "Actual": "CFFA1B943917B9BD7C1084A1F7AA486A68E74A28BD6DD69A3790BC9B6B4F9375",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\MarkdownPreview.cs",
+      "Expected": "6B5648142F9E0C6D7039E554E0A199171B1A6006B900D5400D587C0D620EB07B",
+      "Actual": "6B5648142F9E0C6D7039E554E0A199171B1A6006B900D5400D587C0D620EB07B",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\MarkdownRendering.cs",
+      "Expected": "E9658E9692F68B1C7F7FBD76A3A2D4D6C49F4C6F08BB5330EACE56311604F2FD",
+      "Actual": "E9658E9692F68B1C7F7FBD76A3A2D4D6C49F4C6F08BB5330EACE56311604F2FD",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\MarkdownRendering.Html.cs",
+      "Expected": "556EBAC8CBE614AA7FD377D5F7AB3C508D39202DAC894CF4AFC466A5DD5F48BF",
+      "Actual": "556EBAC8CBE614AA7FD377D5F7AB3C508D39202DAC894CF4AFC466A5DD5F48BF",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\ProgressNotice.cs",
+      "Expected": "14690B6063236852678E5CC45DA4A19DCB4DCD02480A4169AD112A41FDAC1FC0",
+      "Actual": "14690B6063236852678E5CC45DA4A19DCB4DCD02480A4169AD112A41FDAC1FC0",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\WorkspaceActionsDialog.cs",
+      "Expected": "2CDD1A3B3F583D888751D1421A925930AB0B7BACE7612C5B2FBB88B835DB9890",
+      "Actual": "2CDD1A3B3F583D888751D1421A925930AB0B7BACE7612C5B2FBB88B835DB9890",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\VS2017.AIAssistant.csproj",
+      "Expected": "A5FE7C9CC83D9826D182E4A4C277C3E148B67124FAD1AF3BB83C84E60DF7E38D",
+      "Actual": "A5FE7C9CC83D9826D182E4A4C277C3E148B67124FAD1AF3BB83C84E60DF7E38D",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\VSPackage.resx",
+      "Expected": "FF640F2D91CDE55865B3F5626CA2667E897F9E68892B5725D5197C7F29C91541",
+      "Actual": "FF640F2D91CDE55865B3F5626CA2667E897F9E68892B5725D5197C7F29C91541",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.Legacy.AIAssistant\\source.extension.vsixmanifest",
+      "Expected": "E8DFEC89FA5558B563DE21F1D52DBE7B2404515040F367A6326ABE6876D2DFBB",
+      "Actual": "E8DFEC89FA5558B563DE21F1D52DBE7B2404515040F367A6326ABE6876D2DFBB",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.Legacy.AIAssistant\\VS2017.Legacy.AIAssistant.csproj",
+      "Expected": "95BA9685247A06C26327D140766A4E2C59B1AD273F77955B3661DA9198D976CF",
+      "Actual": "95BA9685247A06C26327D140766A4E2C59B1AD273F77955B3661DA9198D976CF",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2019.AIAssistant\\source.extension.vsixmanifest",
+      "Expected": "A73EBE7BD9E72AE89FD99C95A46C1264584120320056C4199F9347823B20FBD2",
+      "Actual": "A73EBE7BD9E72AE89FD99C95A46C1264584120320056C4199F9347823B20FBD2",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2019.AIAssistant\\VS2019.AIAssistant.csproj",
+      "Expected": "941D5F1A7F255ACE0D24B3E92B47AEC8056F4411C373FB090DD4532702809A98",
+      "Actual": "941D5F1A7F255ACE0D24B3E92B47AEC8056F4411C373FB090DD4532702809A98",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2022.AIAssistant\\source.extension.vsixmanifest",
+      "Expected": "6FC62D8E31C3D07A3665FA206F6C3789038A3A6EA7EA662070472549CA512299",
+      "Actual": "6FC62D8E31C3D07A3665FA206F6C3789038A3A6EA7EA662070472549CA512299",
+      "Match": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2022.AIAssistant\\VS2022.AIAssistant.csproj",
+      "Expected": "3974FF28BAD847589FFC8FC585627C9BCCB9FF5404898B025534E50B883BF054",
+      "Actual": "3974FF28BAD847589FFC8FC585627C9BCCB9FF5404898B025534E50B883BF054",
+      "Match": true
+    }
+  ],
+  "Preservation": {
+    "Count": 67,
+    "Mismatches": 0,
+    "RoleUnchanged": true,
+    "PriorReportsUnchanged": true,
+    "ExistingReleaseAssetsUnchanged": true,
+    "OnlineInstallerOriginalsUnchanged": true
+  },
+  "SideEffects": {
+    "ProductSourceEdited": false,
+    "SharedBuildExecuted": false,
+    "GUIUsed": false,
+    "ActualUserCLIChanged": false,
+    "ActualUserProfilesRead": false,
+    "ActualCLIExecuted": false,
+    "CredentialsUsed": false,
+    "PATHChanged": false,
+    "AccountOrVSSettingsChanged": false,
+    "Deployed": false,
+    "SyntheticPrivateInstallPerformed": true
+  },
+  "Limitations": [
+    "No physical network disconnection or system-wide packet capture; AST, local path boundaries, command tripwires and execution markers were used",
+    "Publisher checks are preparer records bound to payload SHA; synthetic preparer test mocked publisher verification",
+    "No customer Professional2017 15.7.1 or customer Windows environment tested",
+    "No live login or model requests performed",
+    "Root-owned real CLI version probes are separate from auditor tests and installer behavior",
+    "Deployment and remote asset checks belong to TASK038"
+  ],
+  "HarnessIssues": [
+    "Initial signature mock used script scope list; fixed isolated variable scope and preserved initial log",
+    "WinPS5 New-Item file symlink required elevation; fixture changed to CreateSymbolicLinkW flag2; no elevation requested"
+  ],
+  "Sources": [
+    {
+      "Title": "Claude official setup",
+      "URL": "https://code.claude.com/docs/en/setup",
+      "Supports": "Windows 10 1809/Server2019 and online service requirement"
+    }
+  ],
+  "Report": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\MarkdownReport\\CodexOrig2_TASK-040_Audit.md",
+  "ReportSHA256": "88953D8AB989684ACCEEF27EF1F3A5C85DEF1EAA102969805288E1D49A461293",
+  "ArtifactHashes": [
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task040\\baseline-tests.log",
+      "Bytes": 821,
+      "SHA256": "6CA848F25C621F6AE123F72C5EE95263E1C68E0A79302278568DD042420F67F6"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task040\\c2-c3-delta.json",
+      "Bytes": 624,
+      "SHA256": "5A80DCD5297A3D52D8D83908DD9DF2F49EACCD0D84142B87779E063933AFD8F6"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task040\\Complete-Evidence40.ps1",
+      "Bytes": 8466,
+      "SHA256": "E10812021CDACE1E575F874E54AA537745E500B3E7FDDDE2F879B202BA8C4B00"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task040\\final-c4-linkage.json",
+      "Bytes": 1802,
+      "SHA256": "4BE136DC045158E4F463692AC3AA40206C9E90D45A057961A36C3BE5EED472A2"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task040\\final-guarded-check.json",
+      "Bytes": 860,
+      "SHA256": "DE64E7AB0AF61A0D47D9986CFE9F4FA27B295C7153DBC1F554B2F52078AC24B6"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task040\\final-guarded-check.log",
+      "Bytes": 553,
+      "SHA256": "73D7D88D29E275E0383E2B28A3F6B899BAD756A521B48DC783D217724B2ABB54"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task040\\final-guarded-install.json",
+      "Bytes": 857,
+      "SHA256": "7C1DE465C0C27FC6760D2A164466518DA55408DDBDACD732BAE05F9A266A04E3"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task040\\final-guarded-install.log",
+      "Bytes": 552,
+      "SHA256": "EE99352CBD72E15791E572620F16F2DDBC88D9F26434D72F7BE44ADEEBFC48CE"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task040\\final-guarded-repeat.json",
+      "Bytes": 864,
+      "SHA256": "FC7AEAEA5D6592F5639A97F9D7616A3BEFC3DDE9BC42343D36185175129A4638"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task040\\final-guarded-repeat.log",
+      "Bytes": 558,
+      "SHA256": "599C9C38B8222A4D67E8805FA9AB2093E8B4652FAA59E30C3E0B64F13E106EBF"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task040\\final-guarded-summary.json",
+      "Bytes": 221,
+      "SHA256": "20F2EE42F8DB29315998385B80276A2C35E3F195B6F41309ADA7C7E40325FE42"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task040\\fixed-script-linkage.json",
+      "Bytes": 744,
+      "SHA256": "3BDFF6763F106F82D50CEC22D6361900D37B1FCF8DCB1D029A7795F22E6B5AAF"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task040\\fixed-tests.log",
+      "Bytes": 978,
+      "SHA256": "964765C433080046D56527B4C1CCCE816F53AA32FD3D94266C2CB55A4CB442C4"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task040\\frozen-inputs.json",
+      "Bytes": 1729,
+      "SHA256": "6576AAAD33BB074CD4666CB223FE2DA7F9CCDAA6186F71FF0FEDC3AE05F16CE8"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task040\\guarded-check.json",
+      "Bytes": 866,
+      "SHA256": "6B46A9A38D37AA017E3BA2950D7591CBA1FFD0ECAF429A60025528D8DC9CB21E"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task040\\guarded-check.log",
+      "Bytes": 551,
+      "SHA256": "89DA0C32D733883D3CD5D75DDE7FA8E44B053B2907CB6CDF05BBB780E34F8D30"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task040\\guarded-install.json",
+      "Bytes": 863,
+      "SHA256": "D0FC781B1F6DA291D5F070D6514BF7A55E49E8476817193B2C8E46534133E5B6"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task040\\guarded-install.log",
+      "Bytes": 550,
+      "SHA256": "2445D047ED81595551A058F75CABCCC9573BAC35B6ADA6DAF6904820A684D925"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task040\\guarded-repeat.json",
+      "Bytes": 870,
+      "SHA256": "0CAAE622B38F1B2BAD75877AE34547B10A96E7CD9EF40CDE9B7614C76B01E1AE"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task040\\guarded-repeat.log",
+      "Bytes": 556,
+      "SHA256": "3B43C7FEF8520DF0BABEBEA7B5BC40D896EA27D24591D0C17884F1C74E3355B9"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task040\\guarded-summary.json",
+      "Bytes": 94,
+      "SHA256": "3652E9058A0B573CAFB8A44DB8E0A54B56F26A2D3474BD434A8E89B6BE48D7A4"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task040\\Invoke-GuardedOffline40.ps1",
+      "Bytes": 815,
+      "SHA256": "B5CEABDF89679DC4A085486E0FBAA9487A7E3FB961BB4B313EE57914E5E490F5"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task040\\preparation-metadata-fixed.log",
+      "Bytes": 0,
+      "SHA256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task040\\preparation-metadata-link-retry1.log",
+      "Bytes": 2724,
+      "SHA256": "3B3268C9473E79BA1F4DA09DE0506C6915A69418DE0857B63A1FB32293633BDD"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task040\\preparation-metadata-link.log",
+      "Bytes": 602,
+      "SHA256": "25B3295E3253CB0696CAE9B66DDF0B7B49FF1BB9B586FEE272401C0557E5595A"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task040\\preparation-scope-retry1.log",
+      "Bytes": 2393,
+      "SHA256": "62EF37CD6A31CF92CF736D3F4A337358FDE1AC739E2B1013EE0C0622F310F8EF"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task040\\preparation-scope.log",
+      "Bytes": 632,
+      "SHA256": "D576EB06B668DB3A6A294BDFCADD8175B2F51B051D3BECB4CDFC0C72F70EE179"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task040\\product-c17-preservation.json",
+      "Bytes": 39325,
+      "SHA256": "4D25F78528F524E33F2CC505D471692A39276AA9ECE9473D87F1B89B1B0E07F8"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task040\\protected-current.json",
+      "Bytes": 20765,
+      "SHA256": "16DAC90A2A661C7780CA7AA32E3A39C1822854342CE967867697A2059C7CF063"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task040\\protected-final.json",
+      "Bytes": 20698,
+      "SHA256": "A22421A2CF2E009878981711E18F422914A33C73ECF79D8A5F15AC7359A2EE8C"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task040\\protected-start.json",
+      "Bytes": 15061,
+      "SHA256": "504E00548B85214C1B6C365C52FF5393151A58CBB804AB69666AE4FA006D8213"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task040\\public-tools-final.json",
+      "Bytes": 16173,
+      "SHA256": "F230DAB8B9E6AAC183B672AE835422EC192435425BEC6C100E81F6857D29D83F"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task040\\public-tools-fixed.json",
+      "Bytes": 16172,
+      "SHA256": "B34423EC9C360A393D84716F432BA8E57EB5A17F8AD3A445ADB4820D94890850"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task040\\public-tools-initial.json",
+      "Bytes": 16174,
+      "SHA256": "9BFC268A22DC96AAA25218460BEA44437601F1DC1B3B9DCBC57FE0EBCE203912"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task040\\report-initial-open-R40-01.md",
+      "Bytes": 3802,
+      "SHA256": "16BB0293B9B70B1ABEDFCE9FD83CE6D679105E1C48AF510025CF08E5E44B285B"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task040\\Verify-ManifestBoundary40.ps1",
+      "Bytes": 2037,
+      "SHA256": "9C5872C8127EB1A9A2864582999EF2C18FA89FD0EAC2B17702570692CF99A55C"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task040\\Verify-OfflineArtifact40.ps1",
+      "Bytes": 5058,
+      "SHA256": "A1E392F330E409FFAB609E5865A89DE013EC4FAEED536066C90688E9685B0CB4"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task040\\Verify-PreparationScope40.ps1",
+      "Bytes": 5274,
+      "SHA256": "F6665341E4F272BDC46967D32805C60460826BB51B2B5D19E27B54F439B12A60"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task040\\Verify-PublicTools40.ps1",
+      "Bytes": 2794,
+      "SHA256": "98EAA53DFCC376DDBD11C7ECA0B0C820CF0B9A98157287712A0F59AD6C01E961"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task040\\candidate2-artifact\\result.json",
+      "Bytes": 46240,
+      "SHA256": "09CFF2433BFB99D4AA16873A236AD75071A149FDC1CD6357FDEC440262E18C83"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task040\\candidate3-artifact\\result.json",
+      "Bytes": 46555,
+      "SHA256": "FFF21BCA76D09956B19233F84499B89DFF56FFB5940DF5C3FE446C59B3A70778"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task040\\candidate4-artifact\\result.json",
+      "Bytes": 46557,
+      "SHA256": "592586BC346132BE90944649AEE666D5B03C844766F8887114172EE9C391337F"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task040\\manifest-boundary-fixed\\result.json",
+      "Bytes": 1840,
+      "SHA256": "2FFBC730A49F8625DFD0463AE64C750CEB80825A907BAFDCBE8508197A42FD27"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task040\\manifest-boundary-initial\\result.json",
+      "Bytes": 1605,
+      "SHA256": "81891079101FEE21A533406C765FF0ADD67A90568E78882A1114961184BF5FE8"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task040\\preparation-scope-initial\\NeverRunVersion.cs",
+      "Bytes": 299,
+      "SHA256": "710C04959E045E21A751B7C2453B7CD294B493F66F84B2CFE3C9AC5DB68C8037"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task040\\preparation-scope-metadata-fixed\\NeverRunVersion.cs",
+      "Bytes": 299,
+      "SHA256": "710C04959E045E21A751B7C2453B7CD294B493F66F84B2CFE3C9AC5DB68C8037"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task040\\preparation-scope-metadata-fixed\\result.json",
+      "Bytes": 393,
+      "SHA256": "8FE0EF4A5ABF4E376C113E0F7A3E8BE15E3FF9DA85362F4659FBD75ED8ED27B7"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task040\\preparation-scope-metadata-link-retry1\\NeverRunVersion.cs",
+      "Bytes": 299,
+      "SHA256": "710C04959E045E21A751B7C2453B7CD294B493F66F84B2CFE3C9AC5DB68C8037"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task040\\preparation-scope-metadata-link-retry1\\result.json",
+      "Bytes": 2466,
+      "SHA256": "D34FCAB55FFB0C9CC5ECA1291D8A18D119CF7DFDD0A7F2E13DCC86BF32160BE7"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task040\\preparation-scope-retry1\\NeverRunVersion.cs",
+      "Bytes": 299,
+      "SHA256": "710C04959E045E21A751B7C2453B7CD294B493F66F84B2CFE3C9AC5DB68C8037"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task040\\preparation-scope-retry1\\result.json",
+      "Bytes": 2149,
+      "SHA256": "ADC98F32575A8DC0198BDCE02CFDF1CAA9BE0D36CDCFE4725D5486C9CE910AA8"
+    }
+  ]
+}

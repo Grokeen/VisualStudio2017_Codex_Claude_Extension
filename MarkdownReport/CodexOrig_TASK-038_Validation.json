@@ -1,0 +1,824 @@
+{
+  "Task": "TASK-038",
+  "StartedAt": "2026-10-19T11:00:31+09:00",
+  "ValidatedAt": "2026-10-19T11:32:17.6630447+09:00",
+  "Scope": "Offline extension and CLI installation, AI use with permitted connectivity",
+  "ProductSourceVersionUnchanged": "0.11.1/C17",
+  "Candidate": {
+    "Task": "TASK-038",
+    "Candidate": "full-offline-candidate4",
+    "VerifiedAt": "2026-10-19T11:30:04.190986+09:00",
+    "Zip": {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task038\\full-offline-candidate4.zip",
+      "Bytes": 308366787,
+      "Sha256": "DB06BF91635D4C3F0B23F057E5CC39EAEB22714E2DC298C8AA477E142F8CA558"
+    },
+    "FullZipEntries": 59,
+    "FullChecksumEntries": 58,
+    "CliFiles": 46,
+    "CliVersions": {
+      "Claude": "2.1.302",
+      "Codex": "0.163.0"
+    },
+    "PublisherChecks": [
+      {
+        "Name": "codex.exe",
+        "Publisher": "CN=\"OpenAI OpCo, LLC\", O=\"OpenAI OpCo, LLC\", L=San Francisco, S=California, C=US",
+        "Thumbprint": "4E06E67B9ED204E60B4370C084D4C36E3532BA8E",
+        "Status": "Valid",
+        "Sha256": "2692C8C7BB2CF8B0AEFE638741FC90236F4B824C59578CE84994F9DE58200993"
+      },
+      {
+        "Name": "codex-code-mode-host.exe",
+        "Publisher": "CN=\"OpenAI OpCo, LLC\", O=\"OpenAI OpCo, LLC\", L=San Francisco, S=California, C=US",
+        "Thumbprint": "4E06E67B9ED204E60B4370C084D4C36E3532BA8E",
+        "Status": "Valid",
+        "Sha256": "07F3869F0849CD54B31CEC1F86EC796F004501BD3A215135C1FACC883A2B9988"
+      },
+      {
+        "Name": "codex-command-runner.exe",
+        "Publisher": "CN=\"OpenAI OpCo, LLC\", O=\"OpenAI OpCo, LLC\", L=San Francisco, S=California, C=US",
+        "Thumbprint": "4E06E67B9ED204E60B4370C084D4C36E3532BA8E",
+        "Status": "Valid",
+        "Sha256": "FC89DC66C806F25675B9BE1E7DAFB226807D22761E9741A3BB24B667B803D46C"
+      },
+      {
+        "Name": "codex-windows-sandbox-setup.exe",
+        "Publisher": "CN=\"OpenAI OpCo, LLC\", O=\"OpenAI OpCo, LLC\", L=San Francisco, S=California, C=US",
+        "Thumbprint": "4E06E67B9ED204E60B4370C084D4C36E3532BA8E",
+        "Status": "Valid",
+        "Sha256": "2EFC67F77DE2658667C1481E00A1C4C964D3E8F6D4F39B638620D80B9D0F6D8A"
+      },
+      {
+        "Name": "claude.exe",
+        "Publisher": "CN=\"Anthropic, PBC\", O=\"Anthropic, PBC\", L=San Francisco, S=California, C=US, SERIALNUMBER=4860621, OID.2.5.4.15=Private Organization, OID.1.3.6.1.4.1.311.60.2.1.2=Delaware, OID.1.3.6.1.4.1.311.60.2.1.3=US",
+        "Thumbprint": "60C2D9C51F09822FFF4F194DE9EEDB67451292D1",
+        "Status": "Valid",
+        "Sha256": "3AB075F78998EFEF8B87F491C2E4A39C309DDDF44E51D0103EBA4F3713D2A0AE"
+      }
+    ],
+    "BundledSourcesMatch": true,
+    "OriginalReleaseAssetsPreserved": 7,
+    "ProtectedAssetsPreserved": 47,
+    "C17InputsCompared": 122,
+    "ChangedC17Inputs": [],
+    "ProductSourceChanged": false,
+    "Files": [
+      {
+        "Name": "Install-AIAssistant.ps1",
+        "Bytes": 14366,
+        "Sha256": "E85D78DC5884E4E398657CF1F439A448035711F6E3226FDE0E53341CB1241226"
+      },
+      {
+        "Name": "Install-OfflineCli.ps1",
+        "Bytes": 5325,
+        "Sha256": "908EE57AF2174D81F2283EACBF8CB47C76457A11E00D67DC3864CB3A3301F443"
+      },
+      {
+        "Name": "InstallAIAssistant.bat",
+        "Bytes": 697,
+        "Sha256": "67FFE79505F0B3829FDE89CFBE400A3DA29D88224A4E3DC3645839035C893372"
+      },
+      {
+        "Name": "InstallOfflineCLI.bat",
+        "Bytes": 509,
+        "Sha256": "CDEB72E311C0792976B517E5DA240EEEBF5EBDE96F3D2D5B9F2CBBEE846ADD8F"
+      },
+      {
+        "Name": "offline-manifest.json",
+        "Bytes": 15526,
+        "Sha256": "3DF4A87AA56F9F6D6A3DB4AAB165D95961FBAC2FF985F758281EAA93E8720903"
+      },
+      {
+        "Name": "OfflineCli.Common.ps1",
+        "Bytes": 9594,
+        "Sha256": "D84D713D088360A5A104BE4A85FAE011E29DEC4FDE2F009E0906DC6F9256F650"
+      },
+      {
+        "Name": "OFFLINE_INSTALL.md",
+        "Bytes": 10306,
+        "Sha256": "47BABB457DCB087F4BCBCC12EB90FF6E7C48736D8230DF831E47D1A06C10B8A7"
+      },
+      {
+        "Name": "OFFLINE_SHA256SUMS.txt",
+        "Bytes": 6433,
+        "Sha256": "390D001BBBFE462A5FEDD94618CB21DEC6800F55E186507E5D654BF02B588143"
+      },
+      {
+        "Name": "SHA256SUMS.txt",
+        "Bytes": 397,
+        "Sha256": "BC57775D6FB17254938738866BB985F02ABF92265730A87B210847E64F3BF6A7"
+      },
+      {
+        "Name": "VS2017.15.7.AIAssistant-0.11.1.vsix",
+        "Bytes": 3849667,
+        "Sha256": "3B5551AB9C8A1E8993779FFA66F9D673C36A5F00F7A27B0AC2A6E2E9A770AAD4"
+      },
+      {
+        "Name": "VS2017.AIAssistant-0.11.1.vsix",
+        "Bytes": 3849596,
+        "Sha256": "2C7DB6E2B89A4BD708B790B01BA1A71388EB90619CE62BCCB0BE4A3B2F379DD8"
+      },
+      {
+        "Name": "VS2019.AIAssistant-0.11.1.vsix",
+        "Bytes": 3851428,
+        "Sha256": "AB4B888656DBF5B2F4BF7711895F9BB82E75AF61B7878A08A66E8BC2A9F3D881"
+      },
+      {
+        "Name": "VS2022.AIAssistant-0.11.1.vsix",
+        "Bytes": 3851232,
+        "Sha256": "2CA4E737260ECDF7F4228F7B60E86F298881B1889A0BA4AE92B50B08E4FC2D8C"
+      },
+      {
+        "Name": "cli/claude/claude.exe",
+        "Bytes": 290211488,
+        "Sha256": "3AB075F78998EFEF8B87F491C2E4A39C309DDDF44E51D0103EBA4F3713D2A0AE"
+      },
+      {
+        "Name": "cli/codex/codex-package.json",
+        "Bytes": 215,
+        "Sha256": "B7C94833FE9D6B9CF82FDCC202F81F5A84A1F5EDB987834DAA2AC0E5EF886E7B"
+      },
+      {
+        "Name": "cli/codex/bin/codex-code-mode-host.exe",
+        "Bytes": 74921264,
+        "Sha256": "07F3869F0849CD54B31CEC1F86EC796F004501BD3A215135C1FACC883A2B9988"
+      },
+      {
+        "Name": "cli/codex/bin/codex.exe",
+        "Bytes": 341270320,
+        "Sha256": "2692C8C7BB2CF8B0AEFE638741FC90236F4B824C59578CE84994F9DE58200993"
+      },
+      {
+        "Name": "cli/codex/codex-path/rg.exe",
+        "Bytes": 4218880,
+        "Sha256": "14231169855EC5205CF5A1B6F1DB358FF4AED4247C86B69CE8AAE647C77F6680"
+      },
+      {
+        "Name": "cli/codex/codex-resources/codex-command-runner.exe",
+        "Bytes": 8217904,
+        "Sha256": "FC89DC66C806F25675B9BE1E7DAFB226807D22761E9741A3BB24B667B803D46C"
+      },
+      {
+        "Name": "cli/codex/codex-resources/codex-windows-sandbox-setup.exe",
+        "Bytes": 17700144,
+        "Sha256": "2EFC67F77DE2658667C1481E00A1C4C964D3E8F6D4F39B638620D80B9D0F6D8A"
+      },
+      {
+        "Name": "cli/codex/codex-resources/voice/manifest.json",
+        "Bytes": 4773,
+        "Sha256": "A14FDC65CFFE82E565F9E5A44EF940FE333EBD8604FCBDBF4408F2352CD76CC5"
+      },
+      {
+        "Name": "cli/codex/codex-resources/voice/NOTICE.md",
+        "Bytes": 2439,
+        "Sha256": "473FCF8CCB68CE726111D016D133F0555ADBA730D057591512F3F71FB46AEB6E"
+      },
+      {
+        "Name": "cli/codex/codex-resources/voice/runtime.json",
+        "Bytes": 16894,
+        "Sha256": "78E4011FF38C6D7001C59A13614F642544E0FE42F149F831A0EA6F13D848A7CB"
+      },
+      {
+        "Name": "cli/codex/codex-resources/voice/sources.json",
+        "Bytes": 4911,
+        "Sha256": "E2F6B124F6277E7C3C4F5C7CC8830C66190F671AD65E972BB2CC9507DBFCB937"
+      },
+      {
+        "Name": "cli/codex/codex-resources/voice/windows-crt.json",
+        "Bytes": 1385,
+        "Sha256": "D16939BC85DA395DED5411724FED84FFD36810B78D47C756CF094B0956BC3892"
+      },
+      {
+        "Name": "cli/codex/codex-resources/voice/bin/codex-voice-host.exe",
+        "Bytes": 9031984,
+        "Sha256": "26D1D04ED865DFB630A0A3B8D826F7E85D5B3D4C3DE86EFEAF5D02C2DD57C680"
+      },
+      {
+        "Name": "cli/codex/codex-resources/voice/bin/gio-2.0-0.dll",
+        "Bytes": 1695536,
+        "Sha256": "B6215557039E2D7D7A3493BED69918F2D2183C904E4D09FCF951524C80C41C1B"
+      },
+      {
+        "Name": "cli/codex/codex-resources/voice/bin/glib-2.0-0.dll",
+        "Bytes": 1390896,
+        "Sha256": "5C5B36ADD8C6BF48C269600ABAC05708ADED2199237E854A08D376EF78F0C155"
+      },
+      {
+        "Name": "cli/codex/codex-resources/voice/bin/gmodule-2.0-0.dll",
+        "Bytes": 34608,
+        "Sha256": "6E3BAAF4668CA9DE545BCC0CF9AE0C1B888470395E62018563540837480BFB61"
+      },
+      {
+        "Name": "cli/codex/codex-resources/voice/bin/gobject-2.0-0.dll",
+        "Bytes": 348464,
+        "Sha256": "8554A5FC3FA575C67376B4BAA765DF0F1418AEC37110231AC1CF101856D5D03B"
+      },
+      {
+        "Name": "cli/codex/codex-resources/voice/bin/gstapp-1.0-0.dll",
+        "Bytes": 100144,
+        "Sha256": "8573CD7E1E799D66573B6A25A62E5CD414B4E54F30351375D653B5F9778C8707"
+      },
+      {
+        "Name": "cli/codex/codex-resources/voice/bin/gstapp.dll",
+        "Bytes": 25392,
+        "Sha256": "9FAED7DCF58CEBA37AFD82D30A39477B04263012114FEEB0053E1B3BC40DBB05"
+      },
+      {
+        "Name": "cli/codex/codex-resources/voice/bin/gstaudio-1.0-0.dll",
+        "Bytes": 512304,
+        "Sha256": "9711731D80F7B41F1E1DDA15D38D87672676C4B261279C9A6FDFA4F11A8BC791"
+      },
+      {
+        "Name": "cli/codex/codex-resources/voice/bin/gstaudioconvert.dll",
+        "Bytes": 48432,
+        "Sha256": "6693874A764125FB725E298B6C9E9E1610528ECCA46D949FED2575CA2861C1E8"
+      },
+      {
+        "Name": "cli/codex/codex-resources/voice/bin/gstaudioresample.dll",
+        "Bytes": 45360,
+        "Sha256": "61C02606FEDD20FBF74EBFA775A7358E04D7C1B01F361CBD51EE5DD683F5E6B2"
+      },
+      {
+        "Name": "cli/codex/codex-resources/voice/bin/gstbase-1.0-0.dll",
+        "Bytes": 484144,
+        "Sha256": "347BC9C3B8701DFFFD62360A22AA62E86C82CFB1709D98BF89536D7CF2ABDE75"
+      },
+      {
+        "Name": "cli/codex/codex-resources/voice/bin/gstcoreelements.dll",
+        "Bytes": 409904,
+        "Sha256": "59790C9AB1D4C15AAC484B054DBB57F8E3E456EC7E3447394F518322830CBDC3"
+      },
+      {
+        "Name": "cli/codex/codex-resources/voice/bin/gstnet-1.0-0.dll",
+        "Bytes": 116528,
+        "Sha256": "57251F8B01769D90B6E95F314FA237312E0A1D0BEFDBB527D6187AF425E3FE42"
+      },
+      {
+        "Name": "cli/codex/codex-resources/voice/bin/gstopus.dll",
+        "Bytes": 69424,
+        "Sha256": "F0DEF131359E66E761F5055D76CCA25F4A8B0D28992E9318848654853167F117"
+      },
+      {
+        "Name": "cli/codex/codex-resources/voice/bin/gstpbutils-1.0-0.dll",
+        "Bytes": 262448,
+        "Sha256": "2FEAC8E3A921C7F7B313E2AB53FD578730E384ECD22AE58C2867B8630AFDE1D1"
+      },
+      {
+        "Name": "cli/codex/codex-resources/voice/bin/gstreamer-1.0-0.dll",
+        "Bytes": 1257264,
+        "Sha256": "762F19DC5D944F78D68C818AA781FBCA6DBB33A51C79714FA0E3552C94D2AE42"
+      },
+      {
+        "Name": "cli/codex/codex-resources/voice/bin/gstrtp-1.0-0.dll",
+        "Bytes": 167216,
+        "Sha256": "35A53FCAB003C74D1AC4539A1E5C218F883D8FCE07AD630529FAA131BA0D5ED8"
+      },
+      {
+        "Name": "cli/codex/codex-resources/voice/bin/gstrtp.dll",
+        "Bytes": 607536,
+        "Sha256": "0C9609CEA6E80B0D10FBCB9F1223ACAEFC07448FF767C0482E03691C005838EA"
+      },
+      {
+        "Name": "cli/codex/codex-resources/voice/bin/gstrtpmanager.dll",
+        "Bytes": 501040,
+        "Sha256": "E3E05718F906BB05EF2F02EDB8DD860C2E4D36BB082497917BD5441B62652489"
+      },
+      {
+        "Name": "cli/codex/codex-resources/voice/bin/gsttag-1.0-0.dll",
+        "Bytes": 254256,
+        "Sha256": "8971E047A4C4C38502F244C5944CEA52E4C492FA3820B234A45CEA7943B73319"
+      },
+      {
+        "Name": "cli/codex/codex-resources/voice/bin/gstvideo-1.0-0.dll",
+        "Bytes": 769840,
+        "Sha256": "85BEADD972B009378B8103342573D63AD75A2110C7472BE6C1126B16602ECE47"
+      },
+      {
+        "Name": "cli/codex/codex-resources/voice/bin/intl-8.dll",
+        "Bytes": 25392,
+        "Sha256": "13B15DA1C27DA598B6D9A90CFC9177570BC42C705DF64F466CC5B66EB5E9ADAF"
+      },
+      {
+        "Name": "cli/codex/codex-resources/voice/bin/libffi-8.dll",
+        "Bytes": 43312,
+        "Sha256": "10E5DD36E5B6DE06468F829AD15646548F1C76288D5AE87E5154F9182B652BC5"
+      },
+      {
+        "Name": "cli/codex/codex-resources/voice/bin/opus.dll",
+        "Bytes": 440112,
+        "Sha256": "E3A5ED77837E9F17FBF2BDE015D23B35B2DD0D49401D506990E660F2ED7106C0"
+      },
+      {
+        "Name": "cli/codex/codex-resources/voice/bin/pcre2-8.dll",
+        "Bytes": 398128,
+        "Sha256": "21371BA32EC71D33098FE40210E15C1F631B7FCC6BDDD0C4F6ABC2BD38D55603"
+      },
+      {
+        "Name": "cli/codex/codex-resources/voice/bin/vcruntime140.dll",
+        "Bytes": 123472,
+        "Sha256": "184146852727A9DB4EEA06178716BEC3CDBB1015C911F6B0F915B184AD7775B2"
+      },
+      {
+        "Name": "cli/codex/codex-resources/voice/bin/z.dll",
+        "Bytes": 105264,
+        "Sha256": "7828CDF60F48555C67878E5CB8E2048605336AD3DED22E7E60AB4CCC876BCD4B"
+      },
+      {
+        "Name": "cli/codex/codex-resources/voice/licenses/LGPL-2.1.txt",
+        "Bytes": 26934,
+        "Sha256": "C7CE1276717604C29C5469179A2F368EAC42846557BE671BB52F4E16E884B2AD"
+      },
+      {
+        "Name": "cli/codex/codex-resources/voice/licenses/libffi.txt",
+        "Bytes": 1153,
+        "Sha256": "E2A9B884B1C5D718EFD6121457A1FBE7ECE431352CA75C901260CEF2E7D040E5"
+      },
+      {
+        "Name": "cli/codex/codex-resources/voice/licenses/Opus.txt",
+        "Bytes": 1989,
+        "Sha256": "CBD8BD07329A234413710C02B19D22C0CF78FC451882593E817130779B5455E3"
+      },
+      {
+        "Name": "cli/codex/codex-resources/voice/licenses/PCRE2.md",
+        "Bytes": 4115,
+        "Sha256": "4195C519DCFE4A4FFEDC4B8CCC5D49E4DD02EFD5ECE6B69A4FBA5D20080902A9"
+      },
+      {
+        "Name": "cli/codex/codex-resources/voice/licenses/proxy-libintl.txt",
+        "Bytes": 25774,
+        "Sha256": "AA092600E3F475F0A55821FB9C529583D8E23E41BF0461254F02FCF94D3A32C2"
+      },
+      {
+        "Name": "cli/codex/codex-resources/voice/licenses/sljit.txt",
+        "Bytes": 1469,
+        "Sha256": "37C7A090FC61388430D63FC97BF8A22FFCE92D3CA2249AAC572CFAF411D3070F"
+      },
+      {
+        "Name": "cli/codex/codex-resources/voice/licenses/zlib.txt",
+        "Bytes": 1024,
+        "Sha256": "439C75AB12B340C5362B9D4B08FF05EC3A4D0EB7667A6FFF49A9B16D8795C78E"
+      }
+    ],
+    "CustomerPcTested": false,
+    "InternetPhysicallyDisconnected": false
+  },
+  "PublicToolkit": {
+    "Task": "TASK-038",
+    "BuiltAt": "2026-10-19T11:29:02.0646611+09:00",
+    "Entries": 37,
+    "VerifiedEntries": [
+      {
+        "Name": "VS2017.15.7.AIAssistant-0.11.1.vsix",
+        "Bytes": 3849667,
+        "Sha256": "3B5551AB9C8A1E8993779FFA66F9D673C36A5F00F7A27B0AC2A6E2E9A770AAD4"
+      },
+      {
+        "Name": "VS2017.AIAssistant-0.11.1.vsix",
+        "Bytes": 3849596,
+        "Sha256": "2C7DB6E2B89A4BD708B790B01BA1A71388EB90619CE62BCCB0BE4A3B2F379DD8"
+      },
+      {
+        "Name": "VS2019.AIAssistant-0.11.1.vsix",
+        "Bytes": 3851428,
+        "Sha256": "AB4B888656DBF5B2F4BF7711895F9BB82E75AF61B7878A08A66E8BC2A9F3D881"
+      },
+      {
+        "Name": "VS2022.AIAssistant-0.11.1.vsix",
+        "Bytes": 3851232,
+        "Sha256": "2CA4E737260ECDF7F4228F7B60E86F298881B1889A0BA4AE92B50B08E4FC2D8C"
+      },
+      {
+        "Name": "SHA256SUMS.txt",
+        "Bytes": 397,
+        "Sha256": "BC57775D6FB17254938738866BB985F02ABF92265730A87B210847E64F3BF6A7"
+      },
+      {
+        "Name": "HowToInstallCLI.md",
+        "Bytes": 20265,
+        "Sha256": "6990AF5ED77868C12C80D05FFFB7003DECD02AA0F5E6BC0F970996569B979164"
+      },
+      {
+        "Name": "InstallCLI.bat",
+        "Bytes": 10233,
+        "Sha256": "81BAE40E698B7E16B4A15093248453C7A79EF5D564306FC9CE9416255D91D5CB"
+      },
+      {
+        "Name": "output/pdf/VisualStudio_AI_Assistant_설치_사용설명서.pdf",
+        "Bytes": 1089143,
+        "Sha256": "EAE9BDD2CA1602677FEAF6BD1F50C19C8F7E29068D33B1DC06215D998C60B30A"
+      },
+      {
+        "Name": "InstallAIAssistant.bat",
+        "Bytes": 697,
+        "Sha256": "67FFE79505F0B3829FDE89CFBE400A3DA29D88224A4E3DC3645839035C893372"
+      },
+      {
+        "Name": "Install-AIAssistant.ps1",
+        "Bytes": 14366,
+        "Sha256": "E85D78DC5884E4E398657CF1F439A448035711F6E3226FDE0E53341CB1241226"
+      },
+      {
+        "Name": "INSTALL_TROUBLESHOOTING.md",
+        "Bytes": 3767,
+        "Sha256": "C0FBFC28EA1AC85AF22E8A3DE06547DDFBB7CC05E1A90A2B5D191A3360846D38"
+      },
+      {
+        "Name": "docs/assets/cli-manual/01-overview.png",
+        "Bytes": 55500,
+        "Sha256": "86738234B9A201914E6BED1776C32A2B007AE8171F50EEA974C3B4BAC3E76B49"
+      },
+      {
+        "Name": "docs/assets/cli-manual/02-package.png",
+        "Bytes": 38432,
+        "Sha256": "CDCAEFF48497A3DD181230D4358428C22F5D86DDDE375CD5FF1BD07DFBA4C753"
+      },
+      {
+        "Name": "docs/assets/cli-manual/03-vsix.png",
+        "Bytes": 41222,
+        "Sha256": "D0088EDD998D516763D50D0030B39206EB778778B7DBF219705CC9F72D67C6D8"
+      },
+      {
+        "Name": "docs/assets/cli-manual/04-run-batch.png",
+        "Bytes": 51300,
+        "Sha256": "B5D5B679B0D56026D73F9323140E6894325A4F116984E3F655CB74DE075A91D9"
+      },
+      {
+        "Name": "docs/assets/cli-manual/05-success.png",
+        "Bytes": 57223,
+        "Sha256": "F9845411A901B6B687D873FBD7E93E693ABC52D716D4A912CB691652FFCF775F"
+      },
+      {
+        "Name": "docs/assets/cli-manual/06-login.png",
+        "Bytes": 54992,
+        "Sha256": "859D753C9240ED86525075F43A66A4823ADDE2F6F19A3D13F435695E0448020C"
+      },
+      {
+        "Name": "docs/assets/cli-manual/07-paths.png",
+        "Bytes": 46859,
+        "Sha256": "70BFA267082C8A6D2DD5A62065B821921BBC011C56ABAA01F2EC401EF4CCD043"
+      },
+      {
+        "Name": "docs/assets/cli-manual/08-attachments.png",
+        "Bytes": 36284,
+        "Sha256": "650733944817B5185BEE9C999D699E73643BDCCC0FB060B08515D073317AC9A9"
+      },
+      {
+        "Name": "docs/assets/cli-manual/09-troubleshooting.png",
+        "Bytes": 40243,
+        "Sha256": "44F4CB8F53CE709B1F126806E577B5219A2C44A8DF22578DE8513CD157832629"
+      },
+      {
+        "Name": "docs/assets/cli-manual/10-options.png",
+        "Bytes": 45287,
+        "Sha256": "D6C1443DA8C7118BFF1C10CEC72028F6ABCDD3027D9FB99217897A0BF8A89BB7"
+      },
+      {
+        "Name": "docs/assets/cli-manual/11-install-methods.png",
+        "Bytes": 40794,
+        "Sha256": "06A6494284E5B65E161CADEE74F2B3C8B62F4923244A1EAEA4B9C984626A08D0"
+      },
+      {
+        "Name": "docs/assets/cli-manual/12-checklist.png",
+        "Bytes": 37931,
+        "Sha256": "E49084EC2B5EC85B2640F598E152828000DDAD9D67A085B17EC97E0ACE0D48E4"
+      },
+      {
+        "Name": "docs/assets/cli-manual/ui-chat.png",
+        "Bytes": 52822,
+        "Sha256": "242A2B0809D62C354D5F1E88FA479D3EB335C155C1B57F7BA09793FFE29E0AAC"
+      },
+      {
+        "Name": "docs/assets/cli-manual/ui-guide.png",
+        "Bytes": 36260,
+        "Sha256": "321C6221992E58B812B762B605A0F61E8B59DD6074796BC63FF2DC8E55D69625"
+      },
+      {
+        "Name": "docs/assets/cli-manual/ui-models.png",
+        "Bytes": 19293,
+        "Sha256": "DF3391A04A18C38316D4456711E385A0906A1E5862D15C4A52856164E9B44712"
+      },
+      {
+        "Name": "docs/assets/cli-manual/ui-permissions.png",
+        "Bytes": 27586,
+        "Sha256": "85C9417A1C6CD433FCA2AE35BF1860B77F52A9FB07B09FF9E2D1EEA89B49F891"
+      },
+      {
+        "Name": "docs/assets/cli-manual/ui-review.png",
+        "Bytes": 64180,
+        "Sha256": "D3838D4919B3BCAFA6E2BEC4E03E376408BAF821245060124F472D1FDEFDA014"
+      },
+      {
+        "Name": "docs/assets/cli-manual/ui-settings.png",
+        "Bytes": 55233,
+        "Sha256": "26B64806A1482F83B7110001AA1C7CC62BEA3D383182FE7A53034BF160AA262B"
+      },
+      {
+        "Name": "README.md",
+        "Bytes": 2665,
+        "Sha256": "72777E317948E57AA5C5E4272C62911AEB7CE58EB326CEC008D7FFD44365F2A0"
+      },
+      {
+        "Name": "OfflineCli.Common.ps1",
+        "Bytes": 9594,
+        "Sha256": "D84D713D088360A5A104BE4A85FAE011E29DEC4FDE2F009E0906DC6F9256F650"
+      },
+      {
+        "Name": "Install-OfflineCli.ps1",
+        "Bytes": 5325,
+        "Sha256": "908EE57AF2174D81F2283EACBF8CB47C76457A11E00D67DC3864CB3A3301F443"
+      },
+      {
+        "Name": "Prepare-OfflineSetup.ps1",
+        "Bytes": 11290,
+        "Sha256": "099F3BCED2E94795F46C456938ADDB214A12B3DD681B754151075BBF0ECA0A84"
+      },
+      {
+        "Name": "InstallOfflineCLI.bat",
+        "Bytes": 509,
+        "Sha256": "CDEB72E311C0792976B517E5DA240EEEBF5EBDE96F3D2D5B9F2CBBEE846ADD8F"
+      },
+      {
+        "Name": "PrepareOfflineSetup.bat",
+        "Bytes": 537,
+        "Sha256": "02E5EA52C607580027EA630CD075210B5EB219C1BA719403033E775362DF3831"
+      },
+      {
+        "Name": "OFFLINE_INSTALL.md",
+        "Bytes": 10306,
+        "Sha256": "47BABB457DCB087F4BCBCC12EB90FF6E7C48736D8230DF831E47D1A06C10B8A7"
+      },
+      {
+        "Name": "BUNDLE_SHA256SUMS.txt",
+        "Bytes": 3573,
+        "Sha256": "2EDC18145C977B72469388F18746BF1CA8C981D2FE341A1D6284D341E2649490"
+      }
+    ],
+    "Assets": [
+      {
+        "Name": "VisualStudio_AI_Assistant-0.11.1-OfflineTools1.zip",
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.11.1\\VisualStudio_AI_Assistant-0.11.1-OfflineTools1.zip",
+        "Bytes": 16940303,
+        "Sha256": "C1743C89604DE34B8F0BBC68416017E719C9925759AF807169AC87B16F059E83"
+      },
+      {
+        "Name": "OFFLINE_TOOLS1_SHA256SUMS.txt",
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.11.1\\OFFLINE_TOOLS1_SHA256SUMS.txt",
+        "Bytes": 118,
+        "Sha256": "E9A90E8BD5216ED76C8124AE81C56C7CB96B4003BB17A3E4E336455D1F9254AC"
+      }
+    ],
+    "VendorCliPayloadIncluded": false,
+    "BaseReleaseAssetsModified": false,
+    "ChecksumEntryVerified": true
+  },
+  "Regression": {
+    "Task": "TASK-038",
+    "TestKind": "Synthetic PE payload and actual Windows PowerShell copy-only CLI",
+    "Passed": 31,
+    "Checks": [
+      {
+        "Name": "Complete standalone payload is accepted",
+        "Passed": true
+      },
+      {
+        "Name": "Tampered bytes rejected",
+        "Passed": true,
+        "Detail": "묶음 파일이 손상되거나 변경됐습니다: cli/claude/claude.exe"
+      },
+      {
+        "Name": "Missing code-mode host rejected",
+        "Passed": true,
+        "Detail": "필수 실행 자료가 없습니다: cli/codex/bin/codex-code-mode-host.exe"
+      },
+      {
+        "Name": "Missing sandbox helper rejected",
+        "Passed": true,
+        "Detail": "필수 실행 자료가 없습니다: cli/codex/codex-resources/codex-windows-sandbox-setup.exe"
+      },
+      {
+        "Name": "Unsafe path rejected: ../outside.exe",
+        "Passed": true,
+        "Detail": "허용하지 않은 CLI 경로: ../outside.exe"
+      },
+      {
+        "Name": "Unsafe path rejected: C:/outside.exe",
+        "Passed": true,
+        "Detail": "허용하지 않은 CLI 경로: C:/outside.exe"
+      },
+      {
+        "Name": "Unsafe path rejected: cli/codex/bin/../../outside.exe",
+        "Passed": true,
+        "Detail": "허용하지 않은 CLI 경로: cli/codex/bin/../../outside.exe"
+      },
+      {
+        "Name": "Unsafe path rejected: cli/codex/bin/a.exe:stream",
+        "Passed": true,
+        "Detail": "허용하지 않은 CLI 경로: cli/codex/bin/a.exe:stream"
+      },
+      {
+        "Name": "Unsafe path rejected: cli/codex/bin/auth.json",
+        "Passed": true,
+        "Detail": "허용하지 않은 CLI 경로: cli/codex/bin/auth.json"
+      },
+      {
+        "Name": "Unsafe path rejected: cli/codex/bin/con.exe",
+        "Passed": true,
+        "Detail": "허용하지 않은 CLI 경로: cli/codex/bin/con.exe"
+      },
+      {
+        "Name": "Unsafe path rejected: cli/codex/bin/file.",
+        "Passed": true,
+        "Detail": "허용하지 않은 CLI 경로: cli/codex/bin/file."
+      },
+      {
+        "Name": "Duplicate declaration rejected",
+        "Passed": true,
+        "Detail": "Duplicate CLI manifest path."
+      },
+      {
+        "Name": "Unlisted credentials rejected",
+        "Passed": true,
+        "Detail": "CLI 폴더에 선언하지 않은 파일이 있습니다."
+      },
+      {
+        "Name": "Altered Codex entrypoint rejected",
+        "Passed": true,
+        "Detail": "Codex standalone package metadata differs."
+      },
+      {
+        "Name": "ARM64 executable rejected after valid new hash",
+        "Passed": true,
+        "Detail": "x64 실행파일이 아닙니다: cli/claude/claude.exe"
+      },
+      {
+        "Name": "Unsupported manifest schema rejected",
+        "Passed": true,
+        "Detail": "지원하지 않는 묶음 형식/버전/아키텍처입니다."
+      },
+      {
+        "Name": "Bundle ID traversal rejected",
+        "Passed": true,
+        "Detail": "묶음 ID가 버전과 일치하지 않습니다."
+      },
+      {
+        "Name": "CLI check mode, no CLI process or download",
+        "Passed": true
+      },
+      {
+        "Name": "CLI install mode, no CLI process or download",
+        "Passed": true
+      },
+      {
+        "Name": "CLI repeat mode, no CLI process or download",
+        "Passed": true
+      },
+      {
+        "Name": "User PATH unchanged",
+        "Passed": true
+      },
+      {
+        "Name": "Existing differing install is preserved",
+        "Passed": true
+      },
+      {
+        "Name": "Existing report rejected before any copy",
+        "Passed": true
+      },
+      {
+        "Name": "Missing log parent rejected before any copy",
+        "Passed": true
+      },
+      {
+        "Name": "Source junction rejected without following it",
+        "Passed": true,
+        "Detail": "연결된 파일/폴더가 있습니다: C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task038\\tests-release-final\\case-24\\cli\\codex\\codex-resources\\link"
+      },
+      {
+        "Name": "Manifest file symlink rejected before reading outside JSON",
+        "Passed": true,
+        "Detail": "연결 경로는 사용하지 않습니다: C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task038\\tests-release-final\\case-25\\offline-manifest.json"
+      },
+      {
+        "Name": "Oversized manifest rejected",
+        "Passed": true,
+        "Detail": "Manifest must be a file of at most 1 MiB."
+      },
+      {
+        "Name": "Oversized Codex metadata rejected after valid new hash",
+        "Passed": true,
+        "Detail": "Codex metadata exceeds 1 MiB."
+      },
+      {
+        "Name": "UNC rejected before network filesystem access",
+        "Passed": true
+      },
+      {
+        "Name": "Preparation rejects unsigned binaries before output creation",
+        "Passed": true
+      },
+      {
+        "Name": "Offline installer AST has no downloader/CLI invocation",
+        "Passed": true
+      }
+    ],
+    "CustomerPcTested": false
+  },
+  "RealCliVersionProbes": {
+    "Task": "TASK-038",
+    "Checks": [
+      {
+        "Tool": "Codex",
+        "Arguments": "--version",
+        "Version": "codex-cli 0.163.0",
+        "ExitCode": 0,
+        "Sha256": "2692C8C7BB2CF8B0AEFE638741FC90236F4B824C59578CE84994F9DE58200993",
+        "Passed": true
+      },
+      {
+        "Tool": "Claude",
+        "Arguments": "--version",
+        "Version": "2.1.302 (Claude Code)",
+        "ExitCode": 0,
+        "Sha256": "3AB075F78998EFEF8B87F491C2E4A39C309DDDF44E51D0103EBA4F3713D2A0AE",
+        "Passed": true
+      }
+    ],
+    "UnreachableProxyUsed": true,
+    "InternetPhysicallyDisconnected": false,
+    "InstalledCliProbeOnly": true,
+    "InstallerStartedCli": false,
+    "AuthenticationPerformed": false,
+    "ModelRequestPerformed": false,
+    "CustomerPcTested": false
+  },
+  "RealCopyReceipt": {
+    "SchemaVersion": 1,
+    "Status": "Installed",
+    "CheckedAt": "2026-10-19T11:30:12.1321952+09:00",
+    "BundleId": "codex-0.163.0_claude-2.1.302_win-x64",
+    "FilesVerified": 46,
+    "CodexVersion": "0.163.0",
+    "ClaudeVersion": "2.1.302",
+    "Destination": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task038\\real-install-candidate4\\codex-0.163.0_claude-2.1.302_win-x64",
+    "CodexExecutable": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task038\\real-install-candidate4\\codex-0.163.0_claude-2.1.302_win-x64\\cli\\codex\\bin\\codex.exe",
+    "ClaudeExecutable": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task038\\real-install-candidate4\\codex-0.163.0_claude-2.1.302_win-x64\\cli\\claude\\claude.exe",
+    "NetworkRequestsPerformed": false,
+    "CliProcessesStarted": false,
+    "LoginPerformed": false,
+    "PathChanged": false,
+    "SettingsChanged": false
+  },
+  "ExtractedPublicToolkitPreparation": {
+    "PreparedFromExtractedPublicToolkit": true,
+    "CliFilesMatched": 46,
+    "SameFinalGuide": true,
+    "AuthenticationPerformed": false,
+    "CliExecuted": false
+  },
+  "Sources": [
+    {
+      "Path": "scripts/OfflineCli.Common.ps1",
+      "Sha256": "D84D713D088360A5A104BE4A85FAE011E29DEC4FDE2F009E0906DC6F9256F650",
+      "Bytes": 9594
+    },
+    {
+      "Path": "scripts/Install-OfflineCli.ps1",
+      "Sha256": "908EE57AF2174D81F2283EACBF8CB47C76457A11E00D67DC3864CB3A3301F443",
+      "Bytes": 5325
+    },
+    {
+      "Path": "scripts/Prepare-OfflineSetup.ps1",
+      "Sha256": "099F3BCED2E94795F46C456938ADDB214A12B3DD681B754151075BBF0ECA0A84",
+      "Bytes": 11290
+    },
+    {
+      "Path": "tests/compatibility/Test-OfflineCli.ps1",
+      "Sha256": "1F27538AF3EF623F53CDA73539041D49DF3D63FE4A1577C93E52B93FD20861A3",
+      "Bytes": 16383
+    },
+    {
+      "Path": "InstallOfflineCLI.bat",
+      "Sha256": "CDEB72E311C0792976B517E5DA240EEEBF5EBDE96F3D2D5B9F2CBBEE846ADD8F",
+      "Bytes": 509
+    },
+    {
+      "Path": "PrepareOfflineSetup.bat",
+      "Sha256": "02E5EA52C607580027EA630CD075210B5EB219C1BA719403033E775362DF3831",
+      "Bytes": 537
+    },
+    {
+      "Path": "docs/OFFLINE_INSTALL.md",
+      "Sha256": "47BABB457DCB087F4BCBCC12EB90FF6E7C48736D8230DF831E47D1A06C10B8A7",
+      "Bytes": 10306
+    }
+  ],
+  "AuditReport": "MarkdownReport/CodexOrig2_TASK-040_Audit.md",
+  "AuditEvidence": "MarkdownReport/CodexOrig2_TASK-040_Evidence.json",
+  "CustomerPcTested": false,
+  "InternetPhysicallyDisconnected": false,
+  "AuthenticationPerformed": false,
+  "ModelRequestPerformed": false,
+  "OptionalCustomerWindowsQuestionAnswered": false,
+  "DeliveryZip": "artifacts/task038/VisualStudio_AI_Assistant-0.11.1-FullOffline-win-x64.zip"
+}

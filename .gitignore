@@ -7,4 +7,6 @@ artifacts/
 *.suo
 *.log
 *.binlog
+/PreparedOffline-*/
+/PreparedOffline-*.zip*
 

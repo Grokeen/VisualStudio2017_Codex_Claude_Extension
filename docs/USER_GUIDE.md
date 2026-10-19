@@ -4,6 +4,8 @@ Claude·Codex와 대화를 이어 가고, 현재 파일의 수정안을 비교�
 
 ## 설치와 AI 연결
 
+설치 PC에 인터넷이 없으면 [오프라인 설치 안내](OFFLINE_INSTALL.md)에 따라 인터넷 PC에서 CLI 전체 런타임과 VSIX를 준비해 옮기세요. 오프라인 복사가 끝난 뒤 연결 가능한 시점에 공식 로그인과 실제 AI 요청을 확인합니다.
+
 1. 사용 중인 Visual Studio 버전에 맞는 VSIX와 사용할 AI의 Windows 네이티브 CLI `.exe`를 준비합니다. 이 프로젝트를 빌드하거나 VS 확장 개발 도구를 설치할 필요는 없습니다.
 2. VSIX를 내려받고 Visual Studio를 닫은 뒤 실행합니다. 설치 후 Visual Studio를 다시 엽니다.
 3. **도구 → AI Assistant**를 엽니다. 맨 위의 첫 탭은 **Claude**, 다음은 **Codex**입니다. 로고와 반투명 배경으로 현재 AI를 구분할 수 있습니다.
