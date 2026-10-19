@@ -162,7 +162,7 @@
                     new System.Windows.Documents.TextRange(preview.TextView.Document.ContentStart, preview.TextView.Document.ContentEnd).Text.Length > 30,
                     "Clicking a guide card opens its packaged illustration and renders the complete detailed Markdown in the same window");
                 Capture(dialog, Path.Combine(output, "Guide-detail.png"));
-                Click(Descendants(dialog.Body).OfType<Button>().Single(b => Convert.ToString(b.Content) == "← 안내 목록으로"));
+                Click(Descendants(dialog.Body).OfType<Button>().Single(b => Convert.ToString(b.Content) == "← 뒤로" && Convert.ToString(b.ToolTip) == "안내 목록으로 돌아가기"));
                 PumpUntil(() => Descendants(dialog.Body).OfType<Button>().Count(b => b.DataContext is GuideStep) == 4 && selected.IsKeyboardFocusWithin, 1500);
                 Check(selected.IsKeyboardFocusWithin, "Returning from guide detail restores the original card and keyboard focus");
             });
@@ -175,12 +175,13 @@
             });
             InspectModal(() => Click((Button)control.FindName("SettingsButton")), dialog => {
                 dialog.Height = Math.Min(600, dialog.MaxHeight); dialog.UpdateLayout();
-                var topics = dialog.Navigation.Children.OfType<Button>().ToArray();
-                Check(topics.Length >= 4 && topics.All(b => Convert.ToString(b.Content).Any(c => !Char.IsLetterOrDigit(c) && !Char.IsWhiteSpace(c))),
-                    "Settings exposes an icon-labeled topic index above its input sections");
+                var topics = dialog.SidebarNavigation.Children.OfType<ToggleButton>().ToArray();
+                Check(topics.Length == 4 && dialog.SidebarNavigation.IsVisible && topics.All(b => Convert.ToString(b.Content).Any(c => !Char.IsLetterOrDigit(c) && !Char.IsWhiteSpace(c))),
+                    "Settings exposes four icon-labeled pages in a left sidebar");
                 var scroll = (ScrollViewer)control.FindName("SettingsContent");
-                Click(topics.Last()); PumpUntil(() => scroll.VerticalOffset > 5, 1500);
-                Check(scroll.VerticalOffset > 5 && dialog.Navigation.IsVisible, "Clicking the last settings topic scrolls to that section while keeping the index visible");
+                topics.Last().RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent)); dialog.UpdateLayout();
+                Check(topics.Last().IsChecked == true && topics.Take(3).All(b=>b.IsChecked==false) && ((FrameworkElement)control.FindName("DisplaySection")).IsVisible && !((FrameworkElement)control.FindName("InstructionSection")).IsVisible,
+                    "Selecting the display page shows its controls and hides the other sections while retaining navigation");
                 var footerColor = ((SolidColorBrush)dialog.Footer.Background).Color;
                 var bodyColor = ((SolidColorBrush)dialog.Background).Color;
                 Check(footerColor != bodyColor && dialog.Footer.BorderThickness.Top > 0 && !scroll.IsAncestorOf(dialog.Footer),

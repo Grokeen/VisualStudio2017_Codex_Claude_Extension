@@ -1,7 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Windows;
+using System.Windows.Threading;
+using System.Windows.Forms;
 using VS2017.AIAssistant.Chat;
 using VS2017.AIAssistant.Providers;
 
@@ -22,6 +25,9 @@ namespace VS2017.AIAssistant.Views
         private ProgressNotice progressNotice;
         private ChatMessage progressNoticeRow;
         private readonly List<ChatMessage> progressReplyRows = new List<ChatMessage>();
+        private NotifyIcon completionNotificationIcon;
+        private DispatcherTimer completionNotificationLifetime;
+        private bool completionNotificationUnloadedHooked;
 
         /// ---------------------------------------------------------------------
         /// <summary>
@@ -102,13 +108,94 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 요청 종료 후 늦은 이벤트는 모델에 반영되지 않음.
+        ///                2026-10-20 CodexOrig : 알림 설정을 조회하기 전에 WPF UI 스레드 접근을 명시적으로 검증.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void CompleteProgressRequest(string outcome = "completed")
         {
+            Dispatcher.VerifyAccess();
             RequireProgressUiThread();
             if (progressNotice == null || !progressNotice.Complete(outcome)) return;
             if (progressNoticeRow != null) progressNoticeRow.Text = progressNotice.MarkdownText;
+            // OS 알림 오류는 완료된 AI 요청·대화 저장 경로를 실패로 바꾸지 않는다.
+            try
+            {
+                if (ShouldShowCompletionNotification(progressNotice.Outcome, GetCompletionNotificationsEnabled(), IsLoaded))
+                    ShowCompletionNotification();
+            }
+            catch (Exception) { }
+        }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : ShouldShowCompletionNotification
+        /// desc         : 실제로 완료된 요청만 사용자 설정과 표시된 도구 창 상태에 따라 알린다.
+        /// author       : CodexCode
+        /// create date  : 2026-10-19
+        /// update date  : 2026-10-19 CodexCode : TASK049 실패·취소·미표시 창 알림 제외.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        private static bool ShouldShowCompletionNotification(string outcome, bool enabled, bool loaded)
+        { return enabled && loaded && String.Equals(outcome, "completed", StringComparison.Ordinal); }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : ShowCompletionNotification
+        /// desc         : 요청 본문을 노출하지 않는 Windows 작업 표시줄 알림을 잠시 표시한다.
+        /// author       : CodexCode
+        /// create date  : 2026-10-19
+        /// update date  : 2026-10-19 CodexCode : TASK049 VSIX의 Start 메뉴 등록 없이 지원되는 NotifyIcon 사용.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        private void ShowCompletionNotification()
+        {
+            try
+            {
+                if (disposed) return;
+                if (!completionNotificationUnloadedHooked) { Unloaded += CompletionNotificationUnloaded; completionNotificationUnloadedHooked = true; }
+                if (completionNotificationIcon == null)
+                    completionNotificationIcon = new NotifyIcon { Icon = SystemIcons.Information, Text = "Visual Studio AI Assistant", Visible = true };
+                completionNotificationIcon.ShowBalloonTip(8000, "AI 작업 완료", "Visual Studio에서 결과를 확인하세요.", ToolTipIcon.Info);
+                if (completionNotificationLifetime == null)
+                {
+                    completionNotificationLifetime = new DispatcherTimer { Interval = TimeSpan.FromSeconds(20) };
+                    completionNotificationLifetime.Tick += CompletionNotificationExpired;
+                }
+                completionNotificationLifetime.Stop();
+                completionNotificationLifetime.Start();
+            }
+            catch (Exception) { DisposeCompletionNotification(); }
+        }
+
+        private void CompletionNotificationExpired(object sender, EventArgs args) { DisposeCompletionNotification(); }
+        private void CompletionNotificationUnloaded(object sender, RoutedEventArgs args) { DisposeCompletionNotification(); }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : DisposeCompletionNotification
+        /// desc         : 작업 표시줄 아이콘과 수명 타이머를 해제한다.
+        /// author       : CodexCode
+        /// create date  : 2026-10-19
+        /// update date  : 2026-10-19 CodexCode : TASK049 알림 후 및 도구 창 해제 시 자원 반환.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        private void DisposeCompletionNotification()
+        {
+            if (completionNotificationLifetime != null)
+            {
+                completionNotificationLifetime.Stop();
+                completionNotificationLifetime.Tick -= CompletionNotificationExpired;
+                completionNotificationLifetime = null;
+            }
+            if (completionNotificationIcon != null)
+            {
+                var icon = completionNotificationIcon;
+                completionNotificationIcon = null;
+                try { icon.Visible = false; }
+                catch (Exception) { }
+                try { icon.Dispose(); }
+                catch (Exception) { }
+            }
         }
 
         /// ---------------------------------------------------------------------

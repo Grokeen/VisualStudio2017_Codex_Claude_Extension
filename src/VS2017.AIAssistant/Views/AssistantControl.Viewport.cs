@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Threading;
 
 namespace VS2017.AIAssistant.Views
 {
@@ -22,6 +23,11 @@ namespace VS2017.AIAssistant.Views
         private bool conversationViewportDisposed;
         private bool conversationMeasuredInfinitely;
         private double lastConversationViewportHeight = 600;
+        // TASK049 CodexCode : 화면에 보이지 않는 저장 기록은 ChatSession에 남겨 두고 상단 접근 시에만 펼친다.
+        private Func<bool> conversationTryLoadOlder;
+        private bool conversationPrepending;
+        private double conversationPrependOffset, conversationPrependExtent;
+        private DispatcherOperation conversationPrependOperation;
 
         /// ---------------------------------------------------------------------
         /// <summary>
@@ -192,10 +198,89 @@ namespace VS2017.AIAssistant.Views
         private void ConversationViewportChanged(object sender, ScrollChangedEventArgs args)
         {
             if (disposed || conversationViewportDisposed || ConversationScroll == null || !ReferenceEquals(args.OriginalSource, ConversationScroll)) return;
+            if (conversationPrepending) return;
             if (args.ExtentHeightChange == 0 && args.ViewportHeightChange == 0 && args.VerticalChange != 0)
+            {
                 conversationFollowingEnd = IsConversationAtEnd(ConversationScroll.VerticalOffset, ConversationScroll.ScrollableHeight);
+                if (args.VerticalChange < 0 && ConversationScroll.VerticalOffset <= 2) TryPrependConversationPage();
+            }
             else if (conversationFollowingEnd && (args.ExtentHeightChange != 0 || args.ViewportHeightChange != 0)) FollowConversation(false);
             UpdateThinkingPlacement();
+        }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : TryPrependConversationPage
+        /// desc         : 상단에 이전 메시지를 추가하고 확장된 높이만큼 읽던 위치를 복원한다.
+        /// author       : CodexCode
+        /// create date  : 2026-10-19
+        /// update date  : 2026-10-19 CodexCode : TASK049 위쪽 휠·키·스크롤바의 공통 진입점.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "VSTHRD001:Avoid legacy thread switching APIs", Justification = "Schedules the owned WPF ScrollViewer layout pass at Loaded priority; this is not a switch to the Visual Studio main thread.")]
+        private bool TryPrependConversationPage()
+        {
+            if (conversationPrepending || conversationTryLoadOlder == null || ConversationScroll == null || disposed || conversationViewportDisposed) return false;
+            conversationFollowingEnd = false;
+            CancelConversationFollow();
+            conversationPrepending = true;
+            conversationPrependOffset = ConversationScroll.VerticalOffset;
+            conversationPrependExtent = ConversationScroll.ExtentHeight;
+            bool added;
+            try { added = conversationTryLoadOlder(); }
+            catch { conversationPrepending = false; throw; }
+            if (!added) { conversationPrepending = false; return false; }
+            LayoutUpdated += FinishConversationPrepend;
+            ConversationScroll.InvalidateMeasure();
+            // 첫 LayoutUpdated가 ScrollViewer extent 갱신보다 빠를 수 있으므로 다음 레이아웃 배치에서 재확인한다.
+            conversationPrependOperation = Dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(() =>
+            {
+                conversationPrependOperation = null;
+                if (!conversationPrepending || ConversationScroll == null) return;
+                ConversationScroll.UpdateLayout();
+                if (ConversationScroll.ExtentHeight > conversationPrependExtent) FinishConversationPrepend(this, EventArgs.Empty);
+                else CancelConversationPrepend();
+            }));
+            return true;
+        }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : FinishConversationPrepend
+        /// desc         : 새 문단의 실제 높이를 측정한 뒤 기존 첫 문단이 보이던 지점을 유지한다.
+        /// author       : CodexCode
+        /// create date  : 2026-10-19
+        /// update date  : 2026-10-19 CodexCode : TASK049 프로그램 이동을 사용자 스크롤로 오인하지 않음.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        private void FinishConversationPrepend(object sender, EventArgs args)
+        {
+            if (ConversationScroll != null && !conversationViewportDisposed && !disposed)
+            {
+                double growth = ConversationScroll.ExtentHeight - conversationPrependExtent;
+                if (growth <= 0) return;
+                ConversationScroll.ScrollToVerticalOffset(conversationPrependOffset + growth);
+            }
+            CancelConversationPrepend();
+            UpdateThinkingPlacement();
+        }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : CancelConversationPrepend
+        /// desc         : 대화 전환·도킹 해제·종료 시 이전 페이지의 레이아웃 예약을 해제한다.
+        /// author       : CodexCode
+        /// create date  : 2026-10-19
+        /// update date  : 2026-10-19 CodexCode : TASK049 다른 대화로 앵커가 넘어가지 않게 보호.
+        ///                2026-10-20 CodexOrig : 예약된 DispatcherOperation도 해제해 종료·전환 뒤 실행을 막는다.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        private void CancelConversationPrepend()
+        {
+            LayoutUpdated -= FinishConversationPrepend;
+            if (conversationPrependOperation != null && conversationPrependOperation.Status == DispatcherOperationStatus.Pending) conversationPrependOperation.Abort();
+            conversationPrependOperation = null;
+            conversationPrepending = false;
         }
 
         /// ---------------------------------------------------------------------
@@ -227,7 +312,9 @@ namespace VS2017.AIAssistant.Views
             if (args.Delta > 0) { conversationFollowingEnd = false; CancelConversationFollow(); }
             double lines = SystemParameters.WheelScrollLines;
             double distance = lines < 0 ? ConversationScroll.ViewportHeight : Math.Max(1, lines) * Math.Max(14, FontSize * 1.3);
-            ConversationScroll.ScrollToVerticalOffset(ConversationScroll.VerticalOffset - args.Delta / 120.0 * distance);
+            double destination = ConversationScroll.VerticalOffset - args.Delta / 120.0 * distance;
+            ConversationScroll.ScrollToVerticalOffset(destination);
+            if (args.Delta > 0 && destination <= 2) TryPrependConversationPage();
             args.Handled = true;
             UpdateThinkingPlacement();
         }
@@ -244,7 +331,9 @@ namespace VS2017.AIAssistant.Views
         private void ConversationViewportKeyDown(object sender, KeyEventArgs args)
         {
             if (args.Key != Key.Up && args.Key != Key.PageUp && args.Key != Key.Home) return;
-            conversationFollowingEnd = false; CancelConversationFollow(); UpdateThinkingPlacement();
+            conversationFollowingEnd = false; CancelConversationFollow();
+            if ((args.Key == Key.Home || ConversationScroll != null && ConversationScroll.VerticalOffset <= 2) && TryPrependConversationPage()) args.Handled = true;
+            UpdateThinkingPlacement();
         }
 
         /// ---------------------------------------------------------------------
@@ -270,7 +359,7 @@ namespace VS2017.AIAssistant.Views
         /// </summary>
         /// ---------------------------------------------------------------------
         private void ConversationViewportUnloaded(object sender, RoutedEventArgs args)
-        { CancelConversationFollow(); DisposeHistoryOverlay(); ChangeDiffPopup.CloseWithin(this); }
+        { CancelConversationFollow(); CancelConversationPrepend(); DisposeHistoryOverlay(); ChangeDiffPopup.CloseWithin(this); }
 
         /// ---------------------------------------------------------------------
         /// <summary>
@@ -283,6 +372,6 @@ namespace VS2017.AIAssistant.Views
         /// </summary>
         /// ---------------------------------------------------------------------
         private void DisposeConversationViewport()
-        { conversationViewportDisposed = true; CancelConversationFollow(); UpdateThinkingAnimation(false); DisposeHistoryOverlay(); ChangeDiffPopup.CloseWithin(this); }
+        { conversationViewportDisposed = true; CancelConversationFollow(); CancelConversationPrepend(); conversationTryLoadOlder = null; UpdateThinkingAnimation(false); DisposeHistoryOverlay(); ChangeDiffPopup.CloseWithin(this); }
     }
 }

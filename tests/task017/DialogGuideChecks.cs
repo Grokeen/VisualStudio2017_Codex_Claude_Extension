@@ -64,7 +64,7 @@ public static class DialogGuideChecks
             Assert(Descendants<Image>(dialog.Body).Any(x=>x.Source != null), "Enter opens a detail screen containing a packaged procedure image or its drawing fallback");
             Assert(!Descendants<Button>(dialog.Body).Any(x=>x.DataContext is GuideStep), "Detail replaces overview in the same dialog body");
             Assert(Descendants<MarkdownPreview>(dialog.Body).Any(x=>x.Markdown.Contains("공식 CLI") && x.Markdown.Contains("로그인") && new System.Windows.Documents.TextRange(x.TextView.Document.ContentStart,x.TextView.Document.ContentEnd).Text.Contains("로그인")), "Detail renders actionable topic-specific Markdown explanation");
-            var back = Descendants<Button>(dialog.Body).Single(x=>Convert.ToString(x.Content).Contains("안내 목록으로"));
+            var back = Descendants<Button>(dialog.Body).Single(x=>Convert.ToString(x.Content)=="← 뒤로" && Convert.ToString(x.ToolTip)=="안내 목록으로 돌아가기");
             Assert(back.IsKeyboardFocused, "Opening detail places focus on the return button");
             Assert(guide.HideNextTime.IsChecked == true && guide.HideNextTime.IsVisible, "Detail retains the user's onboarding display preference");
             Capture(dialog,Path.Combine(directory,"guide-detail.png"));

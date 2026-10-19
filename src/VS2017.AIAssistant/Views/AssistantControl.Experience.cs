@@ -378,7 +378,10 @@ namespace VS2017.AIAssistant.Views
         private void HistoryToggled(object sender, RoutedEventArgs e)
         {
             ApplyHistoryLayout(); SaveHistoryLayout();
-            if (HistoryToggle.IsChecked == true) HistoryPanel.BeginAnimation(OpacityProperty, new DoubleAnimation(0, 1, TimeSpan.FromMilliseconds(180)));
+            if (HistoryToggle.IsChecked == true)
+            {
+                AssistantMotionTokens.ApplyPrimaryEntry(HistoryPanel, OpacityProperty, 0, 1, 0);
+            }
         }
 
         /// ---------------------------------------------------------------------
@@ -464,7 +467,8 @@ namespace VS2017.AIAssistant.Views
             notifications.Add(StatusLabel.Text); while (notifications.Count > 20) notifications.RemoveAt(0);
             toastVersion++; toastTimer.Stop(); ToastHost.BeginAnimation(OpacityProperty, null); ToastHost.Opacity = 1; ToastHost.Visibility = Visibility.Visible;
             StatusLabel.SetResourceReference(TextBlock.ForegroundProperty, StatusLabel.Text.Contains("실패") || StatusLabel.Text.Contains("오류") ? "AssistantErrorBrush" : "AssistantForegroundBrush");
-            ToastHost.BeginAnimation(OpacityProperty, new DoubleAnimation(0, 1, TimeSpan.FromMilliseconds(180))); toastTimer.Start();
+            AssistantMotionTokens.ApplyPrimaryEntry(ToastHost, OpacityProperty, 0, 1, 0);
+            toastTimer.Start();
         }
         /// ---------------------------------------------------------------------
         /// <summary>
@@ -476,7 +480,13 @@ namespace VS2017.AIAssistant.Views
         /// </summary>
         /// ---------------------------------------------------------------------
         private void FadeToast(object sender, EventArgs e)
-        { toastTimer.Stop(); int version = toastVersion; var fade = new DoubleAnimation(1, 0, TimeSpan.FromMilliseconds(800)); fade.Completed += (s, a) => { if (version == toastVersion) ToastHost.Visibility = Visibility.Collapsed; }; ToastHost.BeginAnimation(OpacityProperty, fade); }
+        {
+            toastTimer.Stop(); int version = toastVersion;
+            if (!AssistantMotionTokens.ClientAreaAnimationsEnabled) { ToastHost.BeginAnimation(OpacityProperty, null); ToastHost.Opacity = 0; ToastHost.Visibility = Visibility.Collapsed; return; }
+            var fade = new DoubleAnimation(1, 0, TimeSpan.FromMilliseconds(800));
+            fade.Completed += (s, a) => { if (version == toastVersion) ToastHost.Visibility = Visibility.Collapsed; };
+            ToastHost.BeginAnimation(OpacityProperty, fade);
+        }
 
         /// ---------------------------------------------------------------------
         /// <summary>

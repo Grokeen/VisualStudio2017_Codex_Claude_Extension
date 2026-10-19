@@ -1,0 +1,608 @@
+{
+  "Auditor": "CodexOrig2",
+  "Task": "TASK-053",
+  "CheckedAt": "2026-10-20T00:27:01.7452906+09:00",
+  "AuditComplete": true,
+  "AllRoleRequirementsMet": false,
+  "ReleaseOrDeploymentCompletedByAuditor": false,
+  "Candidate": "TASK051 candidate4",
+  "Version": "0.12.0",
+  "Snapshot": "C:/dydgyqud/AO53_20261020",
+  "FrozenInputCount": 124,
+  "FrozenInputMismatches": [],
+  "Products": [
+    {
+      "Target": "2017",
+      "DllSha256": "E265464E11DF9A9AE5619EDC0D6204A861CE7AB76D708859587E1C43F58CCCC4",
+      "Version": "0.12.0.0",
+      "VsixSha256": "553DDE204C9B93ECB1D16D9AFF1E6C99FC5AF1D1914D8281CBA25CE7388F65DE",
+      "EmbeddedDllSha256": "E265464E11DF9A9AE5619EDC0D6204A861CE7AB76D708859587E1C43F58CCCC4",
+      "EmbeddedMatches": true,
+      "LiveFixedCandidateMatches": true,
+      "PdfEntries": [
+        {
+          "Path": "Resources/CliGuide/VisualStudio_AI_Assistant_%EC%84%A4%EC%B9%98_%EC%82%AC%EC%9A%A9%EC%84%A4%EB%AA%85%EC%84%9C_v0.12.0_%EB%AF%B8%EB%A6%AC%EB%B3%B4%EA%B8%B0.pdf",
+          "Sha256": "41004D84A1D96D53171CAF4E17FA027D19ACDCAC7F27B0DB68DD4E694417D42A",
+          "MatchesOwnerPdf": true
+        }
+      ]
+    },
+    {
+      "Target": "2017.Legacy",
+      "DllSha256": "2BC4C32007B1251CC582E5D11D0A2302C02BE25EFFA1E7B10BC2A63C26F9C82B",
+      "Version": "0.12.0.0",
+      "VsixSha256": "966FA909FD842D0D9F853006C2EC07258F6E9D81D267BF3D9594E73A684AF057",
+      "EmbeddedDllSha256": "2BC4C32007B1251CC582E5D11D0A2302C02BE25EFFA1E7B10BC2A63C26F9C82B",
+      "EmbeddedMatches": true,
+      "LiveFixedCandidateMatches": true,
+      "PdfEntries": [
+        {
+          "Path": "Resources/CliGuide/VisualStudio_AI_Assistant_%EC%84%A4%EC%B9%98_%EC%82%AC%EC%9A%A9%EC%84%A4%EB%AA%85%EC%84%9C_v0.12.0_%EB%AF%B8%EB%A6%AC%EB%B3%B4%EA%B8%B0.pdf",
+          "Sha256": "41004D84A1D96D53171CAF4E17FA027D19ACDCAC7F27B0DB68DD4E694417D42A",
+          "MatchesOwnerPdf": true
+        }
+      ]
+    },
+    {
+      "Target": "2019",
+      "DllSha256": "4E036C938A9C46471DD5E0B919766F45BE86439F765D3A1F608ED891FFF9CEE4",
+      "Version": "0.12.0.0",
+      "VsixSha256": "D241759CD8C8FA5A93D67A9FC2A24249A715CFDF1EA4F87A8F121E4BEF96CFBA",
+      "EmbeddedDllSha256": "4E036C938A9C46471DD5E0B919766F45BE86439F765D3A1F608ED891FFF9CEE4",
+      "EmbeddedMatches": true,
+      "LiveFixedCandidateMatches": true,
+      "PdfEntries": [
+        {
+          "Path": "Resources/CliGuide/VisualStudio_AI_Assistant_%EC%84%A4%EC%B9%98_%EC%82%AC%EC%9A%A9%EC%84%A4%EB%AA%85%EC%84%9C_v0.12.0_%EB%AF%B8%EB%A6%AC%EB%B3%B4%EA%B8%B0.pdf",
+          "Sha256": "41004D84A1D96D53171CAF4E17FA027D19ACDCAC7F27B0DB68DD4E694417D42A",
+          "MatchesOwnerPdf": true
+        }
+      ]
+    },
+    {
+      "Target": "2022",
+      "DllSha256": "CDAD7EE2A30F7DF1E4C88B1CA022F9446F7091FEA1B9F3DAEE23289683558DCF",
+      "Version": "0.12.0.0",
+      "VsixSha256": "45FF308F28936510C20E6F5CE60DB951BCA142289986EACCD909BDE5B6AA2CD8",
+      "EmbeddedDllSha256": "CDAD7EE2A30F7DF1E4C88B1CA022F9446F7091FEA1B9F3DAEE23289683558DCF",
+      "EmbeddedMatches": true,
+      "LiveFixedCandidateMatches": true,
+      "PdfEntries": [
+        {
+          "Path": "Resources/CliGuide/VisualStudio_AI_Assistant_%EC%84%A4%EC%B9%98_%EC%82%AC%EC%9A%A9%EC%84%A4%EB%AA%85%EC%84%9C_v0.12.0_%EB%AF%B8%EB%A6%AC%EB%B3%B4%EA%B8%B0.pdf",
+          "Sha256": "41004D84A1D96D53171CAF4E17FA027D19ACDCAC7F27B0DB68DD4E694417D42A",
+          "MatchesOwnerPdf": true
+        }
+      ]
+    }
+  ],
+  "Findings": [
+    {
+      "Id": "R53-01",
+      "Priority": "P2",
+      "Status": "Closed in candidate4",
+      "Description": "Quoted attributes and HTML comments becoming clickable",
+      "C2": "5/10 passed",
+      "C3": "7/10 passed",
+      "C4": "10/10 for all four targets; additional 18/18 on 2017"
+    },
+    {
+      "Id": "R53-02",
+      "Priority": "P2",
+      "Status": "Open",
+      "Description": "Role image45 non-client title bar remains default SingleBorderWindow without WindowChrome; content header changes do not fulfill marked caption area"
+    }
+  ],
+  "DirectRuns": [
+    {
+      "Suite": "ui-c2",
+      "Target": "2017",
+      "Passed": 14,
+      "Failed": 0,
+      "Succeeded": true,
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task053\\results\\ui-c2-2017.json",
+      "Sha256": "0983B124BAD4742D0F48315F7CD7420A8D99A16600DBF002000421E86EEB0C2C",
+      "ProductDllSha256": "3A11D3895122654FF1B15E8D5693B17A1B52F0E67BB1285BB06D6B99220D798A",
+      "Inputs": [],
+      "ExecutedByAuditor": true,
+      "ObservationIncluded": false,
+      "Assertions": 14
+    },
+    {
+      "Suite": "ui-c2",
+      "Target": "2017.Legacy",
+      "Passed": 14,
+      "Failed": 0,
+      "Succeeded": true,
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task053\\results\\ui-c2-2017.Legacy.json",
+      "Sha256": "41550069F8443411790141529246A0A8384751173F6673AA39400BDFE666C929",
+      "ProductDllSha256": "B982F17D6D95D06C6DA1E3FE93A417A1343E2F5B8DEEF02715DFC6B79AE6E4FA",
+      "Inputs": [],
+      "ExecutedByAuditor": true,
+      "ObservationIncluded": false,
+      "Assertions": 14
+    },
+    {
+      "Suite": "ui-c2",
+      "Target": "2019",
+      "Passed": 14,
+      "Failed": 0,
+      "Succeeded": true,
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task053\\results\\ui-c2-2019.json",
+      "Sha256": "DE6C95E987CE61412D04DFD2B785CD45B56DA365C00736C7751A3B897124A4E6",
+      "ProductDllSha256": "36482C693315D28F747CFEADFFBCD3C1CCCD7902F519DB5CA5605AE8AACD94F2",
+      "Inputs": [],
+      "ExecutedByAuditor": true,
+      "ObservationIncluded": false,
+      "Assertions": 14
+    },
+    {
+      "Suite": "ui-c2",
+      "Target": "2022",
+      "Passed": 14,
+      "Failed": 0,
+      "Succeeded": true,
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task053\\results\\ui-c2-2022.json",
+      "Sha256": "B3F7435E56A620A85C80F52ADA482F4D832C1058B7135B6D88451F4F0A8AFD94",
+      "ProductDllSha256": "C7B135EA6EF3A32321A2A4A25CC76C7004EB1A4BD49958AC4DC53D321BF4D6B9",
+      "Inputs": [],
+      "ExecutedByAuditor": true,
+      "ObservationIncluded": false,
+      "Assertions": 14
+    },
+    {
+      "Suite": "links-c2",
+      "Target": "2017",
+      "Passed": 14,
+      "Failed": 0,
+      "Succeeded": true,
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task053\\results\\links-c2-2017.json",
+      "Sha256": "5FCEC5371EA7FF20D9A644FE5069FB7C91009584C6C28B5F8AC4B13D2998A706",
+      "ProductDllSha256": "3A11D3895122654FF1B15E8D5693B17A1B52F0E67BB1285BB06D6B99220D798A",
+      "Inputs": [
+        {
+          "Path": "C:\\dydgyqud\\AO53_20261020\\candidate2\\2017\\Release\\VS2017.AIAssistant.dll",
+          "Sha256": "3A11D3895122654FF1B15E8D5693B17A1B52F0E67BB1285BB06D6B99220D798A"
+        }
+      ],
+      "ExecutedByAuditor": true,
+      "ObservationIncluded": false,
+      "Assertions": 14
+    },
+    {
+      "Suite": "links-c2",
+      "Target": "2017.Legacy",
+      "Passed": 14,
+      "Failed": 0,
+      "Succeeded": true,
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task053\\results\\links-c2-2017.Legacy.json",
+      "Sha256": "81A33575D4707531FC9D4C895039C801EF68363377B0CF7E8D1B91B5A577B6E6",
+      "ProductDllSha256": "B982F17D6D95D06C6DA1E3FE93A417A1343E2F5B8DEEF02715DFC6B79AE6E4FA",
+      "Inputs": [
+        {
+          "Path": "C:\\dydgyqud\\AO53_20261020\\candidate2\\2017.Legacy\\Release\\VS2017.AIAssistant.dll",
+          "Sha256": "B982F17D6D95D06C6DA1E3FE93A417A1343E2F5B8DEEF02715DFC6B79AE6E4FA"
+        }
+      ],
+      "ExecutedByAuditor": true,
+      "ObservationIncluded": false,
+      "Assertions": 14
+    },
+    {
+      "Suite": "links-c2",
+      "Target": "2019",
+      "Passed": 14,
+      "Failed": 0,
+      "Succeeded": true,
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task053\\results\\links-c2-2019.json",
+      "Sha256": "8211F7F1C32C485C37BEA0797B13AF19D801C3862CDA6103F9B3B9DBA1CCF600",
+      "ProductDllSha256": "36482C693315D28F747CFEADFFBCD3C1CCCD7902F519DB5CA5605AE8AACD94F2",
+      "Inputs": [
+        {
+          "Path": "C:\\dydgyqud\\AO53_20261020\\candidate2\\2019\\Release\\VS2017.AIAssistant.dll",
+          "Sha256": "36482C693315D28F747CFEADFFBCD3C1CCCD7902F519DB5CA5605AE8AACD94F2"
+        }
+      ],
+      "ExecutedByAuditor": true,
+      "ObservationIncluded": false,
+      "Assertions": 14
+    },
+    {
+      "Suite": "links-c2",
+      "Target": "2022",
+      "Passed": 14,
+      "Failed": 0,
+      "Succeeded": true,
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task053\\results\\links-c2-2022.json",
+      "Sha256": "C573B8DB252836270B858F8B0976DCDAFF0B5A7F9BC102CE200C96D02BE3A6A1",
+      "ProductDllSha256": "C7B135EA6EF3A32321A2A4A25CC76C7004EB1A4BD49958AC4DC53D321BF4D6B9",
+      "Inputs": [
+        {
+          "Path": "C:\\dydgyqud\\AO53_20261020\\candidate2\\2022\\Release\\VS2017.AIAssistant.dll",
+          "Sha256": "C7B135EA6EF3A32321A2A4A25CC76C7004EB1A4BD49958AC4DC53D321BF4D6B9"
+        }
+      ],
+      "ExecutedByAuditor": true,
+      "ObservationIncluded": false,
+      "Assertions": 14
+    },
+    {
+      "Suite": "history-c3",
+      "Target": "2017",
+      "Passed": 10,
+      "Failed": 0,
+      "Succeeded": true,
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task053\\results\\history-c3-2017.json",
+      "Sha256": "2CE3143DC0C9E5893924C6494EE4EDA220B607BB39DCB67BA9CFA32024C47A23",
+      "ProductDllSha256": "058C68A5725501B5659D4E7DD8B807B0CA10ACBAE887B3DD97A3F8CC62A49143",
+      "Inputs": [],
+      "ExecutedByAuditor": true,
+      "ObservationIncluded": false,
+      "Assertions": 10
+    },
+    {
+      "Suite": "history-c3",
+      "Target": "2017.Legacy",
+      "Passed": 10,
+      "Failed": 0,
+      "Succeeded": true,
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task053\\results\\history-c3-2017.Legacy.json",
+      "Sha256": "700177CB81BC92C298827B0B2E4D30B20264C9652DB1B8E05ED42FDF2083B118",
+      "ProductDllSha256": "DA5EEF9E762E37E9FF8D6A93402AEB1180CA213B6D7245765D8461D7E0DF92B8",
+      "Inputs": [],
+      "ExecutedByAuditor": true,
+      "ObservationIncluded": false,
+      "Assertions": 10
+    },
+    {
+      "Suite": "history-c3",
+      "Target": "2019",
+      "Passed": 10,
+      "Failed": 0,
+      "Succeeded": true,
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task053\\results\\history-c3-2019.json",
+      "Sha256": "F78EB733372A8207A239E4F31FDD92AFAA4CC4A95F167A4AF284F9CB213E71E2",
+      "ProductDllSha256": "DF021BE99C0C7D00D6412AFEBCE3B308E9766D66C73648682AF84EE3805AB620",
+      "Inputs": [],
+      "ExecutedByAuditor": true,
+      "ObservationIncluded": false,
+      "Assertions": 10
+    },
+    {
+      "Suite": "history-c3",
+      "Target": "2022",
+      "Passed": 10,
+      "Failed": 0,
+      "Succeeded": true,
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task053\\results\\history-c3-2022.json",
+      "Sha256": "4FD7A8425A408750978C91ADA05ADDCBDD565D9080A68657D3F6FEC60D120938",
+      "ProductDllSha256": "B49ED31BD7D72DDDE1D52EFE21502675B38C189C9DF734D9A8F464ED15289F1E",
+      "Inputs": [],
+      "ExecutedByAuditor": true,
+      "ObservationIncluded": false,
+      "Assertions": 10
+    },
+    {
+      "Suite": "state-c3-v2",
+      "Target": "2017",
+      "Passed": 43,
+      "Failed": 0,
+      "Succeeded": true,
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task053\\results\\state-c3-v2-2017.json",
+      "Sha256": "E2CDCAF1BBB6C3C83C1003544FB637A0C9DA16B2F9503BC53423BD52D1707951",
+      "ProductDllSha256": "058C68A5725501B5659D4E7DD8B807B0CA10ACBAE887B3DD97A3F8CC62A49143",
+      "Inputs": [],
+      "ExecutedByAuditor": true,
+      "ObservationIncluded": true,
+      "Assertions": 42
+    },
+    {
+      "Suite": "state-c3-v2",
+      "Target": "2017.Legacy",
+      "Passed": 43,
+      "Failed": 0,
+      "Succeeded": true,
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task053\\results\\state-c3-v2-2017.Legacy.json",
+      "Sha256": "10946A170B51281CA8C9FB99AD51B0BC971031A1F42489E1CB1BD9D3FE1AD4BF",
+      "ProductDllSha256": "DA5EEF9E762E37E9FF8D6A93402AEB1180CA213B6D7245765D8461D7E0DF92B8",
+      "Inputs": [],
+      "ExecutedByAuditor": true,
+      "ObservationIncluded": true,
+      "Assertions": 42
+    },
+    {
+      "Suite": "state-c3-v2",
+      "Target": "2019",
+      "Passed": 43,
+      "Failed": 0,
+      "Succeeded": true,
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task053\\results\\state-c3-v2-2019.json",
+      "Sha256": "DB4FD0E18EDBD54F76D54B2D53B5578093C08E8F67CF631C0A43307B3D5BE831",
+      "ProductDllSha256": "DF021BE99C0C7D00D6412AFEBCE3B308E9766D66C73648682AF84EE3805AB620",
+      "Inputs": [],
+      "ExecutedByAuditor": true,
+      "ObservationIncluded": true,
+      "Assertions": 42
+    },
+    {
+      "Suite": "state-c3-v2",
+      "Target": "2022",
+      "Passed": 43,
+      "Failed": 0,
+      "Succeeded": true,
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task053\\results\\state-c3-v2-2022.json",
+      "Sha256": "0725A318AA21BC4DCC5CE5F5557116F0585EA3A668170CC156FF5E80718D408E",
+      "ProductDllSha256": "B49ED31BD7D72DDDE1D52EFE21502675B38C189C9DF734D9A8F464ED15289F1E",
+      "Inputs": [],
+      "ExecutedByAuditor": true,
+      "ObservationIncluded": true,
+      "Assertions": 42
+    },
+    {
+      "Suite": "edge-c4",
+      "Target": "2017",
+      "Passed": 10,
+      "Failed": 0,
+      "Succeeded": true,
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task053\\results\\edge-c4-2017.json",
+      "Sha256": "2B1FDFED79DED82ACEB125547C72C9BAC9080E89F9EEF233EA9644DC7C8BDB6A",
+      "ProductDllSha256": "E265464E11DF9A9AE5619EDC0D6204A861CE7AB76D708859587E1C43F58CCCC4",
+      "Inputs": [
+        {
+          "Path": "C:\\dydgyqud\\AO53_20261020\\candidate4\\2017\\Release\\VS2017.AIAssistant.dll",
+          "Sha256": "E265464E11DF9A9AE5619EDC0D6204A861CE7AB76D708859587E1C43F58CCCC4"
+        }
+      ],
+      "ExecutedByAuditor": true,
+      "ObservationIncluded": false,
+      "Assertions": 10
+    },
+    {
+      "Suite": "edge-c4",
+      "Target": "2017.Legacy",
+      "Passed": 10,
+      "Failed": 0,
+      "Succeeded": true,
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task053\\results\\edge-c4-2017.Legacy.json",
+      "Sha256": "2B1FDFED79DED82ACEB125547C72C9BAC9080E89F9EEF233EA9644DC7C8BDB6A",
+      "ProductDllSha256": "2BC4C32007B1251CC582E5D11D0A2302C02BE25EFFA1E7B10BC2A63C26F9C82B",
+      "Inputs": [
+        {
+          "Path": "C:\\dydgyqud\\AO53_20261020\\candidate4\\2017.Legacy\\Release\\VS2017.AIAssistant.dll",
+          "Sha256": "2BC4C32007B1251CC582E5D11D0A2302C02BE25EFFA1E7B10BC2A63C26F9C82B"
+        }
+      ],
+      "ExecutedByAuditor": true,
+      "ObservationIncluded": false,
+      "Assertions": 10
+    },
+    {
+      "Suite": "edge-c4",
+      "Target": "2019",
+      "Passed": 10,
+      "Failed": 0,
+      "Succeeded": true,
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task053\\results\\edge-c4-2019.json",
+      "Sha256": "2B1FDFED79DED82ACEB125547C72C9BAC9080E89F9EEF233EA9644DC7C8BDB6A",
+      "ProductDllSha256": "4E036C938A9C46471DD5E0B919766F45BE86439F765D3A1F608ED891FFF9CEE4",
+      "Inputs": [
+        {
+          "Path": "C:\\dydgyqud\\AO53_20261020\\candidate4\\2019\\Release\\VS2017.AIAssistant.dll",
+          "Sha256": "4E036C938A9C46471DD5E0B919766F45BE86439F765D3A1F608ED891FFF9CEE4"
+        }
+      ],
+      "ExecutedByAuditor": true,
+      "ObservationIncluded": false,
+      "Assertions": 10
+    },
+    {
+      "Suite": "edge-c4",
+      "Target": "2022",
+      "Passed": 10,
+      "Failed": 0,
+      "Succeeded": true,
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task053\\results\\edge-c4-2022.json",
+      "Sha256": "2B1FDFED79DED82ACEB125547C72C9BAC9080E89F9EEF233EA9644DC7C8BDB6A",
+      "ProductDllSha256": "CDAD7EE2A30F7DF1E4C88B1CA022F9446F7091FEA1B9F3DAEE23289683558DCF",
+      "Inputs": [
+        {
+          "Path": "C:\\dydgyqud\\AO53_20261020\\candidate4\\2022\\Release\\VS2017.AIAssistant.dll",
+          "Sha256": "CDAD7EE2A30F7DF1E4C88B1CA022F9446F7091FEA1B9F3DAEE23289683558DCF"
+        }
+      ],
+      "ExecutedByAuditor": true,
+      "ObservationIncluded": false,
+      "Assertions": 10
+    },
+    {
+      "Suite": "links-c4",
+      "Target": "2017",
+      "Passed": 14,
+      "Failed": 0,
+      "Succeeded": true,
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task053\\results\\links-c4-2017.json",
+      "Sha256": "78CF90CF738ABC537F6BABDDA3ECC0578C232C0640F12882429B4DF4C9112FB3",
+      "ProductDllSha256": "E265464E11DF9A9AE5619EDC0D6204A861CE7AB76D708859587E1C43F58CCCC4",
+      "Inputs": [
+        {
+          "Path": "C:\\dydgyqud\\AO53_20261020\\candidate4\\2017\\Release\\VS2017.AIAssistant.dll",
+          "Sha256": "E265464E11DF9A9AE5619EDC0D6204A861CE7AB76D708859587E1C43F58CCCC4"
+        }
+      ],
+      "ExecutedByAuditor": true,
+      "ObservationIncluded": false,
+      "Assertions": 14
+    },
+    {
+      "Suite": "links-c4",
+      "Target": "2017.Legacy",
+      "Passed": 14,
+      "Failed": 0,
+      "Succeeded": true,
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task053\\results\\links-c4-2017.Legacy.json",
+      "Sha256": "471C990C5936944569C3616D5EA265294D334E2CF5056076E5A5079D58D042DF",
+      "ProductDllSha256": "2BC4C32007B1251CC582E5D11D0A2302C02BE25EFFA1E7B10BC2A63C26F9C82B",
+      "Inputs": [
+        {
+          "Path": "C:\\dydgyqud\\AO53_20261020\\candidate4\\2017.Legacy\\Release\\VS2017.AIAssistant.dll",
+          "Sha256": "2BC4C32007B1251CC582E5D11D0A2302C02BE25EFFA1E7B10BC2A63C26F9C82B"
+        }
+      ],
+      "ExecutedByAuditor": true,
+      "ObservationIncluded": false,
+      "Assertions": 14
+    },
+    {
+      "Suite": "links-c4",
+      "Target": "2019",
+      "Passed": 14,
+      "Failed": 0,
+      "Succeeded": true,
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task053\\results\\links-c4-2019.json",
+      "Sha256": "395E20A37462CB814FC9B9EBF2AFD84F1426C50E466A2A40DDEDB0315F680C9E",
+      "ProductDllSha256": "4E036C938A9C46471DD5E0B919766F45BE86439F765D3A1F608ED891FFF9CEE4",
+      "Inputs": [
+        {
+          "Path": "C:\\dydgyqud\\AO53_20261020\\candidate4\\2019\\Release\\VS2017.AIAssistant.dll",
+          "Sha256": "4E036C938A9C46471DD5E0B919766F45BE86439F765D3A1F608ED891FFF9CEE4"
+        }
+      ],
+      "ExecutedByAuditor": true,
+      "ObservationIncluded": false,
+      "Assertions": 14
+    },
+    {
+      "Suite": "links-c4",
+      "Target": "2022",
+      "Passed": 14,
+      "Failed": 0,
+      "Succeeded": true,
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task053\\results\\links-c4-2022.json",
+      "Sha256": "98E8C87E394798E75812EB8AF08986778F7FEE3606211C9D07DE89CA6BDE7E8B",
+      "ProductDllSha256": "CDAD7EE2A30F7DF1E4C88B1CA022F9446F7091FEA1B9F3DAEE23289683558DCF",
+      "Inputs": [
+        {
+          "Path": "C:\\dydgyqud\\AO53_20261020\\candidate4\\2022\\Release\\VS2017.AIAssistant.dll",
+          "Sha256": "CDAD7EE2A30F7DF1E4C88B1CA022F9446F7091FEA1B9F3DAEE23289683558DCF"
+        }
+      ],
+      "ExecutedByAuditor": true,
+      "ObservationIncluded": false,
+      "Assertions": 14
+    },
+    {
+      "Suite": "multiline-c4",
+      "Target": "2017",
+      "Passed": 18,
+      "Failed": 0,
+      "Succeeded": true,
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task053\\results\\multiline-c4-2017.json",
+      "Sha256": "22BDADEDE1A453488D05E45A87CE545D67D8893AA8007011844CC3029643672D",
+      "ExecutedByAuditor": true,
+      "ObservationIncluded": false,
+      "Assertions": 18
+    }
+  ],
+  "ThemePackage": {
+    "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task053\\themes-c4-independent.json",
+    "Sha256": "3C8651FF642D1278DE90A716FAB005CF3F878BD7AC4B6F43EBD7BE1216C902B9",
+    "Passed": 31,
+    "Failed": 0,
+    "ActualIdeInstalledByAuditor": false
+  },
+  "OwnerOnlyEvidence": [
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task053\\results\\owner-native-completion-c4-2017.json",
+      "Sha256": "E388840E250813F1F479BDEFE61DBE925A18680354DBD043DEF4ECE0A0EAAED5",
+      "ExecutedByAuditor": false,
+      "Description": "Synthetic completion; BalloonTipShown once; timed/dispose cleanup. Not live AI or customer IDE."
+    }
+  ],
+  "Protected": {
+    "Count": 76,
+    "Unchanged": 76,
+    "Changed": []
+  },
+  "Limits": [
+    "NotifyIcon taskbar balloon, not WinRT Reply or click-return contract",
+    "UI paging over full in-memory retained model; max100 messages/4MB, no unbounded disk query",
+    "Default IDE theme-following and standalone theme package validation do not prove every token in four built-in IDE themes",
+    "Actual IDE RootSuffix tests and overall build/release/deployment are owned by Root051",
+    "Real credentials, live AI, production DB/SCM and customer offline installation not tested",
+    "Source-only 55/47 preliminary checks are not counted as actual candidate tests"
+  ],
+  "FixtureAndArtifactHashes": [
+    {
+      "Name": "c2-ui-link-summary.json",
+      "Sha256": "B4A50C4FAF51F79AB89FCB3E6C7B6E421FFB0C0AAC93F5983B6B7111EF0D2888"
+    },
+    {
+      "Name": "c3-history-summary.json",
+      "Sha256": "E5C5A94AC5E1C00BD5DB2958771EA121D45FC5CEC9D7330D4286973369E782B3"
+    },
+    {
+      "Name": "c3-state-summary.json",
+      "Sha256": "3B5715661A666A3BABEE50DA5210D271F44EAA20BF85120CD8589AA58CD75662"
+    },
+    {
+      "Name": "c4-link-summary.json",
+      "Sha256": "58ED8BF0A3F129128EBDD7B1603126BBCAC03C76DA3552E3680EB41C8C9788E8"
+    },
+    {
+      "Name": "candidate2-markup-boundary.json",
+      "Sha256": "7660BE6BD6E50A798E3E57EB861B8A7856A8A870C3ED49ABF3481F335ECFD1C0"
+    },
+    {
+      "Name": "candidate3-markup-boundary.json",
+      "Sha256": "D27CCE14358EB88713DAD6F94590B40CE9A6B30F9A184BF06F7A8F9DB16884AD"
+    },
+    {
+      "Name": "Collect-Evidence53.ps1",
+      "Sha256": "D9501C2B00729A8C7176E5E2732BB1103D16C3EBBD7E9D392F21A948C372275F"
+    },
+    {
+      "Name": "MarkupLinkBoundary53.cs",
+      "Sha256": "34E7D25BF89C90E485A377383806E6013137BC8AD37869DC170A462B3E204D95"
+    },
+    {
+      "Name": "MarkupMultiline53.cs",
+      "Sha256": "782131904FF86A6E45B01973BF2DF36B87E8E75B8C003AD51E1183B7092F6CB3"
+    },
+    {
+      "Name": "protected-final.json",
+      "Sha256": "1437289C5140EC23E045E1F0D44CD642D163CF654E4A6701ABFEFE746B8881A0"
+    },
+    {
+      "Name": "protected-start.json",
+      "Sha256": "F5D690599D5568F42E64E7ACC035CA9BFE88C8141BFD33ABF2E007188BB24371"
+    },
+    {
+      "Name": "role-image-hashes.json",
+      "Sha256": "EFAB39482FAF3C53260702F3D2B99A0C06842EC51723FAEF232D049C3A48666B"
+    },
+    {
+      "Name": "StateBoundary53-harness-error.cs",
+      "Sha256": "3C001D7D872FE5DD22C01D0DD8351FA220EA84A88F73AEB76FDF6F1F5C03BF78"
+    },
+    {
+      "Name": "StateBoundary53.cs",
+      "Sha256": "CC35C779B289288D807A229BE06E36875F27C439A7846F8315CD20F1CAD912E2"
+    },
+    {
+      "Name": "Test-ThemePackage53-harness-error.ps1",
+      "Sha256": "4EE7236638F380BAC947114678D3437D8B67148C0B8C5BCDC9FF46E57F29BB1F"
+    },
+    {
+      "Name": "Test-ThemePackage53.ps1",
+      "Sha256": "EA36716B7941C1B86EBB8E03A1C6086C3780CC4D4E8B1199096906EF12E91E19"
+    },
+    {
+      "Name": "themes-c4-harness-error.json",
+      "Sha256": "81EA0B05972876C0E01A28822DC62D064B9F9D86C967C14701E9725E65FE3B72"
+    },
+    {
+      "Name": "themes-c4-independent.json",
+      "Sha256": "3C8651FF642D1278DE90A716FAB005CF3F878BD7AC4B6F43EBD7BE1216C902B9"
+    }
+  ]
+}

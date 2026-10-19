@@ -12,3 +12,6 @@
 /PrepareOfflineSetup.bat -text whitespace=cr-at-eol
 /VerifyOfflineSetup.bat -text whitespace=cr-at-eol
 /HowToInstallCLI.md -text
+# The pinned theme baseline and release checksums depend on exact file bytes.
+/themes/VisualStudio/Baselines/*.xml -text
+/releases/v0.12.0/* -text whitespace=cr-at-eol

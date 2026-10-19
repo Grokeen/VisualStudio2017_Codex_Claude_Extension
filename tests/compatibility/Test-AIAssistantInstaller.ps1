@@ -9,14 +9,14 @@ update date  : 2026-10-19 CodexOrig : TASK-036 고객 15.7.1 전용 선택과 15
 -------------------------------------------------------------------------
 #>
 [CmdletBinding()]
-param([string]$OutputDirectory)
+param([string]$OutputDirectory,[string]$PackageDirectory,[ValidatePattern('^\d+\.\d+\.\d+$')][string]$PackageVersion='0.11.1')
 $ErrorActionPreference='Stop'
 $repo=[IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../..'))
 $scriptPath=Join-Path $repo 'scripts/Install-AIAssistant.ps1'
 if (!$OutputDirectory) { $OutputDirectory=Join-Path $repo ('artifacts/installer/run-'+[guid]::NewGuid().ToString('N')) }
 $null=New-Item -ItemType Directory -Path $OutputDirectory -Force
-$packageRoot=Join-Path $repo 'releases/v0.11.1'
-. $scriptPath -LibraryOnly
+$packageRoot=if($PackageDirectory){[IO.Path]::GetFullPath($PackageDirectory)}else{Join-Path $repo ('releases/v'+$PackageVersion)}
+. $scriptPath -LibraryOnly -PackageVersion $PackageVersion
 $cases=New-Object 'System.Collections.Generic.List[object]'
 
 <#
@@ -60,8 +60,8 @@ try {
     $fixture=Join-Path $OutputDirectory 'altered-package'
     $null=New-Item -ItemType Directory -Path $fixture
     Assert-InstallerPlan 'Missing year package' '15.9.37627.17' 'Professional' 'InvalidPackage' -Directory $fixture
-    $fixtureFile=Join-Path $fixture 'VS2017.AIAssistant-0.11.1.vsix'
-    Copy-Item -LiteralPath (Join-Path $packageRoot 'VS2019.AIAssistant-0.11.1.vsix') -Destination $fixtureFile
+    $fixtureFile=Join-Path $fixture "VS2017.AIAssistant-$PackageVersion.vsix"
+    Copy-Item -LiteralPath (Join-Path $packageRoot "VS2019.AIAssistant-$PackageVersion.vsix") -Destination $fixtureFile
     ((Get-FileHash -LiteralPath $fixtureFile).Hash+'  '+[IO.Path]::GetFileName($fixtureFile)) | Set-Content -LiteralPath (Join-Path $fixture 'SHA256SUMS.txt') -Encoding ASCII
     Assert-InstallerPlan 'Renamed 2019 VSIX rejected by real identity' '15.9.37627.17' 'Professional' 'InvalidPackage' -Directory $fixture
     ('0'*64+'  '+[IO.Path]::GetFileName($fixtureFile)) | Set-Content -LiteralPath (Join-Path $fixture 'SHA256SUMS.txt') -Encoding ASCII
@@ -72,7 +72,7 @@ try {
 
     $reportPath=Join-Path $OutputDirectory 'local-inventory.json'
     $previousPreference=$ErrorActionPreference
-    try { $ErrorActionPreference='Continue'; & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $scriptPath -PackageDirectory $packageRoot -ReportPath $reportPath *> (Join-Path $OutputDirectory 'local-inventory.log') }
+    try { $ErrorActionPreference='Continue'; & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $scriptPath -PackageDirectory $packageRoot -PackageVersion $PackageVersion -ReportPath $reportPath *> (Join-Path $OutputDirectory 'local-inventory.log') }
     finally { $ErrorActionPreference=$previousPreference }
     if ($LASTEXITCODE -ne 0) { throw "Local inventory failed. See $OutputDirectory" }
     $report=Get-Content -LiteralPath $reportPath -Raw | ConvertFrom-Json
@@ -80,7 +80,7 @@ try {
     if ($ready.Count -ne 3 -or $report.CheckKind -ne 'InstallationPreflight') { throw 'Expected three real local ready instances.' }
     $cases.Add([pscustomobject]@{Name='Real local inventory, diagnostic only';Passed=$true;Actual=$ready.Count;Expected=3})
     $before=(Get-FileHash -LiteralPath $reportPath).Hash
-    try { $ErrorActionPreference='Continue'; & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $scriptPath -PackageDirectory $packageRoot -ReportPath $reportPath *> (Join-Path $OutputDirectory 'no-overwrite.log') }
+    try { $ErrorActionPreference='Continue'; & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $scriptPath -PackageDirectory $packageRoot -PackageVersion $PackageVersion -ReportPath $reportPath *> (Join-Path $OutputDirectory 'no-overwrite.log') }
     finally { $ErrorActionPreference=$previousPreference }
     if ($LASTEXITCODE -ne 1 -or (Get-FileHash -LiteralPath $reportPath).Hash -ne $before) { throw 'Existing report must not be overwritten.' }
     $cases.Add([pscustomobject]@{Name='Existing report is preserved';Passed=$true;Actual='Exit1/unchanged';Expected='Exit1/unchanged'})

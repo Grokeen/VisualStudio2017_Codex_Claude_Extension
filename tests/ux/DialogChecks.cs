@@ -84,9 +84,12 @@ internal static class DialogChecks
                 host.Resources[Microsoft.VisualStudio.Shell.VsBrushes.ToolWindowBackgroundKey] = Brushes.Black;
                 host.Resources[Microsoft.VisualStudio.Shell.VsBrushes.ToolWindowTextKey] = Brushes.White;
                 Exercise(() => Click(view, "SettingsButton"), dialog => {
-                    check("UX-10 dialog and text controls use the same dark palette", ((SolidColorBrush)dialog.Background).Color == ((SolidColorBrush)view.Background).Color && ((SolidColorBrush)dialog.Foreground).Color == ((SolidColorBrush)view.Foreground).Color && ((SolidColorBrush)((TextBox)view.FindName("RulesText")).Foreground).Color == ((SolidColorBrush)view.Foreground).Color);
+                    SelectSettingsPage(dialog, 2);
+                    var rules = (TextBox)view.FindName("RulesText");
+                    check("UX-10 selected rules page and dialog use the same dark palette", rules.IsVisible && ((SolidColorBrush)dialog.Background).Color == ((SolidColorBrush)view.Background).Color && ((SolidColorBrush)dialog.Foreground).Color == ((SolidColorBrush)view.Foreground).Color && ((SolidColorBrush)rules.Foreground).Color == ((SolidColorBrush)view.Foreground).Color);
                     ((TextBox)view.FindName("ExecutablePath")).Text = "saved-new.exe";
                     ((TextBox)view.FindName("RulesText")).Text = "저장한 공통 규칙";
+                    SelectSettingsPage(dialog, 3);
                     ((ComboBox)view.FindName("TextSizeChoice")).SelectedValue = "18";
                     Render(dialog, Path.Combine(directory, "settings-dark.png"));
                     Click(view, "SaveSettingsButton");
@@ -133,6 +136,23 @@ internal static class DialogChecks
             Environment.SetEnvironmentVariable("VS2017_AI_SETTINGS_PATH", previous);
             Environment.SetEnvironmentVariable("VS2017_AI_WORKSPACE_PATH", previousWorkspace);
         }
+    }
+
+    /// ---------------------------------------------------------------------
+    /// <summary>
+    /// name         : SelectSettingsPage
+    /// desc         : 새 좌측 탐색에서 검사할 입력이 실제 화면에 연결된 페이지를 선택한다.
+    /// author       : CodexOrig
+    /// create date  : 2026-10-20
+    /// update date  : 2026-10-20 CodexOrig : 분리된 비선택 페이지의 리소스를 사용자에게 보이는 색상으로 오판하지 않는다.
+    /// </summary>
+    /// ---------------------------------------------------------------------
+    private static void SelectSettingsPage(AssistantDialog dialog, int index)
+    {
+        var pages = dialog.SidebarNavigation.Children.OfType<System.Windows.Controls.Primitives.ToggleButton>().ToArray();
+        if (pages.Length != 4) throw new InvalidOperationException("Expected four settings pages.");
+        pages[index].RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+        dialog.UpdateLayout();
     }
 
     /// ---------------------------------------------------------------------

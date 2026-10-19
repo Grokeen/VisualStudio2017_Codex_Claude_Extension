@@ -26,7 +26,7 @@ if($sourceOnly){
     $productPath=Join-Path $OutputDirectory 'ProgressProductionSourceWithHostFixture.dll'
     $compiler='C:/Program Files (x86)/Microsoft Visual Studio/2017/Community/MSBuild/15.0/Bin/Roslyn/csc.exe'
     $referenceDir='C:/Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETFramework/v4.6.2'
-    $compilerArgs=@('/nologo','/target:library','/langversion:7','/codepage:65001','/nostdlib+',('/out:'+$productPath),('/lib:'+$referenceDir),'/reference:mscorlib.dll','/reference:System.dll','/reference:System.Core.dll','/reference:WindowsBase.dll','/reference:PresentationCore.dll','/reference:PresentationFramework.dll','/reference:System.Xaml.dll')
+    $compilerArgs=@('/nologo','/target:library','/langversion:7','/codepage:65001','/nostdlib+',('/out:'+$productPath),('/lib:'+$referenceDir),'/reference:mscorlib.dll','/reference:System.dll','/reference:System.Core.dll','/reference:System.Drawing.dll','/reference:System.Windows.Forms.dll','/reference:WindowsBase.dll','/reference:PresentationCore.dll','/reference:PresentationFramework.dll','/reference:System.Xaml.dll')
     foreach($inputPath in @((Join-Path $repositoryDir 'src/VS2017.AIAssistant/Views/ProgressNotice.cs'),(Join-Path $repositoryDir 'src/VS2017.AIAssistant/Views/AssistantControl.ProgressPresentation.cs'),(Join-Path $PSScriptRoot 'ProgressControlFixture.cs'))){$compilerArgs+=$inputPath;$inputs+=Get-FileHash -Algorithm SHA256 -LiteralPath $inputPath | Select-Object Path,Hash}
     & $compiler @compilerArgs
     if($LASTEXITCODE -ne 0){throw '진행 표시 source-only 독립 컴파일 실패'}
@@ -51,7 +51,7 @@ try{
     [IO.File]::WriteAllText($env:VS2017_AI_SETTINGS_PATH,'{"HideWelcome":true,"ShowHistory":false,"FontSize":14}',(New-Object Text.UTF8Encoding($true)))
     [Reflection.Assembly]::LoadFrom($productPath) | Out-Null
     if($referencePaths.ContainsKey('Microsoft.VisualStudio.Shell.15.0')){[Reflection.Assembly]::LoadFrom($referencePaths['Microsoft.VisualStudio.Shell.15.0']) | Out-Null}
-    $refs=@($productPath,'System.dll','System.Core.dll',[Windows.DependencyObject].Assembly.Location,[Windows.Media.Visual].Assembly.Location,[Windows.Window].Assembly.Location,[System.Xaml.XamlReader].Assembly.Location)
+    $refs=@($productPath,'System.dll','System.Core.dll','System.Drawing.dll','System.Windows.Forms.dll',[Windows.DependencyObject].Assembly.Location,[Windows.Media.Visual].Assembly.Location,[Windows.Window].Assembly.Location,[System.Xaml.XamlReader].Assembly.Location)
     $checksPath=Join-Path $PSScriptRoot 'ProgressPresentationChecks.cs'
     Add-Type -Path $checksPath -ReferencedAssemblies $refs
     [ProgressPresentationChecks]::Run()

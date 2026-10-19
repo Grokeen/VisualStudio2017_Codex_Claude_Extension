@@ -25,11 +25,20 @@ namespace VS2017.AIAssistant.Views
     public partial class AssistantControl
     {
         private string themeMode = "auto";
+        private string visualThemePreset = "vs";
         private bool themeInitialized, themeSynchronizing, themeEventsAttached, ideThemeEventsAttached;
+        private bool themePresetSynchronizing;
         private int themeRefreshQueued;
         private Dispatcher themeDispatcher;
         private Action themeRefreshCallback;
         internal string AppliedThemeMode { get; private set; }
+        internal string AppliedVisualThemePreset { get; private set; }
+
+        private bool GetCompletionNotificationsEnabled()
+        { Dispatcher.VerifyAccess(); return CompletionNotificationsChoice.IsChecked == true; }
+
+        private void RestoreCompletionNotifications(bool enabled)
+        { Dispatcher.VerifyAccess(); CompletionNotificationsChoice.IsChecked = enabled; }
 
         /// ---------------------------------------------------------------------
         /// <summary>
@@ -46,6 +55,7 @@ namespace VS2017.AIAssistant.Views
             themeDispatcher = Dispatcher;
             themeRefreshCallback = RefreshThemeOnDispatcher;
             themeInitialized = true;
+            RestoreVisualThemePreset(settings.VisualThemePreset);
             RestoreThemeMode(settings.ThemeMode);
             Loaded += AssistantThemeLoaded; Unloaded += AssistantThemeUnloaded;
         }
@@ -69,6 +79,37 @@ namespace VS2017.AIAssistant.Views
             finally { themeSynchronizing = false; }
             RefreshAssistantTheme();
         }
+
+        private static string NormalizeVisualThemePreset(string value)
+        {
+            if (String.Equals(value, "kakao", StringComparison.OrdinalIgnoreCase)) return "kakao";
+            if (String.Equals(value, "dracula", StringComparison.OrdinalIgnoreCase)) return "dracula";
+            return "vs";
+        }
+
+        private void RestoreVisualThemePreset(string value)
+        {
+            Dispatcher.VerifyAccess();
+            visualThemePreset = NormalizeVisualThemePreset(value);
+            themePresetSynchronizing = true;
+            try { VisualThemePresetChoice.SelectedValue = visualThemePreset; }
+            finally { themePresetSynchronizing = false; }
+            RefreshAssistantTheme();
+        }
+
+        private void VisualThemePresetChanged(object sender, SelectionChangedEventArgs args)
+        {
+            Dispatcher.VerifyAccess();
+            if (!themeInitialized || themePresetSynchronizing || disposed) return;
+            var item = args.AddedItems.Count > 0 ? args.AddedItems[0] as ComboBoxItem : VisualThemePresetChoice.SelectedItem as ComboBoxItem;
+            var selected = item == null ? null : item.Tag as string;
+            if (selected == "vs" || selected == "kakao" || selected == "dracula")
+            { visualThemePreset = selected; RefreshAssistantTheme(); }
+        }
+
+        /// <summary>Called by the settings transaction after its persisted settings write succeeds.</summary>
+        private void CommitVisualThemePreset()
+        { Dispatcher.VerifyAccess(); visualThemePreset = NormalizeVisualThemePreset(visualThemePreset); }
 
         /// ---------------------------------------------------------------------
         /// <summary>
@@ -124,6 +165,8 @@ namespace VS2017.AIAssistant.Views
             AppliedThemeMode = AssistantThemePolicy.Resolve(themeMode, hostBackground, WindowsUsesLightMode());
             bool light = AppliedThemeMode == "light";
             AssistantPalette.Apply(Resources, light, hostBackground, hostForeground);
+            AppliedVisualThemePreset = SystemParameters.HighContrast ? "vs" : visualThemePreset;
+            if (!SystemParameters.HighContrast) AssistantPalette.ApplyPreset(Resources, visualThemePreset, light);
             Resources[VsBrushes.ToolWindowBackgroundKey] = Resources["AssistantBackgroundBrush"];
             Resources[VsBrushes.ToolWindowTextKey] = Resources["AssistantForegroundBrush"];
             SetResourceReference(BackgroundProperty, "AssistantBackgroundBrush");

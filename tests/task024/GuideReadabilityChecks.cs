@@ -94,7 +94,7 @@ namespace CodexCode.Task024
                 var page = gallery.Content as Grid;
                 Check(result, "Guide details use a fixed toolbar outside the scroll content", () => Assert(page != null && page.RowDefinitions.Count == 2));
                 var back = page.Children.OfType<Button>().Single(); var scroll = page.Children.OfType<ScrollViewer>().Single();
-                Check(result, "Back stays in the upper right row and keeps its original label", () => Assert(Grid.GetRow(back) == 0 && back.HorizontalAlignment == HorizontalAlignment.Right && (string)back.Content == "← 안내 목록으로" && back.HorizontalContentAlignment == HorizontalAlignment.Center));
+                Check(result, "Back stays in the upper left browser-style row with a clear destination", () => Assert(Grid.GetRow(back) == 0 && back.HorizontalAlignment == HorizontalAlignment.Left && (string)back.Content == "← 뒤로" && (string)back.ToolTip == "안내 목록으로 돌아가기" && back.HorizontalContentAlignment == HorizontalAlignment.Center));
                 Check(result, "Only detail content scrolls below the fixed back button", () => Assert(Grid.GetRow(scroll) == 1 && !LogicalDescendants(scroll).Contains(back) && scroll.HorizontalScrollBarVisibility == ScrollBarVisibility.Disabled));
                 var pagePreview = ((StackPanel)scroll.Content).Children.OfType<ContentControl>().Single(x => x.GetType().Name == "MarkdownPreview");
                 Check(result, "Guide full paragraphs are preserved verbatim in Markdown", () => Assert((string)Get(pagePreview, "Markdown") == originalDetails && !(bool)Get(pagePreview, "UseInternalScrolling")));

@@ -14,6 +14,7 @@ param(
     [string]$CodexPackageDirectory=(Join-Path $env:USERPROFILE '.codex/packages/standalone/current'),
     [string]$ClaudeExecutable=(Join-Path $env:USERPROFILE '.local/bin/claude.exe'),
     [string]$ExtensionPackageDirectory,
+    [ValidatePattern('^\d+\.\d+\.\d+$')][string]$PackageVersion='0.12.0',
     [switch]$CreateZip
 )
 $ErrorActionPreference='Stop'
@@ -81,11 +82,11 @@ try {
         if($signed.Count -and $signed[0].Sha256 -ne $file.ExpectedHash){throw '서명 확인 뒤 실행파일이 변경됐습니다. 다시 준비하세요.'}
     }
     if(!$ExtensionPackageDirectory){
-        $ExtensionPackageDirectory=if(Test-Path -LiteralPath (Join-Path $PSScriptRoot 'SHA256SUMS.txt')){$PSScriptRoot}else{Join-Path (Split-Path -Parent $PSScriptRoot) 'releases/v0.11.1'}
+        $ExtensionPackageDirectory=if(Test-Path -LiteralPath (Join-Path $PSScriptRoot 'SHA256SUMS.txt')){$PSScriptRoot}else{Join-Path (Split-Path -Parent $PSScriptRoot) ('releases/v'+$PackageVersion)}
     }
     $extensionRoot=[IO.Path]::GetFullPath($ExtensionPackageDirectory)
     $sourceRoot=if(Test-Path -LiteralPath (Join-Path $PSScriptRoot 'Install-AIAssistant.ps1')){$PSScriptRoot}else{throw '설치 도구 파일이 없습니다.'}
-    $vsixNames=@('VS2017.15.7.AIAssistant-0.11.1.vsix','VS2017.AIAssistant-0.11.1.vsix','VS2019.AIAssistant-0.11.1.vsix','VS2022.AIAssistant-0.11.1.vsix','SHA256SUMS.txt')
+    $vsixNames=@("VS2017.15.7.AIAssistant-$PackageVersion.vsix","VS2017.AIAssistant-$PackageVersion.vsix","VS2019.AIAssistant-$PackageVersion.vsix","VS2022.AIAssistant-$PackageVersion.vsix",'SHA256SUMS.txt')
     foreach($name in $vsixNames){if(!(Test-Path -LiteralPath (Join-Path $extensionRoot $name) -PathType Leaf)){throw "확장 설치 파일이 없습니다: $name"}}
     $vsixHashes=@{}
     foreach($name in $vsixNames|Where-Object {$_ -like '*.vsix'}) {
@@ -115,7 +116,7 @@ try {
     Copy-Item -LiteralPath $guide -Destination (Join-Path $output 'OFFLINE_INSTALL.md')
     $null=Read-OfflineCliBundle $output
     $sums=@(Get-OfflinePlainFiles $output|ForEach-Object{(Get-FileHash -LiteralPath $_.FullName).Hash+'  '+$_.FullName.Substring($output.Length+1).Replace('\','/')})
-    $sums|Set-Content -LiteralPath (Join-Path $output 'OFFLINE_SHA256SUMS.txt') -Encoding ASCII
+    [IO.File]::WriteAllLines((Join-Path $output 'OFFLINE_SHA256SUMS.txt'),$sums,(New-Object Text.UTF8Encoding($false)))
     if($CreateZip) {
         Add-Type -AssemblyName System.IO.Compression;Add-Type -AssemblyName System.IO.Compression.FileSystem
         $zip=[IO.Compression.ZipFile]::Open($output+'.zip',[IO.Compression.ZipArchiveMode]::Create)

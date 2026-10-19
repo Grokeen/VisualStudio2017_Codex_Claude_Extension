@@ -290,23 +290,24 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 두 메뉴의 다른 방향과 시간차로 펼침을 표현.
+        ///                2026-10-19 CodexOrig4 : 주요 진입에 220ms EaseOut 적용, Windows 모션 끔이면 즉시 표시.
         /// </summary>
         /// ---------------------------------------------------------------------
         private static void AnimateFanContent(Button button, double x, double y, int delay)
         {
-            var duration = TimeSpan.FromMilliseconds(175);
-            var fade = new DoubleAnimation(0, 1, duration) { BeginTime = TimeSpan.FromMilliseconds(delay) };
-            button.BeginAnimation(OpacityProperty, fade);
+            bool animate = AssistantMotionTokens.ClientAreaAnimationsEnabled;
+            AssistantMotionTokens.ApplyPrimaryEntry(button, OpacityProperty, 0, 1, delay, animate);
             button.ApplyTemplate();
             var content = FindFanContent(button);
             if (content == null) return;
+            if (!animate) { content.RenderTransform = Transform.Identity; return; }
             var scale = new ScaleTransform(); var move = new TranslateTransform();
             var transforms = new TransformGroup(); transforms.Children.Add(scale); transforms.Children.Add(move);
             content.RenderTransformOrigin = new Point(0.5, 0.5); content.RenderTransform = transforms;
-            scale.BeginAnimation(ScaleTransform.ScaleXProperty, new DoubleAnimation(0.92, 1, duration));
-            scale.BeginAnimation(ScaleTransform.ScaleYProperty, new DoubleAnimation(0.92, 1, duration));
-            move.BeginAnimation(TranslateTransform.XProperty, new DoubleAnimation(x, 0, duration));
-            move.BeginAnimation(TranslateTransform.YProperty, new DoubleAnimation(y, 0, duration));
+            AssistantMotionTokens.ApplyPrimaryEntry(scale, ScaleTransform.ScaleXProperty, 0.92, 1, delay, animate);
+            AssistantMotionTokens.ApplyPrimaryEntry(scale, ScaleTransform.ScaleYProperty, 0.92, 1, delay, animate);
+            AssistantMotionTokens.ApplyPrimaryEntry(move, TranslateTransform.XProperty, x, 0, delay, animate);
+            AssistantMotionTokens.ApplyPrimaryEntry(move, TranslateTransform.YProperty, y, 0, delay, animate);
         }
 
         /// ---------------------------------------------------------------------

@@ -62,6 +62,79 @@ namespace VS2017.AIAssistant.Views
             resources["AssistantForegroundBrush"] = Paint(hostForeground ?? Parse(light ? "20252B" : "EBEBEB"));
         }
 
+        /// <summary>
+        /// Apply extension-local accent presets. These resources never change the Visual Studio IDE theme.
+        /// </summary>
+        public static void ApplyPreset(ResourceDictionary resources, string preset, bool light)
+        {
+            if (resources == null) throw new ArgumentNullException(nameof(resources));
+            if (String.Equals(preset, "kakao", StringComparison.OrdinalIgnoreCase))
+            {
+                Set(resources, "AssistantBackgroundBrush", light ? "F5F6F8" : "202124");
+                Set(resources, "AssistantForegroundBrush", light ? "191919" : "F1F3F4");
+                Set(resources, "AssistantSurfaceBrush", light ? "FFFFFF" : "2B2D30");
+                Set(resources, "AssistantBorderBrush", light ? "D9DDE3" : "45484D");
+                Set(resources, "AssistantMutedForegroundBrush", light ? "5F6368" : "B8BCC2");
+                Set(resources, "AssistantLinkBrush", light ? "1558A6" : "8AB4F8");
+                Set(resources, "AssistantPopupBackgroundBrush", light ? "FFFFFF" : "242629");
+                Set(resources, "AssistantPopupBorderBrush", light ? "C7CDD4" : "50545A");
+                Set(resources, "AssistantCodeBackgroundBrush", light ? "F0F2F5" : "292B2F");
+                Set(resources, "AssistantSelectionBrush", light ? "FFF4A8" : "554D1B");
+                Set(resources, "AssistantAddedBrush", light ? "19743C" : "57CC8A");
+                Set(resources, "AssistantRemovedBrush", light ? "B32632" : "FF7373");
+                Set(resources, "AssistantWarningBrush", light ? "8C4A0D" : "EDA359");
+                Set(resources, "AssistantErrorBrush", light ? "A52D22" : "FFA07A");
+                Set(resources, "AssistantControlBackgroundBrush", light ? "F0F1F3" : "303236");
+                Set(resources, "AssistantHoverBrush", light ? "E8EAED" : "3A3D42");
+                Set(resources, "AssistantPressedBrush", light ? "DADCE0" : "45484D");
+                Set(resources, "AssistantPrimaryBrush", "FEE500");
+                Set(resources, "AssistantOnPrimaryBrush", "191919");
+                Set(resources, "AssistantPrimaryHoverBrush", "F4D900");
+                return;
+            }
+            if (!String.Equals(preset, "dracula", StringComparison.OrdinalIgnoreCase)) return;
+
+            Set(resources, "AssistantBackgroundBrush", "282A36");
+            Set(resources, "AssistantForegroundBrush", "F8F8F2");
+            Set(resources, "AssistantSurfaceBrush", "343746");
+            Set(resources, "AssistantBorderBrush", "52566A");
+            Set(resources, "AssistantMutedForegroundBrush", "B9B9C4");
+            Set(resources, "AssistantLinkBrush", "8BE9FD");
+            Set(resources, "AssistantPopupBackgroundBrush", "2D2F3C");
+            Set(resources, "AssistantPopupBorderBrush", "6272A4");
+            Set(resources, "AssistantCodeBackgroundBrush", "21222C");
+            Set(resources, "AssistantSelectionBrush", "44475A");
+            Set(resources, "AssistantAddedBrush", "50FA7B");
+            Set(resources, "AssistantRemovedBrush", "FF5555");
+            Set(resources, "AssistantWarningBrush", "FFB86C");
+            Set(resources, "AssistantErrorBrush", "FF5555");
+            Set(resources, "AssistantControlBackgroundBrush", "383A49");
+            Set(resources, "AssistantHoverBrush", "44475A");
+            Set(resources, "AssistantPressedBrush", "50536A");
+            Set(resources, "AssistantPrimaryBrush", "BD93F9");
+            Set(resources, "AssistantOnPrimaryBrush", "282A36");
+            Set(resources, "AssistantPrimaryHoverBrush", "D0AEFF");
+            foreach (string tone in Tones)
+            {
+                var original = Parse(tone);
+                string source = original.ToString().Substring(3);
+                string replacement = null;
+                switch (source)
+                {
+                    case "79C5F5": case "80AFFF": case "8BC9F3": case "9CD8FF": case "BDE7FF": replacement = "8BE9FD"; break;
+                    case "57CC8A": replacement = "50FA7B"; break;
+                    case "FF7373": case "FFA07A": replacement = "FF5555"; break;
+                    case "EDA359": replacement = "FFB86C"; break;
+                    case "8E9CF1": case "A7B6FF": case "C8CFFF": replacement = "BD93F9"; break;
+                    case "D1FFF0": replacement = "50FA7B"; break;
+                }
+                if (replacement != null) { var color = Parse(replacement); color.A = original.A; resources["AssistantTone" + tone + "Brush"] = Paint(color); }
+            }
+        }
+
+        private static void Set(ResourceDictionary resources, string key, string hex)
+        { resources[key] = Paint(Parse(hex)); }
+
         /// ---------------------------------------------------------------------
         /// <summary>
         /// name         : IsLight

@@ -71,6 +71,7 @@ namespace VS2017.AIAssistant.Views
         private static readonly TimeSpan RegexLimit=TimeSpan.FromMilliseconds(80);
         private static readonly Regex Heading=new Regex(@"^\s{0,3}(#{1,6})\s+(.+?)\s*#*\s*$",RegexOptions.CultureInvariant,RegexLimit);
         private static readonly Regex ListMarker=new Regex(@"^([ \t]*)([-+*]|[0-9]{1,9}[.)])\s+(.+)$",RegexOptions.CultureInvariant,RegexLimit);
+        private static readonly Regex UrlLabel=new Regex(@"^URL\s*\d{1,9}$",RegexOptions.IgnoreCase|RegexOptions.CultureInvariant,RegexLimit);
         private static readonly Regex Setext=new Regex(@"^\s{0,3}(=+|-+)\s*$",RegexOptions.CultureInvariant,RegexLimit);
         private static readonly Regex ReferenceDefinition=new Regex(@"^\s{0,3}\[([^\]\r\n]{1,128})\]:\s*(?:<([^>\r\n]{1,2048})>|(\S{1,2048}))(?:[ \t]+[\""'(].*)?$",RegexOptions.CultureInvariant,RegexLimit);
         private readonly Dictionary<string,string> references=new Dictionary<string,string>(StringComparer.OrdinalIgnoreCase);
@@ -80,6 +81,8 @@ namespace VS2017.AIAssistant.Views
         private readonly Brush foreground,background,accent,muted,codeBrush,codeForeground,inlineCodeForeground,tableBorder;
         private readonly double fontSize;
         private int nodes,images,linkDepth;
+        private bool literalMarkupTag,literalMarkupComment;
+        private char literalMarkupQuote;
         private readonly List<MarkdownAnimatedImage> imageControls=new List<MarkdownAnimatedImage>();
         private long imagePixels,scanWork;
         private long codeHighlightTicks;
@@ -151,6 +154,7 @@ namespace VS2017.AIAssistant.Views
         /// create date  : 2026-10-19
         /// update date  : 2026-10-19 CodexCode : 실패한 중첩 문법은 평문으로 유지하고 재귀 깊이는 8로 제한.
         ///                2026-10-19 CodexCode : 실패 backtick run 전체 소비·재귀와 모든 검색의 문서 공유 계산 예산.
+        ///                2026-10-19 CodexOrig : 명시한 링크와 평문 HTTP(S) 주소를 같은 안전 경계의 굵은 링크로 표시.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void AddInline(InlineCollection target,string text,int depth)
@@ -160,6 +164,7 @@ namespace VS2017.AIAssistant.Views
             var plain=new StringBuilder();
             for(int at=0;at<text.Length;)
             {
+                if(literalMarkupTag||literalMarkupComment){int literalEnd=LiteralMarkupEnd(text,at);plain.Append(text,at,literalEnd-at);at=literalEnd;continue;}
                 ChargeScan(1);char c=text[at];if(c=='\\'&&at+1<text.Length&&"\\`*_{}[]()#+-.!>~|".IndexOf(text[at+1])>=0){plain.Append(text[at+1]);at+=2;continue;}
                 if(c=='`'){int count=0;while(at+count<text.Length&&text[at+count]=='`'){ChargeScan(1);count++;}ChargeScan(count);int end=ScanIndexOf(text,new string('`',count),at+count);if(end>=0){Flush(target,plain);Consume();target.Add(new Run(text.Substring(at+count,end-at-count)){FontFamily=new FontFamily("Consolas"),Background=codeBrush,Foreground=inlineCodeForeground});at=end+count;continue;}plain.Append(text,at,count);at+=count;continue;}
                 bool image=c=='!'&&at+1<text.Length&&text[at+1]=='[';
@@ -172,13 +177,68 @@ namespace VS2017.AIAssistant.Views
                     if(close+1<text.Length&&text[close+1]=='['){int end=Closing(text,close+1,'[',']');if(end>=0){referenceId=text.Substring(close+2,end-close-2);if(referenceId.Length==0)referenceId=referenceLabel;referenceEnd=end;}}
                     string referenceTarget;if(referenceId.Length<=128&&references.TryGetValue(ReferenceKey(referenceId),out referenceTarget)){Flush(target,plain);if(image)AddImage(target,referenceLabel,referenceTarget);else AddLink(target,referenceLabel,referenceTarget,depth+1);at=referenceEnd+1;continue;}
                 }
-                if(c=='<'&&at+1<text.Length){int end=ScanIndexOf(text,'>',at+1);if(end>at&&end-at<=2048){string url=text.Substring(at+1,end-at-1);MarkdownLinkEventArgs info;if(TryLink(url,out info)&&!info.IsLocalFile){Flush(target,plain);AddLink(target,url,url,depth+1);at=end+1;continue;}}}
+                if(c=='<'&&at+1<text.Length){int end=ScanIndexOf(text,'>',at+1);if(end>at&&end-at<=2048){string url=text.Substring(at+1,end-at-1);MarkdownLinkEventArgs info;if(TryLink(url,out info)&&!info.IsLocalFile){Flush(target,plain);AddLink(target,url,url,depth+1);at=end+1;continue;}}if(Char.IsLetter(text[at+1])||text[at+1]=='/'||text[at+1]=='!'||text[at+1]=='?'){literalMarkupComment=String.Compare(text,at,"<!--",0,4,StringComparison.Ordinal)==0;literalMarkupTag=!literalMarkupComment;literalMarkupQuote='\0';int literalEnd=LiteralMarkupEnd(text,at+1);plain.Append(text,at,literalEnd-at);at=literalEnd;continue;}}
+                int webEnd;if((c=='h'||c=='H')&&linkDepth==0&&TryBareWebLink(text,at,out webEnd)){string url=text.Substring(at,webEnd-at);Flush(target,plain);AddLink(target,url,url,depth+1);at=webEnd;continue;}
                 string marker=at+1<text.Length&&(text.Substring(at,2)=="**"||text.Substring(at,2)=="__"||text.Substring(at,2)=="~~")?text.Substring(at,2):(c=='*'||c=='_')?c.ToString():null;
                 if(c=='_'&&at>0&&Char.IsLetterOrDigit(text[at-1]))marker=null;
                 if(marker!=null){int end=ScanIndexOf(text,marker,at+marker.Length);while(marker[0]=='_'&&end>0&&end+marker.Length<text.Length&&Char.IsLetterOrDigit(text[end-1])&&Char.IsLetterOrDigit(text[end+marker.Length]))end=ScanIndexOf(text,marker,end+marker.Length);if(end>at+marker.Length){Flush(target,plain);Consume();Span span=marker=="~~"?new Span{TextDecorations=TextDecorations.Strikethrough}:marker.Length==2?(Span)new Bold():new Italic();AddInline(span.Inlines,text.Substring(at+marker.Length,end-at-marker.Length),depth+1);target.Add(span);at=end+marker.Length;continue;}}
                 plain.Append(c);at++;
             }
             Flush(target,plain);
+        }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : LiteralMarkupEnd
+        /// desc         : inert HTML 속성의 따옴표·주석 끝을 구분하고 줄 사이에서도 URL을 활성화하지 않는다.
+        /// author       : CodexOrig
+        /// create date  : 2026-10-20
+        /// update date  : 2026-10-20 CodexOrig : 감사 R53-01의 quoted >·comment > 경계와 검색 예산을 보완.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        private int LiteralMarkupEnd(string text,int start)
+        {
+            if(literalMarkupComment)
+            {
+                int close=ScanIndexOf(text,"-->",start);
+                if(close<0)return text.Length;
+                literalMarkupComment=false;return close+3;
+            }
+            for(int at=start;at<text.Length;at++)
+            {
+                ChargeScan(1);char c=text[at];
+                if(literalMarkupQuote!='\0'){if(c==literalMarkupQuote)literalMarkupQuote='\0';continue;}
+                if(c=='\''||c=='\"')literalMarkupQuote=c;
+                else if(c=='>'){literalMarkupTag=false;return at+1;}
+            }
+            return text.Length;
+        }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : TryBareWebLink
+        /// desc         : 코드 밖의 평문 HTTP(S) 주소를 유한하게 인식하고 문장 끝 구두점은 남긴다.
+        /// author       : CodexOrig
+        /// create date  : 2026-10-19
+        /// update date  : 2026-10-19 CodexOrig : 기존 TryLink 검증·문서 공유 검색 예산을 그대로 적용.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        private bool TryBareWebLink(string text,int at,out int end)
+        {
+            end=at;
+            if(at>0&&(Char.IsLetterOrDigit(text[at-1])||text[at-1]=='_'||text[at-1]=='/'))return false;
+            if(String.Compare(text,at,"https://",0,8,StringComparison.OrdinalIgnoreCase)!=0&&String.Compare(text,at,"http://",0,7,StringComparison.OrdinalIgnoreCase)!=0)return false;
+            int parentheses=0;
+            while(end<text.Length&&end-at<=2048)
+            {
+                ChargeScan(1);char c=text[end];
+                if(Char.IsWhiteSpace(c)||Char.IsControl(c)||c=='<'||c=='>'||c=='\"'||c=='\'')break;
+                if(c=='(')parentheses++;else if(c==')'){if(parentheses==0)break;parentheses--;}
+                end++;
+            }
+            while(end>at&&".,;:!?".IndexOf(text[end-1])>=0)end--;
+            MarkdownLinkEventArgs info;
+            return end>at&&end-at<=2048&&TryLink(text.Substring(at,end-at),out info)&&!info.IsLocalFile;
         }
         /// ---------------------------------------------------------------------
         /// <summary>
@@ -270,12 +330,13 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexCode
         /// create date  : 2026-10-19
         /// update date  : 2026-10-19 CodexCode : 앱·브라우저·source 파일을 renderer에서 자동 실행하지 않음.
+        ///                2026-10-19 CodexOrig4 : Role 23:09 #6의 안전한 링크를 기본 굵기로 표시.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void AddLink(InlineCollection target,string label,string destination,int depth)
         {
             MarkdownLinkEventArgs info;if(linkDepth>0||!TryLink(destination,out info)){AddInline(target,label,depth);return;}Consume();
-            var link=new Hyperlink{Foreground=accent,ToolTip=info.Target,Tag=info.Target};link.Inlines.Add(new Run(info.IsLocalFile?"▣ ":info.Target.StartsWith("#",StringComparison.Ordinal)?"# ":"↗ "));linkDepth++;try{AddInline(link.Inlines,label,depth);}finally{linkDepth--;}
+            var link=new Hyperlink{Foreground=accent,FontWeight=FontWeights.Bold,ToolTip=info.Target,Tag=info.Target};link.Inlines.Add(new Run(info.IsLocalFile?"▣ ":info.Target.StartsWith("#",StringComparison.Ordinal)?"# ":"↗ "));linkDepth++;try{AddInline(link.Inlines,label,depth);}finally{linkDepth--;}
             link.Click+=(sender,args)=>{args.Handled=true;var clicked=new MarkdownLinkEventArgs(info.Target,info.IsLocalFile,info.FilePath,info.Line,assetRoot);linkRequested?.Invoke(sender,clicked);if(!clicked.Handled&&clicked.Target.StartsWith("#",StringComparison.Ordinal)){Paragraph p;if(anchors.TryGetValue(clicked.Target.Substring(1),out p))p.BringIntoView();}};target.Add(link);
         }
         /// ---------------------------------------------------------------------
@@ -328,15 +389,107 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexCode
         /// create date  : 2026-10-19
         /// update date  : 2026-10-19 CodexCode : 제공된 renderer의 목록 구조를 깊이 제한과 함께 도입.
+        ///                2026-10-19 CodexOrig : Role 23:09 #6의 링크·URL 설명을 목록별 공통 열로 정렬.
         /// </summary>
         /// ---------------------------------------------------------------------
         private List List(string[] lines,ref int index,int depth)
         {
             Consume();var first=ListMarker.Match(lines[index]);int indent=Indent(first.Groups[1].Value);bool ordered=Char.IsDigit(first.Groups[2].Value[0]);var list=new List{MarkerStyle=ordered?TextMarkerStyle.Decimal:TextMarkerStyle.Disc,Margin=new Thickness(16,3,0,10),Padding=new Thickness(12,0,0,0)};
             int start;if(ordered&&Int32.TryParse(first.Groups[2].Value.TrimEnd('.',')'),out start)&&start>0)list.StartIndex=start;
-            while(index<lines.Length){var match=ListMarker.Match(lines[index]);if(!match.Success||Indent(match.Groups[1].Value)!=indent||Char.IsDigit(match.Groups[2].Value[0])!=ordered)break;string text=match.Groups[3].Value;if(text.StartsWith("[ ] ",StringComparison.Ordinal))text="☐ "+text.Substring(4);else if(text.StartsWith("[x] ",StringComparison.OrdinalIgnoreCase))text="☑ "+text.Substring(4);var item=new ListItem(Paragraph(text,0));Consume();list.ListItems.Add(item);index++;
+            double labelWidth=DescriptionLabelWidth(lines,index,indent,ordered);
+            while(index<lines.Length){var match=ListMarker.Match(lines[index]);if(!match.Success||Indent(match.Groups[1].Value)!=indent||Char.IsDigit(match.Groups[2].Value[0])!=ordered)break;string text=match.Groups[3].Value;if(text.StartsWith("[ ] ",StringComparison.Ordinal))text="☐ "+text.Substring(4);else if(text.StartsWith("[x] ",StringComparison.OrdinalIgnoreCase))text="☑ "+text.Substring(4);var item=new ListItem();item.Blocks.Add(DescriptionBlock(text,labelWidth));Consume();list.ListItems.Add(item);index++;
                 while(index<lines.Length){var next=ListMarker.Match(lines[index]);if(!next.Success||Indent(next.Groups[1].Value)<=indent)break;if(depth>=MaximumDepth){item.Blocks.Add(Paragraph(lines[index++].Trim(),0));omitted=true;}else item.Blocks.Add(List(lines,ref index,depth+1));}}
             return list;
+        }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : DescriptionLabelWidth
+        /// desc         : 같은 목록 깊이의 라벨 열을 한 번 계산하고 좁은 화면에서 설명 영역을 남긴다.
+        /// author       : CodexOrig
+        /// create date  : 2026-10-19
+        /// update date  : 2026-10-19 CodexOrig : URL1000 및 긴 소스 링크는 공통 폭 안에서 줄바꿈한다.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        private double DescriptionLabelWidth(string[] lines,int index,int indent,bool ordered)
+        {
+            double width=fontSize*4;
+            for(int at=index;at<lines.Length;at++)
+            {
+                ChargeScan((long)lines[at].Length+1);
+                var item=ListMarker.Match(lines[at]);
+                if(!item.Success||Indent(item.Groups[1].Value)<indent)break;
+                if(Indent(item.Groups[1].Value)!=indent)continue;
+                if(Char.IsDigit(item.Groups[2].Value[0])!=ordered)break;
+                string label,description;
+                if(!TryDescription(item.Groups[3].Value,out label,out description))continue;
+                if(!UrlLabel.IsMatch(label))continue;
+                width=Math.Max(width,fontSize*(label.Length*.7+.4));
+            }
+            return Math.Min(fontSize*8,width);
+        }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : TryDescription
+        /// desc         : URL 번호 또는 Markdown 링크 목록에서 문법 밖의 설명 콜론만 분리한다.
+        /// author       : CodexOrig
+        /// create date  : 2026-10-19
+        /// update date  : 2026-10-19 CodexOrig : URL scheme·드라이브·코드 내부의 콜론과 일반 문장은 보존.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        private bool TryDescription(string text,out string label,out string description)
+        {
+            label=description=null;int brackets=0,parentheses=0,ticks=0;
+            for(int at=0;at<text.Length;at++)
+            {
+                ChargeScan(1);char c=text[at];
+                if(c=='\\'&&at+1<text.Length){at++;continue;}
+                if(c=='`'){int run=1;while(at+1<text.Length&&text[at+1]=='`'){ChargeScan(1);run++;at++;}ticks=ticks==0?run:ticks==run?0:ticks;continue;}
+                if(ticks!=0)continue;
+                if(c=='[')brackets++;else if(c==']'&&brackets>0)brackets--;
+                else if(c=='(')parentheses++;else if(c==')'&&parentheses>0)parentheses--;
+                else if(c==':'&&brackets==0&&parentheses==0)
+                {
+                    string candidate=text.Substring(0,at).TrimEnd();
+                    if(!UrlLabel.IsMatch(candidate)&&!(candidate.StartsWith("[",StringComparison.Ordinal)&&candidate.Contains("](")))return false;
+                    label=candidate;description=text.Substring(at+1).TrimStart();return true;
+                }
+            }
+            return false;
+        }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : DescriptionBlock
+        /// desc         : 라벨·콜론·설명을 선택 가능한 native 셀로 표시하여 글꼴과 줄바꿈에도 열을 유지한다.
+        /// author       : CodexOrig
+        /// create date  : 2026-10-19
+        /// update date  : 2026-10-19 CodexOrig : 선행 CodexOrig4의 URL 라벨 구현을 표로 확장하며 원문·링크 이벤트·예산을 유지.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        private Block DescriptionBlock(string text,double labelWidth)
+        {
+            string label,description;if(!TryDescription(text,out label,out description))return Paragraph(text,0);
+            if(!UrlLabel.IsMatch(label))
+            {
+                Consume();var section=new Section{Margin=new Thickness(0,3,0,9)};
+                var heading=Paragraph(label,0);heading.Margin=new Thickness(0,0,0,3);heading.FontWeight=FontWeights.Bold;section.Blocks.Add(heading);
+                var body=Paragraph(":  "+description,0);body.Margin=new Thickness(0);section.Blocks.Add(body);return section;
+            }
+            Consume();var table=new Table{CellSpacing=0,Margin=new Thickness(0,3,0,9)};
+            table.Columns.Add(new TableColumn{Width=new GridLength(labelWidth)});
+            table.Columns.Add(new TableColumn{Width=new GridLength(fontSize)});
+            table.Columns.Add(new TableColumn{Width=new GridLength(1,GridUnitType.Star)});
+            Consume();var group=new TableRowGroup();table.RowGroups.Add(group);
+            Consume();var row=new TableRow();group.Rows.Add(row);
+            foreach(string part in new[]{label,":",description})
+            {
+                var paragraph=Paragraph(part,0);paragraph.Margin=new Thickness(0);
+                Consume();row.Cells.Add(new TableCell(paragraph){Padding=new Thickness(0),BorderThickness=new Thickness(0)});
+            }
+            row.Cells[0].FontWeight=FontWeights.Bold;
+            return table;
         }
         /// ---------------------------------------------------------------------
         /// <summary>

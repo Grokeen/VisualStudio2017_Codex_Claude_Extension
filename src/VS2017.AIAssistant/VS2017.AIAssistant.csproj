@@ -87,6 +87,7 @@
     <Compile Include="Providers\CodexRuntimeRunner.cs" />
     <Compile Include="Providers\ClaudeRuntimeRunner.cs" />
     <Compile Include="Views\AssistantControl.Runtime.cs" />
+    <Compile Include="Views\AssistantMotionTokens.cs" />
     <Compile Include="Views\AssistantControl.Progress.cs" />
     <Compile Include="Views\AssistantControl.Viewport.cs" />
     <Compile Include="Views\AssistantControl.ProgressPresentation.cs" />
@@ -151,7 +152,7 @@
     <Content Include="Assets\ThirdParty\AvalonEdit\LICENSE.txt"><Link>Resources\ThirdParty\AvalonEdit\LICENSE.txt</Link><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory><IncludeInVSIX>true</IncludeInVSIX></Content>
     <Content Include="..\..\HowToInstallCLI.md"><Link>Resources\CliGuide\HowToInstallCLI.md</Link><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory><IncludeInVSIX>true</IncludeInVSIX></Content>
     <Content Include="..\..\InstallCLI.bat"><Link>Resources\CliGuide\InstallCLI.bat</Link><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory><IncludeInVSIX>true</IncludeInVSIX></Content>
-    <Content Include="..\..\output\pdf\VisualStudio_AI_Assistant_설치_사용설명서.pdf"><Link>Resources\CliGuide\VisualStudio_AI_Assistant_설치_사용설명서.pdf</Link><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory><IncludeInVSIX>true</IncludeInVSIX></Content>
+    <Content Include="..\..\output\pdf\VisualStudio_AI_Assistant_설치_사용설명서_v0.12.0_미리보기.pdf"><Link>Resources\CliGuide\VisualStudio_AI_Assistant_설치_사용설명서.pdf</Link><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory><IncludeInVSIX>true</IncludeInVSIX></Content>
     <Content Include="..\..\docs\assets\cli-manual\*.png"><Link>Resources\CliGuide\docs\assets\cli-manual\%(Filename)%(Extension)</Link><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory><IncludeInVSIX>true</IncludeInVSIX></Content>
     <Content Include="..\..\docs\assets\guide-media\*.gif"><Link>Resources\GuideMedia\%(Filename)%(Extension)</Link><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory><IncludeInVSIX>true</IncludeInVSIX></Content>
     <Content Include="..\..\docs\assets\guide-media\*.png"><Link>Resources\GuideMedia\%(Filename)%(Extension)</Link><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory><IncludeInVSIX>true</IncludeInVSIX></Content>

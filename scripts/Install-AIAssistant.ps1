@@ -11,6 +11,7 @@ update date  : 2026-10-19 CodexOrig : TASK-036 NoApplicableSKUsException 설치 
 [CmdletBinding()]
 param(
     [string]$PackageDirectory,
+    [ValidatePattern('^\d+\.\d+\.\d+$')][string]$PackageVersion='0.12.0',
     [string]$InstanceId,
     [switch]$Install,
     [string]$ReportPath,
@@ -31,7 +32,7 @@ update date  : 2026-10-19 CodexOrig : DTD와 외부 엔터티 금지·예상 제
 #>
 function Read-AIAssistantPackage {
     param([string]$Directory, [string]$Year, [switch]$Legacy)
-    $name=if($Legacy){'VS2017.15.7.AIAssistant-0.11.1.vsix'}else{"VS$Year.AIAssistant-0.11.1.vsix"}
+    $name=if($Legacy){"VS2017.15.7.AIAssistant-$PackageVersion.vsix"}else{"VS$Year.AIAssistant-$PackageVersion.vsix"}
     $path = Join-Path $Directory $name
     if (!(Test-Path -LiteralPath $path -PathType Leaf)) { throw "설치 파일이 없습니다: $path" }
     $checksums = Join-Path $Directory 'SHA256SUMS.txt'
@@ -56,14 +57,14 @@ function Read-AIAssistantPackage {
     $ns = New-Object Xml.XmlNamespaceManager($xml.NameTable)
     $ns.AddNamespace('v','http://schemas.microsoft.com/developer/vsx-schema/2011')
     $identity = $xml.SelectSingleNode('/v:PackageManifest/v:Metadata/v:Identity',$ns)
-    if (!$identity -or $identity.GetAttribute('Id') -ne "Grokeen.VS$Year.AIAssistant" -or $identity.GetAttribute('Version') -ne '0.11.1') {
+    if (!$identity -or $identity.GetAttribute('Id') -ne "Grokeen.VS$Year.AIAssistant" -or $identity.GetAttribute('Version') -ne $PackageVersion) {
         throw "파일 이름과 VSIX 제품 ID/버전이 다릅니다: $name"
     }
     $targets = @($xml.SelectNodes('/v:PackageManifest/v:Installation/v:InstallationTarget',$ns) | ForEach-Object {
         $architecture = $_.SelectSingleNode('v:ProductArchitecture',$ns)
         [pscustomobject]@{ Id=$_.GetAttribute('Id'); Range=$_.GetAttribute('Version'); Architecture=$(if($architecture){$architecture.InnerText}else{'x86'}) }
     })
-    return [pscustomobject]@{ Path=[IO.Path]::GetFullPath($path); Version='0.11.1'; Flavor=$(if($Legacy){'2017-15.7'}else{$Year}); Sha256=$hash; Targets=$targets }
+    return [pscustomobject]@{ Path=[IO.Path]::GetFullPath($path); Version=$PackageVersion; Flavor=$(if($Legacy){'2017-15.7'}else{$Year}); Sha256=$hash; Targets=$targets }
 }
 
 <#
@@ -153,7 +154,7 @@ if ($LibraryOnly) { return }
 try {
     if (!$PackageDirectory) {
         if(Test-Path -LiteralPath (Join-Path $PSScriptRoot 'SHA256SUMS.txt')){$PackageDirectory=$PSScriptRoot}
-        else {$PackageDirectory=Join-Path (Split-Path -Parent $PSScriptRoot) 'releases/v0.11.1'}
+        else {$PackageDirectory=Join-Path (Split-Path -Parent $PSScriptRoot) ('releases/v'+$PackageVersion)}
     }
     $PackageDirectory=[IO.Path]::GetFullPath($PackageDirectory)
     $vswhere=Join-Path ${env:ProgramFiles(x86)} 'Microsoft Visual Studio/Installer/vswhere.exe'

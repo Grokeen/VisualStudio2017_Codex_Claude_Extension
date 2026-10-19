@@ -54,6 +54,8 @@ namespace VS2017.AIAssistant.Views
         {
             Dispatcher.VerifyAccess();
             InitializeComponent();
+            Loaded += MotionPreferenceLoaded;
+            Unloaded += MotionPreferenceUnloaded;
             SetResourceReference(BackgroundProperty, VsBrushes.ToolWindowBackgroundKey);
             SetResourceReference(ForegroundProperty, VsBrushes.ToolWindowTextKey);
             foreach (Control control in new Control[] { Instruction, ExecutablePath, DiffPreview, OriginalPreview, ProposedPreview })
@@ -393,8 +395,10 @@ namespace VS2017.AIAssistant.Views
         public void Dispose()
         {
             Dispatcher.VerifyAccess();
+            MotionPreferenceUnloaded(this, new RoutedEventArgs());
             ConversationScroll.RemoveHandler(System.Windows.Input.Mouse.PreviewMouseWheelEvent, new System.Windows.Input.MouseWheelEventHandler(ConversationViewed));
             DisposeExperience();
+            DisposeCompletionNotification();
             disposed = true;
             if (requestCancellation != null) requestCancellation.Cancel();
             CloseDialogs();

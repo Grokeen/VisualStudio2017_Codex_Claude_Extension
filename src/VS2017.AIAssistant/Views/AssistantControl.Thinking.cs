@@ -36,6 +36,7 @@ namespace VS2017.AIAssistant.Views
         /// update date  : 2026-10-18 CodexCode : 상속 색에는 임시 로컬 브러시를 연결하고 종료 시 원래 값 출처 복원.
         /// update date  : 2026-10-18 CodexCode : TASK-022 바닥 footer와 위쪽 읽기 표시가 단일 sweep 시계를 공유.
         ///                2026-10-19 CodexOrig4 : Light에서도 진행 표시의 전체 그라데이션이 읽히도록 보조/본문 팔레트 대비 사용.
+        ///                2026-10-19 CodexOrig4 : Windows 모션 끔이면 텍스트는 유지하고 반복 shimmer만 멈춤.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void UpdateThinkingAnimation(bool active)
@@ -45,7 +46,7 @@ namespace VS2017.AIAssistant.Views
             active = active && !disposed;
             thinkingAnimationActive = active;
             UpdateThinkingPlacement();
-            if (active)
+            if (active && AssistantMotionTokens.ClientAreaAnimationsEnabled)
             {
                 if (thinkingSweepBrush != null) return;
                 thinkingOriginalForeground = ThinkingIndicator.Foreground;

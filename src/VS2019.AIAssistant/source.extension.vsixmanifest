@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
-    <Identity Id="Grokeen.VS2019.AIAssistant" Version="0.11.1" Language="ko-KR" Publisher="Grokeen" />
+    <Identity Id="Grokeen.VS2019.AIAssistant" Version="0.12.0" Language="ko-KR" Publisher="Grokeen" />
     <DisplayName>Visual Studio AI Assistant 2019</DisplayName>
     <Description xml:space="preserve">Claude·Codex와 대화하고 수정안을 비교·승인하거나 명시한 전체 액세스에서 파일 수정·테스트를 실행합니다.</Description>
   </Metadata>

@@ -125,6 +125,9 @@
     <Compile Include="..\VS2017.AIAssistant\Views\AssistantControl.Runtime.cs">
       <Link>Views\AssistantControl.Runtime.cs</Link>
     </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Views\AssistantMotionTokens.cs">
+      <Link>Views\AssistantMotionTokens.cs</Link>
+    </Compile>
     <Compile Include="..\VS2017.AIAssistant\Views\AssistantControl.Progress.cs">
       <Link>Views\AssistantControl.Progress.cs</Link>
     </Compile>
@@ -312,7 +315,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <Content Include="..\..\output\pdf\VisualStudio_AI_Assistant_설치_사용설명서.pdf">
+    <Content Include="..\..\output\pdf\VisualStudio_AI_Assistant_설치_사용설명서_v0.12.0_미리보기.pdf">
       <Link>Resources\CliGuide\VisualStudio_AI_Assistant_설치_사용설명서.pdf</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>

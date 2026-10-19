@@ -140,16 +140,19 @@ namespace VS2017.AIAssistant.Views
         /// update date  : 2026-10-18 CodexOrig : TASK-014 설정 저장 시 사용자가 조절한 대화 목록 배치를 보존.
         /// update date  : 2026-10-18 CodexOrig : TASK-016 문서 첨부·모델 설정·AI 역할 협업과 실패 복구 흐름 연결.
         ///                2026-10-19 CodexOrig4 : 화면 모드 선택도 기존 명시 저장 및 취소 스냅샷에 포함.
+        ///                2026-10-20 CodexOrig : 알림·팔레트 입력을 읽기 전에 현재 WPF Dispatcher 접근을 검증.
         /// </summary>
         /// ---------------------------------------------------------------------
         private AssistantSettings CaptureSettings()
         {
+            Dispatcher.VerifyAccess();
             return new AssistantSettings {
                 CodexPath = selectedProvider == "Codex" ? ExecutablePath.Text : executablePaths["Codex"],
                 ClaudePath = selectedProvider == "Claude" ? ExecutablePath.Text : executablePaths["Claude"],
                 CodexModel = selectedProvider == "Codex" ? ModelName.Text : models["Codex"],
                 ClaudeModel = selectedProvider == "Claude" ? ModelName.Text : models["Claude"],
-                Instructions = RulesText.Text, FontSize = FontSize, ThemeMode = themeMode, HideWelcome = hideWelcome,
+                Instructions = RulesText.Text, FontSize = FontSize, ThemeMode = themeMode, VisualThemePreset = visualThemePreset,
+                EnableCompletionNotifications = GetCompletionNotificationsEnabled(), HideWelcome = hideWelcome,
                 CodexEffort = efforts.ContainsKey("Codex") ? efforts["Codex"] : "auto", ClaudeEffort = efforts.ContainsKey("Claude") ? efforts["Claude"] : "auto",
                 CodexSpeed = speeds["Codex"], ClaudeSpeed = speeds["Claude"],
                 AllowSourceControl = workspacePolicy.AllowSourceControl, AllowDatabaseSchema = workspacePolicy.AllowDatabaseSchema, AllowDeployment = workspacePolicy.AllowDeployment,
@@ -187,7 +190,7 @@ namespace VS2017.AIAssistant.Views
             SettingsPanel.Content = null; saveParent.Children.Remove(SaveSettingsButton);
             activeSettingsDialog = dialog; SettingsProviderLabel.Text = "현재 AI: " + selectedProvider;
             dialog.Body.Content = SettingsContent; dialog.Actions.Children.Insert(0, SaveSettingsButton);
-            dialog.SetSections(SettingsContent, new DialogSection("⚙", "계정", AccountSection), new DialogSection("☷", "모델", ModelSection), new DialogSection("✎", "규칙", InstructionSection), new DialogSection("◐", "화면", DisplaySection));
+            dialog.SetSectionPages(SettingsContent.Content as Panel, new DialogSection("⚙", "계정", AccountSection), new DialogSection("☷", "모델", ModelSection), new DialogSection("✎", "규칙", InstructionSection), new DialogSection("◐", "화면", DisplaySection));
             SaveSettingsButton.IsDefault = true;
             try
             {
@@ -198,6 +201,7 @@ namespace VS2017.AIAssistant.Views
                     ExecutablePath.Text = selectedProvider == "Codex" ? before.CodexPath : before.ClaudePath;
                     ModelName.Text = selectedProvider == "Codex" ? before.CodexModel : before.ClaudeModel;
                     RulesText.Text = before.Instructions; FontSize = before.FontSize; RestoreThemeMode(before.ThemeMode);
+                    RestoreVisualThemePreset(before.VisualThemePreset); RestoreCompletionNotifications(before.EnableCompletionNotifications);
                     TextSizeChoice.SelectedValue = before.FontSize.ToString(System.Globalization.CultureInfo.InvariantCulture);
                     RefreshExperience();
                     StatusLabel.Text = "설정 변경을 취소했습니다.";
@@ -206,7 +210,7 @@ namespace VS2017.AIAssistant.Views
             finally
             {
                 if (busy && requestCancellation != null) requestCancellation.Cancel();
-                dialog.Body.Content = null; dialog.Actions.Children.Remove(SaveSettingsButton);
+                dialog.RestoreSectionPages(); dialog.Body.Content = null; dialog.Actions.Children.Remove(SaveSettingsButton);
                 saveParent.Children.Insert(saveIndex, SaveSettingsButton); SaveSettingsButton.IsDefault = false;
                 SettingsPanel.Content = SettingsContent; activeSettingsDialog = null;
             }

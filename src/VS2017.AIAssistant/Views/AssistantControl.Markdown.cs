@@ -186,6 +186,10 @@ namespace VS2017.AIAssistant.Views
             var dialog = new AssistantDialog(this, title, target == null ? "Markdown 문서를 작성·미리보고 UTF-8로 저장하세요. 현재 요청과 공통 규칙은 별도로 유지합니다." : "작성과 미리보기를 전환하세요. ‘입력란에 적용’을 눌러야 원래 입력이 바뀝니다.");
             var targetOwner = Window.GetWindow(target ?? (DependencyObject)this);
             if (targetOwner != null) dialog.Owner = targetOwner;
+            dialog.MinWidth = Math.Max(240, Math.Min(640, SystemParameters.WorkArea.Width - 32));
+            dialog.MinHeight = Math.Max(220, Math.Min(480, SystemParameters.WorkArea.Height - 32));
+            dialog.Width = Math.Max(dialog.MinWidth, Math.Min(1040, SystemParameters.WorkArea.Width - 48));
+            dialog.Height = Math.Max(dialog.MinHeight, Math.Min(780, SystemParameters.WorkArea.Height - 48));
             dialog.Body.Content = editor;
             var apply = new Button { Content = "✓ 입력란에 적용", Style = (Style)FindResource("PrimaryButton"), Margin = new Thickness(0, 0, 8, 0) };
             apply.Click += (sender, args) =>

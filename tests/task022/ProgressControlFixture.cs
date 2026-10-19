@@ -35,6 +35,9 @@ namespace VS2017.AIAssistant.Providers
 }
 namespace VS2017.AIAssistant.Views
 {
+    // ProgressNotice의 화면 없는 source-only 컴파일에 필요한 외부 UI 서비스 경계.
+    public static class HoverScrollPolicy { public static void HandleWheel(System.Windows.FrameworkElement owner, System.Windows.Input.MouseWheelEventArgs args, bool contained) { } }
+    internal static class PopupPalette { internal static void Attach(System.Windows.FrameworkElement target, System.Windows.FrameworkElement anchor) { } }
     /// <summary>
     /// name         : AssistantControl
     /// desc         : source-only helper 소유권을 시험하는 화면 없는 최소 host.
@@ -48,6 +51,7 @@ namespace VS2017.AIAssistant.Views
         private Chat.ChatSession chat = new Chat.ChatSession();
         private Chat.ChatSession ActiveChat { get { return chat; } }
         public ItemsControl ConversationMessages { get; private set; }
+        private bool GetCompletionNotificationsEnabled() { return false; }
         /// <summary>
         /// name         : AssistantControl
         /// desc         : 테스트 컬렉션을 바인딩하고 표시하지 않는다.

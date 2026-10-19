@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -31,6 +33,10 @@ namespace VS2017.AIAssistant.Views
         private readonly Dictionary<string, ChatSession> chats = new Dictionary<string, ChatSession>();
         private readonly Dictionary<string, string> models = new Dictionary<string, string>();
         private readonly AssistantSettingsStore settingsStore = new AssistantSettingsStore();
+        private const int ConversationPageSize = 20;
+        private readonly ObservableCollection<ChatMessage> visibleConversationMessages = new ObservableCollection<ChatMessage>();
+        private ChatSession visibleConversationChat;
+        private int visibleConversationStart;
         private ChatSession ActiveChat
         {
             get
@@ -66,6 +72,7 @@ namespace VS2017.AIAssistant.Views
             AssistantSettings settings;
             try { settings = settingsStore.Load(); }
             catch (Exception) { settings = new AssistantSettings(); StatusLabel.Text = "설정을 읽지 못해 기본값을 사용합니다. 설정 저장으로 다시 구성할 수 있습니다."; }
+            RestoreCompletionNotifications(settings.EnableCompletionNotifications);
             executablePaths["Codex"] = settings.CodexPath; executablePaths["Claude"] = settings.ClaudePath;
             models["Codex"] = settings.CodexModel; models["Claude"] = settings.ClaudeModel;
             ExecutablePath.Text = settings.ClaudePath; RulesText.Text = settings.Instructions;
@@ -110,13 +117,91 @@ namespace VS2017.AIAssistant.Views
         private void ShowChat()
         {
             CloseDropdown();
-            ConversationMessages.ItemsSource = ActiveChat.Messages;
+            // TASK049 CodexCode : 저장·요청 문맥은 전체 기록을 사용하고 화면은 최근 페이지만 표시한다.
+            BindVisibleConversation(ActiveChat);
             AttachmentList.ItemsSource = ActiveChat.Attachments;
             Instruction.Text = ActiveChat.Draft;
             string model; ModelName.Text = models.TryGetValue(selectedProvider, out model) ? model : "";
             AccountLabel.Text = "연결 확인을 눌러 " + selectedProvider + " 계정 상태를 확인하세요.";
             FollowConversation(true);
             RefreshExperience();
+        }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : BindVisibleConversation
+        /// desc         : 대화 전환 시 전체 기록에서 최근 20개만 표시하고 변경 구독을 이전 대화에서 해제한다.
+        /// author       : CodexCode
+        /// create date  : 2026-10-19
+        /// update date  : 2026-10-19 CodexCode : TASK049 저장 모델과 화면 표시 컬렉션 분리.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        private void BindVisibleConversation(ChatSession chat)
+        {
+            CancelConversationPrepend();
+            if (visibleConversationChat != null) visibleConversationChat.Messages.CollectionChanged -= VisibleConversationChanged;
+            visibleConversationChat = chat;
+            visibleConversationMessages.Clear();
+            visibleConversationStart = Math.Max(0, chat.Messages.Count - ConversationPageSize);
+            for (int index = visibleConversationStart; index < chat.Messages.Count; index++) visibleConversationMessages.Add(chat.Messages[index]);
+            chat.Messages.CollectionChanged += VisibleConversationChanged;
+            conversationTryLoadOlder = PrependOlderConversationMessages;
+            ConversationMessages.ItemsSource = visibleConversationMessages;
+        }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : VisibleConversationChanged
+        /// desc         : 새 응답은 표시 끝에 추가하고 100개 보관 상한의 앞부분 삭제를 인덱스에 반영한다.
+        /// author       : CodexCode
+        /// create date  : 2026-10-19
+        /// update date  : 2026-10-19 CodexCode : TASK049 메시지 보관과 화면 페이징을 독립 유지.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        private void VisibleConversationChanged(object sender, NotifyCollectionChangedEventArgs args)
+        {
+            var chat = visibleConversationChat;
+            if (chat == null || !ReferenceEquals(sender, chat.Messages)) return;
+            if (args.Action == NotifyCollectionChangedAction.Add && args.NewItems != null && args.NewStartingIndex == chat.Messages.Count - args.NewItems.Count)
+            {
+                foreach (ChatMessage message in args.NewItems) visibleConversationMessages.Add(message);
+                return;
+            }
+            if (args.Action == NotifyCollectionChangedAction.Remove && args.OldItems != null && args.OldStartingIndex == 0)
+            {
+                int removed = args.OldItems.Count;
+                if (visibleConversationStart >= removed) visibleConversationStart -= removed;
+                else
+                {
+                    int visibleRemoved = Math.Min(visibleConversationMessages.Count, removed - visibleConversationStart);
+                    for (int index = 0; index < visibleRemoved; index++) visibleConversationMessages.RemoveAt(0);
+                    visibleConversationStart = 0;
+                }
+                return;
+            }
+            // 직접 삽입·교체·초기화처럼 예상 밖의 변경은 최신 페이지를 다시 표시한다.
+            visibleConversationMessages.Clear();
+            visibleConversationStart = Math.Max(0, chat.Messages.Count - ConversationPageSize);
+            for (int index = visibleConversationStart; index < chat.Messages.Count; index++) visibleConversationMessages.Add(chat.Messages[index]);
+        }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : PrependOlderConversationMessages
+        /// desc         : 기존 기록 20개를 화면 앞에 덧붙이되 저장 모델과 메시지 순서는 바꾸지 않는다.
+        /// author       : CodexCode
+        /// create date  : 2026-10-19
+        /// update date  : 2026-10-19 CodexCode : TASK049 상단 스크롤에서만 이전 페이지 공개.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        private bool PrependOlderConversationMessages()
+        {
+            if (visibleConversationChat == null || visibleConversationStart <= 0) return false;
+            int start = Math.Max(0, visibleConversationStart - ConversationPageSize);
+            for (int index = visibleConversationStart - 1; index >= start; index--)
+                visibleConversationMessages.Insert(0, visibleConversationChat.Messages[index]);
+            visibleConversationStart = start;
+            return true;
         }
 
         /// ---------------------------------------------------------------------
@@ -468,14 +553,17 @@ namespace VS2017.AIAssistant.Views
         /// update date  : 2026-10-18 CodexOrig : 계정 토큰이나 대화 원문은 저장하지 않음.
         /// update date  : 2026-10-18 CodexOrig : 안내 선택 보존·저장 후 팝업 닫기·오류 표시.
         /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
+        ///                2026-10-20 CodexOrig : 저장·팔레트 확정 호출 전 WPF UI 스레드 접근을 명시적으로 검증.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void SaveSettingsClicked(object sender, RoutedEventArgs e)
         {
+            Dispatcher.VerifyAccess();
             if (busy || disposed) return;
             try
             {
                 AssistantSettingsTransaction.Save(settingsStore, workspaceStore, CaptureSettings());
+                CommitVisualThemePreset();
                 SaveDraft(); executablePaths[selectedProvider] = ExecutablePath.Text;
                 StatusLabel.Text = "설정을 저장했습니다. 다음 실행에도 유지됩니다.";
                 if (activeSettingsDialog != null) activeSettingsDialog.DialogResult = true;

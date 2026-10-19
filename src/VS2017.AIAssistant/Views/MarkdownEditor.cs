@@ -203,16 +203,23 @@ namespace VS2017.AIAssistant.Views
         {
             Dispatcher.VerifyAccess();
             var layout=new Grid();layout.RowDefinitions.Add(new RowDefinition{Height=GridLength.Auto});layout.RowDefinitions.Add(new RowDefinition{Height=GridLength.Auto});layout.RowDefinitions.Add(new RowDefinition{Height=new GridLength(1,GridUnitType.Star)});layout.RowDefinitions.Add(new RowDefinition{Height=GridLength.Auto});layout.RowDefinitions.Add(new RowDefinition{Height=GridLength.Auto});
-            var tools=new WrapPanel{Margin=new Thickness(0,0,0,6)};
-            AddTool(tools,"새 문서","변경 확인 후 새 문서",(s,e)=>RequestTransition(()=>TryNewDocument(()=>true)));
-            AddTool(tools,"열기","UTF-8 Markdown 파일 열기",(s,e)=>ChooseLoad());AddTool(tools,"저장","현재 문서 저장 · Ctrl+S",(s,e)=>{Dispatcher.VerifyAccess();ChooseSave();});AddTool(tools,"다른 이름으로 저장","UTF-8 내보내기 · Ctrl+Shift+S",(s,e)=>ChooseExport());
-            AddTool(tools,"↶","실행 취소 · Ctrl+Z",(s,e)=>{if(Editor.CanUndo)Editor.Undo();});AddTool(tools,"↷","다시 실행 · Ctrl+Y",(s,e)=>{if(Editor.CanRedo)Editor.Redo();});
-            AddTool(tools,"B 굵게","선택한 글을 굵게 표시",BoldClicked);AddTool(tools,"• 목록","선택한 줄을 목록으로 작성",ListClicked);AddTool(tools,"↗ 링크","선택한 글에 링크 작성",LinkClicked);AddTool(tools,"</> 코드","선택한 코드를 fenced block으로 작성",CodeClicked);
-            AddTool(tools,"I 기울임","기울임 · Ctrl+I",(s,e)=>WrapSelection("*","*","기울임"));AddTool(tools,"☐ 체크목록","체크박스 만들기 · Ctrl+Shift+C",(s,e)=>EditTaskLines(false));AddTool(tools,"☑ 완료/미완료","완료 전환 · Ctrl+Enter",(s,e)=>EditTaskLines(true));
-            AddTool(tools,"찾기","문자열 검색 · Ctrl+F",(s,e)=>OpenSearch());AddTool(tools,"줄바꿈","자동 줄바꿈 · Alt+Z",(s,e)=>Editor.WordWrap=!Editor.WordWrap);
+            var tools=new WrapPanel{Margin=new Thickness(0,0,0,8)};
+            var fileTools=AddToolGroup(tools,"문서","▤");
+            AddTool(fileTools,"＋ 새","변경 확인 후 새 문서",(s,e)=>RequestTransition(()=>TryNewDocument(()=>true)));
+            AddTool(fileTools,"열기","UTF-8 Markdown 파일 열기",(s,e)=>ChooseLoad());AddTool(fileTools,"저장","현재 문서 저장 · Ctrl+S",(s,e)=>{Dispatcher.VerifyAccess();ChooseSave();});AddTool(fileTools,"내보내기","UTF-8 다른 이름으로 저장 · Ctrl+Shift+S",(s,e)=>ChooseExport());
+            var editTools=AddToolGroup(tools,"편집","↶");
+            AddTool(editTools,"↶ 실행 취소","실행 취소 · Ctrl+Z",(s,e)=>{if(Editor.CanUndo)Editor.Undo();});AddTool(editTools,"↷ 다시 실행","다시 실행 · Ctrl+Y",(s,e)=>{if(Editor.CanRedo)Editor.Redo();});
+            var formatTools=AddToolGroup(tools,"서식","B");
+            AddTool(formatTools,"B 굵게","선택한 글을 굵게 표시",BoldClicked);AddTool(formatTools,"I 기울임","기울임 · Ctrl+I",(s,e)=>WrapSelection("*","*","기울임"));
+            var insertTools=AddToolGroup(tools,"삽입","＋");
+            AddTool(insertTools,"• 목록","선택한 줄을 목록으로 작성",ListClicked);AddTool(insertTools,"↗ 링크","선택한 글에 링크 작성",LinkClicked);AddTool(insertTools,"</> 코드","선택한 코드를 fenced block으로 작성",CodeClicked);
+            var taskTools=AddToolGroup(tools,"체크 목록","☑");
+            AddTool(taskTools,"☐ 항목 추가","체크박스 만들기 · Ctrl+Shift+C",(s,e)=>EditTaskLines(false));AddTool(taskTools,"☑ 완료 전환","완료 전환 · Ctrl+Enter",(s,e)=>EditTaskLines(true));
+            var viewTools=AddToolGroup(tools,"보기","⌕");
+            AddTool(viewTools,"⌕ 찾기","문자열 검색 · Ctrl+F",(s,e)=>OpenSearch());AddTool(viewTools,"↵ 줄바꿈","자동 줄바꿈 · Alt+Z",(s,e)=>Editor.WordWrap=!Editor.WordWrap);
             layout.Children.Add(tools);
             var search=new DockPanel{Visibility=Visibility.Collapsed,Margin=new Thickness(0,2,0,6)};var searchTools=new WrapPanel();DockPanel.SetDock(searchTools,Dock.Right);AddTool(searchTools,"↑","이전 찾기",(s,e)=>FindNext(true));AddTool(searchTools,"↓","다음 찾기",(s,e)=>FindNext(false));AddTool(searchTools,"×","찾기 닫기",(s,e)=>{searchRow.Visibility=Visibility.Collapsed;Editor.Focus();});search.Children.Add(searchTools);
-            var options=new WrapPanel();DockPanel.SetDock(options,Dock.Bottom);searchCase=new CheckBox{Content="대/소문자",Margin=new Thickness(4)};searchWords=new CheckBox{Content="단어 단위",Margin=new Thickness(4)};searchRegex=new CheckBox{Content="정규식",Margin=new Thickness(4),ToolTip="패턴512자·검색100ms 제한"};options.Children.Add(searchCase);options.Children.Add(searchWords);options.Children.Add(searchRegex);search.Children.Add(options);
+            var options=new WrapPanel();DockPanel.SetDock(options,Dock.Bottom);searchCase=new CheckBox{Content="대/소문자",Margin=new Thickness(4,4,10,4)};searchWords=new CheckBox{Content="단어 단위",Margin=new Thickness(4,4,10,4)};searchRegex=new CheckBox{Content="정규식",Margin=new Thickness(4,4,10,4),ToolTip="패턴512자·검색100ms 제한"};searchCase.SetResourceReference(FrameworkElement.StyleProperty,typeof(CheckBox));searchWords.SetResourceReference(FrameworkElement.StyleProperty,typeof(CheckBox));searchRegex.SetResourceReference(FrameworkElement.StyleProperty,typeof(CheckBox));options.Children.Add(searchCase);options.Children.Add(searchWords);options.Children.Add(searchRegex);search.Children.Add(options);
             searchText=new TextBox{MaxLength=512,MinWidth=45,Padding=new Thickness(4),ToolTip="문자열 검색 · 정규식은 명시 선택 시 100ms 제한"};searchText.KeyDown+=SearchKeyDown;search.Children.Add(searchText);searchRow=search;Grid.SetRow(search,1);layout.Children.Add(search);
             Editor=new TextEditor{ShowLineNumbers=true,WordWrap=false,AllowDrop=false,VerticalScrollBarVisibility=ScrollBarVisibility.Auto,HorizontalScrollBarVisibility=ScrollBarVisibility.Auto,MinHeight=140,Padding=new Thickness(9),FontFamily=new FontFamily("Consolas"),FontSize=13};
             Editor.Options.ConvertTabsToSpaces=true;Editor.Options.IndentationSize=4;Editor.Options.HighlightCurrentLine=true;Editor.Document.UndoStack.SizeLimit=100;
@@ -237,7 +244,16 @@ namespace VS2017.AIAssistant.Views
         /// update date  : 2026-10-19 CodexCode : 호스트 테마가 표준 Button 스타일을 그대로 적용 가능.
         /// </summary>
         /// ---------------------------------------------------------------------
-        private static void AddTool(Panel tools,string label,string hint,RoutedEventHandler handler){var button=new Button{Content=label,ToolTip=hint,Padding=new Thickness(9,4,9,4),Margin=new Thickness(0,0,5,0)};button.Click+=handler;tools.Children.Add(button);}
+        private static WrapPanel AddToolGroup(Panel toolbar,string title,string icon)
+        {
+            var content=new WrapPanel();var heading=new TextBlock{Text=icon+"  "+title,FontSize=11,FontWeight=FontWeights.SemiBold,Margin=new Thickness(0,0,0,5)};
+            heading.SetResourceReference(TextBlock.ForegroundProperty,"AssistantMutedForegroundBrush");
+            var groupBody=new StackPanel();groupBody.Children.Add(heading);groupBody.Children.Add(content);
+            var group=new Border{BorderThickness=new Thickness(1),CornerRadius=new CornerRadius(6),Padding=new Thickness(8,6,4,5),Margin=new Thickness(0,0,8,6),Child=groupBody};
+            group.SetResourceReference(Border.BackgroundProperty,"AssistantSurfaceBrush");group.SetResourceReference(Border.BorderBrushProperty,"AssistantBorderBrush");
+            toolbar.Children.Add(group);return content;
+        }
+        private static void AddTool(Panel tools,string label,string hint,RoutedEventHandler handler){var button=new Button{Content=label,ToolTip=hint,Padding=new Thickness(9,5,9,5),MinHeight=32,Margin=new Thickness(0,0,4,3)};button.SetResourceReference(FrameworkElement.StyleProperty,typeof(Button));button.Click+=handler;tools.Children.Add(button);}
         /// ---------------------------------------------------------------------
         /// <summary>
         /// name         : ValidText

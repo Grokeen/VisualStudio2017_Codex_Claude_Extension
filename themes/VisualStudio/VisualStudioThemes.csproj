@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
+    <Platform>AnyCPU</Platform>
+    <ProjectGuid>{99CA5860-A858-4080-945D-9E015157A3DA}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AssemblyName>Grokeen.VisualStudioThemes</AssemblyName>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <LangVersion>7.0</LangVersion>
+    <OutputPath>bin\$(Configuration)\</OutputPath>
+    <Optimize>true</Optimize>
+    <GeneratePkgDefFile>false</GeneratePkgDefFile>
+    <IncludeAssemblyInVSIXContainer>false</IncludeAssemblyInVSIXContainer>
+    <IncludeDebugSymbolsInVSIXContainer>false</IncludeDebugSymbolsInVSIXContainer>
+    <CreateVsixContainer>true</CreateVsixContainer>
+    <DeployExtension>false</DeployExtension>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <PackageReference Include="Microsoft.VSSDK.BuildTools" Version="15.9.3032" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="all" />
+    <Compile Include="ThemePackageMarker.cs" />
+    <None Include="source.extension.vsixmanifest" />
+    <Content Include="Themes\*.pkgdef"><IncludeInVSIX>true</IncludeInVSIX></Content>
+    <Content Include="ThemeRegistration.pkgdef"><IncludeInVSIX>true</IncludeInVSIX></Content>
+    <Content Include="THIRD-PARTY-NOTICES.md"><IncludeInVSIX>true</IncludeInVSIX></Content>
+    <Content Include="Licenses\*.txt"><IncludeInVSIX>true</IncludeInVSIX></Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup Condition="'$(NuGetPackageRoot)' != ''"><VSToolsPath>$(NuGetPackageRoot)microsoft.vssdk.buildtools\15.9.3032\tools</VSToolsPath></PropertyGroup>
+  <Import Project="$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets" Condition="Exists('$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets')" />
+  <Target Name="RequireVsixSdk" BeforeTargets="PrepareForBuild" Condition="!Exists('$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets')"><Error Text="Restore Microsoft.VSSDK.BuildTools before packaging themes." /></Target>
+</Project>

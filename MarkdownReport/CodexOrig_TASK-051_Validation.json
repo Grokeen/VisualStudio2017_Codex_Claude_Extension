@@ -1,0 +1,372 @@
+{
+  "Task": "TASK-051",
+  "Author": "CodexOrig",
+  "StartedAt": "2026-10-19T23:40:45+09:00",
+  "ValidationCompletedAt": "2026-10-20T00:57:20.4286704+09:00",
+  "ElapsedUntilValidation": "01:16:35.4286704",
+  "BaseCommit": "7cdd6ef7262a41ba2eb3da5d0cb43bc1ccdeeae9",
+  "Branch": "codex/role-2309-task051",
+  "Candidate": "artifacts/task051/candidate6",
+  "FrozenInputCount": 124,
+  "Builds": [
+    {
+      "Target": "2017.Legacy",
+      "Configuration": "Release",
+      "ExitCode": 0,
+      "Warnings": 0,
+      "Errors": 0,
+      "Log": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task051\\candidate6\\build-2017.Legacy-Release.log"
+    },
+    {
+      "Target": "2017",
+      "Configuration": "Release",
+      "ExitCode": 0,
+      "Warnings": 0,
+      "Errors": 0,
+      "Log": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task051\\candidate6\\build-2017-Release.log"
+    },
+    {
+      "Target": "2019",
+      "Configuration": "Release",
+      "ExitCode": 0,
+      "Warnings": 0,
+      "Errors": 0,
+      "Log": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task051\\candidate6\\build-2019-Release.log"
+    },
+    {
+      "Target": "2022",
+      "Configuration": "Release",
+      "ExitCode": 0,
+      "Warnings": 0,
+      "Errors": 0,
+      "Log": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task051\\candidate6\\build-2022-Release.log"
+    }
+  ],
+  "Ide": [
+    {
+      "Target": "2017.Legacy",
+      "HostYear": "2017",
+      "Run": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\ide\\run-fc1c49544b294565bab8f4a390a17d5e",
+      "Passed": 145,
+      "Failed": 0,
+      "Succeeded": true,
+      "VsixSha256": "E917720F648F6311C053843BBE3D4E43F0DC5CD51D1592DB73CCC18EAE4A8C7A",
+      "DllSha256": "E316CAF9E4D2A7FD7B1E4C826BE83A910702C74517CE400683CB5C5032BC6E09"
+    },
+    {
+      "Target": "2017",
+      "HostYear": "2017",
+      "Run": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\ide\\run-965967137774461da8c4edca452d0a7f",
+      "Passed": 145,
+      "Failed": 0,
+      "Succeeded": true,
+      "VsixSha256": "C0379AE25757D8FEB55EC48F64AF578ED4A69EC5689FC619D0B09B52691955E4",
+      "DllSha256": "DE66DCA24F00E85DC7F81F200722298E165CFF08228445D86725A65031A0B247"
+    },
+    {
+      "Target": "2019",
+      "HostYear": "2019",
+      "Run": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\ide\\run-5df594d5894d4688bc570ec1f1f3680d",
+      "Passed": 145,
+      "Failed": 0,
+      "Succeeded": true,
+      "VsixSha256": "96EF5665E38A82D72B59ED381D17242B4ADDBDBFE5BBEDED73B72B834B3BFE91",
+      "DllSha256": "3A8E611D26ED51BF60D83AE4B99A3303A67D9B4D54ACB5265EFA6B77B699BA32"
+    },
+    {
+      "Target": "2022",
+      "HostYear": "2022",
+      "Run": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\ide\\run-e417102b002042be80b2f0a3870fbf24",
+      "Passed": 145,
+      "Failed": 0,
+      "Succeeded": true,
+      "VsixSha256": "BDB99E8A50351EC2E73ABBF941F788D4050B733CA8A7287BB6C717FA90AA8CEB",
+      "DllSha256": "7AC1A14DC326909DDE54A18E3AA0493475C33F64B1FB93EAF433A31AFE3A6D17"
+    }
+  ],
+  "DefaultSuites": {
+    "Run": "artifacts/tl/58fb989a45",
+    "Passed": 16,
+    "Log": "artifacts/task051/launcher-all-candidate6.log",
+    "Total": 16
+  },
+  "History": [
+    {
+      "Target": "2017.Legacy",
+      "Passed": 10,
+      "Failed": 0,
+      "Sha256": "E316CAF9E4D2A7FD7B1E4C826BE83A910702C74517CE400683CB5C5032BC6E09"
+    },
+    {
+      "Target": "2017",
+      "Passed": 10,
+      "Failed": 0,
+      "Sha256": "DE66DCA24F00E85DC7F81F200722298E165CFF08228445D86725A65031A0B247"
+    },
+    {
+      "Target": "2019",
+      "Passed": 10,
+      "Failed": 0,
+      "Sha256": "3A8E611D26ED51BF60D83AE4B99A3303A67D9B4D54ACB5265EFA6B77B699BA32"
+    },
+    {
+      "Target": "2022",
+      "Passed": 10,
+      "Failed": 0,
+      "Sha256": "7AC1A14DC326909DDE54A18E3AA0493475C33F64B1FB93EAF433A31AFE3A6D17"
+    }
+  ],
+  "NativeNotification": {
+    "Succeeded": true,
+    "IconCreated": true,
+    "TimerStarted": true,
+    "DuplicateCompletionKeptSameIcon": true,
+    "TimedCleanup": true,
+    "DisposedCleanup": true,
+    "BalloonShownEvents": 1,
+    "OsDisplayedNotificationObserved": true,
+    "Failure": null,
+    "AssemblySha256": "DE66DCA24F00E85DC7F81F200722298E165CFF08228445D86725A65031A0B247",
+    "WindowShown": true,
+    "ActualIdeTested": false,
+    "SyntheticRequest": true,
+    "LiveAiUsed": false,
+    "OsNotificationSettingsChanged": false
+  },
+  "Installer": {
+    "Passed": 35,
+    "Evidence": "artifacts/task051/installer-final",
+    "Total": 35
+  },
+  "ThemePackage": {
+    "Passed": 69,
+    "Evidence": "artifacts/task051/theme-package-tests-3/result.json",
+    "Total": 69
+  },
+  "StandaloneThemeInstalls": [
+    {
+      "Succeeded": true,
+      "Year": "2017",
+      "InstallationVersion": "15.9.37627.17",
+      "RootSuffix": "ThemeProbe51ac4126ed",
+      "ThemeVsix": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task051\\themes-candidate4\\Grokeen-VisualStudio-Themes-0.12.0-VS2017.vsix",
+      "ThemeSha256": "AC970EDF8FF3658FEDBB94A5D1EC99481FB1B2B7F3DCF59CA73E29D14A81B3D4",
+      "OfficialInstallerExitCode": 0,
+      "IdeConfigurationExitCode": 0,
+      "Themes": [
+        {
+          "Theme": "Grokeen Kakao Inspired",
+          "Guid": "{1d41c4a3-cf75-4f0a-b2ff-9a8c2d431b92}",
+          "Categories": 70,
+          "CompiledDataBytes": 80290
+        },
+        {
+          "Theme": "Grokeen Dracula Inspired",
+          "Guid": "{8ec84919-8a34-422a-abe1-cc238ad4d4b1}",
+          "Categories": 70,
+          "CompiledDataBytes": 80290
+        }
+      ],
+      "AiExtensionInstalledByHarness": false,
+      "AiExtensionRegistered": false,
+      "RegistryAccess": "KEY_READ",
+      "GlobalHiveMounted": false,
+      "SelectedThemeChanged": false,
+      "ActualIdeRuntimeTest": false,
+      "VisualSwitchVerified": false,
+      "CheckedAt": "2026-10-20T00:41:03.0644291+09:00"
+    },
+    {
+      "Succeeded": true,
+      "Year": "2019",
+      "InstallationVersion": "16.11.37627.13",
+      "RootSuffix": "ThemeProbe51bd5d5a16",
+      "ThemeVsix": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task051\\themes-candidate4\\Grokeen-VisualStudio-Themes-0.12.0-VS2019.vsix",
+      "ThemeSha256": "1F97F43141EDCAE92695FF7637D80AE14CD372F6553A943F5E7F0693803636DC",
+      "OfficialInstallerExitCode": 0,
+      "IdeConfigurationExitCode": 0,
+      "Themes": [
+        {
+          "Theme": "Grokeen Kakao Inspired",
+          "Guid": "{1d41c4a3-cf75-4f0a-b2ff-9a8c2d431b92}",
+          "Categories": 70,
+          "CompiledDataBytes": 80290
+        },
+        {
+          "Theme": "Grokeen Dracula Inspired",
+          "Guid": "{8ec84919-8a34-422a-abe1-cc238ad4d4b1}",
+          "Categories": 70,
+          "CompiledDataBytes": 80290
+        }
+      ],
+      "AiExtensionInstalledByHarness": false,
+      "AiExtensionRegistered": false,
+      "RegistryAccess": "KEY_READ",
+      "GlobalHiveMounted": false,
+      "SelectedThemeChanged": false,
+      "ActualIdeRuntimeTest": false,
+      "VisualSwitchVerified": false,
+      "CheckedAt": "2026-10-20T00:41:47.4696292+09:00"
+    },
+    {
+      "Succeeded": true,
+      "Year": "2022",
+      "InstallationVersion": "17.14.37806.7",
+      "RootSuffix": "ThemeProbe514cc8fc43",
+      "ThemeVsix": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task051\\themes-candidate4\\Grokeen-VisualStudio-Themes-0.12.0-VS2022.vsix",
+      "ThemeSha256": "AE6C95B6EFA89178C98A6C35EA51896739D607F39C48F5870A0E209DC71A8E8F",
+      "OfficialInstallerExitCode": 0,
+      "IdeConfigurationExitCode": 0,
+      "Themes": [
+        {
+          "Theme": "Grokeen Kakao Inspired",
+          "Guid": "{1d41c4a3-cf75-4f0a-b2ff-9a8c2d431b92}",
+          "Categories": 70,
+          "CompiledDataBytes": 80290
+        },
+        {
+          "Theme": "Grokeen Dracula Inspired",
+          "Guid": "{8ec84919-8a34-422a-abe1-cc238ad4d4b1}",
+          "Categories": 70,
+          "CompiledDataBytes": 80290
+        }
+      ],
+      "AiExtensionInstalledByHarness": false,
+      "AiExtensionRegistered": false,
+      "RegistryAccess": "KEY_READ",
+      "GlobalHiveMounted": false,
+      "SelectedThemeChanged": false,
+      "ActualIdeRuntimeTest": false,
+      "VisualSwitchVerified": false,
+      "CheckedAt": "2026-10-20T00:42:25.7403794+09:00"
+    }
+  ],
+  "NetworkIsolation": {
+    "Run": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task041\\run-9f9dc89271414f6db6b21a78e3f1f761",
+    "Checks": 6,
+    "Passed": 6,
+    "ExitCode": 0,
+    "Summary": {
+      "Task": "TASK-041",
+      "OutputDirectory": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task041\\run-9f9dc89271414f6db6b21a78e3f1f761",
+      "WorkerExitCode": 0,
+      "WorkingInstallerUsed": false,
+      "AppContainerProfile": "CodexOrig.Task041.5695208d357c408eacdeb9d5a173e690",
+      "ProfileCleanupHResult": 0,
+      "FolderAclRestored": true,
+      "HostNetworkSettingsChanged": false,
+      "HostFirewallRulesChanged": false,
+      "WorkerNetworkCapabilities": 0,
+      "PhysicalCableDisconnected": false,
+      "CustomerPcTested": false,
+      "AuthenticationPerformed": false,
+      "ModelRequestPerformed": false
+    }
+  },
+  "ArchiveChecks": [
+    {
+      "Zip": "releases/v0.12.0/VisualStudio_AI_Assistant-0.12.0.zip",
+      "Sha256": "DBFC23E38E35135B0E85943FB4BAA430B1BAE4E94D53D1CF646D56743D19D101",
+      "Files": 22,
+      "VerifiedChecksums": 21,
+      "AllMatched": true,
+      "Utf8NamesPreserved": true
+    },
+    {
+      "Zip": "artifacts/task051/VisualStudio_AI_Assistant-0.12.0-Preview1-FullOffline-win-x64.zip",
+      "Sha256": "140F770A8D236C1FB0475A66CB231657E9575FC48D0C5320CACE02B1A7FA682E",
+      "Files": 68,
+      "VerifiedChecksums": 67,
+      "AllMatched": true,
+      "Utf8NamesPreserved": true
+    }
+  ],
+  "ReleaseAssets": [
+    {
+      "Name": "Grokeen-VisualStudio-Themes-0.12.0-VS2017.vsix",
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.12.0\\Grokeen-VisualStudio-Themes-0.12.0-VS2017.vsix",
+      "Bytes": 57788,
+      "Sha256": "AC970EDF8FF3658FEDBB94A5D1EC99481FB1B2B7F3DCF59CA73E29D14A81B3D4"
+    },
+    {
+      "Name": "Grokeen-VisualStudio-Themes-0.12.0-VS2019.vsix",
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.12.0\\Grokeen-VisualStudio-Themes-0.12.0-VS2019.vsix",
+      "Bytes": 57787,
+      "Sha256": "1F97F43141EDCAE92695FF7637D80AE14CD372F6553A943F5E7F0693803636DC"
+    },
+    {
+      "Name": "Grokeen-VisualStudio-Themes-0.12.0-VS2022.vsix",
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.12.0\\Grokeen-VisualStudio-Themes-0.12.0-VS2022.vsix",
+      "Bytes": 57813,
+      "Sha256": "AE6C95B6EFA89178C98A6C35EA51896739D607F39C48F5870A0E209DC71A8E8F"
+    },
+    {
+      "Name": "SHA256SUMS.txt",
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.12.0\\SHA256SUMS.txt",
+      "Bytes": 739,
+      "Sha256": "8AAC39DDFCB049449D07C9C409D44686051D4B17A379F1E645519C4D14AF2D79"
+    },
+    {
+      "Name": "VisualStudio_AI_Assistant-0.12.0-Preview-UserGuide.pdf",
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.12.0\\VisualStudio_AI_Assistant-0.12.0-Preview-UserGuide.pdf",
+      "Bytes": 1455702,
+      "Sha256": "A17D4A74CD195CBAAEB63971C13A488FDDD483F98289ADCE2493CB91819A8693"
+    },
+    {
+      "Name": "VisualStudio_AI_Assistant-0.12.0.zip",
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.12.0\\VisualStudio_AI_Assistant-0.12.0.zip",
+      "Bytes": 17980664,
+      "Sha256": "DBFC23E38E35135B0E85943FB4BAA430B1BAE4E94D53D1CF646D56743D19D101"
+    },
+    {
+      "Name": "VisualStudio_AI_Assistant-0.12.0-Preview1-FullOffline-win-x64.zip",
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task051\\VisualStudio_AI_Assistant-0.12.0-Preview1-FullOffline-win-x64.zip",
+      "Bytes": 310954283,
+      "Sha256": "140F770A8D236C1FB0475A66CB231657E9575FC48D0C5320CACE02B1A7FA682E"
+    },
+    {
+      "Name": "VisualStudio_AI_Assistant-0.12.0-Preview1-FullOffline-win-x64.zip.sha256",
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task051\\VisualStudio_AI_Assistant-0.12.0-Preview1-FullOffline-win-x64.zip.sha256",
+      "Bytes": 133,
+      "Sha256": "8695718C23F070445DABF452AF754A3B54A23A4B7B37B415ED6D8479FF5E1DB5"
+    },
+    {
+      "Name": "VS2017.15.7.AIAssistant-0.12.0.vsix",
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.12.0\\VS2017.15.7.AIAssistant-0.12.0.vsix",
+      "Bytes": 4173419,
+      "Sha256": "E917720F648F6311C053843BBE3D4E43F0DC5CD51D1592DB73CCC18EAE4A8C7A"
+    },
+    {
+      "Name": "VS2017.AIAssistant-0.12.0.vsix",
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.12.0\\VS2017.AIAssistant-0.12.0.vsix",
+      "Bytes": 4173382,
+      "Sha256": "C0379AE25757D8FEB55EC48F64AF578ED4A69EC5689FC619D0B09B52691955E4"
+    },
+    {
+      "Name": "VS2019.AIAssistant-0.12.0.vsix",
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.12.0\\VS2019.AIAssistant-0.12.0.vsix",
+      "Bytes": 4174631,
+      "Sha256": "96EF5665E38A82D72B59ED381D17242B4ADDBDBFE5BBEDED73B72B834B3BFE91"
+    },
+    {
+      "Name": "VS2022.AIAssistant-0.12.0.vsix",
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.12.0\\VS2022.AIAssistant-0.12.0.vsix",
+      "Bytes": 4174446,
+      "Sha256": "BDB99E8A50351EC2E73ABBF941F788D4050B733CA8A7287BB6C717FA90AA8CEB"
+    },
+    {
+      "Name": "RELEASE_SHA256SUMS.txt",
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.12.0\\RELEASE_SHA256SUMS.txt",
+      "Bytes": 1320,
+      "Sha256": "4BC012A934772F0D0197E814B1FCD8E24C5FC8853EDE3B153EA3FFFB212E95F6"
+    }
+  ],
+  "Audit": "MarkdownReport/CodexOrig2_TASK-053_Followup_C5_C6_Evidence.json",
+  "Documentation": "MarkdownReport/CodexOrig3_TASK-051_Documentation.md",
+  "CustomerOfflinePcTested": false,
+  "Customer1571ProfessionalTested": false,
+  "RealClaudeAccountTested": false,
+  "NativeCaptionPhysicalDragResizeVerified": false,
+  "AllBuiltInIdeThemeSwitchesVisuallyVerified": false,
+  "DeploymentVerified": false
+}

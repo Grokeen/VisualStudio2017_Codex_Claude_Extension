@@ -4,9 +4,13 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Controls;
 using System.Windows.Automation;
+using System.Windows.Controls.Primitives;
+using System.Windows.Input;
 using System.Windows.Interop;
+using System.Windows.Shell;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Threading;
@@ -87,6 +91,7 @@ namespace VS2017.AIAssistant.Views
     /// create date  : 2026-10-18
     /// update date  : 2026-10-18 CodexOrig : VS 소유 창으로 열어 모달 입력과 키보드 닫기를 지원.
     /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
+    /// update date  : 2026-10-20 CodexOrig4 : R53-02 OS 캡션을 테마형 WindowChrome으로 대체하고 접근성·시스템 창 동작 유지.
     /// </summary>
     /// ---------------------------------------------------------------------
     public class AssistantDialog : Window
@@ -96,8 +101,12 @@ namespace VS2017.AIAssistant.Views
         public TextBlock Message { get; private set; }
         public ContentControl Body { get; private set; }
         public WrapPanel Navigation { get; private set; }
+        public WrapPanel SidebarNavigation { get; private set; }
         public Border Footer { get; private set; }
         public ContentControl FooterContent { get; private set; }
+        private Panel sidebarSectionHost;
+        private readonly List<DialogSection> sidebarSectionItems = new List<DialogSection>();
+        private readonly List<UIElement> sidebarOriginalChildren = new List<UIElement>();
 
         /// ---------------------------------------------------------------------
         /// <summary>
@@ -112,6 +121,7 @@ namespace VS2017.AIAssistant.Views
         ///                2026-10-19 CodexCode : TASK-024 안내창은 IDE 밝은 테마와 관계없이 검정 배경·밝은 글자를 유지.
         ///                2026-10-19 CodexCode : Role15 추가에 따라 공통 의미 색상 리소스로 테마 선택을 즉시 반영.
         ///                2026-10-19 CodexCode : TASK047 설정·안내 창의 화면별 기본 크기는 호출자가 지정.
+        ///                2026-10-20 CodexOrig4 : R53-02 제목/설명 캡션 통합, Alt+F4와 드래그·리사이즈 유지.
         /// </summary>
         /// ---------------------------------------------------------------------
         public AssistantDialog(AssistantControl source, string title, string description)
@@ -121,7 +131,15 @@ namespace VS2017.AIAssistant.Views
             MaxWidth = SystemParameters.WorkArea.Width; MaxHeight = SystemParameters.WorkArea.Height;
             Width = Math.Min(Width, MaxWidth); Height = Math.Min(Height, MaxHeight);
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
-            ShowInTaskbar = false; ResizeMode = ResizeMode.CanResize; FontSize = 14;
+            ShowInTaskbar = false; ResizeMode = ResizeMode.CanResize; WindowStyle = WindowStyle.None; FontSize = 14;
+            WindowChrome.SetWindowChrome(this, new WindowChrome
+            {
+                CaptionHeight = 44,
+                ResizeBorderThickness = new Thickness(6),
+                GlassFrameThickness = new Thickness(0),
+                CornerRadius = new CornerRadius(0),
+                UseAeroCaptionButtons = false
+            });
             Resources.MergedDictionaries.Add(source.Resources);
             guideSource = source;
             SetResourceReference(BackgroundProperty, "AssistantBackgroundBrush");
@@ -143,29 +161,106 @@ namespace VS2017.AIAssistant.Views
             layout.SetResourceReference(Panel.BackgroundProperty, "AssistantBackgroundBrush");
             layout.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
             layout.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+            layout.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
             layout.RowDefinitions.Add(new RowDefinition());
             layout.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-            var header = new StackPanel { Margin = new Thickness(20, 20, 20, 16) };
-            header.Children.Add(new TextBlock { Text = title, FontSize = 22, FontWeight = FontWeights.SemiBold, TextWrapping = TextWrapping.Wrap });
-            header.Children.Add(new TextBlock { Text = description, TextWrapping = TextWrapping.Wrap, Margin = new Thickness(0, 8, 0, 0) });
-            layout.Children.Add(header);
+            var caption = new Grid { Height = 44, Margin = new Thickness(16, 0, 6, 0) };
+            caption.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+            caption.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+            var captionTitle = new TextBlock { FontSize = 17, FontWeight = FontWeights.SemiBold, TextTrimming = TextTrimming.CharacterEllipsis, VerticalAlignment = VerticalAlignment.Center, Margin = new Thickness(4, 0, 12, 0) };
+            captionTitle.SetBinding(TextBlock.TextProperty, new Binding(nameof(Title)) { Source = this });
+            captionTitle.SetBinding(AutomationProperties.NameProperty, new Binding(nameof(Title)) { Source = this });
+            Grid.SetColumn(captionTitle, 0); caption.Children.Add(captionTitle);
+
+            var captionActions = new StackPanel { Orientation = Orientation.Horizontal, VerticalAlignment = VerticalAlignment.Center };
+            var minimize = CreateCaptionButton("—", "최소화", "AssistantDialog.Minimize", SystemCommands.MinimizeWindowCommand);
+            CaptionButtonHitTest(minimize);
+            var maximize = CreateCaptionButton("□", "최대화", "AssistantDialog.MaximizeRestore", SystemCommands.MaximizeWindowCommand);
+            AutomationProperties.SetHelpText(maximize, "창을 최대화합니다.");
+            CaptionButtonHitTest(maximize);
+            var captionClose = CreateCaptionButton("×", "닫기", "AssistantDialog.Close", SystemCommands.CloseWindowCommand);
+            CaptionButtonHitTest(captionClose);
+            captionActions.Children.Add(minimize); captionActions.Children.Add(maximize); captionActions.Children.Add(captionClose);
+            Grid.SetColumn(captionActions, 1); caption.Children.Add(captionActions);
+            var headerBand = new Border { Height = 44, BorderThickness = new Thickness(0, 0, 0, 1), Child = caption };
+            headerBand.SetResourceReference(Border.BackgroundProperty, "AssistantSurfaceBrush"); headerBand.SetResourceReference(Border.BorderBrushProperty, "AssistantBorderBrush");
+            layout.Children.Add(headerBand); Grid.SetRow(headerBand, 0);
+            var descriptionText = new TextBlock { Text = description, TextWrapping = TextWrapping.Wrap, Margin = new Thickness(20, 10, 20, 10) };
+            descriptionText.SetResourceReference(TextBlock.ForegroundProperty, "AssistantMutedForegroundBrush");
+            Grid.SetRow(descriptionText, 1); layout.Children.Add(descriptionText);
             Navigation = new WrapPanel { Margin = new Thickness(20, 0, 20, 14), Visibility = Visibility.Collapsed };
-            AutomationProperties.SetName(Navigation, "화면 목차"); Grid.SetRow(Navigation, 1); layout.Children.Add(Navigation);
-            Body = new ContentControl { HorizontalContentAlignment = HorizontalAlignment.Stretch, VerticalContentAlignment = VerticalAlignment.Stretch, Margin = new Thickness(20, 0, 20, 0) };
-            Grid.SetRow(Body, 2); layout.Children.Add(Body);
+            AutomationProperties.SetName(Navigation, "화면 목차"); Grid.SetRow(Navigation, 2); layout.Children.Add(Navigation);
+            var content = new Grid { Margin = new Thickness(20, 0, 20, 0) };
+            content.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+            content.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+            SidebarNavigation = new WrapPanel { Width = 164, Orientation = Orientation.Vertical, Visibility = Visibility.Collapsed, Margin = new Thickness(0, 0, 16, 0) };
+            AutomationProperties.SetName(SidebarNavigation, "설정 페이지");
+            KeyboardNavigation.SetTabNavigation(SidebarNavigation, KeyboardNavigationMode.Once);
+            KeyboardNavigation.SetDirectionalNavigation(SidebarNavigation, KeyboardNavigationMode.Contained);
+            SidebarNavigation.PreviewKeyDown += SidebarNavigationKeyDown; content.Children.Add(SidebarNavigation);
+            Body = new ContentControl { HorizontalContentAlignment = HorizontalAlignment.Stretch, VerticalContentAlignment = VerticalAlignment.Stretch, Margin = new Thickness(0) };
+            Grid.SetColumn(Body, 0); Grid.SetColumnSpan(Body, 2); content.Children.Add(Body);
+            Grid.SetRow(content, 3); layout.Children.Add(content);
             var footer = new StackPanel();
             FooterContent = new ContentControl { HorizontalContentAlignment = HorizontalAlignment.Stretch }; footer.Children.Add(FooterContent);
             Message = new TextBlock { TextWrapping = TextWrapping.Wrap, Margin = new Thickness(0, 0, 0, 8) };
             footer.Children.Add(Message);
             Actions = new WrapPanel { HorizontalAlignment = HorizontalAlignment.Right };
+            var actionStyle = new Style(typeof(Button));
+            actionStyle.Setters.Add(new Setter(FrameworkElement.MinHeightProperty, 34.0));
+            actionStyle.Setters.Add(new Setter(FrameworkElement.MinWidthProperty, 84.0));
+            actionStyle.Setters.Add(new Setter(Control.PaddingProperty, new Thickness(12, 7, 12, 7)));
+            Actions.Resources.Add(typeof(Button), actionStyle);
             var close = new Button { Content = "× 닫기", HorizontalContentAlignment = HorizontalAlignment.Center, VerticalContentAlignment = VerticalAlignment.Center, IsCancel = true, MinWidth = 84, Margin = new Thickness(8, 0, 0, 0) };
             close.Click += (sender, args) => Close();
             Actions.Children.Add(close); footer.Children.Add(Actions);
             Footer = new Border { Child = footer, BorderThickness = new Thickness(0, 1, 0, 0), Padding = new Thickness(20, 14, 20, 16), Margin = new Thickness(0, 16, 0, 0) };
             Footer.SetResourceReference(Border.BackgroundProperty, "AssistantSurfaceBrush"); Footer.SetResourceReference(Border.BorderBrushProperty, "AssistantBorderBrush");
-            Grid.SetRow(Footer, 3); layout.Children.Add(Footer); Content = layout;
-            Loaded += (sender, args) => { if (SystemParameters.ClientAreaAnimation) BeginAnimation(OpacityProperty, new DoubleAnimation(0, 1, TimeSpan.FromMilliseconds(180))); };
+            Grid.SetRow(Footer, 4); layout.Children.Add(Footer); Content = layout;
+            CommandBindings.Add(new CommandBinding(SystemCommands.CloseWindowCommand, (sender, args) => Close(), (sender, args) => args.CanExecute = true));
+            CommandBindings.Add(new CommandBinding(SystemCommands.MinimizeWindowCommand, (sender, args) => SystemCommands.MinimizeWindow(this), (sender, args) => args.CanExecute = true));
+            CommandBindings.Add(new CommandBinding(SystemCommands.MaximizeWindowCommand, (sender, args) => SystemCommands.MaximizeWindow(this), (sender, args) => args.CanExecute = WindowState != WindowState.Maximized));
+            CommandBindings.Add(new CommandBinding(SystemCommands.RestoreWindowCommand, (sender, args) => SystemCommands.RestoreWindow(this), (sender, args) => args.CanExecute = WindowState == WindowState.Maximized));
+            InputBindings.Add(new KeyBinding(SystemCommands.CloseWindowCommand, new KeyGesture(Key.F4, ModifierKeys.Alt)));
+            StateChanged += (sender, args) =>
+            {
+                bool maximized = WindowState == WindowState.Maximized;
+                maximize.Command = maximized ? SystemCommands.RestoreWindowCommand : SystemCommands.MaximizeWindowCommand;
+                maximize.Content = maximized ? "❐" : "□";
+                AutomationProperties.SetName(maximize, maximized ? "복원" : "최대화");
+                AutomationProperties.SetHelpText(maximize, maximized ? "창 크기를 복원합니다." : "창을 최대화합니다.");
+            };
+            Loaded += (sender, args) => { if (AssistantMotionTokens.ClientAreaAnimationsEnabled) BeginAnimation(OpacityProperty, AssistantMotionTokens.CreatePrimaryEntry(0, 1, 0, true)); };
             Closed += (sender, args) => BeginAnimation(OpacityProperty, null);
+        }
+
+        private Button CreateCaptionButton(string glyph, string accessibleName, string automationId, RoutedCommand command)
+        {
+            var style = new Style(typeof(Button));
+            style.Setters.Add(new Setter(FrameworkElement.WidthProperty, 42.0));
+            style.Setters.Add(new Setter(FrameworkElement.HeightProperty, 36.0));
+            style.Setters.Add(new Setter(Control.PaddingProperty, new Thickness(0)));
+            style.Setters.Add(new Setter(Control.BorderThicknessProperty, new Thickness(0)));
+            style.Setters.Add(new Setter(Control.BorderBrushProperty, Brushes.Transparent));
+            style.Setters.Add(new Setter(Control.BackgroundProperty, new DynamicResourceExtension("AssistantSurfaceBrush")));
+            style.Setters.Add(new Setter(Control.ForegroundProperty, new DynamicResourceExtension("AssistantForegroundBrush")));
+            style.Setters.Add(new Setter(Control.FontFamilyProperty, new FontFamily("Segoe UI Symbol")));
+            style.Setters.Add(new Setter(Control.FontSizeProperty, 17.0));
+            var hover = new Trigger { Property = UIElement.IsMouseOverProperty, Value = true };
+            hover.Setters.Add(new Setter(Control.BackgroundProperty, new DynamicResourceExtension("AssistantHoverBrush")));
+            style.Triggers.Add(hover);
+            var pressed = new Trigger { Property = ButtonBase.IsPressedProperty, Value = true };
+            pressed.Setters.Add(new Setter(Control.BackgroundProperty, new DynamicResourceExtension("AssistantPressedBrush")));
+            style.Triggers.Add(pressed);
+            var button = new Button { Content = glyph, Style = style, Command = command, CommandTarget = this, Focusable = true, HorizontalContentAlignment = HorizontalAlignment.Center, VerticalContentAlignment = VerticalAlignment.Center };
+            AutomationProperties.SetName(button, accessibleName);
+            AutomationProperties.SetAutomationId(button, automationId);
+            return button;
+        }
+
+        private static void CaptionButtonHitTest(Button button)
+        {
+            WindowChrome.SetIsHitTestVisibleInChrome(button, true);
         }
 
         /// ---------------------------------------------------------------------
@@ -181,6 +276,8 @@ namespace VS2017.AIAssistant.Views
         public void SetSections(ScrollViewer scroll, params DialogSection[] sections)
         {
             if (scroll == null) throw new ArgumentNullException(nameof(scroll));
+            SidebarNavigation.Visibility = Visibility.Collapsed; Navigation.Orientation = Orientation.Horizontal;
+            Grid.SetColumn(Body, 0); Grid.SetColumnSpan(Body, 2);
             Navigation.Children.Clear();
             foreach (var section in sections ?? new DialogSection[0])
             {
@@ -197,6 +294,73 @@ namespace VS2017.AIAssistant.Views
                 Navigation.Children.Add(button);
             }
             Navigation.Visibility = Navigation.Children.Count == 0 ? Visibility.Collapsed : Visibility.Visible;
+        }
+
+        /// <summary>
+        /// 설정 구역을 왼쪽 페이지 목록으로 표시하고 선택한 구역만 본문에 둔다.
+        /// 닫힐 때 RestoreSectionPages를 호출해 원래 화면의 전체 구역을 복원해야 한다.
+        /// </summary>
+        public void SetSectionPages(Panel sectionHost, params DialogSection[] sections)
+        {
+            if (sectionHost == null) throw new ArgumentNullException(nameof(sectionHost));
+            RestoreSectionPages();
+            var items = (sections ?? new DialogSection[0]).Where(x => x != null).ToArray();
+            if (items.Length == 0) { Navigation.Visibility = Visibility.Collapsed; SidebarNavigation.Visibility = Visibility.Collapsed; return; }
+            sidebarSectionHost = sectionHost;
+            sidebarOriginalChildren.Clear(); foreach (UIElement child in sectionHost.Children) sidebarOriginalChildren.Add(child);
+            sidebarSectionItems.Clear(); sidebarSectionItems.AddRange(items);
+            foreach (var item in items)
+                if (!ReferenceEquals(item.Target.Parent, sectionHost)) throw new InvalidOperationException("설정 페이지는 같은 섹션 컨테이너의 직접 자식이어야 합니다.");
+
+            Navigation.Visibility = Visibility.Collapsed; SidebarNavigation.Children.Clear(); SidebarNavigation.Orientation = Orientation.Vertical;
+            foreach (var item in items)
+            {
+                var button = new ToggleButton { Content = item.Icon + "  " + item.Title, Width = 164, HorizontalContentAlignment = HorizontalAlignment.Left, VerticalContentAlignment = VerticalAlignment.Center, Margin = new Thickness(0, 0, 0, 6), Padding = new Thickness(12, 10, 10, 10), MinHeight = 40, IsThreeState = false, ToolTip = item.Title + " 설정 페이지" };
+                AutomationProperties.SetName(button, item.Title + " 설정 페이지");
+                button.SetResourceReference(FrameworkElement.StyleProperty, typeof(ToggleButton));
+                button.Click += (sender, args) => ShowSectionPage(item, button);
+                SidebarNavigation.Children.Add(button);
+            }
+            SidebarNavigation.Visibility = Visibility.Visible; Grid.SetColumn(Body, 1); Grid.SetColumnSpan(Body, 1);
+            ShowSectionPage(items[0], SidebarNavigation.Children[0] as ToggleButton);
+        }
+
+        private void ShowSectionPage(DialogSection selected, ToggleButton selectedButton)
+        {
+            if (sidebarSectionHost == null || selected == null) return;
+            foreach (var child in SidebarNavigation.Children.OfType<ToggleButton>()) child.IsChecked = ReferenceEquals(child, selectedButton);
+            sidebarSectionHost.Children.Clear(); sidebarSectionHost.Children.Add(selected.Target);
+            if (Body.Content is ScrollViewer) ((ScrollViewer)Body.Content).ScrollToTop();
+        }
+
+        private void SidebarNavigationKeyDown(object sender, System.Windows.Input.KeyEventArgs args)
+        {
+            var buttons = SidebarNavigation.Children.OfType<ToggleButton>().ToArray();
+            if (buttons.Length == 0) return;
+            int current = Array.FindIndex(buttons, button => button.IsKeyboardFocusWithin);
+            if (current < 0) return;
+            int next;
+            switch (args.Key)
+            {
+                case System.Windows.Input.Key.Down: case System.Windows.Input.Key.Right: next = (current + 1) % buttons.Length; break;
+                case System.Windows.Input.Key.Up: case System.Windows.Input.Key.Left: next = (current + buttons.Length - 1) % buttons.Length; break;
+                case System.Windows.Input.Key.Home: next = 0; break;
+                case System.Windows.Input.Key.End: next = buttons.Length - 1; break;
+                default: return;
+            }
+            args.Handled = true;
+            buttons[next].Focus();
+            if (next < sidebarSectionItems.Count) ShowSectionPage(sidebarSectionItems[next], buttons[next]);
+        }
+
+        public void RestoreSectionPages()
+        {
+            if (sidebarSectionHost == null) return;
+            sidebarSectionHost.Children.Clear();
+            foreach (var child in sidebarOriginalChildren) sidebarSectionHost.Children.Add(child);
+            sidebarOriginalChildren.Clear(); sidebarSectionItems.Clear(); sidebarSectionHost = null;
+            SidebarNavigation.Children.Clear(); SidebarNavigation.Visibility = Visibility.Collapsed;
+            Grid.SetColumn(Body, 0); Grid.SetColumnSpan(Body, 2);
         }
 
         /// ---------------------------------------------------------------------
@@ -353,12 +517,9 @@ namespace VS2017.AIAssistant.Views
                     Panel.SetZIndex(card, active ? 1 : 0); surface.BorderBrush = Gray(active ? (byte)210 : (byte)80);
                     double opacity = selected == null || active ? 1 : .45, y = active ? -2 : 0;
                     var transform = (TranslateTransform)surface.RenderTransform;
-                    if (SystemParameters.ClientAreaAnimation)
-                    {
-                        surface.BeginAnimation(OpacityProperty, new DoubleAnimation(opacity, TimeSpan.FromMilliseconds(150)), HandoffBehavior.SnapshotAndReplace);
-                        transform.BeginAnimation(TranslateTransform.YProperty, new DoubleAnimation(y, TimeSpan.FromMilliseconds(150)), HandoffBehavior.SnapshotAndReplace);
-                    }
-                    else { surface.Opacity = opacity; transform.Y = y; }
+                    bool animate = AssistantMotionTokens.ClientAreaAnimationsEnabled;
+                    AssistantMotionTokens.ApplyMicroInteraction(surface, OpacityProperty, surface.Opacity, opacity, animate);
+                    AssistantMotionTokens.ApplyMicroInteraction(transform, TranslateTransform.YProperty, transform.Y, y, animate);
                 }
             }
 
@@ -381,7 +542,7 @@ namespace VS2017.AIAssistant.Views
                 var page = new Grid();
                 page.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
                 page.RowDefinitions.Add(new RowDefinition());
-                var back = new Button { Content = "← 안내 목록으로", HorizontalContentAlignment = HorizontalAlignment.Center, VerticalContentAlignment = VerticalAlignment.Center, HorizontalAlignment = HorizontalAlignment.Right, Margin = new Thickness(0, 0, 0, 12), Padding = new Thickness(12, 7, 12, 7) };
+                var back = new Button { Content = "← 뒤로", HorizontalContentAlignment = HorizontalAlignment.Center, VerticalContentAlignment = VerticalAlignment.Center, HorizontalAlignment = HorizontalAlignment.Left, MinWidth = 82, MinHeight = 36, Margin = new Thickness(0, 0, 0, 12), Padding = new Thickness(12, 7, 12, 7), ToolTip = "안내 목록으로 돌아가기" };
                 back.SetResourceReference(StyleProperty, "GuideActionButton");
                 back.Click += (sender, args) => { Dispatcher.VerifyAccess(); Content = overview; FocusAfterLayout(source); };
                 page.Children.Add(back);
