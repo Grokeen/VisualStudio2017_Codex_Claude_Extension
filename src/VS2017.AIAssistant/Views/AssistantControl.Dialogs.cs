@@ -168,6 +168,7 @@ namespace VS2017.AIAssistant.Views
         /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// update date  : 2026-10-18 CodexCode : TASK-017 이미지 분석 기반 드롭다운·안내·대화 지정 흐름 개선.
         ///                2026-10-19 CodexOrig4 : 취소·Esc·창 닫기에서 테마 미리보기를 이전 선택으로 복구.
+        ///                2026-10-19 CodexCode : TASK047 설정·상세 그림을 읽을 수 있는 기본 창 크기 적용.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void SettingsClicked(object sender, RoutedEventArgs e)
@@ -180,6 +181,9 @@ namespace VS2017.AIAssistant.Views
             var saveParent = (Panel)SaveSettingsButton.Parent;
             int saveIndex = saveParent.Children.IndexOf(SaveSettingsButton);
             var dialog = new AssistantDialog(this, "⚙ 설정", "AI 계정·모델·공통 규칙·글자 크기를 설정하세요. 저장하면 다음 실행에도 유지됩니다.");
+            // 긴 설명과 그림을 읽을 기본 공간을 확보하되 작은 화면에서는 작업 영역 안에 둔다.
+            dialog.Width = Math.Max(dialog.MinWidth, Math.Min(900, SystemParameters.WorkArea.Width - 48));
+            dialog.Height = Math.Max(dialog.MinHeight, Math.Min(740, SystemParameters.WorkArea.Height - 48));
             SettingsPanel.Content = null; saveParent.Children.Remove(SaveSettingsButton);
             activeSettingsDialog = dialog; SettingsProviderLabel.Text = "현재 AI: " + selectedProvider;
             dialog.Body.Content = SettingsContent; dialog.Actions.Children.Insert(0, SaveSettingsButton);

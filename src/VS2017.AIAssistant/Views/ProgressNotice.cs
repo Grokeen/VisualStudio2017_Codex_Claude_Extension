@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -327,6 +327,7 @@ namespace VS2017.AIAssistant.Views
         /// update date  : 2026-10-18 CodexCode : 마우스로 Popup에 진입할 시간을 주고 click·Escape 접근 지원.
         ///                2026-10-18 CodexCode : hover 중 native capture가 anchor 이탈을 만들지 않게 자체 수명 관리만 사용.
         ///                2026-10-19 CodexCode : TASK024 제목 고정·유한 상세 영역과 휠 우선 소비 추가.
+        ///                2026-10-19 CodexCode : TASK047 카드 폭에 맞는 상세와 hover 툴팁 중복 제거.
         /// </summary>
         /// ---------------------------------------------------------------------
         public ProgressNoticePresenter()
@@ -335,15 +336,16 @@ namespace VS2017.AIAssistant.Views
             var face = new Grid(); face.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(27) }); face.ColumnDefinitions.Add(new ColumnDefinition()); face.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(18) });
             var icon = new TextBlock { Text = "◈", FontSize = 20, Foreground = IconBrush(), VerticalAlignment = VerticalAlignment.Center }; face.Children.Add(icon);
             var lines = new StackPanel(); Grid.SetColumn(lines, 1); face.Children.Add(lines);
-            title = new TextBlock { FontWeight = FontWeights.SemiBold, TextTrimming = TextTrimming.CharacterEllipsis };
+            title = new TextBlock { FontSize = 16, FontWeight = FontWeights.SemiBold, TextTrimming = TextTrimming.CharacterEllipsis };
             summary = new TextBlock { Foreground = new SolidColorBrush(Color.FromRgb(174, 194, 225)), FontSize = 12, TextTrimming = TextTrimming.CharacterEllipsis, Margin = new Thickness(0, 3, 0, 0) }; lines.Children.Add(title); lines.Children.Add(summary);
             var arrow = new TextBlock { Text = "⌄", VerticalAlignment = VerticalAlignment.Center, HorizontalAlignment = HorizontalAlignment.Center }; Grid.SetColumn(arrow, 2); face.Children.Add(arrow);
-            header = new Button { Content = face, Background = Brushes.Transparent, BorderThickness = new Thickness(0), Padding = new Thickness(8, 7, 8, 7), HorizontalContentAlignment = HorizontalAlignment.Stretch, ToolTip = "현재 요청의 공개 작업 상태 · 마우스 또는 Enter로 자세히 보기" };
+            header = new Button { Content = face, Background = Brushes.Transparent, BorderThickness = new Thickness(0), Padding = new Thickness(8, 7, 8, 7), HorizontalContentAlignment = HorizontalAlignment.Stretch };
             System.Windows.Automation.AutomationProperties.SetName(header, "작업 진행 상세 보기");
+            System.Windows.Automation.AutomationProperties.SetHelpText(header, "마우스 또는 Enter로 공개 작업 상세 보기");
             Content = new Border { BorderBrush = new SolidColorBrush(Color.FromRgb(62, 68, 79)), BorderThickness = new Thickness(1), CornerRadius = new CornerRadius(8), Background = new SolidColorBrush(Color.FromRgb(33, 36, 42)), Child = header };
             var body = new StackPanel(); var top = new DockPanel();
             var close = new Button { Content = "×", Width = 26, Height = 26, Padding = new Thickness(0), Background = Brushes.Transparent, BorderThickness = new Thickness(0), Foreground = Brushes.Gainsboro, ToolTip = "작업 상세 닫기 (Escape)" }; DockPanel.SetDock(close, Dock.Right); top.Children.Add(close);
-            top.Children.Add(new TextBlock { Text = "공개 작업 내역", FontWeight = FontWeights.Bold, VerticalAlignment = VerticalAlignment.Center });
+            top.Children.Add(new TextBlock { Text = "공개 작업 내역", FontSize = 16, FontWeight = FontWeights.Bold, VerticalAlignment = VerticalAlignment.Center });
             detailsSummary = new TextBlock { TextWrapping = TextWrapping.Wrap, Foreground = new SolidColorBrush(Color.FromRgb(184, 202, 237)), Margin = new Thickness(0, 7, 0, 7) };
             rows = new ItemsControl { ItemTemplate = StepTemplate() }; body.Children.Add(rows);
             archived = new TextBlock { TextWrapping = TextWrapping.Wrap }; body.Children.Add(archived);
@@ -361,6 +363,7 @@ namespace VS2017.AIAssistant.Views
             // StaysOpen=false의 native capture는 anchor의 MouseLeave/재진입을 만들어 닫히는 창에 IsOpen만 남길 수 있다.
             // 포인터 이탈은 closeTimer, 키보드는 focus/Escape, 창 전환은 OwnerDeactivated에서 닫는다.
             popup = new Popup { PlacementTarget = header, Placement = PlacementMode.Bottom, AllowsTransparency = true, StaysOpen = true, PopupAnimation = PopupAnimation.Fade, Child = popupBody };
+            SizeChanged += (sender, args) => { if (popup.IsOpen) UpdateDetailsSize(); };
             closeTimer = new DispatcherTimer(DispatcherPriority.Background, Dispatcher) { Interval = TimeSpan.FromMilliseconds(180) }; closeTimer.Tick += CloseTick;
             header.MouseEnter += HeaderEntered; header.MouseLeave += PointerLeft; header.Click += HeaderClicked;
             popupBody.MouseEnter += PopupEntered; popupBody.MouseLeave += PointerLeft;
@@ -474,16 +477,33 @@ namespace VS2017.AIAssistant.Views
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 로드되지 않았거나 모델 없는 과거 컨테이너에서는 열지 않음.
         ///                2026-10-19 CodexCode : TASK024 작업영역 이내의 폭·상세 높이 적용.
+        ///                2026-10-19 CodexCode : TASK047 카드와 열린 상세의 폭을 함께 갱신.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void OpenDetails(bool keyboard)
         {
             if (!IsLoaded || Notice == null) return;
             PopupPalette.Attach(this, this); PopupPalette.Attach(popupBody, this);
-            closeTimer.Stop(); popupBody.Width = Math.Max(160, Math.Min(420, Math.Min(SystemParameters.WorkArea.Width - 24, Math.Max(280, ActualWidth))));
-            detailsScroll.MaxHeight = Math.Max(80, Math.Min(320, SystemParameters.WorkArea.Height - 100));
+            closeTimer.Stop(); UpdateDetailsSize();
             popup.IsOpen = true;
             if (keyboard) { pinned = true; popupBody.MoveFocus(new TraversalRequest(FocusNavigationDirection.First)); }
+        }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : UpdateDetailsSize
+        /// desc         : 상세 창 폭을 작업 카드의 실제 폭에 맞추고 화면 경계와 스크롤 높이를 유지한다.
+        /// author       : CodexCode
+        /// create date  : 2026-10-19
+        /// update date  : 2026-10-19 CodexCode : TASK047 도킹 창 크기 변화 중에도 상세 폭을 자동 조절.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        private void UpdateDetailsSize()
+        {
+            double available = Math.Max(160, SystemParameters.WorkArea.Width - 24);
+            double cardWidth = ActualWidth > 0 && !double.IsNaN(ActualWidth) && !double.IsInfinity(ActualWidth) ? ActualWidth : 280;
+            popupBody.Width = Math.Max(160, Math.Min(available, cardWidth));
+            detailsScroll.MaxHeight = Math.Max(80, Math.Min(320, SystemParameters.WorkArea.Height - 100));
         }
 
         /// ---------------------------------------------------------------------

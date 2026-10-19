@@ -19,6 +19,7 @@ using VS2017.AIAssistant.Views;
 /// author       : CodexCode
 /// create date  : 2026-10-19
 /// update date  : 2026-10-19 CodexCode : source fixture와 실제 제품 DLL 모드를 결과에 구분.
+///                2026-10-19 CodexCode : TASK047 카드 상세 폭·hover 툴팁 회귀 검사 추가.
 /// </summary>
 /// ---------------------------------------------------------------------
 public static class HoverViewportChecks
@@ -72,6 +73,12 @@ public static class HoverViewportChecks
         Check("Long diff is measured within a finite panel while retaining its fixed heading",()=>view.ActualHeight<=420 && editor.ActualHeight>0 && editor.ActualHeight<420);
         var progress=new ProgressNoticePresenter{Notice=new ProgressNotice()};var progressBody=(Border)Field(progress,"popupBody");var progressScroll=(ScrollViewer)Field(progress,"detailsScroll");
         Check("Progress title remains outside its finite scrolling rows",()=>progressBody.Child is DockPanel && progressScroll.MaxHeight<=320 && !Double.IsInfinity(progressScroll.MaxHeight));
+        Layout(progress,520,80);Invoke(progress,"UpdateDetailsSize");
+        Check("Progress detail follows a wide card instead of stopping at the old fixed width",()=>Math.Abs(progressBody.Width-progress.ActualWidth)<1 && progressBody.Width>420);
+        Layout(progress,310,80);Invoke(progress,"UpdateDetailsSize");
+        Check("Progress detail also shrinks with its card",()=>Math.Abs(progressBody.Width-progress.ActualWidth)<1);
+        var progressHeader=(Button)Field(progress,"header");
+        Check("Hover detail has no competing tooltip and keeps keyboard help",()=>progressHeader.ToolTip==null && System.Windows.Automation.AutomationProperties.GetHelpText(progressHeader).Contains("Enter"));
         var progressWheel=SendWheel(progressBody,-120);
         Check("A progress popup consumes its wheel even with no scroll range",()=>progressWheel.Handled);
     }

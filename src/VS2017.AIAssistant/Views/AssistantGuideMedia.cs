@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.IO;
 using System.Windows;
 using System.Windows.Automation;
@@ -140,6 +140,7 @@ namespace VS2017.AIAssistant.Views
         /// update date  : 2026-10-19 CodexCode : TASK-024 GIF 디코더·타이머 중복 구현 없이 자산 누락 대체 제공.
         ///                2026-10-19 CodexCode : Role15 안내 프레임과 보조 문구는 동적 테마 색상 사용.
         ///                2026-10-19 CodexCode : 손상 GIF는 검증한 PNG로 재시도하며 실제 인증·설치 결과와 구분.
+        ///                2026-10-19 CodexCode : TASK047 넓어진 설정·안내 창에서 그림을 읽기 좋은 크기로 표시.
         /// </summary>
         /// ---------------------------------------------------------------------
         internal static FrameworkElement CreateIllustration(string key, string title, ImageSource fallback = null)
@@ -148,7 +149,7 @@ namespace VS2017.AIAssistant.Views
             var body = new StackPanel();
             if (path != null)
             {
-                var image = new MarkdownAnimatedImage { AssetBaseDirectory = GetAssetDirectory(), SourcePath = path, Stretch = Stretch.Uniform, MaxHeight = 300 };
+                var image = new MarkdownAnimatedImage { AssetBaseDirectory = GetAssetDirectory(), SourcePath = path, Stretch = Stretch.Uniform, MaxHeight = 440 };
                 if (image.Source == null && String.Equals(Path.GetExtension(path), ".gif", StringComparison.OrdinalIgnoreCase))
                 {
                     path = ResolveCandidate(key, true);
@@ -160,7 +161,7 @@ namespace VS2017.AIAssistant.Views
             }
             if (path == null && fallback != null)
             {
-                var image = new Image { Source = fallback, Stretch = Stretch.Uniform, MaxHeight = 210 };
+                var image = new Image { Source = fallback, Stretch = Stretch.Uniform, MaxHeight = 320 };
                 AutomationProperties.SetName(image, (title ?? "안내") + " 절차 그림"); body.Children.Add(image);
             }
             var caption = new TextBlock { Text = path != null ? "제품 UI 합성 예시 · 실제 로그인·설치 결과가 아닙니다." : fallback != null ? "절차 예시 · 단계 그림으로 순서를 확인하세요." : "그림 안내가 없는 환경입니다. 아래 상세 설명으로 순서를 확인하세요.", TextWrapping = TextWrapping.Wrap, FontSize = 12, Margin = new Thickness(0, 8, 0, 0) };

@@ -1,0 +1,60 @@
+﻿{
+    "Task":  "TASK-047",
+    "CheckedAt":  "2026-10-19T22:40:59.3382788+09:00",
+    "Builds":  [
+                   {
+                       "Version":  "2017.Legacy",
+                       "DllSha256":  "369E3784AED9D6E90D3B49E92E8A97192C7238AED79FAB1F011749C40D1A0E99",
+                       "VsixSha256":  "543050FA4BA49B19382D3F85C66B00EDA5FDC097AF58C7FA2F1D37A92E226334",
+                       "HoverPassed":  38,
+                       "HoverFailed":  0
+                   },
+                   {
+                       "Version":  "2017",
+                       "DllSha256":  "3C6DE2269CE88A65F8529EFEA5F9DD35B0A4AEFEF743A14BF5EA2F93A9644E94",
+                       "VsixSha256":  "5DD633FE7798A9E221770131303711AA94F8E265CED127CC241FC3E30E5E975E",
+                       "HoverPassed":  38,
+                       "HoverFailed":  0
+                   },
+                   {
+                       "Version":  "2019",
+                       "DllSha256":  "99F2377C717E979F1D6745DE50D23905141E5C2267D36368481C0B4B377A6E31",
+                       "VsixSha256":  "7AF8F79851DC646037C9B0F47F2A7613A3330CB5D23EC085DFFA817BFFFE31F6",
+                       "HoverPassed":  38,
+                       "HoverFailed":  0
+                   },
+                   {
+                       "Version":  "2022",
+                       "DllSha256":  "A9668E0FE1F9DE1ADF903C0102652B1FBA2BB3A16F299A8FBB34639B71D3E49A",
+                       "VsixSha256":  "294C283A3B0B3EBC3B25111060539E87DA5CD0DF00A12AD234DD43307DA39FE0",
+                       "HoverPassed":  38,
+                       "HoverFailed":  0
+                   }
+               ],
+    "DialogGuide":  {
+                        "Passed":  23,
+                        "Failed":  0,
+                        "Folder":  "artifacts/task047/dialog-guide-2017"
+                    },
+    "ProgressNative":  {
+                           "Passed":  55,
+                           "Failed":  0,
+                           "WindowShown":  true,
+                           "NativePointerUsed":  true,
+                           "HoverExecuted":  true,
+                           "Folder":  "artifacts/task047/progress-native-2017"
+                       },
+    "Collaboration":  {
+                          "Passed":  60,
+                          "Failed":  0,
+                          "Folder":  "artifacts/c/2fb49ef8c6"
+                      },
+    "ProviderCli":  {
+                        "Passed":  15,
+                        "Failed":  0,
+                        "Folder":  "artifacts/pi/65b62407e0"
+                    },
+    "ActualCustomerIdeTested":  false,
+    "ActualTwoAiAccountsTested":  false,
+    "Published":  false
+}

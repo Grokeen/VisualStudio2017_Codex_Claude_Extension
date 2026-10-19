@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using Task = System.Threading.Tasks.Task;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -111,6 +111,7 @@ namespace VS2017.AIAssistant.Views
         ///                2026-10-18 CodexCode : TASK-022 닫기 명령의 실제 내용 영역을 양축 중앙 정렬.
         ///                2026-10-19 CodexCode : TASK-024 안내창은 IDE 밝은 테마와 관계없이 검정 배경·밝은 글자를 유지.
         ///                2026-10-19 CodexCode : Role15 추가에 따라 공통 의미 색상 리소스로 테마 선택을 즉시 반영.
+        ///                2026-10-19 CodexCode : TASK047 설정·안내 창의 화면별 기본 크기는 호출자가 지정.
         /// </summary>
         /// ---------------------------------------------------------------------
         public AssistantDialog(AssistantControl source, string title, string description)
@@ -536,6 +537,7 @@ namespace VS2017.AIAssistant.Views
         /// update date  : 2026-10-18 CodexCode : 기반 생성자의 WPF 스레드 검사와 조건부 VS COM 조회 계약을 명시.
         ///                2026-10-18 CodexCode : TASK-022 연결·시작 명령 버튼의 내부 내용 중앙 정렬.
         ///                2026-10-19 CodexCode : TASK-024 Role15 보조 설명도 동적 테마 글자색 사용.
+        ///                2026-10-19 CodexCode : TASK047 그림·단계 설명을 위한 반응형 기본 창 크기 적용.
         /// </summary>
         /// ---------------------------------------------------------------------
         public GettingStartedDialog(AssistantControl source, bool hidden)
@@ -543,6 +545,8 @@ namespace VS2017.AIAssistant.Views
             : base(source, "? 사용 안내", "파일을 열고, 요청하고, 비교한 뒤 저장하세요. 항목을 선택하면 그림과 함께 자세히 볼 수 있습니다.")
 #pragma warning restore VSTHRD010
         {
+            Width = Math.Max(MinWidth, Math.Min(900, SystemParameters.WorkArea.Width - 48));
+            Height = Math.Max(MinHeight, Math.Min(740, SystemParameters.WorkArea.Height - 48));
             SetGuide(
                 new GuideStep("1", "⚙", "AI 연결", "사용할 AI와 실행 파일을 선택하고 로그인·연결 확인·설정 저장 순서로 준비하세요.",
                     "1. AI 선택: 상단 Codex 또는 Claude 탭을 고릅니다. 설정의 ‘현재 AI’와 실제 사용할 제공자가 같은지 확인하세요. 두 제공자의 실행 경로·로그인·모델 설정은 구분됩니다.",
