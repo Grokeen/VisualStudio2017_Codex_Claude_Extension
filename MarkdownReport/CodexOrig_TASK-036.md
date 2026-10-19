@@ -36,3 +36,7 @@ C16 Legacy의 실제 IDE AvalonEdit 누락 실패와 전체14/16, C17 최초 전
 **고객의 실제 VS2017 15.7.1 Professional 설치·실행은 이 개발 PC에서 수행하지 못했다.** 구 SDK 컴파일, SDK DLL 경계 검사, 동일 패키지의 실제 VS2017 15.9 호스트 통과는 그 환경의 성공을 보증하지 않는다. 고객에게는 업데이트 없이 15.7 전용 파일을 제공하고, 문제가 계속되면 진단 JSON·설치 로그로 후속 확인한다. 실제 Claude 계정과 운영 DB/TFVC/운영 배포는 이번 검사 범위가 아니다.
 
 배포 URL·태그 대상 커밋·공개 다운로드 바이트/SHA 확인은 `CodexOrig_TASK-036_Deployment.json`에 별도로 마감한다.
+
+## 배포 완료 / 2026-10-19 09:21:10 KST
+
+[v0.11.1 GitHub Release](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.11.1)를 게시했다. 태그 대상은 2b63332327fd0ccdb2041f003b02ab7ecc615a84이며 네 VSIX·설치 ZIP·실행기·체크섬 **7개 자산**의 서버 해시·공개 다운로드 원문 바이트가 모두 일치한다. [배포 검증 JSON](CodexOrig_TASK-036_Deployment.json)을 참조한다. 기존 v0.11.0은 보존했다. 시작 08:53:47 KST부터 총경과 00:27:23.6704976. 구현·검증·감사조정·배포 작업을 종료했다.

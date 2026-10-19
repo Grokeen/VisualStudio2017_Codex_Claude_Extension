@@ -1,0 +1,69 @@
+﻿{
+    "SchemaVersion":  1,
+    "Task":  "TASK-036",
+    "Version":  "0.11.1",
+    "ReleaseId":  416791376,
+    "ReleaseUrl":  "https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.11.1",
+    "PublishedAt":  "2026-10-19T00:20:23Z",
+    "VerifiedAt":  "2026-10-19T09:20:32.2890017+09:00",
+    "TagTarget":  "2b63332327fd0ccdb2041f003b02ab7ecc615a84",
+    "TagObjectType":  "commit",
+    "Assets":  [
+                   {
+                       "Name":  "VS2017.15.7.AIAssistant-0.11.1.vsix",
+                       "Bytes":  3849667,
+                       "Sha256":  "3B5551AB9C8A1E8993779FFA66F9D673C36A5F00F7A27B0AC2A6E2E9A770AAD4",
+                       "DownloadedSha256":  "3B5551AB9C8A1E8993779FFA66F9D673C36A5F00F7A27B0AC2A6E2E9A770AAD4",
+                       "Matched":  true,
+                       "Url":  "https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.11.1/VS2017.15.7.AIAssistant-0.11.1.vsix"
+                   },
+                   {
+                       "Name":  "VS2017.AIAssistant-0.11.1.vsix",
+                       "Bytes":  3849596,
+                       "Sha256":  "2C7DB6E2B89A4BD708B790B01BA1A71388EB90619CE62BCCB0BE4A3B2F379DD8",
+                       "DownloadedSha256":  "2C7DB6E2B89A4BD708B790B01BA1A71388EB90619CE62BCCB0BE4A3B2F379DD8",
+                       "Matched":  true,
+                       "Url":  "https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.11.1/VS2017.AIAssistant-0.11.1.vsix"
+                   },
+                   {
+                       "Name":  "VS2019.AIAssistant-0.11.1.vsix",
+                       "Bytes":  3851428,
+                       "Sha256":  "AB4B888656DBF5B2F4BF7711895F9BB82E75AF61B7878A08A66E8BC2A9F3D881",
+                       "DownloadedSha256":  "AB4B888656DBF5B2F4BF7711895F9BB82E75AF61B7878A08A66E8BC2A9F3D881",
+                       "Matched":  true,
+                       "Url":  "https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.11.1/VS2019.AIAssistant-0.11.1.vsix"
+                   },
+                   {
+                       "Name":  "VS2022.AIAssistant-0.11.1.vsix",
+                       "Bytes":  3851232,
+                       "Sha256":  "2CA4E737260ECDF7F4228F7B60E86F298881B1889A0BA4AE92B50B08E4FC2D8C",
+                       "DownloadedSha256":  "2CA4E737260ECDF7F4228F7B60E86F298881B1889A0BA4AE92B50B08E4FC2D8C",
+                       "Matched":  true,
+                       "Url":  "https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.11.1/VS2022.AIAssistant-0.11.1.vsix"
+                   },
+                   {
+                       "Name":  "VisualStudio_AI_Assistant-0.11.1.zip",
+                       "Bytes":  16925451,
+                       "Sha256":  "62B4D4A231B8D8338FCF0D1B241B755A9F2603E602D6671DD55D0EE46C871E71",
+                       "DownloadedSha256":  "62B4D4A231B8D8338FCF0D1B241B755A9F2603E602D6671DD55D0EE46C871E71",
+                       "Matched":  true,
+                       "Url":  "https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.11.1/VisualStudio_AI_Assistant-0.11.1.zip"
+                   },
+                   {
+                       "Name":  "VisualStudio_AIChat_ExtentionTest.exe",
+                       "Bytes":  36352,
+                       "Sha256":  "6DC09F6BE23D54C4C5289A2CFB302F49CD7650F674A04B485748B671756DA3E2",
+                       "DownloadedSha256":  "6DC09F6BE23D54C4C5289A2CFB302F49CD7650F674A04B485748B671756DA3E2",
+                       "Matched":  true,
+                       "Url":  "https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.11.1/VisualStudio_AIChat_ExtentionTest.exe"
+                   },
+                   {
+                       "Name":  "RELEASE_SHA256SUMS.txt",
+                       "Bytes":  606,
+                       "Sha256":  "84387F39266F7A63A7761B3658DD34BD8270F06A994DC0E715E9ABB774DEF3F7",
+                       "DownloadedSha256":  "84387F39266F7A63A7761B3658DD34BD8270F06A994DC0E715E9ABB774DEF3F7",
+                       "Matched":  true,
+                       "Url":  "https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.11.1/RELEASE_SHA256SUMS.txt"
+                   }
+               ]
+}
