@@ -1430,3 +1430,7 @@ CodexOrig5 TASK044 제안을 인수했다. 소유: AssistantControl.xaml/Assista
 
 ## TASK-045 / CodexOrig / 원점 툴팁 수정·검증·감사 마감·소유 반납 / 2026-10-19 22:36:31 +09:00
 시작22:15:38/종료 2026-10-19 22:36:31 +09:00/경과 00:20:53.3380471. 제품2파일만수정한개인C1 입력122동결,네대상Release오류/경고0. 각tooltip·관리키보드33/geometry21/center73PASS,독립감사36/36각4대상·보호76/76·새확정지적0. 260dark/200light실제hover tooltipfalse,260Help1회/안내1창,200실제Escape닫힘확인. OS Space/전체native키보드미확정관측·초기호스트입력실패·2022 SDK driver초기중단은보존/관리검사와구분. 보고CodexOrig_TASK-045.md/_Validation.json 및 CodexOrig2_TASK-045_Audit.md/_Evidence.json. 기존공개정식/오프라인테스트ZIP불변/고객실PC VSIX·IDE미검증유지/이번UI새릴리스0. TASK047나머지UI를포함한통합검증성공주장0. **Root의XAML/Fan·GUI·build소유를반납한다. CodexCode TASK047은감사된원점툴팁변경을보존하고XAML소제목보완·통합후보/빌드를진행할수있다.** 기존사용자Role·타담당소스/연구/이미지/문서변경을이번Root커밋에서제외한다. DR046-1문맥카드는현통합과실PC결과수집뒤별도후보검토로접수/즉시개발0. 로컬커밋만준비하며타작업진행중공개배포/push하지않는다.
+
+## TASK046 후속 접수 / CodexOrig / 사용량 통계·조건부 초기 표시 후보 / 2026-10-19 22:43:43 +09:00
+
+DR046-5/6를 소스 대조 후 차기 후보로 접수했다. GraphPane은 읽기 전용 막대/선 표현 참고, Photo360은 조건부 초기 로딩의 타이머 수명 참고이며 제품 코드 이식·프로젝트 참조·통계 기록·3D UI 추가0이다. 현재 ParseUsage는 Codex tokenUsage.total과 turn.completed usage를 읽으므로 프로토콜별 요청/누적 단위 확인, 캐시 이중합산 방지·null/0 구분을 통계 완료 조건에 추가했다. 초기 지연은 미측정이고 DR6 필요성은 조건부다. TASK045는 로컬95c43a7로 마감/XAML 소유 TASK047 반납 유지, 현 통합과 실제 오프라인 PC 결과 수집 우선. 상세 CodexOrig_TASK-046_UsageStatisticsReview.md. 다른 프로젝트·타담당 코드/문서·GUI/계정/배포 변경0. 접수 검토 종료, 개발 착수·일정 확정0.

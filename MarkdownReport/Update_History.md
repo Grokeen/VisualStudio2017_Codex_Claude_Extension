@@ -448,3 +448,7 @@ releases/v0.11.0/VisualStudio_AI_Assistant-0.11.0.zip(26항목), RELEASE_SHA256S
 
 ## TASK-045 / CodexOrig / 부채꼴 원점 툴팁 중첩 수정 / 2026-10-19 22:36:31 +09:00
 시작2026-10-19 22:15:38 +09:00, 종료 2026-10-19 22:36:31 +09:00, 경과 00:20:53.3380471. 열린메뉴에서원점ToolTip예정표시를억제하고현재Popup도닫으며닫힌상태도움말을복구했다. geometry/175ms/키보드·이름코드는보존. 제품경로src/VS2017.AIAssistant/Views/AssistantControl.xaml,AssistantControl.Fan.cs; 검사tests/task045/FanToolTipChecks.cs,Test-FanToolTip.ps1. 개인C1 122입력/4대상Release오류경고0,각33/21/73PASS. independent36각4대상/보호76/76/지적0,실제hover260dark/200light·HelpClick1·200Escape관측. 관리Tab/ESC성공과전체OS키보드미확정,2022driver/소유팝업입력초기실패구분보존. 보고MarkdownReport/CodexOrig_TASK-045.md/_Validation.json,감사CodexOrig2_TASK-045_Audit.md/_Evidence.json. 기존릴리스/오프라인ZIP/실제IDE·계정변경0·고객오프라인VSIX/IDE결과대기. Role22:07나머지는TASK047/DR046다음주기분리. XAML소유TASK047반납/개인build·GUI정리완료/새공개배포0.
+
+## TASK046 후속 / CodexOrig / DR046-5·6 검토 접수 / 2026-10-19 22:43:43 +09:00
+
+시작2026-10-19 22:41:07 +09:00, 종료 2026-10-19 22:43:43 +09:00, 경과 00:02:36.3833584. GraphPane/Photo360 소스와 ProviderUsageSnapshot/ParseUsage/화면 상태 갱신을 읽고 차기 통계·조건부 로딩 후보의 경계와 검증 조건을 정리했다. 요청/누적 토큰 단위·캐시 포함 입력/미제공 수치·옵트인·비밀 제외·종료 한번 집계·타이머 수명 조건을 기록했다. 변경은 MarkdownReport/CodexOrig_TASK-046_UsageStatisticsReview.md 및 공용 접수 기록뿐이다. 제품·다른 앱 코드/실제 모델 호출/빌드/GUI/배포0, 코드 구현 검증은 하지 않았다. TASK047 통합·고객 실PC 확인 이후 별도 후보로 검토한다.
