@@ -1,36 +1,23 @@
-﻿# Visual Studio AI Assistant
+# Visual Studio AI Assistant
 
 **Visual Studio에서 Claude·Codex와 대화하고, 코드를 고치고, 테스트까지 이어 가세요.**
 
 오류 화면과 참고 문서를 보여 주고 자연어로 작업을 요청하세요. 바뀔 코드를 먼저 비교해 승인하거나, **전체 액세스**를 선택해 AI가 직접 파일 수정과 명령·테스트를 수행하게 할 수 있습니다. 대화와 공통 규칙은 내 PC의 Markdown에 남습니다.
 
-**최신 미리보기 v0.12.0-preview.1** · [GitHub Release](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.12.0-preview.1) · [CLI 포함 완성 오프라인 ZIP](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.12.0-preview.1/VisualStudio_AI_Assistant-0.12.0-Preview1-FullOffline-win-x64.zip) · [CLI 제외 설치 ZIP](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.12.0-preview.1/VisualStudio_AI_Assistant-0.12.0.zip) · [설치 안내](releases/v0.12.0/README.md) · [자세한 사용법](docs/USER_GUIDE.md)
+**최신 미리보기 v0.12.1-preview.1** · [GitHub Release](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.12.1-preview.1) · [CLI 포함 완성 오프라인 ZIP](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.12.1-preview.1/VisualStudio_AI_Assistant-0.12.1-Preview1-FullOffline-win-x64.zip) · [CLI 제외 설치 ZIP](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.12.1-preview.1/VisualStudio_AI_Assistant-0.12.1.zip) · [설치 안내](releases/v0.12.1/README.md) · [자세한 사용법](docs/USER_GUIDE.md)
 
 기존 정식 [v0.11.1](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.11.1)과 이전 오프라인 시험 파일은 그대로 제공합니다. 새 미리보기는 고객의 별도 오프라인 PC에서 확인할 수 있도록 배포하는 시험 버전입니다.
 
 | 사용 중인 Visual Studio | 설치 파일 |
 |---|---|
-| 2017 15.7·15.8 · x86 IDE | [VS2017 15.7용 다운로드](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.12.0-preview.1/VS2017.15.7.AIAssistant-0.12.0.vsix) |
-| 2017 15.9 이상 · x86 IDE | [VS2017용 다운로드](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.12.0-preview.1/VS2017.AIAssistant-0.12.0.vsix) |
-| 2019 16.11 · x86 IDE | [VS2019용 다운로드](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.12.0-preview.1/VS2019.AIAssistant-0.12.0.vsix) |
-| 2022 17.x · x64 IDE | [VS2022용 다운로드](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.12.0-preview.1/VS2022.AIAssistant-0.12.0.vsix) |
+| 2017 15.7·15.8 · x86 IDE | [VS2017 15.7용 다운로드](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.12.1-preview.1/VS2017.15.7.AIAssistant-0.12.1.vsix) |
+| 2017 15.9 이상 · x86 IDE | [VS2017용 다운로드](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.12.1-preview.1/VS2017.AIAssistant-0.12.1.vsix) |
+| 2019 16.11 · x86 IDE | [VS2019용 다운로드](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.12.1-preview.1/VS2019.AIAssistant-0.12.1.vsix) |
+| 2022 17.x · x64 IDE | [VS2022용 다운로드](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.12.1-preview.1/VS2022.AIAssistant-0.12.1.vsix) |
 
-## v0.12.0 공개 미리보기 UI
+## v0.12.1 사용자 안내 (미리보기)
 
-이번 미리보기에는 완료 알림, 최근 대화의 단계별 불러오기, 설정 페이지 탐색, Markdown 도구 그룹, 앱 전용 Kakao·Dracula 색상 팔레트와 독립 Visual Studio 테마 패키지를 포함합니다. 공통 팝업은 OS의 녹색 제목 표시줄 대신 확장 화면과 어울리는 제목 표시줄을 사용하며, 창 이동과 최소화·최대화·닫기를 제공합니다. 아래 그림은 별도 WPF 렌더 이미지이며 실제 Visual Studio IDE 캡처가 아닙니다. 고객 오프라인 PC의 설치 결과는 별도로 확인해야 합니다.
-
-![candidate5 DLL의 테마형 팝업 제목 표시줄과 설정 화면. 별도 WPF 캡처이며 실제 IDE 화면이 아니다.](docs/assets/ui-guide-v0.12.0/candidate5/settings-vs.png)
-
-- 성공으로 끝난 작업에만 Windows 작업 표시줄 알림을 한 번 표시합니다. 알림은 작업 표시줄 balloon이며 Windows의 WinRT toast나 클릭 후 IDE 복귀 동작은 아닙니다.
-- 이전 대화는 최신 20개 메시지를 먼저 보이고, 위로 스크롤하면 이전 메시지 20개를 추가로 표시합니다. 저장 한도는 대화당 100개와 파일 4MB로 유지되며 이미 한도를 넘어 사라진 메시지는 복원하지 않습니다.
-- 설정 화면을 계정·모델·규칙·화면 페이지로 나누고, Claude·Codex 탭을 키보드로 이동할 수 있습니다. Markdown 작성기는 도구를 여섯 기능 그룹으로 묶고 URL 강조와 설명 정렬을 개선합니다.
-- Kakao·Dracula 색상은 AI Assistant 확장 화면에만 적용합니다. 별도 Visual Studio 테마 패키지는 IDE 테마 설정에서 사용자가 선택하며, 설치만으로 현재 Visual Studio 설정을 바꾸지 않습니다.
-
-[v0.12.0 사용 안내와 그림](docs/USER_GUIDE.md#v0120-화면-변경-미리보기) · [PDF 미리보기](output/pdf/VisualStudio_AI_Assistant_설치_사용설명서_v0.12.0_미리보기.pdf)
-
-## v0.12.1 사용자 안내 후보 (미공개)
-
-현재 공개 배포는 **v0.12.0-preview.1**입니다. v0.12.1 후보는 문서 통합 확인을 마쳤지만 아직 공개되지 않았으므로 기존 공개 링크를 사용하세요. 공개 예정 tag는 `v0.12.1-preview.1`, 완성 오프라인 ZIP은 `VisualStudio_AI_Assistant-0.12.1-Preview1-FullOffline-win-x64.zip`, 사용자 안내 PDF Asset은 `VisualStudio_AI_Assistant-0.12.1-Preview-UserGuide.pdf`입니다. 공개 후 이 파일명과 다운로드 주소를 배포 담당자가 전환할 예정입니다. 아래 그림은 이해를 돕는 합성 WPF 렌더이며 실제 Visual Studio/Windows 바탕 화면 캡처나 GIF가 아닙니다.
+최신 공개 미리보기는 **v0.12.1-preview.1**입니다. 위 완성 오프라인 ZIP에는 확장 네 종류와 CLI, IDE 테마, 설치 검사 도구 및 사용자 PDF가 포함됩니다. 아래 그림은 이해를 돕는 합성 WPF 렌더이며 실제 Visual Studio/Windows 바탕 화면 캡처나 GIF가 아닙니다.
 
 아래 예시는 WPF `RenderTargetBitmap`으로 별도 렌더한 합성 화면입니다. 실제 Visual Studio IDE·Windows 바탕 화면 캡처가 아니며, 화면 구성을 이해하기 위한 참고 그림입니다.
 
@@ -58,7 +45,7 @@
 - Claude 검사는 로그인 없이 CLI 버전·비인증 초기화·합성 프로토콜/오류/취소만 확인했습니다. 실제 Claude 계정 로그인과 실제 AI 답변을 검증한 결과는 아닙니다.
 - 설정에서 **Kakao 테마 설치·적용** 또는 **Dracula 테마 설치·적용**을 선택하고 VSIX 설치를 완료한 뒤 모든 Visual Studio 창을 닫고 같은 IDE를 다시 여세요. 시작 시 선택한 IDE 테마를 적용합니다. **도구 → 옵션 → 환경 → 일반 → 색 테마**에서 결과를 확인할 수 있습니다. 세 IDE의 통합 시험에서 선택 ID와 대표 색상(Kakao `#FFD9DDE3`, Dracula `#FF282A36`) 적용을 확인했으며, 설치 버튼의 물리 클릭과 고객 PC의 전체 흐름은 별도 검증 범위입니다.
 
-[v0.12.1 사용자 안내 PDF 후보 (미공개)](output/pdf/VisualStudio_AI_Assistant-0.12.1-Preview-UserGuide.pdf) · [사용자 안내](docs/USER_GUIDE.md)
+[v0.12.1 사용자 안내 PDF](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.12.1-preview.1/VisualStudio_AI_Assistant-0.12.1-Preview-UserGuide.pdf) · [자세한 사용자 안내](docs/USER_GUIDE.md)
 
 각 버전에 맞는 설치 파일을 사용하세요. Windows 네이티브 `codex.exe` 또는 `claude.exe`와 해당 서비스 계정이 필요합니다. 확장을 직접 빌드할 필요는 없습니다.
 
@@ -66,11 +53,25 @@
 
 설치 묶음 ZIP을 모두 풀고 **InstallAIAssistant.bat**를 실행하면 설치된 IDE의 버전·패키지 무결성을 검사하고 해당 버전용 설치기를 엽니다. 여러 IDE가 있으면 설치할 대상을 선택합니다. [설치 오류 해결과 진단 방법](docs/INSTALL_TROUBLESHOOTING.md)을 함께 제공합니다.
 
-**설치할 때 인터넷이 없다면:** 공개된 **CLI 포함 완성 오프라인 ZIP**을 내려받아 USB로 옮기고, 압축 해제 뒤 **VerifyOfflineSetup.bat**을 실행하세요. 현재 공개본은 위 v0.12.0 링크이며, v0.12.1 예정 파일 `VisualStudio_AI_Assistant-0.12.1-Preview1-FullOffline-win-x64.zip`은 공개 전입니다. 오프라인 단계에서 CLI 파일을 다운로드하거나 계정 정보를 옮기지 않습니다. [오프라인 설치 안내](docs/OFFLINE_INSTALL.md)와 [v0.12.1 사용자 PDF 후보](output/pdf/VisualStudio_AI_Assistant-0.12.1-Preview-UserGuide.pdf)를 참고하세요. 로그인과 AI 사용은 연결 가능한 시점에 진행합니다.
+**설치할 때 인터넷이 없다면:** 위 **CLI 포함 완성 오프라인 ZIP**을 내려받아 USB로 옮기고, 압축을 모두 해제한 뒤 **VerifyOfflineSetup.bat**을 실행하세요. CLI를 다시 내려받아 묶음을 준비할 필요가 없습니다. [오프라인 설치 안내](docs/OFFLINE_INSTALL.md)와 [v0.12.1 사용자 PDF](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.12.1-preview.1/VisualStudio_AI_Assistant-0.12.1-Preview-UserGuide.pdf)를 참고하세요. 로그인과 AI 사용은 연결 가능한 시점에 진행합니다.
 
 설치된 확장만 제거하려면 VS2017에서 **도구 → 확장 및 업데이트 → 설치됨**, VS2019·2022에서 **확장 → 확장 관리 → 설치됨**을 여세요. 목록에서 해당 버전의 AI Assistant 항목을 **제거**한 뒤 모든 Visual Studio 창을 닫습니다. 잠시 끄기만 하려면 **사용 안 함**을 선택하고 Visual Studio를 다시 여세요. 버전별 실제 항목 이름과 데이터 보존 안내는 [사용자 안내서](docs/USER_GUIDE.md#visual-studio-ai-assistant-확장-제거)를 참조하세요.
 
 확장을 처음 열면 협업과 소스 주석 규칙을 담은 숨김 필수 지침을 생성합니다. 직접 작성한 공통 지침은 별도로 보존하며, 두 지침을 AI 요청에 함께 전달합니다.
+
+## v0.12.0 공개 미리보기 UI
+
+이번 미리보기에는 완료 알림, 최근 대화의 단계별 불러오기, 설정 페이지 탐색, Markdown 도구 그룹, 앱 전용 Kakao·Dracula 색상 팔레트와 독립 Visual Studio 테마 패키지를 포함합니다. 공통 팝업은 OS의 녹색 제목 표시줄 대신 확장 화면과 어울리는 제목 표시줄을 사용하며, 창 이동과 최소화·최대화·닫기를 제공합니다. 아래 그림은 별도 WPF 렌더 이미지이며 실제 Visual Studio IDE 캡처가 아닙니다. 고객 오프라인 PC의 설치 결과는 별도로 확인해야 합니다.
+
+![candidate5 DLL의 테마형 팝업 제목 표시줄과 설정 화면. 별도 WPF 캡처이며 실제 IDE 화면이 아니다.](docs/assets/ui-guide-v0.12.0/candidate5/settings-vs.png)
+
+- 성공으로 끝난 작업에만 Windows 작업 표시줄 알림을 한 번 표시합니다. 알림은 작업 표시줄 balloon이며 Windows의 WinRT toast나 클릭 후 IDE 복귀 동작은 아닙니다.
+- 이전 대화는 최신 20개 메시지를 먼저 보이고, 위로 스크롤하면 이전 메시지 20개를 추가로 표시합니다. 저장 한도는 대화당 100개와 파일 4MB로 유지되며 이미 한도를 넘어 사라진 메시지는 복원하지 않습니다.
+- 설정 화면을 계정·모델·규칙·화면 페이지로 나누고, Claude·Codex 탭을 키보드로 이동할 수 있습니다. Markdown 작성기는 도구를 여섯 기능 그룹으로 묶고 URL 강조와 설명 정렬을 개선합니다.
+- Kakao·Dracula 색상은 AI Assistant 확장 화면에만 적용합니다. 별도 Visual Studio 테마 패키지는 IDE 테마 설정에서 사용자가 선택하며, 설치만으로 현재 Visual Studio 설정을 바꾸지 않습니다.
+
+[v0.12.0 사용 안내와 그림](docs/USER_GUIDE.md#v0120-화면-변경-미리보기) · [PDF 미리보기](output/pdf/VisualStudio_AI_Assistant_설치_사용설명서_v0.12.0_미리보기.pdf)
+
 
 ## 이런 일을 함께하세요
 

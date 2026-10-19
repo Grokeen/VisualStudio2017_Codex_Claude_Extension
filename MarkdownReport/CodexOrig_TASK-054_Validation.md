@@ -1,6 +1,6 @@
 # TASK-054 / Role 2026-10-20 01:40 통합 검증·배포
 
-담당 CodexOrig. 시작 2026-10-20 02:23:11.405 +09:00. 이 문서는 최종 배포 전 검증 기록이며, 공개 완료는 별도 Deployment.json의 실제 GitHub·익명 다운로드 결과로 판별한다.
+담당 CodexOrig. 시작 2026-10-20 02:23:11.405 +09:00. 최종 빌드·설치·감사 후 v0.12.1-preview.1을 공개했고 2026-10-20 04:20:12 +09:00에 13개 자산 익명 다운로드·해시 검증까지 완료했다. 실제 공개 근거는 `CodexOrig_TASK-054_Deployment.json`에 기록했다.
 
 ## 요청·협업 범위
 
@@ -56,6 +56,8 @@ C10 실제 IDE 하네스의 옛 계약 실패도 보존한다. `run-8b1b04cd30e2
 
 `Prepare-ReleasePackages.ps1`은 네 AI VSIX·세 데이터 전용 테마 VSIX·최종 PDF를 검사했고, 각 AI VSIX에는 해당 IDE용 테마 VSIX가 정확히 하나 포함됐다. 작은 ZIP 23개 항목/22개 체크섬, 전체 ZIP 70개 항목/69개 체크섬을 모두 다시 읽어 확인했다. CLI는 이전 동결 묶음에서 manifest의 46개 파일만 SHA·크기·고정 서명 신원을 대조해 재사용했다. 사용자 프로필·인증 복사와 준비 중 CLI 실행은 없다. 현재 온라인 인증서 체인을 새로 검증했다고 주장하지 않는다.
 
-공개 대상은 `v0.12.1-preview.1`의 13개 자산이다. C12 최종 FullOffline ZIP은 311,147,867바이트, SHA-256 `89A3CDA8BBD21918795205A828657BB27F72B40B04BBD8085A90CC459E57C165`. 패키지 검증 원본은 `artifacts/task054/package-inputs-final4/package-validation.json`이다. 오프라인 안내를 최종 배포 링크와 완성 ZIP 직접 설치 절차로 갱신했고, 네 AI VSIX의 PDF 실제 경로가 서비스 계약과 같음을 확인했다. 앞선 미공개 준비본은 경로 검증 후 `artifacts/task054/superseded-candidate10`, `superseded-candidate11-pre-guide`, `superseded-candidate11-final3`에 보존했으며 공개 자산을 교체한 일이 아니다. 공개 전 로컬 파일과 GitHub 업로드 digest, 공개 후 익명 다운로드의 바이트·SHA를 대조한다. 기존 정식 v0.11.1의 latest 상태·9개 자산, 이전 오프라인 시험·UI 미리보기의 tag/자산을 보존한다. 아직 이 문서의 준비 기록만으로 공개 완료를 주장하지 않는다.
+공개된 `v0.12.1-preview.1`은 13개 자산이다. C12 최종 FullOffline ZIP은 311,147,867바이트, SHA-256 `89A3CDA8BBD21918795205A828657BB27F72B40B04BBD8085A90CC459E57C165`. 패키지 검증 원본은 `artifacts/task054/package-inputs-final4/package-validation.json`이다. 오프라인 안내를 최종 배포 링크와 완성 ZIP 직접 설치 절차로 갱신했고, 네 AI VSIX의 PDF 실제 경로가 서비스 계약과 같음을 확인했다. 앞선 미공개 준비본은 경로 검증 후 `artifacts/task054/superseded-candidate10`, `superseded-candidate11-pre-guide`, `superseded-candidate11-final3`에 보존했다. 공개 전 13개 로컬 파일과 GitHub 업로드 digest, 공개 후 13개 익명 다운로드의 바이트·SHA가 모두 일치했다. Release ID는 417654310, tag/source commit은 `974f703018cece52086ad2c81c935b9233b93ddc`다. 기존 정식 v0.11.1 latest·9개 자산과 이전 오프라인/미리보기 tag·자산은 서버 확인에서 모두 보존됐다.
+
+공개 후 README·USER_GUIDE 링크와 이 배포 기록만 갱신했다. 원본 감사 보고서는 변경하지 않았고 Markdown의 의도적인 hard break 및 동결 원문의 EOF 빈 줄을 보존한 상태로 코드의 줄 끝 공백을 검사했다. CodexOrig2·3·4·6에게 빌드·최신 Release·실제 게시·익명 다운로드 검증까지가 완료 기준임을 전달했다. CodexCode 채팅 전송은 active-writer 도구 오류로 실패했으므로 WORK_STATUS의 공유 완료 안내로 남겼다.
 
 고객의 Windows 10/11 x64 제한망 PC 및 VS2017 Professional 15.7.1 실제 환경은 별도 테스트가 필요하다. 현재 개발 PC의 VS2017은 15.9다. 실제 Claude 계정 답변, 물리 포인터 이동·전체 화면 픽셀·DPI별 시각 검사, Word 렌더는 이번 검증 범위에 없다.

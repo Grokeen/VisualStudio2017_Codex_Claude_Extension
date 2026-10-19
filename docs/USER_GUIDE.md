@@ -1,4 +1,4 @@
-﻿# AI Assistant 사용 안내
+# AI Assistant 사용 안내
 
 Claude·Codex와 대화를 이어 가고, 현재 파일의 수정안을 비교해 적용하는 방법입니다. [v0.11.1 설치 파일과 버전별 지원 조건](../releases/v0.11.1/README.md)을 확인하고 시작하세요. VS2017 15.7·15.8용, VS2017 15.9 이상용, VS2019용, VS2022 x64용을 제공합니다.
 
@@ -119,7 +119,7 @@ AI 답변은 제목·목록·강조·표·코드 블록을 서식으로 표시�
 
 ## v0.12.0 화면 변경 미리보기
 
-이 절은 v0.12.0-preview.1의 화면을 설명합니다. candidate5 고정 WPF DLL을 별도 화면 렌더링 도구로 그린 캡처이며 실제 Visual Studio IDE 화면이나 고객 PC 설치 결과가 아닙니다. 이 미리보기의 공개 링크는 저장소 README 첫 부분을 참조하세요.
+이 절은 v0.12.0-preview.1의 화면을 설명합니다. candidate5 고정 WPF DLL을 별도 화면 렌더링 도구로 그린 캡처이며 실제 Visual Studio IDE 화면이나 고객 PC 설치 결과가 아닙니다. [이전 v0.12.0 미리보기 배포](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.12.0-preview.1)를 참고하세요.
 
 설정과 안내 팝업의 제목·본문·아래쪽 버튼 영역을 같은 모양으로 정리했습니다. 팝업의 제목 표시줄도 확장 팔레트와 어울리도록 바꾸고 창 이동, 최소화, 최대화, 닫기 버튼을 제공합니다. 설정은 왼쪽의 **계정·모델·규칙·화면** 페이지를 선택해 한 화면씩 봅니다. 방향키와 Home/End 키로 페이지를 이동할 수 있습니다. 안내 본문에서 돌아갈 때는 스크롤 바깥 위쪽의 뒤로 버튼을 사용합니다. Claude와 Codex 탭은 좌우 방향키로 이동할 수 있고 키보드 포커스가 표시됩니다.
 
@@ -141,9 +141,9 @@ Markdown 작성기는 창 크기를 현재 작업 영역 안에서 넓게 조절
 
 설치·연결·요청·검토·사용 안내의 움직이는 예제와 정지 그림은 [README 사용 흐름 안내](../README.md)에도 있습니다. [v0.12.0 후보 화면 PDF](../output/pdf/VisualStudio_AI_Assistant_설치_사용설명서_v0.12.0_미리보기.pdf)는 이 화면 변경을 설명하는 검토용 문서이며 기존 고객 PDF를 대체하지 않습니다.
 
-## v0.12.1 사용자 안내 후보 (미공개)
+## v0.12.1 사용자 안내 (미리보기)
 
-이 절은 통합 확인을 마친 v0.12.1 후보의 사용자 흐름입니다. 공개 배포는 아직 v0.12.0-preview.1이므로 공개 링크는 README 첫 부분을 사용하세요. v0.12.1 공개 예정 파일은 `VisualStudio_AI_Assistant-0.12.1-Preview1-FullOffline-win-x64.zip`과 PDF Asset `VisualStudio_AI_Assistant-0.12.1-Preview-UserGuide.pdf`입니다. 그림은 이해를 돕는 합성 WPF 렌더이며 실제 Visual Studio IDE 캡처나 GIF가 아닙니다. 계정·요청 기록은 그림에 사용하지 않았습니다.
+이 절은 **v0.12.1-preview.1**의 사용자 흐름입니다. [배포 페이지](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.12.1-preview.1)에서 CLI 포함 완성 오프라인 ZIP과 사용자 PDF를 받을 수 있습니다. 그림은 이해를 돕는 합성 WPF 렌더이며 실제 Visual Studio IDE 캡처나 GIF가 아닙니다. 계정·요청 기록은 그림에 사용하지 않았습니다.
 
 ### 화면 예시: 합성 WPF 렌더
 
@@ -217,7 +217,7 @@ AI 답변에서 마우스 오른쪽 버튼을 누르고 **답변 전체를 새 �
 
 실제 Visual Studio 2017 15.9, 2019 16.11, 2022 17.14 통합 시험은 두 테마의 실제 선택 ID, 대표 환경 색상(Kakao `#FFD9DDE3`, Dracula `#FF282A36`), 보류 상태 처리와 임시 파일 정리를 확인했습니다. 이 결과는 설치 버튼을 실제 마우스로 누르고 설치 관리자를 완료하거나 재시작하는 물리적 고객 절차의 확인을 뜻하지 않습니다. VS2017 Professional 15.7.1과 고객의 제한망 PC도 실측하지 않았습니다.
 
-[v0.12.1 사용자 안내 PDF 후보 (미공개)](../output/pdf/VisualStudio_AI_Assistant-0.12.1-Preview-UserGuide.pdf)는 기존 설치 설명서에 후보 기능 안내를 붙인 문서입니다. 공개 전에 기존 v0.12.0-preview.1 다운로드나 원본 고객 PDF를 대체하지 않습니다.
+[v0.12.1 사용자 안내 PDF](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.12.1-preview.1/VisualStudio_AI_Assistant-0.12.1-Preview-UserGuide.pdf)에서 설치 절차와 새 기능을 26쪽 문서로 확인할 수 있습니다.
 
 ## 직접 수정과 자체 테스트를 맡기기
 
