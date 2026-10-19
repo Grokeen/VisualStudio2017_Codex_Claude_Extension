@@ -1422,3 +1422,11 @@ docs/OFFLINE_INSTALL.md만 수정했다. Windows 10 x64 1809 이상/Windows 11 x
 
 ## TASK-041 후속 / CodexOrig / 테스트 배포 완료·고객 결과 대기 / 2026-10-19 13:15:22 +09:00
 사용자의 직접 다운로드용 배포 요청으로 C6 완성 ZIP/체크섬2개를 별도 사전 릴리스 v0.11.1-offline-test.2에 게시했다. ReleaseId 416894520, source 80adb9116f2ebe8055ab04f17ac78e85caacdbb8. 공개 재다운로드2개 원문 SHA256/크기일치, 기존 v0.11.1 태그/9자산/최신 정식 지정불변. 게시 전 Orig2/Orig3 idle, 나머지 프로젝트 담당 notLoaded 확인. 실제 PC VSIX/IDE 성공false 유지/정식 검증 완료 주장0. 준비 시점의 공개 보류는 최신 요청에 따른 테스트 공개로 갱신하며 감사 원문은 수정0. 보고 CodexOrig_TASK-041_TestDeployment.json/_Validation.json 및 TASK041.md. 배포·기록 종료/GUI예약없음, 고객 RESULT·오류·창열림 회신 대기. 비추적 docs/assets/cli-install,tmp 및 비공개 artifacts는 소스 commit에서 제외.
+
+## TASK-045 / CodexOrig / 부채꼴 메뉴와 원점 툴팁 중첩 수정 시작 / 2026-10-19 22:15:38 +09:00
+CodexOrig5 TASK044 제안을 인수했다. 소유: AssistantControl.xaml/AssistantControl.Fan.cs의 원점 툴팁 제어·새 TASK045 검사/개인 빌드·자기 보고. 부채꼴 geometry/175ms/포커스/접근성 보존. 기존 정식 및 오프라인 테스트 릴리스/완성ZIP과 Role 신규요청·타담당보고는 변경하지 않는다. 실제 사용자 IDE/계정 대신 격리된 WPF 검사로 검증한다.
+
+- TASK045 Root GUI 예약 종료 / 2026-10-19T22:31:35.7980702+09:00 : 독립 제품호스트260dark/200light hover에서 메뉴 열림/툴팁 억제,260 안내한번실행Count1/안내1창,200 실제Escape닫힘확인. WPF관리Tab/ESC/포커스33검사4대상모두통과. 초기parent범위/캐시요소입력실패,260Space의일시열림후닫힘관측및외부focus전환은원문보존/전체OS키보드성공주장0. 사용자IDE/CLI/계정/기존릴리스변경0. 감사자의필요한개인검사GUI사용가능, 제품변경소유는Root유지.
+
+## TASK-045 / CodexOrig / 원점 툴팁 수정·검증·감사 마감·소유 반납 / 2026-10-19 22:36:31 +09:00
+시작22:15:38/종료 2026-10-19 22:36:31 +09:00/경과 00:20:53.3380471. 제품2파일만수정한개인C1 입력122동결,네대상Release오류/경고0. 각tooltip·관리키보드33/geometry21/center73PASS,독립감사36/36각4대상·보호76/76·새확정지적0. 260dark/200light실제hover tooltipfalse,260Help1회/안내1창,200실제Escape닫힘확인. OS Space/전체native키보드미확정관측·초기호스트입력실패·2022 SDK driver초기중단은보존/관리검사와구분. 보고CodexOrig_TASK-045.md/_Validation.json 및 CodexOrig2_TASK-045_Audit.md/_Evidence.json. 기존공개정식/오프라인테스트ZIP불변/고객실PC VSIX·IDE미검증유지/이번UI새릴리스0. TASK047나머지UI를포함한통합검증성공주장0. **Root의XAML/Fan·GUI·build소유를반납한다. CodexCode TASK047은감사된원점툴팁변경을보존하고XAML소제목보완·통합후보/빌드를진행할수있다.** 기존사용자Role·타담당소스/연구/이미지/문서변경을이번Root커밋에서제외한다. DR046-1문맥카드는현통합과실PC결과수집뒤별도후보검토로접수/즉시개발0. 로컬커밋만준비하며타작업진행중공개배포/push하지않는다.

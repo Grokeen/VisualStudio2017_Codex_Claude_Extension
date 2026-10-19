@@ -19,6 +19,7 @@ namespace VS2017.AIAssistant.Views
     /// create date  : 2026-10-18
     /// update date  : 2026-10-18 CodexCode : TASK-017 원점 위 버튼 이동과 반복 hover 애니메이션 제거.
     /// update date  : 2026-10-18 CodexCode : TASK-021 두 버튼의 표시·클릭 영역을 실제 환형 부채꼴로 변경.
+    ///                2026-10-19 CodexOrig : TASK-045 열린 부채꼴을 가리는 원점 툴팁 억제 및 닫힘 후 복구.
     /// </summary>
     /// ---------------------------------------------------------------------
     public partial class AssistantControl
@@ -264,6 +265,7 @@ namespace VS2017.AIAssistant.Views
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : fanOpenCount로 실제 열림과 hover 재진입을 구분해 검증 가능.
         /// update date  : 2026-10-18 CodexCode : TASK-021 독립 부채꼴 버튼의 고정 모양 안에서만 펼침 효과 재생.
+        ///                2026-10-19 CodexOrig : TASK-045 원점의 예약·현재 툴팁을 닫아 메뉴 글자 가림 방지.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void OpenFanMenu()
@@ -271,6 +273,9 @@ namespace VS2017.AIAssistant.Views
             if (fanMenuDisposed || disposed || busy) { CloseFanMenu(); return; }
             InitializeFanMenu();
             fanCloseTimer.Stop(); OptionsToggle.IsChecked = true;
+            ToolTipService.SetIsEnabled(OptionsToggle, false);
+            var triggerToolTip = OptionsToggle.ToolTip as ToolTip;
+            if (triggerToolTip != null) triggerToolTip.IsOpen = false;
             if (fanMenuOpen) return;
             fanMenuOpen = true; fanOpenCount++;
             FanPanel.Visibility = Visibility.Visible;
@@ -332,6 +337,7 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 반복 호출해도 같은 닫힘 상태를 유지.
+        ///                2026-10-19 CodexOrig : TASK-045 메뉴를 접은 상태에서는 원점 도움말 다시 허용.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void CloseFanMenu()
@@ -342,6 +348,7 @@ namespace VS2017.AIAssistant.Views
             fanMenuOpen = false;
             FanPanel.Visibility = Visibility.Collapsed;
             OptionsToggle.IsChecked = false;
+            ToolTipService.SetIsEnabled(OptionsToggle, true);
             if (restoreFocus) OptionsToggle.Focus();
         }
 

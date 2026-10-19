@@ -420,3 +420,6 @@ releases/v0.11.0/VisualStudio_AI_Assistant-0.11.0.zip(26항목), RELEASE_SHA256S
 
 ## TASK-041 후속 / CodexOrig / 다운로드용 테스트 배포 완료 / 2026-10-19 13:15:22 +09:00
 사용자가 별도 오프라인 PC에서 다운로드해 테스트하도록 CLI 포함 완성 묶음을 사전 릴리스 v0.11.1-offline-test.2로 배포했습니다. [ZIP 다운로드](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.11.1-offline-test.2/VisualStudio_AI_Assistant-0.11.1-OfflineTest2-Final-win-x64.zip). 약308MB이며 확장4종과 Codex/Claude CLI 전체를 포함합니다. 공개 재다운로드2개 크기/SHA256 일치, 기존 정식배포9자산/태그/최신지정은 그대로입니다. 전체 압축해제 후 모든 VS를 닫고 VerifyOfflineSetup.bat 실행 → 대상선택 → VS 도구/AI Assistant 창열림을 확인하고 RESULT상태/오류/창열림여부를 회신받습니다. 별도 PC의 실제 확장설치/IDE성공은 아직 미확인으로 유지합니다. 기록 CodexOrig_TASK-041_TestDeployment.json/_Validation.json. 시작13:10:06/종료 2026-10-19 13:15:22 +09:00/경과 00:05:16.6580671, 배포작업종료·현장결과대기.
+
+## TASK-045 / CodexOrig / 메뉴 툴팁 수정 검증 완료 / 2026-10-19 22:36:31 +09:00
+설정·안내부채꼴이열린동안☷도움말이글자를덮지않게고쳤고,닫으면도움말을복구합니다. 네대상Release오류·경고0,각33개툴팁/관리키보드·21개기하·73개중앙정렬검사가통과했습니다. CodexOrig2독립36개씩4대상/새확정지적0·보호76/76을확인했습니다. 실제hover260dark/200light·안내1클릭·200Escape관측과전체OS키보드미확정은구분합니다. 재현은Windows PowerShell5.1에서tests/task045/Test-FanToolTip.ps1에고정DLL/같은대상Assets/새결과폴더를지정합니다(실제WPF창을표시). 보고CodexOrig_TASK-045.md/_Validation.json. 시작22:15:38/종료 2026-10-19 22:36:31 +09:00/경과 00:20:53.3380471. XAML소유를TASK047통합작업에넘겼으며이UI변경은아직새릴리스로게시하지않았습니다. 오후다운로드용오프라인테스트릴리스는그대로사용가능하며고객실PC설치/창열림결과를기다립니다.

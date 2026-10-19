@@ -1,0 +1,729 @@
+{
+  "Task": "TASK-045",
+  "Auditor": "CodexOrig2",
+  "Started": "2026-10-19T22:20:33.0000000+09:00",
+  "CompletedAt": "2026-10-19T22:34:52.0532810+09:00",
+  "Elapsed": "00:14:19",
+  "AuditComplete": true,
+  "Scope": "Candidate1 fan origin tooltip overlap only",
+  "OverallRole2207CompleteClaimed": false,
+  "OverallProductDeploymentCompleteClaimed": false,
+  "OpenConfirmedFindings": [],
+  "UnresolvedObservations": [
+    {
+      "Name": "Native260 Space transient opening then closed observation/external focus and cached-parent input attempts",
+      "Status": "UnconfirmedNotClassifiedAsNewProductDefect",
+      "FullNativeKeyboardSuccessClaimed": false,
+      "Owner": "TASK045"
+    }
+  ],
+  "CandidatePath": "C:\\dydgyqud\\AO45_20261019\\candidate1",
+  "InputCount": 122,
+  "InputMismatchCount": 0,
+  "C17ToC1Changes": [
+    {
+      "Path": "src\\VS2017.AIAssistant\\Views\\AssistantControl.Fan.cs",
+      "C17": "104E3F5F54621736D6987390B8129790B0584A3ED5527235FE1E1983F6178336",
+      "C1": "A68DC884B509174F79755B300714EF02330279C96E891D3984C4B72CECE4586C"
+    },
+    {
+      "Path": "src\\VS2017.AIAssistant\\Views\\AssistantControl.xaml",
+      "C17": "F70D30C78AB19BF939FADA4BAE250BE72C0E990CC89AD4203F373AF80856483B",
+      "C1": "75C5BF41C61505FFD6015F360EA5F37F3F0CEE0A279240AE20572A8DFC71D862"
+    }
+  ],
+  "SourceBoundary": {
+    "ChangedCount": 2,
+    "OtherFanNonCommentCodeUnchanged": true,
+    "OtherXamlUnchanged": true,
+    "TooltipContentUnchanged": true,
+    "Geometry175msFocusNameCodeRetained": true,
+    "SecurityNetworkOrAccountCodeChanged": false
+  },
+  "DirectHeadlessTests": [
+    {
+      "Target": "2017.Legacy",
+      "ExitCode": 0,
+      "Succeeded": true,
+      "Passed": 36,
+      "Error": null,
+      "WindowShown": false,
+      "TooltipPopupOpened": false,
+      "ActualIdeTested": false,
+      "ProductSHA256": "C558A608E92B872BF4614D06573B5C67EA5737B5437AE6BFFD437C35DEC20AE6"
+    },
+    {
+      "Target": "2017",
+      "ExitCode": 0,
+      "Succeeded": true,
+      "Passed": 36,
+      "Error": null,
+      "WindowShown": false,
+      "TooltipPopupOpened": false,
+      "ActualIdeTested": false,
+      "ProductSHA256": "A81B837A9C57C2C47C7FDAEC2DC51A3FC8CFE009EC247F627B042998B9245071"
+    },
+    {
+      "Target": "2019",
+      "ExitCode": 0,
+      "Succeeded": true,
+      "Passed": 36,
+      "Error": null,
+      "WindowShown": false,
+      "TooltipPopupOpened": false,
+      "ActualIdeTested": false,
+      "ProductSHA256": "CCA8B73B47DB8F783E522EB477B30C7F3992AF305C0EDF78F8193A9DA6159613"
+    },
+    {
+      "Target": "2022",
+      "ExitCode": 0,
+      "Succeeded": true,
+      "Passed": 36,
+      "Error": null,
+      "WindowShown": false,
+      "TooltipPopupOpened": false,
+      "ActualIdeTested": false,
+      "ProductSHA256": "18915B0C0D16C75E80ABB792E4B17C90A268B2DB5EB94976D6510D8E43D9A290"
+    }
+  ],
+  "HeadlessCaseCountPerTarget": 36,
+  "HeadlessTotal": 144,
+  "HeadlessWindowsShown": 0,
+  "HeadlessPopupOpened": 0,
+  "OwnerBuildRecords": [
+    {
+      "Target": "2017.Legacy",
+      "Configuration": "Release",
+      "ExitCode": 0,
+      "Warnings": 0,
+      "Errors": 0,
+      "Log": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task045\\candidate1\\build-2017.Legacy-Release.log"
+    },
+    {
+      "Target": "2017",
+      "Configuration": "Release",
+      "ExitCode": 0,
+      "Warnings": 0,
+      "Errors": 0,
+      "Log": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task045\\candidate1\\build-2017-Release.log"
+    },
+    {
+      "Target": "2019",
+      "Configuration": "Release",
+      "ExitCode": 0,
+      "Warnings": 0,
+      "Errors": 0,
+      "Log": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task045\\candidate1\\build-2019-Release.log"
+    },
+    {
+      "Target": "2022",
+      "Configuration": "Release",
+      "ExitCode": 0,
+      "Warnings": 0,
+      "Errors": 0,
+      "Log": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task045\\candidate1\\build-2022-Release.log"
+    }
+  ],
+  "OwnerGeometryAndCenterAndInitialTooltip": [
+    {
+      "Target": "2017.Legacy",
+      "Kind": "tooltip",
+      "Succeeded": true,
+      "Passed": 30,
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task045\\tooltip-2017.Legacy\\result.json",
+      "SHA256": "B06CCA2BAD2D7B51E0288403E92A2B6079186B4DF76FE971784A7D41BE226EA9",
+      "ProductSHA256": "C558A608E92B872BF4614D06573B5C67EA5737B5437AE6BFFD437C35DEC20AE6",
+      "ExpectedProductSHA256": "C558A608E92B872BF4614D06573B5C67EA5737B5437AE6BFFD437C35DEC20AE6",
+      "ProductMatches": true,
+      "AuditorExecuted": false
+    },
+    {
+      "Target": "2017.Legacy",
+      "Kind": "geometry",
+      "Succeeded": true,
+      "Passed": 21,
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task045\\geometry-2017.Legacy\\result.json",
+      "SHA256": "89EFD68A30667FF80BF66FDD6446C8CF7E0A081751E59883C9CC0B3D2436CA9A",
+      "ProductSHA256": "C558A608E92B872BF4614D06573B5C67EA5737B5437AE6BFFD437C35DEC20AE6",
+      "ExpectedProductSHA256": "C558A608E92B872BF4614D06573B5C67EA5737B5437AE6BFFD437C35DEC20AE6",
+      "ProductMatches": true,
+      "AuditorExecuted": false
+    },
+    {
+      "Target": "2017.Legacy",
+      "Kind": "centers",
+      "Succeeded": true,
+      "Passed": 73,
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task045\\centers-2017.Legacy\\result.json",
+      "SHA256": "46CD6BB5D6477ACD6ACEB366E397485A4405D68F752E05B66252203039E4B0C9",
+      "ProductSHA256": "C558A608E92B872BF4614D06573B5C67EA5737B5437AE6BFFD437C35DEC20AE6",
+      "ExpectedProductSHA256": "C558A608E92B872BF4614D06573B5C67EA5737B5437AE6BFFD437C35DEC20AE6",
+      "ProductMatches": true,
+      "AuditorExecuted": false
+    },
+    {
+      "Target": "2017",
+      "Kind": "tooltip",
+      "Succeeded": true,
+      "Passed": 30,
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task045\\tooltip-2017-first\\result.json",
+      "SHA256": "B06CCA2BAD2D7B51E0288403E92A2B6079186B4DF76FE971784A7D41BE226EA9",
+      "ProductSHA256": "A81B837A9C57C2C47C7FDAEC2DC51A3FC8CFE009EC247F627B042998B9245071",
+      "ExpectedProductSHA256": "A81B837A9C57C2C47C7FDAEC2DC51A3FC8CFE009EC247F627B042998B9245071",
+      "ProductMatches": true,
+      "AuditorExecuted": false
+    },
+    {
+      "Target": "2017",
+      "Kind": "geometry",
+      "Succeeded": true,
+      "Passed": 21,
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task045\\geometry-2017\\result.json",
+      "SHA256": "DBB94D6903C8394D6ABC1ADC692284C28F160697388476C914697226AD4FDA32",
+      "ProductSHA256": "A81B837A9C57C2C47C7FDAEC2DC51A3FC8CFE009EC247F627B042998B9245071",
+      "ExpectedProductSHA256": "A81B837A9C57C2C47C7FDAEC2DC51A3FC8CFE009EC247F627B042998B9245071",
+      "ProductMatches": true,
+      "AuditorExecuted": false
+    },
+    {
+      "Target": "2017",
+      "Kind": "centers",
+      "Succeeded": true,
+      "Passed": 73,
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task045\\centers-2017\\result.json",
+      "SHA256": "F0A97741B94D190E4D1B18ECB878AF4FE7CB0EC55DFA9AB0E1009DB230470257",
+      "ProductSHA256": "A81B837A9C57C2C47C7FDAEC2DC51A3FC8CFE009EC247F627B042998B9245071",
+      "ExpectedProductSHA256": "A81B837A9C57C2C47C7FDAEC2DC51A3FC8CFE009EC247F627B042998B9245071",
+      "ProductMatches": true,
+      "AuditorExecuted": false
+    },
+    {
+      "Target": "2019",
+      "Kind": "tooltip",
+      "Succeeded": true,
+      "Passed": 30,
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task045\\tooltip-2019\\result.json",
+      "SHA256": "B06CCA2BAD2D7B51E0288403E92A2B6079186B4DF76FE971784A7D41BE226EA9",
+      "ProductSHA256": "CCA8B73B47DB8F783E522EB477B30C7F3992AF305C0EDF78F8193A9DA6159613",
+      "ExpectedProductSHA256": "CCA8B73B47DB8F783E522EB477B30C7F3992AF305C0EDF78F8193A9DA6159613",
+      "ProductMatches": true,
+      "AuditorExecuted": false
+    },
+    {
+      "Target": "2019",
+      "Kind": "geometry",
+      "Succeeded": true,
+      "Passed": 21,
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task045\\geometry-2019\\result.json",
+      "SHA256": "3DC1C896D55CEC7B4E0BF85DCB33A647EB84CF98E92AD6C7A6E37397C15C8A73",
+      "ProductSHA256": "CCA8B73B47DB8F783E522EB477B30C7F3992AF305C0EDF78F8193A9DA6159613",
+      "ExpectedProductSHA256": "CCA8B73B47DB8F783E522EB477B30C7F3992AF305C0EDF78F8193A9DA6159613",
+      "ProductMatches": true,
+      "AuditorExecuted": false
+    },
+    {
+      "Target": "2019",
+      "Kind": "centers",
+      "Succeeded": true,
+      "Passed": 73,
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task045\\centers-2019\\result.json",
+      "SHA256": "A2C4DA9493902C2F5CFCA8FB68093DDB4552B9DA6BE6BDC164F7F75F152AD8AA",
+      "ProductSHA256": "CCA8B73B47DB8F783E522EB477B30C7F3992AF305C0EDF78F8193A9DA6159613",
+      "ExpectedProductSHA256": "CCA8B73B47DB8F783E522EB477B30C7F3992AF305C0EDF78F8193A9DA6159613",
+      "ProductMatches": true,
+      "AuditorExecuted": false
+    },
+    {
+      "Target": "2022",
+      "Kind": "tooltip",
+      "Succeeded": true,
+      "Passed": 30,
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task045\\tooltip-2022\\result.json",
+      "SHA256": "B06CCA2BAD2D7B51E0288403E92A2B6079186B4DF76FE971784A7D41BE226EA9",
+      "ProductSHA256": "18915B0C0D16C75E80ABB792E4B17C90A268B2DB5EB94976D6510D8E43D9A290",
+      "ExpectedProductSHA256": "18915B0C0D16C75E80ABB792E4B17C90A268B2DB5EB94976D6510D8E43D9A290",
+      "ProductMatches": true,
+      "AuditorExecuted": false
+    },
+    {
+      "Target": "2022",
+      "Kind": "geometry",
+      "Succeeded": true,
+      "Passed": 21,
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task045\\geometry-2022\\result.json",
+      "SHA256": "B8D7477C7B0C1C1C6A16EF6B635994DC156F07A355F9A602353B2B2799A2DA2A",
+      "ProductSHA256": "18915B0C0D16C75E80ABB792E4B17C90A268B2DB5EB94976D6510D8E43D9A290",
+      "ExpectedProductSHA256": "18915B0C0D16C75E80ABB792E4B17C90A268B2DB5EB94976D6510D8E43D9A290",
+      "ProductMatches": true,
+      "AuditorExecuted": false
+    },
+    {
+      "Target": "2022",
+      "Kind": "centers",
+      "Succeeded": true,
+      "Passed": 73,
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task045\\centers-2022-exact-sdk-final\\result.json",
+      "SHA256": "76A8BB4AC4D1AF91A6D0DC6BA7C77FCE6896C3B4C695E269E5D6B11221D3FD35",
+      "ProductSHA256": "18915B0C0D16C75E80ABB792E4B17C90A268B2DB5EB94976D6510D8E43D9A290",
+      "ExpectedProductSHA256": "18915B0C0D16C75E80ABB792E4B17C90A268B2DB5EB94976D6510D8E43D9A290",
+      "ProductMatches": true,
+      "AuditorExecuted": false
+    }
+  ],
+  "OwnerFinalTooltip": [
+    {
+      "Target": "2017.Legacy",
+      "Succeeded": true,
+      "Passed": 33,
+      "ProductSHA256": "C558A608E92B872BF4614D06573B5C67EA5737B5437AE6BFFD437C35DEC20AE6",
+      "ResultPath": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task045\\tooltip-2017.Legacy-final\\result.json",
+      "ResultSHA256": "4A117C21A2D477EA7FEDD65D45AEFB96C9984DCF19EE6A11DFC0A73A9E7734D6",
+      "ConfigurationPath": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task045\\tooltip-2017.Legacy-final\\configuration.json",
+      "AuditorExecuted": false
+    },
+    {
+      "Target": "2017",
+      "Succeeded": true,
+      "Passed": 33,
+      "ProductSHA256": "A81B837A9C57C2C47C7FDAEC2DC51A3FC8CFE009EC247F627B042998B9245071",
+      "ResultPath": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task045\\tooltip-2017-final\\result.json",
+      "ResultSHA256": "4A117C21A2D477EA7FEDD65D45AEFB96C9984DCF19EE6A11DFC0A73A9E7734D6",
+      "ConfigurationPath": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task045\\tooltip-2017-final\\configuration.json",
+      "AuditorExecuted": false
+    },
+    {
+      "Target": "2019",
+      "Succeeded": true,
+      "Passed": 33,
+      "ProductSHA256": "CCA8B73B47DB8F783E522EB477B30C7F3992AF305C0EDF78F8193A9DA6159613",
+      "ResultPath": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task045\\tooltip-2019-final\\result.json",
+      "ResultSHA256": "4A117C21A2D477EA7FEDD65D45AEFB96C9984DCF19EE6A11DFC0A73A9E7734D6",
+      "ConfigurationPath": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task045\\tooltip-2019-final\\configuration.json",
+      "AuditorExecuted": false
+    },
+    {
+      "Target": "2022",
+      "Succeeded": true,
+      "Passed": 33,
+      "ProductSHA256": "18915B0C0D16C75E80ABB792E4B17C90A268B2DB5EB94976D6510D8E43D9A290",
+      "ResultPath": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task045\\tooltip-2022-final\\result.json",
+      "ResultSHA256": "4A117C21A2D477EA7FEDD65D45AEFB96C9984DCF19EE6A11DFC0A73A9E7734D6",
+      "ConfigurationPath": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task045\\tooltip-2022-final\\configuration.json",
+      "AuditorExecuted": false
+    }
+  ],
+  "OwnerNativeObservations": [
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task045\\native-200-closed-help.json",
+      "Hash": "77C3EB968E910FE2D7D931A6E77A90D0DA41E85DE190695703B9FB7D0A772CCF",
+      "Observation": {
+        "At": "2026-10-19T22:30:25.3446722+09:00",
+        "Width": 200,
+        "OwnerActive": true,
+        "Deactivations": 0,
+        "MenuOpen": false,
+        "TooltipEnabled": true,
+        "TooltipOpen": false,
+        "TriggerMouseOver": true,
+        "MenuMouseOver": false,
+        "Focus": "ConversationList",
+        "HelpClicks": 0,
+        "SettingsClicks": 0,
+        "OpenCount": 1
+      },
+      "AuditorExecuted": false
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task045\\native-200-escape.json",
+      "Hash": "C72A22E154A404C2F779ADBD4BF77E69858CC0295C816B7079C952CBC937180E",
+      "Observation": {
+        "At": "2026-10-19T22:30:08.8759259+09:00",
+        "Width": 200,
+        "OwnerActive": true,
+        "Deactivations": 0,
+        "MenuOpen": false,
+        "TooltipEnabled": true,
+        "TooltipOpen": false,
+        "TriggerMouseOver": true,
+        "MenuMouseOver": false,
+        "Focus": "ConversationList",
+        "HelpClicks": 0,
+        "SettingsClicks": 0,
+        "OpenCount": 1
+      },
+      "AuditorExecuted": false
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task045\\native-200-final-state.json",
+      "Hash": "5A0588BE0ABC49F3604DC5B0F48FC2AC9DD3E240AE1952D9B09AEC09F78AED90",
+      "Observation": {
+        "At": "2026-10-19T22:31:14.875457+09:00",
+        "Width": 200,
+        "OwnerActive": true,
+        "Deactivations": 1,
+        "MenuOpen": false,
+        "TooltipEnabled": true,
+        "TooltipOpen": false,
+        "TriggerMouseOver": false,
+        "MenuMouseOver": false,
+        "Focus": "ConversationList",
+        "HelpClicks": 0,
+        "SettingsClicks": 0,
+        "OpenCount": 2
+      },
+      "AuditorExecuted": false
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task045\\native-200-light-hover.json",
+      "Hash": "2CAEC26AFCA99D9D671E64D519636677C50C6D9089A6A9F4EE1A45E785DC120C",
+      "Observation": {
+        "At": "2026-10-19T22:29:47.5004734+09:00",
+        "Width": 200,
+        "OwnerActive": true,
+        "Deactivations": 0,
+        "MenuOpen": true,
+        "TooltipEnabled": false,
+        "TooltipOpen": false,
+        "TriggerMouseOver": true,
+        "MenuMouseOver": false,
+        "Focus": "ConversationList",
+        "HelpClicks": 0,
+        "SettingsClicks": 0,
+        "OpenCount": 1
+      },
+      "AuditorExecuted": false
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task045\\native-260-v2-help-click.json",
+      "Hash": "FC34599EA9657D7C7A4E4D55981CC9F549D8505A544336D8448D22D92BEF6C62",
+      "Observation": {
+        "At": "2026-10-19T22:26:57.3285969+09:00",
+        "Width": 260,
+        "MenuOpen": false,
+        "TooltipEnabled": true,
+        "TooltipOpen": false,
+        "TriggerMouseOver": false,
+        "MenuMouseOver": false,
+        "Focus": "",
+        "HelpClicks": 1,
+        "SettingsClicks": 0,
+        "OpenCount": 4
+      },
+      "AuditorExecuted": false
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task045\\native-260-v2-help-returned.json",
+      "Hash": "0863AAD0359DF9D9AC660BDADB1CED615BEEBFF789FAB674B90F776A35BBF5B4",
+      "Observation": {
+        "At": "2026-10-19T22:27:13.5860689+09:00",
+        "Width": 260,
+        "MenuOpen": false,
+        "TooltipEnabled": true,
+        "TooltipOpen": false,
+        "TriggerMouseOver": false,
+        "MenuMouseOver": false,
+        "Focus": "",
+        "HelpClicks": 1,
+        "SettingsClicks": 0,
+        "OpenCount": 4
+      },
+      "AuditorExecuted": false
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task045\\native-260-v2-hover.json",
+      "Hash": "BF48240FBD7167C2343234762EB9C69B127BFD0CE48A479353F17C54FEE24D5A",
+      "Observation": {
+        "At": "2026-10-19T22:24:42.3755308+09:00",
+        "Width": 260,
+        "MenuOpen": true,
+        "TooltipEnabled": false,
+        "TooltipOpen": false,
+        "TriggerMouseOver": true,
+        "MenuMouseOver": false,
+        "Focus": "ConversationList",
+        "HelpClicks": 0,
+        "SettingsClicks": 0,
+        "OpenCount": 1
+      },
+      "AuditorExecuted": false
+    }
+  ],
+  "OwnerEvidenceExecutedByAuditor": false,
+  "Packages": [
+    {
+      "Target": "2017.Legacy",
+      "VSIX": "C7F21C706CAFD65CA761C8D68493D9677B85817D9BE56AADC3AB33676035DB19",
+      "DLL": "C558A608E92B872BF4614D06573B5C67EA5737B5437AE6BFFD437C35DEC20AE6",
+      "DLLInVSIX": "C558A608E92B872BF4614D06573B5C67EA5737B5437AE6BFFD437C35DEC20AE6",
+      "DLLMatches": true,
+      "EntryCount": 50,
+      "RequiredRuntimeIncluded": [
+        {
+          "Name": "ICSharpCode.AvalonEdit.dll",
+          "Included": true
+        },
+        {
+          "Name": "Microsoft.Web.WebView2.Core.dll",
+          "Included": true
+        },
+        {
+          "Name": "Microsoft.Web.WebView2.Wpf.dll",
+          "Included": true
+        },
+        {
+          "Name": "Microsoft.Web.WebView2.WinForms.dll",
+          "Included": true
+        }
+      ]
+    },
+    {
+      "Target": "2017",
+      "VSIX": "3AC7486DC2B2BACF80DA5CD7570CBB7FE5421BAB8807B7A9E1DB3AC528629D5D",
+      "DLL": "A81B837A9C57C2C47C7FDAEC2DC51A3FC8CFE009EC247F627B042998B9245071",
+      "DLLInVSIX": "A81B837A9C57C2C47C7FDAEC2DC51A3FC8CFE009EC247F627B042998B9245071",
+      "DLLMatches": true,
+      "EntryCount": 50,
+      "RequiredRuntimeIncluded": [
+        {
+          "Name": "ICSharpCode.AvalonEdit.dll",
+          "Included": true
+        },
+        {
+          "Name": "Microsoft.Web.WebView2.Core.dll",
+          "Included": true
+        },
+        {
+          "Name": "Microsoft.Web.WebView2.Wpf.dll",
+          "Included": true
+        },
+        {
+          "Name": "Microsoft.Web.WebView2.WinForms.dll",
+          "Included": true
+        }
+      ]
+    },
+    {
+      "Target": "2019",
+      "VSIX": "217EADD5D56951ED745BF592B2643F48BDB1C87BFC1EAC3DA6B8A450F59683B6",
+      "DLL": "CCA8B73B47DB8F783E522EB477B30C7F3992AF305C0EDF78F8193A9DA6159613",
+      "DLLInVSIX": "CCA8B73B47DB8F783E522EB477B30C7F3992AF305C0EDF78F8193A9DA6159613",
+      "DLLMatches": true,
+      "EntryCount": 50,
+      "RequiredRuntimeIncluded": [
+        {
+          "Name": "ICSharpCode.AvalonEdit.dll",
+          "Included": true
+        },
+        {
+          "Name": "Microsoft.Web.WebView2.Core.dll",
+          "Included": true
+        },
+        {
+          "Name": "Microsoft.Web.WebView2.Wpf.dll",
+          "Included": true
+        },
+        {
+          "Name": "Microsoft.Web.WebView2.WinForms.dll",
+          "Included": true
+        }
+      ]
+    },
+    {
+      "Target": "2022",
+      "VSIX": "4E2E5D9090E101BA8504AC7829F1C5DB4584DF4430BC99C31E89FBACEBC1C267",
+      "DLL": "18915B0C0D16C75E80ABB792E4B17C90A268B2DB5EB94976D6510D8E43D9A290",
+      "DLLInVSIX": "18915B0C0D16C75E80ABB792E4B17C90A268B2DB5EB94976D6510D8E43D9A290",
+      "DLLMatches": true,
+      "EntryCount": 50,
+      "RequiredRuntimeIncluded": [
+        {
+          "Name": "ICSharpCode.AvalonEdit.dll",
+          "Included": true
+        },
+        {
+          "Name": "Microsoft.Web.WebView2.Core.dll",
+          "Included": true
+        },
+        {
+          "Name": "Microsoft.Web.WebView2.Wpf.dll",
+          "Included": true
+        },
+        {
+          "Name": "Microsoft.Web.WebView2.WinForms.dll",
+          "Included": true
+        }
+      ]
+    }
+  ],
+  "FinalTestSources": [
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\tests\\task045\\FanToolTipChecks.cs",
+      "SHA256": "95C435D5711B3916D69F5B0964CCBFD24BF8137FD6E0F9CB586DF8064D640485"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\tests\\task045\\Test-FanToolTip.ps1",
+      "SHA256": "8CBA727732705FC0CAAFB0E685C8A785D232F61C9F4820CE90783C38BC451893"
+    }
+  ],
+  "Preservation": {
+    "ProtectedCount": 76,
+    "Mismatches": 0,
+    "RoleUnchanged": true,
+    "PriorAuditsUnchanged": true,
+    "Task044DocumentsUnchanged": true,
+    "ExistingFormalAndOfflineTestReleaseAssetsUnchanged": true
+  },
+  "SideEffects": {
+    "ProductSourceEdited": false,
+    "SharedProductBuildExecuted": false,
+    "GUIUsed": false,
+    "ActualIdeUsed": false,
+    "ActualUserSettingsRead": false,
+    "ActualUserProfileChanged": false,
+    "RealCLIExecuted": false,
+    "RealAccountUsed": false,
+    "Deployed": false,
+    "PrivateTestCompilationOnly": true
+  },
+  "HarnessAndPriorFailures": [
+    {
+      "Kind": "Auditor XML semantic comparison",
+      "Detail": "Empty XML element serialization normalized after initial false; original output retained",
+      "ProductFailure": false
+    },
+    {
+      "Kind": "Owner2022 center driver",
+      "Detail": "Initial64 then Interop17 missing and subsequent dependency/framework/target errors preserved; exact SDK driver final73 passed",
+      "ProductFailureConfirmed": false
+    },
+    {
+      "Kind": "Owner native input host",
+      "Detail": "Initial popup parent bounds/cache errors and 260 Space observations retained; no claim of all OS keyboard paths passing",
+      "ProductFailureConfirmed": false
+    }
+  ],
+  "Limitations": [
+    "No actual Visual Studio IDE, customer Professional15.7.1 or real account/model call executed by auditor",
+    "No GUI or real ToolTip popup opened by auditor; actual popup33 checks are owner evidence",
+    "Role image43 concerns progress-detail tooltip; Task047 and other Role2207 items remain separate",
+    "Current workspace may include other owners in-progress UI changes; verdict is fixed Candidate1 only",
+    "Physical keyboard Space/Tab/focus completeness is not claimed",
+    "Actual customer offline VSIX and IDE result remains pending; this GUI audit does not change that state"
+  ],
+  "Sources": [
+    {
+      "Title": "Microsoft ToolTipService.IsEnabled",
+      "URL": "https://learn.microsoft.com/en-us/dotnet/api/system.windows.controls.tooltipservice.isenabled?view=windowsdesktop-9.0",
+      "Supports": "Tooltip display enablement and separate IsOpen visibility state"
+    }
+  ],
+  "Report": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\MarkdownReport\\CodexOrig2_TASK-045_Audit.md",
+  "ReportSHA256": "A14B5177F2B46A76DEDD73BE4A5E2C94980A3BDC8EC62C10EB1241C1C4D453A7",
+  "ArtifactHashes": [
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task045\\final-test-source-hashes.json",
+      "SHA256": "0E2C3E29C9D00FC9B620FD3CC2A31AE5B1A749DFF697619F184A865BADF79C86",
+      "Bytes": 405
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task045\\headless-2017.json",
+      "SHA256": "137C85AE21B7F15CFA12A72A5ADE52589AF36C4868D653ED059578D0BE04C25A",
+      "Bytes": 2611
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task045\\headless-2017.Legacy.json",
+      "SHA256": "137C85AE21B7F15CFA12A72A5ADE52589AF36C4868D653ED059578D0BE04C25A",
+      "Bytes": 2611
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task045\\headless-2019.json",
+      "SHA256": "137C85AE21B7F15CFA12A72A5ADE52589AF36C4868D653ED059578D0BE04C25A",
+      "Bytes": 2611
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task045\\headless-2022.json",
+      "SHA256": "137C85AE21B7F15CFA12A72A5ADE52589AF36C4868D653ED059578D0BE04C25A",
+      "Bytes": 2611
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task045\\headless-run.log",
+      "SHA256": "8A7670D5AFC20379EF72D75819279CAB8B97699BED31EF7ADE6E1A3795CA7233",
+      "Bytes": 312
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task045\\headless-summary.json",
+      "SHA256": "2AED025F31E70764AE60C75D175F812E013C71CC6FCBAC7F78DF521350BB0738",
+      "Bytes": 1403
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task045\\HeadlessFanAudit45.cs",
+      "SHA256": "1DE2524E99D67E0E2BC8409EA0E4DBC5533691490E1B7B44B67DC09E7C1A0EDE",
+      "Bytes": 5598
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task045\\integrity-before-empty-element-normalization.json",
+      "SHA256": "69D8282D823949D58E4BCB93C1E45790DC4D5D67BF2A7C8BDFD45C51CE8FF88C",
+      "Bytes": 49612
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task045\\integrity.json",
+      "SHA256": "57DB196BC6DA5EEBAC98AC80BD3EE8D9DE43BEDC92EC9156B8469E265058B3C6",
+      "Bytes": 49611
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task045\\owner-final-tooltip-results.json",
+      "SHA256": "E43F4EC69C2DD89D1DB296B2FC374C73199DC7C895EF6586DFB407D18085856A",
+      "Bytes": 2258
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task045\\owner-native-observations.json",
+      "SHA256": "04B4FA989B3F170688088E5532D909830B6859BCF67082847027B783F363E883",
+      "Bytes": 4408
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task045\\owner-regression-results.json",
+      "SHA256": "2F38967B85D09BBFE47D053A84968A4AAB6721140AD2ED47300B930043DE1E9B",
+      "Bytes": 6653
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task045\\prepare-2017.Legacy.log",
+      "SHA256": "0384AC9F0214896FF7E3CD8F7F7D7A46376852D2BD8211629F4D87BDEFF2BEFF",
+      "Bytes": 182
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task045\\prepare-2017.log",
+      "SHA256": "D4C107ED512556EB92DB7BFA380667EF72DD3D6C083CC55EEF0473ECD57949AF",
+      "Bytes": 168
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task045\\prepare-2019.log",
+      "SHA256": "9A95BE8B9B784B47357F1217BEBDD3722F3CEDA8006EC848AF05C7E5CEFC67FB",
+      "Bytes": 168
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task045\\prepare-2022.log",
+      "SHA256": "522D081A3FA6404A5A62429853CE79BFFD8B79527217ADDF00E19D2A37CDDCC9",
+      "Bytes": 168
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task045\\protected-final.json",
+      "SHA256": "4C91390CB1D50260977657DF4FE7C4DCA4DBEE1C4B247BF865754575A24E1914",
+      "Bytes": 23678
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task045\\protected-start.json",
+      "SHA256": "9A9906BB50A7ECEC9513D9328DDA5C63722E39CA27A6A84F2E3DBDFD0D43C8CE",
+      "Bytes": 17437
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task045\\Run-HeadlessAudit45.ps1",
+      "SHA256": "CB6108BC91F05AFA144A585D05E3CC67531FCD7968C35F42ABCAC44C374034E4",
+      "Bytes": 2133
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\audit-codexorig2-task045\\Verify-Integrity45.ps1",
+      "SHA256": "9AFFA7A2EBF418A8834DCCCBB7FD6412423EB917B8D6BC3C9F328D00C1E42317",
+      "Bytes": 5237
+    }
+  ]
+}
