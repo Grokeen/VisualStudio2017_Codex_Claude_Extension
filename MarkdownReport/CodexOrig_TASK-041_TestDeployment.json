@@ -1,0 +1,45 @@
+﻿{
+    "Task":  "TASK-041",
+    "Distribution":  "OfflineTest2",
+    "SourceCommit":  "80adb9116f2ebe8055ab04f17ac78e85caacdbb8",
+    "SourceBranch":  "codex/offline-verification-task041",
+    "ReleaseId":  416894520,
+    "ReleaseUrl":  "https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.11.1-offline-test.2",
+    "Tag":  "v0.11.1-offline-test.2",
+    "TagTarget":  "80adb9116f2ebe8055ab04f17ac78e85caacdbb8",
+    "PublishedAt":  "2026-10-19T04:13:57Z",
+    "VerifiedAt":  "2026-10-19T13:14:37.3750731+09:00",
+    "Prerelease":  true,
+    "MadeLatest":  false,
+    "Assets":  [
+                   {
+                       "Name":  "VisualStudio_AI_Assistant-0.11.1-OfflineTest2-Final-win-x64.zip",
+                       "Bytes":  308372411,
+                       "Sha256":  "6CE8091677E29BC075D5C97BE98C6F86414537B02BC33F3DEF33A8DF108DCC79",
+                       "DownloadedSha256":  "6CE8091677E29BC075D5C97BE98C6F86414537B02BC33F3DEF33A8DF108DCC79",
+                       "Matched":  true,
+                       "Url":  "https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.11.1-offline-test.2/VisualStudio_AI_Assistant-0.11.1-OfflineTest2-Final-win-x64.zip",
+                       "AssetId":  655209572
+                   },
+                   {
+                       "Name":  "VisualStudio_AI_Assistant-0.11.1-OfflineTest2-Final-win-x64.zip.sha256",
+                       "Bytes":  131,
+                       "Sha256":  "68204285AFC435283578C3A6C25A80E510D0D267B6B376F378BC396F7F2AB198",
+                       "DownloadedSha256":  "68204285AFC435283578C3A6C25A80E510D0D267B6B376F378BC396F7F2AB198",
+                       "Matched":  true,
+                       "Url":  "https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.11.1-offline-test.2/VisualStudio_AI_Assistant-0.11.1-OfflineTest2-Final-win-x64.zip.sha256",
+                       "AssetId":  655210012
+                   }
+               ],
+    "NativeCliPayloadPublished":  true,
+    "StableReleaseId":  416791376,
+    "StableTagTarget":  "2b63332327fd0ccdb2041f003b02ab7ecc615a84",
+    "OriginalAssetCount":  9,
+    "OriginalAssetsUnchanged":  true,
+    "StableRemainsLatest":  true,
+    "CustomerPcTested":  false,
+    "CustomerOfflineVsixInstallVerified":  false,
+    "CustomerIdeToolWindowVerified":  false,
+    "TestDistributionAuthorizedByUser":  true,
+    "FormalTargetVerificationPending":  true
+}

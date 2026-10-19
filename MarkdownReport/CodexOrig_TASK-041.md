@@ -1,6 +1,6 @@
 # TASK-041 — 실제 통신 차단 검사와 오프라인 대상 PC 검증 준비
 
-사용자는 오프라인 환경에서도 동일하게 설치되는지 확인한 다음 배포하도록 요청했다. 이번에는 이전 프록시 검사와 구분하여 Windows가 검사 프로세스의 통신을 거부하도록 하고 설치를 실행했다. 사용자에게 실제 오프라인 테스트 PC가 있다는 회신도 받았다. **새 정식 배포는 그 PC에서의 VSIX 설치와 AI Assistant 창 확인 결과를 받은 뒤 진행한다. 현재 추가 공개 배포는 보류다.**
+사용자는 오프라인 환경에서도 동일하게 설치되는지 확인한 다음 배포하도록 요청했다. 이번에는 이전 프록시 검사와 구분하여 Windows가 검사 프로세스의 통신을 거부하도록 하고 설치를 실행했다. 사용자에게 실제 오프라인 테스트 PC가 있다는 회신도 받았다. 준비 시점에는 실제 PC 결과를 받기 전 추가 공개 배포를 보류했다. 이후 사용자가 다운로드해 테스트할 수 있도록 직접 배포하라고 요청하여, 완성 ZIP을 별도 **테스트용 사전 릴리스 v0.11.1-offline-test.2**로 게시했다. 실제 PC의 VSIX 설치와 AI Assistant 창 확인 결과는 여전히 대기 중이다. 아래 테스트 배포 후속 기록과 배포 JSON을 현재 상태로 본다.
 
 ## 확인한 범위
 
@@ -48,3 +48,18 @@ C5 원문과 처음 작성한 보고/JSON 초안도 artifacts/task041에 보존�
 
 
 검증용 준비 기록: 2026-10-19 13:03:53 KST, 착수12:24:43부터경과 00:39:10.4257023. [C6 후속 감사](CodexOrig2_TASK-042_Followup_C6.md)와 [대상 도구 안내](CodexOrig3_TASK-043_TargetVerifier.md)를 최종 연결했다. 현재 로컬 분기 codex/offline-verification-task041에 준비 상태만 저장하고 GitHub push와 새 릴리스 자산 게시를 수행하지 않는다. 실제 대상 PC의 RESULT 상태·오류·AI Assistant 창 열림 결과를 받은 후 최종 배포를 이어간다.
+
+
+## TASK-041 후속 / 테스트용 사전 릴리스 게시 / CodexOrig / 2026-10-19 13:15:22 +09:00
+
+사용자가 '너가 배포를 해줘야 다운 받고 테스트할 수 있어'라고 요청하여, 오프라인 PC 결과 전 **테스트 전달 목적의 공개 배포**를 진행했다. 이전 준비 기록의 보류는 이 요청 이전 상태다. 정식 검증 완료 주장과 구분하고 기존 형식의 정식 배포 gate는 변경하지 않았다.
+
+- 공개 릴리스: [v0.11.1-offline-test.2](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.11.1-offline-test.2), ReleaseId 416894520, prerelease=true, 최신 정식 지정=false.
+- [완성 ZIP 다운로드](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.11.1-offline-test.2/VisualStudio_AI_Assistant-0.11.1-OfflineTest2-Final-win-x64.zip): 308372411 bytes, SHA256 6CE8091677E29BC075D5C97BE98C6F86414537B02BC33F3DEF33A8DF108DCC79.
+- [SHA256 파일](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.11.1-offline-test.2/VisualStudio_AI_Assistant-0.11.1-OfflineTest2-Final-win-x64.zip.sha256): 131 bytes, SHA256 68204285AFC435283578C3A6C25A80E510D0D267B6B376F378BC396F7F2AB198.
+- 확장 4종과 Codex 0.163.0/Claude 2.1.302 native CLI 46개를 포함한 감사 완료 C6 원문이다. 준비 도구만 있는 OfflineTools2 후보와 구분한다. ZIP/내부 파일/기존 VSIX 재빌드0.
+- 원격 소스 분기 codex/offline-verification-task041, 태그 대상 80adb9116f2ebe8055ab04f17ac78e85caacdbb8. draft에서 두 자산의 서버 digest·크기를 검사한 뒤 공개했고 인증 없는 공개 URL에서 두 파일 전체를 다시 내려받아 크기·SHA256을 대조했다.
+- 게시 전 다른 프로젝트 채팅이 idle/notLoaded임을 확인했다. 기존 정식 v0.11.1 태그·9개 자산 ID/크기/SHA256과 최신 정식 지정을 보존했다. 실제 사용자 프로필·CLI·방화벽·네트워크 변경0.
+- 별도 고객 오프라인 PC의 VSIX 설치/IDE 창 열림은 미확인이다. CustomerOfflineVsixInstallVerified=false, CustomerIdeToolWindowVerified=false, FormalTargetVerificationPending=true를 유지한다. OS 네트워크 격리 CLI 검사6/6과 회귀31/31은 기존 검증 범위이며 재실행했다고 표현하지 않는다.
+
+사용자는 ZIP 전체 해제 → 모든 Visual Studio 종료 → VerifyOfflineSetup.bat 실행 → 설치 대상 선택 → Visual Studio 도구/AI Assistant 창 확인 순서로 테스트한다. RESULT 상태·오류 문구·창 열림 여부를 받는다. 시작 2026-10-19 13:10:06 +09:00, 종료 2026-10-19 13:15:22 +09:00, 경과 00:05:16.6580671. 근거: CodexOrig_TASK-041_TestDeployment.json 및 갱신 Validation.json. 테스트 배포 작업 종료, 실제 PC 결과 수집 대기.

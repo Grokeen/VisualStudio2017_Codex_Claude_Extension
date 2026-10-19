@@ -1,6 +1,6 @@
 {
   "Task": "TASK-041",
-  "Status": "AwaitingOfflineTargetPcResult",
+  "Status": "TestPrereleasePublishedAwaitingOfflineTargetPcResult",
   "UserHasSeparateOfflineTestPc": true,
   "StartedAt": "2026-10-19T12:24:43+09:00",
   "RegisteredAt": "2026-10-19T12:25:59.2688663+09:00",
@@ -8,7 +8,7 @@
   "CustomerOfflineVsixInstallVerified": false,
   "CustomerIdeToolWindowVerified": false,
   "ReleaseConditionSatisfied": false,
-  "AdditionalPublicDeploymentPerformed": false,
+  "AdditionalPublicDeploymentPerformed": true,
   "Sources": [
     {
       "Path": "scripts/Install-OfflineCli.ps1",
@@ -921,5 +921,14 @@
   "AuditFollowup": "MarkdownReport/CodexOrig2_TASK-042_Followup_C6_Evidence.json",
   "PreparedBranch": "codex/offline-verification-task041",
   "FinalPreparedAt": "2026-10-19T13:03:53.4257023+09:00",
-  "ElapsedToPrepared": "00:39:10.4257023"
+  "ElapsedToPrepared": "00:39:10.4257023",
+  "FormalReleaseConditionSatisfied": false,
+  "TestPrereleasePublished": true,
+  "TestDistributionRecord": "MarkdownReport/CodexOrig_TASK-041_TestDeployment.json",
+  "TestReleaseUrl": "https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.11.1-offline-test.2",
+  "PublicFullBundleUrl": "https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.11.1-offline-test.2/VisualStudio_AI_Assistant-0.11.1-OfflineTest2-Final-win-x64.zip",
+  "TestDistributionRecordedAt": "2026-10-19T13:15:22.6580671+09:00",
+  "PublicChecksumUrl": "https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.11.1-offline-test.2/VisualStudio_AI_Assistant-0.11.1-OfflineTest2-Final-win-x64.zip.sha256",
+  "FormalTargetVerificationPending": true,
+  "TestDistributionAuthorizedByUser": true
 }
