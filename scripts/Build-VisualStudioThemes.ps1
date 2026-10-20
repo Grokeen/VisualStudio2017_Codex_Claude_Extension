@@ -13,7 +13,7 @@ update date  : 2026-10-20 CodexOrig4 : TASK069 Dracula 스크롤 손잡이 대�
 [CmdletBinding()]
 param(
     [Parameter(Mandatory=$true)][string]$OutputDirectory,
-    [ValidatePattern('^\d+\.\d+\.\d+$')][string]$Version='0.14.0'
+    [ValidatePattern('^\d+\.\d+\.\d+$')][string]$Version='0.14.1'
 )
 $ErrorActionPreference='Stop'
 Add-Type -AssemblyName System.Drawing

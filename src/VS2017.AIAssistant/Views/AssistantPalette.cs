@@ -13,6 +13,7 @@ namespace VS2017.AIAssistant.Views
     /// update date  : 2026-10-19 CodexCode : Role 추가15의 흰색·회색과 옅은 보조색 및 의미별 대비 제공.
     ///                2026-10-19 CodexOrig4 : 정책과 팔레트 밝기 판별 기준 통일 및 양 모드 대비 검증.
     ///                2026-10-20 CodexOrig4 : TASK069 Role #15에 대화 상대 답변 surface를 모든 local palette에 추가.
+    ///                2026-10-21 CodexCode : 사용자 피드백에 따라 입력·요청 공통색과 AI 답변색의 톤 차이를 확대.
     /// </summary>
     /// ---------------------------------------------------------------------
     public static class AssistantPalette
@@ -20,7 +21,7 @@ namespace VS2017.AIAssistant.Views
         private static readonly string[] SemanticPairs = {
             "AssistantBackgroundBrush:171717:F7F8FA", "AssistantForegroundBrush:EBEBEB:20252B",
             "AssistantSurfaceBrush:242424:FFFFFF", "AssistantBorderBrush:424242:C7CDD4",
-            "AssistantReplyBackgroundBrush:202020:F1F3F5",
+            "AssistantUserMessageBrush:40424A:FFFFFF", "AssistantReplyBackgroundBrush:292B33:DCE3EA",
             "AssistantMutedForegroundBrush:B6B6B6:505B67", "AssistantLinkBrush:79C5F5:165C98",
             "AssistantPopupBackgroundBrush:1D1E20:FFFFFF", "AssistantPopupBorderBrush:52555C:B8C2CE",
             "AssistantDialogBorderBrush:7A7F87:737B86",
@@ -76,7 +77,8 @@ namespace VS2017.AIAssistant.Views
                 Set(resources, "AssistantBackgroundBrush", light ? "F5F6F8" : "202124");
                 Set(resources, "AssistantForegroundBrush", light ? "191919" : "F1F3F4");
                 Set(resources, "AssistantSurfaceBrush", light ? "FFFFFF" : "2B2D30");
-                Set(resources, "AssistantReplyBackgroundBrush", light ? "F1F3F5" : "26282B");
+                Set(resources, "AssistantUserMessageBrush", light ? "FFFFFF" : "424449");
+                Set(resources, "AssistantReplyBackgroundBrush", light ? "DCE3EA" : "292B30");
                 Set(resources, "AssistantBorderBrush", light ? "D9DDE3" : "45484D");
                 Set(resources, "AssistantMutedForegroundBrush", light ? "5F6368" : "B8BCC2");
                 Set(resources, "AssistantLinkBrush", light ? "1558A6" : "8AB4F8");
@@ -102,7 +104,8 @@ namespace VS2017.AIAssistant.Views
             Set(resources, "AssistantBackgroundBrush", "282A36");
             Set(resources, "AssistantForegroundBrush", "F8F8F2");
             Set(resources, "AssistantSurfaceBrush", "343746");
-            Set(resources, "AssistantReplyBackgroundBrush", "2F3140");
+            Set(resources, "AssistantUserMessageBrush", "4B4F63");
+            Set(resources, "AssistantReplyBackgroundBrush", "303342");
             Set(resources, "AssistantBorderBrush", "52566A");
             Set(resources, "AssistantMutedForegroundBrush", "B9B9C4");
             Set(resources, "AssistantLinkBrush", "8BE9FD");

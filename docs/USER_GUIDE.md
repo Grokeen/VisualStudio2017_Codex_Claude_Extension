@@ -1,6 +1,6 @@
 # AI Assistant 사용 안내
 
-Claude·Codex와 대화를 이어 가고, 현재 파일의 수정안을 비교해 적용하는 방법입니다. [v0.14.0-preview.1 설치 파일과 릴리스 자산](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.14.0-preview.1)을 확인하세요. VS2017 15.7·15.8용, VS2017 15.9 이상용, VS2019용, VS2022 x64용을 제공합니다.
+Claude·Codex와 대화를 이어 가고, 현재 파일의 수정안을 비교해 적용하는 방법입니다. [v0.14.1-preview.1 설치 파일과 릴리스 자산](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.14.1-preview.1)을 확인하세요. VS2017 15.7·15.8용, VS2017 15.9 이상용, VS2019용, VS2022 x64용을 제공합니다.
 
 ## 설치와 AI 연결
 
@@ -75,7 +75,11 @@ Microsoft 공식 안내: [확장 찾기·관리·사용 안 함·제거](https:/
 
 입력란 왼쪽 권한 메뉴의 **승인 요청**은 수정안 검토, **작업 도구 허용**은 검토 방식과 확장의 업무 작업 권한, **전체 액세스**는 네이티브 CLI의 직접 파일·명령·테스트 실행을 선택합니다. 세부 DB·형상관리·배포 체크박스는 확장 작업 창에 적용되는 권한입니다. 네이티브 전체 액세스는 별도의 직접 실행 모드이므로 보내기 전에 현재 모드와 작업 폴더를 확인하세요.
 
-사용자 요청은 오른쪽에 작성란과 같은 배경색의 말풍선으로, AI 답변은 왼쪽에 조금 더 진한 배경색의 말풍선으로 표시합니다. 위쪽에는 대화 시작 시각을 표시하고, 응답을 기다리는 동안 실제 경과 시간과 움직이는 상태 표시를 보여 줍니다. 요청을 취소하려면 중지 버튼을 누릅니다. 안내는 중앙에서 잠시 보인 뒤 사라지며, 오른쪽 위 메뉴의 최근 알림에서 다시 확인할 수 있습니다. 수정안 검토 모드에서는 승인·적용 전까지 원본 파일을 유지합니다. 전체 액세스에서는 실행 중 실제 파일이 바뀔 수 있습니다.
+사용자 요청은 오른쪽에 작성란과 **같은 배경색**의 말풍선으로, AI 답변은 왼쪽에 같은 계열의 **더 어두운 배경색**의 말풍선으로 표시합니다. v0.14.1에서는 이전 버전에서 거의 같아 보이던 두 톤의 차이를 키웠습니다. Dracula에서는 사용자·입력란 `#4B4F63`, AI 답변 `#303342`입니다. 위쪽에는 대화 시작 시각을 표시하고, 응답을 기다리는 동안 실제 경과 시간과 움직이는 상태 표시를 보여 줍니다. 요청을 취소하려면 중지 버튼을 누릅니다. 안내는 중앙에서 잠시 보인 뒤 사라지며, 오른쪽 위 메뉴의 최근 알림에서 다시 확인할 수 있습니다. 수정안 검토 모드에서는 승인·적용 전까지 원본 파일을 유지합니다. 전체 액세스에서는 실행 중 실제 파일이 바뀔 수 있습니다.
+
+| v0.14.1 Dracula | v0.14.1 Visual Studio Light |
+|---|---|
+| ![Dracula의 사용자 요청·입력란과 더 어두운 AI 답변. 익명 합성 WPF 렌더이며 실제 IDE 캡처가 아니다.](assets/ui-guide-v0.14.1/tone/dracula-dark-wide.png) | ![밝은 테마의 흰 사용자 요청·입력란과 회색 AI 답변. 익명 합성 WPF 렌더이며 실제 IDE 캡처가 아니다.](assets/ui-guide-v0.14.1/tone/vs-light-wide.png) |
 
 <img src="assets/model-options-0.9.png" alt="선택한 모델의 생각 강도 슬라이더와 Fast 지원을 안내하는 상세 설정" width="480">
 
@@ -222,7 +226,7 @@ AI 답변에서 마우스 오른쪽 버튼을 누르고 **답변 전체를 새 �
 
 ## 이전 v0.13.0-preview.1 기능 기록
 
-이 절은 이전 v0.13.0-preview.1의 기능 기록입니다. 당시 오프라인 ZIP은 `VisualStudio_AI_Assistant-0.13.0-Preview1-FullOffline-win-x64.zip`이었으며 [이전 34쪽 PDF](../output/pdf/VisualStudio_AI_Assistant_%EC%84%A4%EC%B9%98_%EC%82%AC%EC%9A%A9%EC%84%A4%EB%AA%85%EC%84%9C_v0.13.0_%EB%AF%B8%EB%A6%AC%EB%B3%B4%EA%B8%B0.pdf)는 그 버전의 안내를 보존합니다. 현재 기능·설치 파일은 [v0.14.0-preview.1 릴리스](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.14.0-preview.1)와 아래 새 안내를 기준으로 확인하세요.
+이 절은 이전 v0.13.0-preview.1의 기능 기록입니다. 당시 오프라인 ZIP은 `VisualStudio_AI_Assistant-0.13.0-Preview1-FullOffline-win-x64.zip`이었으며 [이전 34쪽 PDF](../output/pdf/VisualStudio_AI_Assistant_%EC%84%A4%EC%B9%98_%EC%82%AC%EC%9A%A9%EC%84%A4%EB%AA%85%EC%84%9C_v0.13.0_%EB%AF%B8%EB%A6%AC%EB%B3%B4%EA%B8%B0.pdf)는 그 버전의 안내를 보존합니다. 현재 기능·설치 파일은 [v0.14.1-preview.1 릴리스](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.14.1-preview.1)를 기준으로 확인하세요.
 
 ### 대화별 독립 작업
 
@@ -406,9 +410,9 @@ C# 7.0과 .NET Framework 4.6.2에서 빌드할 수 있어야 합니다.
 
 연결 정보는 이 창 수명 동안만 사용하며 설정·대화에 저장하거나 AI에게 전달하지 않습니다. DB는 허용된 계정으로 테이블·열 메타데이터만 읽고 실제 행은 조회하지 않습니다. 최대512열·약12000자까지 참고하고 SQL 작성 요청은2000자까지 입력합니다. 범위를 넘는 스키마는 잘림을 표시합니다. 입력란에 넣어 전송한 스키마는 대화 기록에도 포함됩니다. 생성한 SQL을 DB에 실행하지 않습니다. 다른 엔진 연결과 SQL 실행은 현재 범위에 포함되지 않습니다.
 
-## v0.14.0-preview.1 사용자 안내
+## 이전 v0.14.0-preview.1 사용자 안내
 
-이 절과 [v0.14.0-preview.1 전용 44쪽 PDF](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.14.0-preview.1/VisualStudio_AI_Assistant-0.14.0-Preview-UserGuide.pdf)는 새 설치 묶음의 사용자 안내입니다. 함께 제공되는 [CLI 포함 전체 오프라인 ZIP](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.14.0-preview.1/VisualStudio_AI_Assistant-0.14.0-Preview1-FullOffline-win-x64.zip)과 [릴리스 자산](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.14.0-preview.1)을 사용하세요. v0.14.0과 직전 v0.13.0을 보존하며, 이전 34쪽 v0.13.0 PDF는 해당 버전의 기록으로 남습니다.
+이 절과 [이전 44쪽 PDF](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.14.0-preview.1/VisualStudio_AI_Assistant-0.14.0-Preview-UserGuide.pdf)는 v0.14.0-preview.1 당시 기능을 보존합니다. 현재 설치 파일과 45쪽 안내서는 [v0.14.1-preview.1 릴리스](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.14.1-preview.1)에서 받으세요.
 
 ### AI에게 메시지를 전달하고 답변 받기
 

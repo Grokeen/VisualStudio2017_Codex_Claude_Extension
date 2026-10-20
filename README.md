@@ -4,25 +4,31 @@
 
 오류 화면과 참고 문서를 보여 주고 자연어로 작업을 요청하세요. 바뀔 코드를 먼저 비교해 승인하거나, **전체 액세스**를 선택해 AI가 직접 파일 수정과 명령·테스트를 수행하게 할 수 있습니다. 대화와 공통 규칙은 내 PC의 Markdown에 남습니다.
 
-**v0.14.0-preview.1 설치·사용 안내** · [릴리스 및 다운로드 자산](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.14.0-preview.1) · [상세 사용자 안내](docs/USER_GUIDE.md)
+**v0.14.1-preview.1 설치·사용 안내** · [릴리스 및 다운로드 자산](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.14.1-preview.1) · [상세 사용자 안내](docs/USER_GUIDE.md)
 
-v0.14.0-preview.1에는 아래 설치 묶음과 44쪽 사용자 PDF를 제공합니다. 계정 로그인과 실제 원격 AI 응답은 사용 중인 CLI와 서비스 계정에서 별도로 준비합니다.
+v0.14.1-preview.1에는 아래 설치 묶음과 45쪽 사용자 PDF를 제공합니다. 요청 입력란과 사용자 말풍선은 같은 색으로 유지하고, AI 답변의 어두운 톤을 더 분명하게 구분했습니다. 계정 로그인과 실제 원격 AI 응답은 사용 중인 CLI와 서비스 계정에서 별도로 준비합니다.
 
 | 다운로드 | 파일 |
 |---|---|
-| [CLI 포함 전체 오프라인 ZIP](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.14.0-preview.1/VisualStudio_AI_Assistant-0.14.0-Preview1-FullOffline-win-x64.zip) | `VisualStudio_AI_Assistant-0.14.0-Preview1-FullOffline-win-x64.zip` |
-| [설치·사용 PDF · 44쪽](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.14.0-preview.1/VisualStudio_AI_Assistant-0.14.0-Preview-UserGuide.pdf) | `VisualStudio_AI_Assistant-0.14.0-Preview-UserGuide.pdf` |
-| [오프라인 IDE 확장·테마 설치기](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.14.0-preview.1/Grokeen-AI-Theme-Offline-Installer-0.14.0.exe) | `Grokeen-AI-Theme-Offline-Installer-0.14.0.exe` |
-| [간단 ZIP](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.14.0-preview.1/VisualStudio_AI_Assistant-0.14.0.zip) | `VisualStudio_AI_Assistant-0.14.0.zip` |
+| [CLI 포함 전체 오프라인 ZIP](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.14.1-preview.1/VisualStudio_AI_Assistant-0.14.1-Preview1-FullOffline-win-x64.zip) | `VisualStudio_AI_Assistant-0.14.1-Preview1-FullOffline-win-x64.zip` |
+| [설치·사용 PDF · 45쪽](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.14.1-preview.1/VisualStudio_AI_Assistant-0.14.1-Preview-UserGuide.pdf) | `VisualStudio_AI_Assistant-0.14.1-Preview-UserGuide.pdf` |
+| [오프라인 IDE 확장·테마 설치기](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.14.1-preview.1/Grokeen-AI-Theme-Offline-Installer-0.14.1.exe) | `Grokeen-AI-Theme-Offline-Installer-0.14.1.exe` |
+| [간단 ZIP](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.14.1-preview.1/VisualStudio_AI_Assistant-0.14.1.zip) | `VisualStudio_AI_Assistant-0.14.1.zip` |
 
-배포 첨부와 로컬 `releases` 폴더에는 현재 v0.14.0과 직전 v0.13.0을 보존합니다. 새 버전의 파일·체크섬이 게시된 뒤 v0.12.1의 Release 첨부와 로컬 패키지만 정리하며 태그, 이력, 개발·감사 기록은 유지합니다.
+v0.14.1은 이전 v0.14.0과 별도 자산으로 제공하며, 이전 Release와 로컬 패키지는 보존합니다.
 
 | 사용 중인 Visual Studio | 설치 파일 |
 |---|---|
-| 2017 15.7·15.8 · x86 IDE | [VS2017 15.7용 VSIX](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.14.0-preview.1/VS2017.15.7.AIAssistant-0.14.0.vsix) |
-| 2017 15.9 이상 · x86 IDE | [VS2017용 VSIX](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.14.0-preview.1/VS2017.AIAssistant-0.14.0.vsix) |
-| 2019 16.11 · x86 IDE | [VS2019용 VSIX](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.14.0-preview.1/VS2019.AIAssistant-0.14.0.vsix) |
-| 2022 17.x · x64 IDE | [VS2022용 VSIX](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.14.0-preview.1/VS2022.AIAssistant-0.14.0.vsix) |
+| 2017 15.7·15.8 · x86 IDE | [VS2017 15.7용 VSIX](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.14.1-preview.1/VS2017.15.7.AIAssistant-0.14.1.vsix) |
+| 2017 15.9 이상 · x86 IDE | [VS2017용 VSIX](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.14.1-preview.1/VS2017.AIAssistant-0.14.1.vsix) |
+| 2019 16.11 · x86 IDE | [VS2019용 VSIX](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.14.1-preview.1/VS2019.AIAssistant-0.14.1.vsix) |
+| 2022 17.x · x64 IDE | [VS2022용 VSIX](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.14.1-preview.1/VS2022.AIAssistant-0.14.1.vsix) |
+
+다음 그림은 v0.14.1 제품 DLL을 예시 대화로 렌더한 화면입니다. 사용자 요청과 입력란은 같은 톤이며 AI 답변은 같은 계열의 더 어두운 톤입니다. 실제 IDE 또는 계정 대화의 캡처가 아닙니다.
+
+| Dracula | Visual Studio Light |
+|---|---|
+| ![Dracula에서 밝은 사용자 요청·입력란과 더 어두운 AI 답변이 구분되는 익명 WPF 렌더](docs/assets/ui-guide-v0.14.1/tone/dracula-dark-wide.png) | ![밝은 화면에서 흰 사용자 요청·입력란과 회색 AI 답변이 구분되는 익명 WPF 렌더](docs/assets/ui-guide-v0.14.1/tone/vs-light-wide.png) |
 
 ## 공통 사용 안내와 직전 버전의 화면 예시
 
@@ -70,7 +76,7 @@ v0.14.0-preview.1에는 아래 설치 묶음과 44쪽 사용자 PDF를 제공합
 
 ## 이전 v0.13.0-preview.1의 기능 기록
 
-v0.13.0의 기능 기록입니다. 당시 배포된 오프라인 ZIP은 `VisualStudio_AI_Assistant-0.13.0-Preview1-FullOffline-win-x64.zip`이며, [이전 34쪽 PDF](output/pdf/VisualStudio_AI_Assistant_%EC%84%A4%EC%B9%98_%EC%82%AC%EC%9A%A9%EC%84%A4%EB%AA%85%EC%84%9C_v0.13.0_%EB%AF%B8%EB%A6%AC%EB%B3%B4%EA%B8%B0.pdf)는 v0.13.0 설명을 보존합니다. 현재 기능과 설치 파일은 위의 v0.14.0-preview.1 자료를 기준으로 확인하세요.
+v0.13.0의 기능 기록입니다. 당시 배포된 오프라인 ZIP은 `VisualStudio_AI_Assistant-0.13.0-Preview1-FullOffline-win-x64.zip`이며, [이전 34쪽 PDF](output/pdf/VisualStudio_AI_Assistant_%EC%84%A4%EC%B9%98_%EC%82%AC%EC%9A%A9%EC%84%A4%EB%AA%85%EC%84%9C_v0.13.0_%EB%AF%B8%EB%A6%AC%EB%B3%B4%EA%B8%B0.pdf)는 v0.13.0 설명을 보존합니다. 현재 기능과 설치 파일은 위의 v0.14.1-preview.1 자료를 기준으로 확인하세요.
 
 | 기능 | 사용 방법 |
 |---|---|
@@ -86,9 +92,9 @@ v0.13.0의 기능 기록입니다. 당시 배포된 오프라인 ZIP은 `VisualS
 
 네 종류 Release 빌드 오류·경고 0, 기본 회귀 20/20, 동시 대화 120/120을 확인했습니다. [검증 보고서](MarkdownReport/CodexOrig_TASK-068_Validation.md)와 [독립 감사](MarkdownReport/CodexOrig2_TASK-068_C6_Audit.md)에 실제 IDE·설치·패키지 검증 범위를 구분해 기록합니다. 합성 UI 이미지는 실제 IDE·포인터·키보드 포커스 검사와 구분합니다. Claude 로그인·실제 AI 답변과 고객 VS2017 Professional 15.7.1/제한망 PC 설치는 확인 범위 밖입니다.
 
-## v0.14.0-preview.1의 기능 안내
+## 이전 v0.14.0-preview.1의 기능 안내
 
-이 절과 [44쪽 PDF](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.14.0-preview.1/VisualStudio_AI_Assistant-0.14.0-Preview-UserGuide.pdf)는 v0.14.0-preview.1 설치 묶음과 함께 제공됩니다. 배포 파일은 [릴리스 자산](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.14.0-preview.1)에서 확인하세요. v0.14.0과 직전 v0.13.0을 보존하고 더 오래된 v0.12.1 패키지 첨부는 정리 대상입니다.
+이 절과 [이전 44쪽 PDF](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.14.0-preview.1/VisualStudio_AI_Assistant-0.14.0-Preview-UserGuide.pdf)는 v0.14.0-preview.1 당시 기능을 보존합니다. 현재 설치 파일은 위의 v0.14.1-preview.1 자료를 사용하세요.
 
 | 기능 | 사용 흐름 |
 |---|---|

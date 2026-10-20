@@ -9,5 +9,5 @@ using System.Windows;
 [assembly: AssemblyCopyright("Copyright © 2026 Grokeen")]
 [assembly: ComVisible(false)]
 [assembly: ThemeInfo(ResourceDictionaryLocation.None, ResourceDictionaryLocation.SourceAssembly)]
-[assembly: AssemblyVersion("0.14.0.0")]
-[assembly: AssemblyFileVersion("0.14.0.0")]
+[assembly: AssemblyVersion("0.14.1.0")]
+[assembly: AssemblyFileVersion("0.14.1.0")]

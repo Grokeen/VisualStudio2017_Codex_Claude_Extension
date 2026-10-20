@@ -2,13 +2,13 @@
 
 이 안내는 **Visual Studio AI Assistant 확장과 Windows용 Codex·Claude CLI를 인터넷이 없는 PC에 설치**하는 절차입니다. AI 모델 요청과 계정 인증까지 오프라인으로 처리하지는 않습니다. 설치 후 네트워크 연결이 허용되면 본인 계정으로 공식 로그인을 하고 연결을 확인하세요.
 
-## v0.14.0-preview.1 전용 확장·IDE 테마 설치기
+## v0.14.1-preview.1 전용 확장·IDE 테마 설치기
 
-v0.14.0-preview.1 후보는 네 SKU 빌드와 격리 IDE 통합 검사에서 확장 DLL 로드와 주요 화면 동작을 확인했습니다. 고객 PC의 설치·실사용, 특히 VS2017 Professional 15.7.1 및 별도 제한망 PC 환경은 확인 범위에 포함하지 않았습니다. 이 묶음의 `Grokeen-AI-Theme-Offline-Installer-0.14.0.exe`는 설치된 Visual Studio를 감지해 선택한 IDE에 동봉 확장과 IDE 테마를 설치합니다. 설치 전 실행 중인 IDE는 사용자가 직접 닫아야 합니다. 설치기는 Codex·Claude CLI 설치나 계정 로그인·AI 요청을 수행하지 않습니다.
+v0.14.1-preview.1 후보는 네 SKU 빌드와 대화 색상 화면 검사를 거쳤습니다. 고객 PC의 설치·실사용, 특히 VS2017 Professional 15.7.1 및 별도 제한망 PC 환경은 확인 범위에 포함하지 않았습니다. 이 묶음의 `Grokeen-AI-Theme-Offline-Installer-0.14.1.exe`는 설치된 Visual Studio를 감지해 선택한 IDE에 동봉 확장과 IDE 테마를 설치합니다. 설치 전 실행 중인 IDE는 사용자가 직접 닫아야 합니다. 설치기는 Codex·Claude CLI 설치나 계정 로그인·AI 요청을 수행하지 않습니다.
 
-1. 같은 v0.14.0 묶음의 ZIP을 새 폴더에 모두 압축 해제하고 manifest/체크섬으로 파일을 확인합니다.
+1. 같은 v0.14.1 묶음의 ZIP을 새 폴더에 모두 압축 해제하고 manifest/체크섬으로 파일을 확인합니다.
 2. 실행 중인 모든 Visual Studio 인스턴스를 직접 닫습니다. 설치기는 IDE를 강제 종료하지 않고 닫힐 때까지 기다릴 수 있습니다.
-3. `Grokeen-AI-Theme-Offline-Installer-0.14.0.exe`를 실행합니다. 발견된 Visual Studio 버전과 설치 인스턴스를 검토합니다. 여러 대상이 표시되면 사용할 항목을 고릅니다.
+3. `Grokeen-AI-Theme-Offline-Installer-0.14.1.exe`를 실행합니다. 발견된 Visual Studio 버전과 설치 인스턴스를 검토합니다. 여러 대상이 표시되면 사용할 항목을 고릅니다.
 4. 설치 전 확인을 통과하면 묶음의 확장 VSIX와 IDE 테마 VSIX를 해당 Visual Studio 설치기로 설치합니다. 네트워크에서 설치 파일을 다운로드하지 않습니다.
 5. 결과 화면의 진단 JSON 및 `VSIXInstaller-*.log` 경로를 기록하고, 설치가 끝난 뒤 Visual Studio를 다시 열어 **도구 → AI Assistant**와 선택한 색 테마를 확인합니다.
 
@@ -18,11 +18,11 @@ v0.14.0-preview.1 후보는 네 SKU 빌드와 격리 IDE 통합 검사에서 확
 
 전용 설치기 사용 후에도 CLI 런타임이 필요하면 아래 CLI 설치 절차를 별도로 진행하세요. CLI가 설치되어 있어도 서비스 로그인이나 실제 AI 요청은 네트워크와 계정 권한이 허용될 때만 가능합니다.
 
-이 안내의 현재 기준 묶음은 **v0.14.0-preview.1**의 [CLI 포함 전체 오프라인 ZIP](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.14.0-preview.1/VisualStudio_AI_Assistant-0.14.0-Preview1-FullOffline-win-x64.zip)입니다. 작은 ZIP과 구분해 전체 오프라인 ZIP을 받으세요. 설치 전 manifest와 체크섬을 확인하고, 이 안내와 같은 버전의 파일을 사용하세요.
+이 안내의 현재 기준 묶음은 **v0.14.1-preview.1**의 [CLI 포함 전체 오프라인 ZIP](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.14.1-preview.1/VisualStudio_AI_Assistant-0.14.1-Preview1-FullOffline-win-x64.zip)입니다. 작은 ZIP과 구분해 전체 오프라인 ZIP을 받으세요. 설치 전 manifest와 체크섬을 확인하고, 이 안내와 같은 버전의 파일을 사용하세요.
 
-이전 버전인 v0.13.0-preview.1의 사용자 전달 폴더에는 VSIX와 테마 패키지, `cli/codex/`·`cli/claude/` 런타임 및 라이선스·고지, 설치/검증 BAT·PowerShell, 체크섬·manifest, 안내 문서와 PDF만 포함했습니다. 제품 소스·프로젝트·PDB·테스트·개발/감사 증거·Git 자료·사용자 프로필·토큰·대화 기록·인터넷 준비용 도구는 제외했습니다. 이 설명은 이전 버전의 구성 기록이며 현재 설치에는 위의 v0.14.0 묶음을 사용하세요.
+이전 버전인 v0.13.0-preview.1의 사용자 전달 폴더에는 VSIX와 테마 패키지, `cli/codex/`·`cli/claude/` 런타임 및 라이선스·고지, 설치/검증 BAT·PowerShell, 체크섬·manifest, 안내 문서와 PDF만 포함했습니다. 제품 소스·프로젝트·PDB·테스트·개발/감사 증거·Git 자료·사용자 프로필·토큰·대화 기록·인터넷 준비용 도구는 제외했습니다. 이 설명은 이전 버전의 구성 기록이며 현재 설치에는 위의 v0.14.1 묶음을 사용하세요.
 
-배포 첨부 파일은 최신 v0.14.0-preview.1과 직전 v0.13.0-preview.1을 보존합니다. 이 문서의 v0.13.0 설명은 이전 버전 기록입니다. 이전 릴리스 이력·태그와 개발/감사 기록은 유지하며, 더 오래된 v0.12.1 첨부 링크는 정리 후 사용할 수 없습니다.
+기존 v0.14.0과 v0.13.0의 배포 및 이력은 보존합니다. 이 문서의 v0.13.0 설명은 이전 버전 기록입니다. 설치 시에는 같은 버전의 VSIX, 테마 및 체크섬을 함께 사용하세요.
 
 > 준비 PC에는 인터넷 연결이 필요합니다. 오프라인 PC에는 확장 설치 파일과 CLI 실행 파일을 USB 등으로 옮깁니다. CLI 프로필, 로그인 정보, 토큰은 복사하지 않습니다.
 

@@ -23,7 +23,8 @@
  <SolidColorBrush x:Key="AssistantRemovedBrush" Color="#FF7373"/>
  <SolidColorBrush x:Key="AssistantSelectionBrush" Color="#35414F"/>
  <SolidColorBrush x:Key="AssistantSurfaceBrush" Color="#242424"/>
- <SolidColorBrush x:Key="AssistantReplyBackgroundBrush" Color="#202020"/>
+ <SolidColorBrush x:Key="AssistantUserMessageBrush" Color="#40424A"/>
+ <SolidColorBrush x:Key="AssistantReplyBackgroundBrush" Color="#292B33"/>
  <SolidColorBrush x:Key="AssistantWarningBrush" Color="#EDA359"/>
  <SolidColorBrush x:Key="AssistantTone141414Brush" Color="#141414"/>
  <SolidColorBrush x:Key="AssistantTone19473FBrush" Color="#19473F"/>

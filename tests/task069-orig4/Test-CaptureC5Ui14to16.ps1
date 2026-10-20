@@ -14,7 +14,8 @@ param(
     [Parameter(Mandatory=$true)][string]$AssetsPath,
     [Parameter(Mandatory=$true)][string]$ExpectedDllSha256,
     [Parameter(Mandatory=$true)][string]$ExpectedAssetsSha256,
-    [Parameter(Mandatory=$true)][string]$OutputDirectory
+    [Parameter(Mandatory=$true)][string]$OutputDirectory,
+    [string]$CaptureSourcePath
 )
 Set-StrictMode -Version Latest
 $ErrorActionPreference='Stop'
@@ -43,7 +44,8 @@ foreach($entry in $frameworkTarget.Value.PSObject.Properties){foreach($kind in @
 foreach($sibling in Get-ChildItem -LiteralPath (Split-Path -Parent $dll) -Filter '*.dll' -File){if($sibling.FullName -ne $dll){$dependencies[$sibling.BaseName]=$sibling.FullName;Copy-Item -LiteralPath $sibling.FullName -Destination $output}}
 $dllCopy=Join-Path $output ([IO.Path]::GetFileName($dll));Copy-Item -LiteralPath $dll -Destination $dllCopy
 $dependencyPath=Join-Path $output 'dependencies.json';$dependencies|ConvertTo-Json -Depth 6|Set-Content -LiteralPath $dependencyPath -Encoding UTF8
-$source=Join-Path $PSScriptRoot 'CaptureC5Ui14to16.cs'
+$source=if($CaptureSourcePath){[IO.Path]::GetFullPath($CaptureSourcePath)}else{Join-Path $PSScriptRoot 'CaptureC5Ui14to16.cs'}
+if(!(Test-Path -LiteralPath $source -PathType Leaf)){throw "Capture source is missing: $source"}
 $compiler='C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\Bin\Roslyn\csc.exe'
 $referenceDir='C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.2'
 if(!(Test-Path -LiteralPath $compiler)){throw "C# compiler not found: $compiler"}
