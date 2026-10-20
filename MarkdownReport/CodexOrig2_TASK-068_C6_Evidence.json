@@ -1,7 +1,7 @@
 {
   "auditor": "CodexOrig2",
   "candidate": "artifacts/task068/candidate6",
-  "status": "PASS_C6_PRODUCT_LOCAL_PACKAGE_AND_IDE_4_OF_4_PUBLICATION_PENDING",
+  "status": "PASS_C6_FINAL_PUBLISHED_AND_CLEANED_CUSTOMER_PC_UNTESTED",
   "sourceInputs": 138,
   "sourceHashMismatches": 0,
   "changedInputsFromC5": ["src/VS2017.AIAssistant/Views/AssistantControl.Dropdowns.cs"],
@@ -20,7 +20,11 @@
   "technicalGate": "PASS",
   "roomSync8PassedPerSku": 4,
   "installedGuide01PassedPerSku": 4,
-  "publicationPending": true,
+  "publication": {"releaseId": 418041982, "tag": "v0.13.0-preview.1", "sourceCommit": "4fa59b7149bf0083e9dbc2451078444e1adc7336", "assetCount": 13, "rootAnonymousDownloadsMatched": 13, "auditorApiDigestAndLocalAssetMatched": 13, "auditorAnonymousSampleMatched": true, "evidence": ["MarkdownReport/CodexOrig_TASK-068_Deployment.json", "artifacts/task068-audit/candidate6-publication-independent.json"]},
+  "releaseCleanup": {"remoteAssetsDeleted": 30, "deletedRemoteAssetsRemaining": 0, "localReleaseDirectoriesDeleted": 12, "deletedLocalDirectoriesRemaining": 0, "releasesWithAssets": ["v0.13.0-preview.1", "v0.12.1-preview.1"], "releaseEntriesPreserved": 6, "evidence": "MarkdownReport/CodexOrig_TASK-068_ReleaseCleanup.json"},
+  "publicationPending": false,
+  "customerPcOfflineVsixInstallVerified": false,
+  "liveAiVerified": false,
   "guiUsed": false,
   "liveAiOrLoginUsed": false,
   "productOrSharedBuildModified": false

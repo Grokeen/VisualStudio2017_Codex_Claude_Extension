@@ -40,5 +40,9 @@
     "Claude login/live inference per user instruction",
     "Customer VS2017 Professional15.7.1/offline PC installation",
     "Actual physical pointer/keyboard focus"
-  ]
+  ],
+  "FinalIndependentAudit": "PASS_C6_FINAL_PUBLISHED_AND_CLEANED_CUSTOMER_PC_UNTESTED",
+  "AuditEvidence": "MarkdownReport/CodexOrig2_TASK-068_C6_Evidence.json",
+  "CleanupRecordCommit": "efc7e99c1d3b0592c0cf1933df28bcd24301ce70",
+  "FinalRecordedAt": "2026-10-20T14:43:36.5538398+09:00"
 }

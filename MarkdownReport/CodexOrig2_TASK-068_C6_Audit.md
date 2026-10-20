@@ -1,6 +1,6 @@
 # CodexOrig2 — TASK068 C6 고정 후보 재감사
 
-대상: `artifacts/task068/candidate6`의 v0.13.0-preview.1 제품 후보. `source-hashes.json`의 **138/138** 입력은 고정 사본과 일치한다. 네 SKU Release 빌드는 종료코드·오류·경고 모두 **0**이다. C5와의 변경 입력은 [`AssistantControl.Dropdowns.cs` 1개](../artifacts/task068/candidate5-to6-input-diff.json)이며, C5 실패 패키지는 [별도 보존](../artifacts/task068/preserved-candidate5-package/preservation-result.json)돼 C6 성과에 합산하지 않는다. **C6의 무창 제품·로컬 패키지와 네 SKU 실제 IDE 628/628 감사는 통과**했다. 공개 게시·익명 재다운로드는 미완료다.
+대상: `artifacts/task068/candidate6`의 v0.13.0-preview.1 제품 후보. `source-hashes.json`의 **138/138** 입력은 고정 사본과 일치한다. 네 SKU Release 빌드는 종료코드·오류·경고 모두 **0**이다. C5와의 변경 입력은 [`AssistantControl.Dropdowns.cs` 1개](../artifacts/task068/candidate5-to6-input-diff.json)이며, C5 실패 패키지는 [별도 보존](../artifacts/task068/preserved-candidate5-package/preservation-result.json)돼 C6 성과에 합산하지 않는다. **C6 제품·로컬 패키지·네 SKU 실제 IDE 628/628·공개 게시 및 이전 첨부 정리 감사는 통과**했다. 고객 PC 실설치와 실 AI 연결은 검증 범위 밖이다.
 
 ## A68-04 재선택 후 미승인 수정안 복원
 
@@ -22,4 +22,10 @@ Root의 C6 공식 회귀 20개 영역은 모두 종료코드 **0**이고 마지�
 
 **실제 IDE 검증:** [네 SKU 실행 요약](../artifacts/task068/candidate6-ide1-summary.json)의 각각 **157/157**, 합계 **628/628**, 실패 **0**을 감사자가 각 [2017.Legacy](../artifacts/ide/run-195ab4163d27492688c003ad2d7cb4f0/result.json) · [2017](../artifacts/ide/run-b930f22dd3e241f0b4a6f00d49f875db/result.json) · [2019](../artifacts/ide/run-86b61db5063f4febb18fffa1ce704a36/result.json) · [2022](../artifacts/ide/run-fe680fd0907447cf9db1537326b425c7/result.json) 원본 157행 및 `progress.log` 157 PASS와 대조했다. 네 설치 DLL의 SHA-256은 각 고정 C6 Release DLL과, 네 설치 VSIX의 SHA-256은 각 고정 C6 VSIX와 일치한다. 네 `ROOM-SYNC-01`~`08`은 각 **8/8**, `ROOM-QUEUE-03` 관측은 모두 수정안 보존·Discard 활성·원본 쓰기 방지(`MarkerExists=false`)를 기록한다. 네 `GUIDE-01`은 설치 PDF 해시가 고정본과 일치하고 `FULL-04`~`08`도 통과했다. IDE 호스트는 순서대로 VS 15.0, 15.0, 16.0, 17.0이다. 전용 프로세스는 세 건 정상 종료했고 2019 한 건은 [결과 보존 뒤 강제 정리](../artifacts/ide/run-86b61db5063f4febb18fffa1ce704a36/owned-process-cleanup.json)됐다. 종료 차이는 테스트 실패나 제품 결함으로 단정할 근거가 없지만 그대로 기록한다. 이는 Root 실행 증거를 감사자가 대조한 것이며 감사자가 IDE를 직접 실행한 것은 아니다.
 
-**기술 게이트 판정: PASS.** C6 고정 소스·빌드·기능·로컬 전달 패키지·네 실제 IDE 검증은 현재 증거에서 통과했다. 감사자는 제품·공유 빌드·GUI·IDE·원격 AI·로그인·배포를 수정/실행하지 않았다. 고객 PC 실설치, C6 13자산 공개 게시/익명 재다운로드·이전 첨부 정리는 아직 검증되지 않았으므로 **배포 완료 판정은 보류**한다. [기계 판정](CodexOrig2_TASK-068_C6_Evidence.json).
+## 공개 게시·정리 후 감사
+
+[Root의 게시 기록](CodexOrig_TASK-068_Deployment.json)은 소스 커밋 `4fa59b7149bf0083e9dbc2451078444e1adc7336`을 가리키는 [v0.13.0-preview.1 공개 Release](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.13.0-preview.1) ID **418041982**, 신규 첨부 **13개**의 인증 없는 재다운로드 크기·SHA-256 **13/13 일치**를 기록한다. 감사자는 공개 GitHub API에서 Release가 draft가 아닌 prerelease이고 해당 태그 대상·ID·13개 자산의 이름·ID·크기·SHA-256 digest가 게시 기록과 고정 로컬 자산에 전부 일치함을 다시 확인했다. 인증 없이 `RELEASE_SHA256SUMS.txt`를 별도로 내려받아 **1,320바이트**·SHA-256 `EACA859FB5C0074EA652AA1964B4D6CF6E36B5E3AAC53A9584F80D67460688B6` 일치도 확인했다. [감사자 독립 대조 결과](../artifacts/task068-audit/candidate6-publication-independent.json). 감사자가 13개를 모두 재다운로드한 것은 아니며 전체 재다운로드 판정은 Root의 원본 기록과 공개 API digest 대조를 함께 근거로 한다.
+
+[Root의 승인 정리 기록](CodexOrig_TASK-068_ReleaseCleanup.json)은 이전 첨부 **30개**와 로컬 `releases` 하위 **12개 폴더** 삭제를 기록한다. 정리 후 공개 API에는 Release 항목 여섯 개와 각각의 태그가 남고, 첨부가 있는 항목은 현 버전 `v0.13.0-preview.1` **13개**와 직전 `v0.12.1-preview.1` **13개**뿐이다. 삭제된 30개 자산 ID의 잔존은 **0**이며 로컬 폴더도 `v0.13.0`, `v0.12.1` 두 개뿐이고 삭제 대상 12개는 존재하지 않는다. 게시 기록의 `OriginalAssetsUnchanged=true`는 **14:37 정리 전** 상태이며, **14:38 정리 후** 상태를 나타내지 않는다. 감사자는 Release·태그·증거 삭제나 배포 작업을 실행하지 않았다.
+
+**최종 감사 판정: PASS.** C6 고정 소스·빌드·기능·로컬 패키지·실제 IDE·공개 게시·익명 자산 검증·승인 정리는 현재 증거에서 완료됐다. 고객 VS2017 Professional 15.7.1 PC의 오프라인 실설치와 실 AI 연결은 미검증이며 이 판정에 포함하지 않는다. 감사자는 제품·공유 빌드·GUI·IDE·원격 AI·로그인·배포를 수정/실행하지 않았다. [기계 판정](CodexOrig2_TASK-068_C6_Evidence.json).
