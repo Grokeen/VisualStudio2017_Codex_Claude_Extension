@@ -7,7 +7,7 @@
   "changedInputsFromC5": ["src/VS2017.AIAssistant/Views/AssistantControl.Dropdowns.cs"],
   "releaseBuilds": "4 SKU exit 0, errors 0, warnings 0",
   "dll2017Sha256": "BC7C35B7929D316A8F12DE333EBCEEDBB4AFE25D6DB92A5D8B644183CE14E4C5",
-  "concurrent": {"passed": 120, "failed": 0, "sameAssignedAgentProposalRestoreTested": true, "a68_04": "resolved in synthetic no-window host; actual IDE pending", "evidence": "artifacts/task068-audit/candidate6-concurrent-1/result.json"},
+  "concurrent": {"passed": 120, "failed": 0, "sameAssignedAgentProposalRestoreTested": true, "a68_04": "resolved in synthetic no-window host and four actual IDE runs (628/628)", "evidence": "artifacts/task068-audit/candidate6-concurrent-1/result.json"},
   "officialConcurrent": {"passed": 120, "failed": 0, "original115Missing": 0, "newChecks": 5, "dllAndAssetsHashesMatchAudit": true, "evidence": "artifacts/task068concurrent/candidate6-agent-reselect-1/review.json"},
   "choices": {"passed": 8, "failed": 0, "evidence": "artifacts/task068-audit/candidate6-choices.json"},
   "guide": {"vsixCount": 4, "pdfEach": 1, "pdfBytesEach": 1666997, "pdfSha256Each": "E96A03BD125550AF364E7B4476B25262716463C990632E088B55CCBCCD233E87", "actualReleaseDllGetPdfPathCalls": 4},
