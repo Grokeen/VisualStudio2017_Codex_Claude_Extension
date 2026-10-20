@@ -1,8 +1,8 @@
-# CodexOrig2 — TASK069 2차 독립 감사 (C13/final5 게시 전 로컬 검사 완료)
+# CodexOrig2 — TASK069 2차 독립 감사 (C13/final5 Preview 게시·사후 정리 검증 완료)
 
-감사 스냅샷: 2026-10-21 00:59 KST. 이후 후보 변경은 차이 범위에 따라 별도 재검사가 필요하다.
+감사 스냅샷: 2026-10-21 01:08 KST. 이후 후보 변경은 차이 범위에 따라 별도 재검사가 필요하다.
 
-기준은 [Role.md](Role.md)의 마지막 추가 요청 #1–19 및 `image-67`, `image-69`–`image-82` 원본이다. 감사자는 관련 이미지를 직접 확인하고, [WORK_STATUS](WORK_STATUS.md)의 소유 분리와 C3 실패 원본, 고정 후보 `artifacts/task069/candidate13`를 대조했다. 제품·공유 빌드·IDE·GUI·Git/index·배포는 수정하거나 실행하지 않았다. **판정: C11 #17 실제 편집기 색 소비는 정식 VSIX로 VS2017/2019/2022 합계 438/438 통과했다. C12 첫 Legacy 실행의 JSON 부분 저장 실패 원인은 미확정으로 보존한다. C13은 복구 경로를 좁게 보강해 기존 37/37·확장 105/105 및 구 코드 음성 대조 4/4, 네 SKU 빌드 경고·오류 0, 전체 회귀 27/27, 네 SKU 실제 IDE 각 172/172, final5 로컬 자산 14/14, 새 EXE 설치 17/17·공식 설치 6건을 통과했다. 따라서 C13/final5의 로컬 Preview 게시 전 감사 게이트는 통과로 판단한다. 공개 자산·익명 다운로드 해시 검증 전까지 공개 배포 완료 판정은 보류한다.**
+기준은 [Role.md](Role.md)의 마지막 추가 요청 #1–19 및 `image-67`, `image-69`–`image-82` 원본이다. 감사자는 관련 이미지를 직접 확인하고, [WORK_STATUS](WORK_STATUS.md)의 소유 분리와 C3 실패 원본, 고정 후보 `artifacts/task069/candidate13`를 대조했다. 제품·공유 빌드·IDE·GUI·Git/index·배포는 수정하거나 실행하지 않았다. **판정: C11 #17 실제 편집기 색 소비는 정식 VSIX로 VS2017/2019/2022 합계 438/438 통과했다. C12 첫 Legacy 실행의 JSON 부분 저장 실패 원인은 미확정으로 보존한다. C13은 복구 경로를 좁게 보강해 기존 37/37·확장 105/105 및 구 코드 음성 대조 4/4, 네 SKU 빌드 경고·오류 0, 전체 회귀 27/27, 네 SKU 실제 IDE 각 172/172, final5 로컬 자산 14/14, 새 EXE 설치 17/17·공식 설치 6건을 통과했다. 공개 Preview의 14개 자산 및 익명 다운로드 SHA-256도 로컬 목록과 14/14 일치한다. 승인된 0.12.1 구버전 첨부 정리 후 0.13·0.14 자산 보존도 확인했다. C13/final5 Preview 게시 감사는 통과다.**
 
 ## C3 기준과 이전 실패
 
@@ -181,4 +181,12 @@ final4 [Release README](../artifacts/task069/c12-final4-unpublished-preserved/Re
 
 [final5 설치기 결과](../artifacts/task069/offline-installer-final5/result.json)는 **17/17**이며, 격리된 VS2017 15.9·VS2019·VS2022 인스턴스의 확장과 테마를 공식 VSIXInstaller로 각각 설치한 [6건](../artifacts/task069/offline-installer-final5/actual-install.json)은 모두 종료코드 0이다. 감사자가 [설치 패키지·공식 로그를 재해시](../artifacts/task069-audit/c13-installer-actual-audit.json)해 여섯 패키지가 final5 자산과 맞고, 여섯 `%TEMP%` 원본 로그 및 보존 로그가 모두 실제 존재하며 각 기록된 크기·SHA-256과 일치함을 확인했다. 이는 C12 첫 설치의 로그 보존 공백도 final5 새 실행에서 해소했다. [취소 검사](../artifacts/task069/cancel-final5/result.json)는 종료코드 2·실제 설치 0·설치 로그 0이고, [네트워크 차단 작업자 6/6 검사](../artifacts/task041/run-be44c68d56fd4e1494c332ed5b7e0802/worker-results.json)는 네트워크 기능 0인 AppContainer에서 설치·재설치와 두 CLI 시작을 확인했다.
 
-**현재 감사 결론:** C13/final5 로컬 Preview 게시 전 검사는 통과한다. R69-15의 첫 C12 실패 원인은 여전히 불명이나, 동일 위험 경로에 대한 C13의 실제 DLL 복구 검사와 네 SKU IDE 잠금 실패 검사가 통과했다. 지속 잠금에서는 부분 저장 가능성이 남아 있으며 Release 노트가 이를 설명한다. 고객 VS2017 Professional 15.7.1, 실제 TFS 서버·AI 계정/응답, 물리 hover·오류 태그 픽셀은 미검증이다. 공개 배포 판정은 **14개 게시 자산과 익명 다운로드 SHA-256의 로컬 목록 대조 후** 별도로 내린다. 감사자는 이 스냅샷을 동결하고 게시·제품 변경을 수행하지 않는다.
+## 공개 Preview 게시 감사
+
+[공개 Release](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.14.0-preview.1)는 `v0.14.0-preview.1` 시험 배포와 소스 커밋 `68c4be1`을 표시한다. [배포 기록](CodexOrig_TASK-069_Deployment.json)의 Release ID `418594108`, 태그 대상 전체 커밋 `68c4be1ef6fd4a3a69bb4dce936276be741c75ea`, 최신 안정판 유지, 14개 게시 자산의 크기·SHA-256·익명 다운로드 SHA-256을 확인했다. 감사자가 [로컬 자산 목록](../artifacts/task069/release-assets.json) 및 [게시 후 통합 검증](../artifacts/task069/final-validation-c13-postpublish1/validation.json)과 14개 이름·크기·해시를 다시 대조한 [독립 요약](../artifacts/task069-audit/c13-publication-audit.json)은 **14/14 일치, 중복·불일치 0**이다. 공개 페이지의 `Assets 16` 표시는 GitHub 자동 소스 보관파일 두 개를 포함하며 배포 기록의 제품 자산은 14개다. 감사자는 자산을 다시 내려받지는 않았으므로 익명 다운로드 바이트 검증은 배포 기록의 다운로드 해시를 독립 대조한 범위다.
+
+## 승인된 구버전 자산 정리 사후 확인
+
+[정리 계획](../artifacts/task069/old-release-cleanup-plan.json)의 SHA-256 `ADF561B0…`이 [완료 기록](CodexOrig_TASK-069_ReleaseCleanup.json)과 일치하고, 계획한 원격 자산 ID **13개**가 실제 삭제 기록 **13개**와 같다. 계획의 로컬 `releases/v0.12.1` 파일은 23개였고 정리 후 해당 폴더가 없다. 공개 GitHub API를 새로 조회했을 때 `v0.12.1-preview.1` Release 자산은 **0개**, `v0.13.0-preview.1`은 **13개**, `v0.14.0-preview.1`은 **14개**다. 두 보존 버전의 로컬 폴더가 존재하고 0.14 자산 목록 14개 파일도 모두 존재한다. [감사자 대조 결과](../artifacts/task069-audit/c13-release-cleanup-audit.json)를 남겼다. Release 항목·태그 및 개발 증거 보존은 완료 기록에 명시된다. 앞 절 배포 기록의 `PreviousUi121PreviewUnchanged=true`는 **정리 이전 게시 검증 시점**의 스냅샷이며 현재 0.12.1 첨부 보존 상태를 뜻하지 않는다.
+
+**최종 감사 결론:** C13/final5의 로컬 Preview 검사, 공개 자산 무결성 및 승인된 구버전 정리 사후 확인은 통과한다. R69-15의 첫 C12 부분 저장 원인은 여전히 불명이나, 동일 위험 경로에 대한 C13 실제 DLL 복구 검사와 네 SKU IDE 잠금 실패 검사가 통과했다. 지속 잠금의 부분 저장 가능성과 재확인 절차는 공개 Release 노트에 명시됐다. 고객 VS2017 Professional 15.7.1, 실제 TFS 서버·AI 계정/응답, 물리 hover·오류 태그 픽셀은 미검증이다. 이는 고객 환경의 최종 확인을 대체하지 않는다. 감사자는 이 스냅샷을 동결하고 게시·제품 변경을 수행하지 않는다.

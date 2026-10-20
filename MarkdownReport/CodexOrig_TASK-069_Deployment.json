@@ -1,0 +1,155 @@
+{
+  "Task": "TASK-069",
+  "Distribution": "CollaborationOfflineInstallerPreview1",
+  "SourceCommit": "68c4be1ef6fd4a3a69bb4dce936276be741c75ea",
+  "SourceBranch": "codex/role-0140-task054",
+  "ReleaseId": 418594108,
+  "ReleaseUrl": "https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.14.0-preview.1",
+  "Tag": "v0.14.0-preview.1",
+  "TagTarget": "68c4be1ef6fd4a3a69bb4dce936276be741c75ea",
+  "PublishedAt": "2026-10-20T16:03:07.0000000+00:00",
+  "VerifiedAt": "2026-10-21T01:04:01.8413270+09:00",
+  "Prerelease": true,
+  "MadeLatest": false,
+  "Assets": [
+    {
+      "Name": "Grokeen-AI-Theme-Offline-Installer-0.14.0.exe",
+      "Bytes": 18749440,
+      "Sha256": "42CE73ABE69760005E3C5B9C9977ADAFF1999A22085A31A7B73B9168D5100225",
+      "DownloadedSha256": "42CE73ABE69760005E3C5B9C9977ADAFF1999A22085A31A7B73B9168D5100225",
+      "Matched": true,
+      "Url": "https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.14.0-preview.1/Grokeen-AI-Theme-Offline-Installer-0.14.0.exe",
+      "AssetId": 659786085
+    },
+    {
+      "Name": "Grokeen-VisualStudio-Themes-0.14.0-VS2017.vsix",
+      "Bytes": 58000,
+      "Sha256": "AABABFCA3EBA23D3D838569BA3DFEF8D155723B5F451FF069B714BB737018B57",
+      "DownloadedSha256": "AABABFCA3EBA23D3D838569BA3DFEF8D155723B5F451FF069B714BB737018B57",
+      "Matched": true,
+      "Url": "https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.14.0-preview.1/Grokeen-VisualStudio-Themes-0.14.0-VS2017.vsix",
+      "AssetId": 659786159
+    },
+    {
+      "Name": "Grokeen-VisualStudio-Themes-0.14.0-VS2019.vsix",
+      "Bytes": 58002,
+      "Sha256": "C5CBF1497701BCB2E62A5480E2F855A85E0DA18C09F76B871F31DBF95B53702D",
+      "DownloadedSha256": "C5CBF1497701BCB2E62A5480E2F855A85E0DA18C09F76B871F31DBF95B53702D",
+      "Matched": true,
+      "Url": "https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.14.0-preview.1/Grokeen-VisualStudio-Themes-0.14.0-VS2019.vsix",
+      "AssetId": 659786190
+    },
+    {
+      "Name": "Grokeen-VisualStudio-Themes-0.14.0-VS2022.vsix",
+      "Bytes": 58027,
+      "Sha256": "C962484DE868A5441B7FB0B0D9A6700007C09C2DA1A6307B2F1B6916600DAB73",
+      "DownloadedSha256": "C962484DE868A5441B7FB0B0D9A6700007C09C2DA1A6307B2F1B6916600DAB73",
+      "Matched": true,
+      "Url": "https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.14.0-preview.1/Grokeen-VisualStudio-Themes-0.14.0-VS2022.vsix",
+      "AssetId": 659786218
+    },
+    {
+      "Name": "RELEASE_SHA256SUMS.txt",
+      "Bytes": 1433,
+      "Sha256": "F2F906F59558710C4E81BE917704831FE6F0C61F2634BE8A4FECE0BFFAE14793",
+      "DownloadedSha256": "F2F906F59558710C4E81BE917704831FE6F0C61F2634BE8A4FECE0BFFAE14793",
+      "Matched": true,
+      "Url": "https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.14.0-preview.1/RELEASE_SHA256SUMS.txt",
+      "AssetId": 659786257
+    },
+    {
+      "Name": "SHA256SUMS.txt",
+      "Bytes": 739,
+      "Sha256": "01F7494BC35A0D5A2F771268B8782045C3FBEC7F9E515614BCC5B6D31D29D616",
+      "DownloadedSha256": "01F7494BC35A0D5A2F771268B8782045C3FBEC7F9E515614BCC5B6D31D29D616",
+      "Matched": true,
+      "Url": "https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.14.0-preview.1/SHA256SUMS.txt",
+      "AssetId": 659786290
+    },
+    {
+      "Name": "VisualStudio_AI_Assistant-0.14.0.zip",
+      "Bytes": 39136281,
+      "Sha256": "E416C0624623D1470D5EE3F0CA10080E2C9A25BFDAAE2624CB09A23EB421F1BE",
+      "DownloadedSha256": "E416C0624623D1470D5EE3F0CA10080E2C9A25BFDAAE2624CB09A23EB421F1BE",
+      "Matched": true,
+      "Url": "https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.14.0-preview.1/VisualStudio_AI_Assistant-0.14.0.zip",
+      "AssetId": 659786318
+    },
+    {
+      "Name": "VisualStudio_AI_Assistant-0.14.0-Preview1-FullOffline-win-x64.zip",
+      "Bytes": 332115547,
+      "Sha256": "48EEA288CB88E23D7A19842BC451BDBAF64A537C7D63C80D26F2D3EAF81B81BF",
+      "DownloadedSha256": "48EEA288CB88E23D7A19842BC451BDBAF64A537C7D63C80D26F2D3EAF81B81BF",
+      "Matched": true,
+      "Url": "https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.14.0-preview.1/VisualStudio_AI_Assistant-0.14.0-Preview1-FullOffline-win-x64.zip",
+      "AssetId": 659786545
+    },
+    {
+      "Name": "VisualStudio_AI_Assistant-0.14.0-Preview1-FullOffline-win-x64.zip.sha256",
+      "Bytes": 133,
+      "Sha256": "5CDCC13CA6113113849BC37729AC4072605A3939591629688C817BDA5E9F4CCB",
+      "DownloadedSha256": "5CDCC13CA6113113849BC37729AC4072605A3939591629688C817BDA5E9F4CCB",
+      "Matched": true,
+      "Url": "https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.14.0-preview.1/VisualStudio_AI_Assistant-0.14.0-Preview1-FullOffline-win-x64.zip.sha256",
+      "AssetId": 659787412
+    },
+    {
+      "Name": "VisualStudio_AI_Assistant-0.14.0-Preview-UserGuide.pdf",
+      "Bytes": 2162985,
+      "Sha256": "124285DF5E7734917B5888E3C6D7868801234626D9CB7653C4E0142B1383FA35",
+      "DownloadedSha256": "124285DF5E7734917B5888E3C6D7868801234626D9CB7653C4E0142B1383FA35",
+      "Matched": true,
+      "Url": "https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.14.0-preview.1/VisualStudio_AI_Assistant-0.14.0-Preview-UserGuide.pdf",
+      "AssetId": 659787456
+    },
+    {
+      "Name": "VS2017.15.7.AIAssistant-0.14.0.vsix",
+      "Bytes": 4629196,
+      "Sha256": "1BBEA894FAFC758068F34AB0FF82B7E94E160450290465D86E291D708ECC2E02",
+      "DownloadedSha256": "1BBEA894FAFC758068F34AB0FF82B7E94E160450290465D86E291D708ECC2E02",
+      "Matched": true,
+      "Url": "https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.14.0-preview.1/VS2017.15.7.AIAssistant-0.14.0.vsix",
+      "AssetId": 659787493
+    },
+    {
+      "Name": "VS2017.AIAssistant-0.14.0.vsix",
+      "Bytes": 4629158,
+      "Sha256": "0FAAA417CEF642851EC7BB910ACA215CB82F84716FAE1E13074B069378710E16",
+      "DownloadedSha256": "0FAAA417CEF642851EC7BB910ACA215CB82F84716FAE1E13074B069378710E16",
+      "Matched": true,
+      "Url": "https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.14.0-preview.1/VS2017.AIAssistant-0.14.0.vsix",
+      "AssetId": 659787536
+    },
+    {
+      "Name": "VS2019.AIAssistant-0.14.0.vsix",
+      "Bytes": 4628722,
+      "Sha256": "6A3324923D77D3B61E8ABB169F232EF326DE20CED37DC9BA20F4FC52B641394C",
+      "DownloadedSha256": "6A3324923D77D3B61E8ABB169F232EF326DE20CED37DC9BA20F4FC52B641394C",
+      "Matched": true,
+      "Url": "https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.14.0-preview.1/VS2019.AIAssistant-0.14.0.vsix",
+      "AssetId": 659787586
+    },
+    {
+      "Name": "VS2022.AIAssistant-0.14.0.vsix",
+      "Bytes": 4627644,
+      "Sha256": "B46D2EEE6FC3A6BE50475A2101634B87F971010DF629FED3B49BFD9C359D873F",
+      "DownloadedSha256": "B46D2EEE6FC3A6BE50475A2101634B87F971010DF629FED3B49BFD9C359D873F",
+      "Matched": true,
+      "Url": "https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.14.0-preview.1/VS2022.AIAssistant-0.14.0.vsix",
+      "AssetId": 659787644
+    }
+  ],
+  "NativeCliPayloadPublished": true,
+  "StableReleaseId": 416791376,
+  "StableTagTarget": "2b63332327fd0ccdb2041f003b02ab7ecc615a84",
+  "Previous013PreviewReleaseId": 418041982,
+  "Previous013PreviewUnchanged": true,
+  "PreviousUi121PreviewReleaseId": 417654310,
+  "PreviousUi121PreviewUnchanged": true,
+  "StableRemainsLatest": true,
+  "CustomerPcTested": false,
+  "CustomerOfflineVsixInstallVerified": false,
+  "CustomerIdeToolWindowVerified": false,
+  "TestDistributionAuthorizedByUser": true,
+  "FormalTargetVerificationPending": true
+}

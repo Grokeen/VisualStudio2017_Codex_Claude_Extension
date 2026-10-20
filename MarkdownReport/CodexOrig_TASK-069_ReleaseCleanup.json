@@ -1,0 +1,121 @@
+{
+  "Completed": true,
+  "CompletedAt": "2026-10-21T01:05:56.9154493+09:00",
+  "UserAuthorized": true,
+  "KeptTags": [
+    "v0.14.0-preview.1",
+    "v0.13.0-preview.1"
+  ],
+  "DeletedRemoteAssets": [
+    {
+      "ReleaseId": 417654310,
+      "Tag": "v0.12.1-preview.1",
+      "AssetId": 657190930,
+      "Name": "Grokeen-VisualStudio-Themes-0.12.1-VS2017.vsix",
+      "Bytes": 57784,
+      "Digest": "sha256:da9e78bddbf664a7c78191f47c399bee96b05c28c33cfbbbae74612e04b6c8c1"
+    },
+    {
+      "ReleaseId": 417654310,
+      "Tag": "v0.12.1-preview.1",
+      "AssetId": 657190964,
+      "Name": "Grokeen-VisualStudio-Themes-0.12.1-VS2019.vsix",
+      "Bytes": 57788,
+      "Digest": "sha256:19c2c611b731f6be2b1f07ef7dec4807bc5814b40d92eb3de576110c17311aeb"
+    },
+    {
+      "ReleaseId": 417654310,
+      "Tag": "v0.12.1-preview.1",
+      "AssetId": 657191010,
+      "Name": "Grokeen-VisualStudio-Themes-0.12.1-VS2022.vsix",
+      "Bytes": 57815,
+      "Digest": "sha256:cc13d0896c4c98a68529ba01bf17a94bea5dc27ccbbd83eb0f75dc46f100b8dd"
+    },
+    {
+      "ReleaseId": 417654310,
+      "Tag": "v0.12.1-preview.1",
+      "AssetId": 657191058,
+      "Name": "RELEASE_SHA256SUMS.txt",
+      "Bytes": 1320,
+      "Digest": "sha256:2935c2aa257085e7e1ece260f6a9f7f46f2002fd9b9d46b0b55ed1d6ea57e67e"
+    },
+    {
+      "ReleaseId": 417654310,
+      "Tag": "v0.12.1-preview.1",
+      "AssetId": 657191095,
+      "Name": "SHA256SUMS.txt",
+      "Bytes": 739,
+      "Digest": "sha256:f9c89a51a609eb2221cf5b8608aa2544588e4985680dfa856980bb2b09f25111"
+    },
+    {
+      "ReleaseId": 417654310,
+      "Tag": "v0.12.1-preview.1",
+      "AssetId": 657192030,
+      "Name": "VisualStudio_AI_Assistant-0.12.1-Preview-UserGuide.pdf",
+      "Bytes": 1406441,
+      "Digest": "sha256:f853789ce823a1eabe8b4e98226064a9e86f808389ca77033df83925744f2372"
+    },
+    {
+      "ReleaseId": 417654310,
+      "Tag": "v0.12.1-preview.1",
+      "AssetId": 657191215,
+      "Name": "VisualStudio_AI_Assistant-0.12.1-Preview1-FullOffline-win-x64.zip",
+      "Bytes": 311147867,
+      "Digest": "sha256:89a3cda8bbd21918795205a828657bb27f72b40b04bbd8085a90cc459e57c165"
+    },
+    {
+      "ReleaseId": 417654310,
+      "Tag": "v0.12.1-preview.1",
+      "AssetId": 657192010,
+      "Name": "VisualStudio_AI_Assistant-0.12.1-Preview1-FullOffline-win-x64.zip.sha256",
+      "Bytes": 133,
+      "Digest": "sha256:c308b673a452ad046349a736c7affddba64e9bfd8e9c3ab102a5c545f7b29c31"
+    },
+    {
+      "ReleaseId": 417654310,
+      "Tag": "v0.12.1-preview.1",
+      "AssetId": 657191116,
+      "Name": "VisualStudio_AI_Assistant-0.12.1.zip",
+      "Bytes": 18168603,
+      "Digest": "sha256:6842ba327686a60ab89b4b482a64ffb783d9489b033d867668152048c5786b09"
+    },
+    {
+      "ReleaseId": 417654310,
+      "Tag": "v0.12.1-preview.1",
+      "AssetId": 657192097,
+      "Name": "VS2017.15.7.AIAssistant-0.12.1.vsix",
+      "Bytes": 4227961,
+      "Digest": "sha256:af269930df77fc9966c0794a80d0ef619dbd3d8cffcc79a171ae1ca8eb54c4ca"
+    },
+    {
+      "ReleaseId": 417654310,
+      "Tag": "v0.12.1-preview.1",
+      "AssetId": 657192145,
+      "Name": "VS2017.AIAssistant-0.12.1.vsix",
+      "Bytes": 4227949,
+      "Digest": "sha256:0b805eccb820046723f8f3b71916f0a0e6d402a68cbe686148748f0c85cc437b"
+    },
+    {
+      "ReleaseId": 417654310,
+      "Tag": "v0.12.1-preview.1",
+      "AssetId": 657192216,
+      "Name": "VS2019.AIAssistant-0.12.1.vsix",
+      "Bytes": 4229508,
+      "Digest": "sha256:b85914ee9637682ef362735d11cc4ca6869bf55cee697caedc3026757a2647b8"
+    },
+    {
+      "ReleaseId": 417654310,
+      "Tag": "v0.12.1-preview.1",
+      "AssetId": 657192247,
+      "Name": "VS2022.AIAssistant-0.12.1.vsix",
+      "Bytes": 4229431,
+      "Digest": "sha256:bf6873c0da59acdc517da8ea0c77160001fe38001a9cdabc608074cc07e1951c"
+    }
+  ],
+  "DeletedLocalDirectories": [
+    "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.12.1"
+  ],
+  "PlanSha256": "ADF561B0D2E56E1A72BA7124CAAB5512719BDB63431391494A6AF2195FD098D0",
+  "ReleaseEntriesAndTagsPreserved": true,
+  "DevelopmentEvidencePreserved": true
+}
