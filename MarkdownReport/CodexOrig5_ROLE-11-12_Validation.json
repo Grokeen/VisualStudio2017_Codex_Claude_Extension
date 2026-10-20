@@ -1,0 +1,36 @@
+{
+  "report": "MarkdownReport/CodexOrig5_ROLE-11-12_Markdown-UI-Performance-Research.md",
+  "scope": ["Role.md #11 Markdown feature enrichment", "Role.md #12 collapsed/closed toolwindow activation latency", "UI design and motion speed follow-up"],
+  "code_evidence": {
+    "toolwindow_open": "OpenAssistantCommand.Execute calls FindToolWindow(..., true) and frame.Show() on the UI thread.",
+    "initialization": "AssistantControl.InitializeChat synchronously invokes InitializeExperience, including MarkdownWorkspaceStore.LoadOpen for Claude and Codex.",
+    "scan_bound": "LoadOpen enumerates up to 500 markdown files per provider and reads/validates records.",
+    "existing_mitigations": "Conversation view already displays the recent 20 messages and loads older pages asynchronously.",
+    "motion_tokens": { "primary_entry_ms": 220, "micro_interaction_ms": 150 },
+    "screenshot_75_classification": "Warm reactivation of an existing Visual Studio auto-hide pane, based on Root's lifecycle review; first pane creation is a separate path.",
+    "loaded_preview": "MarkdownPreview.PreviewLoaded calls Refresh; Refresh creates/renders a new MarkdownRendering and replaces/disposes the previous renderer.",
+    "theme_reactivation": "AssistantThemeLoaded reconnects theme notifications and calls RefreshAssistantTheme; current source has an effective palette equality guard. Verify and preserve it, and keep mode fallback queries limited to auto mode."
+  },
+  "idea_inventory": { "required": 100, "rows": 100, "unique_ids": 100, "duplicates": 0 },
+  "verification": {
+    "official_sources_reviewed": [
+      "Microsoft Visual Studio UX guidelines",
+      "Microsoft AsyncPackage background loading guidance",
+      "Microsoft Windows startup performance guidance",
+      "VS Code Markdown and extension UX docs",
+      "GitHub Flavored Markdown spec",
+      "CommonMark current spec",
+      "Obsidian Markdown/callout/embed docs",
+      "Microsoft Fluent 2 motion guidance",
+      "Windows inclusive design and text contrast guidance"
+    ],
+    "runtime_measurements": "Not performed; no Visual Studio cold/warm timing, UI animation A/B, or Markdown corpus run was performed.",
+    "product_source_changed": false,
+    "build_or_release_changed": false,
+    "git_index_or_commit_changed": false
+  },
+  "handoff": {
+    "CodexCode": "For warm auto-hide reactivation, inspect repeated preview rendering and theme refresh first; preserve explicit refresh, asset/font/theme invalidation, GIF and Dispose behavior. Treat cold-open architecture changes as later work unless measured separately.",
+    "CodexOrig4": "Review internal UI hierarchy/accessibility and run a restrained motion-token easing/duration comparison; do not slow every animation at once."
+  }
+}

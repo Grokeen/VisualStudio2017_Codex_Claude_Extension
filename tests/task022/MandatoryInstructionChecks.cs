@@ -154,7 +154,18 @@ internal static class MandatoryInstructionChecks
         File.WriteAllText(oldPath, previousOfficial, new UTF8Encoding(false));
         Ensure(oldWorkspace, out notice);
         Check(String.IsNullOrEmpty(notice) && File.ReadAllText(oldPath, Encoding.UTF8) == DefaultText && (File.GetAttributes(oldPath) & FileAttributes.Hidden) != 0,
-            "Exact previous official copy upgrades to five rules without a modification notice");
+            "Exact previous official copy upgrades to current rules without a modification notice");
+        string fiveRuleWorkspace = Path.Combine(root, "five-rule-upgrade"); Directory.CreateDirectory(fiveRuleWorkspace);
+        string fiveRulePath = Path.Combine(fiveRuleWorkspace, ".mandatory-instructions.md");
+        File.WriteAllText(fiveRulePath, DefaultText.Substring(0, DefaultText.IndexOf("\n6. ", StringComparison.Ordinal)), new UTF8Encoding(false));
+        Ensure(fiveRuleWorkspace, out notice);
+        Check(String.IsNullOrEmpty(notice) && File.ReadAllText(fiveRulePath, Encoding.UTF8) == DefaultText && (File.GetAttributes(fiveRulePath) & FileAttributes.Hidden) != 0,
+            "Installed five-rule official copy upgrades automatically to eight rules");
+        Check(DefaultText.Contains("6. AI모델 간, 협업을 위해 생성한 파일은 사용자에게 제공하거나 노출하지 않는다.") &&
+            DefaultText.Contains("사용자가 협업하라 지시하고, 협업 관련 파일을 생성하라 지시한 경우") &&
+            DefaultText.Contains("7. 형상관리가 연결되어 있는 경우, 가장 오래되고, 수정 이력이 없는 부분") && DefaultText.Contains("참여 인원이 2명 이상인 것이 확인된 경우에만") &&
+            DefaultText.Contains("타 디바이스에서 사용하는 AI 모델과 소통") && DefaultText.Contains("8. 7번이 활성화된 경우, 문제가 생겼을 때, 서로의 내용을 공유"),
+            "Collaboration privacy exception and confirmed multi-contributor directory conditions are bundled");
         File.SetAttributes(oldPath, FileAttributes.Normal);
         File.WriteAllText(oldPath, previousOfficial + "\n사용자 수정", new UTF8Encoding(false));
         string alteredHash = Hash(oldPath); Ensure(oldWorkspace, out notice);

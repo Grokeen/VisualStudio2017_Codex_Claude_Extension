@@ -18,6 +18,7 @@ namespace VS2017.AIAssistant.Chat
     /// create date  : 2026-10-18
     /// update date  : 2026-10-18 CodexOrig : 제한된 크기·형식 검사와 미리보기 추가.
     /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
+    ///                2026-10-20 CodexOrig : TASK069 텍스트 첨부 종류 아이콘과 실제 본문 분량·재사용 도움말.
     /// update date  : 2026-10-18 CodexOrig : TASK-016 문서 첨부·모델 설정·AI 역할 협업과 실패 복구 흐름 연결.
     /// </summary>
     /// ---------------------------------------------------------------------
@@ -46,6 +47,8 @@ namespace VS2017.AIAssistant.Chat
         public bool IsImage { get { return ImageBase64 != null; } }
         public bool IsDocument { get; private set; }
         public string Label { get { return Name + (IsImage ? " · 이미지" : IsDocument ? " · 문서 본문" : " · 텍스트"); } }
+        public string IconText { get { return AttachmentDisplayInfo.IconText(this); } }
+        public string DisplayInfo { get { return AttachmentDisplayInfo.Tooltip(this); } }
 
         /// ---------------------------------------------------------------------
         /// <summary>

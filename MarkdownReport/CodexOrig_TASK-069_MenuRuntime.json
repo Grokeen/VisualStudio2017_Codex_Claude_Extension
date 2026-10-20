@@ -1,0 +1,298 @@
+{
+  "Task": "TASK069 Role17 final4 runtime palette",
+  "Author": "CodexOrig auxiliary055",
+  "Passed": 354,
+  "Failed": 0,
+  "Scope": "Unchanged C5 DLL plus final4 theme in private probe VSIX; not canonical C5 or final C8 release candidate",
+  "FrozenMenuSources": {
+    "tests\\task069theme\\menu\\Test-IdeThemeWorkflow.ps1": "F55B7C3E51612D3AB397ABFC7C1C2322E51284C6D3C0B0EBAD63B27AD751C381",
+    "tests\\task069theme\\menu\\ThemeIdePackage.cs": "C0F9AEBEF4EA0D301233D8CF3AC8B5B8A01E00667BF36D7CBE11876279CA192B",
+    "tests\\task069theme\\menu\\ThemeRegistrationChecks64.cs": "A51FCB6F586C8E2B23A245AEA3CF6CFC20F83F5A2CB376B0EF3AD7B2926835C7"
+  },
+  "Runs": [
+    {
+      "Year": "2017",
+      "Evidence": "artifacts\\task069theme\\menu\\actual-2017-v1",
+      "Passed": 118,
+      "Failed": 0,
+      "FixedInputs": [
+        {
+          "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\tests\\task069theme\\menu\\Test-IdeThemeWorkflow.ps1",
+          "Copy": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task069theme\\menu\\actual-2017-v1\\Test-IdeThemeWorkflow.ps1",
+          "SHA256": "F55B7C3E51612D3AB397ABFC7C1C2322E51284C6D3C0B0EBAD63B27AD751C381"
+        },
+        {
+          "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\tests\\task069theme\\menu\\ThemeIdePackage.cs",
+          "Copy": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task069theme\\menu\\actual-2017-v1\\ThemeIdePackage.cs",
+          "SHA256": "C0F9AEBEF4EA0D301233D8CF3AC8B5B8A01E00667BF36D7CBE11876279CA192B"
+        },
+        {
+          "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\tests\\task069theme\\menu\\ThemeRegistrationChecks64.cs",
+          "Copy": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task069theme\\menu\\actual-2017-v1\\ThemeRegistrationChecks64.cs",
+          "SHA256": "A51FCB6F586C8E2B23A245AEA3CF6CFC20F83F5A2CB376B0EF3AD7B2926835C7"
+        },
+        {
+          "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\tests\\ide\\New-IdeTestTarget.ps1",
+          "Copy": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task069theme\\menu\\actual-2017-v1\\New-IdeTestTarget.ps1",
+          "SHA256": "5E052C4869D3383FB06F09675B8E7301E60824A9163DCD4519BEAB7A1D2B330C"
+        },
+        {
+          "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\tests\\ide\\IdeIntegration.csproj",
+          "Copy": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task069theme\\menu\\actual-2017-v1\\IdeIntegration.csproj",
+          "SHA256": "A46549B9BE8D0CBD5C84099F8528844E75AE89D3A1C4E7EE4770359186B86C82"
+        },
+        {
+          "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\tests\\ide\\source.extension.vsixmanifest",
+          "Copy": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task069theme\\menu\\actual-2017-v1\\source.extension.vsixmanifest",
+          "SHA256": "01E2328C36A32D8C839DB402F65871519172B54812D21232FEE6737AC2ED70AA"
+        },
+        {
+          "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task069\\themes-final4\\definitions\\Kakao.vstheme",
+          "Copy": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task069theme\\menu\\actual-2017-v1\\definitions\\Kakao.vstheme",
+          "SHA256": "A421A9DE4AFB2EB1953F936B62883D8F6E06208D699C57704EED37BAF2121E5D"
+        },
+        {
+          "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task069\\themes-final4\\definitions\\Dracula.vstheme",
+          "Copy": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task069theme\\menu\\actual-2017-v1\\definitions\\Dracula.vstheme",
+          "SHA256": "70C24C0E95FC875F6EEE1BB951597A987A6C750AB1580B83404B8C32B196ACF9"
+        }
+      ],
+      "FixedInputsAfter": {
+        "InputsUnchanged": true,
+        "ActualHostPaletteRead": true,
+        "PhysicalPointerUsed": false,
+        "PhysicalVisibilityVerified": false,
+        "CheckedAt": "2026-10-20T23:13:31.9677805+09:00"
+      },
+      "Cleanup": {
+        "ProcessId": 99084,
+        "RootSuffix": "ThemeApply69M7aff9eea",
+        "ExitedNormally": true,
+        "ForcedOwnedProcessCleanup": false,
+        "UserDefaultProfileChanged": false,
+        "CheckedAt": "2026-10-20T23:13:31.9298216+09:00"
+      },
+      "HelperSourceMatchesFrozenMenuSource": true,
+      "HelperBuildWarnings": 0,
+      "HelperBuildErrors": 0,
+      "ContextMenu": {
+        "HoverTextContrast": 5.903095616330085,
+        "HoverGlyphContrast": 5.903095616330085,
+        "OuterBorderContrast": 3.955888815109914,
+        "InnerBorderContrastObserved": 3.275630060040271,
+        "PhysicalHoverPerformed": false
+      }
+    },
+    {
+      "Year": "2019",
+      "Evidence": "artifacts\\task069theme\\menu\\actual-2019-v1",
+      "Passed": 118,
+      "Failed": 0,
+      "FixedInputs": [
+        {
+          "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\tests\\task069theme\\menu\\Test-IdeThemeWorkflow.ps1",
+          "Copy": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task069theme\\menu\\actual-2019-v1\\Test-IdeThemeWorkflow.ps1",
+          "SHA256": "F55B7C3E51612D3AB397ABFC7C1C2322E51284C6D3C0B0EBAD63B27AD751C381"
+        },
+        {
+          "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\tests\\task069theme\\menu\\ThemeIdePackage.cs",
+          "Copy": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task069theme\\menu\\actual-2019-v1\\ThemeIdePackage.cs",
+          "SHA256": "C0F9AEBEF4EA0D301233D8CF3AC8B5B8A01E00667BF36D7CBE11876279CA192B"
+        },
+        {
+          "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\tests\\task069theme\\menu\\ThemeRegistrationChecks64.cs",
+          "Copy": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task069theme\\menu\\actual-2019-v1\\ThemeRegistrationChecks64.cs",
+          "SHA256": "A51FCB6F586C8E2B23A245AEA3CF6CFC20F83F5A2CB376B0EF3AD7B2926835C7"
+        },
+        {
+          "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\tests\\ide\\New-IdeTestTarget.ps1",
+          "Copy": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task069theme\\menu\\actual-2019-v1\\New-IdeTestTarget.ps1",
+          "SHA256": "5E052C4869D3383FB06F09675B8E7301E60824A9163DCD4519BEAB7A1D2B330C"
+        },
+        {
+          "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\tests\\ide\\IdeIntegration.csproj",
+          "Copy": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task069theme\\menu\\actual-2019-v1\\IdeIntegration.csproj",
+          "SHA256": "A46549B9BE8D0CBD5C84099F8528844E75AE89D3A1C4E7EE4770359186B86C82"
+        },
+        {
+          "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\tests\\ide\\source.extension.vsixmanifest",
+          "Copy": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task069theme\\menu\\actual-2019-v1\\source.extension.vsixmanifest",
+          "SHA256": "01E2328C36A32D8C839DB402F65871519172B54812D21232FEE6737AC2ED70AA"
+        },
+        {
+          "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task069\\themes-final4\\definitions\\Kakao.vstheme",
+          "Copy": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task069theme\\menu\\actual-2019-v1\\definitions\\Kakao.vstheme",
+          "SHA256": "A421A9DE4AFB2EB1953F936B62883D8F6E06208D699C57704EED37BAF2121E5D"
+        },
+        {
+          "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task069\\themes-final4\\definitions\\Dracula.vstheme",
+          "Copy": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task069theme\\menu\\actual-2019-v1\\definitions\\Dracula.vstheme",
+          "SHA256": "70C24C0E95FC875F6EEE1BB951597A987A6C750AB1580B83404B8C32B196ACF9"
+        }
+      ],
+      "FixedInputsAfter": {
+        "InputsUnchanged": true,
+        "ActualHostPaletteRead": true,
+        "PhysicalPointerUsed": false,
+        "PhysicalVisibilityVerified": false,
+        "CheckedAt": "2026-10-20T23:15:45.7247827+09:00"
+      },
+      "Cleanup": {
+        "ProcessId": 41916,
+        "RootSuffix": "ThemeApply69M9540f33f",
+        "ExitedNormally": true,
+        "ForcedOwnedProcessCleanup": false,
+        "UserDefaultProfileChanged": false,
+        "CheckedAt": "2026-10-20T23:15:45.6855968+09:00"
+      },
+      "HelperSourceMatchesFrozenMenuSource": true,
+      "HelperBuildWarnings": 0,
+      "HelperBuildErrors": 0,
+      "ContextMenu": {
+        "HoverTextContrast": 5.903095616330085,
+        "HoverGlyphContrast": 5.903095616330085,
+        "OuterBorderContrast": 3.955888815109914,
+        "InnerBorderContrastObserved": 3.275630060040271,
+        "PhysicalHoverPerformed": false
+      }
+    },
+    {
+      "Year": "2022",
+      "Evidence": "artifacts\\task069theme\\menu\\actual-2022-v2",
+      "Passed": 118,
+      "Failed": 0,
+      "FixedInputs": [
+        {
+          "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\tests\\task069theme\\menu\\Test-IdeThemeWorkflow.ps1",
+          "Copy": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task069theme\\menu\\actual-2022-v2\\Test-IdeThemeWorkflow.ps1",
+          "SHA256": "F55B7C3E51612D3AB397ABFC7C1C2322E51284C6D3C0B0EBAD63B27AD751C381"
+        },
+        {
+          "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\tests\\task069theme\\menu\\ThemeIdePackage.cs",
+          "Copy": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task069theme\\menu\\actual-2022-v2\\ThemeIdePackage.cs",
+          "SHA256": "C0F9AEBEF4EA0D301233D8CF3AC8B5B8A01E00667BF36D7CBE11876279CA192B"
+        },
+        {
+          "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\tests\\task069theme\\menu\\ThemeRegistrationChecks64.cs",
+          "Copy": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task069theme\\menu\\actual-2022-v2\\ThemeRegistrationChecks64.cs",
+          "SHA256": "A51FCB6F586C8E2B23A245AEA3CF6CFC20F83F5A2CB376B0EF3AD7B2926835C7"
+        },
+        {
+          "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\tests\\ide\\New-IdeTestTarget.ps1",
+          "Copy": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task069theme\\menu\\actual-2022-v2\\New-IdeTestTarget.ps1",
+          "SHA256": "5E052C4869D3383FB06F09675B8E7301E60824A9163DCD4519BEAB7A1D2B330C"
+        },
+        {
+          "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\tests\\ide\\IdeIntegration.csproj",
+          "Copy": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task069theme\\menu\\actual-2022-v2\\IdeIntegration.csproj",
+          "SHA256": "0A686E26D66C9336B30768BCCA69109049C406A7AC5AAD6C079D8264C9CEB949"
+        },
+        {
+          "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\tests\\ide\\source.extension.vsixmanifest",
+          "Copy": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task069theme\\menu\\actual-2022-v2\\source.extension.vsixmanifest",
+          "SHA256": "01E2328C36A32D8C839DB402F65871519172B54812D21232FEE6737AC2ED70AA"
+        },
+        {
+          "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task069\\themes-final4\\definitions\\Kakao.vstheme",
+          "Copy": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task069theme\\menu\\actual-2022-v2\\definitions\\Kakao.vstheme",
+          "SHA256": "A421A9DE4AFB2EB1953F936B62883D8F6E06208D699C57704EED37BAF2121E5D"
+        },
+        {
+          "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task069\\themes-final4\\definitions\\Dracula.vstheme",
+          "Copy": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task069theme\\menu\\actual-2022-v2\\definitions\\Dracula.vstheme",
+          "SHA256": "70C24C0E95FC875F6EEE1BB951597A987A6C750AB1580B83404B8C32B196ACF9"
+        }
+      ],
+      "FixedInputsAfter": {
+        "InputsUnchanged": true,
+        "ActualHostPaletteRead": true,
+        "PhysicalPointerUsed": false,
+        "PhysicalVisibilityVerified": false,
+        "CheckedAt": "2026-10-20T23:21:10.1261292+09:00"
+      },
+      "Cleanup": {
+        "ProcessId": 48516,
+        "RootSuffix": "ThemeApply69M512c5715",
+        "ExitedNormally": true,
+        "ForcedOwnedProcessCleanup": false,
+        "UserDefaultProfileChanged": false,
+        "CheckedAt": "2026-10-20T23:21:10.0930362+09:00"
+      },
+      "HelperSourceMatchesFrozenMenuSource": true,
+      "HelperBuildWarnings": 0,
+      "HelperBuildErrors": 0,
+      "ContextMenu": {
+        "HoverTextContrast": 5.903095616330085,
+        "HoverGlyphContrast": 5.903095616330085,
+        "OuterBorderContrast": 3.955888815109914,
+        "InnerBorderContrastObserved": 3.275630060040271,
+        "PhysicalHoverPerformed": false
+      }
+    }
+  ],
+  "ProbeManifest": {
+    "Scope": "Private theme probe only: unchanged C5 product DLL plus exact final4 bundled theme; not official C6 candidate or release artifact",
+    "Rows": [
+      {
+        "Year": "2017",
+        "Original": "artifacts\\task069\\candidate5\\2017\\Release\\VS2017.AIAssistant.vsix",
+        "OriginalSha256": "d3f387908a863c334417e219af699937c5eda1d8cb108af458a313dff6739613",
+        "PrivateProbe": "artifacts\\task069theme\\menu\\package-probe\\C5-UnchangedDll-Final4Theme-VS2017.vsix",
+        "PrivateProbeSha256": "b9133fa45b2a8cb0ceee621a8bf182f010bf11e470e850257d434e2ac8176b69",
+        "ChangedEntries": [
+          "Themes/Grokeen-VisualStudio-Themes-0.14.0-VS2017.vsix"
+        ],
+        "AllOtherEntryBodiesUnchanged": true,
+        "OriginalPreserved": true,
+        "ActualIdeTestStarted": false,
+        "FinalReleaseCandidate": false,
+        "ProductDllSha256": "17e93831ef6cd71a7e20952f151cd9ad4174402b71625434bcb85e6d90e5561e"
+      },
+      {
+        "Year": "2019",
+        "Original": "artifacts\\task069\\candidate5\\2019\\Release\\VS2017.AIAssistant.vsix",
+        "OriginalSha256": "a95118ef4b51b560fce186e5aff133a45b93a4861f2e5d0d88e4850ac3e37990",
+        "PrivateProbe": "artifacts\\task069theme\\menu\\package-probe\\C5-UnchangedDll-Final4Theme-VS2019.vsix",
+        "PrivateProbeSha256": "c6ab829a35bf94f1bd1beec6bac499c1e17cb0f5a4bd16fa69b6b5fccd859b17",
+        "ChangedEntries": [
+          "Themes/Grokeen-VisualStudio-Themes-0.14.0-VS2019.vsix"
+        ],
+        "AllOtherEntryBodiesUnchanged": true,
+        "OriginalPreserved": true,
+        "ActualIdeTestStarted": false,
+        "FinalReleaseCandidate": false,
+        "ProductDllSha256": "c72a7261423cf8a8cd7c2ccf511c297794e6796bcf94cf6ad0e8f1c91b578654"
+      },
+      {
+        "Year": "2022",
+        "Original": "artifacts\\task069\\candidate5\\2022\\Release\\VS2017.AIAssistant.vsix",
+        "OriginalSha256": "c6ada41cba55c0cbfde563b045e6e368ff72b312eeee62d2daf90cfde36a4201",
+        "PrivateProbe": "artifacts\\task069theme\\menu\\package-probe\\C5-UnchangedDll-Final4Theme-VS2022.vsix",
+        "PrivateProbeSha256": "e1cbc020d302bf015dcd4307a6a28bcb3842148004d584eb44a11313f8d59f41",
+        "ChangedEntries": [
+          "Themes/Grokeen-VisualStudio-Themes-0.14.0-VS2022.vsix"
+        ],
+        "AllOtherEntryBodiesUnchanged": true,
+        "OriginalPreserved": true,
+        "ActualIdeTestStarted": false,
+        "FinalReleaseCandidate": false,
+        "ProductDllSha256": "1d08a5874cc5793c1c12e4a14afb4e975afad67728cf2d6d130df0d53e0a34f3"
+      }
+    ]
+  },
+  "ActualHostPaletteRead": true,
+  "PhysicalPointerUsed": false,
+  "PhysicalVisibilityVerified": false,
+  "EffectiveEditorFormatMapVerified": false,
+  "EditorMarkerConsumptionVerified": false,
+  "PreservedInvalidInputRun": {
+    "Evidence": "artifacts/task069theme/menu/actual-2022-v1",
+    "ActualChecksPassed": 118,
+    "DriverSucceeded": false,
+    "Reason": "Shared IdeIntegration.csproj changed during the run; new immutable-input run required and passed"
+  },
+  "Previous159BaselineModified": false,
+  "CanonicalPackagesModified": false,
+  "GuiReservationReturned": true,
+  "RemainingRootGate": "Final four-SKU candidate build, actual IDE/regression/audit, latest Release publication and anonymous download SHA verification"
+}

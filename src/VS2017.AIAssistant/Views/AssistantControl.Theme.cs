@@ -31,6 +31,8 @@ namespace VS2017.AIAssistant.Views
         private int themeRefreshQueued;
         private Dispatcher themeDispatcher;
         private Action themeRefreshCallback;
+        private bool themePaletteApplied, appliedHighContrast;
+        private Color? appliedHostBackground, appliedHostForeground;
         internal string AppliedThemeMode { get; private set; }
         internal string AppliedVisualThemePreset { get; private set; }
 
@@ -139,6 +141,7 @@ namespace VS2017.AIAssistant.Views
         /// create date  : 2026-10-19
         /// update date  : 2026-10-19 CodexCode : 전역 리소스·시스템 설정 변경 없이 해당 확장 사전만 갱신.
         ///                2026-10-19 CodexOrig4 : 실제 IDE SDK 대체 조회 및 단일 우선순위 정책으로 통일.
+        ///                2026-10-20 CodexOrig : TASK069 재표시에서 같은 팔레트의 자원 재할당·문서 재생성을 생략.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void RefreshAssistantTheme()
@@ -163,15 +166,23 @@ namespace VS2017.AIAssistant.Views
                     if (foreground.A == 255) hostForeground = Color.FromArgb(foreground.A, foreground.R, foreground.G, foreground.B);
                 }
             }
-            AppliedThemeMode = AssistantThemePolicy.Resolve(themeMode, hostBackground, WindowsUsesLightMode());
-            bool light = AppliedThemeMode == "light";
+            string resolved = AssistantThemePolicy.Resolve(themeMode, hostBackground, themeMode == "auto" && !hostBackground.HasValue && WindowsUsesLightMode());
+            bool highContrast = SystemParameters.HighContrast;
+            string preset = highContrast ? "vs" : visualThemePreset;
+            if (themePaletteApplied && AppliedThemeMode == resolved && AppliedVisualThemePreset == preset &&
+                appliedHighContrast == highContrast && appliedHostBackground == hostBackground && appliedHostForeground == hostForeground &&
+                Resources.Contains("AssistantBackgroundBrush") && Resources.Contains("AssistantForegroundBrush")) return;
+            AppliedThemeMode = resolved;
+            bool light = resolved == "light";
             AssistantPalette.Apply(Resources, light, hostBackground, hostForeground);
-            AppliedVisualThemePreset = SystemParameters.HighContrast ? "vs" : visualThemePreset;
-            if (!SystemParameters.HighContrast) AssistantPalette.ApplyPreset(Resources, visualThemePreset, light);
+            AppliedVisualThemePreset = preset;
+            if (!highContrast) AssistantPalette.ApplyPreset(Resources, visualThemePreset, light);
             Resources[VsBrushes.ToolWindowBackgroundKey] = Resources["AssistantBackgroundBrush"];
             Resources[VsBrushes.ToolWindowTextKey] = Resources["AssistantForegroundBrush"];
             SetResourceReference(BackgroundProperty, "AssistantBackgroundBrush");
             SetResourceReference(ForegroundProperty, "AssistantForegroundBrush");
+            appliedHostBackground = hostBackground; appliedHostForeground = hostForeground;
+            appliedHighContrast = highContrast; themePaletteApplied = true;
             if (thinkingAnimationActive) { UpdateThinkingAnimation(false); UpdateThinkingAnimation(true); }
         }
 

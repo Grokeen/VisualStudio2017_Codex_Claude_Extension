@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <!-- CodexCode, 2026-10-18: 테스트 인스턴스에만 설치하는 실제 IDE 검증 패키지. -->
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" />
@@ -44,6 +44,7 @@
     <Compile Include="IdeTestPackage.cs" />
     <Compile Include="IdeTests.cs" />
     <Compile Include="IdeTests.LatestUi.cs" />
+    <Compile Include="IdeTests.Debugging.cs" />
     <Compile Include="..\ux\DialogChecks.cs"><Link>DialogChecks.cs</Link></Compile>
     <Compile Include="..\ux\ProductUi.cs"><Link>ProductUi.cs</Link></Compile>
     <None Include="source.extension.vsixmanifest" />

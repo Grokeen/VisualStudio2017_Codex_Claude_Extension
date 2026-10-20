@@ -97,10 +97,34 @@ $projectId = '{18FF2748-6B77-4F67-AF48-CE2D75CE460C}'
 $utf8Bom = New-Object Text.UTF8Encoding($true)
 [IO.File]::WriteAllText((Join-Path $outputDir 'Probe.cs'), "// 테스트 합성 코드`r`nclass Probe { int GetValue() { return 1; } }`r`n", $utf8Bom)
 [IO.File]::WriteAllText((Join-Path $outputDir 'Other.cs'), "// 테스트 다른 파일`r`nclass Other { }`r`n", $utf8Bom)
+$debugProgram = @"
+using System;
+namespace IdeProbe
+{
+    internal static class DebugProgram
+    {
+        private static void Nested()
+        {
+            GC.KeepAlive(7);
+        }
+
+
+
+
+        public static void Main()
+        {
+            string privateValue = "SECRET_VALUE_SENTINEL";
+            Nested();
+            GC.KeepAlive(privateValue);
+        }
+    }
+}
+"@
+[IO.File]::WriteAllText((Join-Path $outputDir 'DebugProgram.cs'), $debugProgram, $utf8Bom)
 $projectText = @'
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <PropertyGroup><Configuration>Debug</Configuration><Platform>AnyCPU</Platform><OutputType>Library</OutputType><RootNamespace>IdeProbe</RootNamespace><TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion><OutputPath>bin\Debug\</OutputPath><ProjectGuid>{18FF2748-6B77-4F67-AF48-CE2D75CE460C}</ProjectGuid></PropertyGroup>
-  <ItemGroup><Reference Include="System"/><Compile Include="Probe.cs"/><Compile Include="Other.cs"/></ItemGroup>
+  <PropertyGroup><Configuration>Debug</Configuration><Platform>AnyCPU</Platform><OutputType>Exe</OutputType><DebugSymbols>true</DebugSymbols><DebugType>full</DebugType><Optimize>false</Optimize><RootNamespace>IdeProbe</RootNamespace><TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion><OutputPath>bin\Debug\</OutputPath><ProjectGuid>{18FF2748-6B77-4F67-AF48-CE2D75CE460C}</ProjectGuid></PropertyGroup>
+  <ItemGroup><Reference Include="System"/><Compile Include="Probe.cs"/><Compile Include="Other.cs"/><Compile Include="DebugProgram.cs"/></ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
 </Project>
 '@

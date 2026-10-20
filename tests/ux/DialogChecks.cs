@@ -20,6 +20,7 @@ using VS2017.AIAssistant.Views;
 /// update date  : 2026-10-18 CodexOrig : 테스트 자체 창과 설정 파일만 조작하는 격리 검증.
 /// update date  : 2026-10-18 CodexOrig : TASK-018 이미지 요구와 드롭다운·A~Z 이름에 맞춰 검증 갱신.
 ///                2026-10-19 CodexOrig : TASK-025 기존 검정 안내 회귀를 명시적 Dark 모드로 분리.
+///                2026-10-21 CodexOrig 보조 개발 055 : UX-16 원문 보존 실패의 독립 조건과 설정 경로를 진단한다.
 /// </summary>
 /// ---------------------------------------------------------------------
 internal static class DialogChecks
@@ -33,6 +34,7 @@ internal static class DialogChecks
     /// update date  : 2026-10-18 CodexOrig : 네 단계 안내·플래그 병합·팝업 위치·저장 실패 검증.
     /// update date  : 2026-10-18 CodexOrig : 공통 Markdown 잠금 실패 시 JSON·Markdown 원문 복구와 검정 팔레트 검증.
     ///                2026-10-19 CodexOrig : 최신 자동/Light 테마 검사와 별도로 Dark 설정을 고정.
+    ///                2026-10-21 CodexOrig 보조 개발 055 : UX-16 assertion 직전 읽기 전용 상태 기록만 추가한다.
     /// </summary>
     /// ---------------------------------------------------------------------
     internal static void Run(string directory, Action<string, bool> check)
@@ -98,12 +100,15 @@ internal static class DialogChecks
                 string instructionsPath = new MarkdownWorkspaceStore().InstructionsPath;
                 string beforeSettingsFailure = File.ReadAllText(store.FilePath);
                 string beforeInstructionFailure = File.ReadAllText(instructionsPath);
+                string beforeSettingsHash = DiagnosticFileHash(store.FilePath);
+                string beforeInstructionsHash = DiagnosticFileHash(instructionsPath);
                 using (var locked = new FileStream(instructionsPath, FileMode.Open, FileAccess.Read, FileShare.Read))
                 {
                     Exercise(() => Click(view, "SettingsButton"), dialog => {
                         ((TextBox)view.FindName("ExecutablePath")).Text = "must-not-partially-save.exe";
                         ((TextBox)view.FindName("RulesText")).Text = "이 저장은 Markdown 파일 잠금으로 실패해야 함";
                         Click(view, "SaveSettingsButton");
+                        RecordUx16Diagnostic(directory, view, dialog, store.FilePath, instructionsPath, beforeSettingsFailure, beforeInstructionFailure, beforeSettingsHash, beforeInstructionsHash, previous, previousWorkspace);
                         check("UX-16 instruction failure preserves both JSON and Markdown", dialog.IsVisible && dialog.Message.Text.StartsWith("설정 저장 실패:") && File.ReadAllText(store.FilePath) == beforeSettingsFailure && File.ReadAllText(instructionsPath) == beforeInstructionFailure);
                     });
                 }
@@ -136,6 +141,76 @@ internal static class DialogChecks
             Environment.SetEnvironmentVariable("VS2017_AI_SETTINGS_PATH", previous);
             Environment.SetEnvironmentVariable("VS2017_AI_WORKSPACE_PATH", previousWorkspace);
         }
+    }
+
+    /// ---------------------------------------------------------------------
+    /// <summary>
+    /// name         : RecordUx16Diagnostic
+    /// desc         : 기존 판정 직전 네 조건·오류 표시·원문 해시·실제 대상 경로를 독립 기록한다.
+    /// author       : CodexOrig 보조 개발 055
+    /// create date  : 2026-10-21
+    /// update date  : 2026-10-21 CodexOrig : assertion·기대·제품 상태 변경 없이 테스트 artifact만 남긴다.
+    /// </summary>
+    /// ---------------------------------------------------------------------
+    private static void RecordUx16Diagnostic(string directory, AssistantControl view, AssistantDialog dialog, string settingsPath, string instructionsPath,
+        string settingsBefore, string instructionsBefore, string settingsHashBefore, string instructionsHashBefore, string previousSettingsEnvironment, string previousWorkspaceEnvironment)
+    {
+        string artifact = Path.Combine(directory, "ux16-lock-save-diagnostic.json");
+        try
+        {
+            string jsonReadError = null, markdownReadError = null;
+            bool jsonUnchanged = false, markdownUnchanged = false;
+            string jsonHash = null, markdownHash = null;
+            try { jsonUnchanged = File.ReadAllText(settingsPath) == settingsBefore; jsonHash = DiagnosticFileHash(settingsPath); }
+            catch (Exception error) { jsonReadError = error.ToString(); }
+            try { markdownUnchanged = File.ReadAllText(instructionsPath) == instructionsBefore; markdownHash = DiagnosticFileHash(instructionsPath); }
+            catch (Exception error) { markdownReadError = error.ToString(); }
+            var flags = System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic;
+            var type = typeof(AssistantControl);
+            var actualStore = type.GetField("settingsStore", flags).GetValue(view) as AssistantSettingsStore;
+            var actualWorkspace = type.GetField("workspaceStore", flags).GetValue(view) as MarkdownWorkspaceStore;
+            var state = new {
+                CheckedAt = DateTimeOffset.Now.ToString("o"), ProcessId = System.Diagnostics.Process.GetCurrentProcess().Id,
+                ThreadId = System.Threading.Thread.CurrentThread.ManagedThreadId,
+                DialogVisible = dialog.IsVisible,
+                ErrorPrefix = dialog.Message.Text.StartsWith("설정 저장 실패:"),
+                JsonUnchanged = jsonUnchanged, MarkdownUnchanged = markdownUnchanged,
+                ActualMessage = dialog.Message.Text, StatusLabel = ((TextBlock)view.FindName("StatusLabel")).Text,
+                Busy = type.GetField("busy", flags).GetValue(view), Disposed = type.GetField("disposed", flags).GetValue(view),
+                ActiveSettingsDialogMatches = Object.ReferenceEquals(type.GetField("activeSettingsDialog", flags).GetValue(view), dialog),
+                SaveSettingsButtonEnabled = ((Button)view.FindName("SaveSettingsButton")).IsEnabled,
+                ExpectedSettingsPath = settingsPath, ActualViewSettingsPath = actualStore == null ? null : actualStore.FilePath,
+                ExpectedInstructionsPath = instructionsPath, ActualViewInstructionsPath = actualWorkspace == null ? null : actualWorkspace.InstructionsPath,
+                SettingsEnvironment = Environment.GetEnvironmentVariable("VS2017_AI_SETTINGS_PATH"),
+                WorkspaceEnvironment = Environment.GetEnvironmentVariable("VS2017_AI_WORKSPACE_PATH"),
+                PreviousSettingsEnvironment = previousSettingsEnvironment, PreviousWorkspaceEnvironment = previousWorkspaceEnvironment,
+                JsonSha256Before = settingsHashBefore, JsonSha256After = jsonHash,
+                MarkdownSha256Before = instructionsHashBefore, MarkdownSha256After = markdownHash,
+                JsonReadError = jsonReadError, MarkdownReadError = markdownReadError,
+                AssertionConditionUnchanged = true, ProductStateModifiedByDiagnostic = false
+            };
+            File.WriteAllText(artifact, new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(state));
+        }
+        catch (Exception error)
+        {
+            try { File.WriteAllText(artifact, new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(new { DiagnosticError = error.ToString(), AssertionConditionUnchanged = true })); }
+            catch (IOException) { }
+            catch (UnauthorizedAccessException) { }
+        }
+    }
+
+    /// ---------------------------------------------------------------------
+    /// <summary>
+    /// name         : DiagnosticFileHash
+    /// desc         : 테스트가 이미 소유한 설정 원문의 바이트 SHA256만 관찰한다.
+    /// author       : CodexOrig 보조 개발 055
+    /// create date  : 2026-10-21
+    /// </summary>
+    /// ---------------------------------------------------------------------
+    private static string DiagnosticFileHash(string path)
+    {
+        using (var hash = System.Security.Cryptography.SHA256.Create())
+            return BitConverter.ToString(hash.ComputeHash(File.ReadAllBytes(path))).Replace("-", "");
     }
 
     /// ---------------------------------------------------------------------

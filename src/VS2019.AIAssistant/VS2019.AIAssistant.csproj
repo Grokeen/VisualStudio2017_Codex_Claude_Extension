@@ -108,6 +108,21 @@
     <Compile Include="..\VS2017.AIAssistant\Providers\AgentFileTracker.cs">
       <Link>Providers\AgentFileTracker.cs</Link>
     </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Chat\CollaborationMessageRequest.cs">
+      <Link>Chat\CollaborationMessageRequest.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Chat\AttachmentDisplayInfo.cs">
+      <Link>Chat\AttachmentDisplayInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Providers\CollaborationMessageRunner.cs">
+      <Link>Providers\CollaborationMessageRunner.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Views\AssistantControl.Messages.cs">
+      <Link>Views\AssistantControl.Messages.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Views\AssistantControl.Debugging.cs">
+      <Link>Views\AssistantControl.Debugging.cs</Link>
+    </Compile>
     <Compile Include="..\VS2017.AIAssistant\Providers\NativeJsonSession.cs">
       <Link>Providers\NativeJsonSession.cs</Link>
     </Compile>
@@ -237,6 +252,9 @@
     <Compile Include="..\VS2017.AIAssistant\Services\WorkspaceActionService.cs">
       <Link>Services\WorkspaceActionService.cs</Link>
     </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Services\DebuggingContextService.cs">
+      <Link>Services\DebuggingContextService.cs</Link>
+    </Compile>
     <Compile Include="..\VS2017.AIAssistant\Services\ScmIdentityService.cs">
       <Link>Services\ScmIdentityService.cs</Link>
     </Compile>
@@ -337,8 +355,8 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <Content Include="..\VS2017.AIAssistant\Assets\Themes\Grokeen-VisualStudio-Themes-0.13.0-VS2019.vsix">
-      <Link>Themes\Grokeen-VisualStudio-Themes-0.13.0-VS2019.vsix</Link>
+    <Content Include="..\VS2017.AIAssistant\Assets\Themes\Grokeen-VisualStudio-Themes-0.14.0-VS2019.vsix">
+      <Link>Themes\Grokeen-VisualStudio-Themes-0.14.0-VS2019.vsix</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>

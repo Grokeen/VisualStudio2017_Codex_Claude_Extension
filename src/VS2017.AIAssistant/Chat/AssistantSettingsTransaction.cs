@@ -45,6 +45,7 @@ namespace VS2017.AIAssistant.Chat
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 우리가 쓴 JSON과 현재 파일이 같을 때만 롤백 수행.
         /// update date  : 2026-10-18 CodexCode : 전체 두 파일 거래를 경로별 재진입 가능 Mutex로 감싸 협력 저장자의 ABA 차단.
+        ///                2026-10-21 CodexOrig 보조 개발 055 : 원래 JSON이 없던 생성 취소도 같은 조건부 복구 루프에 연결한다.
         /// </summary>
         /// ---------------------------------------------------------------------
         internal static void SaveCore(AssistantSettingsStore settingsStore, AssistantSettings settings, Action writeInstructions)
@@ -64,11 +65,7 @@ namespace VS2017.AIAssistant.Chat
                     Exception rollbackError = null;
                     try
                     {
-                        byte[] current = ReadSnapshot(settingsStore.FilePath);
-                        if (current == null || !current.SequenceEqual(expected))
-                            throw new IOException("다른 작업에서 변경하거나 삭제한 설정 파일을 보존하기 위해 복구를 중단했습니다.");
-                        if (previous == null) File.Delete(settingsStore.FilePath);
-                        else RestoreSnapshot(settingsStore.FilePath, previous, expected);
+                        RestoreSnapshot(settingsStore.FilePath, previous, expected);
                     }
                     catch (Exception error) { rollbackError = error; }
                     if (rollbackError != null)
@@ -186,19 +183,46 @@ namespace VS2017.AIAssistant.Chat
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 교체 직전 현재 바이트를 다시 확인하고 임시 파일 정리.
+        ///                2026-10-21 CodexOrig 보조 개발 055 : 복구·최초 생성 취소의 잠금만 최대 6회 재시도하고 매회 외부 변경을 재검사한다.
         /// </summary>
         /// ---------------------------------------------------------------------
         private static void RestoreSnapshot(string path, byte[] previous, byte[] expected)
         {
             string temporary = path + ".rollback-" + Guid.NewGuid().ToString("N") + ".tmp";
+            Exception failure = null;
             try
             {
-                File.WriteAllBytes(temporary, previous);
-                byte[] current = ReadSnapshot(path);
-                if (current == null || !current.SequenceEqual(expected)) throw new IOException("설정 파일이 바뀌어 다른 작업의 변경을 보존했습니다.");
-                File.Replace(temporary, path, null);
+                if (previous != null) File.WriteAllBytes(temporary, previous);
+                for (int attempt = 0; ; attempt++)
+                {
+                    try
+                    {
+                        byte[] current = ReadSnapshot(path);
+                        if (current == null || !current.SequenceEqual(expected)) throw new IOException("설정 파일이 바뀌어 다른 작업의 변경을 보존했습니다.");
+                        if (previous == null) File.Delete(path);
+                        else File.Replace(temporary, path, null);
+                        return;
+                    }
+                    catch (IOException error)
+                    {
+                        int nativeError = error.HResult & 0xffff;
+                        bool temporaryLock = nativeError == 32 || nativeError == 33 || nativeError == 1175 || nativeError == 1176 || nativeError == 1224;
+                        if (!temporaryLock) throw;
+                        if (attempt >= 5) throw new IOException("설정 파일 복구 실패 (Win32 " + nativeError + ", 시도 " + (attempt + 1) + "). 다른 프로그램의 파일 잠금을 확인하세요.", error);
+                        Thread.Sleep(25);
+                    }
+                }
             }
-            finally { if (File.Exists(temporary)) File.Delete(temporary); }
+            catch (Exception error) { failure = error; throw; }
+            finally
+            {
+                try { if (File.Exists(temporary)) File.Delete(temporary); }
+                catch (Exception cleanupError) when (cleanupError is IOException || cleanupError is UnauthorizedAccessException)
+                {
+                    if (failure == null) throw;
+                    failure.Data["RollbackTemporaryCleanupException"] = cleanupError;
+                }
+            }
         }
     }
 }

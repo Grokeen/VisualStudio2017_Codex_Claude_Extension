@@ -39,6 +39,7 @@ namespace CodexCode.IdeIntegration
         /// create date  : 2026-10-19
         /// update date  : 2026-10-19 CodexOrig : 개인 소스·네트워크·실제 CLI 호출 없이 격리된 합성 파일만 사용.
         ///                2026-10-19 CodexOrig : 투명 입력 배경은 실제 불투명 composer 표면과 합성해 팔레트 확인.
+        ///                2026-10-20 CodexOrig : TASK069 실제 소유 프레임 숨김·복원에서 문서와 선택·팔레트 재사용 확인.
         /// </summary>
         /// ---------------------------------------------------------------------
         private static async Task CheckLatestUiAsync(AssistantControl view, DTE dte, IVsWindowFrame frame, string sourcePath, string otherPath, string output)
@@ -64,6 +65,15 @@ namespace CodexCode.IdeIntegration
             await CheckLatestThemeModesAsync(view, dte, output);
             CheckLatestMarkdownEditor(view);
 
+            var selectedRecords = (Dictionary<string, ConversationRecord>)typeof(AssistantControl).GetField("activeRecords", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(view);
+            var selectedProviderField = typeof(AssistantControl).GetField("selectedProvider", BindingFlags.NonPublic | BindingFlags.Instance);
+            Func<string> currentAddress = () => { string provider = Convert.ToString(selectedProviderField.GetValue(view)); return provider + ":" + selectedRecords[provider].Id; };
+            string initialAddress = currentAddress();
+            SelectionChangedEventHandler selectionTrace = (sender, args) => File.AppendAllText(Path.Combine(output, "task069-selection-trace.log"),
+                "address=" + currentAddress() + "; sender=" + ((FrameworkElement)sender).Name + "; original=" + args.OriginalSource.GetType().FullName + "; " + Environment.StackTrace + "\r\n");
+            var providerTrace = (TabControl)view.FindName("ProviderChoice"); var listTrace = (ListBox)view.FindName("ConversationList");
+            providerTrace.SelectionChanged += selectionTrace; listTrace.SelectionChanged += selectionTrace;
+
             var chat = (ChatSession)typeof(AssistantControl).GetProperty("ActiveChat", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(view, null);
             string safeFile = Path.Combine(output, "Markdown_Link_Test.cmd");
             string marker = Path.Combine(output, "markdown-command-must-never-run.txt");
@@ -80,12 +90,42 @@ namespace CodexCode.IdeIntegration
                 await Task.Delay(150);
                 await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
                 view.UpdateLayout();
-                var preview = Visuals(view).OfType<FrameworkElement>().SingleOrDefault(element => element.GetType().Name == "MarkdownPreview" && Convert.ToString(element.GetType().GetProperty("Markdown").GetValue(element, null)) == message.Text);
+                FrameworkElement preview = null;
+                for (int renderAttempt = 0; renderAttempt < 60 && preview == null; renderAttempt++) {
+                    view.UpdateLayout();
+                    preview = Visuals(view).OfType<FrameworkElement>().SingleOrDefault(element => element.GetType().Name == "MarkdownPreview" && Convert.ToString(element.GetType().GetProperty("Markdown").GetValue(element, null)) == message.Text);
+                    if (preview == null) { await Task.Delay(50); await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(); }
+                }
+                File.WriteAllText(Path.Combine(output, "task069-markdown-binding-observation.json"), new JavaScriptSerializer().Serialize(new {
+                    ChatContainsMessage = chat.Messages.Contains(message), VisibleContainsMessage = ((ItemsControl)view.FindName("ConversationMessages")).Items.Contains(message),
+                    ActiveChatMatches = ReferenceEquals(chat, typeof(AssistantControl).GetProperty("ActiveChat", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(view, null)),
+                    InitialAddress = initialAddress, CurrentAddress = currentAddress(),
+                    ViewVisible = view.IsVisible, ViewWidth = view.ActualWidth, ViewHeight = view.ActualHeight, PreviewFound = preview != null,
+                    PreviewTexts = Visuals(view).OfType<FrameworkElement>().Where(element => element.GetType().Name == "MarkdownPreview").Select(element => Convert.ToString(element.GetType().GetProperty("Markdown").GetValue(element, null))).ToArray() }));
                 Check("LATEST-MD answer binding creates the real Markdown preview", preview != null);
                 var textView = preview == null ? null : Visuals(preview).OfType<RichTextBox>().FirstOrDefault();
                 var textHost = textView == null || textView.Template == null ? null : textView.Template.FindName("PART_ContentHost", textView) as ScrollViewer;
                 Check("LATEST-MD actual IDE uses an explicit transparent Markdown viewport", textHost != null && textHost.Background is SolidColorBrush && ((SolidColorBrush)textHost.Background).Color.A == 0 && textView.Style == view.FindResource("MarkdownTextViewStyle"));
                 FlowDocument document = FindMarkdownDocument(preview);
+                string retainedDraft = Text(view, "Instruction").Text;
+                object retainedBrush = view.Resources["AssistantBackgroundBrush"];
+                textView.SelectAll(); string retainedSelection = textView.Selection.Text;
+                var reopen = System.Diagnostics.Stopwatch.StartNew();
+                Microsoft.VisualStudio.ErrorHandler.ThrowOnFailure(frame.Hide());
+                await Task.Delay(40);
+                await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+                Microsoft.VisualStudio.ErrorHandler.ThrowOnFailure(frame.Show());
+                await Task.Delay(80);
+                await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+                view.UpdateLayout(); reopen.Stop();
+                Check("TASK069-REOPEN actual frame retains original preview control", Visuals(view).Contains(preview));
+                Check("TASK069-REOPEN same Markdown document survives frame hide and show", ReferenceEquals(document, FindMarkdownDocument(preview)));
+                Check("TASK069-REOPEN unchanged palette keeps original brush", ReferenceEquals(retainedBrush, view.Resources["AssistantBackgroundBrush"]));
+                Check("TASK069-REOPEN draft and text selection survive without resend", Text(view, "Instruction").Text == retainedDraft && textView.Selection.Text == retainedSelection);
+                File.WriteAllText(Path.Combine(output, "task069-frame-reopen.json"), new JavaScriptSerializer().Serialize(new {
+                    HostVersion = dte.Version, Api = "IVsWindowFrame.Hide/Show", ElapsedMilliseconds = reopen.Elapsed.TotalMilliseconds,
+                    FixedWaitMilliseconds = 120, PhysicalAutoHideClickTested = false, NativePointerUsed = false, DraftPreserved = Text(view, "Instruction").Text == retainedDraft,
+                    DocumentReused = ReferenceEquals(document, FindMarkdownDocument(preview)), CheckedAt = DateTimeOffset.Now }));
                 Check("LATEST-MD headings and emphasis become WPF elements", document != null && LogicalObjects(document).OfType<Paragraph>().Any(p => p.FontSize > view.FontSize) && LogicalObjects(document).OfType<Bold>().Any());
                 var links = LogicalObjects(document).OfType<Hyperlink>().ToArray();
                 Check("LATEST-MD local and web links carry visible icons", links.Length == 5 && links.Any(link => new TextRange(link.ContentStart, link.ContentEnd).Text.StartsWith("▣ ", StringComparison.Ordinal)) && links.Any(link => new TextRange(link.ContentStart, link.ContentEnd).Text.StartsWith("↗ ", StringComparison.Ordinal)));
@@ -105,7 +145,7 @@ namespace CodexCode.IdeIntegration
                 dte.ItemOperations.OpenFile(sourcePath);
                 Check("LATEST-LINK navigation preserves source bytes", sourceBytes.SequenceEqual(File.ReadAllBytes(sourcePath)));
             }
-            finally { chat.Messages.Remove(message); }
+            finally { chat.Messages.Remove(message); providerTrace.SelectionChanged -= selectionTrace; listTrace.SelectionChanged -= selectionTrace; }
 
             frame.Show();
             await Task.Delay(100);
@@ -265,7 +305,7 @@ namespace CodexCode.IdeIntegration
                     await Task.Delay(100); await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(); view.UpdateLayout();
                     var preview = Visuals(view).OfType<MarkdownPreview>().Single(x => x.Markdown == message.Text);
                     var bubble = Visuals(view).OfType<Border>().Single(x => x.Name == "MessageBubble" && Visuals(x).Contains(preview));
-                    Check("UI054 " + mode + " actual user message uses right aligned themed bubble", !IsTransparent(bubble.Background) && ((SolidColorBrush)bubble.Background).Color == ((SolidColorBrush)view.FindResource("AssistantControlBackgroundBrush")).Color && bubble.HorizontalAlignment == HorizontalAlignment.Right && bubble.CornerRadius == new CornerRadius(12) && bubble.Padding == new Thickness(12, 9, 12, 9) && IsTransparent(preview.Background) && IsTransparent(preview.TextView.Background) && IsTransparent(preview.TextView.Document.Background));
+                    Check("UI054 " + mode + " actual user message uses right aligned composer surface bubble", !IsTransparent(bubble.Background) && ((SolidColorBrush)bubble.Background).Color == ((SolidColorBrush)view.FindResource("AssistantSurfaceBrush")).Color && bubble.HorizontalAlignment == HorizontalAlignment.Right && bubble.CornerRadius == new CornerRadius(12) && bubble.Padding == new Thickness(12, 9, 12, 9) && IsTransparent(preview.Background) && IsTransparent(preview.TextView.Background) && IsTransparent(preview.TextView.Document.Background));
                     Check("UI054 " + mode + " actual user text follows readable theme foreground", ((SolidColorBrush)preview.Foreground).Color == ((SolidColorBrush)view.FindResource("AssistantForegroundBrush")).Color);
                     Check("UI032 " + mode + " actual conversation documents keep transparent backgrounds", Visuals(view).OfType<MarkdownPreview>().Where(x => x.Name == "MessageBody").All(x => IsTransparent(x.Background) && IsTransparent(x.TextView.Document.Background)));
                     int width = Math.Max(1, (int)Math.Ceiling(view.ActualWidth)), height = Math.Max(1, (int)Math.Ceiling(view.ActualHeight));

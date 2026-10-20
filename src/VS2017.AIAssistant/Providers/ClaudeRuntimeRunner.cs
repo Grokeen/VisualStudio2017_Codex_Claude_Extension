@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -29,6 +29,7 @@ namespace VS2017.AIAssistant.Providers
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : TASK-020 Claude 전체 액세스와 실제 SDK 결과 처리.
         ///                2026-10-20 CodexOrig : TASK-060 버전 조회를 전체 실행 제한 시간과 취소 범위에 포함.
+        ///                2026-10-20 CodexOrig : TASK069 CLI 변경의 줄 끝을 정규화한 뒤 편집기에 동기화.
         /// </summary>
         /// ---------------------------------------------------------------------
         public async Task<AgentExecutionResult> RunAgentAsync(string executable, string directory, string instruction, ChatRequestContext context, Action<ProviderUsageSnapshot> onUsage, Action<AgentFileChange[]> onChanges, CancellationToken cancellation, Action<AgentProgress> progress = null)
@@ -98,7 +99,7 @@ namespace VS2017.AIAssistant.Providers
                     using (deadline.Token.Register(() => done.TrySetCanceled())) {
                         try {
                             var result = await done.Task.ConfigureAwait(false);
-                            await Task.Run(() => tracker.Reconcile(files, deadline.Token), deadline.Token).ConfigureAwait(false);
+                            await Task.Run(() => tracker.Reconcile(files, deadline.Token, true), deadline.Token).ConfigureAwait(false);
                             result.Changes = files.Values.ToArray(); if (onChanges != null) onChanges(result.Changes);
                             return result;
                         }

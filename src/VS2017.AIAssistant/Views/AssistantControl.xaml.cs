@@ -75,13 +75,16 @@ namespace VS2017.AIAssistant.Views
         /// update date  : 2026-10-18 CodexCode : 서비스 주입과 초기 버튼 상태 설정.
         /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         ///                2026-10-18 CodexOrig : TASK-020 실제 토큰·진행 Provider 구독 연결.
+        ///                2026-10-20 CodexOrig : TASK069 #18 중단 정보 도우미의 UI 상태/읽기 서비스 연결.
         /// </summary>
         /// ---------------------------------------------------------------------
         public void Initialize(IActiveDocumentService documentService, IAiEditProvider editProvider)
         {
+            Dispatcher.VerifyAccess();
             documents = documentService ?? throw new ArgumentNullException(nameof(documentService));
             provider = editProvider ?? throw new ArgumentNullException(nameof(editProvider));
             AttachRuntimeProvider();
+            InitializeDebuggingHelper();
             UpdateButtons();
         }
 
@@ -394,20 +397,25 @@ namespace VS2017.AIAssistant.Views
         /// update date  : 2026-10-18 CodexCode : TASK-017 이미지 분석 기반 드롭다운·안내·대화 지정 흐름 개선.
         ///                2026-10-18 CodexOrig : TASK-020 실제 생각 중 그라데이션과 대화별 적용 상태 반영.
         ///                2026-10-20 CodexOrig : 보조 개발 TASK055 입력 FIFO·문맥 보존 및 중복 작업 최소화.
+        ///                2026-10-20 CodexOrig4 : TASK069 #14 현재 대화 실행 상태별 전송·중지 버튼 상호 배타 표시.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void UpdateButtons()
         {
             bool roomBusy = IsCurrentRoomRunning;
             bool activeBusy = busy || roomBusy;
+            bool currentRoomWaiting = false;
+            Queue<QueuedUiRequest> currentRoomQueue;
+            if (experienceReady) currentRoomWaiting = roomQueues.TryGetValue(activeRecords[selectedProvider].Id, out currentRoomQueue) && currentRoomQueue.Count > 0;
+            bool currentWorkPresent = activeBusy || queuedRequests.Count > 0 || currentRoomWaiting;
+            GenerateButton.Visibility = currentWorkPresent ? Visibility.Collapsed : Visibility.Visible;
+            StopButton.Visibility = currentWorkPresent ? Visibility.Visible : Visibility.Collapsed;
             GenerateButton.IsEnabled = !disposed && documents != null && provider != null && queuedRequests.Count < MaximumQueuedRequests;
             ProviderChoice.IsEnabled = !busy && queuedRequests.Count == 0;
             if (busy) { CloseDropdown(); CloseFan(); }
             ExecutablePath.IsEnabled = !busy;
             BrowseButton.IsEnabled = !busy;
             Instruction.IsEnabled = !disposed;
-            Queue<QueuedUiRequest> currentRoomQueue;
-            bool currentRoomWaiting = experienceReady && roomQueues.TryGetValue(activeRecords[selectedProvider].Id, out currentRoomQueue) && currentRoomQueue.Count > 0;
             StopButton.IsEnabled = activeBusy || queuedRequests.Count > 0 || currentRoomWaiting;
             AttachButton.IsEnabled = PasteButton.IsEnabled = !activeBusy && queuedRequests.Count == 0;
             NewChatButton.IsEnabled = !busy && queuedRequests.Count == 0;
@@ -439,6 +447,8 @@ namespace VS2017.AIAssistant.Views
         /// update date  : 2026-10-18 CodexOrig : TASK-016 문서 첨부·모델 설정·AI 역할 협업과 실패 복구 흐름 연결.
         ///                2026-10-19 CodexOrig : TASK-025 팝업·테마 해제 전 WPF UI 스레드를 실제 검증.
         ///                2026-10-20 CodexOrig : 보조 개발 TASK055 입력 FIFO·문맥 보존 및 중복 작업 최소화.
+        ///                2026-10-20 CodexOrig : TASK069 메시지 센터의 별도 실행과 팝업 수명도 종료.
+        ///                2026-10-20 CodexOrig : TASK069 #18 디버깅 읽기 취소/상태 이벤트 해제.
         /// </summary>
         /// ---------------------------------------------------------------------
         public void Dispose()
@@ -450,6 +460,8 @@ namespace VS2017.AIAssistant.Views
             ConversationScroll.RemoveHandler(System.Windows.Input.Mouse.PreviewMouseWheelEvent, new System.Windows.Input.MouseWheelEventHandler(ConversationViewed));
             DisposeExperience();
             DisposeCompletionNotification();
+            DisposeMessageCenter();
+            DisposeDebuggingHelper();
             disposed = true;
             CancelQueuedRequests(null);
             if (requestCancellation != null) requestCancellation.Cancel();

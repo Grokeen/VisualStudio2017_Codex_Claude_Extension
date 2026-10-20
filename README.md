@@ -4,22 +4,29 @@
 
 오류 화면과 참고 문서를 보여 주고 자연어로 작업을 요청하세요. 바뀔 코드를 먼저 비교해 승인하거나, **전체 액세스**를 선택해 AI가 직접 파일 수정과 명령·테스트를 수행하게 할 수 있습니다. 대화와 공통 규칙은 내 PC의 Markdown에 남습니다.
 
-**v0.13.0-preview.1 설치 안내** · [이 버전의 다운로드 자산](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.13.0-preview.1) · [자세한 사용법](docs/USER_GUIDE.md)
+**v0.14.0-preview.1 설치·사용 안내** · [릴리스 및 다운로드 자산](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.14.0-preview.1) · [상세 사용자 안내](docs/USER_GUIDE.md)
 
-과거 정식 [v0.11.1 릴리스 이력](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.11.1)과 개발·감사 기록은 보존합니다. 배포 첨부와 로컬 releases는 새 v0.13.0과 직전 v0.12.1을 보존하는 정책입니다. 더 오래된 첨부의 다운로드 링크는 정리 후 사용할 수 없습니다.
+v0.14.0-preview.1에는 아래 설치 묶음과 44쪽 사용자 PDF를 제공합니다. 계정 로그인과 실제 원격 AI 응답은 사용 중인 CLI와 서비스 계정에서 별도로 준비합니다.
 
-[CLI 포함 완성 오프라인 ZIP](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.13.0-preview.1/VisualStudio_AI_Assistant-0.13.0-Preview1-FullOffline-win-x64.zip) · [34쪽 설치·사용 PDF](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.13.0-preview.1/VisualStudio_AI_Assistant-0.13.0-Preview-UserGuide.pdf)
+| 다운로드 | 파일 |
+|---|---|
+| [CLI 포함 전체 오프라인 ZIP](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.14.0-preview.1/VisualStudio_AI_Assistant-0.14.0-Preview1-FullOffline-win-x64.zip) | `VisualStudio_AI_Assistant-0.14.0-Preview1-FullOffline-win-x64.zip` |
+| [설치·사용 PDF · 44쪽](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.14.0-preview.1/VisualStudio_AI_Assistant-0.14.0-Preview-UserGuide.pdf) | `VisualStudio_AI_Assistant-0.14.0-Preview-UserGuide.pdf` |
+| [오프라인 IDE 확장·테마 설치기](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.14.0-preview.1/Grokeen-AI-Theme-Offline-Installer-0.14.0.exe) | `Grokeen-AI-Theme-Offline-Installer-0.14.0.exe` |
+| [간단 ZIP](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.14.0-preview.1/VisualStudio_AI_Assistant-0.14.0.zip) | `VisualStudio_AI_Assistant-0.14.0.zip` |
+
+배포 첨부와 로컬 `releases` 폴더에는 현재 v0.14.0과 직전 v0.13.0을 보존합니다. 새 버전의 파일·체크섬이 게시된 뒤 v0.12.1의 Release 첨부와 로컬 패키지만 정리하며 태그, 이력, 개발·감사 기록은 유지합니다.
 
 | 사용 중인 Visual Studio | 설치 파일 |
 |---|---|
-| 2017 15.7·15.8 · x86 IDE | Releases 자산에서 VS2017 15.7용 VSIX 선택 |
-| 2017 15.9 이상 · x86 IDE | Releases 자산에서 VS2017용 VSIX 선택 |
-| 2019 16.11 · x86 IDE | Releases 자산에서 VS2019용 VSIX 선택 |
-| 2022 17.x · x64 IDE | Releases 자산에서 VS2022용 VSIX 선택 |
+| 2017 15.7·15.8 · x86 IDE | [VS2017 15.7용 VSIX](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.14.0-preview.1/VS2017.15.7.AIAssistant-0.14.0.vsix) |
+| 2017 15.9 이상 · x86 IDE | [VS2017용 VSIX](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.14.0-preview.1/VS2017.AIAssistant-0.14.0.vsix) |
+| 2019 16.11 · x86 IDE | [VS2019용 VSIX](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.14.0-preview.1/VS2019.AIAssistant-0.14.0.vsix) |
+| 2022 17.x · x64 IDE | [VS2022용 VSIX](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.14.0-preview.1/VS2022.AIAssistant-0.14.0.vsix) |
 
 ## 공통 사용 안내와 직전 버전의 화면 예시
 
-아래 그림은 v0.12.1에서 도입한 공통 화면의 합성 WPF 렌더이며 실제 Visual Studio/Windows 바탕 화면 캡처나 GIF가 아닙니다. v0.13.0의 완성 오프라인 ZIP에는 확장 네 종류와 CLI, IDE 테마, 설치 검사 도구 및 사용자 PDF가 포함됩니다. 새 대화방 기능은 아래 v0.13 안내를 확인하세요.
+아래 그림은 v0.12.1에서 도입한 공통 화면의 합성 WPF 렌더이며 실제 Visual Studio/Windows 바탕 화면 캡처나 GIF가 아닙니다. v0.13.0 이전 기능 예시와 v0.14.0 새 기능을 구분해 설명합니다.
 
 아래 예시는 WPF `RenderTargetBitmap`으로 별도 렌더한 합성 화면입니다. 실제 Visual Studio IDE·Windows 바탕 화면 캡처가 아니며, 화면 구성을 이해하기 위한 참고 그림입니다.
 
@@ -61,9 +68,9 @@
 
 확장을 처음 열면 협업과 소스 주석 규칙을 담은 숨김 필수 지침을 생성합니다. 직접 작성한 공통 지침은 별도로 보존하며, 두 지침을 AI 요청에 함께 전달합니다.
 
-## v0.13.0-preview.1의 새 기능
+## 이전 v0.13.0-preview.1의 기능 기록
 
-완성 오프라인 ZIP은 `VisualStudio_AI_Assistant-0.13.0-Preview1-FullOffline-win-x64.zip`입니다. [통합 설치·사용 PDF](output/pdf/VisualStudio_AI_Assistant_%EC%84%A4%EC%B9%98_%EC%82%AC%EC%9A%A9%EC%84%A4%EB%AA%85%EC%84%9C_v0.13.0_%EB%AF%B8%EB%A6%AC%EB%B3%B4%EA%B8%B0.pdf)는 기존 안내 26쪽에 새 기능 부록 8쪽을 더한 34쪽입니다.
+v0.13.0의 기능 기록입니다. 당시 배포된 오프라인 ZIP은 `VisualStudio_AI_Assistant-0.13.0-Preview1-FullOffline-win-x64.zip`이며, [이전 34쪽 PDF](output/pdf/VisualStudio_AI_Assistant_%EC%84%A4%EC%B9%98_%EC%82%AC%EC%9A%A9%EC%84%A4%EB%AA%85%EC%84%9C_v0.13.0_%EB%AF%B8%EB%A6%AC%EB%B3%B4%EA%B8%B0.pdf)는 v0.13.0 설명을 보존합니다. 현재 기능과 설치 파일은 위의 v0.14.0-preview.1 자료를 기준으로 확인하세요.
 
 | 기능 | 사용 방법 |
 |---|---|
@@ -75,9 +82,66 @@
 
 담당 AI를 다시 선택해도 미승인 수정안과 비교 화면을 복원합니다. 원래 읽기 전용인 문서는 다른 방이 실행 중이어도 수정 요청을 거절하고 입력을 보존합니다. 미승인 수정안 뒤의 요청은 승인·적용 또는 명시적 건너뛰기 전에는 실행하지 않습니다.
 
-프로젝트 최상위 `UserDistribution/v0.13.0`에는 대상별 VSIX, 테마 VSIX, `cli/codex/`·`cli/claude/` 런타임과 라이선스·고지, 설치/검증 BAT·PowerShell, 체크섬·manifest, 오프라인 안내와 PDF만 담았습니다. 총 68개 파일이며 전체 payload 67개의 체크섬을 제공합니다. 프로젝트 소스·프로젝트 파일·PDB·테스트·개발 증거·Git 자료·계정·사용자 기록은 제외합니다. 기존 GitHub 소스 공개 방식은 유지합니다.
+이전 `UserDistribution/v0.13.0` 패키지의 구성 기록입니다. v0.14.0에는 VSIX 네 종, IDE 테마, CLI 런타임, 설치·검증 도구, checksums/manifest와 44쪽 PDF가 포함된 새 묶음을 사용하세요. 고객용 ZIP에는 프로젝트 소스·PDB·테스트·개발 증거·Git 자료·계정·사용자 기록을 포함하지 않습니다.
 
 네 종류 Release 빌드 오류·경고 0, 기본 회귀 20/20, 동시 대화 120/120을 확인했습니다. [검증 보고서](MarkdownReport/CodexOrig_TASK-068_Validation.md)와 [독립 감사](MarkdownReport/CodexOrig2_TASK-068_C6_Audit.md)에 실제 IDE·설치·패키지 검증 범위를 구분해 기록합니다. 합성 UI 이미지는 실제 IDE·포인터·키보드 포커스 검사와 구분합니다. Claude 로그인·실제 AI 답변과 고객 VS2017 Professional 15.7.1/제한망 PC 설치는 확인 범위 밖입니다.
+
+## v0.14.0-preview.1의 기능 안내
+
+이 절과 [44쪽 PDF](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.14.0-preview.1/VisualStudio_AI_Assistant-0.14.0-Preview-UserGuide.pdf)는 v0.14.0-preview.1 설치 묶음과 함께 제공됩니다. 배포 파일은 [릴리스 자산](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.14.0-preview.1)에서 확인하세요. v0.14.0과 직전 v0.13.0을 보존하고 더 오래된 v0.12.1 패키지 첨부는 정리 대상입니다.
+
+| 기능 | 사용 흐름 |
+|---|---|
+| AI 간 메시지 전달 | A의 답변을 우클릭해 구조화 초안을 만들고 수신자·본문을 확인해 승인합니다. Pending은 전달 대기 상태입니다. B 대화의 역할 설정에서 메시지 센터를 열어 받은 메시지를 직접 선택하고 읽기 전용으로 응답합니다. A는 보낸 편지함에서 Replied 회신을 확인하고, Delivered 뒤 새 요청에 포함할 수 있습니다. 자동 재전송이나 무한 대화는 하지 않습니다. |
+| 설정값과 실제 요청 | 화면에서 선택한 제공자·모델·생각 모드가 선택된 CLI 요청에 전달됩니다. 표시값은 계정 로그인이나 실제 모델 응답을 보증하지 않습니다. |
+| 작업 기록 | 작업 카드의 상세 기록은 클릭하거나 키보드로 열고 닫습니다. 마우스 오버만으로 펼치지 않습니다. |
+| Markdown 사용 범위 | 제목·목록·인용·표·코드·링크·로컬 이미지와 작성기 편집 기능을 제공합니다. CommonMark/GFM 전체 호환이나 Obsidian 전용 문법을 보장하지 않으므로 공유 전 미리보기를 확인하세요. |
+| 다시 연 Markdown 문서 | 같은 세션에서 입력과 팔레트가 바뀌지 않으면 기존 렌더를 재사용해 다시 표시할 때의 처리 부담을 줄입니다. 실제 PC의 지연 시간은 환경에 따라 다릅니다. |
+| 여러 TXT 첨부 | 최대 네 개(파일당 100KB)의 텍스트 파일을 요청과 함께 보냅니다. TXT 표시, 전체 파일명 툴팁, 파일별 글자 수·UTF-8 크기를 확인합니다. 읽기나 전송 준비에 실패하면 일부 파일만 보내지 않으며, 첨부는 제거할 때까지 다음 요청에도 유지됩니다. |
+| 입력·중지 동작 | 대기 중에는 입력 아이콘 하나를, 요청 실행 중에는 중지 버튼 하나를 표시합니다. 실행 중 Enter로 새 요청을 대기시킵니다. 등록이 실패하면 초안은 작성란에 남습니다. |
+| 대화 색 구분 | 사용자의 말풍선은 입력 영역과 같은 배경을 쓰고 AI 답변은 조금 더 진한 배경으로 나눕니다. 대화 폭에 따라 좌우 12~20px 여백을 두어 가장자리와 본문을 구분합니다. |
+| 대화 머리글 | 대화 이름과 시작 시각은 메시지 스크롤 영역 위에 고정됩니다. 긴 이름은 줄바꿈되며 전체 이름을 툴팁으로 확인할 수 있습니다. |
+| 디버깅 정보 초안 | 디버거 중단 중 `DBG`를 눌러 현재 파일명·줄·함수, 열린 문서의 앞뒤 최대 3줄, 호출 스택 함수명 최대 3개를 요청 초안에 추가합니다. 전송 전 직접 확인해야 하며 변수 값은 수집하지 않습니다. 격리된 Visual Studio 2017 통합 시험에서 실제 중단 프레임 연결을 확인했습니다. |
+| 텍스트 줄끝 | 수정된 UTF 텍스트의 줄끝만 정규화해 비교하고 원자적으로 반영합니다. 줄끝만 달라진 파일 때문에 정규화 확인 대화상자를 반복해서 띄우지 않습니다. |
+| 화면 테마 | Visual Studio의 메뉴·편집기 색 리소스를 확인했습니다. 물리적 우클릭 hover와 편집기 오류/중단점 표식의 실제 렌더링은 확인하지 않아 환경별 표시를 보증하지 않습니다. |
+| 오프라인 확장·테마 설치 | `Grokeen-AI-Theme-Offline-Installer-0.14.0.exe`가 설치된 Visual Studio를 찾아 확장과 IDE 테마를 설치합니다. 인터넷 다운로드가 필요하지 않으며, 설치 전 실행 중인 IDE는 사용자가 직접 닫아야 합니다. Codex·Claude CLI 준비와 로그인은 별도 절차입니다. |
+| 필수 지침 관리 | 설치/업데이트 때 공식 필수 지침의 구형 1–5 규칙을 최신 1–8로 갱신하고 별도 사용자 지침·사용자 수정 사본은 보존합니다. 협업 파일을 SCM에 자동 commit/push하지 않습니다. |
+| TFS/TFVC | 프로젝트 작업에서 `get`, `checkout`, `checkin`을 선택해 승인된 작업만 실행합니다. Visual Studio 설치에 포함된 `tf.exe`를 PATH 밖에서도 찾을 수 있습니다. |
+
+디버깅 도우미 예시는 v0.14.0-preview.1 제품 DLL을 합성 중단 프레임에 연결한 화면 밖 WPF 렌더이며 실제 Visual Studio 캡처가 아닙니다. 별도 격리 Visual Studio 2017 통합 시험에서 실제 중단 프레임 연결을 확인했습니다.
+
+| 중단 상태 | 문맥을 초안에 추가 | 기존 초안 보존 오류 상태 |
+|---|---|---|
+| ![합성 디버거 중단 화면과 DBG 버튼. 화면 밖 WPF 렌더.](docs/assets/ui-guide-v0.14.0/candidate8/vs-dark-wide-debug-break.png) | ![DBG 클릭 후 제한된 문맥을 초안에 더한 예시. 화면 밖 WPF 렌더.](docs/assets/ui-guide-v0.14.0/candidate8/vs-dark-success-draft.png) | ![문맥 읽기 오류에도 기존 입력을 유지한 예시. 화면 밖 WPF 렌더.](docs/assets/ui-guide-v0.14.0/candidate8/vs-dark-error-preserves-draft.png) |
+
+작업 기록은 마우스 오버만으로 펼쳐지지 않습니다. 아래 그림은 후보3 제품 DLL에서 화면 밖으로 렌더한 WPF 예시이며 실제 Visual Studio 캡처가 아닙니다. 클릭 또는 Enter로 상세를 열고 닫습니다.
+
+| Dracula | 밝은 화면 |
+|---|---|
+| ![Dracula 화면에서 작업 진행 카드와 클릭해 연 상세 기록. 후보3 제품 DLL의 화면 밖 WPF 렌더이며 실제 IDE 캡처는 아니다.](docs/assets/ui-guide-v0.14.0/candidate3/progress-dark-details.png) | ![밝은 화면에서 작업 진행 카드와 클릭해 연 상세 기록. 후보3 제품 DLL의 화면 밖 WPF 렌더이며 실제 IDE 캡처는 아니다.](docs/assets/ui-guide-v0.14.0/candidate3/progress-light-details.png) |
+
+후보5의 대화 그림은 익명 합성 데이터로 만든 화면 밖 WPF 렌더이며 실제 Visual Studio 캡처가 아닙니다. 대화 이름과 시작 시각이 스크롤 바깥에 고정되고, 사용자 말풍선은 작성란과 같은 표면색, AI 답변은 조금 더 진한 표면색을 사용합니다.
+
+| 넓은 어두운 화면 | 좁은 밝은 화면 |
+|---|---|
+| ![사용자와 AI의 말풍선 및 대화 머리글. 후보5 제품 DLL의 합성 WPF 렌더이며 실제 IDE 캡처는 아니다.](docs/assets/ui-guide-v0.14.0/candidate5/vs-dark-wide.png) | ![좁은 화면에서 줄바꿈된 고정 머리글. 후보5 제품 DLL의 합성 WPF 렌더이며 실제 IDE 캡처는 아니다.](docs/assets/ui-guide-v0.14.0/candidate5/vs-light-narrow.png) |
+
+현재 대화에 실행·대기 요청이 모두 없는 유휴 상태에서는 돋보기 보내기 버튼만 보이고, 현재 대화에 실행 중이거나 대기 중인 요청이 있으면 중지 버튼만 보입니다. 다른 대화가 실행 중이어도 현재 대화가 유휴 상태라면 보내기 버튼을 유지합니다.
+
+| 실행·대기 요청 없음(유휴) | 현재 대화의 실행·대기 요청 있음 |
+|---|---|
+| ![실행·대기 요청 없는 유휴 상태에서 돋보기 보내기 버튼만 보이는 화면. 합성 WPF 렌더.](docs/assets/ui-guide-v0.14.0/candidate5/vs-dark-state-idle-generate-only.png) | ![요청 실행 중 중지 버튼만 보이는 화면. 합성 WPF 렌더.](docs/assets/ui-guide-v0.14.0/candidate5/vs-dark-state-running-stop-only.png) |
+
+네 개의 TXT 파일을 붙인 익명 합성 화면은 다음과 같습니다. 전체 파일명과 파일별 문자 수·UTF-8 크기는 첨부 항목에서 확인하며, 파일을 읽지 못하거나 전송 준비에 실패하면 일부만 보내지 않습니다.
+
+| 넓은 어두운 화면 | 좁은 밝은 화면 |
+|---|---|
+| ![네 개의 TXT 첨부가 composer에 표시된 모습. 후보5 제품 DLL의 오프스크린 렌더.](docs/assets/ui-guide-v0.14.0/candidate5/attachments-dark-wide.png) | ![좁은 화면에서 두 줄로 배치된 네 개 TXT 첨부. 후보5 제품 DLL의 오프스크린 렌더.](docs/assets/ui-guide-v0.14.0/candidate5/attachments-light-narrow.png) |
+
+AI 메시지는 수신자와 내용을 사용자가 확인하고 승인해야 전달됩니다. 수신 AI의 응답은 제안이며 발신자의 요청을 자동 실행하거나 코드에 적용하지 않습니다. Claude 실제 로그인과 실제 AI 응답, 실제 TFS 서버 연결, 고객 VS2017 Professional 15.7.1 및 별도 오프라인 PC의 최종 설치·사용은 확인 범위에 포함되지 않습니다. 멈춤 사고의 원인도 확정되지 않았으므로 문제가 반복되면 Visual Studio 버전, 발생 시각, 수행 중이던 작업과 오류 문구를 기록해 지원에 전달하고 토큰이나 실제 소스 내용을 공유하지 마세요.
+
+협업 규칙은 연결된 SCM과 두 명 이상의 참여자가 확인된 경우에만 오래되고 수정되지 않은 위치에 교차 기기 공유 폴더를 만들도록 합니다. 필수 협업 파일은 기본적으로 사용자에게 노출하지 않지만 사용자가 파일 공유를 명시적으로 요청하면 예외입니다. 이 공간은 제안과 문제 해결 기록을 공유하기 위한 것이며, 확장이 SCM에 자동 업로드하거나 변경을 commit/push하지 않습니다.
+
 ## v0.12.0 공개 미리보기 UI
 
 이번 미리보기에는 완료 알림, 최근 대화의 단계별 불러오기, 설정 페이지 탐색, Markdown 도구 그룹, 앱 전용 Kakao·Dracula 색상 팔레트와 독립 Visual Studio 테마 패키지를 포함합니다. 공통 팝업은 OS의 녹색 제목 표시줄 대신 확장 화면과 어울리는 제목 표시줄을 사용하며, 창 이동과 최소화·최대화·닫기를 제공합니다. 아래 그림은 별도 WPF 렌더 이미지이며 실제 Visual Studio IDE 캡처가 아닙니다. 고객 오프라인 PC의 설치 결과는 별도로 확인해야 합니다.
@@ -158,11 +222,11 @@ GIF가 재생되지 않는 환경에서는 [연결](docs/assets/guide-media/01-c
 
 전체 액세스는 현재 Windows 사용자에게 허용된 컴퓨터 자원에 접근하는 모드입니다. 관리자 권한을 자동으로 얻는 기능은 아닙니다. 직접 실행한 파일·서버 변경은 수정안의 ‘직전 적용 되돌리기’로 일괄 복구되지 않으며, 중지 후에도 이미 실행한 결과는 남을 수 있습니다.
 
-변경 카드에서 파일을 선택해 비교하고, 파일 링크로 해당 소스 위치에 이동하세요. 마우스를 올리면 변경 내용과 기록을 볼 수 있습니다. 전후 diff가 제공되지 않은 파일은 줄 수를 ‘미제공’으로 표시합니다.
+변경 카드에서 파일을 선택해 비교하고, 파일 링크로 해당 소스 위치에 이동하세요. 변경 카드의 파일 항목으로 내용을 비교하고, 진행 카드를 클릭해 작업 기록을 볼 수 있습니다. 전후 diff가 제공되지 않은 파일은 줄 수를 ‘미제공’으로 표시합니다.
 
 ## 작업 중에도 흐름을 확인하세요
 
-사용자 요청은 오른쪽에 배경 없는 회색 글자, AI 답변은 왼쪽 본문으로 표시합니다. 로고 위의 메시지 바탕도 투명하게 유지합니다. 입력란을 남겨 두고 대화만 스크롤합니다. 공개된 명령 실행·파일 변경·도구 상태는 한 카드에서 갱신하며, 마우스를 올려 작업별 상세를 확인할 수 있습니다. ‘생각 중’에는 흰색 빛이 왼쪽에서 오른쪽으로 흐르고, 이전 내용을 읽는 동안에는 진행 표시를 상단으로 옮깁니다.
+사용자 요청은 오른쪽에 작성란과 같은 배경색으로 표시하고, AI 답변은 왼쪽에 조금 더 진한 배경으로 구분합니다. 대화 이름과 시각은 위에 고정되고 입력란을 남겨 두고 본문만 스크롤합니다. 공개된 명령 실행·파일 변경·도구 상태는 한 카드에서 갱신하며, 카드를 클릭해 작업별 상세를 확인할 수 있습니다. ‘생각 중’에는 흰색 빛이 왼쪽에서 오른쪽으로 흐르고, 이전 내용을 읽는 동안에는 진행 표시를 상단으로 옮깁니다.
 
 입력란의 **모델·생각 강도** 버튼에 마우스를 올리면 실제 보고된 입력·출력·캐시 토큰과 계정 한도를 확인할 수 있습니다. 같은 버튼을 눌러 상세 모델·생각 강도·응답 속도를 선택합니다. 전체 액세스의 Codex는 사용량 이벤트마다 갱신합니다. 일반 수정안의 Codex는 CLI가 완료 시 보고한 사용량을 표시합니다. 제공되지 않은 수치는 추정하지 않습니다.
 
@@ -192,6 +256,6 @@ AI 사용량과 비용은 각 계정에 따릅니다. PDF 등 문서 추출은 P
 
 프로젝트 전후 비교는 작은 텍스트 소스의 변경을 보완합니다. 비교 한도와 제외 폴더가 있으며, 다른 프로세스의 동시 변경도 포함될 수 있습니다. [사용 안내](docs/USER_GUIDE.md)의 추적 범위를 확인하세요.
 
-[최신 설치 호환성 검증 기록](MarkdownReport/CodexOrig_TASK-036.md)에서 버전별 IDE·격리 협업 검사와 실제 Claude 계정·운영 DB·TFVC·운영 배포의 미검증 범위를 구분합니다. 테스트 재현에는 최상위 [검사 실행기](VisualStudio_AIChat_ExtentionTest.exe?raw=true)를 사용하세요. 현재 실행기는 기본 검사 19개와 직접 선택 검사 2개를 표시합니다. 기본 검사에서 실제 IDE 실행과 실시간 Codex 대화는 시작하지 않으며, 각 항목의 통과 여부는 최신 후보 검증 보고서에서 확인하세요. 기본 검사는 유료 AI 호출과 운영 서버 접속을 자동 실행하지 않습니다.
+[최신 설치 호환성 검증 기록](MarkdownReport/CodexOrig_TASK-036.md)에서 버전별 IDE·격리 협업 검사와 실제 Claude 계정·운영 DB·TFVC·운영 배포의 미검증 범위를 구분합니다. 테스트 재현에는 최상위 [검사 실행기](VisualStudio_AIChat_ExtentionTest.exe?raw=true)를 사용하세요. 현재 실행기는 기본 검사 27개와 직접 선택 검사 2개를 표시합니다. 기본 검사에서 실제 IDE 실행과 실시간 Codex 대화는 시작하지 않으며, 각 항목의 통과 여부는 최신 후보 검증 보고서에서 확인하세요. 기본 검사는 유료 AI 호출과 운영 서버 접속을 자동 실행하지 않습니다.
 
 [상세 사용법](docs/USER_GUIDE.md) · [테스트 환경](docs/TEST_ENVIRONMENT.md) · [실제 IDE 검사](docs/IDE_TESTS.md) · [빌드·라이선스 안내](docs/BUILD_AND_LICENSE.md) · [개발 안내](docs/DEVELOPMENT.md)

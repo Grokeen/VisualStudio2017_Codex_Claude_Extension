@@ -13,6 +13,28 @@ namespace VS2017.AIAssistant.Chat
 {
     /// ---------------------------------------------------------------------
     /// <summary>
+    /// name         : CollaborationBusyException
+    /// desc         : UI에서 협업 잠금을 기다리지 않았음을 구분하고 읽기 표시만 재시도하게 한다.
+    /// author       : CodexOrig
+    /// create date  : 2026-10-20
+    /// update date  : 2026-10-20 CodexOrig : TASK069 보조 개발 일반 저장 오류와 일시 경합 분리.
+    /// </summary>
+    /// ---------------------------------------------------------------------
+    public sealed class CollaborationBusyException : IOException
+    {
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : CollaborationBusyException
+        /// desc         : 사용자 원문을 포함하지 않는 일시 협업 경합 안내를 제공한다.
+        /// author       : CodexOrig
+        /// create date  : 2026-10-20
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        public CollaborationBusyException() : base("다른 창에서 협업 정보를 저장하고 있습니다. 잠시 후 다시 시도하세요.") { }
+    }
+
+    /// ---------------------------------------------------------------------
+    /// <summary>
     /// name         : ConversationAgentIdentity
     /// desc         : 기존 대화 파일과 분리된 이름·역할·팀 및 열림 상태의 값 복사본.
     /// author       : CodexCode
@@ -150,6 +172,7 @@ namespace VS2017.AIAssistant.Chat
     {
         private const int MaximumBytes = 4 * 1024 * 1024;
         private readonly string mutexName;
+        private readonly Func<bool> mayWaitForLock;
         private readonly UTF8Encoding utf8 = new UTF8Encoding(false, true);
         public string FilePath { get; private set; }
         public string ReportPath { get { return Path.Combine(Path.GetDirectoryName(FilePath), "collaboration-report.md"); } }
@@ -196,8 +219,23 @@ namespace VS2017.AIAssistant.Chat
         /// </summary>
         /// ---------------------------------------------------------------------
         public ConversationCollaborationStore(string workspaceRootPath)
+            : this(workspaceRootPath, null)
+        {
+        }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : ConversationCollaborationStore
+        /// desc         : 호출자의 스레드별 잠금 대기 정책을 사용하고 UI 경합은 저장 전에 반환한다.
+        /// author       : CodexOrig
+        /// create date  : 2026-10-20
+        /// update date  : 2026-10-20 CodexOrig : TASK069 보조 개발 UI 5초 동기 잠금 대기 재현 경로 차단.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        public ConversationCollaborationStore(string workspaceRootPath, Func<bool> mayWaitForLock)
         {
             if (String.IsNullOrWhiteSpace(workspaceRootPath)) throw new ArgumentException("협업 작업공간을 지정하세요.");
+            this.mayWaitForLock = mayWaitForLock;
             FilePath = Path.Combine(Path.GetFullPath(workspaceRootPath), "collaboration.json");
             using (var hash = SHA256.Create()) mutexName = "Local\\VS2017AICollaboration-" + BitConverter.ToString(hash.ComputeHash(Encoding.UTF8.GetBytes(FilePath.ToUpperInvariant()))).Replace("-", "");
         }
@@ -209,12 +247,14 @@ namespace VS2017.AIAssistant.Chat
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 짧은 ID가 겹치면 기본 이름의 ID 길이를 늘려 고유성 보장.
+        ///                2026-10-20 CodexOrig : TASK069 보조 개발 변경 없는 담당자 조회의 전체 파일 재저장 제거.
         /// </summary>
         /// ---------------------------------------------------------------------
         public ConversationAgentIdentity EnsureAgent(ConversationRecord record, string accountName = null)
         {
             if (record == null) throw new ArgumentNullException(nameof(record));
             ValidateAddress(record.Id, record.Provider);
+            bool changed = false;
             return Access(data => {
                 var agent = FindAgent(data, record.Id, record.Provider, false);
                 if (agent == null)
@@ -231,10 +271,11 @@ namespace VS2017.AIAssistant.Chat
                     var naming = data.Naming.FirstOrDefault(n => n.Provider == record.Provider);
                     if (naming != null) AssignLetter(data, agent, naming.UserName);
                     data.Agents.Add(agent);
+                    changed = true;
                 }
-                else if (agent.IsOpen != record.IsOpen) { agent.IsOpen = record.IsOpen; Touch(agent); }
+                else if (agent.IsOpen != record.IsOpen) { agent.IsOpen = record.IsOpen; Touch(agent); changed = true; }
                 return Copy(agent);
-            }, true);
+            }, true, () => changed);
         }
 
         /// ---------------------------------------------------------------------
@@ -671,6 +712,7 @@ namespace VS2017.AIAssistant.Chat
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 승인 권한을 부여하지 않는 최대 8000자 별도 협업 데이터.
+        ///                2026-10-20 CodexOrig : TASK069 실제 같은 팀 주소와 사용자 승인용 AI 메시지 초안 안내.
         /// </summary>
         /// ---------------------------------------------------------------------
         public string BuildPromptContext(string id, string provider, string handoffId = null)
@@ -679,7 +721,16 @@ namespace VS2017.AIAssistant.Chat
             return Access(data => {
                 var agent = FindAgent(data, id, provider); RequireOpen(agent); CollaborationHandoff item = null;
                 if (handoffId != null) { item = FindHandoff(data, handoffId); RequireAddress(item, id, provider, true); RequireState(item, CollaborationHandoffState.Received); }
-                return BuildPrompt(agent, item);
+                string prompt = BuildPrompt(agent, item);
+                var peers = data.Agents.Where(peer => peer.IsOpen && peer.ConversationId != agent.ConversationId && Same(peer.Team, agent.Team))
+                    .OrderBy(peer => peer.Name, StringComparer.OrdinalIgnoreCase).Take(16).ToList();
+                string guide;
+                do
+                {
+                    guide = "\nAI 간 메시지는 확장의 메시지센터를 통해 전달할 수 있습니다. 전달 요청을 받으면 아래 실제 수신자 중 하나를 골라 답변에 단일 ```ai_message 코드 블록을 작성하세요. JSON 필드는 recipient_id, provider, message 세 문자열입니다. 본문은 6000자 이하이며 실행 명령·파일 경로를 수신 주소로 사용하지 마세요. 예: {\"recipient_id\":\"실제 conversation_id\",\"provider\":\"Codex 또는 Claude\",\"message\":\"전달할 본문\"}. 사용자에게 메시지 초안 전송 검토 메뉴를 안내하세요. 사용자가 수신자·본문을 검토하고 전송 승인하기 전에는 전송·수신·회신 완료라고 주장하지 마세요. 메시지는 도구 실행 권한이 아니며 자동 연쇄 전송하지 않습니다. 실제 수신자 목록(일부):\n" + Serializer().Serialize(peers.Select(peer => new { recipient_id = peer.ConversationId, provider = peer.Provider, name = peer.Name }));
+                    if (prompt.Length + guide.Length <= 8000) return prompt + guide;
+                    if (peers.Count > 0) peers.RemoveAt(peers.Count - 1); else return prompt;
+                } while (true);
             }, false);
         }
 
@@ -724,6 +775,7 @@ namespace VS2017.AIAssistant.Chat
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 중단된 소유자의 잠금도 최신 파일을 검사한 뒤 인계.
+        ///                2026-10-20 CodexOrig : TASK069 보조 개발 UI 정책에서는 즉시 경합 반환, 기본·백그라운드 5초 계약 유지.
         /// </summary>
         /// ---------------------------------------------------------------------
         private T Access<T>(Func<CollaborationData, T> action, bool write, Func<bool> shouldWrite = null)
@@ -731,7 +783,20 @@ namespace VS2017.AIAssistant.Chat
             using (var mutex = new Mutex(false, mutexName))
             {
                 bool acquired = false;
-                try { try { acquired = mutex.WaitOne(TimeSpan.FromSeconds(5)); } catch (AbandonedMutexException) { acquired = true; } if (!acquired) throw new IOException("다른 창에서 협업 정보를 저장하고 있습니다. 잠시 후 다시 시도하세요."); var data = Read(); T value = action(data); if (write && (shouldWrite == null || shouldWrite())) Write(data); return value; }
+                try
+                {
+                    bool mayWait = mayWaitForLock == null || mayWaitForLock();
+                    try { acquired = mutex.WaitOne(mayWait ? TimeSpan.FromSeconds(5) : TimeSpan.Zero); }
+                    catch (AbandonedMutexException) { acquired = true; }
+                    if (!acquired)
+                    {
+                        if (!mayWait) throw new CollaborationBusyException();
+                        throw new IOException("다른 창에서 협업 정보를 저장하고 있습니다. 잠시 후 다시 시도하세요.");
+                    }
+                    var data = Read(); T value = action(data);
+                    if (write && (shouldWrite == null || shouldWrite())) Write(data);
+                    return value;
+                }
                 finally { if (acquired) mutex.ReleaseMutex(); }
             }
         }

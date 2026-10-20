@@ -99,6 +99,7 @@ namespace VS2017.AIAssistant.Views
         /// update date  : 2026-10-18 CodexCode : TASK-021 추가 이미지 요구와 감사 보완 흐름 반영.
         /// update date  : 2026-10-18 CodexCode : TASK-022 최초 로드에서 필수 숨김 instruction 관리 사본 준비.
         ///                2026-10-19 CodexOrig4 : 테마 선택을 초기화하여 IDE/Windows 자동 모드와 개인 선택 적용.
+        ///                2026-10-20 CodexOrig : TASK069 보조 개발 협업 잠금을 UI 스레드에서 기다리지 않도록 정책 전달.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void InitializeExperience(AssistantSettings settings)
@@ -124,7 +125,7 @@ namespace VS2017.AIAssistant.Views
                 workspaceWarnings.Add("필수 규칙의 숨김 사본을 준비하지 못했습니다. AI 요청에는 내장된 필수 규칙을 적용합니다. (" + error.GetType().Name + ")");
             }
             InitializeFanMenu();
-            collaborationStore = new ConversationCollaborationStore(workspaceStore.RootPath);
+            collaborationStore = new ConversationCollaborationStore(workspaceStore.RootPath, () => !Dispatcher.CheckAccess());
             foreach (string name in new[] { "Claude", "Codex" })
                 try { collaborationStore.ConfigureNaming(name, Environment.UserName); } catch (Exception error) { workspaceWarnings.Add("AI 이름 준비 실패: " + error.Message); }
             foreach (string name in new[] { "Claude", "Codex" })
@@ -725,10 +726,12 @@ namespace VS2017.AIAssistant.Views
         /// update date  : 2026-10-18 CodexCode : TASK-017 이미지 분석 기반 드롭다운·안내·대화 지정 흐름 개선.
         /// update date  : 2026-10-18 CodexCode : TASK-022 진행 팝업·대화 viewport 수명 정리 연결.
         ///                2026-10-19 CodexOrig4 : 테마 static 이벤트 및 Loaded/Unloaded 구독 해제.
+        ///                2026-10-20 CodexOrig : TASK069 보조 개발 협업 표시의 지연 재시도 타이머 해제.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void DisposeExperience()
         {
+            StopAgentIdentityRetry();
             // TASK-022: 진행 팝업과 대화 스크롤의 지연 콜백도 창 수명 안에서 해제한다.
             CloseDropdown(); CloseProgressNotices(); DisposeConversationViewport();
             DisposeFanMenu(); DisposeRuntime(); UpdateThinkingAnimation(false); DisposeTheme();

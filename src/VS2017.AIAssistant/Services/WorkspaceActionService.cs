@@ -415,6 +415,7 @@ namespace VS2017.AIAssistant.Services
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : PATH의 현재 폴더 우선 탐색을 배제.
         /// update date  : 2026-10-18 CodexCode : TASK-021 실행 파일과 PATH도 드라이브 상대·장치 경로로 해석하지 않음.
+        ///                2026-10-20 CodexOrig : TASK069 PATH에 없는 Visual Studio TFVC 실행 파일 자동 탐지.
         /// </summary>
         /// ---------------------------------------------------------------------
         private static string ResolveExecutable(string value)
@@ -431,7 +432,44 @@ namespace VS2017.AIAssistant.Services
                     RejectAmbiguousPath(searchDirectory);
                     string candidate = Path.Combine(searchDirectory, value); if (File.Exists(candidate)) return Path.GetFullPath(candidate);
                 }
-            throw new FileNotFoundException("실행 파일을 찾지 못했습니다. 설치된 .exe의 전체 경로를 지정하세요.");
+            if (String.Equals(value, "tf.exe", StringComparison.OrdinalIgnoreCase)) {
+                string tfs = FindInstalledTfsExecutable(); if (tfs != null) return tfs;
+            }
+            throw new FileNotFoundException("실행 파일을 찾지 못했습니다. 설치된 .exe의 전체 경로를 지정하세요. TFS는 Visual Studio의 Team Explorer/TFVC 구성 요소가 필요합니다.");
+        }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : FindInstalledTfsExecutable
+        /// desc         : 현재 IDE·개발 환경·표준 설치 위치에서 TFVC 도구만 찾으며 명령을 실행하지 않는다.
+        /// author       : CodexOrig
+        /// create date  : 2026-10-20
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        private static string FindInstalledTfsExecutable()
+        {
+            var roots = new List<string>();
+            try {
+                using (var current = Process.GetCurrentProcess()) {
+                    string host = current.MainModule.FileName;
+                    if (String.Equals(Path.GetFileName(host), "devenv.exe", StringComparison.OrdinalIgnoreCase))
+                        roots.Add(Path.GetFullPath(Path.Combine(Path.GetDirectoryName(host), "..", "..")));
+                }
+            } catch (System.ComponentModel.Win32Exception) { } catch (InvalidOperationException) { }
+            roots.Add(Environment.GetEnvironmentVariable("VSINSTALLDIR"));
+            foreach (string programFiles in new[] { Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86) })
+                foreach (string year in new[] { "2022", "2019", "2017" })
+                    foreach (string edition in new[] { "Enterprise", "Professional", "Community", "TeamExplorer" })
+                        if (!String.IsNullOrWhiteSpace(programFiles)) roots.Add(Path.Combine(programFiles, "Microsoft Visual Studio", year, edition));
+            foreach (string root in roots.Where(x => !String.IsNullOrWhiteSpace(x)).Distinct(StringComparer.OrdinalIgnoreCase)) {
+                if (!IsFullyQualifiedPath(root)) continue;
+                try {
+                    RejectAmbiguousPath(root);
+                    string candidate = Path.Combine(root, @"Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer\TF.exe");
+                    if (File.Exists(candidate)) { RejectReparsePoints(candidate); return Path.GetFullPath(candidate); }
+                } catch (IOException) { } catch (UnauthorizedAccessException) { } catch (ArgumentException) { }
+            }
+            return null;
         }
 
         /// ---------------------------------------------------------------------

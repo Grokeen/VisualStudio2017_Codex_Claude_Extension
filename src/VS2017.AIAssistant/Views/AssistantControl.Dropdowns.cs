@@ -218,7 +218,7 @@ namespace VS2017.AIAssistant.Views
                 }
                 var agentDescription = CreateThemedDescription("선택한 AI의 대화로 이동합니다. AI마다 역할·기록을 유지하며 A~Z를 모두 사용하면 A에게 이어서 지시합니다.", new Thickness(0, 10, 0, 14));
                 agentDescription.FontSize = 12; body.Children.Add(agentDescription);
-                var configure = new Button { Content = "⚙ 역할·협업 설정" }; configure.Click += (s, a) => { CloseDropdown(); AgentClicked(s, a); }; body.Children.Add(configure);
+                var configure = new Button { Content = "⚙ 역할·협업 설정" }; configure.Click += (s, a) => { Dispatcher.VerifyAccess(); CloseDropdown(); AgentClicked(s, a); }; body.Children.Add(configure);
                 var refresh = new Button { Content = "↻ 계정 이름 다시 확인", Margin = new Thickness(0, 8, 0, 0) };
                 refresh.Click += RefreshScmClicked;
                 body.Children.Add(refresh);
@@ -233,15 +233,18 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : TASK-017 닫힌 선택 창의 지연 재열림과 비동기 이벤트 예외 방지.
+        ///                2026-10-20 CodexOrig : TASK069 계정 조회 후 UI 접근을 검증하고 선택 메뉴를 갱신한다.
         /// </summary>
         /// ---------------------------------------------------------------------
         // WPF RoutedEventHandler는 void 계약이며 이 핸들러는 await 전체의 예외를 아래 catch에서 처리한다.
 #pragma warning disable VSTHRD100
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "VSTHRD109", Justification = "WPF Click 핸들러이며 계정 조회 await 뒤 Dispatcher.VerifyAccess로 원래 UI dispatcher를 검증한 후 메뉴를 갱신한다.")]
         private async void RefreshScmClicked(object sender, RoutedEventArgs e)
         {
             try {
                 var currentPopup = dropdownPopup; var refresh = sender as Button; if (refresh != null) refresh.IsEnabled = false;
                 await RefreshScmIdentityAsync(true);
+                Dispatcher.VerifyAccess();
                 if (!disposed && currentPopup != null && dropdownPopup == currentPopup && currentPopup.IsOpen) { CloseDropdown(); AgentPickerClicked(AgentButton, new RoutedEventArgs()); }
             } catch (Exception error) { if (!disposed) StatusLabel.Text = "계정 이름 재확인 실패: " + error.Message; }
         }

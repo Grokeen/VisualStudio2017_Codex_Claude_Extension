@@ -1,0 +1,40 @@
+{
+  "Task": "TASK069 #5",
+  "Owner": "CodexOrig supplementary developer 055",
+  "IncidentCauseConfirmed": false,
+  "IncidentTimestamp": "2026-10-20T16:46:00+09:00",
+  "PreservedLogManifest": "artifacts/task069/diagnostics055/preservation-manifest.json",
+  "Baseline": {
+    "Kind": "Previous TASK068 candidate5 actual DLL, not final published C6",
+    "Result": "artifacts/task069/hang055/baseline-result.json",
+    "BlockedMilliseconds": 5002,
+    "UIHeartbeatDuring": 0,
+    "UnchangedIdentityRewrites": true
+  },
+  "Candidate3": {
+    "Summary": "artifacts/task069hang/run-135629f407d449eaa2bfe6505d8365b6/hang-summary.json",
+    "AssemblySha256": "EDB57654F5D455C73DF2BCBBDC191206D06252A663A2D7DE059BE6184D94751E",
+    "AssetsSha256": "B90AF315ADA4FAF4918863FE425FD214195DC9192BC6F37B7B521026046D859F",
+    "Passed": 17,
+    "Failed": 0,
+    "InputsUnchanged": true,
+    "ActualProductDll": true,
+    "ExactUiMethodSubstrings": true,
+    "FullProductUiTest": false
+  },
+  "UnchangedExistingCollaborationAssertions": {
+    "Passed": 60,
+    "Failed": 0,
+    "Result": "artifacts/task069hang/regression-7c1f63e9f5c34a8fa602e4d3456b41c8/result.json"
+  },
+  "ScopeLimits": [
+    "No stack or dump for reported incident",
+    "Synchronous disk initialization and draft saving remain",
+    "No live IDE manipulation",
+    "No OS pointer or desktop capture",
+    "No user project modification",
+    "No shared build or Git/index mutation"
+  ],
+  "FinalOwner": "Root: four SKU builds, actual IDE, audit, latest Release, publication, anonymous download hash",
+  "CheckedAt": "2026-10-20T22:19:39.1706110+09:00"
+}

@@ -301,6 +301,7 @@ namespace VS2017.AIAssistant.Views
     /// author       : CodexCode
     /// create date  : 2026-10-18
     /// update date  : 2026-10-18 CodexCode : 안정 모델 갱신과 Popup·포커스·타이머 수명을 요청 카드에 한정.
+    /// update date  : 2026-10-20 CodexOrig4 : TASK069-3 작업 상세 자동 hover 공개를 제거하고 click/키보드로만 연다.
     /// </summary>
     /// ---------------------------------------------------------------------
     public sealed class ProgressNoticePresenter : ContentControl
@@ -341,7 +342,7 @@ namespace VS2017.AIAssistant.Views
             var arrow = new TextBlock { Text = "⌄", VerticalAlignment = VerticalAlignment.Center, HorizontalAlignment = HorizontalAlignment.Center }; Grid.SetColumn(arrow, 2); face.Children.Add(arrow);
             header = new Button { Content = face, Background = Brushes.Transparent, BorderThickness = new Thickness(0), Padding = new Thickness(8, 7, 8, 7), HorizontalContentAlignment = HorizontalAlignment.Stretch };
             System.Windows.Automation.AutomationProperties.SetName(header, "작업 진행 상세 보기");
-            System.Windows.Automation.AutomationProperties.SetHelpText(header, "마우스 또는 Enter로 공개 작업 상세 보기");
+            System.Windows.Automation.AutomationProperties.SetHelpText(header, "클릭 또는 Enter로 공개 작업 상세 보기");
             Content = new Border { BorderBrush = new SolidColorBrush(Color.FromRgb(62, 68, 79)), BorderThickness = new Thickness(1), CornerRadius = new CornerRadius(8), Background = new SolidColorBrush(Color.FromRgb(33, 36, 42)), Child = header };
             var body = new StackPanel(); var top = new DockPanel();
             var close = new Button { Content = "×", Width = 26, Height = 26, Padding = new Thickness(0), Background = Brushes.Transparent, BorderThickness = new Thickness(0), Foreground = Brushes.Gainsboro, ToolTip = "작업 상세 닫기 (Escape)" }; DockPanel.SetDock(close, Dock.Right); top.Children.Add(close);
@@ -365,7 +366,7 @@ namespace VS2017.AIAssistant.Views
             popup = new Popup { PlacementTarget = header, Placement = PlacementMode.Bottom, AllowsTransparency = true, StaysOpen = true, PopupAnimation = PopupAnimation.Fade, Child = popupBody };
             SizeChanged += (sender, args) => { if (popup.IsOpen) UpdateDetailsSize(); };
             closeTimer = new DispatcherTimer(DispatcherPriority.Background, Dispatcher) { Interval = TimeSpan.FromMilliseconds(180) }; closeTimer.Tick += CloseTick;
-            header.MouseEnter += HeaderEntered; header.MouseLeave += PointerLeft; header.Click += HeaderClicked;
+            header.MouseLeave += PointerLeft; header.Click += HeaderClicked;
             popupBody.MouseEnter += PopupEntered; popupBody.MouseLeave += PointerLeft;
             header.PreviewKeyDown += KeyPressed; popupBody.PreviewKeyDown += KeyPressed;
             header.LostKeyboardFocus += FocusLeft; popupBody.LostKeyboardFocus += FocusLeft;
@@ -576,6 +577,7 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 안내 위 마우스 진입 계약.
+        ///                2026-10-20 CodexOrig4 : TASK069-3 hover 자동 펼침을 제거하고 명시적 click만 사용.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void HeaderEntered(object sender, MouseEventArgs args) { OpenDetails(false); }
@@ -616,6 +618,7 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : hover 이후 click은 먼저 상세를 고정.
+        ///                2026-10-20 CodexOrig4 : TASK069-3 click/Enter로 열고 재클릭으로 닫기.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void HeaderClicked(object sender, RoutedEventArgs args) { if (popup.IsOpen && pinned) CloseDetails(true); else OpenDetails(true); }

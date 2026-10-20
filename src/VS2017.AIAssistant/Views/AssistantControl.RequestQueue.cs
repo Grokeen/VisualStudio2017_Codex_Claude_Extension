@@ -112,6 +112,7 @@ namespace VS2017.AIAssistant.Views
         /// desc         : 대화방 동시 실행과 기존 대기열이 같은 검증·문맥 캡처를 사용한다.
         /// author       : CodexCode
         /// create date  : 2026-10-20
+        /// update date  : 2026-10-20 CodexOrig : TASK069 캡처한 첨부의 이름·본문 분량만 전송 기록에 표시.
         /// update date  : 2026-10-20 CodexCode : 원래 읽기 전용 문서는 입력을 소비하기 전에 거절한다.
         /// </summary>
         /// ---------------------------------------------------------------------
@@ -164,7 +165,7 @@ namespace VS2017.AIAssistant.Views
             request.Context = new ChatRequestContext(instructions, ModelName.Text, request.Chat.Messages.ToArray(), request.Chat.Attachments.ToArray(), efforts[request.Provider], speeds[request.Provider]);
             new ProviderExecutionOptions(request.Provider, request.Context.Model, request.Context.ReasoningEffort, request.Context.Speed);
             var previousMessages = request.Chat.Messages.ToArray();
-            request.Chat.Add("user", request.Instruction + (request.Context.Attachments.Length == 0 ? "" : "\n첨부: " + string.Join(", ", request.Context.Attachments.Select(item => item.Name))));
+            request.Chat.Add("user", request.Instruction + AttachmentDisplayInfo.SubmissionSummary(request.Context.Attachments));
             var submittedMessage = request.Chat.Messages.Last();
             historyState.Order[submittedMessage] = request.Sequence;
             request.SubmittedMessage = submittedMessage;

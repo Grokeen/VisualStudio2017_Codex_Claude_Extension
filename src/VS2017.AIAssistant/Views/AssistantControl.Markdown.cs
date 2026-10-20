@@ -39,6 +39,7 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexCode
         /// create date  : 2026-10-19
         /// update date  : 2026-10-19 CodexCode : 새 렌더러에서도 원래 텍스트 우클릭 기능 유지.
+        ///                2026-10-20 CodexOrig : TASK069 답변의 AI 메시지 초안을 검토·승인 전송 메뉴에 연결.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void MarkdownPreviewLoaded(object sender, RoutedEventArgs args)
@@ -52,6 +53,7 @@ namespace VS2017.AIAssistant.Views
                 source.Click += (copySender, copyArgs) => { Dispatcher.VerifyAccess(); CopyMarkdownSource(preview.Markdown); };
                 menu.Items.Insert(0, source); menu.Items.Insert(1, new Separator());
                 AddArtifactActions(menu, preview);
+                AddMessageActions(menu, preview);
                 preview.TextView.ContextMenu = menu;
             }
         }

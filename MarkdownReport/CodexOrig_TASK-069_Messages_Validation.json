@@ -1,0 +1,63 @@
+{
+  "ProductAssemblySha256": "EDB57654F5D455C73DF2BCBBDC191206D06252A663A2D7DE059BE6184D94751E",
+  "OriginalProductSha256": "EDB57654F5D455C73DF2BCBBDC191206D06252A663A2D7DE059BE6184D94751E",
+  "ExactAssetsSha256": "B90AF315ADA4FAF4918863FE425FD214195DC9192BC6F37B7B521026046D859F",
+  "ActualAssetsSha256": "B90AF315ADA4FAF4918863FE425FD214195DC9192BC6F37B7B521026046D859F",
+  "Passed": 58,
+  "Failed": 0,
+  "UniqueChecks": 58,
+  "EvidenceDirectory": "artifacts/task069messages/candidate3-messages-2",
+  "ProductSources": [
+    {
+      "RelativePath": "src/VS2017.AIAssistant/Chat/CollaborationMessageRequest.cs",
+      "ExecutedCandidateSha256": "8C4AAEB59B39CFC1CAB427B3D551699E9327C0B869267486B4C887224AA6E949",
+      "CurrentSha256": "8C4AAEB59B39CFC1CAB427B3D551699E9327C0B869267486B4C887224AA6E949"
+    },
+    {
+      "RelativePath": "src/VS2017.AIAssistant/Providers/CollaborationMessageRunner.cs",
+      "ExecutedCandidateSha256": "8F66A98EF5E26C4ECD32BAAA4C28928D033DB8CFF4AA214AA68A65474CC0EBC9",
+      "CurrentSha256": "8F66A98EF5E26C4ECD32BAAA4C28928D033DB8CFF4AA214AA68A65474CC0EBC9"
+    },
+    {
+      "RelativePath": "src/VS2017.AIAssistant/Views/AssistantControl.Messages.cs",
+      "ExecutedCandidateSha256": "FE9A76202763A84B6231228F391DD4A09B4838F9F83CD4A33CB186BE769D10E1",
+      "CurrentSha256": "FE9A76202763A84B6231228F391DD4A09B4838F9F83CD4A33CB186BE769D10E1"
+    },
+    {
+      "RelativePath": "src/VS2017.AIAssistant/Chat/ConversationCollaboration.cs",
+      "ExecutedCandidateSha256": "8A09A488CFC7EDF1A3D66F64BD83048852B167D8BDDDE3E87C10662CB3702C95",
+      "CurrentSha256": "8A09A488CFC7EDF1A3D66F64BD83048852B167D8BDDDE3E87C10662CB3702C95"
+    },
+    {
+      "RelativePath": "src/VS2017.AIAssistant/Views/AssistantControl.Markdown.cs",
+      "ExecutedCandidateSha256": "E68CF4398EA0CD729053409603CB62502B52F6343FE9F570B66636471DC631F2",
+      "CurrentSha256": "E68CF4398EA0CD729053409603CB62502B52F6343FE9F570B66636471DC631F2"
+    },
+    {
+      "RelativePath": "src/VS2017.AIAssistant/Views/AssistantControl.Options.cs",
+      "ExecutedCandidateSha256": "0B8D4A0EC2DEAEE954E3E6A53A0ABFA6897EDA6D0356CE7929D3D15BCCC9A984",
+      "CurrentSha256": "0B8D4A0EC2DEAEE954E3E6A53A0ABFA6897EDA6D0356CE7929D3D15BCCC9A984"
+    },
+    {
+      "RelativePath": "src/VS2017.AIAssistant/Views/AssistantControl.Dropdowns.cs",
+      "ExecutedCandidateSha256": "A4548F7D3E74874C84211AEE6998997C2FC35B886A6A1FCDABCD23BD89A87532",
+      "CurrentSha256": "A4548F7D3E74874C84211AEE6998997C2FC35B886A6A1FCDABCD23BD89A87532"
+    }
+  ],
+  "LiveAiUsed": false,
+  "WindowShown": false,
+  "PopupOpened": false,
+  "NetworkRequested": false,
+  "Remaining": [
+    "final integrated candidate suite",
+    "installed IDE physical UI/layout",
+    "remote authentication and actual model compliance/delivery are excluded per user instruction"
+  ],
+  "RootOwns": [
+    "4SKU compile",
+    "independent audit",
+    "latest Release",
+    "actual publishing",
+    "anonymous download SHA verification"
+  ]
+}

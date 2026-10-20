@@ -1,0 +1,311 @@
+{
+  "CheckedAt": "2026-10-20T22:41:09.5325267+09:00",
+  "Passed": 120,
+  "Failed": 0,
+  "UniqueChecks": 120,
+  "ProductSha256": "E9B5192292C331A3E3F22861F572AFB2EE596674B26EE4AFC6F55C4BFD904D87",
+  "ActualProductSha256": "E9B5192292C331A3E3F22861F572AFB2EE596674B26EE4AFC6F55C4BFD904D87",
+  "AssetsSha256": "24E2004E511129BF2E72AC57A8D3634A30770DB354B48C0ABC9CE23319F5E989",
+  "ActualAssetsSha256": "24E2004E511129BF2E72AC57A8D3634A30770DB354B48C0ABC9CE23319F5E989",
+  "Sources": [
+    {
+      "RelativePath": "src/VS2017.AIAssistant/Chat/AttachmentDisplayInfo.cs",
+      "CandidateSha256": "C47C46AFD2F4CCA7C186E1C4FB27B88E6ECB8260F45B0ACBF05815E87F3458B5",
+      "CurrentSha256": "C47C46AFD2F4CCA7C186E1C4FB27B88E6ECB8260F45B0ACBF05815E87F3458B5"
+    },
+    {
+      "RelativePath": "src/VS2017.AIAssistant/Chat/ChatWorkspace.cs",
+      "CandidateSha256": "95BD9E9068689C25A6D67F8963336905B347F7D66B6661B5CB390FECD7A41026",
+      "CurrentSha256": "95BD9E9068689C25A6D67F8963336905B347F7D66B6661B5CB390FECD7A41026"
+    },
+    {
+      "RelativePath": "src/VS2017.AIAssistant/Views/AssistantControl.RequestQueue.cs",
+      "CandidateSha256": "7ACD8EE7DFF9632353070CB6C77FCD491D9A06E3591BCAE903ECCDED5EB915AA",
+      "CurrentSha256": "7ACD8EE7DFF9632353070CB6C77FCD491D9A06E3591BCAE903ECCDED5EB915AA"
+    },
+    {
+      "RelativePath": "src/VS2017.AIAssistant/Views/AssistantControl.xaml",
+      "CandidateSha256": "8F5E5B1221987DF30F5BE2EA48C2F2F42F47BCC93132AA0197998B17D5AC66ED",
+      "CurrentSha256": "8F5E5B1221987DF30F5BE2EA48C2F2F42F47BCC93132AA0197998B17D5AC66ED"
+    },
+    {
+      "RelativePath": "src/VS2017.AIAssistant/Providers/CliEditProvider.cs",
+      "CandidateSha256": "7171D70D02282FFC8D29A386B9B9CC17B14F269D6205AB39D2B9ED4FD0C60237",
+      "CurrentSha256": "7171D70D02282FFC8D29A386B9B9CC17B14F269D6205AB39D2B9ED4FD0C60237"
+    }
+  ],
+  "WireCases": [
+    {
+      "Scenario": "Codex-full-normal",
+      "Count": 4,
+      "Utf8Bytes": 472,
+      "Characters": 360,
+      "PayloadCharacters": 2501,
+      "Names": [
+        "SaveZeroTaxDetailedStatement.xaml.txt",
+        "SaveZeroTaxDetailedStatement.xaml.cs.txt",
+        "SaveZeroTaxDetailedStatement.xaml.Behavior.cd.txt",
+        "SaveZeroTaxDetailedStatement.xaml.Data.cd.txt"
+      ],
+      "Hashes": [
+        "C9521E85D93779830700934CE91DE892E656D98BAC5BBE0A20ED1496B0CCEC30",
+        "28D5483A108B9A04FE79F31ADF0F9E5912EC79A2CBB8EFEDF5609DBF31CCBA27",
+        "4F4B85E5032C779D577E517687A2B32ED7927713327A033910E4B15A3787E5D8",
+        "C66587526541C07A19175FAE08FF81335C16E7EFF8F7E7C9FC582520CD6DF82D"
+      ],
+      "ChipRetentionBeforeClear": 4,
+      "SourceUnchanged": true
+    },
+    {
+      "Scenario": "Codex-full-cap",
+      "Count": 4,
+      "Utf8Bytes": 409600,
+      "Characters": 409568,
+      "PayloadCharacters": 411650,
+      "Names": [
+        "SaveZeroTaxDetailedStatement.xaml.txt",
+        "SaveZeroTaxDetailedStatement.xaml.cs.txt",
+        "SaveZeroTaxDetailedStatement.xaml.Behavior.cd.txt",
+        "SaveZeroTaxDetailedStatement.xaml.Data.cd.txt"
+      ],
+      "Hashes": [
+        "B397CA319A8833111508ABDB478E1145B96A7561CA4084DC9FC8D122AFB29C3E",
+        "7F710A631F612B4BCAAB9FE2EF5CABE2A8F27AF73BBA3976F5F52A06FA5CEBD4",
+        "199502C8B379C86CC145170DA2E02333F17A76392EDEF97471A35E7FD64EB9D1",
+        "123FC5E86E15FF35C3120D384C0E2AE74C589152CE61553CA962EB8468447593"
+      ],
+      "ChipRetentionBeforeClear": 4,
+      "SourceUnchanged": true
+    },
+    {
+      "Scenario": "Codex-full-escaped-cap",
+      "Count": 4,
+      "Utf8Bytes": 409600,
+      "Characters": 409568,
+      "PayloadCharacters": 2458298,
+      "Names": [
+        "SaveZeroTaxDetailedStatement.xaml.txt",
+        "SaveZeroTaxDetailedStatement.xaml.cs.txt",
+        "SaveZeroTaxDetailedStatement.xaml.Behavior.cd.txt",
+        "SaveZeroTaxDetailedStatement.xaml.Data.cd.txt"
+      ],
+      "Hashes": [
+        "78CA2F8B185D1F8FE4F5DD5BE37E193F24BFC959A583D22321C3D0C96871848B",
+        "80E2113CAD91124B2C64DE60F3E76A855D6D4B9C1443D852AAA69962BCA015B2",
+        "5BBBA7204E4FCB360A37B6E8DA607B097A364F70FF0F9E29E0DD9F9CB9F1A3AE",
+        "6F27FFE11445DCF6D6764085AEF9A9FB9930A718146D12D99BD8E484D8443DC3"
+      ],
+      "ChipRetentionBeforeClear": 4,
+      "SourceUnchanged": true
+    },
+    {
+      "Scenario": "Codex-approval-normal",
+      "Count": 4,
+      "Utf8Bytes": 488,
+      "Characters": 376,
+      "PayloadCharacters": 3657,
+      "Names": [
+        "SaveZeroTaxDetailedStatement.xaml.txt",
+        "SaveZeroTaxDetailedStatement.xaml.cs.txt",
+        "SaveZeroTaxDetailedStatement.xaml.Behavior.cd.txt",
+        "SaveZeroTaxDetailedStatement.xaml.Data.cd.txt"
+      ],
+      "Hashes": [
+        "2B6098784049698E2DC231F0531DD7E177D7120CC10CB279D6CE0D63D12B24D4",
+        "368EFC91DA19BE751BCCA9A5238A198DB3EA71748150C14FB0C4F9F4512394DD",
+        "339D5EB3DE257C7D074E2EBA24654AC31424A831D78EEC9E88568A66685D38FE",
+        "B5919BF4C3DF6112DD4676FEF788B3E96BBA503484E94B74C495B8BE1B1F0145"
+      ],
+      "ChipRetentionBeforeClear": 4,
+      "SourceUnchanged": true
+    },
+    {
+      "Scenario": "Codex-approval-cap",
+      "Count": 4,
+      "Utf8Bytes": 409600,
+      "Characters": 409568,
+      "PayloadCharacters": 412790,
+      "Names": [
+        "SaveZeroTaxDetailedStatement.xaml.txt",
+        "SaveZeroTaxDetailedStatement.xaml.cs.txt",
+        "SaveZeroTaxDetailedStatement.xaml.Behavior.cd.txt",
+        "SaveZeroTaxDetailedStatement.xaml.Data.cd.txt"
+      ],
+      "Hashes": [
+        "AFD80090C605A4ACAB596AFF9377E0B2D51D67488708DDA3FD6CF8C50AFB6673",
+        "39E9CDAEDD93AACD969F2CE940296C3E9D53A80FF8489D927A41A1EA6B5EBAEA",
+        "DF6CCEEAA76CCECC98B01D9A667297D453A13C6E7F641F503A36FFE6A282A230",
+        "EAB0F79B6119CA22873DCA55F5609C255CF23569C6593F2D70EA140454A6BEF3"
+      ],
+      "ChipRetentionBeforeClear": 4,
+      "SourceUnchanged": true
+    },
+    {
+      "Scenario": "Codex-approval-escaped-cap",
+      "Count": 4,
+      "Utf8Bytes": 409600,
+      "Characters": 409568,
+      "PayloadCharacters": 2459358,
+      "Names": [
+        "SaveZeroTaxDetailedStatement.xaml.txt",
+        "SaveZeroTaxDetailedStatement.xaml.cs.txt",
+        "SaveZeroTaxDetailedStatement.xaml.Behavior.cd.txt",
+        "SaveZeroTaxDetailedStatement.xaml.Data.cd.txt"
+      ],
+      "Hashes": [
+        "30C264391808961271B81E73C847942CA05832404D6173D95792ACA28978E830",
+        "033FBC07BF3AEB8B3C84082025DFB72E8D05D5D124C788683F494D1F0084EF97",
+        "74BF94ED7E3ECC4C1BB104300D1C100112A1A87CE0EF5AC19C32EAB7413C1613",
+        "3CB09FBFC739D6917B426887F04A1537E5215487D01813EE28B70AAACBC6AB4E"
+      ],
+      "ChipRetentionBeforeClear": 4,
+      "SourceUnchanged": true
+    },
+    {
+      "Scenario": "Claude-full-normal",
+      "Count": 4,
+      "Utf8Bytes": 476,
+      "Characters": 364,
+      "PayloadCharacters": 2348,
+      "Names": [
+        "SaveZeroTaxDetailedStatement.xaml.txt",
+        "SaveZeroTaxDetailedStatement.xaml.cs.txt",
+        "SaveZeroTaxDetailedStatement.xaml.Behavior.cd.txt",
+        "SaveZeroTaxDetailedStatement.xaml.Data.cd.txt"
+      ],
+      "Hashes": [
+        "7267E5CB5DDBD332FF2C3FE19F0F179D8619BCDB450A061EDC43A87BA7583960",
+        "1C7E048DA9F8964DFF84516CA3CEF15AF437ACC4CD70505CABFC63D6CF80526A",
+        "A21522D8DE6579D7DB3479C6678EE919FAEF2F66F619E3FD1CF71C7E5E612DDA",
+        "5D08E60DEFAE968208E76F6F278533871EE730A3B669A8CD96DC54B3C9BDF8CA"
+      ],
+      "ChipRetentionBeforeClear": 4,
+      "SourceUnchanged": true
+    },
+    {
+      "Scenario": "Claude-full-cap",
+      "Count": 4,
+      "Utf8Bytes": 409600,
+      "Characters": 409568,
+      "PayloadCharacters": 411493,
+      "Names": [
+        "SaveZeroTaxDetailedStatement.xaml.txt",
+        "SaveZeroTaxDetailedStatement.xaml.cs.txt",
+        "SaveZeroTaxDetailedStatement.xaml.Behavior.cd.txt",
+        "SaveZeroTaxDetailedStatement.xaml.Data.cd.txt"
+      ],
+      "Hashes": [
+        "36097D154681BF445E813CE5B7DE2A5FE15EC9C1B4102D6F0B68D36F0F06306B",
+        "E308341C33AF64582CB97BB3B1CD3A4B6ACA52A4C6B0CA0BC103A40E836BD508",
+        "1E0524C9174A2C1249DEDEA02901B4E5C4C52C41F787B2380934104AC3133D2F",
+        "9177F72CCADE186CFE06DE9F7972021F251E3153731BE2B7CBBA365CE3A92121"
+      ],
+      "ChipRetentionBeforeClear": 4,
+      "SourceUnchanged": true
+    },
+    {
+      "Scenario": "Claude-full-escaped-cap",
+      "Count": 4,
+      "Utf8Bytes": 409600,
+      "Characters": 409568,
+      "PayloadCharacters": 2458121,
+      "Names": [
+        "SaveZeroTaxDetailedStatement.xaml.txt",
+        "SaveZeroTaxDetailedStatement.xaml.cs.txt",
+        "SaveZeroTaxDetailedStatement.xaml.Behavior.cd.txt",
+        "SaveZeroTaxDetailedStatement.xaml.Data.cd.txt"
+      ],
+      "Hashes": [
+        "680B726A2C0B7612AD1239ECB6B7DD497046ACC0E89312AAE1DB1DD8E161F730",
+        "C17CE3F21AA4AFD19664456D48EEC3C23623363348410DAC05DCC54BF3E05EA5",
+        "0AF4D34EF14B0DA055BDCB2CDD76BBB4A722216E9B33A753B7711C5E7F645A64",
+        "2EF8320BB4B596CF8D507A1E9DE88A4523DB7E6DB982BAC2226F6D9436B28957"
+      ],
+      "ChipRetentionBeforeClear": 4,
+      "SourceUnchanged": true
+    },
+    {
+      "Scenario": "Claude-approval-normal",
+      "Count": 4,
+      "Utf8Bytes": 492,
+      "Characters": 380,
+      "PayloadCharacters": 3662,
+      "Names": [
+        "SaveZeroTaxDetailedStatement.xaml.txt",
+        "SaveZeroTaxDetailedStatement.xaml.cs.txt",
+        "SaveZeroTaxDetailedStatement.xaml.Behavior.cd.txt",
+        "SaveZeroTaxDetailedStatement.xaml.Data.cd.txt"
+      ],
+      "Hashes": [
+        "12F70264A29AFEE79DD4A2C60AA6900F89FF96F36E4DCDFC404B3D76AB0D9F4A",
+        "C947E767201CF9C2F45A7DE77B0A69778D01919A5812BDD1E7AB838095BE804C",
+        "8189DDF11AC6301638BA3A1A6F62D0531104CD970412EC3932EAF2C2A62A3703",
+        "BF6CB9F6AC6E921FEC6C6183CE0D8E77520840522A154006C579AC7F2595D30D"
+      ],
+      "ChipRetentionBeforeClear": 4,
+      "SourceUnchanged": true
+    },
+    {
+      "Scenario": "Claude-approval-cap",
+      "Count": 4,
+      "Utf8Bytes": 409600,
+      "Characters": 409568,
+      "PayloadCharacters": 412791,
+      "Names": [
+        "SaveZeroTaxDetailedStatement.xaml.txt",
+        "SaveZeroTaxDetailedStatement.xaml.cs.txt",
+        "SaveZeroTaxDetailedStatement.xaml.Behavior.cd.txt",
+        "SaveZeroTaxDetailedStatement.xaml.Data.cd.txt"
+      ],
+      "Hashes": [
+        "4934B0D15AF886F4AD62A76ADCEA9DD906DEBBE061956C18EAE11F6D5996E0D4",
+        "C8FC9D3B6351D5910715F69771509AA4BC93735F8DC92747BE0D956FFC61CF38",
+        "9F36490C1A45AF41485EA1DBE2EFE597A42146D356DDA6526CFABEBC7A4934C9",
+        "A39F1CFAB84B18B2C4C3A249C6A912F040A1F6E5E9EC0F73A60DE6B2232359A4"
+      ],
+      "ChipRetentionBeforeClear": 4,
+      "SourceUnchanged": true
+    },
+    {
+      "Scenario": "Claude-approval-escaped-cap",
+      "Count": 4,
+      "Utf8Bytes": 409600,
+      "Characters": 409568,
+      "PayloadCharacters": 2459339,
+      "Names": [
+        "SaveZeroTaxDetailedStatement.xaml.txt",
+        "SaveZeroTaxDetailedStatement.xaml.cs.txt",
+        "SaveZeroTaxDetailedStatement.xaml.Behavior.cd.txt",
+        "SaveZeroTaxDetailedStatement.xaml.Data.cd.txt"
+      ],
+      "Hashes": [
+        "0E62ABB904555C2AA35438A2501AF58106F7CCD39F94FBE4807725C45439996B",
+        "88B097B48239A6FDB0362C8FEFBC318716652746D69D36A4296B647C7066D490",
+        "053D7A56D8C42BF6FAE87F61833EB80295E8BFD7FD0CC4B67BCA5BFD9374BEAE",
+        "A313A3EF31BFB999E76CC4F8C01EB3146135187C6435DFAFAFD9BD203069C327"
+      ],
+      "ChipRetentionBeforeClear": 4,
+      "SourceUnchanged": true
+    }
+  ],
+  "MessageRegression": {
+    "Evidence": "artifacts/task069messages/candidate4-messages-1/result.json",
+    "Passed": 58,
+    "Failed": 0
+  },
+  "PreservedFailures": [
+    "attachments-candidate3-1: fixture13, not product",
+    "attachments-candidate3-2:94pass/2approval serialization errors"
+  ],
+  "LiveAiUsed": false,
+  "GuiShown": false,
+  "WindowShown": false,
+  "PopupOpened": false,
+  "OsInputUsed": false,
+  "NetworkUsed": false,
+  "RootRemaining": [
+    "final integrated candidate 26-suite run",
+    "installed IDE/independent audit",
+    "latest Release/actual publish/anonymous SHA downloads"
+  ]
+}

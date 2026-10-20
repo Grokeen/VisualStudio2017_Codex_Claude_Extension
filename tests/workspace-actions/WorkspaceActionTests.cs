@@ -19,7 +19,7 @@ using VS2017.AIAssistant.Services;
 internal static class WorkspaceActionTests
 {
     private static int passed;
-    private static string root, git, fixture;
+    private static string root, git, fixture, tfsFixture;
     private static readonly WorkspacePermissionPolicy allowed = new WorkspacePermissionPolicy { AllowSourceControl = true, AllowDeployment = true };
 
     /// ---------------------------------------------------------------------
@@ -44,7 +44,7 @@ internal static class WorkspaceActionTests
             return 0;
         }
         try {
-            root = args[0]; git = args[1]; fixture = args[2]; Run().GetAwaiter().GetResult();
+            root = args[0]; git = args[1]; fixture = args[2]; tfsFixture = args[3]; Run().GetAwaiter().GetResult();
 #if PRODUCT
             WorkspaceDialogChecks.Run(root, git, Check);
 #endif
@@ -112,6 +112,23 @@ internal static class WorkspaceActionTests
             request = Request(value); request.ExecutablePath = fixture; request.Message = "checked message"; request.Files = new[] { "explicit.cs" };
             var plan = service.BuildPlan(request, allowed); Check(!plan.Arguments.Contains("/force") && !plan.Arguments.Contains("/override") && !plan.Arguments.Contains("--force"), value + " command no forced override");
         }
+        string previousPath = Environment.GetEnvironmentVariable("PATH"), previousVs = Environment.GetEnvironmentVariable("VSINSTALLDIR");
+        try {
+            string install = Path.Combine(root, "Installed VS");
+            string tf = Path.Combine(install, @"Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer\TF.exe");
+            Directory.CreateDirectory(Path.GetDirectoryName(tf)); File.Copy(tfsFixture, tf);
+            Environment.SetEnvironmentVariable("VSINSTALLDIR", install); Environment.SetEnvironmentVariable("PATH", "");
+            foreach (WorkspaceOperation value in new[] { WorkspaceOperation.TfsGet, WorkspaceOperation.TfsCheckout, WorkspaceOperation.TfsCheckin }) {
+                request = Request(value); request.ExecutablePath = ""; request.Message = "한글 체크인"; request.Files = new[] { "explicit.cs" };
+                var plan = service.BuildPlan(request, allowed);
+                Check(plan.ExecutablePath == tf, value + " discovers installed TF outside PATH");
+                var execution = await service.RunAsync(request, allowed, CancellationToken.None);
+                string[] vector = execution.Output.Split(new[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries).Select(x => Encoding.UTF8.GetString(Convert.FromBase64String(x))).ToArray();
+                Check(execution.Succeeded && vector[0] == (value == WorkspaceOperation.TfsGet ? "get" : value == WorkspaceOperation.TfsCheckout ? "checkout" : "checkin") &&
+                    (value != WorkspaceOperation.TfsCheckin || vector.Contains("/comment:한글 체크인")), value + " actual local fixture receives command and exact Unicode comment");
+            }
+        }
+        finally { Environment.SetEnvironmentVariable("PATH", previousPath); Environment.SetEnvironmentVariable("VSINSTALLDIR", previousVs); }
         request = Request(WorkspaceOperation.SvnCheckout); request.ExecutablePath = fixture; request.Argument = "https://example.invalid/repo"; request.DestinationDirectory = "new-copy";
         Check(service.BuildPlan(request, allowed).Arguments.Contains("new-copy"), "SVN checkout explicit new child");
         request.DestinationDirectory = "..\\escape"; Reject(() => service.BuildPlan(request, allowed), "SVN checkout parent escape denied");

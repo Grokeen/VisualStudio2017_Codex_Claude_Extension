@@ -569,3 +569,20 @@ C5 실제 Visual Studio 검사에서 협업 제안 뒤 담당 AI를 다시 선�
 게시·익명 검증 뒤 사용자 승인한 구버전 GitHub 첨부 30개와 로컬 releases 12개 디렉터리를 실제 삭제했다. 새 0.13.0과 직전 0.12.1 첨부 13개씩 및 로컬 폴더, 기존 release 항목·tag·Git 이력·개발 증거를 보존 확인. Deployment JSON의 구버전 자산 보존 true는 삭제 전 게시 검증 시점이며, 이후 정리 결과는 ReleaseCleanup JSON으로 구분한다. C5 부적합 원본은 별도 개발 증거로 보존했다.
 CodexOrig2·3·4·6에 실제 완료 링크와 '자기 파트 종료로 끝내지 않고 빌드·컴파일→최신 Release 제작→실제 게시→익명 다운로드 hash까지 마감' 사용자 지시를 직접 전달했다. CodexCode는 기존 active-writer 도구 오류로 직접 전달 수신을 주장하지 않으며, 이 공유 기록으로 최종 결과와 완료 기준을 전달한다. Code는 이 배포 제품을 추가 수정하지 말고, 후속 변경은 별도 버전/검사/배포 계획으로 협의 부탁한다. Claude 로그인/실제 AI와 고객 15.7.1·별도 오프라인 PC 실측은 미검증으로 유지한다.
 Root가 최종 증거·정리 삭제 목록을 추가 commit/push하여 기록을 마감한다.
+
+### 2026-10-20 22:29 KST / TASK069 #8 / CodexCode 설치기 UI·중지
+22:17부터 22:29까지 약 12분. installer/OfflineThemeInstaller/Program.cs의 남색·청록 화면, 일관된 제목줄·카드·버튼·진행바, 주황색 사용자 행동 안내와 코랄색 중지 대기를 구현했다. scripts/Install-AIAssistant.ps1에는 CancelFlagPath 검사와 exit2/Cancelled 보고를 추가했다. tests/task069/Test-InstallerCancellation.ps1 및 CodexCode_TASK-069_OfflineInstaller_UI.md에 검증과 범위를 기록했다. 가상 IDE 종료 대기 중 중지는 2.87초·VSIXInstaller 시작 0건, 기존 설치 경계 35/35, 격리 IDE 3종 확장·테마 6/6·전체17/17 통과. 실제 UI에서 접근성·색·배치 확인. 현재 EXE는 0.13.0 입력의 기능 후보이며 통합 0.14.0 공개 파일은 Root 후속 패키지 고정 후 제작한다.
+
+### 2026-10-20 22:51 KST / TASK069 #8 / CodexCode Dracula 설치기
+Dracula IDE 테마 팔레트로 설치기 UI를 통일하고 중앙에서 양쪽으로 차는 실제 패키지 진행 게이지를 추가했다. 0.13.0 검증용 EXE 빌드, 중앙 50% 픽셀 검사, 세 IDE 격리 설치17/17·패키지6/6·진행신호 순서6/6, 중지 회귀를 통과했다. 결과 CodexCode_TASK-069_OfflineInstaller_UI.md. 0.14.0 패키지 고정 후 EXE 재빌드·공개는 Root 후속 작업이다.
+
+## TASK069 / CodexOrig / 추가 요구 통합·배포 준비 / 2026-10-20 23:36 KST
+시작 2026-10-20 21:57:14 +09:00. Role.md 최신 #1~19와 원본 이미지를 확인하여 Code(오프라인 설치기), Orig4(UI), Orig3(사용자 문서), Orig2(독립 감사), 연구 담당 및 보조 구현자로 소유를 나눴다. 메시지센터·TXT 본문 wire·잠금 경합·선택 모델 옵션·줄끝 정규화·숨김 지침 1~8·TFS 도구 탐색·Markdown 재사용·대화 버튼/말풍선/고정 헤더·Dracula 메뉴/스크롤·DBG 초안 도우미를 구현했다. 변경 소스는 src/VS2017.AIAssistant/Chat, Providers, Services, Views 및 scripts/Install-AIAssistant.ps1, scripts/Build-VisualStudioThemes.ps1, installer/OfflineThemeInstaller/Program.cs와 관련 tests/task069*다. 기존 실패 증거는 모두 보존했다.
+C8 146개 입력과 C9 147개 입력은 각각 네 SKU Release 빌드 오류/경고 0이며, C9는 44쪽 최신 안내 PDF를 실제 VSIX 런타임 리소스로 동기화했다. C8 실제 Legacy VS2017 통합 172/172(새 native DTE 도우미 11개 포함), 무창 도우미 47/47, UI25/25, 테마 3IDE 팔레트354/354 및 실행기 자체55/55를 확인했다. C9 직후 추가된 #19 본문 좌우 여백은 Orig4 한정 수정 중이며 최종 C10 이후 기본27·실IDE4SKU·설치기·오프라인·독립감사·Release14자산 실제 게시/익명SHA까지 수행한다. 이 항목은 진행 기록이며 아직 배포 완료 기록이 아니다.
+
+### 2026-10-20 23:39–23:43 KST / TASK069 #19 / CodexOrig4
+약 4분. Role.md image-82를 확인하고 AssistantControl.xaml ConversationScroll 본문에 12–20px 반응형 좌우 거터를 추가했다. UI 밖의 고정 머리글과 작성란을 그대로 두고 말풍선 폭·오프셋과 코드 블록 동작을 보존했다. tests/task069-orig4/Test-ConversationGutterXaml.ps1 14/14, C10 exact VS2017 DLL/Assets offscreen 25/25·7 captures. viewport 343/520/640에서 양쪽 12.70/19.26/20px, header/composer 정렬과 가로 넘침 0 확인. 소스 경로 src/VS2017.AIAssistant/Views/AssistantControl.xaml. 개발 근거 MarkdownReport/CodexOrig4_TASK-069_ConversationGutter.md 및 artifacts/task069/orig4/candidate10-gutter-pass4/capture-result.json. IDE·제품 추가빌드·사용자 안내 PDF 그림 변경 없음.
+
+
+## TASK069 / CodexOrig / 최종 C13 소스 검증 / 2026-10-21 00:57:15 +09:00
+시작 2026-10-20 21:57:14 +09:00. Role #1~19와 감사지적 R69-12~15를 반영했다. 최종 C13은147개고정입력·4SKU Release 오류/경고0, 기본27/27(artifacts/tl/4d41d47e08), 실IDE4SKU각172·총688/688이다. Legacy/2017/2022정상종료·2019전용PID/RootSuffix결과보존후지연강제정리1을구분한다. SettingsRollback은공유오류32/33/1175/1176/1224에6회·명시지연최대125ms만재시도하고매번expected원문을검사하며처음파일없음삭제도같은경계로보호한다. C13실제DLL105/105와실제잠금10시나리오,기존37원문대조37/37·구코드negative4예상실패를확인했다. 첫C12 UX16의직접원인은미확정으로보존/해결소급주장0. 공식VSIX로그의TEMP이름계약을바로잡아실존확인사본·출처SHA/없음경고를기록하며로그오류와설치exit를분리했다. PS5.1/7각23/23. 주요추가소스 Chat/AssistantSettingsTransaction.cs, scripts/Install-AIAssistant.ps1, tests/workspace/SettingsTransactionTests.cs, tests/task069/Test-InstallerLogs.ps1. C11정식MEF438은그후동일테마바이트증거로원범위유지한다. 현재final5 14자산과소스제외UserDistribution69/CLI46·차단network6·compat35완료, 새EXE공식6설치마감/감사/실게시·다운로드14·구버전정리후별도최종완료기록예정이다.

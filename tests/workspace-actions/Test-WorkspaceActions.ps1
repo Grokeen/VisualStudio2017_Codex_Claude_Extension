@@ -50,12 +50,15 @@ $arguments += Join-Path $PSScriptRoot 'WorkspaceActionTests.cs'
 & $CompilerPath @arguments
 if ($LASTEXITCODE -ne 0) { throw '작업 서비스 테스트 컴파일 실패' }
 Copy-Item -LiteralPath $testExe -Destination $fixtureExe
+$tfsFixture=Join-Path $testDir 'TfsProtocolFixture.exe'
+& $CompilerPath /nologo /target:exe ('/out:'+$tfsFixture) (Join-Path $PSScriptRoot 'TfsProtocolFixture.cs')
+if($LASTEXITCODE -ne 0){throw 'TFS protocol fixture compile failed.'}
 $previousSettingsPath = $env:VS2017_AI_SETTINGS_PATH
 $previousWorkspacePath = $env:VS2017_AI_WORKSPACE_PATH
 try {
     $env:VS2017_AI_SETTINGS_PATH = Join-Path $testDir 'ui-settings.json'
     $env:VS2017_AI_WORKSPACE_PATH = Join-Path $testDir 'workspace'
-    & $testExe $testDir $GitPath $fixtureExe 2>&1 | Tee-Object -FilePath (Join-Path $testDir 'results.log')
+    & $testExe $testDir $GitPath $fixtureExe $tfsFixture 2>&1 | Tee-Object -FilePath (Join-Path $testDir 'results.log')
 } finally {
     $env:VS2017_AI_SETTINGS_PATH = $previousSettingsPath
     $env:VS2017_AI_WORKSPACE_PATH = $previousWorkspacePath

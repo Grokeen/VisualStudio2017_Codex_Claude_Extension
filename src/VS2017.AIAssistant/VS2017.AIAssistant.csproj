@@ -82,6 +82,11 @@
     <Compile Include="Providers\ProviderRuntime.cs" />
     <Compile Include="Providers\AgentProtocolEvents.cs" />
     <Compile Include="Providers\AgentFileTracker.cs" />
+    <Compile Include="Chat\CollaborationMessageRequest.cs" />
+    <Compile Include="Chat\AttachmentDisplayInfo.cs" />
+    <Compile Include="Providers\CollaborationMessageRunner.cs" />
+    <Compile Include="Views\AssistantControl.Messages.cs" />
+    <Compile Include="Views\AssistantControl.Debugging.cs" />
     <Compile Include="Providers\NativeJsonSession.cs" />
     <Compile Include="Providers\ProviderRuntimeService.cs" />
     <Compile Include="Providers\NativeCliDiscovery.cs" />
@@ -125,6 +130,7 @@
     <Compile Include="Chat\MandatoryInstructionStore.cs" />
     <Compile Include="Chat\AssistantSettingsTransaction.cs" />
     <Compile Include="Services\WorkspaceActionService.cs" />
+    <Compile Include="Services\DebuggingContextService.cs" />
     <Compile Include="Services\ScmIdentityService.cs" />
     <Compile Include="Services\CliGuideService.cs" />
     <Compile Include="Views\CliGuideDialog.cs" />
@@ -160,7 +166,7 @@
     <Content Include="Assets\ThirdParty\AvalonEdit\LICENSE.txt"><Link>Resources\ThirdParty\AvalonEdit\LICENSE.txt</Link><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory><IncludeInVSIX>true</IncludeInVSIX></Content>
     <Content Include="..\..\HowToInstallCLI.md"><Link>Resources\CliGuide\HowToInstallCLI.md</Link><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory><IncludeInVSIX>true</IncludeInVSIX></Content>
     <Content Include="..\..\InstallCLI.bat"><Link>Resources\CliGuide\InstallCLI.bat</Link><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory><IncludeInVSIX>true</IncludeInVSIX></Content>
-    <Content Include="Assets\Themes\Grokeen-VisualStudio-Themes-0.13.0-VS2017.vsix"><Link>Themes\Grokeen-VisualStudio-Themes-0.13.0-VS2017.vsix</Link><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory><IncludeInVSIX>true</IncludeInVSIX></Content>
+    <Content Include="Assets\Themes\Grokeen-VisualStudio-Themes-0.14.0-VS2017.vsix"><Link>Themes\Grokeen-VisualStudio-Themes-0.14.0-VS2017.vsix</Link><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory><IncludeInVSIX>true</IncludeInVSIX></Content>
     <Content Include="Assets\CliGuide\VisualStudio_AI_Assistant_설치_사용설명서.pdf"><Link>Resources\CliGuide\VisualStudio_AI_Assistant_설치_사용설명서.pdf</Link><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory><IncludeInVSIX>true</IncludeInVSIX></Content>
     <Content Include="..\..\docs\assets\cli-manual\*.png"><Link>Resources\CliGuide\docs\assets\cli-manual\%(Filename)%(Extension)</Link><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory><IncludeInVSIX>true</IncludeInVSIX></Content>
     <Content Include="..\..\docs\assets\guide-media\*.gif"><Link>Resources\GuideMedia\%(Filename)%(Extension)</Link><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory><IncludeInVSIX>true</IncludeInVSIX></Content>

@@ -1,5 +1,6 @@
 using System;
 using System.Windows;
+using System.Collections.Generic;
 using System.Windows.Controls;
 using System.Windows.Media;
 
@@ -12,6 +13,7 @@ namespace VS2017.AIAssistant.Views
     /// author       : CodexCode
     /// create date  : 2026-10-19
     /// update date  : 2026-10-19 CodexCode : TASK-024 공통 보기; HTML·외부 이미지 자동 요청 없음.
+    ///                2026-10-20 CodexOrig : TASK069 동일 입력의 Loaded 재표시에서 문서·선택·GIF를 재사용.
     /// </summary>
     /// ---------------------------------------------------------------------
     public sealed class MarkdownPreview : ContentControl, IDisposable
@@ -27,6 +29,8 @@ namespace VS2017.AIAssistant.Views
         public event EventHandler<MarkdownLinkEventArgs> LinkRequested { add{AddHandler(LinkRequestedEvent,value);} remove{RemoveHandler(LinkRequestedEvent,value);} }
         private MarkdownRendering rendering;
         private bool disposed,refreshing;
+        private object[] renderedInputs;
+        private System.Windows.Documents.FlowDocument renderedDocument;
 
         /// ---------------------------------------------------------------------
         /// <summary>
@@ -53,9 +57,10 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexCode
         /// create date  : 2026-10-19
         /// update date  : 2026-10-19 CodexCode : 원문 바인딩을 잘라내거나 다시 쓰지 않음.
+        ///                2026-10-20 CodexOrig : TASK069 동등한 자동 입력 알림은 완성된 문서를 유지.
         /// </summary>
         /// ---------------------------------------------------------------------
-        private static void PreviewChanged(DependencyObject sender,DependencyPropertyChangedEventArgs args){((MarkdownPreview)sender).Refresh();}
+        private static void PreviewChanged(DependencyObject sender,DependencyPropertyChangedEventArgs args){((MarkdownPreview)sender).RefreshCore(false);}
         /// ---------------------------------------------------------------------
         /// <summary>
         /// name         : ScrollingChanged
@@ -73,9 +78,10 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexCode
         /// create date  : 2026-10-19
         /// update date  : 2026-10-19 CodexCode : 창을 생성하거나 포커스·클립보드를 자동 변경하지 않음.
+        ///                2026-10-20 CodexOrig : TASK069 탭 복원에서 같은 입력의 문서 재생성을 생략.
         /// </summary>
         /// ---------------------------------------------------------------------
-        private void PreviewLoaded(object sender,RoutedEventArgs args){Refresh();}
+        private void PreviewLoaded(object sender,RoutedEventArgs args){RefreshCore(false);}
         /// ---------------------------------------------------------------------
         /// <summary>
         /// name         : SetDocument
@@ -94,10 +100,11 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexCode
         /// create date  : 2026-10-19
         /// update date  : 2026-10-19 CodexCode : 전역 리소스나 기존 컨트롤 스타일을 수정하지 않음.
+        ///                2026-10-20 CodexOrig : TASK069 실제 색·글꼴 값이 달라질 때만 자동 재렌더링.
         /// </summary>
         /// ---------------------------------------------------------------------
         protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs args)
-        {base.OnPropertyChanged(args);if(args.Property==ForegroundProperty||args.Property==BackgroundProperty||args.Property==FontSizeProperty)Refresh();}
+        {base.OnPropertyChanged(args);if(args.Property==ForegroundProperty||args.Property==BackgroundProperty||args.Property==FontSizeProperty||args.Property==FontFamilyProperty||args.Property==FontStyleProperty||args.Property==FontWeightProperty||args.Property==FontStretchProperty)RefreshCore(false);}
         /// ---------------------------------------------------------------------
         /// <summary>
         /// name         : Refresh
@@ -105,20 +112,72 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexCode
         /// create date  : 2026-10-19
         /// update date  : 2026-10-19 CodexCode : UI 스레드 전용이며 재진입과 종료 후 갱신을 차단.
+        ///                2026-10-20 CodexOrig : TASK069 공개 Refresh는 외부 자산 변경까지 명시적으로 다시 읽음.
         /// </summary>
         /// ---------------------------------------------------------------------
-        public void Refresh()
+        public void Refresh(){RefreshCore(true);}
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : RefreshCore
+        /// desc         : 자동 재표시는 완료된 동일 문서를 유지하고 명시 갱신은 자산까지 다시 렌더링한다.
+        /// author       : CodexOrig
+        /// create date  : 2026-10-20
+        /// update date  : 2026-10-20 CodexOrig : TASK069 인스턴스 내 입력 스냅샷·외부 Document 교체·GIF 수명 보존.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        private void RefreshCore(bool force)
         {
             if(TextView==null||disposed||refreshing)return;if(!Dispatcher.CheckAccess())throw new InvalidOperationException("Markdown 미리보기는 UI 스레드에서 갱신해야 합니다.");
+            var link=TryFindResource("AssistantLinkBrush") as Brush;var code=TryFindResource("AssistantCodeBackgroundBrush") as Brush;var muted=TryFindResource("AssistantMutedForegroundBrush") as Brush;var border=TryFindResource("AssistantBorderBrush") as Brush;
+            var inputs=CaptureRenderInputs(link,code,muted,border);
+            if(!force&&ReferenceEquals(TextView.Document,renderedDocument)&&SameRenderInputs(inputs))return;
             refreshing=true;MarkdownRendering next=null;
             try
             {
-                next=new MarkdownRendering(AssetBaseDirectory,ForwardLink,Foreground,Background,FontSize,TryFindResource("AssistantLinkBrush") as Brush,TryFindResource("AssistantCodeBackgroundBrush") as Brush,TryFindResource("AssistantMutedForegroundBrush") as Brush,TryFindResource("AssistantBorderBrush") as Brush);
+                next=new MarkdownRendering(AssetBaseDirectory,ForwardLink,Foreground,Background,FontSize,link,code,muted,border);
                 var document=next.Render(Markdown);var previous=rendering;TextView.Document=document;rendering=next;next=null;if(previous!=null)previous.Dispose();
                 TextView.Foreground=Foreground;TextView.FontSize=FontSize;
+                renderedDocument=document;renderedInputs=inputs;
             }
             finally{if(next!=null)next.Dispose();refreshing=false;}
         }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : CaptureRenderInputs
+        /// desc         : 원문·기준 폴더·글꼴과 현재 팔레트 색의 값을 충돌 없는 비교용 스냅샷으로 보관한다.
+        /// author       : CodexOrig
+        /// create date  : 2026-10-20
+        /// update date  : 2026-10-20 CodexOrig : TASK069 전역 캐시·파일 조회 없이 mutable brush의 변경도 감지.
+        ///                2026-10-20 CodexOrig : WPF에서 허용되는 null 변환은 identity 값으로 비교.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        private object[] CaptureRenderInputs(Brush link,Brush code,Brush muted,Brush border)
+        {
+            var values=new List<object>{Markdown??"",AssetBaseDirectory,FontSize,FontFamily.Source,FontFamily.BaseUri,FontStyle,FontWeight,FontStretch};
+            foreach(var brush in new[]{Foreground,Background,link,code,muted,border})
+            {
+                var solid=brush as SolidColorBrush;
+                // 지원하지 않는 brush는 잘못 재사용하지 않고 기존의 재렌더링 경로를 유지한다.
+                values.Add(brush==null?null:solid==null?new object():typeof(SolidColorBrush));
+                values.Add(solid==null?(object)null:solid.Color);values.Add(brush==null?0:brush.Opacity);
+                values.Add(brush==null||brush.Transform==null?Matrix.Identity:brush.Transform.Value);values.Add(brush==null||brush.RelativeTransform==null?Matrix.Identity:brush.RelativeTransform.Value);
+            }
+            return values.ToArray();
+        }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : SameRenderInputs
+        /// desc         : 마지막으로 완성된 렌더 입력과 각 실제 값을 비교한다.
+        /// author       : CodexOrig
+        /// create date  : 2026-10-20
+        /// update date  : 2026-10-20 CodexOrig : TASK069 해시 충돌로 다른 원문이나 테마를 재사용하지 않는다.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        private bool SameRenderInputs(object[] values)
+        {if(renderedInputs==null||values.Length!=renderedInputs.Length)return false;for(int index=0;index<values.Length;index++)if(!Equals(values[index],renderedInputs[index]))return false;return true;}
         /// ---------------------------------------------------------------------
         /// <summary>
         /// name         : ForwardLink
@@ -136,8 +195,9 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexCode
         /// create date  : 2026-10-19
         /// update date  : 2026-10-19 CodexCode : Unloaded만으로 원문을 삭제하지 않아 탭 재사용을 보존.
+        ///                2026-10-20 CodexOrig : TASK069 종료 시 인스턴스의 입력 스냅샷과 문서 참조도 해제.
         /// </summary>
         /// ---------------------------------------------------------------------
-        public void Dispose(){if(disposed)return;disposed=true;Loaded-=PreviewLoaded;if(rendering!=null){rendering.Dispose();rendering=null;}TextView.Document=new System.Windows.Documents.FlowDocument();}
+        public void Dispose(){if(disposed)return;disposed=true;Loaded-=PreviewLoaded;renderedInputs=null;renderedDocument=null;if(rendering!=null){rendering.Dispose();rendering=null;}TextView.Document=new System.Windows.Documents.FlowDocument();}
     }
 }

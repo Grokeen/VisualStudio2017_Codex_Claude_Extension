@@ -6,12 +6,14 @@ desc         : 고정 MIT 기준 테마를 변환하고 AI 확장과 독립된 �
 author       : CodexOrig
 create date  : 2026-10-20
 update date  : 2026-10-20 CodexOrig : 설치·레지스트리·현재 사용자 테마 변경 없이 색상 컴파일과 패키지만 생성.
+update date  : 2026-10-20 CodexOrig4 : TASK069 Dracula 스크롤 손잡이 대비 및 Kakao 탭 상태 대비 보정.
+               2026-10-20 CodexOrig : TASK069 IDE 기본 우클릭 메뉴 표면·경계·선택 항목 대비 보정.
 -------------------------------------------------------------------------
 #>
 [CmdletBinding()]
 param(
     [Parameter(Mandatory=$true)][string]$OutputDirectory,
-    [ValidatePattern('^\d+\.\d+\.\d+$')][string]$Version='0.13.0'
+    [ValidatePattern('^\d+\.\d+\.\d+$')][string]$Version='0.14.0'
 )
 $ErrorActionPreference='Stop'
 Add-Type -AssemblyName System.Drawing
@@ -28,6 +30,14 @@ $definitions=@(
     @{Key='Kakao';Name='Grokeen Kakao Inspired';Guid='{1d41c4a3-cf75-4f0a-b2ff-9a8c2d431b92}';Baseline='PlainDark.xml';Dark=$false},
     @{Key='Dracula';Name='Grokeen Dracula Inspired';Guid='{8ec84919-8a34-422a-abe1-cc238ad4d4b1}';Baseline='PlainDark.xml';Dark=$true}
 )
+function Set-ThemeColor {
+    param([xml]$Document,[string]$Category,[string]$Name,[string]$Hex,[string]$Property='Background')
+    $entry=$Document.SelectSingleNode("//Category[@Name='$Category']/Color[@Name='$Name']")
+    if(!$entry){throw "Pinned Visual Studio baseline is missing $Category/$Name."}
+    $color=$entry.SelectSingleNode($Property)
+    if(!$color){$color=$Document.CreateElement($Property);$null=$entry.AppendChild($color)}
+    $color.SetAttribute('Type','CT_RAW');$color.SetAttribute('Source',('FF'+$Hex))
+}
 $generated=Join-Path $output 'definitions';$null=New-Item -ItemType Directory -Path $generated
 $registration=New-Object Text.StringBuilder
 $definitionRows=@()
@@ -73,6 +83,94 @@ foreach($definition in $definitions){
                 if($bg -in @('FEE500','BD93F9','8BE9FD','50FA7B','F1FA8C','FFB86C','FF79C6','FF5555')){$entry.Foreground.SetAttribute('Source',$(if($definition.Dark){'FF282A36'}else{'FF191919'}))}
             }
         }
+    }
+    if($definition.Key -eq 'Dracula'){
+        # Keep the scrollbar track dark and the thumb distinct; the grayscale mapper otherwise
+        # collapses both Visual Studio tokens to the same Dracula gray and hides the scroll position.
+        foreach($name in @('ScrollBar','ScrollBarBackground','ScrollBarArrowBackground','ScrollBarArrowDisabledBackground','ScrollBarArrowMouseOverBackground','ScrollBarArrowPressedBackground','ScrollBarDisabledBackground')){Set-ThemeColor $xml 'Environment' $name '282A36'}
+        foreach($name in @('ScrollBarThumbBackground','ScrollBarThumbBorder','ScrollBarThumbGlyph','ScrollBarThumbDisabled')){Set-ThemeColor $xml 'Environment' $name '6272A4'}
+        foreach($name in @('ScrollBarThumbMouseOverBackground','ScrollBarThumbMouseOverBorder','ScrollBarThumbGlyphMouseOverBorder')){Set-ThemeColor $xml 'Environment' $name 'BD93F9'}
+        foreach($name in @('ScrollBarThumbPressedBackground','ScrollBarThumbPressedBorder','ScrollBarThumbGlyphPressedBorder')){Set-ThemeColor $xml 'Environment' $name 'FF79C6'}
+        Set-ThemeColor $xml 'Environment' 'ScrollBarArrowGlyph' 'F8F8F2'
+        Set-ThemeColor $xml 'Environment' 'ScrollBarArrowGlyphMouseOver' 'BD93F9'
+        Set-ThemeColor $xml 'Environment' 'ScrollBarArrowGlyphPressed' 'FF79C6'
+        Set-ThemeColor $xml 'Environment' 'ScrollBarArrowGlyphDisabled' '6272A4'
+        # Visual Studio's own context menus use these IDE tokens, separately from WPF assistant menus.
+        foreach($name in @('CommandBarMenuBackgroundGradientBegin','CommandBarMenuBackgroundGradientEnd','CommandBarMenuIconBackground')){Set-ThemeColor $xml 'Environment' $name '343746'}
+        foreach($name in @('CommandBarMenuBorder','CommandBarMenuSeparator')){Set-ThemeColor $xml 'Environment' $name '7586B5'}
+        Set-ThemeColor $xml 'Environment' 'CommandBarMenuItemMouseOver' 'BD93F9'
+        Set-ThemeColor $xml 'Environment' 'CommandBarMenuItemMouseOver' '282A36' 'Foreground'
+        Set-ThemeColor $xml 'Environment' 'CommandBarMenuItemMouseOverBorder' 'BD93F9'
+        foreach($name in @('CommandBarMenuMouseOverSubmenuGlyph','CommandBarMenuSubmenuGlyphHover','CommandBarMenuMouseOverGlyph')){Set-ThemeColor $xml 'Environment' $name '282A36'}
+        # Preserve visible hover feedback on standard IDE toolbars, tabs and controls.
+        foreach($name in @('CommandBarHover','CommandBarHoverOverSelected','CommandBarHoverOverSelectedIcon','CommandBarMouseOverBackgroundBegin','CommandBarMouseOverBackgroundMiddle1','CommandBarMouseOverBackgroundMiddle2','CommandBarMouseOverBackgroundEnd','CommandBarMouseOverUnfocused')){Set-ThemeColor $xml 'Environment' $name 'BD93F9'}
+        foreach($name in @('CommandBarTextHover','CommandBarTextHoverOverSelected')){Set-ThemeColor $xml 'Environment' $name '282A36'}
+        Set-ThemeColor $xml 'Environment' 'CommandBarHoverOverSelectedIconBorder' 'BD93F9'
+        foreach($name in @('ToolWindowTabMouseOverBackgroundBegin','ToolWindowTabMouseOverBackgroundEnd','AutoHideTabMouseOverBackgroundBegin','AutoHideTabMouseOverBackgroundEnd','FileTabHotGradientTop','FileTabHotGradientBottom')){Set-ThemeColor $xml 'Environment' $name '44475A'}
+        foreach($name in @('ToolWindowTabMouseOverText','AutoHideTabMouseOverText','FileTabHotText')){Set-ThemeColor $xml 'Environment' $name 'F8F8F2'}
+        foreach($name in @('ToolWindowTabMouseOverBorder','AutoHideTabMouseOverBorder','FileTabHotBorder')){Set-ThemeColor $xml 'Environment' $name 'BD93F9'}
+        Set-ThemeColor $xml 'CommonControls' 'ButtonHover' '44475A'
+        Set-ThemeColor $xml 'CommonControls' 'ButtonHover' 'F8F8F2' 'Foreground'
+        Set-ThemeColor $xml 'CommonControls' 'ButtonBorderHover' 'BD93F9'
+        Set-ThemeColor $xml 'CommonControls' 'ComboBoxListItemBackgroundHover' 'BD93F9'
+        Set-ThemeColor $xml 'CommonControls' 'ComboBoxListItemBorderHover' 'BD93F9'
+        Set-ThemeColor $xml 'CommonControls' 'ComboBoxListItemTextHover' '282A36'
+        # Purple breakpoints and pink diagnostics use different visible overview markers.
+        Set-ThemeColor $xml 'Text Editor Text Manager Items' 'Indicator Margin' '343746'
+        Set-ThemeColor $xml 'ColorizedSignatureHelp colors' 'OverviewMarginBackground' '282A36'
+        Set-ThemeColor $xml 'ColorizedSignatureHelp colors' 'OverviewMarginVisible' '343746'
+        Set-ThemeColor $xml 'ColorizedSignatureHelp colors' 'OverviewMarginVisible' '7586B5' 'Foreground'
+        Set-ThemeColor $xml 'ColorizedSignatureHelp colors' 'MarkerFormatDefinition/BreakpointInScrollBar' 'BD93F9'
+        Set-ThemeColor $xml 'ColorizedSignatureHelp colors' 'CurrentLineActiveFormat' '7586B5' 'Foreground'
+        foreach($entry in $xml.SelectNodes("//Category[@Name='Text Editor Text Marker Items']/Color[starts-with(@Name,'Breakpoint') and contains(@Name,'Enabled')]")){
+            Set-ThemeColor $xml 'Text Editor Text Marker Items' $entry.Name 'BD93F9'
+            Set-ThemeColor $xml 'Text Editor Text Marker Items' $entry.Name '282A36' 'Foreground'
+        }
+        foreach($entry in $xml.SelectNodes("//Category[@Name='Text Editor Text Marker Items']/Color[starts-with(@Name,'Breakpoint') and contains(@Name,'Disabled')]")){
+            Set-ThemeColor $xml 'Text Editor Text Marker Items' $entry.Name '7586B5' 'Foreground'
+        }
+        Set-ThemeColor $xml 'Text Editor Text Marker Items' 'Breakpoint - Selected' 'BD93F9' 'Foreground'
+        foreach($name in @('compiler error','syntax error','other error','Error Message')){Set-ThemeColor $xml 'Text Editor Text Marker Items' $name 'FF79C6' 'Foreground'}
+        Set-ThemeColor $xml 'Text Editor Text Marker Items' 'compiler warning' 'FFB86C' 'Foreground'
+        Set-ThemeColor $xml 'Text Editor Language Service Items' 'Error' 'FF79C6' 'Foreground'
+        # WPF error margins read MEF format definitions in category 75A, not legacy TextMarker FF34.
+        # Supply only the four requested error/warning colors; preserve suggestion severity defaults.
+        $mefCategory=$xml.SelectSingleNode("//Category[@Name='ColorizedSignatureHelp colors']")
+        if(!$mefCategory -or $mefCategory.GetAttribute('GUID') -ine '{75a05685-00a8-4ded-bae5-e7a50bfa929a}'){throw 'Pinned MEF font/color category differs.'}
+        foreach($name in @('syntax error','compiler error','other error','compiler warning')){
+            $color=$mefCategory.SelectSingleNode("Color[@Name='$name']")
+            if(!$color){$color=$xml.CreateElement('Color');$color.SetAttribute('Name',$name);$null=$mefCategory.AppendChild($color)}
+            $foreground=$color.SelectSingleNode('Foreground')
+            if(!$foreground){$foreground=$xml.CreateElement('Foreground');$null=$color.AppendChild($foreground)}
+            $foreground.SetAttribute('Type','CT_RAW');$foreground.SetAttribute('Source',$(if($name -eq 'compiler warning'){'FFFFB86C'}else{'FFFF79C6'}))
+        }
+        foreach($entry in $xml.SelectNodes("//Category[@Name='Text Editor Text Marker Items']/Color[starts-with(@Name,'Breakpoint') and (contains(@Name,'Warning') or contains(@Name,'Error'))]")){
+            Set-ThemeColor $xml 'Text Editor Text Marker Items' $entry.Name $(if($entry.Name.Contains('Error')){'FF79C6'}else{'FFB86C'})
+            Set-ThemeColor $xml 'Text Editor Text Marker Items' $entry.Name '282A36' 'Foreground'
+        }
+    }
+    if($definition.Key -eq 'Kakao'){
+        # Give normal, hovered and selected tabs separate surfaces with a consistent dark label.
+        Set-ThemeColor $xml 'Cider' 'TabItem' 'D9DDE3'
+        Set-ThemeColor $xml 'Cider' 'TabItem' '191919' 'Foreground'
+        Set-ThemeColor $xml 'Cider' 'TabItemMouseOver' '34363A'
+        Set-ThemeColor $xml 'Cider' 'TabItemMouseOver' 'FFFFFF' 'Foreground'
+        Set-ThemeColor $xml 'Cider' 'TabItemMouseOverBorder' 'FEE500'
+        Set-ThemeColor $xml 'Cider' 'TabItemSelected' 'FEE500'
+        Set-ThemeColor $xml 'Cider' 'TabItemSelected' '191919' 'Foreground'
+        Set-ThemeColor $xml 'Cider' 'TabItemSelectedBorder' 'B38B00'
+        foreach($name in @('FileTabHotGradientTop','FileTabHotGradientBottom')){Set-ThemeColor $xml 'Environment' $name '34363A'}
+        Set-ThemeColor $xml 'Environment' 'FileTabHotText' 'FFFFFF'
+        Set-ThemeColor $xml 'Environment' 'FileTabHotBorder' 'FEE500'
+        foreach($name in @('FileTabSelectedBackground','FileTabSelectedGradientTop','FileTabSelectedGradientBottom','FileTabSelectedGradientMiddle1','FileTabSelectedGradientMiddle2')){Set-ThemeColor $xml 'Environment' $name 'FEE500'}
+        Set-ThemeColor $xml 'Environment' 'FileTabSelectedText' '191919'
+        Set-ThemeColor $xml 'Environment' 'FileTabText' '191919'
+        foreach($name in @('ToolWindowTabMouseOverBackgroundBegin','ToolWindowTabMouseOverBackgroundEnd','AutoHideTabMouseOverBackgroundBegin','AutoHideTabMouseOverBackgroundEnd')){Set-ThemeColor $xml 'Environment' $name '34363A'}
+        foreach($name in @('ToolWindowTabMouseOverBorder','AutoHideTabMouseOverBorder')){Set-ThemeColor $xml 'Environment' $name 'FEE500'}
+        foreach($name in @('ToolWindowTabMouseOverText','AutoHideTabMouseOverText')){Set-ThemeColor $xml 'Environment' $name 'FFFFFF'}
+        Set-ThemeColor $xml 'Environment' 'ToolWindowTabSelectedText' '191919'
+        Set-ThemeColor $xml 'Environment' 'ToolWindowTabSelectedTab' 'FEE500'
+        Set-ThemeColor $xml 'Environment' 'ToolWindowTabSelectedBorder' 'B38B00'
     }
     $settings=New-Object Xml.XmlWriterSettings;$settings.Encoding=$utf8;$settings.Indent=$true
     $path=Join-Path $generated ($definition.Key+'.xml');$writer=[Xml.XmlWriter]::Create($path,$settings)

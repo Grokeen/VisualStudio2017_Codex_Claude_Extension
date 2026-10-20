@@ -9,6 +9,11 @@ update date  : 2026-10-18 CodexCode : 실제 제품 파일과 기존 검사 스�
 update date  : 2026-10-18 CodexOrig : TASK-018 드롭다운·이미지 요구 및 기본14개 검사 반영.
                2026-10-19 CodexOrig : TASK-025 선택 패키지의 편집기·GIF/PNG·라이선스와 새 경로 공격 검증.
                2026-10-20 CodexOrig : TASK068 기본 20개·고정 병렬 검사 인자·GUI 제외 선택 검증.
+               2026-10-20 CodexOrig : TASK069 기본 24개·네 신규 검사 고정 DLL/Assets/source 전달 검증.
+               2026-10-20 CodexOrig : TASK069 Markdown 재사용 검사 추가로 기본 25개 및 경로 계약 검증.
+               2026-10-20 CodexOrig : TASK069 첨부 실제 전달 검사 추가로 기본 26개 및 경로 계약 검증.
+               2026-10-20 CodexOrig : TASK069 최신 0.14.0 기본 경로보다 명시 VSIX가 우선하는지 검증.
+               2026-10-20 CodexOrig : TASK069 기본 27개·디버깅 도우미의 4SKU 고정 경로·원본 보존 검증.
 -------------------------------------------------------------------------
 #>
 [CmdletBinding()]
@@ -68,8 +73,11 @@ function Assert-LauncherProbe {
 }
 
 $result = Invoke-LauncherProbe $launcherOriginal '--list'
-Assert-LauncherProbe 'CLI lists twenty default and two opt-in suites' ($result.ExitCode -eq 0 -and ([regex]::Matches($result.Output,'\tdefault')).Count -eq 20 -and ([regex]::Matches($result.Output,'\topt-in')).Count -eq 2) $result
+Assert-LauncherProbe 'CLI lists twenty-seven default and two opt-in suites' ($result.ExitCode -eq 0 -and ([regex]::Matches($result.Output,'\tdefault')).Count -eq 27 -and ([regex]::Matches($result.Output,'\topt-in')).Count -eq 2) $result
 Assert-LauncherProbe 'Concurrent conversations is a default suite' ([regex]::IsMatch($result.Output,'(?m)^concurrent-conversations\t[^\r\n]+\tdefault\r?$')) $result
+foreach ($suiteId in @('agent-messages','hang-boundaries','selected-options','line-endings','markdown-reuse','attachment-wire','debugging-helper')) {
+    Assert-LauncherProbe ($suiteId + ' is a default suite') ([regex]::IsMatch($result.Output,('(?m)^'+[regex]::Escape($suiteId)+'\t[^\r\n]+\tdefault\r?$'))) $result
+}
 $result = Invoke-LauncherProbe $launcherOriginal '--run compatibility'
 Assert-LauncherProbe 'Real compatibility suite succeeds through launcher' ($result.ExitCode -eq 0 -and $result.Output.Contains('44/44 passed.')) $result
 $result = Invoke-LauncherProbe $fixtureExe '--run unknown-suite'
@@ -91,7 +99,7 @@ $archive = [IO.Compression.ZipFile]::Open($chosenVsix,[IO.Compression.ZipArchive
 try { $entry=$archive.CreateEntry('VS2017.AIAssistant.dll'); $stream=$entry.Open(); try { $bytes=[Text.Encoding]::UTF8.GetBytes('CHOSEN_PACKAGE'); $stream.Write($bytes,0,$bytes.Length) } finally { $stream.Dispose() } } finally { $archive.Dispose() }
 $archive = [IO.Compression.ZipFile]::Open($chosenVsix,[IO.Compression.ZipArchiveMode]::Update)
 try { foreach ($name in @('Resources/CliGuide/%EC%84%A4%EB%AA%85%EC%84%9C.pdf','Microsoft.Web.WebView2.Core.dll','runtimes/win-x64/native/WebView2Loader.dll','Resources/GuideMedia/01-connect.gif','Resources/GuideMedia/01-connect.png','ICSharpCode.AvalonEdit.dll','Resources/ThirdParty/AvalonEdit/LICENSE.txt')) { $entry=$archive.CreateEntry($name); $writer=New-Object IO.StreamWriter($entry.Open()); try {$writer.Write('VIEWER_ASSET')}finally{$writer.Dispose()} } } finally { $archive.Dispose() }
-$decoyRelease = Join-Path $fixtureDir 'releases\v0.11.1'; $null=New-Item -ItemType Directory -Path $decoyRelease -Force
+$decoyRelease = Join-Path $fixtureDir 'releases\v0.14.0'; $null=New-Item -ItemType Directory -Path $decoyRelease -Force
 [IO.File]::WriteAllText((Join-Path $decoyRelease 'VS2017.AIAssistant.dll'),'WRONG_DEFAULT',$utf8)
 $assetProbe = @'
 param([string]$AssemblyPath)
@@ -156,6 +164,55 @@ foreach ($parent in @([IO.Path]::GetDirectoryName($fallbackBinary),[IO.Path]::Ge
 [IO.File]::WriteAllText($fallbackAssets, 'FROZEN_ASSETS', $utf8)
 $result = Invoke-LauncherProbe $fixtureExe ('--run concurrent-conversations --assembly "' + $fallbackBinary + '"')
 Assert-LauncherProbe 'Concurrent loose DLL uses the shared repository Assets fallback' ($result.ExitCode -eq 0 -and $result.Output.Contains('CONCURRENT_DISPATCH_PASS') -and $result.Output.Contains('CONCURRENT_ASSETS=' + $fallbackAssets)) $result
+
+$newSuites = @(
+    @{ Id='agent-messages'; Path='tests\task069messages\Test-MessageCenter.ps1'; Assets=$true; Source=$false },
+    @{ Id='hang-boundaries'; Path='tests\task069hang\Test-HangBoundaries.ps1'; Assets=$true; Source=$true },
+    @{ Id='selected-options'; Path='tests\task069options\Test-SelectedOptions.ps1'; Assets=$true; Source=$false },
+    @{ Id='line-endings'; Path='tests\task069\Test-LineEndings.ps1'; Assets=$false; Source=$false },
+    @{ Id='markdown-reuse'; Path='tests\task069performance\Test-PreviewReuse.ps1'; Assets=$true; Source=$false },
+    @{ Id='attachment-wire'; Path='tests\task069attachments\Test-AttachmentWire.ps1'; Assets=$true; Source=$false },
+    @{ Id='debugging-helper'; Path='tests\task069debughelper\Test-DebuggingHelper.ps1'; Assets=$true; Source=$false }
+)
+$dispatchProbe = @'
+$suite='@SUITE@'
+if ([IO.File]::ReadAllText($AssemblyPath) -ne 'FROZEN_DLL') { throw 'Exact DLL mismatch.' }
+if (Test-Path -LiteralPath $OutputDirectory) { throw 'Suite output must not already exist.' }
+if ([IO.Path]::GetFileName($OutputDirectory) -ne $suite) { throw 'Suite output basename mismatch.' }
+$binaryFolder = [IO.DirectoryInfo]([IO.Path]::GetDirectoryName($AssemblyPath))
+$sku = $binaryFolder.Parent
+$candidate = $sku.Parent.FullName
+if ($suite -ne 'line-endings') {
+    $expected = Join-Path $candidate ('source\src\VS'+$sku.Name+'.AIAssistant\obj\project.assets.json')
+    if ($AssetsPath -cne $expected -or [IO.File]::ReadAllText($AssetsPath) -ne 'FROZEN_ASSETS') { throw 'Exact Assets mismatch.' }
+    Write-Output ('NEW_SUITE_ASSETS=' + $AssetsPath)
+}
+if ($suite -eq 'hang-boundaries') {
+    if ($ProductSourceRoot -cne (Join-Path $candidate 'source')) { throw 'Exact frozen source root mismatch.' }
+    Write-Output ('NEW_SUITE_SOURCE=' + $ProductSourceRoot)
+}
+$null = New-Item -ItemType Directory -Path $OutputDirectory
+Write-Output ('NEW_SUITE_ASSEMBLY=' + $AssemblyPath)
+Write-Output ('NEW_SUITE_PASS=' + $suite)
+'@
+foreach ($suite in $newSuites) {
+    $scriptPath = Join-Path $fixtureDir $suite.Path
+    $null = New-Item -ItemType Directory -Path ([IO.Path]::GetDirectoryName($scriptPath)) -Force
+    $parameters = @('[Parameter(Mandatory=$true)][string]$AssemblyPath','[Parameter(Mandatory=$true)][string]$OutputDirectory')
+    if ($suite.Assets) { $parameters += '[Parameter(Mandatory=$true)][string]$AssetsPath' }
+    if ($suite.Source) { $parameters += '[Parameter(Mandatory=$true)][string]$ProductSourceRoot' }
+    [IO.File]::WriteAllText($scriptPath, ('param(' + ($parameters -join ',') + ")`r`n" + $dispatchProbe.Replace('@SUITE@',$suite.Id)), $utf8)
+    foreach ($sku in @('2017.Legacy','2017','2019','2022')) {
+        $frozenRoot = Join-Path $fixtureDir ('candidate-' + $sku)
+        $frozenBinary = Join-Path $frozenRoot ($sku + '\Release\VS2017.AIAssistant.dll')
+        $frozenAssets = Join-Path $frozenRoot ('source\src\VS' + $sku + '.AIAssistant\obj\project.assets.json')
+        $result = Invoke-LauncherProbe $fixtureExe ('--run ' + $suite.Id + ' --assembly "' + $frozenBinary + '"')
+        $valid = $result.ExitCode -eq 0 -and $result.Output.Contains('NEW_SUITE_PASS=' + $suite.Id) -and $result.Output.Contains('NEW_SUITE_ASSEMBLY=' + $frozenBinary)
+        if ($suite.Assets) { $valid = $valid -and $result.Output.Contains('NEW_SUITE_ASSETS=' + $frozenAssets) }
+        if ($suite.Source) { $valid = $valid -and $result.Output.Contains('NEW_SUITE_SOURCE=' + (Join-Path $frozenRoot 'source')) }
+        Assert-LauncherProbe ($suite.Id + ' ' + $sku + ' preserves frozen inputs and absent output contract') $valid $result
+    }
+}
 
 $marker = Join-Path $fixtureDir 'child-pid.txt'
 [IO.File]::WriteAllText($fixtureScript, '[IO.File]::WriteAllText((Join-Path $PSScriptRoot ''..\..\child-pid.txt''),[string]$PID)' + "`r`nStart-Sleep -Seconds 30`r`n", $utf8)

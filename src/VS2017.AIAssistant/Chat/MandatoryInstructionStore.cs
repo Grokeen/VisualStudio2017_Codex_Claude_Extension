@@ -41,7 +41,10 @@ namespace VS2017.AIAssistant.Chat
             "- 유사한 주석이 있는 경우, 해당 방식으로 구조 변경. 기존 주석 내용은 수정 불가.\n" +
             "3. 연결된 프로젝트가 이미 운영중인 프로그램이거나 작업이 많이 진행된 프로젝트인 경우, 현재 프로젝트의 UI나 소스에서 사용하는 특유의 패턴이 있는지 확인하고 작업 진행한다.\n" +
             "4. 연결된 프로젝트가 이미 운영중인 프로그램이거나 작업이 많이 진행된 프로젝트인 경우, 소스 수정을 최소화하여 작업한다.\n" +
-            "5. 작업이 완료된 경우, 요구사항에 맞게 작업이 됐는지 감사 담당자 AI 모델에게 검증 요청한다. 감사 담당자 AI가 없는 경우 사용자에게 AI 모델 추가를 요청한다.";
+            "5. 작업이 완료된 경우, 요구사항에 맞게 작업이 됐는지 감사 담당자 AI 모델에게 검증 요청한다. 감사 담당자 AI가 없는 경우 사용자에게 AI 모델 추가를 요청한다.\n" +
+            "6. AI모델 간, 협업을 위해 생성한 파일은 사용자에게 제공하거나 노출하지 않는다. 단, 사용자가 협업하라 지시하고, 협업 관련 파일을 생성하라 지시한 경우에는 위 내용은 무효다.\n" +
+            "7. 형상관리가 연결되어 있는 경우, 가장 오래되고, 수정 이력이 없는 부분에 AI모델간 협업 전용 디렉토리를 만들어서 거기에 내용을 집약시킨다. 형상관리에 참여 인원이 2명 이상인 것이 확인된 경우에만 7번을 진행한다. 형상관리에 협업 파일을 업로드하는 이유는, 타 디바이스에서 사용하는 AI 모델과 소통하기 위함이다.\n" +
+            "8. 7번이 활성화된 경우, 문제가 생겼을 때, 서로의 내용을 공유하며, 해결방안을 제시 및 기록하는 커뮤니케이션 공간을 활성화한다.";
 
         /// ---------------------------------------------------------------------
         /// <summary>
@@ -93,6 +96,7 @@ namespace VS2017.AIAssistant.Chat
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : TASK-022 CreateNew 경쟁·유한 읽기·숨김 속성·reparse 경계 보호.
         ///                2026-10-20 CodexCode : 이전 공식 바이트만 원자 교체하고 사용자 변경본 보존.
+        ///                2026-10-20 CodexOrig : TASK069 규칙 1~5의 공식 사본도 6~8 포함 최신 문안으로 자동 갱신.
         /// </summary>
         /// ---------------------------------------------------------------------
         public static string Ensure(string workspaceRoot, out string notice)
@@ -139,19 +143,22 @@ namespace VS2017.AIAssistant.Chat
         /// desc         : 규칙 1~2가 담긴 공식 UTF-8 바이트와 완전히 같은 사본만 구분한다.
         /// author       : CodexCode
         /// create date  : 2026-10-20
+        /// update date  : 2026-10-20 CodexOrig : TASK069 공식 배포 1~2 및 1~5 원문만 구분해 갱신.
         /// </summary>
         /// ---------------------------------------------------------------------
         private static bool IsPreviousOfficialCopy(string path)
         {
-            int boundary = CanonicalInstructions.IndexOf("\n3. ", StringComparison.Ordinal);
-            if (boundary < 0) return false;
-            byte[] original = new UTF8Encoding(false).GetBytes(CanonicalInstructions.Substring(0, boundary));
             using (var input = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete))
             {
-                if (input.Length != original.Length) return false;
-                var actual = new byte[original.Length]; int read = 0, count;
+                if (input.Length > MaximumCopyBytes) return false;
+                var actual = new byte[(int)input.Length]; int read = 0, count;
                 while (read < actual.Length && (count = input.Read(actual, read, actual.Length - read)) > 0) read += count;
-                return read == original.Length && input.ReadByte() < 0 && actual.SequenceEqual(original);
+                if (read != actual.Length || input.ReadByte() >= 0) return false;
+                foreach (string marker in new[] { "\n3. ", "\n6. " }) {
+                    int boundary = CanonicalInstructions.IndexOf(marker, StringComparison.Ordinal);
+                    if (boundary >= 0 && actual.SequenceEqual(new UTF8Encoding(false).GetBytes(CanonicalInstructions.Substring(0, boundary)))) return true;
+                }
+                return false;
             }
         }
 

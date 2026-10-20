@@ -535,3 +535,20 @@ ChatMessage.Choices는 영어 선택 동사 choose/select와 which option을 단
 게시·익명 검증 뒤 사용자 승인한 구버전 GitHub 첨부 30개와 로컬 releases 12개 디렉터리를 실제 삭제했다. 새 0.13.0과 직전 0.12.1 첨부 13개씩 및 로컬 폴더, 기존 release 항목·tag·Git 이력·개발 증거를 보존 확인. Deployment JSON의 구버전 자산 보존 true는 삭제 전 게시 검증 시점이며, 이후 정리 결과는 ReleaseCleanup JSON으로 구분한다. C5 부적합 원본은 별도 개발 증거로 보존했다.
 CodexOrig2·3·4·6에 실제 완료 링크와 '자기 파트 종료로 끝내지 않고 빌드·컴파일→최신 Release 제작→실제 게시→익명 다운로드 hash까지 마감' 사용자 지시를 직접 전달했다. CodexCode는 기존 active-writer 도구 오류로 직접 전달 수신을 주장하지 않으며, 이 공유 기록으로 최종 결과와 완료 기준을 전달한다. Code는 이 배포 제품을 추가 수정하지 말고, 후속 변경은 별도 버전/검사/배포 계획으로 협의 부탁한다. Claude 로그인/실제 AI와 고객 15.7.1·별도 오프라인 PC 실측은 미검증으로 유지한다.
 Root가 최종 증거·정리 삭제 목록을 추가 commit/push하여 기록을 마감한다.
+
+### 2026-10-20 22:29 KST / TASK069 #8 / CodexCode 설치기 UI 보고
+전용 오프라인 설치기의 화면을 제품의 어두운 색 체계로 통일했습니다. 설치 시작·IDE 종료·재시작처럼 사용자가 해야 하는 문구는 주황색으로 강조하고, 설치 중에는 중지 버튼을 활성화했습니다. 중지는 열린 VSIXInstaller를 강제 종료하지 않고 다음 안전한 패키지 경계에서 적용됩니다. 검증은 tests/task069/Test-InstallerCancellation.ps1의 IDE 대기 중 중지 exit2/설치0건, Test-OfflineThemeInstaller.ps1의 격리 VS2017/2019/2022 설치6/6·17/17, 기존 설치조건35/35입니다. 최종 코드 EXE는 artifacts/task069/installer-ui-final-code에 보존했습니다. 통합 0.14.0 VSIX 고정 후 재빌드·감사·공개 Release 배포는 CodexOrig 통합 담당에게 인계했습니다.
+
+### 2026-10-20 22:51 KST / TASK069 #8 / CodexCode 후속 인계
+설치기 Dracula 팔레트와 중앙 양방향 게이지, 성공 VSIX 기준 진행률을 구현했다. 세 IDE 격리 설치6/6·검사17/17·진행신호6/6, 중지 회귀 통과. 0.14.0 패키지 확정 뒤 Root가 scripts/Build-OfflineThemeInstaller.ps1로 EXE를 다시 만들고 tests/task069/Test-CenterGauge.ps1 및 Test-OfflineThemeInstaller.ps1을 실행해야 한다. 현재 0.13.0 EXE는 검증 입력이며 공개 0.14.0으로 표기하지 않는다.
+
+## TASK069 / CodexOrig / 검증 및 배포 인계 기준 / 2026-10-20 23:36 KST
+현재 Role #1~19를 통합 중입니다. 최상위 VisualStudio_AIChat_ExtentionTest.exe에 기본27개를 연결했고, 실행은 --all --assembly <최종DLL> --vsix <최종VSIX>로 수행합니다. 별도 tests/ide/Test-IdeIntegration.ps1는 공식 VSIXInstaller/자기 RootSuffix에서 네 호스트별 실제 제품·합성 문서와 디버거를 검증하고 소유 PID 정상 정리를 기록합니다. 새 DBG는 사용자가 선택한 중단 위치와 열린 소스/함수명만 초안에 넣으며 자동 전송·변수 평가·디버거 제어가 없습니다. 테마 실제 리소스 조회와 물리 마우스 hover는 구분합니다.
+최종본은 네 SKU 컴파일·전체 회귀·0.14.0 오프라인 EXE 재생성·설치/네트워크 차단 검사·독립감사를 통과해야 합니다. Root가 직접 새 Release를 게시하고 공개 파일14개를 인증 없이 다시 받아 SHA를 확인합니다. UserDistribution/v0.14.0에는 프로젝트 소스/PDB/계정 없이 설치 필수 파일69개만 만들고, 새 버전 게시 성공 뒤 사용자 승인 범위인 이전0.12.1 local releases 및 GitHub 첨부만 정리하며0.14/0.13과태그/이력/개발증거를 보존합니다. 각 역할의 소유 작업 완료는 전체 작업 완료가 아니며 최종 결과는 별도 완료 항목에 기록합니다.
+
+### 2026-10-20 23:43 KST / TASK069 Role #19 / CodexOrig4 대화 여백 검증
+image-82 요청대로 대화 본문만 반응형 좌우 12–20px 거터를 적용했다. AssistantControl.xaml ConversationScroll 내부만 3열 grid로 감쌌으며 고정 머리글·작성란 정렬, bubble 680/760 최대폭/역할 margin, 대화 세로 스크롤과 코드 가로 넘침 동작을 보존했다. C10 실제 VS2017 Release DLL(6B97908E...) exact hash, anonymous offscreen 25/25·7 PNG. viewport 343/520/640 실측 거터 12.70/19.26/20px; VS Light/Kakao/Dracula 520px도 확인. 새 IDE/package build/README/PDF 그림 변경0. Report: CodexOrig4_TASK-069_ConversationGutter.md. Source freeze 및 익명 검증 자료를 Root에 전달해 Orig2 독립감사에 사용할 수 있게 했다.
+
+
+## TASK069 / CodexOrig / C13 감사 보완 및 출하 전 확인 / 2026-10-21 00:57:15 +09:00
+고정C13 4SKU0경고·0오류, 실행기기본27묶음과실IDE688개통과를확인했습니다. 실제C13DLL의SettingsTransaction105개는일시/지속/외부변경및Read/None잠금을포함합니다. 지속잠금은복구실패를명시하며외부변경은덮어쓰지않습니다. 최초C12실패기록은보존했고재시험을최초원인해결로적지않았습니다. 원본있는복원과최초없음삭제를한정재시도/동일바이트가드로보강했습니다. 공식TEMP로그확인후실제경로를진단폴더에복사하고SHA/LogAvailable로구분합니다. 테스트는 tests/workspace/Test-SettingsTransaction.ps1 -AssemblyPath <최종DLL>, tests/task069/Test-InstallerLogs.ps1, 최상위실행기 --all --assembly <최종DLL> --vsix <최종VSIX>로재현합니다. 실제IDE2019한개의10초이후전용정리는정상종료로혼동하지않습니다. 최종패키지5·새EXE6설치·독립감사후Root가직접GitHub14자산/익명재다운SHA·최신/직전보존/구0.12.1첨부정리를마감하며아직전체게시완료기록이아닙니다.

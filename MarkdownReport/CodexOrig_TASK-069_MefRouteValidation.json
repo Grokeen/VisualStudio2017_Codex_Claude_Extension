@@ -1,0 +1,399 @@
+{
+  "Task": "TASK069 Role17 final5 actual MEF route validation",
+  "GeneratedAt": "2026-10-21T00:01:58.990708+09:00",
+  "Evidence": "artifacts\\task069theme\\timing\\actual-2017-final5-v1",
+  "Succeeded": true,
+  "GatingChecksPassed": 146,
+  "GatingChecksFailed": 0,
+  "Existing118AllPassed": true,
+  "InitialCoreChecksPassed": 28,
+  "SubsequentObservationalSamples": 4,
+  "RepeatedObservationalChecks": 112,
+  "RepeatedObservationsNotAddedToGatingTotal": true,
+  "InitialPassRequiredAndAchieved": true,
+  "CoreStableThroughMilliseconds": 7116.8339000000005,
+  "Scope": "C10 unchanged product DLL plus final5 theme entry in private probe; not canonical C11 verification",
+  "CoreExpectedCategoryGuid": "75A05685-00A8-4DED-BAE5-E7A50BFA929A",
+  "SuggestionAndHintedSuggestionObservationOnly": true,
+  "ActualEditorFormatMapRead": true,
+  "ActualViewOptionsRead": true,
+  "ActualMarginRead": true,
+  "ActualErrorTagsCreated": false,
+  "ActualBreakpointTagsCreated": false,
+  "PhysicalMarkerVisibilityVerified": false,
+  "HelperCompilerWarnings": 1,
+  "HelperCompilerErrors": 0,
+  "HelperWarning": "VSTHRD001 at intentional ApplicationIdle dispatcher observation; original source/log retained",
+  "EarlierZeroWarningPreparationClaimCorrected": true,
+  "InputGuard": {
+    "InputsUnchanged": true,
+    "ActualHostPaletteRead": true,
+    "PhysicalPointerUsed": false,
+    "PhysicalVisibilityVerified": false,
+    "CheckedAt": "2026-10-20T23:58:35.3715000+09:00"
+  },
+  "Cleanup": {
+    "ProcessId": 56316,
+    "RootSuffix": "ThemeApply69T44fe8c4b",
+    "ExitedNormally": true,
+    "ForcedOwnedProcessCleanup": false,
+    "UserDefaultProfileChanged": false,
+    "CheckedAt": "2026-10-20T23:58:35.3053094+09:00"
+  },
+  "Launch": {
+    "ProcessId": 56316,
+    "RootSuffix": "ThemeApply69T44fe8c4b",
+    "ProductVsix": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task069theme\\timing\\package-probe\\C10-UnchangedDll-Final5Theme-VS2017.vsix",
+    "ProductSha256": "C3DC9DE96021827E700E1A279DBBEFF1BDB8AEF574AA429F91E11C7E1B6F7B6B",
+    "ThemeSha256": "AABABFCA3EBA23D3D838569BA3DFEF8D155723B5F451FF069B714BB737018B57",
+    "ExpectedDllSha256": "6B97908EF35C474A351FE3FFE45A78D7630DF7E145F77EC651C567E9E677BDAA",
+    "StartedAt": "2026-10-20T23:58:02.1614637+09:00"
+  },
+  "ProbeManifest": {
+    "CreatedAt": "2026-10-20T23:57:06.401074+09:00",
+    "Scope": "Canonical C10 unchanged DLL and all other entry bodies; one final5 theme entry in private probe; not canonical release package",
+    "Original": "artifacts\\task069\\candidate10\\2017\\Release\\VS2017.AIAssistant.vsix",
+    "OriginalSha256": "5FCDF24785971544127361DDCAB545D59D864E823B39DAC214D5C8BD8B1A50C9",
+    "PrivateProbe": "artifacts\\task069theme\\timing\\package-probe\\C10-UnchangedDll-Final5Theme-VS2017.vsix",
+    "PrivateProbeSha256": "C3DC9DE96021827E700E1A279DBBEFF1BDB8AEF574AA429F91E11C7E1B6F7B6B",
+    "Theme": "artifacts\\task069\\themes-final5\\Grokeen-VisualStudio-Themes-0.14.0-VS2017.vsix",
+    "ThemeSha256": "AABABFCA3EBA23D3D838569BA3DFEF8D155723B5F451FF069B714BB737018B57",
+    "ChangedEntries": [
+      "Themes/Grokeen-VisualStudio-Themes-0.14.0-VS2017.vsix"
+    ],
+    "AllOtherEntryBodiesUnchanged": true,
+    "OriginalPreserved": true,
+    "ProductDllSha256": "6B97908EF35C474A351FE3FFE45A78D7630DF7E145F77EC651C567E9E677BDAA",
+    "FinalReleaseCandidate": false
+  },
+  "Inputs": [
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\tests\\task069theme\\timing\\Test-IdeThemeWorkflow.ps1",
+      "Copy": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task069theme\\timing\\actual-2017-final5-v1\\Test-IdeThemeWorkflow.ps1",
+      "SHA256": "A6F22F943E06168A86A2A94227E3C0F0E8D15CEF1D1267B154DAB2218E134A59"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\tests\\task069theme\\timing\\ThemeIdePackage.cs",
+      "Copy": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task069theme\\timing\\actual-2017-final5-v1\\ThemeIdePackage.cs",
+      "SHA256": "5C7D00DF13B341E81A820BF8C10ACA0972A3C9BD2380678763146EC08F538F96"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\tests\\task069theme\\timing\\ThemeRegistrationChecks64.cs",
+      "Copy": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task069theme\\timing\\actual-2017-final5-v1\\ThemeRegistrationChecks64.cs",
+      "SHA256": "3977A94D1EAD4B044A67B805F82966624A72192179D4921E37FF8F04841442E4"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\tests\\task069theme\\timing\\EffectiveEditorFormatChecks.cs",
+      "Copy": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task069theme\\timing\\actual-2017-final5-v1\\EffectiveEditorFormatChecks.cs",
+      "SHA256": "E22321CFAB885363562F5FC736BD58D157973CE24F3C0A2E6B97262C7AB34F4E"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\tests\\ide\\New-IdeTestTarget.ps1",
+      "Copy": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task069theme\\timing\\actual-2017-final5-v1\\New-IdeTestTarget.ps1",
+      "SHA256": "5E052C4869D3383FB06F09675B8E7301E60824A9163DCD4519BEAB7A1D2B330C"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\tests\\ide\\IdeIntegration.csproj",
+      "Copy": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task069theme\\timing\\actual-2017-final5-v1\\IdeIntegration.csproj",
+      "SHA256": "0A686E26D66C9336B30768BCCA69109049C406A7AC5AAD6C079D8264C9CEB949"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\tests\\ide\\source.extension.vsixmanifest",
+      "Copy": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task069theme\\timing\\actual-2017-final5-v1\\source.extension.vsixmanifest",
+      "SHA256": "01E2328C36A32D8C839DB402F65871519172B54812D21232FEE6737AC2ED70AA"
+    },
+    {
+      "Path": "artifacts\\task069\\themes-final5\\definitions\\Kakao.vstheme",
+      "Copy": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task069theme\\timing\\actual-2017-final5-v1\\definitions\\Kakao.vstheme",
+      "SHA256": "A421A9DE4AFB2EB1953F936B62883D8F6E06208D699C57704EED37BAF2121E5D"
+    },
+    {
+      "Path": "artifacts\\task069\\themes-final5\\definitions\\Dracula.vstheme",
+      "Copy": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task069theme\\timing\\actual-2017-final5-v1\\definitions\\Dracula.vstheme",
+      "SHA256": "147DB4B52DDA4F0228D15B9B37F1C18E080F119E059754E2EC6E30B59DB719DE"
+    },
+    {
+      "Path": "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\Common7\\IDE\\CommonExtensions\\Microsoft\\Editor\\Microsoft.VisualStudio.Editor.dll",
+      "Copy": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task069theme\\timing\\actual-2017-final5-v1\\SdkReferences\\Microsoft.VisualStudio.Editor.dll",
+      "SHA256": "E7B64D371E9C824F81E29796BD376A12408F0982002A4131B78B92792B6351D9"
+    },
+    {
+      "Path": "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\Common7\\IDE\\CommonExtensions\\Microsoft\\Editor\\Microsoft.VisualStudio.Text.UI.Wpf.dll",
+      "Copy": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task069theme\\timing\\actual-2017-final5-v1\\SdkReferences\\Microsoft.VisualStudio.Text.UI.Wpf.dll",
+      "SHA256": "DA76AE071AF43F8DE18F6F5B04C661BF52D0BA34DAB2A27CF1990659E9E3CEFF"
+    },
+    {
+      "Path": "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\Common7\\IDE\\CommonExtensions\\Microsoft\\Editor\\Microsoft.VisualStudio.Text.UI.dll",
+      "Copy": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task069theme\\timing\\actual-2017-final5-v1\\SdkReferences\\Microsoft.VisualStudio.Text.UI.dll",
+      "SHA256": "A9E2888B855662E218DF3F0324E471796002AE004EFC05F0ABF249CEFFA61424"
+    },
+    {
+      "Path": "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\Common7\\IDE\\CommonExtensions\\Microsoft\\Editor\\Microsoft.VisualStudio.Text.Logic.dll",
+      "Copy": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task069theme\\timing\\actual-2017-final5-v1\\SdkReferences\\Microsoft.VisualStudio.Text.Logic.dll",
+      "SHA256": "E11CA4776F1D17740BBD4D5A46B4210262D61B184830DB2AB1C60850FBCAD096"
+    },
+    {
+      "Path": "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\Common7\\IDE\\CommonExtensions\\Microsoft\\Editor\\Microsoft.VisualStudio.Text.Data.dll",
+      "Copy": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task069theme\\timing\\actual-2017-final5-v1\\SdkReferences\\Microsoft.VisualStudio.Text.Data.dll",
+      "SHA256": "4A9526F8868B23A2240C0FC36EE2A6EFF14865F5F4CFF1B9596AAF98BF968EE2"
+    },
+    {
+      "Path": "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\Common7\\IDE\\CommonExtensions\\Microsoft\\Editor\\Microsoft.VisualStudio.CoreUtility.dll",
+      "Copy": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task069theme\\timing\\actual-2017-final5-v1\\SdkReferences\\Microsoft.VisualStudio.CoreUtility.dll",
+      "SHA256": "AD02E8F803B2DAE7AB230C456B88F29A53EE33BFFE998BC60A9FFDD32A3D5F97"
+    },
+    {
+      "Path": "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\Common7\\IDE\\PublicAssemblies\\Microsoft.VisualStudio.ComponentModelHost.dll",
+      "Copy": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task069theme\\timing\\actual-2017-final5-v1\\SdkReferences\\Microsoft.VisualStudio.ComponentModelHost.dll",
+      "SHA256": "809D712ECA379551A57BB58ABD0F875486663FE441F8FD253C3D92AD9E531054"
+    },
+    {
+      "Path": "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\Common7\\IDE\\PublicAssemblies\\Microsoft.VisualStudio.TextManager.Interop.dll",
+      "Copy": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task069theme\\timing\\actual-2017-final5-v1\\SdkReferences\\Microsoft.VisualStudio.TextManager.Interop.dll",
+      "SHA256": "B9EC0543F9B3F7A6B49020763984753C72DBE67D678C826389578A5097A6D765"
+    }
+  ],
+  "Sources": {
+    "tests\\task069theme\\timing\\EffectiveEditorFormatChecks.cs": "E22321CFAB885363562F5FC736BD58D157973CE24F3C0A2E6B97262C7AB34F4E",
+    "tests\\task069theme\\timing\\Test-IdeThemeWorkflow.ps1": "A6F22F943E06168A86A2A94227E3C0F0E8D15CEF1D1267B154DAB2218E134A59",
+    "tests\\task069theme\\timing\\ThemeIdePackage.cs": "5C7D00DF13B341E81A820BF8C10ACA0972A3C9BD2380678763146EC08F538F96",
+    "tests\\task069theme\\timing\\ThemeRegistrationChecks64.cs": "3977A94D1EAD4B044A67B805F82966624A72192179D4921E37FF8F04841442E4"
+  },
+  "InitialObservedMap": {
+    "ActualEditorFormatMapRead": true,
+    "ActualViewOptionsRead": true,
+    "ActualMarginRead": true,
+    "GatingScope": "Four canonical error/warning keys and breakpoint; suggestion/hinted suggestion are observed without imposing nontransparent defaults",
+    "ActualErrorTagsCreated": false,
+    "ActualBreakpointTagsCreated": false,
+    "PhysicalMarkerVisibilityVerified": false,
+    "ActualEditorBackground": "#FF282A36",
+    "FormatMap": [
+      {
+        "Key": "syntax error",
+        "Channel": "Foreground",
+        "ValueType": "System.Windows.Media.SolidColorBrush",
+        "ActualArgb": "FFFF79C6",
+        "ExpectedRawArgb": "FFFF79C6",
+        "ExactDefinitionAvailable": true,
+        "ExpectedCategoryGuid": "75A05685-00A8-4DED-BAE5-E7A50BFA929A",
+        "ObservationOnly": false,
+        "ContrastAgainstActualEditorBackground": 5.969029289187878,
+        "MarginBrushConsumerCompatible": true,
+        "BrushOpacity": 1,
+        "BrushTransformIdentity": true,
+        "BrushRelativeTransformIdentity": true,
+        "PropertyKeys": [
+          "Foreground",
+          "ForegroundColor",
+          "IsBold"
+        ]
+      },
+      {
+        "Key": "compiler error",
+        "Channel": "Foreground",
+        "ValueType": "System.Windows.Media.SolidColorBrush",
+        "ActualArgb": "FFFF79C6",
+        "ExpectedRawArgb": "FFFF79C6",
+        "ExactDefinitionAvailable": true,
+        "ExpectedCategoryGuid": "75A05685-00A8-4DED-BAE5-E7A50BFA929A",
+        "ObservationOnly": false,
+        "ContrastAgainstActualEditorBackground": 5.969029289187878,
+        "MarginBrushConsumerCompatible": true,
+        "BrushOpacity": 1,
+        "BrushTransformIdentity": true,
+        "BrushRelativeTransformIdentity": true,
+        "PropertyKeys": [
+          "Foreground",
+          "ForegroundColor",
+          "IsBold"
+        ]
+      },
+      {
+        "Key": "other error",
+        "Channel": "Foreground",
+        "ValueType": "System.Windows.Media.SolidColorBrush",
+        "ActualArgb": "FFFF79C6",
+        "ExpectedRawArgb": "FFFF79C6",
+        "ExactDefinitionAvailable": true,
+        "ExpectedCategoryGuid": "75A05685-00A8-4DED-BAE5-E7A50BFA929A",
+        "ObservationOnly": false,
+        "ContrastAgainstActualEditorBackground": 5.969029289187878,
+        "MarginBrushConsumerCompatible": true,
+        "BrushOpacity": 1,
+        "BrushTransformIdentity": true,
+        "BrushRelativeTransformIdentity": true,
+        "PropertyKeys": [
+          "Foreground",
+          "ForegroundColor",
+          "IsBold"
+        ]
+      },
+      {
+        "Key": "compiler warning",
+        "Channel": "Foreground",
+        "ValueType": "System.Windows.Media.SolidColorBrush",
+        "ActualArgb": "FFFFB86C",
+        "ExpectedRawArgb": "FFFFB86C",
+        "ExactDefinitionAvailable": true,
+        "ExpectedCategoryGuid": "75A05685-00A8-4DED-BAE5-E7A50BFA929A",
+        "ObservationOnly": false,
+        "ContrastAgainstActualEditorBackground": 8.357582660158178,
+        "MarginBrushConsumerCompatible": true,
+        "BrushOpacity": 1,
+        "BrushTransformIdentity": true,
+        "BrushRelativeTransformIdentity": true,
+        "PropertyKeys": [
+          "Foreground",
+          "ForegroundColor",
+          "IsBold"
+        ]
+      },
+      {
+        "Key": "suggestion",
+        "Channel": "Foreground",
+        "ValueType": "System.Windows.Media.SolidColorBrush",
+        "ActualArgb": "00FFFFFF",
+        "ExpectedRawArgb": null,
+        "ExactDefinitionAvailable": false,
+        "ExpectedCategoryGuid": "75A05685-00A8-4DED-BAE5-E7A50BFA929A",
+        "ObservationOnly": true,
+        "ContrastAgainstActualEditorBackground": 0,
+        "MarginBrushConsumerCompatible": true,
+        "BrushOpacity": 1,
+        "BrushTransformIdentity": true,
+        "BrushRelativeTransformIdentity": true,
+        "PropertyKeys": [
+          "Foreground"
+        ]
+      },
+      {
+        "Key": "hinted suggestion",
+        "Channel": "Foreground",
+        "ValueType": "System.Windows.Media.SolidColorBrush",
+        "ActualArgb": "FFA5A5A5",
+        "ExpectedRawArgb": null,
+        "ExactDefinitionAvailable": false,
+        "ExpectedCategoryGuid": "75A05685-00A8-4DED-BAE5-E7A50BFA929A",
+        "ObservationOnly": true,
+        "ContrastAgainstActualEditorBackground": 5.781089992051625,
+        "MarginBrushConsumerCompatible": true,
+        "BrushOpacity": 1,
+        "BrushTransformIdentity": true,
+        "BrushRelativeTransformIdentity": true,
+        "PropertyKeys": [
+          "Foreground",
+          "ForegroundColor",
+          "IsBold"
+        ]
+      },
+      {
+        "Key": "MarkerFormatDefinition/BreakpointInScrollBar",
+        "Channel": "Background",
+        "ValueType": "System.Windows.Media.SolidColorBrush",
+        "ActualArgb": "FFBD93F9",
+        "ExpectedRawArgb": "FFBD93F9",
+        "ExactDefinitionAvailable": true,
+        "ExpectedCategoryGuid": "75A05685-00A8-4DED-BAE5-E7A50BFA929A",
+        "ObservationOnly": false,
+        "ContrastAgainstActualEditorBackground": 5.903095616330085,
+        "MarginBrushConsumerCompatible": true,
+        "BrushOpacity": 1,
+        "BrushTransformIdentity": true,
+        "BrushRelativeTransformIdentity": true,
+        "PropertyKeys": [
+          "Background",
+          "BackgroundColor",
+          "IsBold",
+          "MarkerFormatDefinition/ZOrderId"
+        ]
+      }
+    ],
+    "Options": [
+      {
+        "Key": "OverviewMargin/ShowErrors",
+        "Value": true,
+        "ValueType": "System.Boolean"
+      },
+      {
+        "Key": "OverviewMargin/ErrorMarginWidth",
+        "Value": 6,
+        "ValueType": "System.Double"
+      },
+      {
+        "Key": "OverviewMargin/ShowMarks",
+        "Value": true,
+        "ValueType": "System.Boolean"
+      },
+      {
+        "Key": "OverviewMargin/MarkMarginWidth",
+        "Value": 6,
+        "ValueType": "System.Double"
+      }
+    ],
+    "Margins": [
+      {
+        "Name": "OverviewErrorMargin",
+        "Present": true,
+        "Enabled": true,
+        "MarginSize": 6,
+        "Visibility": "Visible",
+        "ActualWidth": 6
+      },
+      {
+        "Name": "OverviewMarkMargin",
+        "Present": true,
+        "Enabled": true,
+        "MarginSize": 6,
+        "Visibility": "Visible",
+        "ActualWidth": 6
+      }
+    ]
+  },
+  "TimingSummaries": [
+    {
+      "Phase": "initial",
+      "ElapsedMilliseconds": 42.4742,
+      "ApplicationIdleCompleted": null,
+      "ColorsStable": true,
+      "ObservedCheckFailures": 0
+    },
+    {
+      "Phase": "application-idle",
+      "ElapsedMilliseconds": 51.381800000000005,
+      "ApplicationIdleCompleted": true,
+      "ColorsStable": true,
+      "ObservedCheckFailures": 0
+    },
+    {
+      "Phase": "after-delay-500",
+      "ElapsedMilliseconds": 571.2696000000001,
+      "ApplicationIdleCompleted": true,
+      "ColorsStable": true,
+      "ObservedCheckFailures": 0
+    },
+    {
+      "Phase": "after-delay-1500",
+      "ElapsedMilliseconds": 2094.7884,
+      "ApplicationIdleCompleted": true,
+      "ColorsStable": true,
+      "ObservedCheckFailures": 0
+    },
+    {
+      "Phase": "after-delay-5000",
+      "ElapsedMilliseconds": 7116.8339000000005,
+      "ApplicationIdleCompleted": true,
+      "ColorsStable": true,
+      "ObservedCheckFailures": 0
+    }
+  ],
+  "PreservedOldFailures": [
+    "artifacts/task069theme/effective/actual-2017-v1",
+    "artifacts/task069theme/effective/actual-2017-v2"
+  ],
+  "Original143Pass10FailNotRewritten": true,
+  "GuiReservationReturned": true,
+  "AdditionalIdeStarts": 0,
+  "SourceFrozen": true,
+  "RemainingRootGate": "Canonical final candidate integration, actual four-SKU/installer/regression/audit/Release/publication/anonymous hash verification"
+}

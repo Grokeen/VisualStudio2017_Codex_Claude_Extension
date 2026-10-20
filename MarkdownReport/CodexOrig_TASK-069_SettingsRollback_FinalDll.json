@@ -1,0 +1,191 @@
+{
+  "Task": "TASK069 R69-15 actual C13 DLL",
+  "Candidate": "candidate13",
+  "Passed": 105,
+  "Failed": 0,
+  "ActualProductDllTest": true,
+  "ProductAssembly": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task069\\candidate13\\2017\\Release\\VS2017.AIAssistant.dll",
+  "ProductSha256": "2FF67C7930F85F0ACEDD4FC2A07ED57DBAFECD5DC46CB48C2D439890AE023E2D",
+  "CopiedTestAssemblyMatches": true,
+  "SourceTransactionSha256": "EA63F9C55D34F3F1B602B93013FECC6CB25CBDBA5CA8677414358252DFEF5B02",
+  "Evidence": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task012\\settings-transaction-6443ea9235db4373b9cc6aaf614c6b81",
+  "TestResultSha256": "D3DAF79E07DC8020060446FFEE92A78B86DDE2E5FB6D27FBE987ED2378ACA551",
+  "OriginalIncidentCauseConfirmed": false,
+  "OriginalIncidentPreserved": true,
+  "GuiUsed": false,
+  "ProductTestHookUsed": false,
+  "ExplicitMaximumRetryDelayMilliseconds": 125,
+  "LockScenarios": [
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task012\\settings-transaction-6443ea9235db4373b9cc6aaf614c6b81\\retry-absent-external\\retry-observation.json",
+      "Sha256": "4B5F6A2104350E4D0ABCE25EC0543DF0DB2E7E7149685FFA11C336AE8E2ED294",
+      "Observation": {
+        "OriginalExisted": false,
+        "Scenario": "external",
+        "FirstNativeCode": 32,
+        "NativeFailures": 1,
+        "ElapsedMilliseconds": 36.8183,
+        "Failure": "설정이 일부만 저장되었습니다. 공통 규칙 저장 오류: 합성 Markdown 저장 경계 실패 기본 설정 복구 오류: 설정 파일이 바뀌어 다른 작업의 변경을 보존했습니다.",
+        "WorkerError": null,
+        "ActualFileShareLock": true,
+        "FileShareMode": "Read",
+        "FirstFailedAttemptObservedBeforeRelease": true,
+        "ProductTestHookUsed": false
+      }
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task012\\settings-transaction-6443ea9235db4373b9cc6aaf614c6b81\\retry-absent-held\\retry-observation.json",
+      "Sha256": "7883E11C2D723350B9FA0F843C5123112CF348769D67573C846E882E34368DBB",
+      "Observation": {
+        "OriginalExisted": false,
+        "Scenario": "held",
+        "FirstNativeCode": 32,
+        "NativeFailures": 6,
+        "ElapsedMilliseconds": 167.632,
+        "Failure": "설정이 일부만 저장되었습니다. 공통 규칙 저장 오류: 합성 Markdown 저장 경계 실패 기본 설정 복구 오류: 설정 파일 복구 실패 (Win32 32, 시도 6). 다른 프로그램의 파일 잠금을 확인하세요.",
+        "WorkerError": null,
+        "ActualFileShareLock": true,
+        "FileShareMode": "Read",
+        "FirstFailedAttemptObservedBeforeRelease": true,
+        "ProductTestHookUsed": false
+      }
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task012\\settings-transaction-6443ea9235db4373b9cc6aaf614c6b81\\retry-absent-held-exclusive\\retry-observation.json",
+      "Sha256": "B9996512C6D1B99401F9CF60B6403B5C8A9205D21C74A7282CEA4EA6855B245B",
+      "Observation": {
+        "OriginalExisted": false,
+        "Scenario": "held",
+        "FirstNativeCode": 32,
+        "NativeFailures": 6,
+        "ElapsedMilliseconds": 161.4873,
+        "Failure": "설정이 일부만 저장되었습니다. 공통 규칙 저장 오류: 합성 Markdown 저장 경계 실패 기본 설정 복구 오류: 설정 파일 복구 실패 (Win32 32, 시도 6). 다른 프로그램의 파일 잠금을 확인하세요.",
+        "WorkerError": null,
+        "ActualFileShareLock": true,
+        "FileShareMode": "None",
+        "FirstFailedAttemptObservedBeforeRelease": true,
+        "ProductTestHookUsed": false
+      }
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task012\\settings-transaction-6443ea9235db4373b9cc6aaf614c6b81\\retry-absent-release\\retry-observation.json",
+      "Sha256": "86DADE30D83A788BDE972D1C93AFE4A88C39B6BDE94BA4BEE3A661EF74741658",
+      "Observation": {
+        "OriginalExisted": false,
+        "Scenario": "release",
+        "FirstNativeCode": 32,
+        "NativeFailures": 1,
+        "ElapsedMilliseconds": 43.7378,
+        "Failure": "공통 규칙을 저장하지 못해 기본 설정 변경을 원래 상태로 복구했습니다. 합성 Markdown 저장 경계 실패",
+        "WorkerError": null,
+        "ActualFileShareLock": true,
+        "FileShareMode": "Read",
+        "FirstFailedAttemptObservedBeforeRelease": true,
+        "ProductTestHookUsed": false
+      }
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task012\\settings-transaction-6443ea9235db4373b9cc6aaf614c6b81\\retry-absent-release-exclusive\\retry-observation.json",
+      "Sha256": "4B90E998C9636F88DAB7CA7191A453FD95D19D0ADB714B3146EDA6D197805702",
+      "Observation": {
+        "OriginalExisted": false,
+        "Scenario": "release",
+        "FirstNativeCode": 32,
+        "NativeFailures": 1,
+        "ElapsedMilliseconds": 43.940200000000004,
+        "Failure": "공통 규칙을 저장하지 못해 기본 설정 변경을 원래 상태로 복구했습니다. 합성 Markdown 저장 경계 실패",
+        "WorkerError": null,
+        "ActualFileShareLock": true,
+        "FileShareMode": "None",
+        "FirstFailedAttemptObservedBeforeRelease": true,
+        "ProductTestHookUsed": false
+      }
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task012\\settings-transaction-6443ea9235db4373b9cc6aaf614c6b81\\retry-existing-external\\retry-observation.json",
+      "Sha256": "0D8C6377CE07941D3D3E3DC541B0367C390F021C9449F065A5D54B6C452292F0",
+      "Observation": {
+        "OriginalExisted": true,
+        "Scenario": "external",
+        "FirstNativeCode": 32,
+        "NativeFailures": 1,
+        "ElapsedMilliseconds": 43.380700000000004,
+        "Failure": "설정이 일부만 저장되었습니다. 공통 규칙 저장 오류: 합성 Markdown 저장 경계 실패 기본 설정 복구 오류: 설정 파일이 바뀌어 다른 작업의 변경을 보존했습니다.",
+        "WorkerError": null,
+        "ActualFileShareLock": true,
+        "FileShareMode": "Read",
+        "FirstFailedAttemptObservedBeforeRelease": true,
+        "ProductTestHookUsed": false
+      }
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task012\\settings-transaction-6443ea9235db4373b9cc6aaf614c6b81\\retry-existing-held\\retry-observation.json",
+      "Sha256": "3B995A899BCC27CFC4325DBFD786DC7569B67C10E4B814FB88869D74B16BE944",
+      "Observation": {
+        "OriginalExisted": true,
+        "Scenario": "held",
+        "FirstNativeCode": 32,
+        "NativeFailures": 6,
+        "ElapsedMilliseconds": 168.5081,
+        "Failure": "설정이 일부만 저장되었습니다. 공통 규칙 저장 오류: 합성 Markdown 저장 경계 실패 기본 설정 복구 오류: 설정 파일 복구 실패 (Win32 32, 시도 6). 다른 프로그램의 파일 잠금을 확인하세요.",
+        "WorkerError": null,
+        "ActualFileShareLock": true,
+        "FileShareMode": "Read",
+        "FirstFailedAttemptObservedBeforeRelease": true,
+        "ProductTestHookUsed": false
+      }
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task012\\settings-transaction-6443ea9235db4373b9cc6aaf614c6b81\\retry-existing-held-exclusive\\retry-observation.json",
+      "Sha256": "F22CFDC3EE17A0AE7D002DB567CD380A9A7FA4FE5FAF86A02FB9C7BF16EF3488",
+      "Observation": {
+        "OriginalExisted": true,
+        "Scenario": "held",
+        "FirstNativeCode": 32,
+        "NativeFailures": 6,
+        "ElapsedMilliseconds": 165.9773,
+        "Failure": "설정이 일부만 저장되었습니다. 공통 규칙 저장 오류: 합성 Markdown 저장 경계 실패 기본 설정 복구 오류: 설정 파일 복구 실패 (Win32 32, 시도 6). 다른 프로그램의 파일 잠금을 확인하세요.",
+        "WorkerError": null,
+        "ActualFileShareLock": true,
+        "FileShareMode": "None",
+        "FirstFailedAttemptObservedBeforeRelease": true,
+        "ProductTestHookUsed": false
+      }
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task012\\settings-transaction-6443ea9235db4373b9cc6aaf614c6b81\\retry-existing-release\\retry-observation.json",
+      "Sha256": "9934141E82624F66D0ADCD2877B124AD5E6A1EEAF2C69F67CEB10D9778B5F692",
+      "Observation": {
+        "OriginalExisted": true,
+        "Scenario": "release",
+        "FirstNativeCode": 32,
+        "NativeFailures": 1,
+        "ElapsedMilliseconds": 42.5244,
+        "Failure": "공통 규칙을 저장하지 못해 기본 설정 변경을 원래 상태로 복구했습니다. 합성 Markdown 저장 경계 실패",
+        "WorkerError": null,
+        "ActualFileShareLock": true,
+        "FileShareMode": "Read",
+        "FirstFailedAttemptObservedBeforeRelease": true,
+        "ProductTestHookUsed": false
+      }
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task012\\settings-transaction-6443ea9235db4373b9cc6aaf614c6b81\\retry-existing-release-exclusive\\retry-observation.json",
+      "Sha256": "FFD8C74AA47FF7C017E5D7D836BA2B4B287BED2E36CB294739D2463C5580E599",
+      "Observation": {
+        "OriginalExisted": true,
+        "Scenario": "release",
+        "FirstNativeCode": 32,
+        "NativeFailures": 1,
+        "ElapsedMilliseconds": 44.197,
+        "Failure": "공통 규칙을 저장하지 못해 기본 설정 변경을 원래 상태로 복구했습니다. 합성 Markdown 저장 경계 실패",
+        "WorkerError": null,
+        "ActualFileShareLock": true,
+        "FileShareMode": "None",
+        "FirstFailedAttemptObservedBeforeRelease": true,
+        "ProductTestHookUsed": false
+      }
+    }
+  ],
+  "CheckedAt": "2026-10-21T00:51:06.3235742+09:00"
+}

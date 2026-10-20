@@ -112,11 +112,21 @@ namespace VS2017.AIAssistant.Providers
         /// author       : CodexOrig
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : TASK-020 명령 수정과 CLI 외부 경로 보고의 병합.
+        ///                2026-10-20 CodexOrig : TASK069 직접 수정 파일의 줄 끝을 원래 형식으로 맞춘 뒤 최종 비교.
         /// </summary>
         /// ---------------------------------------------------------------------
-        internal void Reconcile(IDictionary<string, AgentFileChange> changes, CancellationToken cancellation = default(CancellationToken))
+        internal void Reconcile(IDictionary<string, AgentFileChange> changes, CancellationToken cancellation = default(CancellationToken), bool normalizeLineEndings = false)
         {
             bool afterComplete; var after = ReadFiles(directory, cancellation, out afterComplete);
+            if (normalizeLineEndings) {
+                foreach (var entry in after) {
+                    cancellation.ThrowIfCancellationRequested();
+                    string original; bool existed = before.TryGetValue(entry.Key, out original);
+                    if (entry.Value == null || (existed && original == null) || (!existed && !complete) || original == entry.Value) continue;
+                    NormalizeChangedFile(entry.Key, entry.Value, PreferredLineEnding(original ?? entry.Value), cancellation);
+                }
+                after = ReadFiles(directory, cancellation, out afterComplete);
+            }
             foreach (string path in before.Keys.Union(after.Keys, StringComparer.OrdinalIgnoreCase)) {
                 cancellation.ThrowIfCancellationRequested();
                 string oldText, newText; bool had = before.TryGetValue(path, out oldText), has = after.TryGetValue(path, out newText);
@@ -129,6 +139,71 @@ namespace VS2017.AIAssistant.Providers
                 bool precise; string diff = BuildDiff(oldText, newText, cancellation, out precise);
                 changes[path] = new AgentFileChange { Path = path, Kind = "프로젝트 전후 비교", Diff = diff, HasLineCounts = precise };
             }
+        }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : PreferredLineEnding
+        /// desc         : 기존 파일의 가장 많은 줄 끝을 따르며 동률은 Windows 형식을 사용한다.
+        /// author       : CodexOrig
+        /// create date  : 2026-10-20
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        private static string PreferredLineEnding(string text)
+        {
+            int windows = 0, unix = 0, mac = 0;
+            for (int index = 0; index < text.Length; index++) {
+                if (text[index] == '\r') { if (index + 1 < text.Length && text[index + 1] == '\n') { windows++; index++; } else mac++; }
+                else if (text[index] == '\n') unix++;
+            }
+            return windows >= unix && windows >= mac ? "\r\n" : unix >= mac ? "\n" : "\r";
+        }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : NormalizeChangedFile
+        /// desc         : 실행 전후 비교로 확인한 작은 텍스트만 인코딩·BOM·속성을 보존해 원자 교체한다.
+        /// author       : CodexOrig
+        /// create date  : 2026-10-20
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        private void NormalizeChangedFile(string path, string expected, string newline, CancellationToken cancellation)
+        {
+            string normalized = expected.Replace("\r\n", "\n").Replace('\r', '\n').Replace("\n", newline);
+            if (normalized == expected) return;
+            string root = Path.GetFullPath(directory).TrimEnd(Path.DirectorySeparatorChar) + Path.DirectorySeparatorChar;
+            if (!Path.GetFullPath(path).StartsWith(root, StringComparison.OrdinalIgnoreCase)) return;
+            for (string ancestor = path; !String.IsNullOrEmpty(ancestor); ancestor = Path.GetDirectoryName(ancestor)) {
+                if ((File.GetAttributes(ancestor) & FileAttributes.ReparsePoint) != 0) return;
+                if (String.Equals(ancestor.TrimEnd(Path.DirectorySeparatorChar), root.TrimEnd(Path.DirectorySeparatorChar), StringComparison.OrdinalIgnoreCase)) break;
+            }
+            FileAttributes attributes = File.GetAttributes(path);
+            if ((attributes & (FileAttributes.ReadOnly | FileAttributes.Directory)) != 0) return;
+            string temporary = Path.Combine(Path.GetDirectoryName(path), ".ai-eol-" + Guid.NewGuid().ToString("N") + ".tmp");
+            try {
+                // 다른 쓰기는 막고 File.Replace에 필요한 삭제 공유만 허용한다.
+                using (var input = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read | FileShare.Delete)) {
+                    if (input.Length > MaximumCharacters * 4) return;
+                    var bytes = new byte[(int)input.Length]; int read = 0, count;
+                    while (read < bytes.Length && (count = input.Read(bytes, read, bytes.Length - read)) > 0) read += count;
+                    if (read != bytes.Length || input.ReadByte() >= 0) return;
+                    int prefix = 0; Encoding encoding = new UTF8Encoding(false, true);
+                    if (bytes.Length >= 4 && bytes[0] == 0xff && bytes[1] == 0xfe && bytes[2] == 0 && bytes[3] == 0) { encoding = new UTF32Encoding(false, false, true); prefix = 4; }
+                    else if (bytes.Length >= 4 && bytes[0] == 0 && bytes[1] == 0 && bytes[2] == 0xfe && bytes[3] == 0xff) { encoding = new UTF32Encoding(true, false, true); prefix = 4; }
+                    else if (bytes.Length >= 2 && bytes[0] == 0xff && bytes[1] == 0xfe) { encoding = new UnicodeEncoding(false, false, true); prefix = 2; }
+                    else if (bytes.Length >= 2 && bytes[0] == 0xfe && bytes[1] == 0xff) { encoding = new UnicodeEncoding(true, false, true); prefix = 2; }
+                    else if (bytes.Length >= 3 && bytes[0] == 0xef && bytes[1] == 0xbb && bytes[2] == 0xbf) prefix = 3;
+                    if (encoding.GetString(bytes, prefix, bytes.Length - prefix) != expected) return;
+                    byte[] replacement = encoding.GetBytes(normalized);
+                    cancellation.ThrowIfCancellationRequested();
+                    using (var output = new FileStream(temporary, FileMode.CreateNew, FileAccess.Write, FileShare.None)) {
+                        output.Write(bytes, 0, prefix); output.Write(replacement, 0, replacement.Length); output.Flush(true);
+                    }
+                    File.SetAttributes(temporary, attributes & ~FileAttributes.ReadOnly);
+                    File.Replace(temporary, path, null);
+                }
+            }
+            finally { if (File.Exists(temporary)) File.Delete(temporary); }
         }
 
         /// ---------------------------------------------------------------------

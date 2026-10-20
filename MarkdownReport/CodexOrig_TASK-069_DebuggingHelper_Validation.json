@@ -1,0 +1,52 @@
+{
+  "Task": "TASK069 Role18",
+  "Owner": "CodexOrig helper061",
+  "Candidate": "candidate8",
+  "Status": "Independent synthetic-reader actual-product checks passed; native DTE integration remains Root scope",
+  "ResultPath": "artifacts/task069debughelper/candidate8-1/result.json",
+  "InputsPath": "artifacts/task069debughelper/candidate8-1/inputs.json",
+  "Passed": 47,
+  "Failed": 0,
+  "AssemblySha256": "F821132D6DD4225F98853A68F9154F692432437041AE59EE01512F7B564F9DB2",
+  "AssemblyUnchanged": true,
+  "AssetsSha256": "E4E14C7C98ECD9D2AF9A56CE9DA66A3A04482916D65E0FED484E418447C43AA2",
+  "AssetsUnchanged": true,
+  "Sources": [
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\tests\\task069debughelper\\DebuggingHelperChecks.cs",
+      "Sha256": "E43C55550A45575741D7FBBDC2C35D0D0BFAE659436CADF100CA098F7DD73BF5",
+      "Unchanged": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\tests\\task069debughelper\\DebuggingHelperRunner.cs",
+      "Sha256": "AA44D5E8499C0F08C0922D33F0885D7914B578DF5AB1C8EE7FB97D6B698A4E49",
+      "Unchanged": true
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task069\\candidate8\\source\\src\\VS2017.AIAssistant\\Services\\DebuggingContextService.cs",
+      "Sha256": "041F9B6C911763C55701937342CD8252B8F2337BF6AE9900B1EED8EF39AF27F4",
+      "Unchanged": true
+    }
+  ],
+  "ActualProductDebuggingServiceUsed": true,
+  "ActualControlClickHandlerUsed": true,
+  "SyntheticReadAdapterUsed": true,
+  "NativeDteDebuggeeUsed": false,
+  "WindowShown": false,
+  "PopupOpened": false,
+  "OsInputInjected": false,
+  "LiveAiUsed": false,
+  "NetworkRequested": false,
+  "KnownLimitations": [
+    "Actual native DTE frame QueryInterface and debuggee source availability require Root actual IDE evidence.",
+    "No physical hover/narrow desktop screenshot was taken by this fixture.",
+    "No actual AI explanation or exception evaluation was performed."
+  ],
+  "RemainingIntegration": [
+    "Root final four SKU build and actual IDE debugger check",
+    "Independent audit",
+    "Final latest Release packaging and actual publication",
+    "Anonymous download SHA verification"
+  ],
+  "RecordedAt": "2026-10-20T23:21:16.2337570+09:00"
+}

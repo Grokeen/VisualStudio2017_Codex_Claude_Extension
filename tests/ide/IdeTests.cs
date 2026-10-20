@@ -205,7 +205,10 @@ namespace CodexCode.IdeIntegration
             Check("WORK-02 change card lists the modified source", ((TextBlock)view.FindName("ChangeSummary")).Text.Contains("1"));
             var submittedTurns = ((ItemsControl)view.FindName("ConversationMessages")).Items.OfType<ChatMessage>().ToArray();
             Check("CHAT-09 conversation stacks submitted user and AI turns",
-                submittedTurns.Length >= 2 && submittedTurns.Any(message => message.Role == "user" && message.Text == "fixture:ok\n첨부: 참고.txt")
+                submittedTurns.Length >= 2 && submittedTurns.Any(message => message.Role == "user" &&
+                    message.Text.StartsWith("fixture:ok\n첨부 본문 포함 요청 · 1개\n", StringComparison.Ordinal) &&
+                    message.Text.Contains("참고.txt — 본문 9자 · UTF-8 23바이트") &&
+                    message.Text.Contains("첨부는 다음 요청에도 유지됩니다.") && !message.Text.Contains("테스트 참고 조건"))
                 && submittedTurns.Any(message => message.Role == "assistant" && message.Text == "테스트 수정안"));
             Check("IDE-11 approval starts unchecked", ((CheckBox)view.FindName("ReviewApproval")).IsChecked != true && !Button(view, "ApplyButton").IsEnabled);
             Check("IDE-12 proposal preserves buffer and disk", target.Capture().Content == unsaved && File.ReadAllText(sourcePath) == originalDisk);
@@ -406,6 +409,7 @@ namespace CodexCode.IdeIntegration
             typeof(AssistantControl).GetMethod("SetAgentFullAccess", flags).Invoke(view, new object[] { false });
             dte.Documents.CloseAll(vsSaveChanges.vsSaveChangesNo);
             Check("FULL-03 a solution without an active source permits project context", directDocuments.CaptureFullAccessContext() == null && ((ISourceNavigationService)service).GetProjectDirectory() == Path.GetDirectoryName(config.SolutionPath));
+            await CheckDebuggingHelperAsync(view, dte, config.OutputDirectory);
             var json = new JavaScriptSerializer();
             File.WriteAllText(Path.Combine(config.OutputDirectory, "result.json"), json.Serialize(new {
                 Succeeded = failed == 0, Passed = passed, Failed = failed, IdeRuntimeTest = true,

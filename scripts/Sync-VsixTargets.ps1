@@ -9,6 +9,7 @@ update date  : 2026-10-18 CodexOrig : TASK-020 감사 F01, 32비트 SDK15와 64�
                2026-10-19 CodexOrig : TASK-025 공통 프로젝트 내부 Content도 버전별 링크 경로로 연결.
                2026-10-19 CodexOrig : TASK-036 VS2017 15.7 SDK 구버전 패키지를 별도로 생성.
                2026-10-20 CodexOrig : TASK-054 VSIX의 실제 PDF 이름을 런타임 고정 경로와 맞춘다.
+               2026-10-20 CodexOrig : TASK069 최신 44쪽 0.14.0 설명서를 네 패키지 공통 리소스로 동기화한다.
 -------------------------------------------------------------------------
 #>
 [CmdletBinding()]
@@ -16,7 +17,7 @@ param()
 $ErrorActionPreference='Stop'
 $repositoryDir=[IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
 $baseDir=Join-Path $repositoryDir 'src\VS2017.AIAssistant'
-$guideSource=Join-Path $repositoryDir 'output\pdf\VisualStudio_AI_Assistant_설치_사용설명서_v0.13.0_미리보기.pdf'
+$guideSource=Join-Path $repositoryDir 'output\pdf\VisualStudio_AI_Assistant_설치_사용설명서_v0.14.0_미리보기.pdf'
 $guideDirectory=Join-Path $baseDir 'Assets\CliGuide'
 $null=New-Item -ItemType Directory -Path $guideDirectory -Force
 Copy-Item -LiteralPath $guideSource -Destination (Join-Path $guideDirectory 'VisualStudio_AI_Assistant_설치_사용설명서.pdf') -Force

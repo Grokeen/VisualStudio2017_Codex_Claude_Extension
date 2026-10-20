@@ -1,0 +1,107 @@
+{
+  "Task": "TASK069 #6/#7",
+  "Owner": "CodexOrig supplementary developer 055",
+  "Candidate": "candidate3",
+  "Passed": 159,
+  "Failed": 0,
+  "ActualIdeRuntimeTest": true,
+  "ActualHostPaletteRead": true,
+  "PhysicalPointerUsed": false,
+  "PhysicalVisibilityVerified": false,
+  "UserDefaultProfileChanged": false,
+  "ProductSourceChanged": false,
+  "SharedProductBuildUsed": false,
+  "SourceHashes": [
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\tests\\task069theme\\Test-IdeThemeWorkflow.ps1",
+      "Sha256": "DC0D182A602538048910EC626CF71D4B4D143CD1E601CF82FED7D7853AAEB208"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\tests\\task069theme\\ThemeIdePackage.cs",
+      "Sha256": "C0F9AEBEF4EA0D301233D8CF3AC8B5B8A01E00667BF36D7CBE11876279CA192B"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\tests\\task069theme\\ThemeRegistrationChecks64.cs",
+      "Sha256": "C3164C4ED2A6E84F3C098AF589E3DCA2FDBC5932BC1C2FB3F5F436E3AA2E710B"
+    }
+  ],
+  "Executions": [
+    {
+      "Year": "2017",
+      "Output": "artifacts\\task069theme\\actual-2017-v5",
+      "Succeeded": true,
+      "Passed": 53,
+      "Failed": 0,
+      "ExpectedDllSha256": "EDB57654F5D455C73DF2BCBBDC191206D06252A663A2D7DE059BE6184D94751E",
+      "ProductVsixSha256": "4ABBE35E17BAEA05AE37B9ADCE58600026AFAD777D5FC5F0A1A34B8FFCE1E32C",
+      "ThemeVsixSha256": "6BDA86E6122DAF7BCE52B77A4121684121030A14930DEB3484F1459E07B1A4C0",
+      "InputsUnchanged": true,
+      "CompiledHelperSourceMatches": true,
+      "PackageInputsUnchanged": true,
+      "HelperCompileWarnings": 0,
+      "HelperCompileErrors": 0,
+      "ProcessId": 70324,
+      "RootSuffix": "ThemeApply69a0fb0a73",
+      "ExitedNormally": true,
+      "ForcedOwnedProcessCleanup": false,
+      "ActualHostPaletteRead": true,
+      "PhysicalHoverPerformed": false,
+      "PhysicalVisibilityVerified": false
+    },
+    {
+      "Year": "2019",
+      "Output": "artifacts\\task069theme\\actual-2019-v2",
+      "Succeeded": true,
+      "Passed": 53,
+      "Failed": 0,
+      "ExpectedDllSha256": "152A233C3183B1955548C5A15647D26A7994054D4747EF04A3A40EB5C8D6A558",
+      "ProductVsixSha256": "259FD3A204D496B5FB4A30C19CA2FC98C6009E63BF88FF9FB9178898A82C2302",
+      "ThemeVsixSha256": "83CB6A3E02475AF0C5271E2DA302854D4E7805BEF87BA504829525E09514CD8C",
+      "InputsUnchanged": true,
+      "CompiledHelperSourceMatches": true,
+      "PackageInputsUnchanged": true,
+      "HelperCompileWarnings": 0,
+      "HelperCompileErrors": 0,
+      "ProcessId": 76060,
+      "RootSuffix": "ThemeApply695c11eca5",
+      "ExitedNormally": true,
+      "ForcedOwnedProcessCleanup": false,
+      "ActualHostPaletteRead": true,
+      "PhysicalHoverPerformed": false,
+      "PhysicalVisibilityVerified": false
+    },
+    {
+      "Year": "2022",
+      "Output": "artifacts\\task069theme\\actual-2022-v1",
+      "Succeeded": true,
+      "Passed": 53,
+      "Failed": 0,
+      "ExpectedDllSha256": "E0379743D2040884C21D9854D2A472325D0210649D9D1867E59CC8FE3F900FD4",
+      "ProductVsixSha256": "51B40AF82984BE3B8A6E5ACABE45544FDDCAEAD2C05F095AD1E2E6ABE0C72A24",
+      "ThemeVsixSha256": "332120D9DB0E6640A4F0458FC16BF13C786ADAC2AA855C777A147DAADF43C4A9",
+      "InputsUnchanged": true,
+      "CompiledHelperSourceMatches": true,
+      "PackageInputsUnchanged": true,
+      "HelperCompileWarnings": 0,
+      "HelperCompileErrors": 0,
+      "ProcessId": 127256,
+      "RootSuffix": "ThemeApply69d9be0bcc",
+      "ExitedNormally": true,
+      "ForcedOwnedProcessCleanup": false,
+      "ActualHostPaletteRead": true,
+      "PhysicalHoverPerformed": false,
+      "PhysicalVisibilityVerified": false
+    }
+  ],
+  "PreservedFailures": [
+    "actual-2017-v1:49/51; six added XAML defaults; existing values unchanged",
+    "actual-2017-v3:49/51; same six additions",
+    "actual-2017-v2:helper compile Constants ambiguity; no IDE launch",
+    "actual-2017-v4:helper generic Task alias compile error; no IDE launch",
+    "actual-2019-v1:wrong caller VSIX filename; no IDE launch"
+  ],
+  "FixtureBaseline": "Official theme schema warmup restores original GUID; every preexisting value retained; strict subsequent count+all values assertions preserved",
+  "SdkMetadata": "artifacts/task069theme/sdk-keys-summary.json",
+  "FinalOwner": "Root: final 4-SKU build, actual IDE regression, audit, latest Release, publication, anonymous download hash",
+  "CheckedAt": "2026-10-20T22:37:52.1023844+09:00"
+}

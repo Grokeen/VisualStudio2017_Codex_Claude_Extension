@@ -10,11 +10,15 @@ update date  : 2026-10-18 CodexOrig : TASK-016 문서·모델·AI 협업과 실�
 update date  : 2026-10-18 CodexOrig : TASK-018 드롭다운·이미지 요구 및 기본14개 검사 반영.
                2026-10-19 CodexOrig : TASK-025 신규 UI·Markdown·안내 검사를 기본 묶음에 순차 연결.
                2026-10-20 CodexOrig : TASK068 독립 대화 검사에 고정 DLL·Assets와 새 출력 경로 전달.
+               2026-10-20 CodexOrig : TASK069 네 신규 검사와 후보 source/Assets 계약 연결.
+               2026-10-20 CodexOrig : TASK069 탭 복원의 실제 문서·팔레트 재사용 검사 연결.
+               2026-10-20 CodexOrig : TASK069 네 텍스트 첨부의 실제 wire 본문 검사 연결.
+               2026-10-20 CodexOrig : TASK069 디버깅 도우미 검사에 고정 DLL·Assets와 새 출력 경로 전달.
 -------------------------------------------------------------------------
 #>
 [CmdletBinding()]
 param(
-    [Parameter(Mandatory=$true)][ValidateSet('compatibility','build-entry','markdown','settings','workspace-actions','editing','foundation','experience','documents','collaboration','provider-options','provider-cli','scm-identity','image-requirements','image-followup','native-runtime','request-queue','file-artifacts','notification-content','concurrent-conversations','ide','live-codex')][string]$Suite,
+    [Parameter(Mandatory=$true)][ValidateSet('compatibility','build-entry','markdown','settings','workspace-actions','editing','foundation','experience','documents','collaboration','provider-options','provider-cli','scm-identity','image-requirements','image-followup','native-runtime','request-queue','file-artifacts','notification-content','concurrent-conversations','agent-messages','hang-boundaries','selected-options','line-endings','markdown-reuse','attachment-wire','debugging-helper','ide','live-codex')][string]$Suite,
     [string]$AssemblyPath,
     [string]$VsixPath,
     [string]$OutputDirectory,
@@ -47,14 +51,25 @@ try {
         'file-artifacts' { $scriptRelativePath = 'tests\task061\Test-ArtifactProduct.ps1'; $suiteArguments.AssemblyPath = $AssemblyPath; $suiteArguments.OutputDirectory = $OutputDirectory }
         'notification-content' { $scriptRelativePath = 'tests\task054\Test-NotificationContent.ps1'; $suiteArguments.AssemblyPath = $AssemblyPath; $suiteArguments.OutputDirectory = $OutputDirectory }
         'concurrent-conversations' { $scriptRelativePath = 'tests\task068concurrent\Test-ConcurrentRooms.ps1'; $suiteArguments.AssemblyPath = $AssemblyPath; $suiteArguments.OutputDirectory = $OutputDirectory }
+        'agent-messages' { $scriptRelativePath = 'tests\task069messages\Test-MessageCenter.ps1'; $suiteArguments.AssemblyPath = $AssemblyPath; $suiteArguments.OutputDirectory = $OutputDirectory }
+        'hang-boundaries' { $scriptRelativePath = 'tests\task069hang\Test-HangBoundaries.ps1'; $suiteArguments.AssemblyPath = $AssemblyPath; $suiteArguments.OutputDirectory = $OutputDirectory }
+        'selected-options' { $scriptRelativePath = 'tests\task069options\Test-SelectedOptions.ps1'; $suiteArguments.AssemblyPath = $AssemblyPath; $suiteArguments.OutputDirectory = $OutputDirectory }
+        'line-endings' { $scriptRelativePath = 'tests\task069\Test-LineEndings.ps1'; $suiteArguments.AssemblyPath = $AssemblyPath; $suiteArguments.OutputDirectory = $OutputDirectory }
+        'markdown-reuse' { $scriptRelativePath = 'tests\task069performance\Test-PreviewReuse.ps1'; $suiteArguments.AssemblyPath = $AssemblyPath; $suiteArguments.OutputDirectory = $OutputDirectory }
+        'attachment-wire' { $scriptRelativePath = 'tests\task069attachments\Test-AttachmentWire.ps1'; $suiteArguments.AssemblyPath = $AssemblyPath; $suiteArguments.OutputDirectory = $OutputDirectory }
+        'debugging-helper' { $scriptRelativePath = 'tests\task069debughelper\Test-DebuggingHelper.ps1'; $suiteArguments.AssemblyPath = $AssemblyPath; $suiteArguments.OutputDirectory = $OutputDirectory }
         'ide' { $scriptRelativePath = 'tests\ide\Test-IdeIntegration.ps1'; $suiteArguments.VsixPath = $VsixPath }
         'live-codex' { $scriptRelativePath = 'tests\review\Test-LiveChatContext.ps1'; $suiteArguments.AssemblyPath = $AssemblyPath; $suiteArguments.CodexPath = $CodexPath }
     }
-    if ($Suite -in @('request-queue','file-artifacts','concurrent-conversations')) {
+    if ($Suite -in @('request-queue','file-artifacts','concurrent-conversations','agent-messages','hang-boundaries','selected-options','markdown-reuse','attachment-wire','debugging-helper')) {
         $binaryFolder = [IO.DirectoryInfo]([IO.Path]::GetDirectoryName([IO.Path]::GetFullPath($AssemblyPath)))
         $skuFolder = $binaryFolder.Parent
         $exactAssets = Join-Path $skuFolder.Parent.FullName ('source/src/VS'+$skuFolder.Name+'.AIAssistant/obj/project.assets.json')
         $suiteArguments.AssetsPath = if (Test-Path -LiteralPath $exactAssets) { $exactAssets } else { Join-Path $launcherRoot 'src/VS2017.AIAssistant/obj/project.assets.json' }
+        if ($Suite -eq 'hang-boundaries') {
+            $candidateSource = Join-Path $skuFolder.Parent.FullName 'source'
+            $suiteArguments.ProductSourceRoot = if (Test-Path -LiteralPath $exactAssets) { $candidateSource } else { $launcherRoot }
+        }
     }
     $scriptFullPath = [IO.Path]::GetFullPath((Join-Path $launcherRoot $scriptRelativePath))
     if (!$scriptFullPath.StartsWith($launcherRoot.TrimEnd('\') + '\', [StringComparison]::OrdinalIgnoreCase)) { throw '검사 스크립트가 프로젝트 폴더를 벗어났습니다.' }

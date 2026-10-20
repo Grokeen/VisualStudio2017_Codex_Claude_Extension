@@ -1,0 +1,157 @@
+{
+  "Task": "TASK069 #12",
+  "Status": "C5 actual33/33 and top-level launcher33/33 pass, including nullable transform regression; final resource/PDF-only C6 candidate pending",
+  "Image": "MarkdownReport/image-75.png",
+  "ProductSource": "src/VS2017.AIAssistant/Views/MarkdownPreview.cs",
+  "ProductSourceSha256": "1D0BEFF33AA869BF0EE201CA91DEE3703563895C1CDEC59EFFBC041E9383C0F4",
+  "Baseline": {
+    "ProductSha256": "EDB57654F5D455C73DF2BCBBDC191206D06252A663A2D7DE059BE6184D94751E",
+    "ResultPath": "artifacts/task069performance/baseline-c3-2/result.json",
+    "ResultSha256": "CD94557D6FE648C38DD4E224F496EF9CDA858E5F5F9C30756E81CE26FB9C4AD6",
+    "Observations": [
+      {
+        "Scenario": "20-previews-5-loads",
+        "Loads": 100,
+        "DocumentReplacements": 100,
+        "ElapsedMilliseconds": 677.8432,
+        "ManagedAllocatedBytesCurrentThread": 95872040,
+        "ManagedAllocatorAvailable": true,
+        "HeapSizeDeltaBytes": 12674672,
+        "SameDocument": false,
+        "SameImage": false,
+        "SameImageSource": false,
+        "SelectedTextBefore": "xisting c",
+        "SelectedTextAfter": "",
+        "OffsetBefore": 40,
+        "OffsetAfter": 40
+      }
+    ]
+  },
+  "Candidate4": {
+    "ProductSha256": "E9B5192292C331A3E3F22861F572AFB2EE596674B26EE4AFC6F55C4BFD904D87",
+    "Passed": 32,
+    "Failed": 0,
+    "ResultPath": "artifacts/task069performance/candidate4-1/result.json",
+    "ResultSha256": "6BA856D4A861BE299D497E1D11A23EFDBE9760D2FD9FE24EB64412E49947768C",
+    "Observations": [
+      {
+        "Scenario": "20-previews-5-loads",
+        "Loads": 100,
+        "DocumentReplacements": 0,
+        "ElapsedMilliseconds": 0.5182,
+        "ManagedAllocatedBytesCurrentThread": 309272,
+        "ManagedAllocatorAvailable": true,
+        "HeapSizeDeltaBytes": 368640,
+        "SameDocument": true,
+        "SameImage": true,
+        "SameImageSource": true,
+        "SelectedTextBefore": "xisting c",
+        "SelectedTextAfter": "xisting c",
+        "OffsetBefore": 40,
+        "OffsetAfter": 40
+      }
+    ]
+  },
+  "NullTransformRegression": {
+    "Passed": 28,
+    "Failed": 1,
+    "ResultPath": "artifacts/task069performance/candidate4-null-transform-1/result.json",
+    "ResultSha256": "AA07FF35F1570FB9D21796421C45F36D5A00A1E3F2C8AE4EC3E1229429E7A66E",
+    "Cause": "Valid WPF SolidColorBrush Transform and RelativeTransform can be null; newly added fingerprint dereferenced Value. Source now maps null to Matrix.Identity.",
+    "SourceFixed": true,
+    "ActualFixedDllRechecked": true
+  },
+  "ExistingMarkdownSourceOnly": {
+    "Passed": 111,
+    "Failed": 0,
+    "Path": "artifacts/task069performance/source-markdown-nullguard-1/result.json"
+  },
+  "Launcher": {
+    "Defaults": 26,
+    "Optional": 2,
+    "SmokePassed": 50,
+    "SmokeFailed": 0,
+    "SmokePath": "artifacts/ls/0ec2c09f30/results.json",
+    "ExeSha256": "C00391E6021B73C74880E512FCDC491CA2AD97BE171928233A5EC718E016F7F0",
+    "AttachmentSuiteActual": {
+      "Passed": 120,
+      "Failed": 0,
+      "ProductSha256": "E9B5192292C331A3E3F22861F572AFB2EE596674B26EE4AFC6F55C4BFD904D87",
+      "ResultPath": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\tl\\be45a385a5\\attachment-wire\\result.json",
+      "ResultSha256": "C8BBE350A96DD09BD078272D55CED1F2150073EC26BC64E6FF18E60373A7B505",
+      "LogPath": "artifacts/task069performance/launcher-c4-attachment-1.log",
+      "TestedLauncherSha256": "5727B067D2B411DC054BDB6FD580433CF900A9452A91757DAF203915DB8FA4F8"
+    },
+    "DefaultReleaseVersion": "0.14.0",
+    "SourceRecords": [
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\tests\\launcher\\TestLauncher.cs",
+        "Sha256": "58203936DEC1143559BBA4C57E21C2F1F3D561130EB8454E68E70B0B80A5C569"
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\tests\\launcher\\Invoke-LauncherSuite.ps1",
+        "Sha256": "1CAC89B13272879C8DB1B19D51262A3F89594AF9BEBA28A70A80D274BC0B548E"
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\tests\\launcher\\Test-TestLauncher.ps1",
+        "Sha256": "3924FDA0848AE30436D0239E2FCDDFD442F32B6201D973866F19AA38A0AAE694"
+      }
+    ]
+  },
+  "Harness": [
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\tests\\task069performance\\PreviewPerformanceChecks.cs",
+      "Sha256": "A22234642A269D738EEE2EBDE48EF1CAE9283A821771F6EFE9B13D388006B0A4"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\tests\\task069performance\\Test-PreviewReuse.ps1",
+      "Sha256": "DFFAA45AD5D009D220640C977507729A3304DB79CBF3C71F58EFE250FF99E30D"
+    }
+  ],
+  "WindowShown": false,
+  "OsInputInjected": false,
+  "RemoteAiUsed": false,
+  "SharedBuildUsed": false,
+  "FinalActualDllTested": false,
+  "CheckedAt": "2026-10-20T22:52:11.0584920+09:00",
+  "Candidate5": {
+    "ProductSha256": "17E93831EF6CD71A7E20952F151CD9AD4174402B71625434BCB85E6D90E5561E",
+    "Passed": 33,
+    "Failed": 0,
+    "ResultPath": "artifacts/task069performance/candidate5-1/result.json",
+    "ResultSha256": "2CACF634E552D680C10D58B717F18C6D839BE77E1311ACFD578EDE5BE8EFC851",
+    "Observations": [
+      {
+        "Scenario": "20-previews-5-loads",
+        "Loads": 100,
+        "DocumentReplacements": 0,
+        "ElapsedMilliseconds": 1.0155,
+        "ManagedAllocatedBytesCurrentThread": 309272,
+        "ManagedAllocatorAvailable": true,
+        "HeapSizeDeltaBytes": 368640,
+        "SameDocument": true,
+        "SameImage": true,
+        "SameImageSource": true,
+        "SelectedTextBefore": "xisting c",
+        "SelectedTextAfter": "xisting c",
+        "OffsetBefore": 40,
+        "OffsetAfter": 40
+      }
+    ],
+    "Launcher": {
+      "Passed": 33,
+      "Failed": 0,
+      "ProductSha256": "17E93831EF6CD71A7E20952F151CD9AD4174402B71625434BCB85E6D90E5561E",
+      "ResultPath": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\tl\\dab0da93bb\\markdown-reuse\\result.json",
+      "ResultSha256": "7733CDF0DD3BF1A0FE2AC1EBC1CD23A1BDDB547D61EBC76D9BF85768FA6A7078",
+      "LauncherSha256": "C00391E6021B73C74880E512FCDC491CA2AD97BE171928233A5EC718E016F7F0",
+      "LogPath": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task069performance\\launcher-candidate5-reuse-1.log",
+      "LogSha256": "0D45D477144F09F315C463D5D93730B98DA95D8337DACBD01C9BF7B2F2F1A98A",
+      "ExitCode": 0
+    },
+    "LauncherSummaryPath": "artifacts/task069performance/launcher-candidate5-reuse-1.json",
+    "LauncherSummarySha256": "CBC3D6FEEAA271D636BB921EDEF9743DBEB8273CC3F361CF4039D1FE3FFB589A",
+    "ProductSourceMatchesWorking": true
+  },
+  "FinalC6ResourceCandidatePending": true
+}

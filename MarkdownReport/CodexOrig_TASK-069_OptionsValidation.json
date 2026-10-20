@@ -1,0 +1,148 @@
+{
+  "Task": "TASK-069 #2",
+  "Status": "TASK069 C3 options 86/86, current CLI schema20/20, frozen distribution CLI schema20/20, launcher40/40 and four new suites actual176/176 validated",
+  "Image": "MarkdownReport/image-69.png",
+  "RequestedModel": "gpt-6-luna",
+  "RequestedEffort": "high",
+  "ProductCandidate": "artifacts/task068/candidate6",
+  "ProductSha256": "BC7C35B7929D316A8F12DE333EBCEEDBB4AFE25D6DB92A5D8B644183CE14E4C5",
+  "BaselinePassed": 86,
+  "BaselineFailed": 0,
+  "ActualNativeExecutions": 8,
+  "ActualWireRows": 26,
+  "LocalSchemaFieldChecks": 20,
+  "LocalSchemaFieldFailures": 0,
+  "BaselineResultPath": "artifacts/task069options/baseline068c6-4/result.json",
+  "BaselineResultSha256": "5768F213D3E4818B88A51286DC0D6A62040F03A6BA5440046908069B72B2020B",
+  "SchemaEvidencePath": "artifacts/task069options/local-schema-1/validation-baseline068c6.json",
+  "SchemaEvidenceSha256": "2F7C267CA6B8F064D67519FAAB4238A66C0DE6A1FF14066FBA931624F87B5394",
+  "CliVersion": "0.163.0-alpha.10.2",
+  "CliSha256": "F6DBF48CB70F62649C645F26C87DC9BF84CC36986202DFAD8E12FB5B8CA70312",
+  "Sources": [
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\tests\\task069options\\OptionsChecks.cs",
+      "Sha256": "445A3BFEC59EAE282721455A4992C2BB62382734FC899C472C4F56FC176887E5"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\tests\\task069options\\OptionsRunner.cs",
+      "Sha256": "000512A408DB72DF560BCC62C9C645107492131A4DAA573E462BDF9CC7DBBA4B"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\tests\\task069options\\OptionsWireFixture.cs",
+      "Sha256": "3A265103780B3DAE6D5476B35579786FD580422A423FA7F5715BD0F9C1DD0B5A"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\tests\\task069options\\Test-ObservedSchema.ps1",
+      "Sha256": "5B4C4EF6A6CEF42752F5F42EEF6A837B14AC8BA5BB464AE8695DA4090259CA5F"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\tests\\task069options\\Test-SelectedOptions.ps1",
+      "Sha256": "9497A73C067B2207157FB8B0BF0FA81D83F0292C0963E2BA0C244279194AD91B"
+    }
+  ],
+  "RawInitialFailuresPreserved": [
+    "artifacts/task069options/baseline068c6-1",
+    "artifacts/task069options/baseline068c6-2",
+    "artifacts/task069options/baseline068c6-3"
+  ],
+  "ProductFilesModified": 0,
+  "WindowShown": false,
+  "PopupOpened": false,
+  "PhysicalPointerUsed": false,
+  "RemoteAiUsed": false,
+  "LoginAttempted": false,
+  "OwnedFixtureProcessesRemaining": 0,
+  "FinalCandidateTested": true,
+  "OfficialSources": [
+    "https://learn.chatgpt.com/docs/app-server",
+    "https://developers.openai.com/siwc/token-sharing-open-source/codex-app-server"
+  ],
+  "CheckedAt": "2026-10-20T22:26:12.5613109+09:00",
+  "Task069C3": {
+    "Candidate": "artifacts/task069/candidate3",
+    "ProductSha256": "EDB57654F5D455C73DF2BCBBDC191206D06252A663A2D7DE059BE6184D94751E",
+    "AssetsSha256": "B90AF315ADA4FAF4918863FE425FD214195DC9192BC6F37B7B521026046D859F",
+    "Passed": 86,
+    "Failed": 0,
+    "NativeCalls": 8,
+    "WireRows": 26,
+    "ResultPath": "artifacts/task069options/task069c3-1/result.json",
+    "ResultSha256": "7BE35A137B595F4E5157D64994725F02ABF1BAC5837E054B55D3E0B5E5AF79DA",
+    "SchemaChecks": 20,
+    "SchemaFailed": 0,
+    "SchemaResultPath": "artifacts/task069options/task069c3-1/local-schema-validation.json",
+    "SchemaResultSha256": "9DDB1307DF140BCC68A21FBAEE999B7A635BBD156FEBDCD5A30BF8DE574DFCBC"
+  },
+  "FrozenBundleSchema": {
+    "CliVersion": "codex-cli 0.163.0",
+    "CliSha256": "2692C8C7BB2CF8B0AEFE638741FC90236F4B824C59578CE84994F9DE58200993",
+    "FrozenManifestShaMatched": true,
+    "SchemaDirectory": "artifacts/task069options/bundle-schema-1",
+    "GenerationPath": "artifacts/task069options/bundle-schema-1/generation.json",
+    "GenerationSha256": "25037B674575EAC5DF65D22639C292A6CACCECE6A15724BB9E1DE789D996218A",
+    "Passed": 20,
+    "Failed": 0,
+    "ResultPath": "artifacts/task069options/task069c3-1/bundle-schema-validation.json",
+    "ResultSha256": "C4F162887444FF06C6C43555E56AE1C5C13FF5B144CA07AEF8955595FA9F148C",
+    "ProfilesCopied": false,
+    "LoginAttempted": false,
+    "InferenceInvoked": false
+  },
+  "Launcher": {
+    "Defaults": 24,
+    "Optional": 2,
+    "ExeSha256": "C5F9FD17A14C05803592CE903F9D1BC952D938252907DB2A6E73A3BDC450E981",
+    "SmokePassed": 40,
+    "SmokeFailed": 0,
+    "UiSkipped": true,
+    "SmokePath": "artifacts/ls/bcc3e682bb/results.json",
+    "SmokeSha256": "F2CF9D1C65C780949514C1A85A2DCCBC684529B2019F60C18117BBD21208B402",
+    "NewSuiteActualPassed": 176,
+    "NewSuiteActualFailed": 0,
+    "Results": [
+      {
+        "Suite": "agent-messages",
+        "Passed": 58,
+        "Failed": 0
+      },
+      {
+        "Suite": "hang-boundaries",
+        "Passed": 17,
+        "Failed": 0,
+        "FullProductUiTest": false
+      },
+      {
+        "Suite": "selected-options",
+        "Passed": 86,
+        "Failed": 0
+      },
+      {
+        "Suite": "line-endings",
+        "Passed": 15,
+        "Failed": 0
+      }
+    ],
+    "ActualSummaryPath": "artifacts/task069options/launcher-c3-new4/summary.json",
+    "ActualSummarySha256": "80D816F6CD394B59D1CE96055A2481E08E89999E8A1C73E83B29E434B135D808",
+    "ObservationsPath": "artifacts/task069options/launcher-c3-new4/observations.json",
+    "FailedSmokeEvidence": [
+      "artifacts/ls/a2bcb2a6ab",
+      "artifacts/ls/b25c82f71f"
+    ],
+    "InitialFailureCause": "EXE open by Root all20 run, then fake DirectoryInfo Parent cast precedence corrected in smoke only.",
+    "SourceRecords": [
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\tests\\launcher\\TestLauncher.cs",
+        "Sha256": "5A6199D6FAA0384985766FD68C42E9A18F38D35FCA520027E988B5EA6E67592E"
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\tests\\launcher\\Invoke-LauncherSuite.ps1",
+        "Sha256": "746945A0C86EBDB715754980447DE7AEF07E12EF1DDC9F78F0E112C0A7920BC9"
+      },
+      {
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\tests\\launcher\\Test-TestLauncher.ps1",
+        "Sha256": "F21DB2ED9B30190A632BD77B9EA4784D901A9B14A9FBD445EA79B5E9D5F8616B"
+      }
+    ]
+  }
+}

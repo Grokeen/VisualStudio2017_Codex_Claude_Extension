@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Web.Script.Serialization;
+using System.Threading;
 using VS2017.AIAssistant.Chat;
 
 /// ---------------------------------------------------------------------
@@ -13,6 +14,7 @@ using VS2017.AIAssistant.Chat;
 /// author       : CodexCode
 /// create date  : 2026-10-18
 /// update date  : 2026-10-18 CodexCode : 개인 설정 없이 독립 디렉터리에서 실패 경계 검증.
+///                2026-10-21 CodexOrig 보조 개발 055 : 실제 첫 복구 잠금 오류 뒤 해제·지속·외부 변경을 양 초기 상태에서 검사한다.
 /// </summary>
 /// ---------------------------------------------------------------------
 internal static class SettingsTransactionTests
@@ -27,6 +29,7 @@ internal static class SettingsTransactionTests
     /// author       : CodexCode
     /// create date  : 2026-10-18
     /// update date  : 2026-10-18 CodexCode : 실제 FileShare 잠금 및 결정적인 외부 파일 변경 사용.
+    ///                2026-10-21 CodexOrig 보조 개발 055 : 읽기 허용·금지 잠금의 유한 재시도를 원래 검사와 함께 실행한다.
     /// </summary>
     /// ---------------------------------------------------------------------
     private static int Main(string[] args)
@@ -105,6 +108,10 @@ internal static class SettingsTransactionTests
             finally { if (rollbackLock != null) rollbackLock.Dispose(); }
             Check(json.Load().CodexPath == settings.CodexPath && File.ReadAllBytes(workspace.InstructionsPath).SequenceEqual(beforeRules), "롤백 실패 후 실제 부분 저장 상태 확인");
             Check(!Directory.EnumerateFiles(root, "*.tmp").Any(), "롤백 실패 후 복구 임시 파일 정리");
+            foreach (bool existed in new[] { true, false })
+                foreach (string scenario in new[] { "release", "held", "external" }) RunRollbackRetryCase(existed, scenario);
+            foreach (bool existed in new[] { true, false })
+                foreach (string scenario in new[] { "release", "held" }) RunRollbackRetryCaseCore(existed, scenario, FileShare.None);
             byte[] largeOriginal = Enumerable.Repeat((byte)65, 65537).ToArray();
             File.WriteAllBytes(json.FilePath, largeOriginal);
             Throws<InvalidDataException>(() => AssistantSettingsTransaction.Save(json, workspace, settings), "64KB 초과 기존 JSON 스냅샷 거부");
@@ -121,6 +128,131 @@ internal static class SettingsTransactionTests
             Console.Error.WriteLine(error);
             File.WriteAllText(Path.Combine(root, "result.json"), new JavaScriptSerializer().Serialize(new { Passed = passed, Failed = 1, Error = error.ToString() }), Encoding.UTF8);
             return 1;
+        }
+    }
+
+    /// ---------------------------------------------------------------------
+    /// <summary>
+    /// name         : RunRollbackRetryCase
+    /// desc         : 첫 실제 sharing 오류를 관찰한 뒤만 잠금을 풀어 재시도와 외부 변경 보존을 검사한다.
+    /// author       : CodexOrig 보조 개발 055
+    /// create date  : 2026-10-21
+    /// update date  : 2026-10-21 CodexOrig : 제품 hook 없이 FirstChanceException으로 복구 호출의 native 오류를 실측한다.
+    /// </summary>
+    /// ---------------------------------------------------------------------
+    private static void RunRollbackRetryCase(bool existed, string scenario)
+    {
+        RunRollbackRetryCaseCore(existed, scenario, FileShare.Read);
+    }
+
+    /// ---------------------------------------------------------------------
+    /// <summary>
+    /// name         : RunRollbackRetryCaseCore
+    /// desc         : JSON 읽기 허용 여부와 무관하게 실제 첫 잠금 오류 후 복구·보존 경계를 검증한다.
+    /// author       : CodexOrig 보조 개발 055
+    /// create date  : 2026-10-21
+    /// update date  : 2026-10-21 CodexOrig : FileShare.None에서도 읽기 재검사가 제한 재시도 루프에 포함되는지 확인한다.
+    /// </summary>
+    /// ---------------------------------------------------------------------
+    private static void RunRollbackRetryCaseCore(bool existed, string scenario, FileShare lockShare)
+    {
+        string directory = Path.Combine(root, "retry-" + (existed ? "existing-" : "absent-") + scenario + (lockShare == FileShare.None ? "-exclusive" : ""));
+        Directory.CreateDirectory(directory);
+        var store = new AssistantSettingsStore(Path.Combine(directory, "settings.json"));
+        byte[] original = new UTF8Encoding(true).GetPreamble().Concat(Encoding.UTF8.GetBytes("{ \"FutureField\": 7, \"CodexPath\": \"original.exe\" }\r\n")).ToArray();
+        if (existed) File.WriteAllBytes(store.FilePath, original);
+        string markdown = Path.Combine(directory, "instructions.md"); File.WriteAllText(markdown, "원래 공통 규칙");
+        byte[] originalMarkdown = File.ReadAllBytes(markdown);
+        byte[] external = Encoding.UTF8.GetBytes("외부 writer의 원문 보존");
+        var settings = new AssistantSettings { CodexPath = "new-during-failure.exe", Instructions = "저장 실패 예정" };
+        var markdownError = new IOException("합성 Markdown 저장 경계 실패");
+        using (var firstFailure = new ManualResetEventSlim(false))
+        using (var finished = new ManualResetEventSlim(false))
+        {
+            int transactionThread = Thread.CurrentThread.ManagedThreadId, nativeFailures = 0, firstNativeCode = 0;
+            Exception workerError = null; FileStream targetLock = null; Thread worker = null;
+            EventHandler<System.Runtime.ExceptionServices.FirstChanceExceptionEventArgs> observer = (sender, args) => {
+                var error = args.Exception as IOException;
+                if (Thread.CurrentThread.ManagedThreadId != transactionThread || error == null) return;
+                int native = error.HResult & 0xffff;
+                if (!(native == 32 || native == 33 || native == 1175 || native == 1176 || native == 1224)) return;
+                var frames = new System.Diagnostics.StackTrace(false).GetFrames();
+                if (frames == null || !frames.Any(frame => frame.GetMethod().DeclaringType == typeof(AssistantSettingsTransaction) && (frame.GetMethod().Name == "RestoreSnapshot" || frame.GetMethod().Name == "SaveCore"))) return;
+                if (Interlocked.Increment(ref nativeFailures) == 1) firstNativeCode = native;
+                firstFailure.Set();
+            };
+            InvalidOperationException failure = null;
+            var elapsed = System.Diagnostics.Stopwatch.StartNew();
+            AppDomain.CurrentDomain.FirstChanceException += observer;
+            try
+            {
+                failure = Throws<InvalidOperationException>(() => InvokeCore(store, settings, () => {
+                    targetLock = new FileStream(store.FilePath, FileMode.Open, FileAccess.Read, lockShare);
+                    if (scenario != "held")
+                    {
+                        worker = new Thread(() => {
+                            try
+                            {
+                                if (!firstFailure.Wait(2000)) throw new TimeoutException("첫 실제 복구 sharing 오류를 관찰하지 못했습니다.");
+                                targetLock.Dispose();
+                                if (scenario == "external")
+                                {
+                                    using (var writer = new FileStream(store.FilePath, FileMode.Open, FileAccess.ReadWrite, FileShare.Read))
+                                    {
+                                        writer.SetLength(0); writer.Write(external, 0, external.Length); writer.Flush(true);
+                                    }
+                                    using (var preserved = new FileStream(store.FilePath, FileMode.Open, FileAccess.Read, FileShare.Read))
+                                    {
+                                        if (!finished.Wait(2000)) throw new TimeoutException("외부 변경 보존 판정이 끝나지 않았습니다.");
+                                    }
+                                }
+                            }
+                            catch (Exception error) { workerError = error; }
+                        }) { IsBackground = true };
+                        worker.Start();
+                    }
+                    throw markdownError;
+                }), "재시도 " + existed + "/" + scenario + " Markdown 실패 전달");
+            }
+            finally
+            {
+                elapsed.Stop(); AppDomain.CurrentDomain.FirstChanceException -= observer; finished.Set();
+                if (worker != null && !worker.Join(2500)) throw new TimeoutException("테스트 전용 파일 잠금 thread가 끝나지 않았습니다.");
+                if (targetLock != null) targetLock.Dispose();
+            }
+            Check(workerError == null && firstFailure.IsSet && nativeFailures >= 1, "재시도 " + existed + "/" + scenario + " 첫 sharing 오류 후에만 잠금 해제");
+            Check(File.ReadAllBytes(markdown).SequenceEqual(originalMarkdown), "재시도 " + existed + "/" + scenario + " Markdown 원문 유지");
+            Check(!Directory.EnumerateFiles(directory, "*.tmp").Any(), "재시도 " + existed + "/" + scenario + " 임시 rollback 파일 정리");
+            if (scenario == "release")
+            {
+                Check(failure.Message.Contains("원래 상태로 복구") && Object.ReferenceEquals(failure.InnerException, markdownError), "재시도 " + existed + " 일시 잠금 해제 뒤 원래 오류와 복구 성공 구분");
+                Check(existed ? File.ReadAllBytes(store.FilePath).SequenceEqual(original) : !File.Exists(store.FilePath), "재시도 " + existed + " BOM 포함 원문 또는 없음 상태 정확 복구");
+            }
+            else
+            {
+                var aggregate = failure.InnerException as AggregateException;
+                Check(failure.Message.Contains("일부만 저장") && aggregate != null && aggregate.InnerExceptions.Count == 2 && Object.ReferenceEquals(aggregate.InnerExceptions[0], markdownError), "재시도 " + existed + "/" + scenario + " 부분 저장과 두 실제 원인 보존");
+                if (scenario == "held")
+                {
+                    var rollback = aggregate.InnerExceptions[1] as IOException;
+                    Check(nativeFailures == 6 && elapsed.ElapsedMilliseconds >= 100 && elapsed.ElapsedMilliseconds < 2000,
+                        "재시도 " + existed + " 지속 잠금은 6회와 제한 대기 안에 종료");
+                    Check(rollback != null && rollback.InnerException is IOException && (rollback.InnerException.HResult & 0xffff) == firstNativeCode && rollback.Message.Contains("Win32 " + firstNativeCode) && rollback.Message.Contains("시도 6"),
+                        "재시도 " + existed + " 마지막 native 오류 코드와 시도 수 보존");
+                    Check(store.Load().CodexPath == settings.CodexPath, "재시도 " + existed + " 복구 불가 상태를 성공으로 보고하지 않음");
+                }
+                else
+                {
+                    Check(failure.Message.Contains("다른 작업") && File.ReadAllBytes(store.FilePath).SequenceEqual(external), "재시도 " + existed + " 대기 중 외부 writer 변경 덮어쓰기 거부");
+                }
+            }
+            File.WriteAllText(Path.Combine(directory, "retry-observation.json"), new JavaScriptSerializer().Serialize(new {
+                OriginalExisted = existed, Scenario = scenario, FirstNativeCode = firstNativeCode, NativeFailures = nativeFailures,
+                ElapsedMilliseconds = elapsed.Elapsed.TotalMilliseconds, Failure = failure.Message,
+                WorkerError = workerError == null ? null : workerError.ToString(), ActualFileShareLock = true,
+                FileShareMode = lockShare.ToString(),
+                FirstFailedAttemptObservedBeforeRelease = true, ProductTestHookUsed = false
+            }));
         }
     }
 

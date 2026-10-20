@@ -31,6 +31,8 @@ namespace VS2017.AIAssistant.Views
         private string verifiedScmAccount, scmDescription = "형상관리 로그인 확인 전 · Windows 사용자 이름 사용";
         private CancellationTokenSource scmCancellation;
         private bool scmLookupStarted, scmLookupCompleted;
+        private System.Windows.Threading.DispatcherTimer agentIdentityRetryTimer;
+        private int agentIdentityRetries;
 
         /// ---------------------------------------------------------------------
         /// <summary>
@@ -177,16 +179,70 @@ namespace VS2017.AIAssistant.Views
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : 별도 협업 저장소를 이름·역할의 단일 원본으로 사용.
         /// update date  : 2026-10-18 CodexCode : TASK-017 이미지 분석 기반 드롭다운·안내·대화 지정 흐름 개선.
+        ///                2026-10-20 CodexOrig : TASK069 보조 개발 UI 잠금 경합에만 현재 대화 표시를 지연 복구.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void RefreshAgentIdentity()
         {
-            if (!experienceReady || collaborationStore == null) return;
+            if (!experienceReady || collaborationStore == null || disposed) return;
             try {
                 var record = activeRecords[selectedProvider]; var agent = collaborationStore.EnsureAgent(record, verifiedScmAccount);
+                StopAgentIdentityRetry();
                 AgentButton.Content = "♙ AI 지정하여 대화 ⌄";
                 CurrentAgentLabel.Text = agent.Name; AgentButton.ToolTip = agent.Name + "\n" + agent.Team + "\n" + (agent.Role.Length == 0 ? "이름·역할·협업 참여자를 설정하세요." : agent.Role) + "\n" + scmDescription;
-            } catch (Exception error) { AgentButton.Content = "♙ AI 지정하여 대화 ⌄"; AgentButton.ToolTip = "담당자 저장 실패: " + error.Message; }
+            } catch (CollaborationBusyException error) {
+                AgentButton.Content = "♙ AI 지정하여 대화 ⌄"; AgentButton.ToolTip = error.Message;
+                ScheduleAgentIdentityRetry();
+            } catch (Exception error) { StopAgentIdentityRetry(); AgentButton.Content = "♙ AI 지정하여 대화 ⌄"; AgentButton.ToolTip = "담당자 저장 실패: " + error.Message; }
+        }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : ScheduleAgentIdentityRetry
+        /// desc         : 일시 잠금 경합 뒤 현재 선택 대화의 담당자 표시만 최대 20번 지연 확인한다.
+        /// author       : CodexOrig
+        /// create date  : 2026-10-20
+        /// update date  : 2026-10-20 CodexOrig : TASK069 보조 개발 단일 타이머·현재 주소·Dispose 경계 유지, 메시지 전송 재실행 없음.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        private void ScheduleAgentIdentityRetry()
+        {
+            if (disposed || !experienceReady || agentIdentityRetryTimer != null) return;
+            agentIdentityRetries = 0;
+            agentIdentityRetryTimer = new System.Windows.Threading.DispatcherTimer { Interval = TimeSpan.FromMilliseconds(250) };
+            agentIdentityRetryTimer.Tick += AgentIdentityRetryTick;
+            agentIdentityRetryTimer.Start();
+        }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : AgentIdentityRetryTick
+        /// desc         : 현재 대화 표시를 한 번 복구하고 종료·영구 오류·재시도 상한에서는 중단한다.
+        /// author       : CodexOrig
+        /// create date  : 2026-10-20
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        private void AgentIdentityRetryTick(object sender, EventArgs e)
+        {
+            if (disposed || !experienceReady || ++agentIdentityRetries > 20) { StopAgentIdentityRetry(); return; }
+            RefreshAgentIdentity();
+        }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : StopAgentIdentityRetry
+        /// desc         : 성공·종료 뒤 지연 표시 콜백과 타이머 참조를 해제한다.
+        /// author       : CodexOrig
+        /// create date  : 2026-10-20
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        private void StopAgentIdentityRetry()
+        {
+            if (agentIdentityRetryTimer == null) return;
+            agentIdentityRetryTimer.Stop();
+            agentIdentityRetryTimer.Tick -= AgentIdentityRetryTick;
+            agentIdentityRetryTimer = null;
+            agentIdentityRetries = 0;
         }
 
         /// ---------------------------------------------------------------------
@@ -199,6 +255,7 @@ namespace VS2017.AIAssistant.Views
         /// update date  : 2026-10-18 CodexCode : TASK-017 이미지 분석 기반 드롭다운·안내·대화 지정 흐름 개선.
         ///                2026-10-19 CodexOrig4 : 협업 안내 보조 텍스트를 동적 공통 팔레트로 통일.
         ///                2026-10-19 CodexOrig : 서로 다른 제공자의 같은 팀 대화도 명시적으로 선택할 수 있게 확장.
+        ///                2026-10-20 CodexOrig : TASK069 AI 직접 메시지센터 진입 버튼 연결.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void AgentClicked(object sender, RoutedEventArgs e)
@@ -232,6 +289,9 @@ namespace VS2017.AIAssistant.Views
                 var report = new Button { Content = "▤ 협업 기록", Margin = new Thickness(0, 0, 8, 0) };
                 report.Click += (s, a) => { try { collaborationStore.ExportMarkdown(agent.Team); var navigation = documents as ISourceNavigationService; if (navigation == null) throw new InvalidOperationException("편집기 연결 후 기록을 열 수 있습니다."); navigation.NavigateTo(collaborationStore.ReportPath, 1); } catch (Exception error) { dialog.Message.Text = error.Message; } };
                 dialog.Actions.Children.Insert(0, report); dialog.Actions.Children.Insert(0, save);
+                var messages = new Button { Content = "✉ AI 메시지센터", Margin = new Thickness(0, 0, 8, 0) };
+                messages.Click += (s, a) => { Dispatcher.VerifyAccess(); OpenMessageCenter("", null); };
+                dialog.Actions.Children.Insert(0, messages);
                 try { dialog.ShowDialog(); } finally { optionsDialog = null; }
             } catch (Exception error) { StatusLabel.Text = "AI 설정 실패: " + error.Message; }
         }

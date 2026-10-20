@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -66,6 +66,7 @@ namespace VS2017.AIAssistant.Providers
         /// author       : CodexOrig
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : TASK-020 네이티브 스트리밍·실제 파일 변경·전체 액세스 실행.
+        ///                2026-10-20 CodexOrig : TASK069 CLI 변경의 줄 끝을 정규화한 뒤 편집기에 동기화.
         /// </summary>
         /// ---------------------------------------------------------------------
         private async Task<AgentExecutionResult> ExecuteAsync(string executable, string directory, string prompt, ChatRequestContext context, Action<ProviderUsageSnapshot> onUsage, Action<AgentFileChange[]> onChanges, CancellationToken cancellation, Action<AgentProgress> progress)
@@ -160,7 +161,7 @@ namespace VS2017.AIAssistant.Providers
                         }
                         if (reply.Length == 0) reply = fallbackReply;
                         if (reply.Length == 0) throw new InvalidDataException("CLI가 최종 답변을 반환하지 않았습니다.");
-                        await Task.Run(() => tracker.Reconcile(files, deadline.Token), deadline.Token).ConfigureAwait(false);
+                        await Task.Run(() => tracker.Reconcile(files, deadline.Token, true), deadline.Token).ConfigureAwait(false);
                         if (onChanges != null) onChanges(files.Values.ToArray());
                         return new AgentExecutionResult { Text = reply, Changes = files.Values.ToArray(), Usage = usage };
                     }

@@ -22,6 +22,7 @@ namespace VS2017.AIAssistant.Views
     /// author       : CodexCode
     /// create date  : 2026-10-20
     /// update date  : 2026-10-20 CodexOrig : TASK054 통합, 보류 입력 상한과 예외·임시파일 정리 보완.
+    ///                2026-10-20 CodexCode : TASK069 실행 중 IDE에서 실패하는 직접 설치를 중단하고 전용 설치기 안내로 변경.
     /// </summary>
     /// ---------------------------------------------------------------------
     public partial class AssistantControl
@@ -38,6 +39,7 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexCode
         /// create date  : 2026-10-20
         /// update date  : 2026-10-20 CodexOrig : TASK054 통합 인수 및 예외·입력 경계 검증.
+        ///                2026-10-20 CodexCode : TASK069 IDE 종료 후 전용 오프라인 설치기 안내로 변경.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void InitializeIdeThemeInstallation()
@@ -51,13 +53,13 @@ namespace VS2017.AIAssistant.Views
                 Margin = new Thickness(0, 12, 0, 5)
             });
             section.Children.Add(new TextBlock {
-                Text = "설치 파일은 확장에 포함됩니다. 설치 관리자에서 완료한 뒤 Visual Studio를 다시 열면 선택한 테마가 적용됩니다.",
+                Text = "테마를 고른 뒤 전용 오프라인 설치기를 실행하고 Visual Studio를 닫으세요. 설치기가 현재 버전의 확장과 테마를 함께 설치합니다. Visual Studio를 다시 열면 선택한 테마가 적용됩니다.",
                 TextWrapping = TextWrapping.Wrap,
                 Margin = new Thickness(0, 0, 0, 8)
             });
             var actions = new WrapPanel();
-            actions.Children.Add(CreateIdeThemeInstallButton("Kakao 테마 설치·적용", "kakao"));
-            actions.Children.Add(CreateIdeThemeInstallButton("Dracula 테마 설치·적용", "dracula"));
+            actions.Children.Add(CreateIdeThemeInstallButton("Kakao 테마 선택", "kakao"));
+            actions.Children.Add(CreateIdeThemeInstallButton("Dracula 테마 선택", "dracula"));
             section.Children.Add(actions);
             ideThemeInstallStatus = new TextBlock {
                 TextWrapping = TextWrapping.Wrap,
@@ -85,7 +87,7 @@ namespace VS2017.AIAssistant.Views
                 Tag = theme,
                 Margin = new Thickness(0, 0, 8, 6),
                 MinHeight = 34,
-                ToolTip = "현재 Visual Studio 버전용 오프라인 VSIX 설치 관리자를 엽니다."
+                ToolTip = "테마 선택을 저장합니다. 설치되지 않았다면 전용 오프라인 설치기를 실행하세요."
             };
             button.SetResourceReference(StyleProperty, "AssistantActionButton");
             AutomationProperties.SetName(button, label);
@@ -96,10 +98,11 @@ namespace VS2017.AIAssistant.Views
         /// ---------------------------------------------------------------------
         /// <summary>
         /// name         : InstallIdeThemeClicked
-        /// desc         : 현재 IDE의 공식 설치 관리자를 열고 재시작 후 적용 선택을 인스턴스별 저장한다.
+        /// desc         : 실행 중 IDE에서 VSIX 설치를 시도하지 않고 재시작 후 적용 선택을 인스턴스별 저장한다.
         /// author       : CodexCode
         /// create date  : 2026-10-20
         /// update date  : 2026-10-20 CodexOrig : TASK054 통합 인수 및 예외·입력 경계 검증.
+        ///                2026-10-20 CodexCode : TASK069 실패하던 직접 VSIXInstaller 실행 대신 전용 설치기 사용 안내.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void InstallIdeThemeClicked(object sender, RoutedEventArgs args)
@@ -114,23 +117,14 @@ namespace VS2017.AIAssistant.Views
                 var dte = Package.GetGlobalService(typeof(DTE)) as DTE;
                 var year = SupportedIdeYear(dte == null ? null : dte.Version);
                 if (year == null) throw new InvalidOperationException("지원되는 Visual Studio 2017·2019·2022에서 실행해 주세요.");
-                var package = FindBundledIdeThemePackage(year);
-                var installer = Path.Combine(Path.GetDirectoryName(dte.FullName), "VSIXInstaller.exe");
-                if (!File.Exists(installer)) throw new FileNotFoundException("Visual Studio VSIX 설치 관리자를 찾을 수 없습니다.");
+                FindBundledIdeThemePackage(year);
                 var pending = PendingIdeThemePath(dte.RegistryRoot);
                 Directory.CreateDirectory(Path.GetDirectoryName(pending));
                 File.WriteAllText(pending, year + "|" + theme, new UTF8Encoding(false));
-                try
-                {
-                    System.Diagnostics.Process.Start(new ProcessStartInfo {
-                        FileName = installer,
-                        Arguments = "\"" + package.Replace("\"", "\\\"") + "\"",
-                        UseShellExecute = true
-                    });
-                }
-                catch { File.Delete(pending); throw; }
-                ideThemeInstallStatus.Text = "설치 관리자가 열렸습니다. 설치를 완료하고 Visual Studio를 다시 열면 " +
-                    (theme == "kakao" ? "Kakao" : "Dracula") + " 테마가 적용됩니다.";
+                var selected = theme == "kakao" ? "Kakao" : "Dracula";
+                ideThemeInstallStatus.Text = IsIdeThemeInstalled(dte.RegistryRoot, year)
+                    ? selected + " 선택을 저장했습니다. Visual Studio를 다시 열면 적용됩니다."
+                    : selected + " 선택을 저장했습니다. 배포 폴더의 Grokeen-AI-Theme-Offline-Installer 실행 파일을 열고 Visual Studio를 닫아 설치를 완료한 뒤 다시 열어 주세요.";
             }
             catch (Exception error) when (error is IOException || error is UnauthorizedAccessException || error is InvalidOperationException || error is System.ComponentModel.Win32Exception || error is ArgumentException || error is System.Runtime.InteropServices.COMException)
             {
