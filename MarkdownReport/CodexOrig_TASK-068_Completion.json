@@ -1,0 +1,44 @@
+{
+  "Task": "TASK-068",
+  "Agent": "CodexOrig",
+  "CompletedAt": "2026-10-20T14:41:00.2052474+09:00",
+  "ElapsedMinutes": 91.8,
+  "Version": "0.13.0",
+  "ReleaseUrl": "https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.13.0-preview.1",
+  "ReleaseId": 418041982,
+  "ReleaseTag": "v0.13.0-preview.1",
+  "ReleaseSourceCommit": "4fa59b7149bf0083e9dbc2451078444e1adc7336",
+  "AnonymousAssetsVerified": 13,
+  "BuildTargets": 4,
+  "BuildErrors": 0,
+  "BuildWarnings": 0,
+  "DefaultSuitesPassed": 20,
+  "ActualIdeChecksPassed": 628,
+  "ConcurrentChecksPassed": 120,
+  "InstallerBoundaryPassed": 35,
+  "NetworkDisabledChecksPassed": 6,
+  "UserDistribution": "UserDistribution/v0.13.0",
+  "UserDistributionFiles": 68,
+  "ChecksumPayloadFiles": 67,
+  "ProjectSourcesOrPdbIncluded": false,
+  "DeletedGithubAttachments": 30,
+  "DeletedLocalReleaseDirectories": 12,
+  "KeptVersions": [
+    "0.13.0",
+    "0.12.1"
+  ],
+  "ReleaseEntriesTagsAndDevelopmentEvidencePreserved": true,
+  "DeploymentPreservationFieldsDescribePreCleanupTime": true,
+  "WorkerMessages": [
+    "CodexOrig2 direct delivered",
+    "CodexOrig3 direct delivered",
+    "CodexOrig4 direct delivered",
+    "CodexOrig6 direct delivered",
+    "CodexCode shared WORK_STATUS; direct active-writer tool unavailable"
+  ],
+  "Excluded": [
+    "Claude login/live inference per user instruction",
+    "Customer VS2017 Professional15.7.1/offline PC installation",
+    "Actual physical pointer/keyboard focus"
+  ]
+}

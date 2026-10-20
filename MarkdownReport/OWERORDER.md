@@ -528,3 +528,10 @@ ChatMessage.Choices는 영어 선택 동사 choose/select와 which option을 단
 
 ### 2026-10-20 TASK068 CodexCode 담당 AI 재선택 경계
 방별 미승인 수정안은 담당 AI 이름을 다시 선택해도 같은 대화방이면 원본/비교 화면과 건너뛰기 버튼이 복원된다. 실제 C5 IDE에서 발견한 수정안 표시 소실·대기열 정체를 C6 소스 한 줄로 수정했고 새 동시 실행 fixture 120/120에서 재선택 후 건너뛰기·후속 CLI 실행·소스 미적용을 확인했다. C6 실제 IDE 및 배포 완료는 통합 담당 Root의 후속 검사 대상이다.
+
+## TASK068 / CodexOrig / 실제 공개·검증·승인 정리 완료 / 2026-10-20T14:41:00.2052474+09:00
+시작 2026-10-20 13:09:13 +09:00, 현재까지 91.8 분. 최종 C6 입력 138개 불변·네 SKU 빌드 오류/경고 0·기본 회귀 20/20·동시 대화 120/120·실제 IDE 각 157 총 628/628·설치 경계 35/35·최종 ZIP 통신 차단 CLI 6/6 완료. 독립 감사 A68-01~04 기술 게이트 통과. VS2019는 결과 보존 후 전용 RootSuffix/PID 확인 강제 정리, 다른 세 호스트는 정상 종료로 구분했다.
+실제 배포 https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.13.0-preview.1, Release ID 418041982, tag source 4fa59b7149bf0083e9dbc2451078444e1adc7336. 공개 첨부 13개를 인증 없이 재다운로드해 바이트/SHA 전부 일치 확인. FullOffline ZIP 311250542 bytes / SHA 5A2B01C884C97D8661FF251CE776357C2132879A219328C73DCBF87E94764E83. 프로젝트 최상위 UserDistribution/v0.13.0에 설치 필수 68개(전체 payload checksum 67개)만 정리, 프로젝트 소스/PDB/계정/테스트/개발 증거 제외. 기존 GitHub 소스 공개 방식 유지.
+게시·익명 검증 뒤 사용자 승인한 구버전 GitHub 첨부 30개와 로컬 releases 12개 디렉터리를 실제 삭제했다. 새 0.13.0과 직전 0.12.1 첨부 13개씩 및 로컬 폴더, 기존 release 항목·tag·Git 이력·개발 증거를 보존 확인. Deployment JSON의 구버전 자산 보존 true는 삭제 전 게시 검증 시점이며, 이후 정리 결과는 ReleaseCleanup JSON으로 구분한다. C5 부적합 원본은 별도 개발 증거로 보존했다.
+CodexOrig2·3·4·6에 실제 완료 링크와 '자기 파트 종료로 끝내지 않고 빌드·컴파일→최신 Release 제작→실제 게시→익명 다운로드 hash까지 마감' 사용자 지시를 직접 전달했다. CodexCode는 기존 active-writer 도구 오류로 직접 전달 수신을 주장하지 않으며, 이 공유 기록으로 최종 결과와 완료 기준을 전달한다. Code는 이 배포 제품을 추가 수정하지 말고, 후속 변경은 별도 버전/검사/배포 계획으로 협의 부탁한다. Claude 로그인/실제 AI와 고객 15.7.1·별도 오프라인 PC 실측은 미검증으로 유지한다.
+Root가 최종 증거·정리 삭제 목록을 추가 commit/push하여 기록을 마감한다.
