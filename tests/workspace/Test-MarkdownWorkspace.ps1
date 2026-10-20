@@ -6,6 +6,7 @@ desc         : 실제 저장 모델 소스만 독립 컴파일하여 공통 빌�
 author       : CodexCode
 create date  : 2026-10-18
 update date  : 2026-10-18 CodexCode : .NET Framework 4.6.2·C# 7.0 독립 저장 회귀 추가.
+               2026-10-20 CodexOrig : TASK068 확정 기록 인덱스 helper를 독립 소스 빌드에 포함.
 -------------------------------------------------------------------------
 #>
 [CmdletBinding()]
@@ -20,7 +21,7 @@ $null = New-Item -ItemType Directory -Path $outputDir -Force
 $frameworkDir = Join-Path ${env:ProgramFiles(x86)} 'Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.2'
 $testExe = Join-Path $outputDir 'MarkdownWorkspaceTests.exe'
 $compileArguments = @('/nologo', '/noconfig', '/nostdlib+', '/langversion:7.0', '/target:exe', ('/out:' + $testExe))
-foreach ($reference in @('mscorlib', 'System', 'System.Core', 'System.Web.Extensions', 'WindowsBase', 'PresentationCore', 'PresentationFramework', 'System.Xaml')) {
+foreach ($reference in @('mscorlib', 'System', 'System.Core', 'System.Web.Extensions', 'System.Xml', 'System.IO.Compression', 'System.IO.Compression.FileSystem', 'WindowsBase', 'PresentationCore', 'PresentationFramework', 'System.Xaml')) {
     $compileArguments += '/reference:' + (Join-Path $frameworkDir ($reference + '.dll'))
 }
 if ($AssemblyPath) {
@@ -31,6 +32,10 @@ if ($AssemblyPath) {
 else {
     $compileArguments += Join-Path $repositoryDir 'src\VS2017.AIAssistant\Chat\ChatWorkspace.cs'
     $compileArguments += Join-Path $repositoryDir 'src\VS2017.AIAssistant\Chat\MarkdownWorkspaceStore.cs'
+    $compileArguments += Join-Path $repositoryDir 'src\VS2017.AIAssistant\Chat\MarkdownWorkspaceStore.Committed.cs'
+    foreach ($source in @('MandatoryInstructionStore.cs', 'AssistantSettingsTransaction.cs', 'DocumentAttachmentReader.cs', 'DocumentWorkerLauncher.cs')) {
+        $compileArguments += Join-Path $repositoryDir ('src\VS2017.AIAssistant\Chat\' + $source)
+    }
 }
 $compileArguments += Join-Path $PSScriptRoot 'MarkdownWorkspaceTests.cs'
 & $CompilerPath @compileArguments

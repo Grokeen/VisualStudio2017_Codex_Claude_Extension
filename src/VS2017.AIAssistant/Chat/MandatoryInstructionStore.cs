@@ -13,6 +13,7 @@ namespace VS2017.AIAssistant.Chat
     /// create date  : 2026-10-18
     /// update date  : 2026-10-18 CodexCode : TASK-022 최초 생성·부재 복구·변조 안내·요청별 중복 없는 기본 규칙 제공.
     ///                2026-10-18 CodexCode : 최신 Role8의 협업 문장·원래 주석 예시·기존 내용 변경 금지 문안 반영.
+    ///                2026-10-20 CodexCode : 운영 프로젝트의 기존 패턴·최소 수정·감사 협업 규칙 추가.
     /// </summary>
     /// ---------------------------------------------------------------------
     public static class MandatoryInstructionStore
@@ -37,15 +38,19 @@ namespace VS2017.AIAssistant.Chat
             "/// </summary>\n" +
             "/// ---------------------------------------------------------------------\n" +
             "```\n" +
-            "- 유사한 주석이 있는 경우, 해당 방식으로 구조 변경. 기존 주석 내용은 수정 불가.";
+            "- 유사한 주석이 있는 경우, 해당 방식으로 구조 변경. 기존 주석 내용은 수정 불가.\n" +
+            "3. 연결된 프로젝트가 이미 운영중인 프로그램이거나 작업이 많이 진행된 프로젝트인 경우, 현재 프로젝트의 UI나 소스에서 사용하는 특유의 패턴이 있는지 확인하고 작업 진행한다.\n" +
+            "4. 연결된 프로젝트가 이미 운영중인 프로그램이거나 작업이 많이 진행된 프로젝트인 경우, 소스 수정을 최소화하여 작업한다.\n" +
+            "5. 작업이 완료된 경우, 요구사항에 맞게 작업이 됐는지 감사 담당자 AI 모델에게 검증 요청한다. 감사 담당자 AI가 없는 경우 사용자에게 AI 모델 추가를 요청한다.";
 
         /// ---------------------------------------------------------------------
         /// <summary>
         /// name         : DefaultInstructions
-        /// desc         : 관리 사본과 무관하게 컴파일에 동봉된 최신 Role8 기본 문안만 반환한다.
+        /// desc         : 관리 사본과 무관하게 컴파일에 동봉된 필수 기본 문안만 반환한다.
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : TASK-022 외부 파일 변조를 요청 규칙으로 승격하지 않는 기준값.
+        ///                2026-10-20 CodexCode : 기존 규칙 뒤에 운영 프로젝트·감사 문안을 추가.
         /// </summary>
         /// ---------------------------------------------------------------------
         public static string DefaultInstructions { get { return CanonicalInstructions; } }
@@ -70,10 +75,11 @@ namespace VS2017.AIAssistant.Chat
         /// ---------------------------------------------------------------------
         /// <summary>
         /// name         : Ensure
-        /// desc         : 공용 workspace의 관리 사본을 생성·복구하되 이미 있는 파일 내용은 덮지 않는다.
+        /// desc         : 공용 workspace의 관리 사본을 생성·복구하고 이전 공식 사본만 갱신한다.
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : TASK-022 기본 경로 API와 상세 안내 overload 분리.
+        ///                2026-10-20 CodexCode : 정확한 이전 공식 사본만 새 규칙으로 갱신.
         /// </summary>
         /// ---------------------------------------------------------------------
         public static string Ensure(string workspaceRoot)
@@ -82,10 +88,11 @@ namespace VS2017.AIAssistant.Chat
         /// ---------------------------------------------------------------------
         /// <summary>
         /// name         : Ensure
-        /// desc         : 사본이 변조·과대·읽기 불가이면 보존하고 내장 규칙 사용 안내를 반환한다.
+        /// desc         : 이전 공식 바이트만 갱신하며 변조·과대·읽기 불가 사본은 보존한다.
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : TASK-022 CreateNew 경쟁·유한 읽기·숨김 속성·reparse 경계 보호.
+        ///                2026-10-20 CodexCode : 이전 공식 바이트만 원자 교체하고 사용자 변경본 보존.
         /// </summary>
         /// ---------------------------------------------------------------------
         public static string Ensure(string workspaceRoot, out string notice)
@@ -115,6 +122,7 @@ namespace VS2017.AIAssistant.Chat
                 {
                     try
                     {
+                        if (IsPreviousOfficialCopy(path)) ReplacePreviousOfficialCopy(path);
                         if (!String.Equals(ReadCopy(path), CanonicalInstructions, StringComparison.Ordinal))
                             notice = "필수 규칙 관리 사본의 내용이 기본값과 다릅니다. 파일은 보존했으며 요청에는 내장 기본 규칙을 사용합니다.";
                     }
@@ -123,6 +131,49 @@ namespace VS2017.AIAssistant.Chat
                 }
                 return path;
             }
+        }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : IsPreviousOfficialCopy
+        /// desc         : 규칙 1~2가 담긴 공식 UTF-8 바이트와 완전히 같은 사본만 구분한다.
+        /// author       : CodexCode
+        /// create date  : 2026-10-20
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        private static bool IsPreviousOfficialCopy(string path)
+        {
+            int boundary = CanonicalInstructions.IndexOf("\n3. ", StringComparison.Ordinal);
+            if (boundary < 0) return false;
+            byte[] original = new UTF8Encoding(false).GetBytes(CanonicalInstructions.Substring(0, boundary));
+            using (var input = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete))
+            {
+                if (input.Length != original.Length) return false;
+                var actual = new byte[original.Length]; int read = 0, count;
+                while (read < actual.Length && (count = input.Read(actual, read, actual.Length - read)) > 0) read += count;
+                return read == original.Length && input.ReadByte() < 0 && actual.SequenceEqual(original);
+            }
+        }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : ReplacePreviousOfficialCopy
+        /// desc         : 공식 구버전 관리 사본을 같은 폴더의 임시 파일로 원자 교체한다.
+        /// author       : CodexCode
+        /// create date  : 2026-10-20
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        private static void ReplacePreviousOfficialCopy(string path)
+        {
+            string temporary = path + "." + Guid.NewGuid().ToString("N") + ".tmp";
+            try
+            {
+                File.WriteAllText(temporary, CanonicalInstructions, new UTF8Encoding(false));
+                File.SetAttributes(temporary, File.GetAttributes(temporary) | FileAttributes.Hidden);
+                if (!IsPreviousOfficialCopy(path)) return;
+                File.Replace(temporary, path, null);
+            }
+            finally { if (File.Exists(temporary)) File.Delete(temporary); }
         }
 
         /// ---------------------------------------------------------------------

@@ -1,0 +1,41 @@
+{
+  "status": "successful C2 actual-control render scenes for documentation",
+  "dllSha256": "804DF1D5D33775468D7D2FAA461C5E84028F32D255AE13052C20B5B31116962F",
+  "sourceHashManifestSha256": "B2D4FBE08E24364F848E4C54987DD9432D284637F3F35D3772E93208194B023D",
+  "projectAssetsSha256": "82B1DAA2BF406E020A58E58DDE34E6FAE63DF8EFC8CB9A81CAB6F3378E4E9FE0",
+  "capture": "Offscreen WPF RenderTargetBitmap; no Window shown, no OS input, no IDE screenshot",
+  "sourceImages": [
+    {
+      "name": "choice-dark-narrow-320.png",
+      "width": 340,
+      "height": 760,
+      "bytes": 36472,
+      "sha256": "6E57423D11B472DA0285FCF8264E78C43B9423EE064EC8675D6F91234144440D",
+      "source": "assistant-dark-320-choices.png"
+    },
+    {
+      "name": "choice-light-narrow-320.png",
+      "width": 340,
+      "height": 760,
+      "bytes": 36839,
+      "sha256": "4C698C5C99456D72979C71F8756734BF0803E47F4626AC6CF456B3FE2F734936",
+      "source": "assistant-light-320-choices.png"
+    },
+    {
+      "name": "history-open-dark-narrow-320.png",
+      "width": 340,
+      "height": 760,
+      "bytes": 22156,
+      "sha256": "5A9E547D9E331318329D1380E42273042CCD6B63B3175A26E08D76E5C48330D7",
+      "source": "assistant-dark-320-history-open.png"
+    },
+    {
+      "name": "history-closed-dark-narrow-320.png",
+      "width": 340,
+      "height": 760,
+      "bytes": 40516,
+      "sha256": "6AA199A12480B3A082EF06AFC08C11EE51A0F71C15E837610956DF77BF0D745B",
+      "source": "assistant-dark-320-history-closed.png"
+    }
+  ]
+}

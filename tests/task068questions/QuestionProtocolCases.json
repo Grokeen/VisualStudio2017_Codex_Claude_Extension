@@ -1,0 +1,355 @@
+{
+  "Status": "Proposed contract fixtures only; not product implementation or executed product tests",
+  "SchemaVersion": 1,
+  "EnvelopeToken": "ask_user",
+  "MaximumPayloadCharacters": 3500,
+  "QuestionCountRange": [
+    1,
+    3
+  ],
+  "OptionCountRange": [
+    2,
+    5
+  ],
+  "ParserCases": [
+    {
+      "Id": "valid_single",
+      "SourceRole": "assistant",
+      "RawText": "```ask_user\n{\"version\":1,\"questions\":[{\"id\":\"environment\",\"prompt\":\"어떤 테스트 환경을 사용할까요?\",\"options\":[{\"id\":\"local\",\"label\":\"로컬 시험 환경\",\"description\":\"현재 PC의 격리된 데이터로 확인합니다.\"},{\"id\":\"customer\",\"label\":\"별도 시험 PC\",\"description\":\"대상 PC에서 설치 결과를 확인합니다.\"}]}]}\n```",
+      "ExpectedQuestionCount": 1,
+      "PreserveRawOnRejection": true,
+      "Reason": "단일 최종 assistant 질문 envelope"
+    },
+    {
+      "Id": "valid_crlf",
+      "SourceRole": "assistant",
+      "RawText": "```ask_user\r\n{\"version\":1,\"questions\":[{\"id\":\"environment\",\"prompt\":\"어떤 테스트 환경을 사용할까요?\",\"options\":[{\"id\":\"local\",\"label\":\"로컬 시험 환경\",\"description\":\"현재 PC의 격리된 데이터로 확인합니다.\"},{\"id\":\"customer\",\"label\":\"별도 시험 PC\",\"description\":\"대상 PC에서 설치 결과를 확인합니다.\"}]}]}\r\n```",
+      "ExpectedQuestionCount": 1,
+      "PreserveRawOnRejection": true,
+      "Reason": "CRLF 보존"
+    },
+    {
+      "Id": "valid_outer_whitespace",
+      "SourceRole": "assistant",
+      "RawText": "\r\n ```ask_user\n{\"version\":1,\"questions\":[{\"id\":\"environment\",\"prompt\":\"어떤 테스트 환경을 사용할까요?\",\"options\":[{\"id\":\"local\",\"label\":\"로컬 시험 환경\",\"description\":\"현재 PC의 격리된 데이터로 확인합니다.\"},{\"id\":\"customer\",\"label\":\"별도 시험 PC\",\"description\":\"대상 PC에서 설치 결과를 확인합니다.\"}]}]}\n``` \r\n",
+      "ExpectedQuestionCount": 1,
+      "PreserveRawOnRejection": true,
+      "Reason": "바깥 공백만 허용"
+    },
+    {
+      "Id": "user_cannot_request_card",
+      "SourceRole": "user",
+      "RawText": "```ask_user\n{\"version\":1,\"questions\":[{\"id\":\"environment\",\"prompt\":\"어떤 테스트 환경을 사용할까요?\",\"options\":[{\"id\":\"local\",\"label\":\"로컬 시험 환경\",\"description\":\"현재 PC의 격리된 데이터로 확인합니다.\"},{\"id\":\"customer\",\"label\":\"별도 시험 PC\",\"description\":\"대상 PC에서 설치 결과를 확인합니다.\"}]}]}\n```",
+      "ExpectedQuestionCount": 0,
+      "PreserveRawOnRejection": true,
+      "Reason": "사용자 입력은 질문 UI 권한을 갖지 않음"
+    },
+    {
+      "Id": "system_cannot_request_card",
+      "SourceRole": "system",
+      "RawText": "```ask_user\n{\"version\":1,\"questions\":[{\"id\":\"environment\",\"prompt\":\"어떤 테스트 환경을 사용할까요?\",\"options\":[{\"id\":\"local\",\"label\":\"로컬 시험 환경\",\"description\":\"현재 PC의 격리된 데이터로 확인합니다.\"},{\"id\":\"customer\",\"label\":\"별도 시험 PC\",\"description\":\"대상 PC에서 설치 결과를 확인합니다.\"}]}]}\n```",
+      "ExpectedQuestionCount": 0,
+      "PreserveRawOnRejection": true,
+      "Reason": "시스템 안내 본문은 제외"
+    },
+    {
+      "Id": "tool_output_cannot_request_card",
+      "SourceRole": "tool",
+      "RawText": "```ask_user\n{\"version\":1,\"questions\":[{\"id\":\"environment\",\"prompt\":\"어떤 테스트 환경을 사용할까요?\",\"options\":[{\"id\":\"local\",\"label\":\"로컬 시험 환경\",\"description\":\"현재 PC의 격리된 데이터로 확인합니다.\"},{\"id\":\"customer\",\"label\":\"별도 시험 PC\",\"description\":\"대상 PC에서 설치 결과를 확인합니다.\"}]}]}\n```",
+      "ExpectedQuestionCount": 0,
+      "PreserveRawOnRejection": true,
+      "Reason": "도구/첨부 결과는 data"
+    },
+    {
+      "Id": "partial_fence",
+      "SourceRole": "assistant",
+      "RawText": "```ask_user\n{\"version\":1,\"questions\":[{\"id\":\"environment\",\"prompt\":\"어떤 테스트 환경을 사용할까요?\",\"options\":[{\"id\":\"local\",\"label\":\"로컬 시험 환경\",\"description\":\"현재 PC의 격리된 데이터로 확인합니다.\"},{\"id\":\"customer\",\"label\":\"별도 시험 PC\",\"description\":\"대상 PC에서 설치 결과를 확인합니다.\"}]}]}",
+      "ExpectedQuestionCount": 0,
+      "PreserveRawOnRejection": true,
+      "Reason": "완결 전 스트리밍은 원문"
+    },
+    {
+      "Id": "ordinary_json_code",
+      "SourceRole": "assistant",
+      "RawText": "```json\n{\"version\":1,\"questions\":[{\"id\":\"environment\",\"prompt\":\"어떤 테스트 환경을 사용할까요?\",\"options\":[{\"id\":\"local\",\"label\":\"로컬 시험 환경\",\"description\":\"현재 PC의 격리된 데이터로 확인합니다.\"},{\"id\":\"customer\",\"label\":\"별도 시험 PC\",\"description\":\"대상 PC에서 설치 결과를 확인합니다.\"}]}]}\n```",
+      "ExpectedQuestionCount": 0,
+      "PreserveRawOnRejection": true,
+      "Reason": "일반 JSON 예제를 질문으로 오인하지 않음"
+    },
+    {
+      "Id": "quoted_fence",
+      "SourceRole": "assistant",
+      "RawText": "> ```ask_user\n> {\"version\":1,\"questions\":[{\"id\":\"environment\",\"prompt\":\"어떤 테스트 환경을 사용할까요?\",\"options\":[{\"id\":\"local\",\"label\":\"로컬 시험 환경\",\"description\":\"현재 PC의 격리된 데이터로 확인합니다.\"},{\"id\":\"customer\",\"label\":\"별도 시험 PC\",\"description\":\"대상 PC에서 설치 결과를 확인합니다.\"}]}]}\n> ```",
+      "ExpectedQuestionCount": 0,
+      "PreserveRawOnRejection": true,
+      "Reason": "인용 내용은 질문 카드 아님"
+    },
+    {
+      "Id": "nested_markdown_example",
+      "SourceRole": "assistant",
+      "RawText": "````markdown\n```ask_user\n{\"version\":1,\"questions\":[{\"id\":\"environment\",\"prompt\":\"어떤 테스트 환경을 사용할까요?\",\"options\":[{\"id\":\"local\",\"label\":\"로컬 시험 환경\",\"description\":\"현재 PC의 격리된 데이터로 확인합니다.\"},{\"id\":\"customer\",\"label\":\"별도 시험 PC\",\"description\":\"대상 PC에서 설치 결과를 확인합니다.\"}]}]}\n```\n````",
+      "ExpectedQuestionCount": 0,
+      "PreserveRawOnRejection": true,
+      "Reason": "다른 fence 내부 예제"
+    },
+    {
+      "Id": "surrounding_explanation_rejected",
+      "SourceRole": "assistant",
+      "RawText": "예시입니다.\n```ask_user\n{\"version\":1,\"questions\":[{\"id\":\"environment\",\"prompt\":\"어떤 테스트 환경을 사용할까요?\",\"options\":[{\"id\":\"local\",\"label\":\"로컬 시험 환경\",\"description\":\"현재 PC의 격리된 데이터로 확인합니다.\"},{\"id\":\"customer\",\"label\":\"별도 시험 PC\",\"description\":\"대상 PC에서 설치 결과를 확인합니다.\"}]}]}\n```",
+      "ExpectedQuestionCount": 0,
+      "PreserveRawOnRejection": true,
+      "Reason": "전체 assistant 메시지 계약"
+    },
+    {
+      "Id": "two_question_envelopes",
+      "SourceRole": "assistant",
+      "RawText": "```ask_user\n{\"version\":1,\"questions\":[{\"id\":\"environment\",\"prompt\":\"어떤 테스트 환경을 사용할까요?\",\"options\":[{\"id\":\"local\",\"label\":\"로컬 시험 환경\",\"description\":\"현재 PC의 격리된 데이터로 확인합니다.\"},{\"id\":\"customer\",\"label\":\"별도 시험 PC\",\"description\":\"대상 PC에서 설치 결과를 확인합니다.\"}]}]}\n```\n```ask_user\n{\"version\":1,\"questions\":[{\"id\":\"environment\",\"prompt\":\"어떤 테스트 환경을 사용할까요?\",\"options\":[{\"id\":\"local\",\"label\":\"로컬 시험 환경\",\"description\":\"현재 PC의 격리된 데이터로 확인합니다.\"},{\"id\":\"customer\",\"label\":\"별도 시험 PC\",\"description\":\"대상 PC에서 설치 결과를 확인합니다.\"}]}]}\n```",
+      "ExpectedQuestionCount": 0,
+      "PreserveRawOnRejection": true,
+      "Reason": "명확한 batch 하나만"
+    },
+    {
+      "Id": "malformed_json",
+      "SourceRole": "assistant",
+      "RawText": "```ask_user\n{\"version\":1,\"questions\":[\n```",
+      "ExpectedQuestionCount": 0,
+      "PreserveRawOnRejection": true,
+      "Reason": "파싱 실패는 원문 유지"
+    },
+    {
+      "Id": "wrong_version",
+      "SourceRole": "assistant",
+      "RawText": "```ask_user\n{\"version\":2,\"questions\":[{\"id\":\"environment\",\"prompt\":\"어떤 테스트 환경을 사용할까요?\",\"options\":[{\"id\":\"local\",\"label\":\"로컬 시험 환경\",\"description\":\"현재 PC의 격리된 데이터로 확인합니다.\"},{\"id\":\"customer\",\"label\":\"별도 시험 PC\",\"description\":\"대상 PC에서 설치 결과를 확인합니다.\"}]}]}\n```",
+      "ExpectedQuestionCount": 0,
+      "PreserveRawOnRejection": true,
+      "Reason": "지원 version만"
+    },
+    {
+      "Id": "string_version",
+      "SourceRole": "assistant",
+      "RawText": "```ask_user\n{\"version\":\"1\",\"questions\":[{\"id\":\"environment\",\"prompt\":\"어떤 테스트 환경을 사용할까요?\",\"options\":[{\"id\":\"local\",\"label\":\"로컬 시험 환경\",\"description\":\"현재 PC의 격리된 데이터로 확인합니다.\"},{\"id\":\"customer\",\"label\":\"별도 시험 PC\",\"description\":\"대상 PC에서 설치 결과를 확인합니다.\"}]}]}\n```",
+      "ExpectedQuestionCount": 0,
+      "PreserveRawOnRejection": true,
+      "Reason": "타입 coercion 금지"
+    },
+    {
+      "Id": "unknown_command_field",
+      "SourceRole": "assistant",
+      "RawText": "```ask_user\n{\"version\":1,\"command\":\"powershell -Command echo bad\",\"questions\":[{\"id\":\"environment\",\"prompt\":\"어떤 테스트 환경을 사용할까요?\",\"options\":[{\"id\":\"local\",\"label\":\"로컬 시험 환경\",\"description\":\"현재 PC의 격리된 데이터로 확인합니다.\"},{\"id\":\"customer\",\"label\":\"별도 시험 PC\",\"description\":\"대상 PC에서 설치 결과를 확인합니다.\"}]}]}\n```",
+      "ExpectedQuestionCount": 0,
+      "PreserveRawOnRejection": true,
+      "Reason": "질문을 명령 protocol로 승격하지 않음"
+    },
+    {
+      "Id": "default_option_not_supported",
+      "SourceRole": "assistant",
+      "RawText": "```ask_user\n{\"version\":1,\"default\":\"local\",\"questions\":[{\"id\":\"environment\",\"prompt\":\"어떤 테스트 환경을 사용할까요?\",\"options\":[{\"id\":\"local\",\"label\":\"로컬 시험 환경\",\"description\":\"현재 PC의 격리된 데이터로 확인합니다.\"},{\"id\":\"customer\",\"label\":\"별도 시험 PC\",\"description\":\"대상 PC에서 설치 결과를 확인합니다.\"}]}]}\n```",
+      "ExpectedQuestionCount": 0,
+      "PreserveRawOnRejection": true,
+      "Reason": "기본 선택 없음"
+    },
+    {
+      "Id": "duplicate_json_key",
+      "SourceRole": "assistant",
+      "RawText": "```ask_user\n{\"version\":1,\"version\":1,\"questions\":[{\"id\":\"environment\",\"prompt\":\"어떤 테스트 환경을 사용할까요?\",\"options\":[{\"id\":\"local\",\"label\":\"로컬 시험 환경\",\"description\":\"현재 PC의 격리된 데이터로 확인합니다.\"},{\"id\":\"customer\",\"label\":\"별도 시험 PC\",\"description\":\"대상 PC에서 설치 결과를 확인합니다.\"}]}]}\n```",
+      "ExpectedQuestionCount": 0,
+      "PreserveRawOnRejection": true,
+      "Reason": "중복 JSON key를 조용히 덮지 않음"
+    },
+    {
+      "Id": "unicode_duplicate_json_key",
+      "SourceRole": "assistant",
+      "RawText": "```ask_user\n{\"version\":1,\"\\u0076ersion\":1,\"questions\":[{\"id\":\"environment\",\"prompt\":\"어떤 테스트 환경을 사용할까요?\",\"options\":[{\"id\":\"local\",\"label\":\"로컬 시험 환경\",\"description\":\"현재 PC의 격리된 데이터로 확인합니다.\"},{\"id\":\"customer\",\"label\":\"별도 시험 PC\",\"description\":\"대상 PC에서 설치 결과를 확인합니다.\"}]}]}\n```",
+      "ExpectedQuestionCount": 0,
+      "PreserveRawOnRejection": true,
+      "Reason": "escape된 동등 key 중복 거부"
+    },
+    {
+      "Id": "duplicate_option_id",
+      "SourceRole": "assistant",
+      "RawText": "```ask_user\n{\"version\":1,\"questions\":[{\"id\":\"environment\",\"prompt\":\"어떤 테스트 환경을 사용할까요?\",\"options\":[{\"id\":\"local\",\"label\":\"로컬 시험 환경\",\"description\":\"현재 PC의 격리된 데이터로 확인합니다.\"},{\"id\":\"local\",\"label\":\"별도 시험 PC\",\"description\":\"대상 PC에서 설치 결과를 확인합니다.\"}]}]}\n```",
+      "ExpectedQuestionCount": 0,
+      "PreserveRawOnRejection": true,
+      "Reason": "동일 질문 내 option ID 고유"
+    },
+    {
+      "Id": "unsafe_question_id",
+      "SourceRole": "assistant",
+      "RawText": "```ask_user\n{\"version\":1,\"questions\":[{\"id\":\"../../other\",\"prompt\":\"어떤 테스트 환경을 사용할까요?\",\"options\":[{\"id\":\"local\",\"label\":\"로컬 시험 환경\",\"description\":\"현재 PC의 격리된 데이터로 확인합니다.\"},{\"id\":\"customer\",\"label\":\"별도 시험 PC\",\"description\":\"대상 PC에서 설치 결과를 확인합니다.\"}]}]}\n```",
+      "ExpectedQuestionCount": 0,
+      "PreserveRawOnRejection": true,
+      "Reason": "ID는 경로/URL 아님"
+    },
+    {
+      "Id": "empty_question_prompt",
+      "SourceRole": "assistant",
+      "RawText": "```ask_user\n{\"version\":1,\"questions\":[{\"id\":\"environment\",\"prompt\":\"\",\"options\":[{\"id\":\"local\",\"label\":\"로컬 시험 환경\",\"description\":\"현재 PC의 격리된 데이터로 확인합니다.\"},{\"id\":\"customer\",\"label\":\"별도 시험 PC\",\"description\":\"대상 PC에서 설치 결과를 확인합니다.\"}]}]}\n```",
+      "ExpectedQuestionCount": 0,
+      "PreserveRawOnRejection": true,
+      "Reason": "질문 본문 필수"
+    },
+    {
+      "Id": "no_options",
+      "SourceRole": "assistant",
+      "RawText": "```ask_user\n{\"version\":1,\"questions\":[{\"id\":\"environment\",\"prompt\":\"질문\",\"options\":[]}]}\n```",
+      "ExpectedQuestionCount": 0,
+      "PreserveRawOnRejection": true,
+      "Reason": "선택지는 2개 이상"
+    },
+    {
+      "Id": "one_option",
+      "SourceRole": "assistant",
+      "RawText": "```ask_user\n{\"version\":1,\"questions\":[{\"id\":\"environment\",\"prompt\":\"질문\",\"options\":[{\"id\":\"only\",\"label\":\"유일\"}]}]}\n```",
+      "ExpectedQuestionCount": 0,
+      "PreserveRawOnRejection": true,
+      "Reason": "단일 선택 강요 없음"
+    },
+    {
+      "Id": "null_label",
+      "SourceRole": "assistant",
+      "RawText": "```ask_user\n{\"version\":1,\"questions\":[{\"id\":\"environment\",\"prompt\":\"어떤 테스트 환경을 사용할까요?\",\"options\":[{\"id\":\"local\",\"label\":null,\"description\":\"현재 PC의 격리된 데이터로 확인합니다.\"},{\"id\":\"customer\",\"label\":\"별도 시험 PC\",\"description\":\"대상 PC에서 설치 결과를 확인합니다.\"}]}]}\n```",
+      "ExpectedQuestionCount": 0,
+      "PreserveRawOnRejection": true,
+      "Reason": "필수 label 문자열 타입"
+    },
+    {
+      "Id": "html_label_is_literal",
+      "SourceRole": "assistant",
+      "RawText": "```ask_user\n{\"version\":1,\"questions\":[{\"id\":\"environment\",\"prompt\":\"어떤 테스트 환경을 사용할까요?\",\"options\":[{\"id\":\"local\",\"label\":\"<img src=https://example.invalid/pixel>\",\"description\":\"현재 PC의 격리된 데이터로 확인합니다.\"},{\"id\":\"customer\",\"label\":\"별도 시험 PC\",\"description\":\"대상 PC에서 설치 결과를 확인합니다.\"}]}]}\n```",
+      "ExpectedQuestionCount": 1,
+      "PreserveRawOnRejection": true,
+      "Reason": "WPF plain text로 표시·외부 요청 없음"
+    },
+    {
+      "Id": "command_label_is_literal",
+      "SourceRole": "assistant",
+      "RawText": "```ask_user\n{\"version\":1,\"questions\":[{\"id\":\"environment\",\"prompt\":\"어떤 테스트 환경을 사용할까요?\",\"options\":[{\"id\":\"local\",\"label\":\"powershell -Command Remove-Item\",\"description\":\"현재 PC의 격리된 데이터로 확인합니다.\"},{\"id\":\"customer\",\"label\":\"별도 시험 PC\",\"description\":\"대상 PC에서 설치 결과를 확인합니다.\"}]}]}\n```",
+      "ExpectedQuestionCount": 1,
+      "PreserveRawOnRejection": true,
+      "Reason": "보기 문자열을 host 명령으로 실행하지 않음"
+    },
+    {
+      "Id": "numbered_steps_are_not_questions",
+      "SourceRole": "assistant",
+      "RawText": "파일을 선택한 뒤 다음 절차를 실행합니다.\n1. 소스를 빌드합니다.\n2. 결과를 확인합니다.",
+      "ExpectedQuestionCount": 0,
+      "PreserveRawOnRejection": true,
+      "Reason": "Code 번호 목록 heuristic 오인 수락검사"
+    },
+    {
+      "Id": "numbered_code_example_is_not_question",
+      "SourceRole": "assistant",
+      "RawText": "선택 예시:\n```text\n1. A\n2. B\n```",
+      "ExpectedQuestionCount": 0,
+      "PreserveRawOnRejection": true,
+      "Reason": "fence 안 번호 목록은 데이터"
+    },
+    {
+      "Id": "numbered_choices_need_explicit_contract",
+      "SourceRole": "assistant",
+      "RawText": "선택해 주세요.\n1. 로컬\n2. 대상 PC",
+      "ExpectedQuestionCount": 0,
+      "PreserveRawOnRejection": true,
+      "Reason": "구조화 파서와 별도 legacy MVP 계약"
+    },
+    {
+      "Id": "over_budget_payload",
+      "SourceRole": "assistant",
+      "RawText": "```ask_user\n{\"version\":1,\"questions\":[{\"id\":\"environment\",\"prompt\":\"가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가\",\"options\":[{\"id\":\"local\",\"label\":\"로컬 시험 환경\",\"description\":\"현재 PC의 격리된 데이터로 확인합니다.\"},{\"id\":\"customer\",\"label\":\"별도 시험 PC\",\"description\":\"대상 PC에서 설치 결과를 확인합니다.\"}]}]}\n```",
+      "ExpectedQuestionCount": 0,
+      "PreserveRawOnRejection": true,
+      "Reason": "질문 payload 최대3500자"
+    },
+    {
+      "Id": "valid_three_questions",
+      "SourceRole": "assistant",
+      "RawText": "```ask_user\n{\"version\":1,\"questions\":[{\"id\":\"environment\",\"prompt\":\"어떤 테스트 환경을 사용할까요?\",\"options\":[{\"id\":\"local\",\"label\":\"로컬 시험 환경\",\"description\":\"현재 PC의 격리된 데이터로 확인합니다.\"},{\"id\":\"customer\",\"label\":\"별도 시험 PC\",\"description\":\"대상 PC에서 설치 결과를 확인합니다.\"}]},{\"id\":\"scope\",\"prompt\":\"확인 범위는 무엇인가요?\",\"options\":[{\"id\":\"install\",\"label\":\"설치만\"},{\"id\":\"usage\",\"label\":\"설치와 사용\"}]},{\"id\":\"provider\",\"prompt\":\"어느 제공자인가요?\",\"options\":[{\"id\":\"codex\",\"label\":\"Codex\"},{\"id\":\"claude\",\"label\":\"Claude\"}]}]}\n```",
+      "ExpectedQuestionCount": 3,
+      "PreserveRawOnRejection": true,
+      "Reason": "한 batch 최대3문항"
+    },
+    {
+      "Id": "duplicate_question_id",
+      "SourceRole": "assistant",
+      "RawText": "```ask_user\n{\"version\":1,\"questions\":[{\"id\":\"environment\",\"prompt\":\"어떤 테스트 환경을 사용할까요?\",\"options\":[{\"id\":\"local\",\"label\":\"로컬 시험 환경\",\"description\":\"현재 PC의 격리된 데이터로 확인합니다.\"},{\"id\":\"customer\",\"label\":\"별도 시험 PC\",\"description\":\"대상 PC에서 설치 결과를 확인합니다.\"}]},{\"id\":\"environment\",\"prompt\":\"어떤 테스트 환경을 사용할까요?\",\"options\":[{\"id\":\"local\",\"label\":\"로컬 시험 환경\",\"description\":\"현재 PC의 격리된 데이터로 확인합니다.\"},{\"id\":\"customer\",\"label\":\"별도 시험 PC\",\"description\":\"대상 PC에서 설치 결과를 확인합니다.\"}]}]}\n```",
+      "ExpectedQuestionCount": 0,
+      "PreserveRawOnRejection": true,
+      "Reason": "질문 ID는 batch 내 고유"
+    }
+  ],
+  "InteractionCases": [
+    {
+      "Id": "initial_empty",
+      "Action": "render card",
+      "Expected": "No option selected; no queue/provider calls; submit disabled"
+    },
+    {
+      "Id": "select_without_submit",
+      "Action": "select option",
+      "Expected": "Only card draft changes; no user message or provider call"
+    },
+    {
+      "Id": "manual_text",
+      "Action": "enter own answer",
+      "Expected": "Plain text, 1..2000 chars, no command execution"
+    },
+    {
+      "Id": "cancel_preserves_prompt",
+      "Action": "dismiss unanswered card",
+      "Expected": "Prompt draft preserved; no auto-answer; persisted dismissed state if offered"
+    },
+    {
+      "Id": "explicit_submit",
+      "Action": "click response submit after all required answers",
+      "Expected": "One ordinary user request with immutable question IDs/text and answers to owning conversation"
+    },
+    {
+      "Id": "double_submit",
+      "Action": "double click submit",
+      "Expected": "At most one accepted request"
+    },
+    {
+      "Id": "wrong_owner",
+      "Action": "late click after conversation/provider switch",
+      "Expected": "Never append to other conversation; owner identity or stale-generation check"
+    },
+    {
+      "Id": "queue_full",
+      "Action": "submit when queue is full",
+      "Expected": "Keep answers pending and draft intact, no fake submitted state"
+    },
+    {
+      "Id": "save_failure",
+      "Action": "storage fails during acceptance",
+      "Expected": "No duplicate/phantom user request or lost answer"
+    },
+    {
+      "Id": "history_reload",
+      "Action": "reload answered or dismissed question",
+      "Expected": "Do not reactivate already consumed batch"
+    },
+    {
+      "Id": "old_history_page",
+      "Action": "prepend old messages",
+      "Expected": "Question is scoped to historical batch; old completed request is not revived"
+    },
+    {
+      "Id": "truncated_model_history",
+      "Action": "question falls outside latest10/24000 context",
+      "Expected": "Submission still contains original frozen prompt/option labels and answers"
+    },
+    {
+      "Id": "unsupported_control_request",
+      "Action": "native CLI asks for tool approval",
+      "Expected": "Existing fail-closed boundary preserved; question choice is not approval response"
+    },
+    {
+      "Id": "timeout_dispose",
+      "Action": "cancel/dispose while card is shown",
+      "Expected": "No stuck CLI process, no late send, no auto-selection"
+    }
+  ],
+  "RemoteAiUsed": false,
+  "ProductBuildRun": false,
+  "ProductModified": false
+}

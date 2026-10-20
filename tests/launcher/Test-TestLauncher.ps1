@@ -8,10 +8,11 @@ create date  : 2026-10-18
 update date  : 2026-10-18 CodexCode : 실제 제품 파일과 기존 검사 스크립트는 변경하지 않는다.
 update date  : 2026-10-18 CodexOrig : TASK-018 드롭다운·이미지 요구 및 기본14개 검사 반영.
                2026-10-19 CodexOrig : TASK-025 선택 패키지의 편집기·GIF/PNG·라이선스와 새 경로 공격 검증.
+               2026-10-20 CodexOrig : TASK068 기본 20개·고정 병렬 검사 인자·GUI 제외 선택 검증.
 -------------------------------------------------------------------------
 #>
 [CmdletBinding()]
-param()
+param([switch]$SkipUi)
 $ErrorActionPreference = 'Stop'
 $launcherRepository = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..\..'))
 $launcherOriginal = Join-Path $launcherRepository 'VisualStudio_AIChat_ExtentionTest.exe'
@@ -67,7 +68,8 @@ function Assert-LauncherProbe {
 }
 
 $result = Invoke-LauncherProbe $launcherOriginal '--list'
-Assert-LauncherProbe 'CLI lists nineteen default and two opt-in suites' ($result.ExitCode -eq 0 -and ([regex]::Matches($result.Output,'\tdefault')).Count -eq 19 -and ([regex]::Matches($result.Output,'\topt-in')).Count -eq 2) $result
+Assert-LauncherProbe 'CLI lists twenty default and two opt-in suites' ($result.ExitCode -eq 0 -and ([regex]::Matches($result.Output,'\tdefault')).Count -eq 20 -and ([regex]::Matches($result.Output,'\topt-in')).Count -eq 2) $result
+Assert-LauncherProbe 'Concurrent conversations is a default suite' ([regex]::IsMatch($result.Output,'(?m)^concurrent-conversations\t[^\r\n]+\tdefault\r?$')) $result
 $result = Invoke-LauncherProbe $launcherOriginal '--run compatibility'
 Assert-LauncherProbe 'Real compatibility suite succeeds through launcher' ($result.ExitCode -eq 0 -and $result.Output.Contains('44/44 passed.')) $result
 $result = Invoke-LauncherProbe $fixtureExe '--run unknown-suite'
@@ -120,6 +122,41 @@ foreach($attack in @('traversal','duplicate','media-traversal','media-duplicate'
     Assert-LauncherProbe ('Viewer asset '+$attack+' is rejected before child execution') ($badResult.ExitCode -ne 0 -and !$badResult.Output.Contains('VIEWER_ASSETS_PASS') -and !(Test-Path -LiteralPath (Join-Path $fixtureDir 'outside.txt'))) $badResult
 }
 
+$concurrentDir = Join-Path $fixtureDir 'tests\task068concurrent'
+$null = New-Item -ItemType Directory -Path $concurrentDir
+$concurrentProbe = @'
+param([Parameter(Mandatory=$true)][string]$AssemblyPath,[Parameter(Mandatory=$true)][string]$AssetsPath,[Parameter(Mandatory=$true)][string]$OutputDirectory)
+if ([Threading.Thread]::CurrentThread.ApartmentState -ne 'STA' -or $PSVersionTable.PSEdition -ne 'Desktop') { throw 'Windows PowerShell STA required.' }
+if ([IO.File]::ReadAllText($AssemblyPath) -ne 'FROZEN_DLL' -or [IO.File]::ReadAllText($AssetsPath) -ne 'FROZEN_ASSETS') { throw 'Frozen input mismatch.' }
+if (Test-Path -LiteralPath $OutputDirectory) { throw 'Output directory must be absent until the suite creates it.' }
+if ([IO.Path]::GetFileName($OutputDirectory) -ne 'concurrent-conversations') { throw 'Suite output path mismatch.' }
+$null = New-Item -ItemType Directory -Path $OutputDirectory
+Write-Output ('CONCURRENT_ASSEMBLY=' + $AssemblyPath)
+Write-Output ('CONCURRENT_ASSETS=' + $AssetsPath)
+Write-Output ('CONCURRENT_OUTPUT=' + $OutputDirectory)
+Write-Output 'CONCURRENT_DISPATCH_PASS'
+'@
+[IO.File]::WriteAllText((Join-Path $concurrentDir 'Test-ConcurrentRooms.ps1'), $concurrentProbe, $utf8)
+foreach ($sku in @('2017.Legacy','2017','2019','2022')) {
+    $frozenRoot = Join-Path $fixtureDir ('candidate-' + $sku)
+    $frozenBinary = Join-Path $frozenRoot ($sku + '\Release\VS2017.AIAssistant.dll')
+    $frozenAssets = Join-Path $frozenRoot ('source\src\VS' + $sku + '.AIAssistant\obj\project.assets.json')
+    foreach ($parent in @([IO.Path]::GetDirectoryName($frozenBinary),[IO.Path]::GetDirectoryName($frozenAssets))) { $null = New-Item -ItemType Directory -Path $parent -Force }
+    [IO.File]::WriteAllText($frozenBinary, 'FROZEN_DLL', $utf8)
+    [IO.File]::WriteAllText($frozenAssets, 'FROZEN_ASSETS', $utf8)
+    $binaryHash = (Get-FileHash -LiteralPath $frozenBinary -Algorithm SHA256).Hash
+    $assetsHash = (Get-FileHash -LiteralPath $frozenAssets -Algorithm SHA256).Hash
+    $result = Invoke-LauncherProbe $fixtureExe ('--run concurrent-conversations --assembly "' + $frozenBinary + '"')
+    Assert-LauncherProbe ('Concurrent ' + $sku + ' dispatch preserves exact frozen DLL and Assets with new output') ($result.ExitCode -eq 0 -and $result.Output.Contains('CONCURRENT_DISPATCH_PASS') -and $result.Output.Contains('CONCURRENT_ASSEMBLY=' + $frozenBinary) -and $result.Output.Contains('CONCURRENT_ASSETS=' + $frozenAssets) -and (Get-FileHash -LiteralPath $frozenBinary -Algorithm SHA256).Hash -eq $binaryHash -and (Get-FileHash -LiteralPath $frozenAssets -Algorithm SHA256).Hash -eq $assetsHash) $result
+}
+$fallbackBinary = Join-Path $fixtureDir 'loose\Release\VS2017.AIAssistant.dll'
+$fallbackAssets = Join-Path $fixtureDir 'src\VS2017.AIAssistant\obj\project.assets.json'
+foreach ($parent in @([IO.Path]::GetDirectoryName($fallbackBinary),[IO.Path]::GetDirectoryName($fallbackAssets))) { $null = New-Item -ItemType Directory -Path $parent -Force }
+[IO.File]::WriteAllText($fallbackBinary, 'FROZEN_DLL', $utf8)
+[IO.File]::WriteAllText($fallbackAssets, 'FROZEN_ASSETS', $utf8)
+$result = Invoke-LauncherProbe $fixtureExe ('--run concurrent-conversations --assembly "' + $fallbackBinary + '"')
+Assert-LauncherProbe 'Concurrent loose DLL uses the shared repository Assets fallback' ($result.ExitCode -eq 0 -and $result.Output.Contains('CONCURRENT_DISPATCH_PASS') -and $result.Output.Contains('CONCURRENT_ASSETS=' + $fallbackAssets)) $result
+
 $marker = Join-Path $fixtureDir 'child-pid.txt'
 [IO.File]::WriteAllText($fixtureScript, '[IO.File]::WriteAllText((Join-Path $PSScriptRoot ''..\..\child-pid.txt''),[string]$PID)' + "`r`nStart-Sleep -Seconds 30`r`n", $utf8)
 $owned = Start-Process -FilePath $fixtureExe -ArgumentList '--run compatibility' -WindowStyle Hidden -PassThru
@@ -134,6 +171,7 @@ try {
     Assert-LauncherProbe 'Launcher exit closes its own child process job' $gone $childId
 } finally { if (!$owned.HasExited) { $owned.Kill() }; $owned.Dispose() }
 
+if (!$SkipUi) {
 $compiler=Join-Path $env:WINDIR 'Microsoft.NET\Framework64\v4.0.30319\csc.exe'
 if (!(Test-Path -LiteralPath $compiler)) { $compiler=Join-Path $env:WINDIR 'Microsoft.NET\Framework\v4.0.30319\csc.exe' }
 $uiExe=Join-Path $smokeDir 'LauncherUiSmoke.exe'; $uiPng=Join-Path $smokeDir 'launcher-dark.png'
@@ -141,6 +179,7 @@ $uiExe=Join-Path $smokeDir 'LauncherUiSmoke.exe'; $uiPng=Join-Path $smokeDir 'la
 if ($LASTEXITCODE -ne 0) { throw 'GUI smoke compile failed' }
 $result=Invoke-LauncherProbe $uiExe ('"' + $fixtureExe + '" "' + $uiPng + '"')
 Assert-LauncherProbe 'GUI starts idle and renders black interface' ($result.ExitCode -eq 0 -and (Test-Path -LiteralPath $uiPng)) $result
-$report=[pscustomobject]@{ CheckedAt=[DateTimeOffset]::Now.ToString('o'); LauncherHash=(Get-FileHash -LiteralPath $launcherOriginal -Algorithm SHA256).Hash; Passed=$smokeResults.Count; Tests=@($smokeResults.ToArray()) }
+}
+$report=[pscustomobject]@{ CheckedAt=[DateTimeOffset]::Now.ToString('o'); LauncherHash=(Get-FileHash -LiteralPath $launcherOriginal -Algorithm SHA256).Hash; UiSkipped=[bool]$SkipUi; Passed=$smokeResults.Count; Tests=@($smokeResults.ToArray()) }
 $report | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath (Join-Path $smokeDir 'results.json') -Encoding UTF8
 Write-Output "Launcher smoke $($smokeResults.Count)/$($smokeResults.Count) PASS: $smokeDir"

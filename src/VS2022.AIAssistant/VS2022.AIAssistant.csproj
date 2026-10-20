@@ -17,7 +17,8 @@
     <GeneratePkgDefFile>true</GeneratePkgDefFile>
     <UseCodebase>true</UseCodebase>
     <IncludeAssemblyInVSIXContainer>true</IncludeAssemblyInVSIXContainer>
-    <IncludeDebugSymbolsInVSIXContainer>true</IncludeDebugSymbolsInVSIXContainer>
+    <!-- 2026-10-20 CodexOrig : 사용자 배포 VSIX에는 개발용 PDB를 넣지 않는다. -->
+    <IncludeDebugSymbolsInVSIXContainer>false</IncludeDebugSymbolsInVSIXContainer>
     <CreateVsixContainer>true</CreateVsixContainer>
     <CopyBuildOutputToOutputDirectory>true</CopyBuildOutputToOutputDirectory>
     <CopyOutputSymbolsToOutputDirectory>true</CopyOutputSymbolsToOutputDirectory>
@@ -125,6 +126,9 @@
     <Compile Include="..\VS2017.AIAssistant\Views\AssistantControl.Runtime.cs">
       <Link>Views\AssistantControl.Runtime.cs</Link>
     </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Views\AssistantControl.ConcurrentRooms.cs">
+      <Link>Views\AssistantControl.ConcurrentRooms.cs</Link>
+    </Compile>
     <Compile Include="..\VS2017.AIAssistant\Views\AssistantMotionTokens.cs">
       <Link>Views\AssistantMotionTokens.cs</Link>
     </Compile>
@@ -220,6 +224,9 @@
     </Compile>
     <Compile Include="..\VS2017.AIAssistant\Chat\MarkdownWorkspaceStore.cs">
       <Link>Chat\MarkdownWorkspaceStore.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Chat\MarkdownWorkspaceStore.Committed.cs">
+      <Link>Chat\MarkdownWorkspaceStore.Committed.cs</Link>
     </Compile>
     <Compile Include="..\VS2017.AIAssistant\Chat\MandatoryInstructionStore.cs">
       <Link>Chat\MandatoryInstructionStore.cs</Link>
@@ -330,8 +337,8 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <Content Include="..\VS2017.AIAssistant\Assets\Themes\Grokeen-VisualStudio-Themes-0.12.1-VS2022.vsix">
-      <Link>Themes\Grokeen-VisualStudio-Themes-0.12.1-VS2022.vsix</Link>
+    <Content Include="..\VS2017.AIAssistant\Assets\Themes\Grokeen-VisualStudio-Themes-0.13.0-VS2022.vsix">
+      <Link>Themes\Grokeen-VisualStudio-Themes-0.13.0-VS2022.vsix</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>

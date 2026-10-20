@@ -134,6 +134,7 @@ internal static class MandatoryInstructionChecks
     /// author       : CodexCode
     /// create date  : 2026-10-18
     /// update date  : 2026-10-18 CodexCode : TASK-022 최신 Role8 문안과 사용자 8000자 보존·경계 회귀.
+    ///                2026-10-20 CodexCode : 운영 프로젝트 기존 패턴·최소 수정·감사 확인 규칙 검증.
     /// </summary>
     /// ---------------------------------------------------------------------
     private static void Run()
@@ -147,7 +148,23 @@ internal static class MandatoryInstructionChecks
         Check(Hash(userPath) == userHash && Directory.GetFiles(workspace).Length == 2, "Existing user instructions and unrelated files are preserved");
         DateTime written = File.GetLastWriteTimeUtc(path); string firstHash = Hash(path);
         Check((string)store.GetMethod("Ensure", new[] { typeof(string) }).Invoke(null, new object[] { workspace }) == path && Hash(path) == firstHash && File.GetLastWriteTimeUtc(path) == written, "Second Ensure is idempotent without content rewrite");
+        string oldWorkspace = Path.Combine(root, "official-upgrade"); Directory.CreateDirectory(oldWorkspace);
+        string oldPath = Path.Combine(oldWorkspace, ".mandatory-instructions.md");
+        string previousOfficial = DefaultText.Substring(0, DefaultText.IndexOf("\n3. ", StringComparison.Ordinal));
+        File.WriteAllText(oldPath, previousOfficial, new UTF8Encoding(false));
+        Ensure(oldWorkspace, out notice);
+        Check(String.IsNullOrEmpty(notice) && File.ReadAllText(oldPath, Encoding.UTF8) == DefaultText && (File.GetAttributes(oldPath) & FileAttributes.Hidden) != 0,
+            "Exact previous official copy upgrades to five rules without a modification notice");
+        File.SetAttributes(oldPath, FileAttributes.Normal);
+        File.WriteAllText(oldPath, previousOfficial + "\n사용자 수정", new UTF8Encoding(false));
+        string alteredHash = Hash(oldPath); Ensure(oldWorkspace, out notice);
+        Check(Hash(oldPath) == alteredHash && !String.IsNullOrEmpty(notice), "User-edited previous copy is preserved");
         Check(DefaultText.Contains("1. 다른 코덱스가 작업할 수 있으니, 특정 파일을 만들어 서로 간의 협업 진행.") && DefaultText.Contains("2. 작업을 진행한 소스에는 소스관련 설명 주석 추가."), "Canonical rules preserve latest Role8 collaboration and source-comment wording");
+        Check(DefaultText.Contains("3. 연결된 프로젝트가 이미 운영중인 프로그램이거나 작업이 많이 진행된 프로젝트인 경우, 현재 프로젝트의 UI나 소스에서 사용하는 특유의 패턴이 있는지 확인") &&
+            DefaultText.Contains("4. 연결된 프로젝트가 이미 운영중인 프로그램이거나 작업이 많이 진행된 프로젝트인 경우, 소스 수정을 최소화") &&
+            DefaultText.Contains("5. 작업이 완료된 경우, 요구사항에 맞게 작업이 됐는지 감사 담당자 AI 모델에게 검증 요청") &&
+            DefaultText.Contains("감사 담당자 AI가 없는 경우 사용자에게 AI 모델 추가를 요청"),
+            "Operational project pattern, minimal edit and independent audit rules are bundled");
         Check(new[] { "name         : ClassOrMethodName", "desc         : 메소드나 클래스에 대한 내용 정의", "author       : 작업자명", "create date  : 2025-11-10", "update date  : 2026-10-17 코덱스Code : ~ 개발하였음.", "2026-10-18 코덱스Orig : ~ 수정", "2026-10-19 코덱스Orig : ~ 추가", "유사한 주석이 있는 경우, 해당 방식으로 구조 변경. 기존 주석 내용은 수정 불가." }.All(DefaultText.Contains), "Five-field example, original dates/authors and unchanged-comment requirement are preserved");
         Check(Compose(null) == DefaultText && Compose("") == DefaultText, "Null/empty user instructions use canonical rules once");
         Check(Compose(user) == DefaultText + "\n\n" + user, "User whitespace and line endings are preserved exactly");

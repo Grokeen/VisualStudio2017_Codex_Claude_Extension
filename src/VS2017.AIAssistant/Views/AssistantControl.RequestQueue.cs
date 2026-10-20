@@ -100,10 +100,31 @@ namespace VS2017.AIAssistant.Views
         private void EnqueueCurrentRequest()
         {
             Dispatcher.VerifyAccess();
+            var request = CaptureCurrentRequest(false);
+            queuedRequests.Enqueue(request);
+            if (busy || HasPendingReview) StatusLabel.Text = "대기 요청 " + queuedRequests.Count + "개 · 순서대로 실행합니다." + (HasPendingReview ? " 현재 수정안을 승인·적용하거나 명시적으로 건너뛴 뒤 계속합니다. 중지로 대기 요청을 취소할 수 있습니다." : "");
+            UpdateButtons();
+        }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : CaptureCurrentRequest
+        /// desc         : 대화방 동시 실행과 기존 대기열이 같은 검증·문맥 캡처를 사용한다.
+        /// author       : CodexCode
+        /// create date  : 2026-10-20
+        /// update date  : 2026-10-20 CodexCode : 원래 읽기 전용 문서는 입력을 소비하기 전에 거절한다.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        private QueuedUiRequest CaptureCurrentRequest(bool independent)
+        {
+            Dispatcher.VerifyAccess();
             if (string.IsNullOrWhiteSpace(Instruction.Text)) throw new InvalidOperationException("요청을 입력하세요.");
             if (Instruction.Text.Length > 16000) throw new InvalidOperationException("프롬프트는 16000자 이하로 입력하세요.");
-            if (queuedRequests.Count >= MaximumQueuedRequests) throw new InvalidOperationException("대기 요청은 최대 8개입니다. 입력 내용은 그대로 보존했습니다.");
-            if (busy && !drainingRequests) throw new InvalidOperationException("문서 읽기나 계정 확인이 끝난 뒤 전송하세요. 입력은 계속 작성할 수 있습니다.");
+            if (!independent && queuedRequests.Count >= MaximumQueuedRequests) throw new InvalidOperationException("대기 요청은 최대 8개입니다. 입력 내용은 그대로 보존했습니다.");
+            Queue<QueuedUiRequest> roomQueue;
+            if (independent && roomQueues.TryGetValue(activeRecords[selectedProvider].Id, out roomQueue) && roomQueue.Count >= MaximumQueuedRequests)
+                throw new InvalidOperationException("이 대화방의 대기 요청은 최대 8개입니다. 입력 내용은 그대로 보존했습니다.");
+            if (!independent && busy && !drainingRequests) throw new InvalidOperationException("문서 읽기나 계정 확인이 끝난 뒤 전송하세요. 입력은 계속 작성할 수 있습니다.");
             var request = new QueuedUiRequest {
                 Provider = selectedProvider, Executable = ExecutablePath.Text, Instruction = Instruction.Text,
                 FullAccess = AgentFullAccessEnabled, Record = activeRecords[selectedProvider], Chat = ActiveChat,
@@ -123,9 +144,17 @@ namespace VS2017.AIAssistant.Views
             if (request.FullAccess) {
                 if (string.IsNullOrWhiteSpace(request.Directory)) throw new InvalidOperationException("전체 액세스로 작업할 프로젝트 폴더를 열어 주세요.");
                 var fullAccess = documents as IFullAccessDocumentService;
-                if (fullAccess != null) request.Source = fullAccess.CaptureFullAccessContext();
+                if (fullAccess != null) {
+                    request.Source = fullAccess.CaptureFullAccessContext();
+                    if (request.Source != null) request.Document = documents.GetActiveDocument();
+                }
                 else { request.Document = documents.GetActiveDocument(); request.Source = request.Document.Capture(); }
                 if (request.Source != null && request.Source.HasUnsavedChanges) throw new InvalidOperationException("CLI 직접 수정 전에 편집 중인 파일을 저장하세요.");
+                if (request.Source != null && request.Source.IsReadOnly) {
+                    var protection = sharedExternalEditing as IExternalEditingScopeState;
+                    if (protection == null || !protection.IsTemporarilyReadOnly(request.Source.FilePath))
+                        throw new InvalidOperationException("읽기 전용 문서는 수정할 수 없습니다. 입력은 그대로 보존했습니다.");
+                }
             }
             else { request.Document = documents.GetActiveDocument(); request.Source = request.Document.Capture(); }
             if (request.Source != null) request.Source.RequireValidSelection();
@@ -148,9 +177,7 @@ namespace VS2017.AIAssistant.Views
                 Instruction.Text = draft; request.Chat.Draft = draft;
                 throw new InvalidOperationException("대화 기록 저장에 실패해 대기에 등록하지 않았습니다. 입력을 보존했습니다.");
             }
-            queuedRequests.Enqueue(request);
-            if (busy || HasPendingReview) StatusLabel.Text = "대기 요청 " + queuedRequests.Count + "개 · 순서대로 실행합니다." + (HasPendingReview ? " 현재 수정안을 승인·적용하거나 명시적으로 건너뛴 뒤 계속합니다. 중지로 대기 요청을 취소할 수 있습니다." : "");
-            UpdateButtons();
+            return request;
         }
 
         /// ---------------------------------------------------------------------
@@ -259,6 +286,18 @@ namespace VS2017.AIAssistant.Views
         private void DiscardProposalAndContinueClicked(object sender, System.Windows.RoutedEventArgs args)
         {
             Dispatcher.VerifyAccess();
+            if (roomProposals.ContainsKey(activeRecords[selectedProvider].Id))
+            {
+                if (disposed || busy) return;
+                ActiveChat.Add("system", "사용자가 현재 수정안을 건너뛰었습니다. 소스에 적용하지 않았습니다.");
+                if (!PersistCurrentConversation()) return;
+                string id = activeRecords[selectedProvider].Id;
+                roomProposals.Remove(id);
+                ClearProposal();
+                StartNextRoomRequest(id);
+                UpdateButtons();
+                return;
+            }
             if (disposed || busy || !HasPendingReview || queuedRequests.Count == 0) return;
             ActiveChat.Add("system", "사용자가 현재 수정안 건너뛰기를 요청했습니다. 소스에 적용하거나 저장하지 않고 다음 요청을 진행합니다.");
             if (!PersistCurrentConversation()) return;

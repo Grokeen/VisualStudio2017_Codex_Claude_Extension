@@ -326,7 +326,7 @@ namespace VS2017.AIAssistant.Views
         /// ---------------------------------------------------------------------
         private void SavePeerConversation(ConversationRecord record, ChatSession chat)
         {
-            record.Messages = chat.Messages.Select(m => new ChatMessage { Role = m.Role, Text = m.Text }).ToList(); record.Draft = chat.Draft; record.HasUnread = true; workspaceStore.Save(record);
+            record.Messages = chat.Messages.Select(m => new ChatMessage { Id = m.Id, CreatedAt = m.CreatedAt, Role = m.Role, Text = m.Text }).ToList(); record.Draft = chat.Draft; record.HasUnread = true; workspaceStore.Save(record);
             if (!disposed) RefreshConversationList();
         }
 

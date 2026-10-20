@@ -552,6 +552,7 @@ namespace CodexCode.WorkspaceReview
         /// author       : CodexOrig
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : TASK-014 드래그·키보드·복원·구버전 호환 회귀.
+        ///                2026-10-20 CodexOrig : TASK068 외부 Markdown 수정의 stale 거절을 확인하고 최신 읽기 사본으로 후속 검사를 계속한다.
         /// </summary>
         /// ---------------------------------------------------------------------
         private static void CheckSidebar(AssistantControl control, Window owner, string output)
@@ -631,7 +632,16 @@ namespace CodexCode.WorkspaceReview
             File.WriteAllText(file, legacy, new UTF8Encoding(false)); loaded = isolated.LoadOpen("Claude").Single();
             Check(loaded.State == ConversationRunState.Idle && !loaded.HasUnread,
                 "Older conversation Markdown without status metadata remains fully readable");
+            bool staleRejected = false;
+            try { isolated.Save(saved); }
+            catch (StaleConversationWriteException) { staleRejected = true; }
+            Check(staleRejected && File.ReadAllText(file) == legacy,
+                "An old snapshot cannot overwrite externally edited legacy metadata");
+            saved = loaded;
+            saved.Draft = "metadata validation fixture";
             saved.State = ConversationRunState.Idle; isolated.Save(saved);
+            Check(File.ReadAllText(file).Contains("last_status: \"Idle\""),
+                "The changed fixture persists valid status metadata before corruption");
             File.WriteAllText(file, File.ReadAllText(file).Replace("last_status: \"Idle\"", "last_status: \"MadeUp\""), new UTF8Encoding(false));
             Check(isolated.LoadOpen("Claude").Length == 0 && isolated.LastLoadWarnings.Length == 1,
                 "Invalid status metadata is reported as a damaged record rather than displayed as a valid result");

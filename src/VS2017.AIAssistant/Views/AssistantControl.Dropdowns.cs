@@ -254,6 +254,7 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 대화 전환 전 초안 저장 실패 시 현재 대상을 보존.
+        ///                2026-10-20 CodexCode : 담당 AI 재선택 시 방의 미승인 수정안을 다시 표시.
         /// </summary>
         /// ---------------------------------------------------------------------
         private bool ActivateAssignedAgent(ConversationAgentIdentity agent)
@@ -262,7 +263,7 @@ namespace VS2017.AIAssistant.Views
                 if (!PersistCurrentConversation()) return false;
                 var record = ResolveAssignedRecord(agent, null);
                 if (!conversationRecords[selectedProvider].Any(r => r.Id == record.Id)) conversationRecords[selectedProvider].Add(record);
-                activeRecords[selectedProvider] = record; ClearProposal(); ShowChat(); MarkCurrentConversationRead(); UpdateButtons();
+                activeRecords[selectedProvider] = record; ClearProposal(); ShowChat(); MarkCurrentConversationRead(); RestoreRoomPresentation(); UpdateButtons();
                 return true;
             } catch (Exception error) { StatusLabel.Text = "AI 대화 전환 실패: " + error.Message; return false; }
         }

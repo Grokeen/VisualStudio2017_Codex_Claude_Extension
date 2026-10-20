@@ -29,4 +29,18 @@ namespace VS2017.AIAssistant.Editing
     {
         string Notice { get; }
     }
+
+    /// ---------------------------------------------------------------------
+    /// <summary>
+    /// name         : IExternalEditingScopeState
+    /// desc         : 원래 읽기 전용 문서와 실행 중 자신이 임시 보호한 문서를 구분한다.
+    /// author       : CodexOrig
+    /// create date  : 2026-10-20
+    /// update date  : 2026-10-20 CodexOrig : TASK068 다른 대화의 보호 상태가 원래 쓰기 제한을 우회하지 않게 확인.
+    /// </summary>
+    /// ---------------------------------------------------------------------
+    public interface IExternalEditingScopeState
+    {
+        bool IsTemporarilyReadOnly(string filePath);
+    }
 }

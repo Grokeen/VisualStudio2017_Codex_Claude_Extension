@@ -1,0 +1,17 @@
+{
+  "auditor": "CodexOrig2",
+  "candidate": "artifacts/task068/candidate4",
+  "status": "INTERIM_C4_TECHNICAL_REGRESSION_PASS_FINAL_CANDIDATE_PENDING",
+  "sourceInputs": 137,
+  "frozenSourceHashMismatches": 0,
+  "releaseBuilds": "4 SKU exit 0, errors 0, warnings 0",
+  "frozen2017DllSha256": "38D9A3C68A362C9A5499E5C80CAE282FCCA885C39FA9D9EE8927099D8B97DBEA",
+  "a68_01": {"status": "RESOLVED_TESTED_C4", "passed": 82, "failed": 0, "evidence": "artifacts/task068-audit/candidate4-concurrent-1/result.json", "actualIdeReadOnlyRestorationTested": false},
+  "a68_02": {"status": "RESOLVED_TESTED_C4", "passed": 8, "failed": 0, "evidence": "artifacts/task068-audit/candidate4-choices.json", "actualButtonUiTested": false},
+  "asyncHistoryUi": {"status": "PASS_EXTRACTED_FROZEN_METHODS", "passed": 10, "failed": 0, "readerGateSubstituted": true, "fullFrozenDllTested": false, "evidence": "artifacts/task068-audit/candidate4-history-ui/history-ui-result.json"},
+  "a68_03": {"status": "STATIC_RISK_NOT_RUNTIME_REPRODUCED", "description": "Full-access original read-only source may reject after submitted user message and draft clearing; C5 pre-submit guard/recovery verification required"},
+  "pdf": {"status": "OLD_0_12_1_IN_C4", "countPerVsix": 1, "sha256PerVsix": "F853789CE823A1EABE8B4E98226064A9E86F808389CA77033DF83925744F2372"},
+  "guiUsed": false,
+  "liveAiOrLoginUsed": false,
+  "productOrSharedBuildModified": false
+}

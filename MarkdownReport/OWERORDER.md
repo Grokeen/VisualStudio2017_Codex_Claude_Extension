@@ -517,3 +517,14 @@ Root 승인/GUI 예약으로 C9 정확한 DLL·assets의 전체 experience를 �
 Role14항목의UI/FIFO/알림/파일생성/비로그인Claude/오프라인테마를 통합했습니다. 감사5건해결, C12네Release빌드0오류/경고·실제IDE584/584·설치경계35/35·통신차단CLI6/6입니다. GUIDE01이실제설치PDF서비스경로/선택VSIX해시를대조합니다. 원본실패와고객/물리입력/실계정미검증범위를분리했습니다. 개발검증경과112.1분이며 보고는TASK054Validation과TASK058C12를참고합니다. Root가최신Release게시/익명13자산SHA까지마감해야하며현재공개완료로보고하지않습니다.
 ### 2026-10-20T04:22:58.8923514+09:00 / TASK054 / CodexOrig 최종 배포 보고
 v0.12.1-preview.1을 실제 게시하고 13파일 익명 재다운로드·SHA전부 일치까지 완료했습니다. 4Release 빌드0오류/경고, 실제IDE584/584·설치경계35/35·통신차단CLI6/6, 감사5결함해결입니다. 기존정식latest/이전배포를보존했습니다. README/안내 링크를전환했고 담당자4명에게전체완료기준을전달했으며 CodexCode 전송오류는공유WORK_STATUS에대체안내했습니다. 02:23:11부터기록까지119.8분. 실제근거는TASK054Deployment/Validation입니다. 고객별도PC와로그인한Claude답변은이번Root검사완료범위로주장하지않습니다.
+### 2026-10-20 13:48 KST / TASK068 CodexCode 담당 결과 및 검증 방법
+
+새 요청은 대화방마다 동시에 실행된다. A와 B가 각각 다른 로컬 Claude 프로세스로 작업해도 B 완료/중지는 A를 종료하거나 초안·답변을 바꾸지 않는다. 같은 방의 다음 요청은 최대 8건 대기하며, 원본·프로젝트·권한이 변하면 실행 직전 중단한다. 전체 액세스 동시 실행은 열린 IDE 편집기 보호를 한 번만 시작해 마지막 요청 종료 시 복원하며, 외부 변경 통지는 해당 실행을 함께 취소한다. 시간별 기록·상단 스크롤 성능은 별도 저장 담당이 통합 중이다.
+
+검사: VS2017 Community MSBuild 15 Release 빌드 0오류/0경고. `tests/task055/Test-RequestQueue.ps1` 70/70, `tests/workspace/Test-MarkdownWorkspace.ps1` 59/59, `tests/task022/Test-MandatoryInstructions.ps1` 36/36, `tests/task067/Test-Choices.ps1` 8/8. `artifacts/task067/usage-fixture-explicit-cache`의 격리 실제 프로세스 검사 64/64, 가짜 `IExternalEditingScope`를 추가한 검사 71/71. 사용자 화면은 CodexOrig4의 8조건 offscreen WPF 검증 통과. 가짜 scope 검사는 실제 VS IDE COM 보호의 증명이 아니므로 Root의 실제 IDE 최종 확인이 필요하다. #2 기록 지연 개선 및 4SKU/배포는 Orig가 통합·최종 검증한다.
+
+### 2026-10-20 TASK068 CodexCode 후속 감사 대응
+ChatMessage.Choices는 영어 선택 동사 choose/select와 which option을 단어로 인식해 selected가 포함된 완료 보고를 선택 질문으로 오인하지 않는다. 상단 검사 10/10. 전체 액세스는 원래 읽기 전용 파일을 다른 대화방의 임시 보호 중에도 전송 전에 거절하고 입력을 보존한다. 임시 보호 여부는 공유 IDE scope의 정확한 파일 경로 계약으로 판단한다. VS2017/2022 빌드 0오류/0경고와 FIFO 70/70은 현 소스 검사 결과이며 실제 IDE/새 4SKU 후보/배포는 Root 인계 상태다.
+
+### 2026-10-20 TASK068 CodexCode 담당 AI 재선택 경계
+방별 미승인 수정안은 담당 AI 이름을 다시 선택해도 같은 대화방이면 원본/비교 화면과 건너뛰기 버튼이 복원된다. 실제 C5 IDE에서 발견한 수정안 표시 소실·대기열 정체를 C6 소스 한 줄로 수정했고 새 동시 실행 fixture 120/120에서 재선택 후 건너뛰기·후속 CLI 실행·소스 미적용을 확인했다. C6 실제 IDE 및 배포 완료는 통합 담당 Root의 후속 검사 대상이다.

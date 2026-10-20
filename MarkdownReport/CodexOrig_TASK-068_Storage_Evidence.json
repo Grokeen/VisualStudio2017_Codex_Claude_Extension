@@ -1,0 +1,98 @@
+{
+  "Task": "TASK068 #2",
+  "Worker": "CodexOrig / backend055",
+  "ProductFrozenAt": "2026-10-20T14:03:18.288099+09:00",
+  "StoreApiPreserved": true,
+  "RequestQueueEdited": false,
+  "SharedBuildUsed": false,
+  "WindowShown": false,
+  "Deployed": false,
+  "StoreChecks": {
+    "Passed": 19,
+    "Failed": 0,
+    "Path": "artifacts/task068storage/run-b6c7b2251af149e48d0252f301b775cf/result.json"
+  },
+  "BoundaryChecks": {
+    "Passed": 13,
+    "Failed": 0,
+    "Path": "artifacts/task068storage/run-b6c7b2251af149e48d0252f301b775cf/boundary-result.json"
+  },
+  "WorkspaceChecks": {
+    "Passed": 59,
+    "Failed": 0,
+    "Path": "artifacts/task012/workspace-5fc906cd3cd244e8a526fb6acfe188c7/result.json"
+  },
+  "SourceExtractedWpfChecks": {
+    "FullProductDll": false,
+    "Passed": 10,
+    "Failed": 0,
+    "Path": "artifacts/task068storage/ui-46645546598d4ad3b2361d60f3fa3c3e/history-ui-result.json"
+  },
+  "PrivateActualBuilds": [
+    {
+      "Warnings": 0,
+      "Errors": 0,
+      "Sku": "2017.Legacy",
+      "Log": "artifacts/task068storage/c4-ead8/build-legacy.log"
+    },
+    {
+      "Warnings": 0,
+      "Errors": 0,
+      "Sku": "2022",
+      "Log": "artifacts/task068storage/c4-ead8/build-2022.log"
+    }
+  ],
+  "Sources": [
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Chat\\MarkdownWorkspaceStore.cs",
+      "Hash": "4DF915F98CFFC7FCB36190960DC5CF02CC784D76DCBE18A0E9FBE8D34DF39103"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Chat\\MarkdownWorkspaceStore.Committed.cs",
+      "Hash": "86116B5B08EFAFC5EB8D34F15F37BEF28E1B0A9CF7BB67A952DAC25C2AA27282"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\AssistantControl.Chat.cs",
+      "Hash": "E82AF68F44474EF88F84711AA64AB91A5BBDB5944724AE624A028A35156BAC1A"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\src\\VS2017.AIAssistant\\Views\\AssistantControl.Viewport.cs",
+      "Hash": "FD858978052EBAD76BAD1EB087D057974DC095D75FF09544B3118CF8A7E1A1B9"
+    }
+  ],
+  "NextOwner": "Root: 4 SKU, actual DLL/IDE regression, independent audit, docs, latest Release, publish, anonymous SHA validation",
+  "ActualC5AssemblyChecks": {
+    "ActualProductDll": true,
+    "ProductSourceCompiled": false,
+    "ExpectedAssertions": 32,
+    "AssemblyPath": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task068\\candidate5\\2017\\Release\\VS2017.AIAssistant.dll",
+    "PrivateAssembly": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task068storage\\assembly-151a81dfe1154b8c84f21f396fcb9d6e\\VS2017.AIAssistant.dll",
+    "AssemblySha256": "AD6327BB58CEBF0E362B90134F9DFB803CDB566B457452AC1D17C7C999E66E02",
+    "AssetsSha256": "773D111CA7FB4B7452EA373505C17AE633DFE436FE97381BA9B133471490440B",
+    "InputsUnchanged": true,
+    "Passed": 32,
+    "Failed": 0,
+    "Executions": [
+      {
+        "Main": "StorageProductChecks",
+        "ExitCode": 0,
+        "Passed": 19,
+        "Failed": 0,
+        "ActualProductDll": true,
+        "LoadedAssembly": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task068storage\\assembly-151a81dfe1154b8c84f21f396fcb9d6e\\VS2017.AIAssistant.dll"
+      },
+      {
+        "Main": "StorageBoundaryChecks",
+        "ExitCode": 0,
+        "Passed": 13,
+        "Failed": 0,
+        "ActualProductDll": true,
+        "LoadedAssembly": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task068storage\\assembly-151a81dfe1154b8c84f21f396fcb9d6e\\VS2017.AIAssistant.dll"
+      }
+    ],
+    "GuiUsed": false,
+    "SharedBuildUsed": false,
+    "CheckedAt": "2026-10-20T14:12:14.9367702+09:00"
+  },
+  "ActualC5AssemblyEvidence": "artifacts/task068storage/assembly-151a81dfe1154b8c84f21f396fcb9d6e"
+}

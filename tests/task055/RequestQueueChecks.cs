@@ -63,6 +63,10 @@ public static class RequestQueueChecks
         Scenario("full-access Stop kills owned child and pending queue", FullAccessStop);
         Scenario("acceptance save failure preserves draft and history", SaveFailure);
         Scenario("unchanged tab switch persistence", Performance);
+        Scenario("independent rooms run concurrently", ConcurrentRooms);
+        Scenario("independent edit rooms run concurrently", ConcurrentEditRooms);
+        Scenario("room stop leaves other request running", ConcurrentRoomStop);
+        Scenario("room proposals stay with their owners", ConcurrentRoomProposals);
         RunStatusOnly(); // R58-04: keep both primary-error regressions in the default suite.
     }
 
@@ -330,6 +334,129 @@ public static class RequestQueueChecks
         File.WriteAllText(Path.Combine(directory,"release-2"),"");Until(()=>!h.Busy);
         Check("full-access completion preserves next draft and avoids edit-provider calls",h.Input.Text=="FULL NEXT DRAFT" && h.Count==0 && h.Provider.Calls.Count==0);
         Check("full-access never auto applies review edits",h.Document.Writes==0 && Field(h.Control,"pendingProposal")==null);
+    }
+
+    /// ---------------------------------------------------------------------
+    /// <summary>
+    /// name         : ConcurrentRooms
+    /// desc         : 실제 두 CLI 프로세스가 각 대화방에서 동시에 대기하고 응답을 소유 방에 남긴다.
+    /// author       : CodexCode
+    /// create date  : 2026-10-20
+    /// </summary>
+    /// ---------------------------------------------------------------------
+    private static void ConcurrentRooms(TestHost h)
+    {
+        h.Control.Initialize(h.Document,new RuntimeEditProvider());
+        Set(h.Control,"agentFullAccess",true);
+        h.Text("ExecutablePath").Text=Environment.GetEnvironmentVariable("TASK055_FIXTURE_EXE");
+        var first=(ConversationRecord)((Dictionary<string,ConversationRecord>)Field(h.Control,"activeRecords"))["Claude"];
+        h.Send("ROOM-A");
+        string directory=h.Document.GetProjectDirectory();
+        Until(()=>File.Exists(Path.Combine(directory,"start-A")));
+        Invoke(h.Control,"CreateConversation");
+        var second=(ConversationRecord)((Dictionary<string,ConversationRecord>)Field(h.Control,"activeRecords"))["Claude"];
+        Check("running conversation can open another room",first.Id!=second.Id && first.State==ConversationRunState.Running);
+        h.Send("ROOM-B");
+        Until(()=>File.Exists(Path.Combine(directory,"start-B")));
+        Check("two distinct AI processes run before either completes",first.State==ConversationRunState.Running && second.State==ConversationRunState.Running && !File.Exists(Path.Combine(directory,"release-A")) && !File.Exists(Path.Combine(directory,"release-B")));
+        File.WriteAllText(Path.Combine(directory,"release-B"),"");
+        Until(()=>second.State==ConversationRunState.Completed);
+        Check("second room can finish while first is still running",first.State==ConversationRunState.Running && h.Chat.Messages.Any(message=>message.Text.Contains("fixture room B completed")));
+        File.WriteAllText(Path.Combine(directory,"release-A"),"");
+        Until(()=>first.State==ConversationRunState.Completed);
+        Check("each room retains its own final answer",new MarkdownWorkspaceStore().LoadOpen("Claude").Single(record=>record.Id==first.Id).Messages.Any(message=>message.Text.Contains("fixture room A completed")) && new MarkdownWorkspaceStore().LoadOpen("Claude").Single(record=>record.Id==second.Id).Messages.Any(message=>message.Text.Contains("fixture room B completed")));
+    }
+
+    /// ---------------------------------------------------------------------
+    /// <summary>
+    /// name         : ConcurrentEditRooms
+    /// desc         : 수정안 검토 모드에서도 서로 다른 방의 CLI가 독립적으로 완료된다.
+    /// author       : CodexCode
+    /// create date  : 2026-10-20
+    /// </summary>
+    /// ---------------------------------------------------------------------
+    private static void ConcurrentEditRooms(TestHost h)
+    {
+        h.Control.Initialize(h.Document,new RuntimeEditProvider());
+        Set(h.Control,"agentFullAccess",false);
+        h.Text("ExecutablePath").Text=Environment.GetEnvironmentVariable("TASK055_FIXTURE_EXE");
+        string directory=h.Document.GetProjectDirectory();
+        Environment.SetEnvironmentVariable("TASK055_ROOM_DIR",directory);
+        try
+        {
+            var first=(ConversationRecord)((Dictionary<string,ConversationRecord>)Field(h.Control,"activeRecords"))["Claude"];
+            h.Send("EDIT-A");
+            Until(()=>File.Exists(Path.Combine(directory,"start-edit-A")));
+            Invoke(h.Control,"CreateConversation");
+            var second=(ConversationRecord)((Dictionary<string,ConversationRecord>)Field(h.Control,"activeRecords"))["Claude"];
+            h.Send("EDIT-B");
+            Until(()=>File.Exists(Path.Combine(directory,"start-edit-B")));
+            Check("two edit CLI requests overlap in different rooms",first.State==ConversationRunState.Running && second.State==ConversationRunState.Running);
+            File.WriteAllText(Path.Combine(directory,"release-edit-B"),"");
+            Until(()=>second.State==ConversationRunState.Completed);
+            Check("second edit room completes independently",first.State==ConversationRunState.Running && h.Chat.Messages.Any(message=>message.Text.Contains("fixture edit B completed")));
+            File.WriteAllText(Path.Combine(directory,"release-edit-A"),"");
+            Until(()=>first.State==ConversationRunState.Completed);
+            Check("edit replies persist to their owner rooms",new MarkdownWorkspaceStore().LoadOpen("Claude").Single(record=>record.Id==first.Id).Messages.Any(message=>message.Text.Contains("fixture edit A completed")) && new MarkdownWorkspaceStore().LoadOpen("Claude").Single(record=>record.Id==second.Id).Messages.Any(message=>message.Text.Contains("fixture edit B completed")));
+        }
+        finally { Environment.SetEnvironmentVariable("TASK055_ROOM_DIR",null); }
+    }
+
+    /// ---------------------------------------------------------------------
+    /// <summary>
+    /// name         : ConcurrentRoomStop
+    /// desc         : 한 대화방의 중지만 해당 CLI 프로세스를 취소한다.
+    /// author       : CodexCode
+    /// create date  : 2026-10-20
+    /// </summary>
+    /// ---------------------------------------------------------------------
+    private static void ConcurrentRoomStop(TestHost h)
+    {
+        h.Control.Initialize(h.Document,new RuntimeEditProvider());Set(h.Control,"agentFullAccess",true);
+        h.Text("ExecutablePath").Text=Environment.GetEnvironmentVariable("TASK055_FIXTURE_EXE");
+        var first=(ConversationRecord)((Dictionary<string,ConversationRecord>)Field(h.Control,"activeRecords"))["Claude"];
+        h.Send("ROOM-A");string directory=h.Document.GetProjectDirectory();Until(()=>File.Exists(Path.Combine(directory,"start-A")));
+        Invoke(h.Control,"CreateConversation");
+        var second=(ConversationRecord)((Dictionary<string,ConversationRecord>)Field(h.Control,"activeRecords"))["Claude"];
+        h.Send("ROOM-B");Until(()=>File.Exists(Path.Combine(directory,"start-B")));
+        ((ListBox)h.Control.FindName("ConversationList")).SelectedItem=first;
+        h.Click("StopClicked");Until(()=>first.State==ConversationRunState.Stopped);
+        Check("stopping first room keeps second AI running",second.State==ConversationRunState.Running);
+        File.WriteAllText(Path.Combine(directory,"release-B"),"");Until(()=>second.State==ConversationRunState.Completed);
+        Check("second room still completes after first cancellation",second.Messages.Any(message=>message.Text.Contains("fixture room B completed")));
+    }
+
+    /// ---------------------------------------------------------------------
+    /// <summary>
+    /// name         : ConcurrentRoomProposals
+    /// desc         : 다른 방으로 돌아와도 두 수정안과 승인 상태가 섞이지 않는지 검사한다.
+    /// author       : CodexCode
+    /// create date  : 2026-10-20
+    /// </summary>
+    /// ---------------------------------------------------------------------
+    private static void ConcurrentRoomProposals(TestHost h)
+    {
+        h.Control.Initialize(h.Document,new RuntimeEditProvider());Set(h.Control,"agentFullAccess",false);
+        h.Text("ExecutablePath").Text=Environment.GetEnvironmentVariable("TASK055_FIXTURE_EXE");
+        string directory=h.Document.GetProjectDirectory();Environment.SetEnvironmentVariable("TASK055_ROOM_DIR",directory);
+        try
+        {
+            var first=(ConversationRecord)((Dictionary<string,ConversationRecord>)Field(h.Control,"activeRecords"))["Claude"];
+            h.Send("EDIT-A PROPOSAL");Until(()=>File.Exists(Path.Combine(directory,"start-edit-A")));
+            Invoke(h.Control,"CreateConversation");
+            var second=(ConversationRecord)((Dictionary<string,ConversationRecord>)Field(h.Control,"activeRecords"))["Claude"];
+            h.Send("EDIT-B PROPOSAL");Until(()=>File.Exists(Path.Combine(directory,"start-edit-B")));
+            File.WriteAllText(Path.Combine(directory,"release-edit-B"),"");Until(()=>second.State==ConversationRunState.Completed);
+            File.WriteAllText(Path.Combine(directory,"release-edit-A"),"");Until(()=>first.State==ConversationRunState.Completed);
+            var list=(ListBox)h.Control.FindName("ConversationList");
+            Check("second room shows its own unapproved proposal",((EditProposal)Field(h.Control,"pendingProposal")).Summary.Contains("fixture edit B"));
+            list.SelectedItem=first;
+            var firstProposal=(EditProposal)Field(h.Control,"pendingProposal");
+            Check("switching restores first room proposal without approval",firstProposal!=null && firstProposal.Summary.Contains("fixture edit A") && ((CheckBox)h.Control.FindName("ReviewApproval")).IsChecked!=true);
+            list.SelectedItem=second;
+            Check("switching back restores second room proposal",((EditProposal)Field(h.Control,"pendingProposal")).Summary.Contains("fixture edit B") && h.Document.Writes==0);
+        }
+        finally { Environment.SetEnvironmentVariable("TASK055_ROOM_DIR",null); }
     }
 
     /// ---------------------------------------------------------------------

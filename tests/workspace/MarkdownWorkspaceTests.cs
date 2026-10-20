@@ -12,6 +12,8 @@ using VS2017.AIAssistant.Chat;
 /// author       : CodexCode
 /// create date  : 2026-10-18
 /// update date  : 2026-10-18 CodexCode : 사용자 환경을 쓰지 않는 임시 작업공간 검사 추가.
+///                2026-10-20 CodexCode : 시간별 기록 분할·스크롤 복원·중복 없는 재저장 검증.
+///                2026-10-20 CodexOrig : TASK068 오래된 저장자는 거절하고 원문·초안을 보존한 뒤 최신 기록을 닫는 계약 검증.
 /// </summary>
 /// ---------------------------------------------------------------------
 internal static class MarkdownWorkspaceTests
@@ -60,6 +62,27 @@ internal static class MarkdownWorkspaceTests
             string[] required = { "layout:", "title:", "date:", "permalink:", "categories:", "tags:", "pin:", "news_id:", "source_url:", "source_date:", "reviewed_at:", "excerpt:" };
             Check(required.All(markdown.Contains), "Role 13번 front matter 필수 항목 포함");
             Check(File.ReadAllBytes(store.GetPath(first)).Take(3).SequenceEqual(new byte[] { 45, 45, 45 }), "UTF-8 BOM 없이 표준 Markdown 헤더 시작");
+            var paging = store.Create("Codex");
+            DateTimeOffset hour = new DateTimeOffset(2026, 10, 20, 9, 0, 0, TimeSpan.FromHours(9));
+            for (int index = 0; index < 45; index++)
+                paging.Messages.Add(new ChatMessage { Role = index % 2 == 0 ? "user" : "assistant", Text = "시간별 메시지 " + index, CreatedAt = hour.AddHours(index / 15).AddMinutes(index % 15) });
+            store.Save(paging);
+            string historyDirectory = Path.Combine(Path.GetDirectoryName(store.GetPath(paging)), paging.Id + ".history");
+            Check(Directory.GetFiles(historyDirectory, "*.md").Length == 3, "메시지 시각을 기준으로 한 시간마다 Markdown 파일 분할");
+            var recent = new MarkdownWorkspaceStore(store.RootPath).LoadOpen("Codex").Single(record => record.Id == paging.Id);
+            Check(recent.Messages.Count == 20 && recent.Messages[0].Text == "시간별 메시지 25", "재시작 복원은 최신 20개만 읽음");
+            var olderPage = store.LoadOlder(recent, recent.Messages[0], 20);
+            var oldestPage = store.LoadOlder(recent, olderPage[0], 20);
+            Check(olderPage.Length == 20 && olderPage[0].Text == "시간별 메시지 5" && oldestPage.Length == 5 && oldestPage[0].Text == "시간별 메시지 0", "상단 스크롤은 이전 20개와 마지막 5개를 순서대로 복원");
+            recent.Draft = "최신 기록의 저장된 초안";
+            store.Save(recent);
+            Check(Directory.GetFiles(historyDirectory, "*.md").Length == 3 && store.LoadOlder(recent, recent.Messages[0], 40).Length == 25, "재저장해도 시간별 기록이 중복되지 않음");
+            string committedPaging = File.ReadAllText(store.GetPath(paging));
+            paging.Draft = "오래된 화면의 미전송 요청";
+            Throws<StaleConversationWriteException>(() => store.Close(paging), "오래된 화면의 닫기 저장은 명시적으로 거절");
+            Check(paging.IsOpen && paging.Draft == "오래된 화면의 미전송 요청" && File.ReadAllText(store.GetPath(paging)) == committedPaging,
+                "오래된 저장자 거절은 열림 상태·미전송 초안·기존 확정 파일을 모두 보존");
+            store.Close(recent);
             first.Messages[0].Text = new string('가', 150) + "😀";
             store.Save(first);
             Check(first.Title.Length <= 120 && first.Title.EndsWith("…"), "긴 자동 제목을 120자 이하로 제한");
@@ -87,6 +110,8 @@ internal static class MarkdownWorkspaceTests
             Check(new MarkdownWorkspaceStore(store.RootPath).LoadInstructions() == instructions, "공통 instruction의 원문 Markdown과 개행 보존");
             Check(File.ReadAllText(store.InstructionsPath).Contains(instructions), "공통 instruction을 일반 Markdown 본문으로 저장");
             Check(store.LoadOpen("Claude").Length == 1 && new MarkdownWorkspaceStore(store.RootPath).InstructionsPath == store.InstructionsPath, "모든 AI와 프로젝트에서 같은 instruction 위치 사용");
+            var selection = new ChatMessage { Role = "assistant", Text = "원하는 방법을 선택해 주세요.\n1. 기존 UI 패턴 유지\n2. 새 화면 추가" };
+            Check(selection.Choices.Length == 2 && selection.Choices[0] == "기존 UI 패턴 유지" && new ChatMessage { Role = "user", Text = selection.Text }.Choices.Length == 0, "AI가 선택을 요청한 번호 목록만 선택 버튼으로 제공");
             string manuallyEdited = File.ReadAllText(store.InstructionsPath).Replace("한글로 설명", "간결하게 설명");
             File.WriteAllText(store.InstructionsPath, manuallyEdited, new UTF8Encoding(true));
             Check(store.LoadInstructions().Contains("간결하게 설명"), "일반 편집기의 BOM 포함 수동 instruction 수정 읽기");

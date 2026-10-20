@@ -60,6 +60,7 @@ namespace CodexCode.IdeIntegration
         ///                2026-10-18 CodexOrig : TASK-020 최종 버전·선택·전체 액세스 검사 계약 반영.
         ///                2026-10-18 CodexOrig : 실제 IDE의 진행 카드와 소유 WPF Window 연결 상태를 관찰 기록.
         ///                2026-10-19 CodexOrig : 새 Markdown 링크·공통 테마·목록 overlay·돋보기 실제 호스트 검증.
+        ///                2026-10-20 CodexOrig : TASK068 미승인 수정안을 보존한 SQL 대기를 명시적 건너뛰기로 실행.
         /// </summary>
         /// ---------------------------------------------------------------------
         internal static async Task RunAsync(Package product, DTE dte, TestConfig config)
@@ -167,6 +168,7 @@ namespace CodexCode.IdeIntegration
             Check("SYNC-05 temporary editor protection restored", !target.Capture().IsReadOnly);
             using (var editing = editingService.BeginExternalEditing(null)) File.WriteAllBytes(sourcePath, originalBytes);
             Check("SYNC-06 baseline restored through same synchronization path", target.Capture().Content == originalDisk && sourceDoc.Saved);
+            await CheckSharedRoomEditingAsync(view, editingService, target, sourceDoc, sourcePath, originalBytes, originalDisk, changedDisk);
             bool closeStopped = false;
             using (var editing = editingService.BeginExternalEditing(() => closeStopped = true)) {
                 dte.ItemOperations.OpenFile(otherPath); var reopened = dte.ActiveDocument;
@@ -274,7 +276,16 @@ namespace CodexCode.IdeIntegration
             Text(view, "Instruction").Text = liveRan
                 ? "Insert exactly SELECT Id FROM dbo.Sample; into this empty SQL document. Reference schema: dbo.Sample has Id int NOT NULL. Add no comments or other statements. Return one edit with old_text equal to the empty string."
                 : "fixture:sql";
-            await GenerateAsync(view, liveRan ? 120000 : 15000);
+            if (!liveRan)
+            {
+                string retainedPreview = Text(view, "ProposedPreview").Text;
+                Click(view, "GenerateButton");
+                Check("ROOM-QUEUE-01 unapproved proposal is retained before explicit skip", Text(view, "ProposedPreview").Text == retainedPreview && Button(view, "DiscardProposalButton").IsEnabled && File.ReadAllText(queryPath) == "");
+                Click(view, "DiscardProposalButton");
+                await GenerateAsync(view, 15000, false);
+                Check("ROOM-QUEUE-02 explicit skip runs queued SQL without applying it", Text(view, "ProposedPreview").Text.Trim() == "SELECT Id FROM dbo.Sample;" && File.ReadAllText(queryPath) == "");
+            }
+            else await GenerateAsync(view, 120000);
             Check("WORK-04 empty SQL query draft preserves disk before approval", Text(view, "ProposedPreview").Text.Trim() == "SELECT Id FROM dbo.Sample;" && File.ReadAllText(queryPath) == "" && !Button(view, "ApplyButton").IsEnabled);
             ApproveAndApply(view); Click(view, "SaveButton");
             Check("WORK-05 approved SQL query is saved by actual IDE", queryDoc.Saved && File.ReadAllText(queryPath).Trim() == "SELECT Id FROM dbo.Sample;");
@@ -363,7 +374,22 @@ namespace CodexCode.IdeIntegration
             coordinator.CollaboratorIds = new string[0]; new MarkdownWorkspaceStore().Save(coordinator);
             Text(view, "ExecutablePath").Text = config.RuntimeFixturePath;
             Text(view, "Instruction").Text = "Run the isolated native fixture command and report actual files and usage.";
-            await GenerateAsync(view, 30000);
+            string retainedCollaborationPreview = Text(view, "ProposedPreview").Text;
+            object retainedCollaborationProposal = typeof(AssistantControl).GetField("pendingProposal", flags).GetValue(view);
+            Click(view, "GenerateButton");
+            File.AppendAllText(progressPath, "ROOM-QUEUE-03 observation: " + new JavaScriptSerializer().Serialize(new {
+                Status = ((TextBlock)view.FindName("StatusLabel")).Text,
+                PreviewPreserved = Text(view, "ProposedPreview").Text == retainedCollaborationPreview,
+                ProposalBefore = retainedCollaborationProposal != null,
+                ProposalPreserved = ReferenceEquals(retainedCollaborationProposal, typeof(AssistantControl).GetField("pendingProposal", flags).GetValue(view)),
+                DiscardEnabled = Button(view, "DiscardProposalButton").IsEnabled,
+                MarkerExists = File.Exists(Path.Combine(config.OutputDirectory, "actual-command-passed.txt")),
+                ActiveDocument = dte.ActiveDocument == null ? "" : dte.ActiveDocument.FullName,
+                Provider = Convert.ToString(((TabItem)((TabControl)view.FindName("ProviderChoice")).SelectedItem).Tag)
+            }) + "\r\n");
+            Check("ROOM-QUEUE-03 collaboration proposal blocks direct writes until explicit skip", Text(view, "ProposedPreview").Text == retainedCollaborationPreview && Button(view, "DiscardProposalButton").IsEnabled && !File.Exists(Path.Combine(config.OutputDirectory, "actual-command-passed.txt")));
+            Click(view, "DiscardProposalButton");
+            await GenerateAsync(view, 30000, false);
             Check("FULL-04 actual IDE full runner executes file writes and test command", File.Exists(Path.Combine(config.OutputDirectory, "actual-command-passed.txt")) && File.ReadAllText(Path.Combine(config.OutputDirectory, "NativeFixture.txt")) == "new");
             string immediateUsage = Convert.ToString(((ToolTip)((Button)view.FindName("ModelOptionsButton")).ToolTip).Content);
             Check("FULL-08 completed request immediately exposes its final reported usage", immediateUsage.Contains("24 tokens"));
@@ -517,6 +543,73 @@ namespace CodexCode.IdeIntegration
 
         /// ---------------------------------------------------------------------
         /// <summary>
+        /// name         : CheckSharedRoomEditingAsync
+        /// desc         : 실제 IDE의 두 대화 임대가 같은 보호 scope를 사용하고 마지막 종료에만 버퍼를 복원하는지 확인한다.
+        /// author       : CodexOrig
+        /// create date  : 2026-10-20
+        /// update date  : 2026-10-20 CodexOrig : TASK068 전용 호스트의 실제 문서 보호·외부 변경·참조계수 복원 검사.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        private static async Task CheckSharedRoomEditingAsync(AssistantControl view, IExternalEditingDocumentService editingService,
+            IEditorDocument target, Document sourceDoc, string sourcePath, byte[] originalBytes, string originalDisk, string changedDisk)
+        {
+            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+            const BindingFlags flags = BindingFlags.Instance | BindingFlags.NonPublic;
+            var acquire = typeof(AssistantControl).GetMethod("AcquireRoomExternalEditing", flags);
+            var release = typeof(AssistantControl).GetMethod("ReleaseRoomExternalEditing", flags);
+            var scope = typeof(AssistantControl).GetField("sharedExternalEditing", flags);
+            var count = typeof(AssistantControl).GetField("sharedExternalEditingUsers", flags);
+            var chat = new ChatSession();
+            bool first = false, second = false;
+            try
+            {
+                first = (bool)acquire.Invoke(view, null);
+                object identity = scope.GetValue(view);
+                Check("ROOM-SYNC-01 first room protects actual saved IDE buffer", first && identity != null && target.Capture().IsReadOnly);
+                second = (bool)acquire.Invoke(view, null);
+                Check("ROOM-SYNC-02 second room shares one actual IDE scope", second && ReferenceEquals(identity, scope.GetValue(view)) && (int)count.GetValue(view) == 2 && ((IExternalEditingScopeState)identity).IsTemporarilyReadOnly(sourcePath));
+                File.WriteAllText(sourcePath, changedDisk, new UTF8Encoding(true));
+                await Task.Delay(150);
+                await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+                release.Invoke(view, new object[] { chat }); second = false;
+                Check("ROOM-SYNC-03 first completion keeps remaining room protected", (int)count.GetValue(view) == 1 && target.Capture().IsReadOnly && target.Capture().Content == originalDisk);
+                release.Invoke(view, new object[] { chat }); first = false;
+                Check("ROOM-SYNC-04 last completion restores buffer and editability", (int)count.GetValue(view) == 0 && scope.GetValue(view) == null && !target.Capture().IsReadOnly && target.Capture().Content == changedDisk && sourceDoc.Saved);
+            }
+            finally
+            {
+                await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+                if (second) release.Invoke(view, new object[] { chat });
+                if (first) release.Invoke(view, new object[] { chat });
+                using (var editing = editingService.BeginExternalEditing(null)) File.WriteAllBytes(sourcePath, originalBytes);
+            }
+            Check("ROOM-SYNC-05 original fixture content and state restored", target.Capture().Content == originalDisk && !target.Capture().IsReadOnly && sourceDoc.Saved);
+            bool originallyReadOnly = sourceDoc.ReadOnly;
+            bool readOnlyLease = false;
+            try
+            {
+                sourceDoc.ReadOnly = true;
+                readOnlyLease = (bool)acquire.Invoke(view, null);
+                Check("ROOM-SYNC-06 baseline read-only is excluded from temporary protection", target.Capture().IsReadOnly && !((IExternalEditingScopeState)scope.GetValue(view)).IsTemporarilyReadOnly(sourcePath));
+                var requestType = typeof(AssistantControl).GetNestedType("QueuedUiRequest", BindingFlags.NonPublic);
+                object request = Activator.CreateInstance(requestType, true);
+                requestType.GetField("Document", flags | BindingFlags.Public).SetValue(request, target);
+                requestType.GetField("Source", flags | BindingFlags.Public).SetValue(request, target.Capture());
+                bool rejected = false;
+                try { typeof(AssistantControl).GetMethod("RequireRoomSourceUnchanged", flags).Invoke(view, new[] { request }); }
+                catch (TargetInvocationException error) { rejected = error.InnerException is InvalidOperationException; }
+                Check("ROOM-SYNC-07 another room cannot bypass baseline read-only", rejected && target.Capture().Content == originalDisk);
+            }
+            finally
+            {
+                if (readOnlyLease) release.Invoke(view, new object[] { chat });
+                sourceDoc.ReadOnly = originallyReadOnly;
+            }
+            Check("ROOM-SYNC-08 baseline fixture protection is restored", !target.Capture().IsReadOnly && sourceDoc.Saved && (int)count.GetValue(view) == 0);
+        }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
         /// name         : GenerateAsync
         /// desc         : 실제 생성 버튼을 누른 후 Dispatcher를 막지 않고 제품의 비동기 처리를 기다린다.
         /// author       : CodexCode
@@ -525,9 +618,9 @@ namespace CodexCode.IdeIntegration
         ///                2026-10-18 CodexOrig : TASK-020 최종 버전·선택·전체 액세스 검사 계약 반영.
         /// </summary>
         /// ---------------------------------------------------------------------
-        private static async Task GenerateAsync(AssistantControl view, int timeoutMs = 15000)
+        private static async Task GenerateAsync(AssistantControl view, int timeoutMs = 15000, bool submit = true)
         {
-            Click(view, "GenerateButton");
+            if (submit) Click(view, "GenerateButton");
             var clock = System.Diagnostics.Stopwatch.StartNew();
             var flags = BindingFlags.Instance | BindingFlags.NonPublic;
             var busyField = typeof(AssistantControl).GetField("busy", flags);

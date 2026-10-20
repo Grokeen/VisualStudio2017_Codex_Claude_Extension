@@ -9,11 +9,12 @@ update date  : 2026-10-18 CodexCode : 고정 스크립트·루트 내부 경로�
 update date  : 2026-10-18 CodexOrig : TASK-016 문서·모델·AI 협업과 실제 비동기 UI 회귀 연결.
 update date  : 2026-10-18 CodexOrig : TASK-018 드롭다운·이미지 요구 및 기본14개 검사 반영.
                2026-10-19 CodexOrig : TASK-025 신규 UI·Markdown·안내 검사를 기본 묶음에 순차 연결.
+               2026-10-20 CodexOrig : TASK068 독립 대화 검사에 고정 DLL·Assets와 새 출력 경로 전달.
 -------------------------------------------------------------------------
 #>
 [CmdletBinding()]
 param(
-    [Parameter(Mandatory=$true)][ValidateSet('compatibility','build-entry','markdown','settings','workspace-actions','editing','foundation','experience','documents','collaboration','provider-options','provider-cli','scm-identity','image-requirements','image-followup','native-runtime','request-queue','file-artifacts','notification-content','ide','live-codex')][string]$Suite,
+    [Parameter(Mandatory=$true)][ValidateSet('compatibility','build-entry','markdown','settings','workspace-actions','editing','foundation','experience','documents','collaboration','provider-options','provider-cli','scm-identity','image-requirements','image-followup','native-runtime','request-queue','file-artifacts','notification-content','concurrent-conversations','ide','live-codex')][string]$Suite,
     [string]$AssemblyPath,
     [string]$VsixPath,
     [string]$OutputDirectory,
@@ -45,10 +46,11 @@ try {
         'request-queue' { $scriptRelativePath = 'tests\task055\Test-RequestQueue.ps1'; $suiteArguments.AssemblyPath = $AssemblyPath; $suiteArguments.OutputDirectory = $OutputDirectory }
         'file-artifacts' { $scriptRelativePath = 'tests\task061\Test-ArtifactProduct.ps1'; $suiteArguments.AssemblyPath = $AssemblyPath; $suiteArguments.OutputDirectory = $OutputDirectory }
         'notification-content' { $scriptRelativePath = 'tests\task054\Test-NotificationContent.ps1'; $suiteArguments.AssemblyPath = $AssemblyPath; $suiteArguments.OutputDirectory = $OutputDirectory }
+        'concurrent-conversations' { $scriptRelativePath = 'tests\task068concurrent\Test-ConcurrentRooms.ps1'; $suiteArguments.AssemblyPath = $AssemblyPath; $suiteArguments.OutputDirectory = $OutputDirectory }
         'ide' { $scriptRelativePath = 'tests\ide\Test-IdeIntegration.ps1'; $suiteArguments.VsixPath = $VsixPath }
         'live-codex' { $scriptRelativePath = 'tests\review\Test-LiveChatContext.ps1'; $suiteArguments.AssemblyPath = $AssemblyPath; $suiteArguments.CodexPath = $CodexPath }
     }
-    if ($Suite -in @('request-queue','file-artifacts')) {
+    if ($Suite -in @('request-queue','file-artifacts','concurrent-conversations')) {
         $binaryFolder = [IO.DirectoryInfo]([IO.Path]::GetDirectoryName([IO.Path]::GetFullPath($AssemblyPath)))
         $skuFolder = $binaryFolder.Parent
         $exactAssets = Join-Path $skuFolder.Parent.FullName ('source/src/VS'+$skuFolder.Name+'.AIAssistant/obj/project.assets.json')

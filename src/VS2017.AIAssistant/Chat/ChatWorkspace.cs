@@ -164,13 +164,64 @@ namespace VS2017.AIAssistant.Chat
     /// create date  : 2026-10-18
     /// update date  : 2026-10-18 CodexOrig : 원문 프롬프트와 응답을 메모리에 누적.
     /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
+    ///                2026-10-20 CodexCode : 시간별 기록을 위한 메시지 식별자·시각과 선택지 제공.
     /// </summary>
     /// ---------------------------------------------------------------------
     public sealed class ChatMessage
     {
+        public string Id { get; set; } = Guid.NewGuid().ToString("N");
+        public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.Now;
         public string Role { get; set; }
         public string Text { get; set; }
         public string Speaker { get { return Role == "user" ? "나" : Role == "assistant" ? "AI" : (Text ?? "").StartsWith("⌘", StringComparison.Ordinal) ? "명령·테스트" : (Text ?? "").StartsWith("✎", StringComparison.Ordinal) ? "소스 변경" : (Text ?? "").StartsWith("⌕", StringComparison.Ordinal) ? "조회·도구" : "안내"; } }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : Choices
+        /// desc         : AI가 사용자 선택을 요청하며 제시한 마지막 번호 목록만 버튼 후보로 제공한다.
+        /// author       : CodexCode
+        /// create date  : 2026-10-20
+        /// update date  : 2026-10-20 CodexCode : 영어 선택 동사를 단어 단위로 판정해 완료 설명의 selected를 제외.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        public string[] Choices
+        {
+            get
+            {
+                if (Role != "assistant" || String.IsNullOrEmpty(Text) || Text.Length > 64000) return new string[0];
+                var lines = Text.Replace("\r\n", "\n").Split('\n');
+                var choices = new System.Collections.Generic.List<string>();
+                int last = lines.Length - 1;
+                while (last >= 0 && String.IsNullOrWhiteSpace(lines[last])) last--;
+                if (last < 0) return new string[0];
+                int first = last;
+                for (; first >= 0; first--)
+                {
+                    var match = System.Text.RegularExpressions.Regex.Match(lines[first].Trim(), @"^([1-5])[.)]\s+(.{1,160})$");
+                    if (!match.Success) break;
+                    choices.Insert(0, match.Groups[2].Value.Trim());
+                    if (choices.Count > 5) return new string[0];
+                }
+                if (choices.Count < 2) return new string[0];
+                int start = first + 1;
+                for (int number = 0; number < choices.Count; number++)
+                    if (lines[start + number].TrimStart()[0] != (char)('1' + number)) return new string[0];
+                int prompt = first;
+                while (prompt >= 0 && String.IsNullOrWhiteSpace(lines[prompt])) prompt--;
+                if (prompt < 0) return new string[0];
+                string question = lines[prompt].Trim();
+                bool asksChoice = System.Text.RegularExpressions.Regex.IsMatch(question,
+                    @"(?:선택(?:해|하여|해주|해 주|하세요)|골라(?:주|주세요)|고르(?:세요|십시오)|어느\s+것으로\s+진행할까요|\b(?:choose|select)\b|\bwhich\s+option\b)",
+                    System.Text.RegularExpressions.RegexOptions.IgnoreCase) &&
+                    (question.EndsWith("?", StringComparison.Ordinal) || question.EndsWith(".", StringComparison.Ordinal) ||
+                     question.EndsWith(":", StringComparison.Ordinal) || question.EndsWith("요", StringComparison.Ordinal));
+                if (!asksChoice) return new string[0];
+                bool fenced = false;
+                for (int index = 0; index <= last; index++)
+                    if (lines[index].TrimStart().StartsWith("```", StringComparison.Ordinal)) fenced = !fenced;
+                return fenced ? new string[0] : choices.ToArray();
+            }
+        }
     }
 
     /// ---------------------------------------------------------------------

@@ -37,6 +37,9 @@ namespace VS2017.AIAssistant.Views
         private readonly ObservableCollection<ChatMessage> visibleConversationMessages = new ObservableCollection<ChatMessage>();
         private ChatSession visibleConversationChat;
         private int visibleConversationStart;
+        private CancellationTokenSource olderConversationLoadCancellation;
+        private int olderConversationLoadGeneration;
+        private string olderConversationExhaustedCursor;
         private ChatSession ActiveChat
         {
             get
@@ -135,19 +138,21 @@ namespace VS2017.AIAssistant.Views
         /// create date  : 2026-10-19
         /// update date  : 2026-10-19 CodexCode : TASK049 저장 모델과 화면 표시 컬렉션 분리.
         ///                2026-10-20 CodexOrig : 보조 개발 TASK055 입력 FIFO·문맥 보존 및 중복 작업 최소화.
+        ///                2026-10-20 CodexOrig : TASK068 대화 전환 시 파일 조회를 취소하고 비동기 이전 페이지 콜백을 연결.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void BindVisibleConversation(ChatSession chat)
         {
             if (ReferenceEquals(visibleConversationChat, chat)) return;
             CancelConversationPrepend();
+            olderConversationExhaustedCursor = null;
             if (visibleConversationChat != null) visibleConversationChat.Messages.CollectionChanged -= VisibleConversationChanged;
             visibleConversationChat = chat;
             visibleConversationMessages.Clear();
             visibleConversationStart = Math.Max(0, chat.Messages.Count - ConversationPageSize);
             for (int index = visibleConversationStart; index < chat.Messages.Count; index++) visibleConversationMessages.Add(chat.Messages[index]);
             chat.Messages.CollectionChanged += VisibleConversationChanged;
-            conversationTryLoadOlder = PrependOlderConversationMessages;
+            conversationTryLoadOlder = PrependOlderConversationMessagesAsync;
             ConversationMessages.ItemsSource = visibleConversationMessages;
         }
 
@@ -194,16 +199,150 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexCode
         /// create date  : 2026-10-19
         /// update date  : 2026-10-19 CodexCode : TASK049 상단 스크롤에서만 이전 페이지 공개.
+        ///                2026-10-20 CodexCode : 메모리 페이지가 끝나면 시간별 Markdown에서 직전 페이지를 읽음.
+        ///                2026-10-20 CodexOrig : TASK068 파일 조회를 백그라운드로 옮기고 대화·커서·세대가 바뀐 지연 결과를 폐기.
         /// </summary>
         /// ---------------------------------------------------------------------
-        private bool PrependOlderConversationMessages()
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "VSTHRD001:Avoid legacy thread switching APIs", Justification = "The owned WPF Dispatcher applies only this control's captured history result; no Visual Studio service is accessed.")]
+        private async Task<bool> PrependOlderConversationMessagesAsync()
         {
-            if (visibleConversationChat == null || visibleConversationStart <= 0) return false;
-            int start = Math.Max(0, visibleConversationStart - ConversationPageSize);
-            for (int index = visibleConversationStart - 1; index >= start; index--)
-                visibleConversationMessages.Insert(0, visibleConversationChat.Messages[index]);
-            visibleConversationStart = start;
-            return true;
+            if (!Dispatcher.CheckAccess())
+                return await Dispatcher.InvokeAsync(() => PrependOlderConversationMessagesAsync()).Task.Unwrap().ConfigureAwait(false);
+            VerifyConversationHistoryAccess();
+            if (visibleConversationChat == null) return false;
+            if (visibleConversationStart > 0)
+            {
+                int start = Math.Max(0, visibleConversationStart - ConversationPageSize);
+                for (int index = visibleConversationStart - 1; index >= start; index--)
+                    visibleConversationMessages.Insert(0, visibleConversationChat.Messages[index]);
+                visibleConversationStart = start;
+                return true;
+            }
+            if (visibleConversationMessages.Count == 0) return false;
+            ConversationRecord record;
+            if (!activeRecords.TryGetValue(selectedProvider, out record)) return false;
+            string provider = selectedProvider;
+            var chat = visibleConversationChat;
+            var first = visibleConversationMessages[0];
+            string exhaustedKey = provider + "|" + record.Id + "|" + record.StorageRevision + "|" + first.Id;
+            if (olderConversationExhaustedCursor == exhaustedKey) return false;
+            CancelOlderConversationLoad();
+            var cancellation = olderConversationLoadCancellation = new CancellationTokenSource();
+            var token = cancellation.Token;
+            int generation = olderConversationLoadGeneration;
+            var snapshot = new ConversationRecord {
+                Id = record.Id, Provider = record.Provider, CreatedAt = record.CreatedAt,
+                StorageRevision = record.StorageRevision, StorageDocumentHash = record.StorageDocumentHash,
+                HistoryManifest = record.HistoryManifest, HistoryManifestHash = record.HistoryManifestHash,
+                LastArchivedMessageId = record.LastArchivedMessageId,
+                Messages = record.Messages.Select(message => new ChatMessage { Id = message.Id, CreatedAt = message.CreatedAt, Role = message.Role, Text = message.Text }).ToList()
+            };
+            var cursor = new ChatMessage { Id = first.Id, CreatedAt = first.CreatedAt, Role = first.Role, Text = first.Text };
+            try
+            {
+                var older = await System.Threading.Tasks.Task.Run(() =>
+                {
+                    token.ThrowIfCancellationRequested();
+                    var page = workspaceStore.LoadOlder(snapshot, cursor, ConversationPageSize);
+                    token.ThrowIfCancellationRequested();
+                    return page;
+                }, token).ConfigureAwait(false);
+                if (Dispatcher.HasShutdownStarted || Dispatcher.HasShutdownFinished) return false;
+                return await Dispatcher.InvokeAsync(() =>
+                {
+                    VerifyConversationHistoryAccess();
+                    if (!OwnsOlderConversationLoad(provider, record, chat, cursor.Id, generation, token)) return false;
+                    if (older.Length == 0)
+                    {
+                        olderConversationExhaustedCursor = exhaustedKey;
+                        if (StatusLabel.Text.StartsWith("이전 기록을 읽지 못했습니다.", StringComparison.Ordinal)) StatusLabel.Text = "이전 기록을 모두 불러왔습니다.";
+                        return false;
+                    }
+                    var ids = new HashSet<string>(visibleConversationMessages.Select(message => message.Id), StringComparer.Ordinal);
+                    if (older.Any(message => !ids.Add(message.Id))) throw new InvalidDataException("이전 기록에 중복 메시지가 있어 현재 커서를 보존했습니다.");
+                    CaptureConversationPrependAnchor();
+                    for (int index = older.Length - 1; index >= 0; index--) visibleConversationMessages.Insert(0, older[index]);
+                    if (StatusLabel.Text.StartsWith("이전 기록을 읽지 못했습니다.", StringComparison.Ordinal)) StatusLabel.Text = "이전 기록 " + older.Length + "개를 불러왔습니다.";
+                    return true;
+                }).Task.ConfigureAwait(false);
+            }
+            catch (OperationCanceledException) { return false; }
+            catch (Exception error)
+            {
+                if (Dispatcher.HasShutdownStarted || Dispatcher.HasShutdownFinished) return false;
+                try
+                {
+                    return await Dispatcher.InvokeAsync(() =>
+                    {
+                        VerifyConversationHistoryAccess();
+                        if (OwnsOlderConversationLoad(provider, record, chat, cursor.Id, generation, token)) StatusLabel.Text = "이전 기록을 읽지 못했습니다. 위로 스크롤하면 다시 시도합니다: " + error.Message;
+                        return false;
+                    }).Task.ConfigureAwait(false);
+                }
+                catch (OperationCanceledException) { return false; }
+            }
+            finally { cancellation.Dispose(); }
+        }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : OwnsOlderConversationLoad
+        /// desc         : 전환·종료·새 커서 이후 도착한 파일 조회가 다른 대화나 읽기 위치를 바꾸지 못하게 한다.
+        /// author       : CodexOrig
+        /// create date  : 2026-10-20
+        /// update date  : 2026-10-20 CodexOrig : TASK068 비동기 기록 조회의 대화·입력 세대 소유권 검사.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        private bool OwnsOlderConversationLoad(string provider, ConversationRecord record, ChatSession chat, string cursor, int generation, CancellationToken token)
+        {
+            VerifyConversationHistoryAccess();
+            ConversationRecord active;
+            return !disposed && !conversationViewportDisposed && !token.IsCancellationRequested && generation == olderConversationLoadGeneration &&
+                provider == selectedProvider && activeRecords.TryGetValue(provider, out active) && ReferenceEquals(active, record) &&
+                ReferenceEquals(chat, visibleConversationChat) && visibleConversationMessages.Count > 0 && visibleConversationMessages[0].Id == cursor;
+        }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : CancelOlderConversationLoad
+        /// desc         : CLI나 대화 입력 상태와 독립적으로 이전 페이지 조회만 취소하고 지연 결과를 무효화한다.
+        /// author       : CodexOrig
+        /// create date  : 2026-10-20
+        /// update date  : 2026-10-20 CodexOrig : TASK068 전환·Dispose 후 파일 조회가 끝나도 화면에 삽입하지 않음.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        private void CancelOlderConversationLoad()
+        {
+            VerifyConversationHistoryAccess();
+            olderConversationLoadGeneration++;
+            var cancellation = olderConversationLoadCancellation;
+            olderConversationLoadCancellation = null;
+            if (cancellation == null) return;
+            try { cancellation.Cancel(); } catch (ObjectDisposedException) { }
+            cancellation.Dispose();
+        }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : MessageChoiceClicked
+        /// desc         : AI가 제시한 선택을 초안에 넣어 사용자가 확인한 뒤 요청할 수 있게 한다.
+        /// author       : CodexCode
+        /// create date  : 2026-10-20
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        private void MessageChoiceClicked(object sender, RoutedEventArgs args)
+        {
+            Dispatcher.VerifyAccess();
+            if (disposed || !experienceReady) return;
+            var button = sender as Button;
+            string choice = button == null ? null : button.Tag as string;
+            if (String.IsNullOrWhiteSpace(choice)) return;
+            string selected = "위 선택지에서 ‘" + choice + "’로 진행해 주세요.";
+            Instruction.Text = String.IsNullOrWhiteSpace(Instruction.Text) ? selected : Instruction.Text.TrimEnd() + "\n" + selected;
+            Instruction.Focus();
+            Instruction.CaretIndex = Instruction.Text.Length;
+            PersistCurrentConversation();
+            args.Handled = true;
         }
 
         /// ---------------------------------------------------------------------

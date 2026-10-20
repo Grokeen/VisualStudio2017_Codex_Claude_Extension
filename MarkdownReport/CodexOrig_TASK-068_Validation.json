@@ -1,0 +1,257 @@
+{
+  "Task": "TASK-068",
+  "Agent": "CodexOrig",
+  "Version": "0.13.0",
+  "Tag": "v0.13.0-preview.1",
+  "Candidate": "candidate6",
+  "StartedAt": "2026-10-20T13:09:13+09:00",
+  "ValidatedAt": "2026-10-20T14:32:49.0168881+09:00",
+  "SourceInputCount": 138,
+  "SourceInputsUnchanged": true,
+  "SourceManifestSha256": "9DF8030821DF6A0429F7CF2D1754E80C208BADE9AB0706F7F6D0A2BFA8597691",
+  "Builds": [
+    {
+      "Target": "2017.Legacy",
+      "Configuration": "Release",
+      "ExitCode": 0,
+      "Warnings": 0,
+      "Errors": 0,
+      "Log": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task068\\candidate6\\build-2017.Legacy-Release.log"
+    },
+    {
+      "Target": "2017",
+      "Configuration": "Release",
+      "ExitCode": 0,
+      "Warnings": 0,
+      "Errors": 0,
+      "Log": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task068\\candidate6\\build-2017-Release.log"
+    },
+    {
+      "Target": "2019",
+      "Configuration": "Release",
+      "ExitCode": 0,
+      "Warnings": 0,
+      "Errors": 0,
+      "Log": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task068\\candidate6\\build-2019-Release.log"
+    },
+    {
+      "Target": "2022",
+      "Configuration": "Release",
+      "ExitCode": 0,
+      "Warnings": 0,
+      "Errors": 0,
+      "Log": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task068\\candidate6\\build-2022-Release.log"
+    }
+  ],
+  "DefaultSuites": {
+    "Passed": 20,
+    "Failed": 0,
+    "Evidence": "artifacts/tl/a2d4802889/summary.txt"
+  },
+  "Concurrent": {
+    "Passed": 120,
+    "Failed": 0,
+    "ProductSha256": "BC7C35B7929D316A8F12DE333EBCEEDBB4AFE25D6DB92A5D8B644183CE14E4C5",
+    "Evidence": "artifacts/tl/a2d4802889/concurrent-conversations/result.json",
+    "RealRuntimeProvider": true,
+    "SyntheticLocalCli": true,
+    "RemoteAi": false
+  },
+  "ActualIde": [
+    {
+      "Sku": "2017.Legacy",
+      "Passed": 157,
+      "Failed": 0,
+      "ProductSha256": "DAE552A2A395E20CA4E74479C658E7FF8D331F9E24E4B4FAEBD3641349EB3C20",
+      "VsixSha256": "C167FD84ADC1076ED424BB4E126E9D5BF0C347DC90FE9ECFACF050BF0E5A9A5C",
+      "Evidence": "artifacts/ide/run-195ab4163d27492688c003ad2d7cb4f0",
+      "OwnedProcessCleanup": true,
+      "ExitedNormally": true,
+      "ForcedOwnedProcessCleanup": false,
+      "LiveAiTested": false
+    },
+    {
+      "Sku": "2017",
+      "Passed": 157,
+      "Failed": 0,
+      "ProductSha256": "BC7C35B7929D316A8F12DE333EBCEEDBB4AFE25D6DB92A5D8B644183CE14E4C5",
+      "VsixSha256": "D6D51F97F1C2FB9A773D2913078406F7BB0080B7C0627480B6F878786CC305B4",
+      "Evidence": "artifacts/ide/run-b930f22dd3e241f0b4a6f00d49f875db",
+      "OwnedProcessCleanup": true,
+      "ExitedNormally": true,
+      "ForcedOwnedProcessCleanup": false,
+      "LiveAiTested": false
+    },
+    {
+      "Sku": "2019",
+      "Passed": 157,
+      "Failed": 0,
+      "ProductSha256": "1B3CC414EE4FC67FA7F7356FBA0A0AF24E15C25B384610741ACC9245ED2A8A99",
+      "VsixSha256": "C43874CC0E881DFE4A9E4584EC5D6DBE5C81C41B7DBB4DE6E04460B741DAA56C",
+      "Evidence": "artifacts/ide/run-86b61db5063f4febb18fffa1ce704a36",
+      "OwnedProcessCleanup": true,
+      "ExitedNormally": false,
+      "ForcedOwnedProcessCleanup": true,
+      "LiveAiTested": false
+    },
+    {
+      "Sku": "2022",
+      "Passed": 157,
+      "Failed": 0,
+      "ProductSha256": "ED9B743E199082C24E1215C60A5CE62214F5C07711C28FF295FAE3B10E10CB18",
+      "VsixSha256": "1A09C1CE979032D16E67435C43BB412159F1AF7B6595D4E53C92CD6BDC0DE45B",
+      "Evidence": "artifacts/ide/run-fe680fd0907447cf9db1537326b425c7",
+      "OwnedProcessCleanup": true,
+      "ExitedNormally": true,
+      "ForcedOwnedProcessCleanup": false,
+      "LiveAiTested": false
+    }
+  ],
+  "ActualIdeTotalPassed": 628.0,
+  "ActualIdeTotalFailed": 0,
+  "StorageRegression": {
+    "SourcePassed": 32,
+    "ActualC5DllPassed": 32,
+    "ActualC6DllStorageRetested": false,
+    "C5AndC6StoreSourcesIdentical": true,
+    "Evidence": "artifacts/task068storage/assembly-151a81dfe1154b8c84f21f396fcb9d6e/assembly-summary.json",
+    "ReuseProof": "artifacts/task068/candidate5-to6-input-diff.json"
+  },
+  "HistoryAsyncSourceChecks": {
+    "Passed": 10,
+    "Failed": 0,
+    "C5AndC6SourcesIdentical": true,
+    "FullDllTest": false,
+    "Evidence": "artifacts/task068storage/ui-3828c452a0b14c388440a650f16322ed/history-ui-result.json"
+  },
+  "UiLayout": {
+    "PassedConditions": 8,
+    "Render": "Offscreen WPF RenderTargetBitmap",
+    "ActualPointer": false,
+    "ActualKeyboardFocusTested": false,
+    "C5VisualTemplatesUnchangedInC6": true,
+    "Evidence": "MarkdownReport/CodexOrig4_TASK-068_C5ActualUI.md"
+  },
+  "Installer": {
+    "Passed": 35,
+    "Failed": 0,
+    "SyntheticSku": true,
+    "Evidence": "artifacts/task068/installer-final2/results.json"
+  },
+  "NetworkIsolation": {
+    "Passed": 6,
+    "Failed": 0,
+    "ExactFinalZip": true,
+    "WorkerCapabilities": 0,
+    "PhysicalCableDisconnected": false,
+    "HostNetworkSettingsChanged": false,
+    "Evidence": "artifacts/task041/run-a2d91f18eefa4849bb64562fe7dd4873/summary.json"
+  },
+  "UserDistribution": {
+    "Directory": "UserDistribution/v0.13.0",
+    "Files": 68,
+    "PayloadChecksumEntries": 67,
+    "VendorCliFiles": 46,
+    "ProjectSourcesIncluded": false,
+    "PdbIncluded": false,
+    "AccountsIncluded": false,
+    "Manifest": "artifacts/task068/user-distribution-final2/user-distribution-manifest.json"
+  },
+  "Pdf": {
+    "Pages": 34,
+    "Bytes": 1666997,
+    "Sha256": "E96A03BD125550AF364E7B4476B25262716463C990632E088B55CCBCCD233E87",
+    "InstalledIdeHashesVerified": true
+  },
+  "AuditReport": "MarkdownReport/CodexOrig2_TASK-068_C6_Audit.md",
+  "Assets": [
+    {
+      "Name": "Grokeen-VisualStudio-Themes-0.13.0-VS2017.vsix",
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.13.0\\Grokeen-VisualStudio-Themes-0.13.0-VS2017.vsix",
+      "Bytes": 57789,
+      "Sha256": "228437DF4DA3CD910E43EB0E24DAF9B5FDCB289FE3B15E7CBE4EEFD2725D14F9"
+    },
+    {
+      "Name": "Grokeen-VisualStudio-Themes-0.13.0-VS2019.vsix",
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.13.0\\Grokeen-VisualStudio-Themes-0.13.0-VS2019.vsix",
+      "Bytes": 57788,
+      "Sha256": "69AFAAFC4D91F649D47657A43563A2F7F1FE46A58D28ECB595712075E87468A4"
+    },
+    {
+      "Name": "Grokeen-VisualStudio-Themes-0.13.0-VS2022.vsix",
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.13.0\\Grokeen-VisualStudio-Themes-0.13.0-VS2022.vsix",
+      "Bytes": 57816,
+      "Sha256": "392A1D12E77D004729113D0368252CCE87D97A0BBF98321722A190D9732DF62F"
+    },
+    {
+      "Name": "RELEASE_SHA256SUMS.txt",
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.13.0\\RELEASE_SHA256SUMS.txt",
+      "Bytes": 1320,
+      "Sha256": "EACA859FB5C0074EA652AA1964B4D6CF6E36B5E3AAC53A9584F80D67460688B6"
+    },
+    {
+      "Name": "SHA256SUMS.txt",
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.13.0\\SHA256SUMS.txt",
+      "Bytes": 739,
+      "Sha256": "BE399B2D5F197C25291AE0C8F2E3C99918CC2853CAF780727D667D9045E8175B"
+    },
+    {
+      "Name": "VisualStudio_AI_Assistant-0.13.0.zip",
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.13.0\\VisualStudio_AI_Assistant-0.13.0.zip",
+      "Bytes": 18271272,
+      "Sha256": "731FE957268463D0734760A1E9E56E5CC16280391F724AD6DDA5E4D16F8635C6"
+    },
+    {
+      "Name": "VisualStudio_AI_Assistant-0.13.0-Preview1-FullOffline-win-x64.zip",
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task068\\VisualStudio_AI_Assistant-0.13.0-Preview1-FullOffline-win-x64.zip",
+      "Bytes": 311250542,
+      "Sha256": "5A2B01C884C97D8661FF251CE776357C2132879A219328C73DCBF87E94764E83"
+    },
+    {
+      "Name": "VisualStudio_AI_Assistant-0.13.0-Preview1-FullOffline-win-x64.zip.sha256",
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task068\\VisualStudio_AI_Assistant-0.13.0-Preview1-FullOffline-win-x64.zip.sha256",
+      "Bytes": 133,
+      "Sha256": "B67058EA25720E412580B68E4C6E1926A5CC546601EA0F6FA423C3989D4497C7"
+    },
+    {
+      "Name": "VisualStudio_AI_Assistant-0.13.0-Preview-UserGuide.pdf",
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.13.0\\VisualStudio_AI_Assistant-0.13.0-Preview-UserGuide.pdf",
+      "Bytes": 1666997,
+      "Sha256": "E96A03BD125550AF364E7B4476B25262716463C990632E088B55CCBCCD233E87"
+    },
+    {
+      "Name": "VS2017.15.7.AIAssistant-0.13.0.vsix",
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.13.0\\VS2017.15.7.AIAssistant-0.13.0.vsix",
+      "Bytes": 4194521,
+      "Sha256": "C167FD84ADC1076ED424BB4E126E9D5BF0C347DC90FE9ECFACF050BF0E5A9A5C"
+    },
+    {
+      "Name": "VS2017.AIAssistant-0.13.0.vsix",
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.13.0\\VS2017.AIAssistant-0.13.0.vsix",
+      "Bytes": 4194514,
+      "Sha256": "D6D51F97F1C2FB9A773D2913078406F7BB0080B7C0627480B6F878786CC305B4"
+    },
+    {
+      "Name": "VS2019.AIAssistant-0.13.0.vsix",
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.13.0\\VS2019.AIAssistant-0.13.0.vsix",
+      "Bytes": 4193729,
+      "Sha256": "C43874CC0E881DFE4A9E4584EC5D6DBE5C81C41B7DBB4DE6E04460B741DAA56C"
+    },
+    {
+      "Name": "VS2022.AIAssistant-0.13.0.vsix",
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.13.0\\VS2022.AIAssistant-0.13.0.vsix",
+      "Bytes": 4192418,
+      "Sha256": "1A09C1CE979032D16E67435C43BB412159F1AF7B6595D4E53C92CD6BDC0DE45B"
+    }
+  ],
+  "Published": false,
+  "OldReleaseCleanupExecuted": false,
+  "C5FailurePreserved": "artifacts/task068/preserved-candidate5-package/preservation-result.json",
+  "UserSourcePolicy": "Existing GitHub public source workflow retained; installation folder and packages omit project sources/PDB/tests/development evidence.",
+  "UserCleanupPolicy": "After new publication and anonymous13-asset hashes: retain0.13.0+0.12.1, remove older local releases folders and GitHub attachments, preserve release entries/tags/development evidence.",
+  "Exclusions": [
+    "Claude login and live AI responses excluded by user",
+    "Customer VS2017 Professional15.7.1 and separate offline PC not tested",
+    "Physical pointer and actual IDE keyboard focus not tested"
+  ]
+}

@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -24,10 +25,14 @@ namespace VS2017.AIAssistant.Views
         private bool conversationMeasuredInfinitely;
         private double lastConversationViewportHeight = 600;
         // TASK049 CodexCode : 화면에 보이지 않는 저장 기록은 ChatSession에 남겨 두고 상단 접근 시에만 펼친다.
-        private Func<bool> conversationTryLoadOlder;
+        private Func<Task<bool>> conversationTryLoadOlder;
         private bool conversationPrepending;
         private double conversationPrependOffset, conversationPrependExtent;
         private DispatcherOperation conversationPrependOperation;
+        private Task conversationPrependTask;
+        private int conversationPrependGeneration;
+        private FrameworkElement conversationPrependAnchor;
+        private double conversationPrependAnchorY;
 
         /// ---------------------------------------------------------------------
         /// <summary>
@@ -215,33 +220,103 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexCode
         /// create date  : 2026-10-19
         /// update date  : 2026-10-19 CodexCode : TASK049 위쪽 휠·키·스크롤바의 공통 진입점.
+        ///                2026-10-20 CodexOrig : TASK068 비동기 조회 한 건만 진행하고 완료 후 현재 세대의 읽기 앵커를 복원.
         /// </summary>
         /// ---------------------------------------------------------------------
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "VSTHRD001:Avoid legacy thread switching APIs", Justification = "Schedules the owned WPF ScrollViewer layout pass at Loaded priority; this is not a switch to the Visual Studio main thread.")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "VSTHRD002:Avoid problematic synchronous waits", Justification = "Reads only a task whose status is already RanToCompletion; pending file IO is always awaited asynchronously.")]
         private bool TryPrependConversationPage()
         {
             if (conversationPrepending || conversationTryLoadOlder == null || ConversationScroll == null || disposed || conversationViewportDisposed) return false;
             conversationFollowingEnd = false;
             CancelConversationFollow();
             conversationPrepending = true;
+            CaptureConversationPrependAnchor();
+            int generation = ++conversationPrependGeneration;
+            Task<bool> load;
+            try { load = conversationTryLoadOlder(); }
+            catch { CancelConversationPrepend(); throw; }
+            if (load.Status == TaskStatus.RanToCompletion && !load.GetAwaiter().GetResult()) { CancelConversationPrepend(); return false; }
+            conversationPrependTask = CompleteConversationPrependAsync(load, generation);
+            return true;
+        }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : CaptureConversationPrependAnchor
+        /// desc         : 조회 중 사용자 스크롤을 존중하도록 실제 삽입 직전의 문단 위치와 offset을 고정한다.
+        /// author       : CodexOrig
+        /// create date  : 2026-10-20
+        /// update date  : 2026-10-20 CodexOrig : TASK068 지연 조회가 시작 시점의 읽기 위치로 되돌리지 않음.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        private void CaptureConversationPrependAnchor()
+        {
+            VerifyConversationHistoryAccess();
+            if (!conversationPrepending || ConversationScroll == null) return;
             conversationPrependOffset = ConversationScroll.VerticalOffset;
             conversationPrependExtent = ConversationScroll.ExtentHeight;
-            bool added;
-            try { added = conversationTryLoadOlder(); }
-            catch { conversationPrepending = false; throw; }
-            if (!added) { conversationPrepending = false; return false; }
+            conversationPrependAnchor = ConversationMessages.ItemContainerGenerator.ContainerFromIndex(0) as FrameworkElement;
+            conversationPrependAnchorY = conversationPrependAnchor == null ? 0 : conversationPrependAnchor.TranslatePoint(new Point(), ConversationScroll).Y;
+        }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : CompleteConversationPrependAsync
+        /// desc         : 파일 조회를 기다리는 동안 UI를 비워 두고 같은 대화 세대의 완료만 레이아웃에 연결한다.
+        /// author       : CodexOrig
+        /// create date  : 2026-10-20
+        /// update date  : 2026-10-20 CodexOrig : TASK068 조회 실패·취소·전환 뒤 이전 작업이 새 페이지 상태를 해제하지 못하게 보호.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "VSTHRD001:Avoid legacy thread switching APIs", Justification = "Returns to this owned WPF control only to apply the completed history layout; no Visual Studio service is accessed.")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "VSTHRD003:Avoid awaiting foreign Tasks", Justification = "The parameter is started and tracked by this control's TryPrependConversationPage callback, runs bounded file IO on Task.Run, and never joins Visual Studio service work.")]
+        private async Task CompleteConversationPrependAsync(Task<bool> load, int generation)
+        {
+            bool added = false;
+            Exception failure = null;
+            try { added = await load.ConfigureAwait(false); }
+            catch (OperationCanceledException) { }
+            catch (Exception error) { failure = error; }
+            if (Dispatcher.HasShutdownStarted || Dispatcher.HasShutdownFinished) return;
+            try
+            {
+                await Dispatcher.InvokeAsync(() =>
+                {
+                    VerifyConversationHistoryAccess();
+                    if (generation != conversationPrependGeneration || disposed || conversationViewportDisposed) return;
+                    if (failure != null) StatusLabel.Text = "이전 기록을 읽지 못했습니다. 위로 스크롤하면 다시 시도합니다: " + failure.Message;
+                    if (!added) { CancelConversationPrepend(); return; }
+                    ArrangeConversationPrepend(generation);
+                }).Task.ConfigureAwait(false);
+            }
+            catch (OperationCanceledException) { }
+        }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : ArrangeConversationPrepend
+        /// desc         : 실제 삽입이 끝난 페이지의 높이 변경만 측정하고 취소된 세대의 예약을 폐기한다.
+        /// author       : CodexOrig
+        /// create date  : 2026-10-20
+        /// update date  : 2026-10-20 CodexOrig : TASK068 비동기 결과 이후 Loaded 레이아웃 예약과 앵커 복원.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "VSTHRD001:Avoid legacy thread switching APIs", Justification = "Schedules only this owned ScrollViewer's Loaded layout pass.")]
+        private void ArrangeConversationPrepend(int generation)
+        {
+            VerifyConversationHistoryAccess();
             LayoutUpdated += FinishConversationPrepend;
             ConversationScroll.InvalidateMeasure();
             // 첫 LayoutUpdated가 ScrollViewer extent 갱신보다 빠를 수 있으므로 다음 레이아웃 배치에서 재확인한다.
             conversationPrependOperation = Dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(() =>
             {
                 conversationPrependOperation = null;
-                if (!conversationPrepending || ConversationScroll == null) return;
+                if (!conversationPrepending || ConversationScroll == null || generation != conversationPrependGeneration) return;
                 ConversationScroll.UpdateLayout();
-                if (ConversationScroll.ExtentHeight > conversationPrependExtent) FinishConversationPrepend(this, EventArgs.Empty);
-                else CancelConversationPrepend();
+                FinishConversationPrepend(this, EventArgs.Empty);
+                if (conversationPrepending) CancelConversationPrepend();
             }));
-            return true;
         }
 
         /// ---------------------------------------------------------------------
@@ -251,15 +326,17 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexCode
         /// create date  : 2026-10-19
         /// update date  : 2026-10-19 CodexCode : TASK049 프로그램 이동을 사용자 스크롤로 오인하지 않음.
+        ///                2026-10-20 CodexOrig : TASK068 조회 중 아래에 추가된 답변 높이를 제외하고 기존 문단의 실제 위치 차이로 복원.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void FinishConversationPrepend(object sender, EventArgs args)
         {
             if (ConversationScroll != null && !conversationViewportDisposed && !disposed)
             {
-                double growth = ConversationScroll.ExtentHeight - conversationPrependExtent;
+                bool anchored = conversationPrependAnchor != null && conversationPrependAnchor.IsDescendantOf(ConversationScroll);
+                double growth = anchored ? conversationPrependAnchor.TranslatePoint(new Point(), ConversationScroll).Y - conversationPrependAnchorY : ConversationScroll.ExtentHeight - conversationPrependExtent;
                 if (growth <= 0) return;
-                ConversationScroll.ScrollToVerticalOffset(conversationPrependOffset + growth);
+                ConversationScroll.ScrollToVerticalOffset((anchored ? ConversationScroll.VerticalOffset : conversationPrependOffset) + growth);
             }
             CancelConversationPrepend();
             UpdateThinkingPlacement();
@@ -273,14 +350,34 @@ namespace VS2017.AIAssistant.Views
         /// create date  : 2026-10-19
         /// update date  : 2026-10-19 CodexCode : TASK049 다른 대화로 앵커가 넘어가지 않게 보호.
         ///                2026-10-20 CodexOrig : 예약된 DispatcherOperation도 해제해 종료·전환 뒤 실행을 막는다.
+        ///                2026-10-20 CodexOrig : TASK068 진행 중 파일 조회와 레이아웃 세대도 대화 입력·CLI 중지와 독립 취소.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void CancelConversationPrepend()
         {
+            VerifyConversationHistoryAccess();
+            conversationPrependGeneration++;
+            CancelOlderConversationLoad();
             LayoutUpdated -= FinishConversationPrepend;
             if (conversationPrependOperation != null && conversationPrependOperation.Status == DispatcherOperationStatus.Pending) conversationPrependOperation.Abort();
             conversationPrependOperation = null;
             conversationPrepending = false;
+            conversationPrependAnchor = null;
+            if (conversationPrependTask != null && conversationPrependTask.IsCompleted) conversationPrependTask = null;
+        }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : VerifyConversationHistoryAccess
+        /// desc         : IDE 전역 주 스레드 계약을 다른 화면으로 전파하지 않고 이 WPF 컨트롤의 실제 dispatcher 소유권을 검사한다.
+        /// author       : CodexOrig
+        /// create date  : 2026-10-20
+        /// update date  : 2026-10-20 CodexOrig : TASK068 비동기 진입은 dispatcher로 전환하고 동기 수명 메서드는 소유 스레드에서만 허용.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        private void VerifyConversationHistoryAccess()
+        {
+            if (!Dispatcher.CheckAccess()) throw new InvalidOperationException("대화 기록 화면은 해당 WPF dispatcher에서만 변경할 수 있습니다.");
         }
 
         /// ---------------------------------------------------------------------

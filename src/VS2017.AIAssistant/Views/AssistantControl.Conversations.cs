@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using VS2017.AIAssistant.Chat;
@@ -13,6 +14,7 @@ namespace VS2017.AIAssistant.Views
     /// author       : CodexOrig
     /// create date  : 2026-10-18
     /// update date  : 2026-10-18 CodexOrig : TASK-014 드래그 경계와 대화별 상태 구현.
+    ///                2026-10-20 CodexCode : 좁은 화면의 대화 항목 더블클릭 시 목록 자동 접기.
     /// </summary>
     /// ---------------------------------------------------------------------
     public partial class AssistantControl
@@ -38,6 +40,26 @@ namespace VS2017.AIAssistant.Views
             ConversationList.PreviewMouseUp += ConversationViewed;
             IsKeyboardFocusWithinChanged += (sender, args) => { if (IsKeyboardFocusWithin && IsConversationInView()) MarkCurrentConversationRead(); };
             ApplyHistoryLayout();
+        }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : ConversationDoubleClicked
+        /// desc         : 좁은 창에서 실제 대화 항목을 더블클릭했을 때만 목록을 접고 선택한 본문을 연다.
+        /// author       : CodexCode
+        /// create date  : 2026-10-20
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        private void ConversationDoubleClicked(object sender, MouseButtonEventArgs args)
+        {
+            Dispatcher.VerifyAccess();
+            if (disposed || !experienceReady || HistoryToggle.IsChecked != true || LayoutRoot.ActualWidth >= 460) return;
+            var element = args.OriginalSource as DependencyObject;
+            var item = element == null ? null : ItemsControl.ContainerFromElement(ConversationList, element) as ListBoxItem;
+            if (item == null || !ReferenceEquals(item.DataContext, activeRecords[selectedProvider])) return;
+            HistoryToggle.IsChecked = false;
+            HistoryToggled(this, new RoutedEventArgs());
+            args.Handled = true;
         }
 
         /// ---------------------------------------------------------------------

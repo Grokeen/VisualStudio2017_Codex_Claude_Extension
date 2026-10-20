@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
@@ -19,6 +19,7 @@ namespace VS2017.AIAssistant.Chat
     /// update date  : 2026-10-18 CodexCode : 계정 정보와 첨부 파일을 저장 모델에서 제외.
     /// update date  : 2026-10-18 CodexOrig : TASK-014 작업 결과·읽지 않음 상태와 즉시 바인딩 알림 추가.
     /// update date  : 2026-10-18 CodexOrig : TASK-016 문서 첨부·모델 설정·AI 역할 협업과 실패 복구 흐름 연결.
+    ///                2026-10-20 CodexOrig : TASK068 불변 기록 참조와 메인 원문 revision을 대화 객체 자체에 유지.
     /// </summary>
     /// ---------------------------------------------------------------------
     public sealed class ConversationRecord : INotifyPropertyChanged
@@ -31,6 +32,12 @@ namespace VS2017.AIAssistant.Chat
         public DateTimeOffset CreatedAt { get; set; }
         public DateTimeOffset UpdatedAt { get; set; }
         public List<ChatMessage> Messages { get; set; } = new List<ChatMessage>();
+        public string LastArchivedMessageId { get; set; }
+        public string FirstUserMessageId { get; set; }
+        public string StorageRevision { get; set; }
+        public string HistoryManifest { get; set; }
+        public string HistoryManifestHash { get; set; }
+        public string StorageDocumentHash { get; set; }
         public string Draft { get; set; } = "";
         public string[] CollaboratorIds { get; set; } = new string[0];
         private ConversationRunState state;
@@ -77,16 +84,18 @@ namespace VS2017.AIAssistant.Chat
     /// author       : CodexCode
     /// create date  : 2026-10-18
     /// update date  : 2026-10-18 CodexCode : 원자 저장·크기 제한·안전한 경로·보관 대화 재열기 추가.
+    ///                2026-10-20 CodexCode : 메시지를 시간별 Markdown에 보관하고 최근 20개만 즉시 복원.
+    ///                2026-10-20 CodexOrig : TASK068 UTC 시간 파일·수신 순서 인덱스·메인 최종 커밋으로 저장 실패와 경합 보완.
     /// </summary>
     /// ---------------------------------------------------------------------
-    public sealed class MarkdownWorkspaceStore
+    public sealed partial class MarkdownWorkspaceStore
     {
         private const int MaximumFileBytes = 4 * 1024 * 1024;
         private const int MaximumFilesPerProvider = 500;
         private const int MaximumMessages = 100;
         private const string MessageEnd = "\n<!-- assistant-message-end -->\n\n";
         private const string DraftEnd = "\n<!-- assistant-draft-end -->\n";
-        private static readonly Regex MessagePattern = new Regex(@"\G## (사용자|AI|안내)\n\n<!-- assistant-message role=(user|assistant|system) chars=([0-9]{1,7}) -->\n");
+        private static readonly Regex MessagePattern = new Regex(@"\G## (사용자|AI|안내)\n\n<!-- assistant-message role=(user|assistant|system) chars=([0-9]{1,7})(?: id=([a-f0-9]{32}) at=([^ >]{10,40}))? -->\n");
         private static readonly Regex DraftPattern = new Regex(@"\G## 작성 중인 요청\n\n<!-- assistant-draft chars=([0-9]{1,5}) -->\n");
         private readonly UTF8Encoding encoding = new UTF8Encoding(false, true);
         public string RootPath { get; private set; }
@@ -176,30 +185,127 @@ namespace VS2017.AIAssistant.Chat
         /// update date  : 2026-10-18 CodexCode : 첫 질문 자동 제목 및 수동 제목 보존.
         /// update date  : 2026-10-18 CodexOrig : TASK-014 종료 상태와 읽지 않음 선택 메타데이터를 이전 형식에 추가.
         /// update date  : 2026-10-18 CodexOrig : TASK-016 문서 첨부·모델 설정·AI 역할 협업과 실패 복구 흐름 연결.
+        ///                2026-10-20 CodexOrig : TASK068 불변 참조 커밋과 낡은 저장자 명시 거절에 위임.
         /// </summary>
         /// ---------------------------------------------------------------------
         public void Save(ConversationRecord record)
         {
-            Validate(record);
-            if (record.IsTitleAutomatic)
+            SaveCommitted(record);
+        }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : AppendMessage
+        /// desc         : 시간과 고유 ID를 포함한 길이 기반 Markdown 메시지를 기록한다.
+        /// author       : CodexCode
+        /// create date  : 2026-10-20
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        private static void AppendMessage(StringBuilder body, ChatMessage message)
+        {
+            body.Append("## ").Append(message.Role == "user" ? "사용자" : message.Role == "assistant" ? "AI" : "안내").Append("\n\n");
+            body.Append("<!-- assistant-message role=").Append(message.Role).Append(" chars=").Append(message.Text.Length.ToString(CultureInfo.InvariantCulture))
+                .Append(" id=").Append(message.Id).Append(" at=").Append(message.CreatedAt.ToString("o", CultureInfo.InvariantCulture)).Append(" -->\n");
+            body.Append(message.Text).Append(MessageEnd);
+        }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : ArchiveNewMessages
+        /// desc         : 마지막 저장 이후의 메시지만 시간별 Markdown으로 보관하고 재시도 시 ID로 중복을 제거한다.
+        /// author       : CodexCode
+        /// create date  : 2026-10-20
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        private void ArchiveNewMessages(ConversationRecord record)
+        {
+            int previous = record.Messages.FindIndex(message => message.Id == record.LastArchivedMessageId);
+            var pending = record.Messages.Skip(previous < 0 ? 0 : previous + 1).ToArray();
+            if (pending.Length == 0) return;
+            string directory = HistoryDirectory(record);
+            EnsureNoReparsePoint(directory);
+            Directory.CreateDirectory(directory);
+            foreach (var group in pending.GroupBy(message => message.CreatedAt.ToLocalTime().ToString("yyyyMMddHH", CultureInfo.InvariantCulture)))
             {
-                var question = record.Messages.FirstOrDefault(m => m.Role == "user" && !String.IsNullOrWhiteSpace(m.Text));
-                record.Title = question == null ? "새 대화" : Compact(question.Text, 120);
+                string[] files = Directory.GetFiles(directory, group.Key + "-*.md", SearchOption.TopDirectoryOnly).OrderBy(path => path, StringComparer.Ordinal).ToArray();
+                var known = new HashSet<string>(StringComparer.Ordinal);
+                foreach (string file in files)
+                    foreach (var existing in ReadSegmentMessages(file, record)) known.Add(existing.Id);
+                int part = files.Length == 0 ? 0 : Int32.Parse(Path.GetFileNameWithoutExtension(files.Last()).Substring(11), CultureInfo.InvariantCulture);
+                string target = Path.Combine(directory, group.Key + "-" + part.ToString("D4", CultureInfo.InvariantCulture) + ".md");
+                var content = new StringBuilder(files.Length == 0 ? SegmentHeader(record, group.Key) : ReadBounded(target));
+                bool changed = false;
+                foreach (var message in group)
+                {
+                    if (!known.Add(message.Id)) continue;
+                    var line = new StringBuilder(); AppendMessage(line, message);
+                    if (encoding.GetByteCount(content.ToString()) + encoding.GetByteCount(line.ToString()) > MaximumFileBytes)
+                    {
+                        if (changed) AtomicWrite(target, content.ToString());
+                        if (++part > 9999) throw new InvalidDataException("한 시간의 대화 기록 파일이 너무 많습니다.");
+                        target = Path.Combine(directory, group.Key + "-" + part.ToString("D4", CultureInfo.InvariantCulture) + ".md");
+                        content = new StringBuilder(SegmentHeader(record, group.Key)); changed = false;
+                    }
+                    content.Append(line); changed = true;
+                }
+                if (changed) AtomicWrite(target, content.ToString());
             }
-            record.UpdatedAt = DateTimeOffset.Now;
-            string path = GetPath(record);
-            EnsureCapacity(path, record.Provider);
-            var body = new StringBuilder();
-            foreach (var message in record.Messages)
+            record.LastArchivedMessageId = record.Messages.Last().Id;
+        }
+
+        private string HistoryDirectory(ConversationRecord record)
+        { return Path.Combine(ProviderDirectory(NormalizeProvider(record.Provider)), record.Id + ".history"); }
+
+        private static string SegmentHeader(ConversationRecord record, string hour)
+        { return Header("conversation_hour", record.Title, record.CreatedAt, record.UpdatedAt, record.Provider, record.Id, "시간별 대화 기록", "provider: " + Quote(record.Provider) + "\nconversation_id: " + Quote(record.Id) + "\nhour: " + Quote(hour) + "\n"); }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : ReadSegmentMessages
+        /// desc         : 시간별 파일의 소유권과 메시지 경계를 검증해 원문 순서대로 읽는다.
+        /// author       : CodexCode
+        /// create date  : 2026-10-20
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        private List<ChatMessage> ReadSegmentMessages(string path, ConversationRecord record)
+        {
+            string body;
+            var header = ReadHeader(ReadBounded(path), out body);
+            string name = Path.GetFileNameWithoutExtension(path);
+            if (!Regex.IsMatch(name, @"\A[0-9]{10}-[0-9]{4}\z") || Required(header, "document_type") != "conversation_hour" || Required(header, "provider") != record.Provider ||
+                Required(header, "conversation_id") != record.Id || Required(header, "hour") != name.Substring(0, 10))
+                throw new InvalidDataException("시간별 대화 파일의 소유권이 올바르지 않습니다.");
+            var messages = new List<ChatMessage>();
+            int position = 0;
+            while (position < body.Length)
             {
-                body.Append("## ").Append(message.Role == "user" ? "사용자" : message.Role == "assistant" ? "AI" : "안내").Append("\n\n");
-                body.Append("<!-- assistant-message role=").Append(message.Role).Append(" chars=").Append(message.Text.Length.ToString(CultureInfo.InvariantCulture)).Append(" -->\n");
-                body.Append(message.Text).Append(MessageEnd);
+                var marker = MessagePattern.Match(body, position);
+                if (!marker.Success || !marker.Groups[4].Success || !marker.Groups[5].Success) throw new InvalidDataException("시간별 메시지 경계가 올바르지 않습니다.");
+                string role = marker.Groups[2].Value;
+                if (marker.Groups[1].Value != (role == "user" ? "사용자" : role == "assistant" ? "AI" : "안내")) throw new InvalidDataException("시간별 메시지 역할이 일치하지 않습니다.");
+                position += marker.Length;
+                string value = ReadBodyPart(body, ref position, marker.Groups[3].Value, MessageEnd);
+                DateTimeOffset at = record.CreatedAt;
+                if (!DateTimeOffset.TryParse(marker.Groups[5].Value, CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind, out at) || at.ToLocalTime().ToString("yyyyMMddHH", CultureInfo.InvariantCulture) != name.Substring(0, 10))
+                    throw new InvalidDataException("시간별 메시지 시각이 올바르지 않습니다.");
+                messages.Add(new ChatMessage { Role = role, Text = value, Id = marker.Groups[4].Value, CreatedAt = at });
             }
-            body.Append("## 작성 중인 요청\n\n<!-- assistant-draft chars=").Append(record.Draft.Length.ToString(CultureInfo.InvariantCulture)).Append(" -->\n");
-            body.Append(record.Draft).Append(DraftEnd);
-            AtomicWrite(path, Header("conversation", record.Title, record.CreatedAt, record.UpdatedAt, record.Provider, record.Id, Compact(record.Messages.FirstOrDefault(m => m.Role == "user")?.Text ?? "", 160),
-                "provider: " + Quote(record.Provider) + "\nconversation_id: " + Quote(record.Id) + "\nis_open: " + (record.IsOpen ? "true" : "false") + "\nautomatic_title: " + (record.IsTitleAutomatic ? "true" : "false") + "\nlast_status: " + Quote(record.State.ToString()) + "\nhas_unread: " + (record.HasUnread ? "true" : "false") + "\ncollaborators: " + Quote(string.Join(",", record.CollaboratorIds)) + "\n") + body);
+            if (messages.Select(item => item.Id).Distinct(StringComparer.Ordinal).Count() != messages.Count) throw new InvalidDataException("시간별 메시지 ID가 중복되었습니다.");
+            return messages;
+        }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : LoadOlder
+        /// desc         : 스크롤 상단에 도달할 때만 시간별 파일에서 직전 메시지 페이지를 읽는다.
+        /// author       : CodexCode
+        /// create date  : 2026-10-20
+        ///                2026-10-20 CodexOrig : TASK068 시간명 정렬 대신 확정 인덱스의 수신 순서로 이전 페이지 조회.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        public ChatMessage[] LoadOlder(ConversationRecord record, ChatMessage before, int count)
+        {
+            return LoadOlderCommitted(record, before, count);
         }
 
         /// ---------------------------------------------------------------------
@@ -256,7 +362,7 @@ namespace VS2017.AIAssistant.Chat
             if (!String.Equals(Path.GetExtension(fullPath), ".md", StringComparison.OrdinalIgnoreCase)) throw new InvalidDataException("Markdown 대화 파일을 선택하세요.");
             var record = ReadRecord(fullPath);
             if (record.Provider != provider) throw new InvalidDataException("선택한 AI와 대화 파일의 AI가 다릅니다.");
-            if (!String.Equals(fullPath, GetPath(record), StringComparison.OrdinalIgnoreCase)) record.Id = Guid.NewGuid().ToString("N");
+            if (!String.Equals(fullPath, GetPath(record), StringComparison.OrdinalIgnoreCase)) { record.Id = Guid.NewGuid().ToString("N"); record.LastArchivedMessageId = null; }
             record.IsOpen = true;
             Save(record);
             return record;
@@ -322,12 +428,14 @@ namespace VS2017.AIAssistant.Chat
         /// update date  : 2026-10-18 CodexCode : 경계 위조·잘못된 역할·메시지 개수·후행 데이터 검사.
         /// update date  : 2026-10-18 CodexOrig : TASK-014 이전 대화와 호환하며 실행 중 기록을 재시작 시 중단으로 복구.
         /// update date  : 2026-10-18 CodexOrig : TASK-016 문서 첨부·모델 설정·AI 역할 협업과 실패 복구 흐름 연결.
+        ///                2026-10-20 CodexOrig : TASK068 legacy 안정 ID와 메인 원문 해시·확정 인덱스 메타를 복원.
         /// </summary>
         /// ---------------------------------------------------------------------
         private ConversationRecord ReadRecord(string path)
         {
             string body;
-            var header = ReadHeader(ReadBounded(path), out body);
+            string original = ReadBounded(path);
+            var header = ReadHeader(original, out body);
             if (Required(header, "document_type") != "conversation" || Required(header, "format_version") != "1") throw new InvalidDataException("지원하는 대화 Markdown 형식이 아닙니다.");
             var record = new ConversationRecord {
                 Id = Required(header, "conversation_id"), Provider = Required(header, "provider"), Title = Required(header, "title"),
@@ -339,8 +447,15 @@ namespace VS2017.AIAssistant.Chat
                 if (!Enum.TryParse(Required(header, "last_status"), out state) || !Enum.IsDefined(typeof(ConversationRunState), state)) throw new InvalidDataException("대화 상태가 올바르지 않습니다.");
                 record.State = state == ConversationRunState.Running ? ConversationRunState.Interrupted : state;
             }
+            record.StorageRevision = header.ContainsKey("history_revision") ? Required(header, "history_revision") : Digest(original);
+            record.StorageDocumentHash = Digest(original);
+            record.HistoryManifest = header.ContainsKey("history_manifest") ? Required(header, "history_manifest") : null;
+            record.HistoryManifestHash = header.ContainsKey("history_manifest_sha256") ? Required(header, "history_manifest_sha256") : null;
+            ValidateCommitMetadata(record);
             record.HasUnread = header.ContainsKey("has_unread") && ReadBoolean(header, "has_unread");
             if (header.ContainsKey("collaborators")) record.CollaboratorIds = Required(header, "collaborators").Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+            if (header.ContainsKey("last_archived_message_id")) record.LastArchivedMessageId = Required(header, "last_archived_message_id");
+            if (header.ContainsKey("first_user_message_id")) record.FirstUserMessageId = Required(header, "first_user_message_id");
             if (header.ContainsKey("last_status") && Required(header, "last_status") == "Running") record.HasUnread = true;
             int position = 0;
             while (position < body.Length && !DraftPattern.IsMatch(body, position))
@@ -352,7 +467,9 @@ namespace VS2017.AIAssistant.Chat
                 if (marker.Groups[1].Value != (role == "user" ? "사용자" : role == "assistant" ? "AI" : "안내")) throw new InvalidDataException("메시지 역할이 일치하지 않습니다.");
                 position += marker.Length;
                 string text = ReadBodyPart(body, ref position, marker.Groups[3].Value, MessageEnd);
-                record.Messages.Add(new ChatMessage { Role = role, Text = text });
+                DateTimeOffset at = record.CreatedAt;
+                if (marker.Groups[5].Success && !DateTimeOffset.TryParse(marker.Groups[5].Value, CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind, out at)) throw new InvalidDataException("메시지 시각이 올바르지 않습니다.");
+                record.Messages.Add(new ChatMessage { Role = role, Text = text, Id = marker.Groups[4].Success ? marker.Groups[4].Value : StableLegacyId(record, record.Messages.Count, role, text), CreatedAt = marker.Groups[5].Success ? at : record.CreatedAt });
             }
             var draftMarker = DraftPattern.Match(body, position);
             if (!draftMarker.Success) throw new InvalidDataException("작성 중 요청의 경계가 올바르지 않습니다.");
@@ -488,22 +605,12 @@ namespace VS2017.AIAssistant.Chat
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : UTF-8 바이트 크기·링크 경로 검사 및 임시 파일 정리.
         ///                2026-10-18 CodexOrig : TASK-020 일시적인 Win32 파일 잠금의 제한 재시도와 실패 근거 추가.
+        ///                2026-10-20 CodexOrig : TASK068 MAX_PATH를 피하는 짧은 sibling 임시 이름으로 원자 교체.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void AtomicWrite(string path, string text)
         {
-            if (encoding.GetByteCount(text) > MaximumFileBytes) throw new InvalidDataException("대화 기록은 파일당 4MB까지 저장할 수 있습니다.");
-            string directory = Path.GetDirectoryName(path);
-            EnsureNoReparsePoint(directory);
-            Directory.CreateDirectory(directory);
-            EnsureNoReparsePoint(path);
-            string temporary = path + "." + Guid.NewGuid().ToString("N") + ".tmp";
-            try
-            {
-                File.WriteAllText(temporary, text, encoding);
-                CommitTemporaryFile(temporary, path);
-            }
-            finally { if (File.Exists(temporary)) File.Delete(temporary); }
+            WriteAtomicSibling(path, text);
         }
 
         /// ---------------------------------------------------------------------
@@ -556,7 +663,8 @@ namespace VS2017.AIAssistant.Chat
             foreach (string id in record.CollaboratorIds) ValidateId(id);
             if (!Enum.IsDefined(typeof(ConversationRunState), record.State) || NormalizeProvider(record.Provider) != record.Provider || record.Title == null || record.Title.Length > 120 || record.Title.Any(char.IsControl) ||
                 record.CreatedAt == default(DateTimeOffset) || record.Messages == null || record.Messages.Count > MaximumMessages || record.Draft == null || record.Draft.Length > 16000 ||
-                record.Messages.Any(m => m == null || (m.Role != "user" && m.Role != "assistant" && m.Role != "system") || m.Text == null || m.Text.Length > 2000000))
+                record.Messages.Any(m => m == null || (m.Role != "user" && m.Role != "assistant" && m.Role != "system") || m.Text == null || m.Text.Length > 2000000 ||
+                    m.Id == null || !Regex.IsMatch(m.Id, @"\A[a-f0-9]{32}\z") || m.CreatedAt == default(DateTimeOffset)))
                 throw new InvalidDataException("대화 데이터의 형식이나 크기가 올바르지 않습니다.");
             long totalBytes = Encoding.UTF8.GetByteCount(record.Draft);
             foreach (var message in record.Messages)

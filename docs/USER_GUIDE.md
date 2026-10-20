@@ -1,6 +1,6 @@
 # AI Assistant 사용 안내
 
-Claude·Codex와 대화를 이어 가고, 현재 파일의 수정안을 비교해 적용하는 방법입니다. [v0.11.1 설치 파일과 버전별 지원 조건](../releases/v0.11.1/README.md)을 확인하고 시작하세요. VS2017 15.7·15.8용, VS2017 15.9 이상용, VS2019용, VS2022 x64용을 제공합니다.
+Claude·Codex와 대화를 이어 가고, 현재 파일의 수정안을 비교해 적용하는 방법입니다. [현재 설치 파일과 릴리스 정보](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases)을 확인하고 시작하세요. VS2017 15.7·15.8용, VS2017 15.9 이상용, VS2019용, VS2022 x64용을 제공합니다.
 
 ## 설치와 AI 연결
 
@@ -30,7 +30,7 @@ Claude·Codex와 대화를 이어 가고, 현재 파일의 수정안을 비교�
 
 표에서 사용 중인 Visual Studio에 맞는 이름을 찾아 **제거**를 선택합니다. 제거 작업이 예약되면 해당 버전의 Visual Studio 창을 모두 닫아 완료하세요. 메뉴 이름이 다르면 IDE 검색에서 **Manage Extensions/확장 관리**를 찾으세요. 이 절차는 선택한 IDE의 확장만 제거하며 Visual Studio 자체나 Claude·Codex CLI는 제거하지 않습니다.
 
-확장을 다시 설치하려면 [버전별 설치 파일 안내](../releases/v0.11.1/README.md)에서 사용 중인 IDE에 맞는 VSIX를 실행하세요. 대화와 설정은 기본적으로 `%LOCALAPPDATA%\VS2017AIAssistant` 아래에 별도로 저장되므로, 이전 기록을 보존하려면 이 폴더를 수동으로 삭제하지 마세요. 이 안내는 사용자 데이터 삭제 절차를 포함하지 않습니다.
+확장을 다시 설치하려면 [현재 버전별 설치 파일 안내](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases)에서 사용 중인 IDE에 맞는 VSIX를 실행하세요. 대화와 설정은 기본적으로 `%LOCALAPPDATA%\VS2017AIAssistant` 아래에 별도로 저장되므로, 이전 기록을 보존하려면 이 폴더를 수동으로 삭제하지 마세요. 이 안내는 사용자 데이터 삭제 절차를 포함하지 않습니다.
 
 Microsoft 공식 안내: [확장 찾기·관리·사용 안 함·제거](https://learn.microsoft.com/en-us/visualstudio/ide/finding-and-using-visual-studio-extensions?view=visualstudio) · [Visual Studio 2017 확장 및 업데이트](https://learn.microsoft.com/en-us/visualstudio/releases/2017/vs2017-relnotes-v15.0#modify-extensions-in-bulk).
 
@@ -102,14 +102,9 @@ AI 답변은 제목·목록·강조·표·코드 블록을 서식으로 표시�
 
 독립 문서 작성기에서는 처음 접힌 **문서 목록**을 펼쳐 **폴더 선택**을 누릅니다. 넓은 화면에서는 편집 탭 왼쪽, 좁은 화면에서는 탭 위에 나타나며, 좁은 패널은 안쪽에서 세로로 스크롤합니다. 파일 목록은 선택한 폴더 바로 아래의 `.md`·`.markdown` 문서만 표시합니다. 두 번 클릭하거나 파일을 선택하고 Enter를 눌러 엽니다. **저장/Ctrl+S**는 현재 열려 있는 문서에, **다른 이름으로 저장/Ctrl+Shift+S**는 새 경로에 저장합니다. **이름 변경**, **파일 위치**, **삭제**도 현재 열려 있는 문서에 적용됩니다. 삭제는 현재 문서와 저장하지 않은 내용을 함께 지우므로, 확인 문구에서 **삭제 확인** 또는 **취소**를 선택하세요. 다른 문서로 이동하면 이전 삭제 확인은 닫힙니다.
 
-참조형 Markdown 링크와 로컬 이미지를 사용할 수 있고 표·제목·문단·목록 등 제한된 정적 HTML도 미리 봅니다. 일반 Markdown 표는 최대 16열, 정적 HTML 표는 최대 128행·16열까지 표시하며, 한도를 넘어 생략한 내용이 있으면 공통 안내가 나타납니다. 스크립트·스타일시트·iframe 실행과 원격 리소스 자동 로딩은 하지 않습니다. 아래 C7 그림은 제품 DLL 컨트롤을 별도 검사에서 렌더한 이미지입니다. Visual Studio 실제 실행 화면과 구분해 주세요.
+참조형 Markdown 링크와 로컬 이미지를 사용할 수 있고 표·제목·문단·목록 등 제한된 정적 HTML도 미리 봅니다. 일반 Markdown 표는 최대 16열, 정적 HTML 표는 최대 128행·16열까지 표시하며, 한도를 넘어 생략한 내용이 있으면 공통 안내가 나타납니다. 스크립트·스타일시트·iframe 실행과 원격 리소스 자동 로딩은 하지 않습니다.
 
-![candidate7 작성기 넓은 화면 UI 렌더](visual-guide-orig3/markdown-editor/revision-c7/images/08-candidate7-wide.png)
-![candidate7 좁은 화면 문서 목록과 삭제 확인 UI 렌더](visual-guide-orig3/markdown-editor/revision-c7/images/09-candidate7-narrow.png)
-
-![작성기 시작 경로와 저장·미리보기 흐름을 보여 주는 설명 도식](visual-guide-orig3/markdown-editor/revision-c7/images/01-entry.png)
-
-[Markdown 작성기 사용 설명서 C7 검토 PDF](../output/pdf/Markdown작성기_사용설명서_C7.pdf) · [Markdown 원문과 10개 그림](visual-guide-orig3/markdown-editor/revision-c7/Markdown작성기_사용설명서_C7.md)
+최신 수정 후보의 화면은 아직 정리 중이므로 이 안내에는 이전 후보의 UI 렌더를 현재 화면 예시로 싣지 않았습니다. [Markdown 작성기 사용 설명서 C8 검토 PDF](../output/pdf/Markdown작성기_사용설명서_C8.pdf) · [Markdown 원문과 사용 흐름 도식](visual-guide-orig3/markdown-editor/revision-c8/Markdown작성기_사용설명서_C8.md)
 
 ## 자동·Light·Dark 화면 모드
 
@@ -143,7 +138,7 @@ Markdown 작성기는 창 크기를 현재 작업 영역 안에서 넓게 조절
 
 ## v0.12.1 사용자 안내 (미리보기)
 
-이 절은 **v0.12.1-preview.1**의 사용자 흐름입니다. [배포 페이지](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.12.1-preview.1)에서 CLI 포함 완성 오프라인 ZIP과 사용자 PDF를 받을 수 있습니다. 그림은 이해를 돕는 합성 WPF 렌더이며 실제 Visual Studio IDE 캡처나 GIF가 아닙니다. 계정·요청 기록은 그림에 사용하지 않았습니다.
+이 절은 **v0.12.1-preview.1**의 사용자 흐름입니다. 사용 가능한 설치 ZIP과 사용자 PDF는 [GitHub Releases의 다운로드 자산](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases)에서 확인하세요. 그림은 이해를 돕는 합성 WPF 렌더이며 실제 Visual Studio IDE 캡처나 GIF가 아닙니다. 계정·요청 기록은 그림에 사용하지 않았습니다.
 
 ### 화면 예시: 합성 WPF 렌더
 
@@ -217,7 +212,53 @@ AI 답변에서 마우스 오른쪽 버튼을 누르고 **답변 전체를 새 �
 
 실제 Visual Studio 2017 15.9, 2019 16.11, 2022 17.14 통합 시험은 두 테마의 실제 선택 ID, 대표 환경 색상(Kakao `#FFD9DDE3`, Dracula `#FF282A36`), 보류 상태 처리와 임시 파일 정리를 확인했습니다. 이 결과는 설치 버튼을 실제 마우스로 누르고 설치 관리자를 완료하거나 재시작하는 물리적 고객 절차의 확인을 뜻하지 않습니다. VS2017 Professional 15.7.1과 고객의 제한망 PC도 실측하지 않았습니다.
 
-[v0.12.1 사용자 안내 PDF](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.12.1-preview.1/VisualStudio_AI_Assistant-0.12.1-Preview-UserGuide.pdf)에서 설치 절차와 새 기능을 26쪽 문서로 확인할 수 있습니다.
+[공개 Release 자산의 사용자 안내 PDF](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases)에서 설치 절차와 안내를 확인할 수 있습니다.
+
+## v0.13.0-preview.1 사용자 안내
+
+이 절은 v0.13.0의 새 기능을 설명합니다. 완성 오프라인 ZIP은 `VisualStudio_AI_Assistant-0.13.0-Preview1-FullOffline-win-x64.zip`입니다. [34쪽 통합 설치·사용 PDF](../output/pdf/VisualStudio_AI_Assistant_%EC%84%A4%EC%B9%98_%EC%82%AC%EC%9A%A9%EC%84%A4%EB%AA%85%EC%84%9C_v0.13.0_%EB%AF%B8%EB%A6%AC%EB%B3%B4%EA%B8%B0.pdf)는 기존 안내 26쪽과 새 기능 부록 8쪽으로 구성됩니다. 공개 파일과 상세 검증 결과는 [이 버전의 릴리스](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.13.0-preview.1)에서 확인하세요.
+
+### 대화별 독립 작업
+
+응답을 기다리는 동안 다른 대화로 이동해 별도 요청을 진행하고, 각 대화의 처리·응답을 따로 확인할 수 있습니다. 각 방에는 실행 하나와 대기 최대 여덟 개를 두며, 초안·역할·진행·사용량·취소를 분리합니다. 미승인 수정안이 있으면 해당 방의 후속 요청은 승인·적용 또는 명시적 건너뛰기를 기다립니다.
+
+### 오래된 대화 나눠 보기
+
+새 기록은 UTC 시간 구간으로 나누어 보관하고, 위로 스크롤할 때 오래된 구간을 백그라운드에서 이어 불러옵니다. 다른 대화로 이동한 뒤 도착한 결과는 현재 대화를 바꾸지 않습니다. 저장량 제한 때문에 같은 시간 구간이 여러 파일로 나뉠 수 있습니다. 구형 v1 메시지에 개별 발화 시각이 없으면 대화 생성 시각을 묶음 표시의 기준으로 사용할 수 있으며, 이를 실제 과거 메시지 시각 복원으로 보지 않습니다.
+
+전체 백업에는 대화의 최신 Markdown 파일과 같은 ID의 `.history` 폴더를 함께 보관하세요. 메인 Markdown 파일만 복사하면 최신 20개만 백업될 수 있습니다. 다른 창이나 외부 편집의 변경이 먼저 기록된 경우 저장을 거절하고 작성 초안을 보존합니다. 최신 파일을 다시 불러와 변경을 확인한 뒤 재시도하세요. 원본을 자동으로 다시 캡처하거나 승인 단계를 건너뛰지 않습니다.
+
+### 좁은 화면에서 대화 목록 접기
+
+폭 460픽셀 미만의 좁은 화면에서는 대화 항목을 더블클릭해 목록을 접고 본문 공간을 넓힙니다. 단일 선택은 대화 전환, 더블클릭은 목록 접기로 구분합니다.
+
+| 대화 목록 열림 | 대화 목록 접힘 |
+|---|---|
+| ![C2 후보 WPF 컨트롤을 off-screen 렌더한 대화 목록 열림 예. 실제 IDE 캡처 아님.](assets/ui-guide-v0.13.0/candidate2/history-open-dark-narrow-320.png) | ![C2 후보 WPF 컨트롤을 off-screen 렌더한 대화 목록 접힘 예. 실제 IDE 캡처 아님.](assets/ui-guide-v0.13.0/candidate2/history-closed-dark-narrow-320.png) |
+
+위 이미지는 C2 제품 DLL의 WPF 컨트롤을 창 없이 렌더한 결과로, 실제 Visual Studio 화면이나 OS 포인터 조작을 캡처한 자료가 아닙니다. 최종 후보에서도 같은 좁은 폭·테마 조건의 접힘 동작을 확인했습니다. 실제 IDE 키보드 포커스 이동은 이 합성 검사의 범위 밖입니다.
+
+### AI 선택 질문
+
+AI가 정보 확인을 위해 보기를 제시하면 사용자는 항목을 선택하거나 직접 답을 입력할 수 있습니다. 선택 내용은 요청 입력란의 초안에 들어가는 흐름이며, 사용자가 내용을 검토한 뒤 직접 전송을 시작합니다. 선택만으로 AI 요청이 자동 제출되거나 도구 실행이 시작되는 것으로 안내하지 않습니다.
+
+C2 렌더에서는 긴 한국어 보기가 여러 줄로 표시되는 선택지 화면을 볼 수 있습니다. 아래는 C2 제품 WPF 컨트롤의 off-screen 렌더이며 실제 IDE 캡처가 아닙니다. 최종 후보에서도 같은 조건의 줄바꿈·버튼 대비·초안 삽입을 확인했습니다. 실제 IDE 키보드 포커스 이동은 별도 확인 범위입니다.
+
+| 선택 질문 다크 | 선택 질문 라이트 |
+|---|---|
+| ![C2 후보 선택 질문 다크 모드의 WPF off-screen 렌더. 실제 IDE 캡처 아님.](assets/ui-guide-v0.13.0/candidate2/choice-dark-narrow-320.png) | ![C2 후보 선택 질문 라이트 모드의 WPF off-screen 렌더. 실제 IDE 캡처 아님.](assets/ui-guide-v0.13.0/candidate2/choice-light-narrow-320.png) |
+
+선택한 답변은 요청 입력란의 초안에 들어가며 사용자가 직접 검토하고 전송을 시작합니다. 선택만으로 자동 제출되거나 도구가 실행되지는 않습니다. 통합 PDF에는 이 합성 렌더와 절차 설명을 함께 실었습니다.
+
+### 필수 작업 지침
+
+확장 첫 사용 시 숨김 필수 지침 파일을 준비하고 AI 요청 문맥에 포함합니다. 지침에는 진행 중인 프로젝트의 UI·소스 패턴 확인, 최소한의 소스 수정, 작업 주석·변경 기록, 감사 담당자 확인 요청이 포함됩니다. 정확한 구버전 공식 사본은 새 공식 내용으로 갱신하고 사용자 수정본은 보존합니다. 내장 필수 지침은 사용자 지침과 함께 요청에 포함합니다.
+
+### 설치 파일과 검증 상태
+
+프로젝트 최상위 `UserDistribution/v0.13.0`에는 대상별 VSIX, 테마 VSIX, `cli/codex/`·`cli/claude/`의 런타임과 라이선스·고지, 설치/검증 BAT·PowerShell, 체크섬·manifest, 오프라인 안내와 PDF만 담았습니다. 총 68개 파일이며 `OFFLINE_SHA256SUMS.txt`로 나머지 67개를 확인할 수 있습니다. 제품 소스·프로젝트·PDB·테스트·개발 증거·Git 자료·계정·토큰·사용자 기록과 인터넷 PC용 준비 도구는 제외합니다. 인터넷 준비 도구가 필요한 경우 전체 FullOffline ZIP을 사용하세요. 상세 검증 결과는 해당 릴리스와 TASK-068 보고서를 확인하세요.
+
+배포 첨부 파일과 로컬 releases는 v0.13.0과 직전 v0.12.1을 보존하는 정책입니다. 이전 릴리스의 이력·태그 및 개발·감사 기록은 유지하며, 오래된 첨부 파일의 다운로드 링크는 정리 후 사용할 수 없습니다. 기존 GitHub 소스 공개 방식은 유지합니다.
 
 ## 직접 수정과 자체 테스트를 맡기기
 

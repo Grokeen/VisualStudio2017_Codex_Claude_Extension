@@ -1,0 +1,103 @@
+{
+  "Task": "TASK068questions",
+  "Phase": "ReadOnlyDesignAndFixturePreparation",
+  "ProductOwnership": "CodexCode TASK067, transfer not accepted",
+  "ProposedContractAccepted": false,
+  "ProductModified": false,
+  "ProductBuildRun": false,
+  "ProductParserTested": false,
+  "ProductUiTested": false,
+  "RemoteAiUsed": false,
+  "LoginAttempted": false,
+  "GuiUsed": false,
+  "FixtureReadiness": {
+    "FixtureDataValidated": true,
+    "ParserCases": 33,
+    "InteractionCases": 14,
+    "ValidJsonExamplesChecked": 6,
+    "FixtureSha256": "E1E7660E108403A4CD02AB099B0B811A315395E748B2E0114B9EBEBFF65BFB25",
+    "ProductParserTested": false,
+    "ProductUiTested": false,
+    "ProductBuildRun": false,
+    "ContractAcceptedForImplementation": false,
+    "RemoteAiUsed": false,
+    "LoginAttempted": false,
+    "GuiUsed": false,
+    "Limitation": "Data readiness only. No proposed question parser, card, submit, persistence, or CLI behavior has been implemented or validated by this script.",
+    "CheckedAt": "2026-10-20T13:17:26.5825824+09:00"
+  },
+  "Outputs": [
+    {
+      "Path": "MarkdownReport/CodexOrig_TASK-068_QuestionDesign.md",
+      "Sha256": "6E1E0BA3CDBC449DB21F8A0C5D533C49C0E035D263DB0D1C1FE66442BD1CA08A"
+    },
+    {
+      "Path": "tests/task068questions/QuestionProtocolCases.json",
+      "Sha256": "E1E7660E108403A4CD02AB099B0B811A315395E748B2E0114B9EBEBFF65BFB25"
+    },
+    {
+      "Path": "tests/task068questions/Test-QuestionFixtureData.ps1",
+      "Sha256": "7E16D52BCC40FD84426747924732D22C4D83068EE1B08DCFCC5ECDAD33EDF776"
+    },
+    {
+      "Path": "tests/task068questions/README.md",
+      "Sha256": "61A312FF23A011D3914AF6740F66DF46C649883750907FE0E26FBB064850CD3E"
+    }
+  ],
+  "ObservedWorkingTreeSourcesMayStillChange": true,
+  "ObservedSourceFingerprints": [
+    {
+      "Path": "src/VS2017.AIAssistant/Providers/NativeJsonSession.cs",
+      "Sha256": "5810DF5D2DAE18F4C9E76DB57041F57CC9C724A865252EA0F8E4FCC173805E8E"
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Providers/CodexRuntimeRunner.cs",
+      "Sha256": "04DC678BC91570BBA1929B2CFF28B347194371743BF9AC379C7FCE3036598CFD"
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Providers/ClaudeRuntimeRunner.cs",
+      "Sha256": "A790A5944EDF5C538BCD75424FA1113C51D92990DAD4363514EA58F3693EE341"
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Providers/AgentProtocolEvents.cs",
+      "Sha256": "A1AAA2F66DF8352AED19CEC516A6A944781C7B700411B2221A0D734EB7172C3B"
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Providers/CliEditProvider.cs",
+      "Sha256": "91F8D0A652B9FE72898CF2AF3F6DC32EC5D1ACBBEAFB2A7357F30A6EC54F218B"
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Editing/EditProposal.cs",
+      "Sha256": "5132A29DFF41BCB966F7C54DE0286315841F0C82E9DA0A626AF1EEEDA5AB7D1B"
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Chat/ChatWorkspace.cs",
+      "Sha256": "A521A16A79990571A44FF03B5ACE9B54D830FB687D3883EB3EB273246252B009"
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Chat/MarkdownWorkspaceStore.cs",
+      "Sha256": "C12BF6FF027C419CB559538CF9960D49A8AE0AE148010422FB3A5D7E678BF79A"
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Chat/MandatoryInstructionStore.cs",
+      "Sha256": "F8F620EB2F797EF1EF47B31564087408B9ECB2FF7A37071F999217600207DA41"
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Views/AssistantControl.Chat.cs",
+      "Sha256": "4F56603C0479BDF1EDD5BD077DA7D442D06EE9009B976EBB69F0679C7F752159"
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Views/AssistantControl.RequestQueue.cs",
+      "Sha256": "7580627721147E4DCDE3345F9BE118254EBC71B6B2DE625CC52662F8C6745FD3"
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Views/AssistantControl.Runtime.cs",
+      "Sha256": "10EEB4BC58FF38626E9B319C2FB07C7744E18327BF9A8DDFDCD90707C67875DB"
+    },
+    {
+      "Path": "src/VS2017.AIAssistant/Views/AssistantControl.xaml",
+      "Sha256": "0AC90221D1B3AC290B2195BD77D0C8BC146AB9976CC110002BAEC9166CA175CC"
+    }
+  ],
+  "CheckedAt": "2026-10-20T13:17:50.6880342+09:00"
+}

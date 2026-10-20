@@ -4,20 +4,22 @@
 
 오류 화면과 참고 문서를 보여 주고 자연어로 작업을 요청하세요. 바뀔 코드를 먼저 비교해 승인하거나, **전체 액세스**를 선택해 AI가 직접 파일 수정과 명령·테스트를 수행하게 할 수 있습니다. 대화와 공통 규칙은 내 PC의 Markdown에 남습니다.
 
-**최신 미리보기 v0.12.1-preview.1** · [GitHub Release](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.12.1-preview.1) · [CLI 포함 완성 오프라인 ZIP](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.12.1-preview.1/VisualStudio_AI_Assistant-0.12.1-Preview1-FullOffline-win-x64.zip) · [CLI 제외 설치 ZIP](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.12.1-preview.1/VisualStudio_AI_Assistant-0.12.1.zip) · [설치 안내](releases/v0.12.1/README.md) · [자세한 사용법](docs/USER_GUIDE.md)
+**v0.13.0-preview.1 설치 안내** · [이 버전의 다운로드 자산](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.13.0-preview.1) · [자세한 사용법](docs/USER_GUIDE.md)
 
-기존 정식 [v0.11.1](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.11.1)과 이전 오프라인 시험 파일은 그대로 제공합니다. 새 미리보기는 고객의 별도 오프라인 PC에서 확인할 수 있도록 배포하는 시험 버전입니다.
+과거 정식 [v0.11.1 릴리스 이력](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.11.1)과 개발·감사 기록은 보존합니다. 배포 첨부와 로컬 releases는 새 v0.13.0과 직전 v0.12.1을 보존하는 정책입니다. 더 오래된 첨부의 다운로드 링크는 정리 후 사용할 수 없습니다.
+
+[CLI 포함 완성 오프라인 ZIP](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.13.0-preview.1/VisualStudio_AI_Assistant-0.13.0-Preview1-FullOffline-win-x64.zip) · [34쪽 설치·사용 PDF](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.13.0-preview.1/VisualStudio_AI_Assistant-0.13.0-Preview-UserGuide.pdf)
 
 | 사용 중인 Visual Studio | 설치 파일 |
 |---|---|
-| 2017 15.7·15.8 · x86 IDE | [VS2017 15.7용 다운로드](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.12.1-preview.1/VS2017.15.7.AIAssistant-0.12.1.vsix) |
-| 2017 15.9 이상 · x86 IDE | [VS2017용 다운로드](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.12.1-preview.1/VS2017.AIAssistant-0.12.1.vsix) |
-| 2019 16.11 · x86 IDE | [VS2019용 다운로드](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.12.1-preview.1/VS2019.AIAssistant-0.12.1.vsix) |
-| 2022 17.x · x64 IDE | [VS2022용 다운로드](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.12.1-preview.1/VS2022.AIAssistant-0.12.1.vsix) |
+| 2017 15.7·15.8 · x86 IDE | Releases 자산에서 VS2017 15.7용 VSIX 선택 |
+| 2017 15.9 이상 · x86 IDE | Releases 자산에서 VS2017용 VSIX 선택 |
+| 2019 16.11 · x86 IDE | Releases 자산에서 VS2019용 VSIX 선택 |
+| 2022 17.x · x64 IDE | Releases 자산에서 VS2022용 VSIX 선택 |
 
-## v0.12.1 사용자 안내 (미리보기)
+## 공통 사용 안내와 직전 버전의 화면 예시
 
-최신 공개 미리보기는 **v0.12.1-preview.1**입니다. 위 완성 오프라인 ZIP에는 확장 네 종류와 CLI, IDE 테마, 설치 검사 도구 및 사용자 PDF가 포함됩니다. 아래 그림은 이해를 돕는 합성 WPF 렌더이며 실제 Visual Studio/Windows 바탕 화면 캡처나 GIF가 아닙니다.
+아래 그림은 v0.12.1에서 도입한 공통 화면의 합성 WPF 렌더이며 실제 Visual Studio/Windows 바탕 화면 캡처나 GIF가 아닙니다. v0.13.0의 완성 오프라인 ZIP에는 확장 네 종류와 CLI, IDE 테마, 설치 검사 도구 및 사용자 PDF가 포함됩니다. 새 대화방 기능은 아래 v0.13 안내를 확인하세요.
 
 아래 예시는 WPF `RenderTargetBitmap`으로 별도 렌더한 합성 화면입니다. 실제 Visual Studio IDE·Windows 바탕 화면 캡처가 아니며, 화면 구성을 이해하기 위한 참고 그림입니다.
 
@@ -40,12 +42,12 @@
 | ![합성 요청 문장이 어두운 사용자 말풍선으로 표시된 예시.](docs/assets/ui-guide-v0.12.1/candidate2/user-bubble.png) | ![표시 설정의 Kakao 및 Dracula 테마 설치 버튼. WPF 합성 렌더이며 실제 Visual Studio 설정 화면이 아니다.](docs/assets/ui-guide-v0.12.1/candidate2/display-ide-themes.png) |
 
 - 요청을 실행하는 동안 다음 요청을 계속 입력할 수 있습니다. 현재 요청 뒤 최대 8개까지 FIFO 순서로 대기하며, 앞 요청이 끝나면 순서대로 실행합니다. 실패·취소·중지 뒤 남은 요청은 자동 실행하지 않습니다.
-- 다음 후보의 성공 알림은 Claude/Codex 브랜드와 고정된 결과 유형(질문 답변·수정안 준비·파일 작업·실행/조회 작업), 보고된 완료 건수를 표시합니다. 요청 제목·원문과 답변 문장은 넣지 않습니다. Windows 알림 설정에 따라 표시되지 않을 수 있습니다.
+- 성공 알림은 Claude/Codex 브랜드와 고정된 결과 유형(질문 답변·수정안 준비·파일 작업·실행/조회 작업), 보고된 완료 건수를 표시합니다. 요청 제목·원문과 답변 문장은 넣지 않습니다. Windows 알림 설정에 따라 표시되지 않을 수 있습니다.
 - AI 답변을 우클릭해 답변 전체 또는 완결된 단일 코드 블록을 새 로컬 파일로 저장할 수 있습니다. 기존 파일은 덮어쓰지 않으며 PDF·XLSX·실행 파일 내보내기는 지원하지 않습니다.
 - Claude 검사는 로그인 없이 CLI 버전·비인증 초기화·합성 프로토콜/오류/취소만 확인했습니다. 실제 Claude 계정 로그인과 실제 AI 답변을 검증한 결과는 아닙니다.
 - 설정에서 **Kakao 테마 설치·적용** 또는 **Dracula 테마 설치·적용**을 선택하고 VSIX 설치를 완료한 뒤 모든 Visual Studio 창을 닫고 같은 IDE를 다시 여세요. 시작 시 선택한 IDE 테마를 적용합니다. **도구 → 옵션 → 환경 → 일반 → 색 테마**에서 결과를 확인할 수 있습니다. 세 IDE의 통합 시험에서 선택 ID와 대표 색상(Kakao `#FFD9DDE3`, Dracula `#FF282A36`) 적용을 확인했으며, 설치 버튼의 물리 클릭과 고객 PC의 전체 흐름은 별도 검증 범위입니다.
 
-[v0.12.1 사용자 안내 PDF](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.12.1-preview.1/VisualStudio_AI_Assistant-0.12.1-Preview-UserGuide.pdf) · [자세한 사용자 안내](docs/USER_GUIDE.md)
+[공개 Release 자산의 사용자 안내 PDF](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases) · [자세한 사용자 안내](docs/USER_GUIDE.md)
 
 각 버전에 맞는 설치 파일을 사용하세요. Windows 네이티브 `codex.exe` 또는 `claude.exe`와 해당 서비스 계정이 필요합니다. 확장을 직접 빌드할 필요는 없습니다.
 
@@ -53,12 +55,29 @@
 
 설치 묶음 ZIP을 모두 풀고 **InstallAIAssistant.bat**를 실행하면 설치된 IDE의 버전·패키지 무결성을 검사하고 해당 버전용 설치기를 엽니다. 여러 IDE가 있으면 설치할 대상을 선택합니다. [설치 오류 해결과 진단 방법](docs/INSTALL_TROUBLESHOOTING.md)을 함께 제공합니다.
 
-**설치할 때 인터넷이 없다면:** 위 **CLI 포함 완성 오프라인 ZIP**을 내려받아 USB로 옮기고, 압축을 모두 해제한 뒤 **VerifyOfflineSetup.bat**을 실행하세요. CLI를 다시 내려받아 묶음을 준비할 필요가 없습니다. [오프라인 설치 안내](docs/OFFLINE_INSTALL.md)와 [v0.12.1 사용자 PDF](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.12.1-preview.1/VisualStudio_AI_Assistant-0.12.1-Preview-UserGuide.pdf)를 참고하세요. 로그인과 AI 사용은 연결 가능한 시점에 진행합니다.
+**설치할 때 인터넷이 없다면:** GitHub Releases에서 CLI 포함 완성 오프라인 ZIP을 선택해 USB로 옮기고, 압축을 모두 해제한 뒤 **VerifyOfflineSetup.bat**을 실행하세요. CLI를 다시 내려받아 묶음을 준비할 필요가 없습니다. [오프라인 설치 안내](docs/OFFLINE_INSTALL.md)와 [현재 공개 사용자 PDF](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases)를 참고하세요. 로그인과 AI 사용은 연결 가능한 시점에 진행합니다.
 
 설치된 확장만 제거하려면 VS2017에서 **도구 → 확장 및 업데이트 → 설치됨**, VS2019·2022에서 **확장 → 확장 관리 → 설치됨**을 여세요. 목록에서 해당 버전의 AI Assistant 항목을 **제거**한 뒤 모든 Visual Studio 창을 닫습니다. 잠시 끄기만 하려면 **사용 안 함**을 선택하고 Visual Studio를 다시 여세요. 버전별 실제 항목 이름과 데이터 보존 안내는 [사용자 안내서](docs/USER_GUIDE.md#visual-studio-ai-assistant-확장-제거)를 참조하세요.
 
 확장을 처음 열면 협업과 소스 주석 규칙을 담은 숨김 필수 지침을 생성합니다. 직접 작성한 공통 지침은 별도로 보존하며, 두 지침을 AI 요청에 함께 전달합니다.
 
+## v0.13.0-preview.1의 새 기능
+
+완성 오프라인 ZIP은 `VisualStudio_AI_Assistant-0.13.0-Preview1-FullOffline-win-x64.zip`입니다. [통합 설치·사용 PDF](output/pdf/VisualStudio_AI_Assistant_%EC%84%A4%EC%B9%98_%EC%82%AC%EC%9A%A9%EC%84%A4%EB%AA%85%EC%84%9C_v0.13.0_%EB%AF%B8%EB%A6%AC%EB%B3%B4%EA%B8%B0.pdf)는 기존 안내 26쪽에 새 기능 부록 8쪽을 더한 34쪽입니다.
+
+| 기능 | 사용 방법 |
+|---|---|
+| 대화별 독립 실행 | 응답 중 다른 방으로 이동해 별도 작업을 실행합니다. 방마다 실행 하나와 대기 여덟 개를 두며 초안·역할·진행·사용량·취소를 분리합니다. |
+| 시간별 대화 기록 | UTC 시간 구간별로 보관하고 위로 스크롤하면 백그라운드에서 추가로 읽습니다. 전체 백업에는 메인 Markdown과 같은 ID의 `.history` 폴더가 모두 필요합니다. 구형 기록의 실제 발화 시각은 복원할 수 없습니다. |
+| 좁은 화면의 대화 목록 | 폭 460픽셀 미만에서 대화 항목을 더블클릭하면 목록을 접습니다. |
+| AI 선택 질문 | 보기를 선택하면 입력 초안에 들어갑니다. 내용을 확인한 뒤 직접 전송합니다. |
+| 필수 작업 지침 | 첫 사용 때 숨김 필수 지침을 준비하고 기존 패턴 확인·최소 수정·작업 기록·완료 후 감사 요청을 AI 문맥에 포함합니다. 사용자 지침은 보존합니다. |
+
+담당 AI를 다시 선택해도 미승인 수정안과 비교 화면을 복원합니다. 원래 읽기 전용인 문서는 다른 방이 실행 중이어도 수정 요청을 거절하고 입력을 보존합니다. 미승인 수정안 뒤의 요청은 승인·적용 또는 명시적 건너뛰기 전에는 실행하지 않습니다.
+
+프로젝트 최상위 `UserDistribution/v0.13.0`에는 대상별 VSIX, 테마 VSIX, `cli/codex/`·`cli/claude/` 런타임과 라이선스·고지, 설치/검증 BAT·PowerShell, 체크섬·manifest, 오프라인 안내와 PDF만 담았습니다. 총 68개 파일이며 전체 payload 67개의 체크섬을 제공합니다. 프로젝트 소스·프로젝트 파일·PDB·테스트·개발 증거·Git 자료·계정·사용자 기록은 제외합니다. 기존 GitHub 소스 공개 방식은 유지합니다.
+
+네 종류 Release 빌드 오류·경고 0, 기본 회귀 20/20, 동시 대화 120/120을 확인했습니다. [검증 보고서](MarkdownReport/CodexOrig_TASK-068_Validation.md)와 [독립 감사](MarkdownReport/CodexOrig2_TASK-068_C6_Audit.md)에 실제 IDE·설치·패키지 검증 범위를 구분해 기록합니다. 합성 UI 이미지는 실제 IDE·포인터·키보드 포커스 검사와 구분합니다. Claude 로그인·실제 AI 답변과 고객 VS2017 Professional 15.7.1/제한망 PC 설치는 확인 범위 밖입니다.
 ## v0.12.0 공개 미리보기 UI
 
 이번 미리보기에는 완료 알림, 최근 대화의 단계별 불러오기, 설정 페이지 탐색, Markdown 도구 그룹, 앱 전용 Kakao·Dracula 색상 팔레트와 독립 Visual Studio 테마 패키지를 포함합니다. 공통 팝업은 OS의 녹색 제목 표시줄 대신 확장 화면과 어울리는 제목 표시줄을 사용하며, 창 이동과 최소화·최대화·닫기를 제공합니다. 아래 그림은 별도 WPF 렌더 이미지이며 실제 Visual Studio IDE 캡처가 아닙니다. 고객 오프라인 PC의 설치 결과는 별도로 확인해야 합니다.
@@ -163,7 +182,7 @@ AI 답변은 제목·강조·목록·표·코드·링크를 Markdown으로 표�
 
 별도 문서는 **우클릭 → Markdown 문서 작성**으로 시작합니다. 줄 번호와 구문 색상, 검색, Undo·Redo, 편집·미리보기·분할 보기, 자동 줄바꿈과 확대·축소를 사용할 수 있습니다. **Ctrl+B/I/K**는 서식·링크, **Ctrl+Shift+C**는 체크 목록, **Ctrl+Enter**는 체크 전환, **Ctrl+F**는 검색입니다. 작성기의 단축키는 대화 입력란의 전송 단축키와 구분됩니다. 명시적으로 불러온 Markdown 문서는 같은 폴더의 로컬 이미지·GIF도 미리보기로 확인할 수 있으며, UTF-8로 저장합니다.
 
-**저장/Ctrl+S**는 현재 문서에, **다른 이름으로 저장/Ctrl+Shift+S**는 새 경로에 저장합니다. 접이식 문서 목록은 넓은 창에서 왼쪽, 좁은 창에서 탭 위에 나타나며 안쪽에서 스크롤할 수 있습니다. 목록에서 문서를 열고 이름 변경·파일 위치를 확인할 수 있고, 삭제는 현재 열려 있는 문서와 저장하지 않은 내용까지 지우므로 확인 단계를 거칩니다. 참조형 링크와 제한된 정적 HTML을 미리보기에서 지원합니다. 일반 Markdown 표는 최대 16열, 정적 HTML 표는 최대 128행·16열까지 표시하며 한도를 넘긴 내용이 있으면 생략 안내를 표시합니다. 스크립트·스타일시트·iframe 실행이나 원격 자료 자동 로딩은 하지 않습니다. [Markdown 작성기 그림 사용 설명서 C7 검토판](docs/visual-guide-orig3/markdown-editor/revision-c7/Markdown%EC%9E%91%EC%84%B1%EA%B8%B0_%EC%82%AC%EC%9A%A9%EC%84%A4%EB%AA%85%EC%84%9C_C7.md) · [PDF](output/pdf/Markdown%EC%9E%91%EC%84%B1%EA%B8%B0_%EC%82%AC%EC%9A%A9%EC%84%A4%EB%AA%85%EC%84%9C_C7.pdf).
+**저장/Ctrl+S**는 현재 문서에, **다른 이름으로 저장/Ctrl+Shift+S**는 새 경로에 저장합니다. 접이식 문서 목록은 넓은 창에서 왼쪽, 좁은 창에서 탭 위에 나타나며 안쪽에서 스크롤할 수 있습니다. 목록에서 문서를 열고 이름 변경·파일 위치를 확인할 수 있고, 삭제는 현재 열려 있는 문서와 저장하지 않은 내용까지 지우므로 확인 단계를 거칩니다. 참조형 링크와 제한된 정적 HTML을 미리보기에서 지원합니다. 일반 Markdown 표는 최대 16열, 정적 HTML 표는 최대 128행·16열까지 표시하며 한도를 넘긴 내용이 있으면 생략 안내를 표시합니다. 스크립트·스타일시트·iframe 실행이나 원격 자료 자동 로딩은 하지 않습니다. [Markdown 작성기 그림 사용 설명서 C8 검토판](docs/visual-guide-orig3/markdown-editor/revision-c8/Markdown%EC%9E%91%EC%84%B1%EA%B8%B0_%EC%82%AC%EC%9A%A9%EC%84%A4%EB%AA%85%EC%84%9C_C8.md) · [PDF](output/pdf/Markdown%EC%9E%91%EC%84%B1%EA%B8%B0_%EC%82%AC%EC%9A%A9%EC%84%A4%EB%AA%85%EC%84%9C_C8.pdf).
 
 **설정 → 화면 테마**의 기본값은 **자동 · Visual Studio 우선**입니다. IDE 밖에서는 Windows 앱 모드를 따릅니다. 밝게·어둡게를 직접 고르고 설정을 저장할 수도 있습니다. 설정의 상세 설명은 필요할 때 펼치고, 작은 창에서는 대화 목록 뒤의 화면을 흐리게 구분해 읽을 수 있습니다.
 

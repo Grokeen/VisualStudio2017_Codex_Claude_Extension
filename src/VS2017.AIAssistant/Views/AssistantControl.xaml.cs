@@ -108,6 +108,11 @@ namespace VS2017.AIAssistant.Views
             if (documents == null || provider == null || disposed) return;
             try
             {
+                if (provider is RuntimeEditProvider)
+                {
+                    QueueConcurrentRoomRequest(CaptureCurrentRequest(true));
+                    return;
+                }
                 EnqueueCurrentRequest();
                 await DrainRequestQueueAsync();
             }
@@ -203,6 +208,7 @@ namespace VS2017.AIAssistant.Views
         /// ---------------------------------------------------------------------
         private void ApplyClicked(object sender, RoutedEventArgs e)
         {
+            Dispatcher.VerifyAccess();
             if (busy || disposed) return;
             bool applied = false;
             try
@@ -210,13 +216,14 @@ namespace VS2017.AIAssistant.Views
                 session.Apply(pendingDocument, pendingProposal, ReviewApproval.IsChecked == true);
                 RecordProposalApplied(pendingProposal);
                 pendingProposal = null;
+                roomProposals.Remove(activeRecords[selectedProvider].Id);
                 applied = true;
                 ReviewApproval.IsChecked = false;
                 StatusLabel.Text = "편집기에 적용했습니다. 확인 후 '적용 내용 저장' 또는 Ctrl+S로 저장하세요.";
             }
             catch (Exception exception) { StatusLabel.Text = "적용 실패: " + exception.Message; }
             UpdateButtons();
-            if (applied) ResumeRequestQueue();
+            if (applied) { ResumeRequestQueue(); StartNextRoomRequest(activeRecords[selectedProvider].Id); }
         }
 
         /// ---------------------------------------------------------------------
@@ -277,6 +284,7 @@ namespace VS2017.AIAssistant.Views
         /// ---------------------------------------------------------------------
         private void StopClicked(object sender, RoutedEventArgs e)
         {
+            if (StopCurrentRoomRun()) { UpdateButtons(); StopButton.IsEnabled = false; return; }
             CancelQueuedRequests("대기 요청을 중지했습니다.");
             if (requestCancellation != null) requestCancellation.Cancel();
             UpdateButtons();
@@ -319,6 +327,7 @@ namespace VS2017.AIAssistant.Views
             ShowChat();
             MarkCurrentConversationRead();
             ClearProposal();
+            RestoreRoomPresentation();
             UpdateButtons();
         }
 
@@ -389,28 +398,33 @@ namespace VS2017.AIAssistant.Views
         /// ---------------------------------------------------------------------
         private void UpdateButtons()
         {
+            bool roomBusy = IsCurrentRoomRunning;
+            bool activeBusy = busy || roomBusy;
             GenerateButton.IsEnabled = !disposed && documents != null && provider != null && queuedRequests.Count < MaximumQueuedRequests;
             ProviderChoice.IsEnabled = !busy && queuedRequests.Count == 0;
             if (busy) { CloseDropdown(); CloseFan(); }
             ExecutablePath.IsEnabled = !busy;
             BrowseButton.IsEnabled = !busy;
             Instruction.IsEnabled = !disposed;
-            StopButton.IsEnabled = busy || queuedRequests.Count > 0;
-            AttachButton.IsEnabled = PasteButton.IsEnabled = NewChatButton.IsEnabled = !busy && queuedRequests.Count == 0;
+            Queue<QueuedUiRequest> currentRoomQueue;
+            bool currentRoomWaiting = experienceReady && roomQueues.TryGetValue(activeRecords[selectedProvider].Id, out currentRoomQueue) && currentRoomQueue.Count > 0;
+            StopButton.IsEnabled = activeBusy || queuedRequests.Count > 0 || currentRoomWaiting;
+            AttachButton.IsEnabled = PasteButton.IsEnabled = !activeBusy && queuedRequests.Count == 0;
+            NewChatButton.IsEnabled = !busy && queuedRequests.Count == 0;
             AttachmentList.IsEnabled = SettingsPanel.IsEnabled = SettingsContent.IsEnabled = !busy && queuedRequests.Count == 0;
             SettingsButton.IsEnabled = HelpButton.IsEnabled = !busy && queuedRequests.Count == 0;
             AccountCheckButton.IsEnabled = LoginButton.IsEnabled = SaveSettingsButton.IsEnabled = !busy && queuedRequests.Count == 0;
-            ReviewApproval.IsEnabled = !busy && pendingProposal != null && pendingProposal.HasChanges;
+            ReviewApproval.IsEnabled = !activeBusy && pendingProposal != null && pendingProposal.HasChanges;
             ApplyButton.IsEnabled = ReviewApproval.IsEnabled && ReviewApproval.IsChecked == true;
             var discard = FindName("DiscardProposalButton") as Button;
-            if (discard != null) { discard.Visibility = HasPendingReview && queuedRequests.Count > 0 ? Visibility.Visible : Visibility.Collapsed; discard.IsEnabled = !busy && !disposed && HasPendingReview && queuedRequests.Count > 0; }
+            if (discard != null) { Queue<QueuedUiRequest> roomQueue; bool roomWaiting = experienceReady && roomQueues.TryGetValue(activeRecords[selectedProvider].Id, out roomQueue) && roomQueue.Count > 0; discard.Visibility = HasPendingReview && (queuedRequests.Count > 0 || roomWaiting) ? Visibility.Visible : Visibility.Collapsed; discard.IsEnabled = !activeBusy && !disposed && HasPendingReview && (queuedRequests.Count > 0 || roomWaiting); }
             SaveButton.IsEnabled = !busy && session.CanSave && CanUsePresentedEditSession();
             RestoreButton.IsEnabled = !busy && session.CanRestore && CanUsePresentedEditSession();
-            if (RequestModel != null) RequestModel.IsEnabled = ModeChoice.IsEnabled = PermissionsButton.IsEnabled = LoadChatButton.IsEnabled = ConversationList.IsEnabled = OptionsToggle.IsEnabled = !busy && queuedRequests.Count == 0;
+            if (RequestModel != null) { RequestModel.IsEnabled = ModeChoice.IsEnabled = PermissionsButton.IsEnabled = OptionsToggle.IsEnabled = !activeBusy && queuedRequests.Count == 0; LoadChatButton.IsEnabled = !busy && roomRuns.Count == 0 && queuedRequests.Count == 0; ConversationList.IsEnabled = !busy && queuedRequests.Count == 0; }
             if (ModelOptionsButton != null) { ModelOptionsButton.IsEnabled = AgentButton.IsEnabled = !busy && queuedRequests.Count == 0; var capability = ProviderModelCatalog.ForProvider(selectedProvider).Find(ModelName.Text); FastToggle.IsEnabled = !busy && queuedRequests.Count == 0 && capability != null && capability.SupportsFast; }
             UpdateChangeCard();
-            UpdateActivity(busy);
-            UpdateThinkingAnimation(busy);
+            UpdateActivity(activeBusy);
+            UpdateThinkingAnimation(activeBusy);
         }
 
         /// ---------------------------------------------------------------------
@@ -430,6 +444,8 @@ namespace VS2017.AIAssistant.Views
         public void Dispose()
         {
             Dispatcher.VerifyAccess();
+            foreach (var run in roomRuns.Values.ToArray()) run.Cancellation.Cancel();
+            foreach (string id in roomQueues.Keys.ToArray()) CancelRoomQueue(id, "도구 창이 닫혀 실행하지 않았습니다.");
             MotionPreferenceUnloaded(this, new RoutedEventArgs());
             ConversationScroll.RemoveHandler(System.Windows.Input.Mouse.PreviewMouseWheelEvent, new System.Windows.Input.MouseWheelEventHandler(ConversationViewed));
             DisposeExperience();

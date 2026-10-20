@@ -1,0 +1,12 @@
+{
+  "status": "synthetic-design-only, not product validation",
+  "sourceDirectory": "artifacts/task068-design/rendered-v4",
+  "captureMethod": "WPF RenderTargetBitmap; no Window shown, no OS or pointer interaction",
+  "productSourceModified": false,
+  "images": [
+    { "name": "history-open-narrow-dark.png", "sha256": "EDBB7D9E625374A684403295981E017BA4C5C2748A1D14308AA72240F4DF7B9A" },
+    { "name": "history-closed-narrow-dark.png", "sha256": "D6A8D39A1478C2B59442A201A224D66CCD27E42A8A492E9F9148204557B59127" },
+    { "name": "question-options-narrow-dark.png", "sha256": "04CBE483D90E37C3FA628B0FA684C01C6640767027F67268E9931B236D2C5D72" },
+    { "name": "question-options-narrow-light.png", "sha256": "53301A0A30F0FE6E01FA07675614926960345A6AFE33553803332F4E6F097152" }
+  ]
+}

@@ -1,0 +1,327 @@
+{
+  "Task": "TASK068 Independent choices/rules observations",
+  "Owner": "CodexOrig",
+  "Classification": "Observations and low severity UX/compatibility candidates; no product pass/fail count",
+  "SourceInputs": {
+    "HeadCommit": "25e5b15d40f9df583ebc5a3ee6d5f8397a447f98",
+    "HeadStoreBlob": "458d358d262653c24d2fb041097c495d3ae229bb",
+    "Inputs": [
+      {
+        "Name": "Chat-ChatWorkspace.cs",
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task068\\independent-choices-rules\\inputs\\Chat-ChatWorkspace.cs",
+        "Sha256": "A521A16A79990571A44FF03B5ACE9B54D830FB687D3883EB3EB273246252B009"
+      },
+      {
+        "Name": "Chat-MandatoryInstructionStore.cs",
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task068\\independent-choices-rules\\inputs\\Chat-MandatoryInstructionStore.cs",
+        "Sha256": "F8F620EB2F797EF1EF47B31564087408B9ECB2FF7A37071F999217600207DA41"
+      },
+      {
+        "Name": "ChatMessage.ActualExtract.cs",
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task068\\independent-choices-rules\\inputs\\ChatMessage.ActualExtract.cs",
+        "Sha256": "48DA1387D7C29424B8C5943DC0552FDD3589E2455A6C19C6DE6E3FA97E2297CF"
+      },
+      {
+        "Name": "MandatoryInstructionStore.HEAD.cs",
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task068\\independent-choices-rules\\inputs\\MandatoryInstructionStore.HEAD.cs",
+        "Sha256": "180F376604EF13EC26FBD2D35038BBBB7BE034C8D5BFE6920B398A3F38330130"
+      },
+      {
+        "Name": "Views-AssistantControl.Chat.cs",
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task068\\independent-choices-rules\\inputs\\Views-AssistantControl.Chat.cs",
+        "Sha256": "4F56603C0479BDF1EDD5BD077DA7D442D06EE9009B976EBB69F0679C7F752159"
+      },
+      {
+        "Name": "Views-AssistantControl.xaml",
+        "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task068\\independent-choices-rules\\inputs\\Views-AssistantControl.xaml",
+        "Sha256": "0AC90221D1B3AC290B2195BD77D0C8BC146AB9976CC110002BAEC9166CA175CC"
+      }
+    ],
+    "ProductModified": false,
+    "CapturedAt": "2026-10-20T13:20:54.0370615+09:00"
+  },
+  "Result": {
+    "ActualChatMessageClassOnly": true,
+    "ChoicesCases": 8,
+    "Choices": [
+      {
+        "Id": "explicit-choice-control",
+        "Role": "assistant",
+        "Text": "어느 환경을 선택하시겠습니까?\n1. 로컬\n2. 대상 PC",
+        "ReturnedChoices": [
+          "로컬",
+          "대상 PC"
+        ],
+        "ReturnedCount": 2,
+        "FalsePositiveOrAmbiguityCandidate": false,
+        "ProductPropertyCalled": true,
+        "GuiShown": false,
+        "ChoiceSubmitted": false
+      },
+      {
+        "Id": "completed-numbered-steps",
+        "Role": "assistant",
+        "Text": "선택한 파일을 검사했습니다.\n1. 빌드\n2. 테스트",
+        "ReturnedChoices": [
+          "빌드",
+          "테스트"
+        ],
+        "ReturnedCount": 2,
+        "FalsePositiveOrAmbiguityCandidate": true,
+        "ProductPropertyCalled": true,
+        "GuiShown": false,
+        "ChoiceSubmitted": false
+      },
+      {
+        "Id": "numbered-code-fence",
+        "Role": "assistant",
+        "Text": "선택 예제이며 질문이 아닙니다.\n```text\n1. 빌드\n2. 테스트\n```",
+        "ReturnedChoices": [
+          "빌드",
+          "테스트"
+        ],
+        "ReturnedCount": 2,
+        "FalsePositiveOrAmbiguityCandidate": true,
+        "ProductPropertyCalled": true,
+        "GuiShown": false,
+        "ChoiceSubmitted": false
+      },
+      {
+        "Id": "duplicate-number",
+        "Role": "assistant",
+        "Text": "다음에서 선택해 주세요.\n1. 첫째\n1. 둘째",
+        "ReturnedChoices": [
+          "첫째",
+          "둘째"
+        ],
+        "ReturnedCount": 2,
+        "FalsePositiveOrAmbiguityCandidate": true,
+        "ProductPropertyCalled": true,
+        "GuiShown": false,
+        "ChoiceSubmitted": false
+      },
+      {
+        "Id": "out-of-order-number",
+        "Role": "assistant",
+        "Text": "다음에서 선택해 주세요.\n4. 넷째\n2. 둘째",
+        "ReturnedChoices": [
+          "넷째",
+          "둘째"
+        ],
+        "ReturnedCount": 2,
+        "FalsePositiveOrAmbiguityCandidate": true,
+        "ProductPropertyCalled": true,
+        "GuiShown": false,
+        "ChoiceSubmitted": false
+      },
+      {
+        "Id": "ordinary-list-without-choice-word-control",
+        "Role": "assistant",
+        "Text": "검사를 완료했습니다.\n1. 빌드\n2. 테스트",
+        "ReturnedChoices": [],
+        "ReturnedCount": 0,
+        "FalsePositiveOrAmbiguityCandidate": false,
+        "ProductPropertyCalled": true,
+        "GuiShown": false,
+        "ChoiceSubmitted": false
+      },
+      {
+        "Id": "user-role-control",
+        "Role": "user",
+        "Text": "선택해 주세요.\n1. 로컬\n2. 대상 PC",
+        "ReturnedChoices": [],
+        "ReturnedCount": 0,
+        "FalsePositiveOrAmbiguityCandidate": false,
+        "ProductPropertyCalled": true,
+        "GuiShown": false,
+        "ChoiceSubmitted": false
+      },
+      {
+        "Id": "system-role-control",
+        "Role": "system",
+        "Text": "선택해 주세요.\n1. 로컬\n2. 대상 PC",
+        "ReturnedChoices": [],
+        "ReturnedCount": 0,
+        "FalsePositiveOrAmbiguityCandidate": false,
+        "ProductPropertyCalled": true,
+        "GuiShown": false,
+        "ChoiceSubmitted": false
+      }
+    ],
+    "ExistingOfficialCopy": {
+      "OldOfficialSource": "git show HEAD:src/VS2017.AIAssistant/Chat/MandatoryInstructionStore.cs",
+      "Workspace": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task068\\independent-choices-rules\\workspace-old-official",
+      "File": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task068\\independent-choices-rules\\workspace-old-official\\.mandatory-instructions.md",
+      "ReturnedSamePath": true,
+      "OldRuleNumbers": [
+        "1",
+        "2"
+      ],
+      "NewBuiltinRuleNumbers": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "FileRuleNumbersAfterEnsure": [
+        "1",
+        "2"
+      ],
+      "EffectiveRuleNumbers": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "OldOfficialFilePreserved": true,
+      "LastWriteTimePreserved": true,
+      "BeforeSha256": "BFEB5DE07195717C1E878251F6766C2122E9CC21663D184F3EE3977715EB180C",
+      "AfterSha256": "BFEB5DE07195717C1E878251F6766C2122E9CC21663D184F3EE3977715EB180C",
+      "FileContainsNewRules3To5": false,
+      "EffectiveInstructionsContainNewRules3To5": true,
+      "NoticeReturned": true,
+      "Notice": "필수 규칙 관리 사본의 내용이 기본값과 다릅니다. 파일은 보존했으며 요청에는 내장 기본 규칙을 사용합니다.",
+      "NoticeDisplayedInUiTested": false,
+      "UserInstructionsPreserved": true,
+      "HiddenAttributeRetained": true,
+      "EffectiveInstructionsReadFromFile": false
+    },
+    "FreshNewCopy": {
+      "File": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task068\\independent-choices-rules\\workspace-fresh\\.mandatory-instructions.md",
+      "FileContainsNewRules3To5": true,
+      "RuleNumbers": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "Notice": null,
+      "Hidden": true
+    },
+    "CustomizedControl": {
+      "OriginalPreserved": true,
+      "NoticeReturned": true,
+      "Notice": "필수 규칙 관리 사본의 내용이 기본값과 다릅니다. 파일은 보존했으며 요청에는 내장 기본 규칙을 사용합니다.",
+      "EffectiveUsesBuiltinAndNotCustomFile": true
+    },
+    "UiCreated": false,
+    "ButtonsPhysicallyClicked": false,
+    "AutomaticSubmissionOrToolExecutionTested": false,
+    "ExistingHandlerObservedToFillDraftOnly": true,
+    "BuildScope": "Three isolated helper libraries and one evidence runner; no product/project/shared bin obj build",
+    "ProductModified": false,
+    "UserWorkspaceUsed": false,
+    "RemoteAiUsed": false,
+    "GuiUsed": false,
+    "CheckedAt": "2026-10-20T13:21:49.5904021+09:00"
+  },
+  "SourceSnapshotComparison": [
+    {
+      "Source": "src/VS2017.AIAssistant/Chat/ChatWorkspace.cs",
+      "SnapshotSha256": "A521A16A79990571A44FF03B5ACE9B54D830FB687D3883EB3EB273246252B009",
+      "SourceHashAtEnd": "A521A16A79990571A44FF03B5ACE9B54D830FB687D3883EB3EB273246252B009",
+      "SameAtEnd": true
+    },
+    {
+      "Source": "src/VS2017.AIAssistant/Chat/MandatoryInstructionStore.cs",
+      "SnapshotSha256": "F8F620EB2F797EF1EF47B31564087408B9ECB2FF7A37071F999217600207DA41",
+      "SourceHashAtEnd": "F8F620EB2F797EF1EF47B31564087408B9ECB2FF7A37071F999217600207DA41",
+      "SameAtEnd": true
+    },
+    {
+      "Source": "src/VS2017.AIAssistant/Views/AssistantControl.Chat.cs",
+      "SnapshotSha256": "4F56603C0479BDF1EDD5BD077DA7D442D06EE9009B976EBB69F0679C7F752159",
+      "SourceHashAtEnd": "4F56603C0479BDF1EDD5BD077DA7D442D06EE9009B976EBB69F0679C7F752159",
+      "SameAtEnd": true
+    },
+    {
+      "Source": "src/VS2017.AIAssistant/Views/AssistantControl.xaml",
+      "SnapshotSha256": "0AC90221D1B3AC290B2195BD77D0C8BC146AB9976CC110002BAEC9166CA175CC",
+      "SourceHashAtEnd": "0AC90221D1B3AC290B2195BD77D0C8BC146AB9976CC110002BAEC9166CA175CC",
+      "SameAtEnd": true
+    }
+  ],
+  "ProductModified": false,
+  "SharedBinObjUsed": false,
+  "ProductProjectBuilt": false,
+  "PrivateHelperCompilationOnly": true,
+  "GuiUsed": false,
+  "RemoteAiUsed": false,
+  "StructuredProposalCasesUsedAsProductFailures": false,
+  "EvidenceHashes": [
+    {
+      "Name": "ChatMessage.ActualExtract.dll",
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task068\\independent-choices-rules\\ChatMessage.ActualExtract.dll",
+      "Sha256": "8BFEB4760B3953344F62F7FA88E4BE4D6B95DA9F765C5A839F138844AE30F6DF"
+    },
+    {
+      "Name": "choices-observations.json",
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task068\\independent-choices-rules\\choices-observations.json",
+      "Sha256": "9D798C192E9C4CC9CC23EFBF51F52A4F0FD8D7C98EDE04C5B2F9C5C19BD9CB81"
+    },
+    {
+      "Name": "customized-preservation-control.json",
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task068\\independent-choices-rules\\customized-preservation-control.json",
+      "Sha256": "812833E32643D1920E23E3C9FC1BC7B8E3C1851870C0DB24CE25811498E1DD33"
+    },
+    {
+      "Name": "fresh-new-rules.json",
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task068\\independent-choices-rules\\fresh-new-rules.json",
+      "Sha256": "6642C5A0DE5BFFE1059B98AD0D218B5EB724D9150255264A6B7A31912AFB59DD"
+    },
+    {
+      "Name": "IndependentChecks.cs",
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task068\\independent-choices-rules\\IndependentChecks.cs",
+      "Sha256": "202FE23E58D070D5E5DA67979B9B55FA54301869F3520D40D461E0B768CCCFD3"
+    },
+    {
+      "Name": "IndependentChecks.exe",
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task068\\independent-choices-rules\\IndependentChecks.exe",
+      "Sha256": "269F03A7D234799BBB4EA20A9562C48FA862DE26EC3116C6A3E26847106E5B8F"
+    },
+    {
+      "Name": "new-builtin-instructions.md",
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task068\\independent-choices-rules\\new-builtin-instructions.md",
+      "Sha256": "9A9F7A48ADE98B7F21BB4CFE2802FF7D70B93A9DDA386FB74C35DE8E5791A38A"
+    },
+    {
+      "Name": "NewMandatoryStore.dll",
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task068\\independent-choices-rules\\NewMandatoryStore.dll",
+      "Sha256": "616D0535416E96044978272453F52ECE72BD73CBE88131A2AA4EC82ED7A9E304"
+    },
+    {
+      "Name": "old-official-instructions.md",
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task068\\independent-choices-rules\\old-official-instructions.md",
+      "Sha256": "BFEB5DE07195717C1E878251F6766C2122E9CC21663D184F3EE3977715EB180C"
+    },
+    {
+      "Name": "old-official-upgrade.json",
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task068\\independent-choices-rules\\old-official-upgrade.json",
+      "Sha256": "B258AF78036AE42A1A961CE7A3E28B06C135AE31A8DA48A33A930E81A7B0B7C2"
+    },
+    {
+      "Name": "OldMandatoryStore.dll",
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task068\\independent-choices-rules\\OldMandatoryStore.dll",
+      "Sha256": "59C6DDA9D5E098F4026F9E01F9651A3690810643B50C7A3B31C99A77F79B09E5"
+    },
+    {
+      "Name": "result.json",
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task068\\independent-choices-rules\\result.json",
+      "Sha256": "3C227ED58C14FE1C8FC5DE8E2CA25590FF39EE93CB32C01AFF7F8DDE61A4DA58"
+    },
+    {
+      "Name": "run.log",
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task068\\independent-choices-rules\\run.log",
+      "Sha256": "2F8A55C376149F8DA7F3CF77A49D923BD8226335CDE671414C60F3DC54D4DFDF"
+    },
+    {
+      "Name": "source-inputs.json",
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task068\\independent-choices-rules\\source-inputs.json",
+      "Sha256": "C3603FD7D59E31279538F4900EADFD6C83BE720204602C1AC99E43FA17CDAA3C"
+    }
+  ],
+  "CheckedAt": "2026-10-20T13:23:25.6719702+09:00"
+}

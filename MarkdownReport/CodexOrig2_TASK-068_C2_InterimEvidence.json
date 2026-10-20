@@ -1,0 +1,20 @@
+{
+  "auditor": "CodexOrig2",
+  "candidate": "artifacts/task068/candidate2",
+  "status": "INTERIM_C2_RELEASE_BLOCKED",
+  "frozenSourceInputs": 137,
+  "frozenSourceHashMismatches": 0,
+  "liveTreeDriftAfterC2": ["src/VS2017.AIAssistant/Views/AssistantControl.ConcurrentRooms.cs", "src/VS2017.AIAssistant/Views/AssistantControl.xaml.cs"],
+  "frozenProductDll2017Sha256": "804DF1D5D33775468D7D2FAA461C5E84028F32D255AE13052C20B5B31116962F",
+  "builds": "4 Release errors=0; 2017.Legacy/2017/2019 warnings=0; 2022 warnings=2 VSTHRD110",
+  "role1Concurrent": {"passed": 61, "failed": 3, "source": "artifacts/task068concurrent/candidate2-extended-2/result.json", "confirmedFinding": "A68-01 own room role absent from three real local CLI request contexts"},
+  "role2Storage": {"passed": 19, "failed": 0, "source": "artifacts/task068/storage-product-source/run-a841a4b615fc485e855504188b3e4533/result.json", "sourceHashesMatchC2": true, "frozenProductDllDirectlyTested": false},
+  "role3NarrowDoubleClick": {"sourceLinked": true, "actualPointerTested": false},
+  "role4Choices": {"passed": 7, "failed": 1, "source": "artifacts/task068-audit/candidate2-choices.json", "confirmedFinding": "A68-02 non-question completion list produces two button candidates", "autoSubmitTested": false},
+  "role5MandatoryInstructions": {"passed": 36, "failed": 0, "source": "artifacts/task068-audit/mandatory-c2/result.json", "actualFrozenDllTested": true},
+  "pdf": {"c2IsPrevious0121Guide": true, "sha256": "F853789CE823A1EABE8B4E98226064A9E86F808389CA77033DF83925744F2372", "newGuidePending": true},
+  "packagingScripts": "static review only; final ZIP, UserDistribution, publication and anonymous download pending",
+  "guiUsed": false,
+  "liveAiOrLoginUsed": false,
+  "productOrSharedBuildModified": false
+}

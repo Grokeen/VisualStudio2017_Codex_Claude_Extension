@@ -210,13 +210,33 @@ namespace VS2017.AIAssistant.Views
         private bool PersistCurrentConversation()
         {
             if (!experienceReady || !activeRecords.ContainsKey(selectedProvider)) return true;
-            try { var chat = ActiveChat; var record = activeRecords[selectedProvider]; chat.Draft = Instruction.Text; record.Draft = chat.Draft; record.Messages = chat.Messages.Select(m => new ChatMessage { Role = m.Role, Text = m.Text }).ToList(); string fingerprint = ConversationFingerprint(record);
+            var current = ActiveChat;
+            current.Draft = Instruction.Text;
+            return PersistConversation(activeRecords[selectedProvider], current);
+        }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : PersistConversation
+        /// desc         : 화면 선택과 관계없이 요청을 소유한 대화의 원문만 저장한다.
+        /// author       : CodexCode
+        /// create date  : 2026-10-20
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        private bool PersistConversation(ConversationRecord record, ChatSession chat)
+        {
+            try { record.Draft = chat.Draft; record.Messages = chat.Messages.Select(m => new ChatMessage { Id = m.Id, CreatedAt = m.CreatedAt, Role = m.Role, Text = m.Text }).ToList(); string fingerprint = ConversationFingerprint(record);
                 string previous;
                 if (persistedConversationFingerprints.TryGetValue(record.Id, out previous) && previous == fingerprint) return true;
                 workspaceStore.Save(record);
                 persistedConversationFingerprints[record.Id] = ConversationFingerprint(record);
                 RefreshConversationList(); return true; }
-            catch (Exception error) { StatusLabel.Text = "대화 저장 실패: " + error.Message + " 전환하기 전에 다시 저장하세요."; return false; }
+            catch (Exception error) {
+                string message = "대화 저장 실패: " + error.Message + " 전환하기 전에 다시 저장하세요.";
+                if (IsRoomShown(record)) StatusLabel.Text = message;
+                else roomStatuses[record.Id] = message;
+                return false;
+            }
         }
 
         /// ---------------------------------------------------------------------
@@ -280,7 +300,7 @@ namespace VS2017.AIAssistant.Views
                 var route = collaborationStore.RouteNewConversation(selectedProvider, verifiedScmAccount ?? Environment.UserName, () => workspaceStore.Create(selectedProvider), r => workspaceStore.Close(r));
                 var record = ResolveAssignedRecord(route.Agent, route.CreatedRecord);
                 var records = conversationRecords[selectedProvider]; records.RemoveAll(r => r.Id == record.Id); records.Insert(0, record);
-                activeRecords[selectedProvider] = record; ClearProposal(); ShowChat(); UpdateButtons();
+                activeRecords[selectedProvider] = record; ClearProposal(); ShowChat(); RestoreRoomPresentation(); UpdateButtons();
                 HistoryToggle.IsChecked = true; HistoryToggled(this, new RoutedEventArgs());
                 StatusLabel.Text = route.ReusedExisting ? "A~Z를 모두 사용하여 " + route.Agent.Name + " 대화로 이동했습니다. 기록은 그대로 유지됩니다." : "새 AI 대화를 열었습니다. 이전 대화는 왼쪽 목록에 보관됩니다.";
             } catch (Exception error) { StatusLabel.Text = "새 대화 생성 실패: " + error.Message; }
@@ -295,6 +315,7 @@ namespace VS2017.AIAssistant.Views
         /// update date  : 2026-10-18 CodexCode : Role 추가 사용자 흐름 구현.
         /// update date  : 2026-10-18 CodexOrig : TASK-014 선택한 대화만 읽음 처리하고 다른 대화 상태 유지.
         ///                2026-10-20 CodexOrig : 보조 개발 TASK055 대기 요청이 소유한 대화·권한의 전환 차단.
+        ///                2026-10-20 CodexCode : 선택 방 초안 표시 후 읽음 저장하여 다른 방 초안 혼입 방지.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void ConversationSelected(object sender, SelectionChangedEventArgs e)
@@ -302,7 +323,8 @@ namespace VS2017.AIAssistant.Views
             if (switchingConversation || !experienceReady || busy || queuedRequests.Count > 0 || disposed) return;
             var next = ConversationList.SelectedItem as ConversationRecord; if (next == null) return;
             if (next == activeRecords[selectedProvider]) { MarkCurrentConversationRead(); return; }
-            if (!PersistCurrentConversation()) { RefreshConversationList(); return; } activeRecords[selectedProvider] = next; MarkCurrentConversationRead(); ClearProposal(); ShowChat(); UpdateButtons();
+            if (!PersistCurrentConversation()) { RefreshConversationList(); return; }
+            activeRecords[selectedProvider] = next; ClearProposal(); ShowChat(); MarkCurrentConversationRead(); RestoreRoomPresentation(); UpdateButtons();
         }
 
         /// ---------------------------------------------------------------------
@@ -340,6 +362,9 @@ namespace VS2017.AIAssistant.Views
         private void CloseChatClicked(object sender, RoutedEventArgs e)
         {
             if (busy || queuedRequests.Count > 0 || disposed) return; var record = ConversationList.SelectedItem as ConversationRecord; if (record == null) return;
+            Queue<QueuedUiRequest> roomQueue;
+            if (roomRuns.ContainsKey(record.Id) || collaboratingRooms.ContainsKey(record.Id) || roomProposals.ContainsKey(record.Id) || roomQueues.TryGetValue(record.Id, out roomQueue) && roomQueue.Count > 0)
+            { StatusLabel.Text = "이 대화방의 실행 또는 수정안 검토를 마친 뒤 닫으세요."; return; }
             try {
                 CloseDropdown(); if (!PersistCurrentConversation()) return;
                 var records = conversationRecords[selectedProvider]; ConversationRecord replacement = null; bool replacementWasClosed = false;
@@ -369,7 +394,7 @@ namespace VS2017.AIAssistant.Views
         /// ---------------------------------------------------------------------
         private void LoadChatClicked(object sender, RoutedEventArgs e)
         {
-            if (busy || queuedRequests.Count > 0 || disposed || !experienceReady) return;
+            if (busy || roomRuns.Count > 0 || queuedRequests.Count > 0 || disposed || !experienceReady) return;
             var picker = new OpenFileDialog { Filter = "저장한 대화 Markdown (*.md)|*.md", CheckFileExists = true, InitialDirectory = workspaceStore.RootPath };
             if (picker.ShowDialog() != true) return;
             try { if (!PersistCurrentConversation()) return; var record = workspaceStore.Load(picker.FileName, selectedProvider); var list = conversationRecords[selectedProvider]; list.RemoveAll(r => r.Id == record.Id); list.Insert(0, record); chats.Remove(record.Id); activeRecords[selectedProvider] = record; ClearProposal(); ShowChat(); UpdateButtons(); HistoryToggle.IsChecked = true; HistoryToggled(this, e); StatusLabel.Text = "대화를 불러왔습니다."; }
@@ -715,7 +740,7 @@ namespace VS2017.AIAssistant.Views
             {
                 if (record.State == ConversationRunState.Running) { record.State = ConversationRunState.Stopped; record.HasUnread = true; }
                 ChatSession chat; if (!chats.TryGetValue(record.Id, out chat)) continue;
-                try { record.Draft = chat.Draft; record.Messages = chat.Messages.Select(m => new ChatMessage { Role = m.Role, Text = m.Text }).ToList(); workspaceStore.Save(record); }
+                try { record.Draft = chat.Draft; record.Messages = chat.Messages.Select(m => new ChatMessage { Id = m.Id, CreatedAt = m.CreatedAt, Role = m.Role, Text = m.Text }).ToList(); workspaceStore.Save(record); }
                 catch (Exception error) { StatusLabel.Text = "종료 전 대화 저장 실패: " + error.Message; }
             }
             draftTimer.Stop(); toastTimer.Stop(); statusDescriptor.RemoveValueChanged(StatusLabel, StatusChanged); experienceReady = false;

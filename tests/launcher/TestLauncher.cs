@@ -75,6 +75,7 @@ internal sealed class LauncherOptions
 /// create date  : 2026-10-18
 /// update date  : 2026-10-18 CodexCode : 고정 검사·불변 DLL·로그·취소·종료 코드 제공.
 ///                2026-10-18 CodexOrig : TASK-020 최종 버전·선택·전체 액세스 검사 계약 반영.
+///                2026-10-20 CodexOrig : TASK068 독립 대화 병렬 검사를 기본 20개 묶음에 추가.
 /// </summary>
 /// ---------------------------------------------------------------------
 internal static class TestLauncher
@@ -100,6 +101,7 @@ internal static class TestLauncher
         new TestSuite("request-queue", "연속 입력·순차 실행·승인 대기", true, true),
         new TestSuite("file-artifacts", "답변 메뉴·새 문서와 코드 파일", true, true),
         new TestSuite("notification-content", "완료 알림 요약·개인정보·ABI", true, true),
+        new TestSuite("concurrent-conversations", "독립 대화·병렬 실행·오류 격리", true, true),
         new TestSuite("ide", "실제 VS2017 별도 인스턴스", false, false, true),
         new TestSuite("live-codex", "실제 Codex 계정·AI 요청", false, true)
     };
@@ -235,6 +237,7 @@ internal static class TestLauncher
     ///                2026-10-18 CodexOrig : TASK-020 최종 버전·선택·전체 액세스 검사 계약 반영.
     ///                2026-10-19 CodexOrig : TASK-036 0.11.1 기본 패키지 경로 변경.
     ///                2026-10-20 CodexOrig : TASK051 최신 0.12.1 패키지 경로를 기본 검사 대상으로 사용.
+    ///                2026-10-20 CodexOrig : TASK068 신규 0.13.0 패키지 경로를 기본 검사 대상으로 사용.
     /// </summary>
     /// ---------------------------------------------------------------------
     private static void PrepareInputs(TestSuite[] suites, LauncherOptions options, string output, Action<string> log)
@@ -243,14 +246,14 @@ internal static class TestLauncher
         if (explicitVsix) options.Vsix = ResolveFile(options.Vsix, ".vsix");
         if (suites.Any(s => s.Vsix) || (suites.Any(s => s.Assembly) && string.IsNullOrWhiteSpace(options.Assembly)))
         {
-            if (string.IsNullOrWhiteSpace(options.Vsix)) options.Vsix = File.Exists(Path.Combine(Root, "releases/v0.12.1/VS2017.AIAssistant-0.12.1.vsix")) ? "releases/v0.12.1/VS2017.AIAssistant-0.12.1.vsix" : "src/VS2017.AIAssistant/bin/Release/VS2017.AIAssistant.vsix";
+            if (string.IsNullOrWhiteSpace(options.Vsix)) options.Vsix = File.Exists(Path.Combine(Root, "releases/v0.13.0/VS2017.AIAssistant-0.13.0.vsix")) ? "releases/v0.13.0/VS2017.AIAssistant-0.13.0.vsix" : "src/VS2017.AIAssistant/bin/Release/VS2017.AIAssistant.vsix";
             if (suites.Any(s => s.Vsix) || File.Exists(Path.Combine(Root, options.Vsix))) options.Vsix = ResolveFile(options.Vsix, ".vsix");
         }
         if (suites.Any(s => s.Assembly))
         {
             if (string.IsNullOrWhiteSpace(options.Assembly))
             {
-                if (!explicitVsix && File.Exists(Path.Combine(Root, "releases/v0.12.1/VS2017.AIAssistant.dll"))) options.Assembly = "releases/v0.12.1/VS2017.AIAssistant.dll";
+                if (!explicitVsix && File.Exists(Path.Combine(Root, "releases/v0.13.0/VS2017.AIAssistant.dll"))) options.Assembly = "releases/v0.13.0/VS2017.AIAssistant.dll";
                 else if (!string.IsNullOrWhiteSpace(options.Vsix) && File.Exists(options.Vsix))
                 {
                     string destination = Path.Combine(output, "ProductReference"); Directory.CreateDirectory(destination);
@@ -329,6 +332,7 @@ internal static class TestLauncher
     /// create date  : 2026-10-18
     /// update date  : 2026-10-18 CodexCode : 실패를 종료 코드로 전파하고 취소 시 후속 검사 중단.
     ///                2026-10-18 CodexOrig : TASK-020 최종 버전·선택·전체 액세스 검사 계약 반영.
+    ///                2026-10-20 CodexOrig : TASK068 원본 보존형 병렬 검사는 새 출력 폴더를 직접 생성.
     /// </summary>
     /// ---------------------------------------------------------------------
     internal static async Task<int> RunAsync(TestSuite[] suites, LauncherOptions options, Action<string> display, CancellationToken cancellation)
@@ -348,7 +352,8 @@ internal static class TestLauncher
                 int failures = 0;
                 foreach (var suite in suites)
                 {
-                    cancellation.ThrowIfCancellationRequested(); string suiteOutput = Path.Combine(output, suite.Id); Directory.CreateDirectory(suiteOutput);
+                    cancellation.ThrowIfCancellationRequested(); string suiteOutput = Path.Combine(output, suite.Id);
+                    if (suite.Id != "concurrent-conversations") Directory.CreateDirectory(suiteOutput);
                     log("\n▶ " + suite.Id + " · " + suite.Title + "\n");
                     int code = await RunChildAsync(suite, options, suiteOutput, log, cancellation).ConfigureAwait(false);
                     if (code != 0) failures++; log("\n" + (code == 0 ? "✓ 통과" : "⚠ 실패") + " " + suite.Id + " · 종료 코드 " + code + "\n");
@@ -478,7 +483,7 @@ internal sealed class LauncherForm : Form
         layout.RowStyles.Add(new RowStyle(SizeType.Percent, 100)); layout.RowStyles.Add(new RowStyle(SizeType.AutoSize)); Controls.Add(layout);
         layout.Controls.Add(new Label { Text = "실행할 검사를 고르세요 · IDE·실제 AI 검사는 직접 선택할 때만 실행됩니다.", AutoSize = true, Padding = new Padding(0, 0, 0, 8) }, 0, 0);
         foreach (var suite in TestLauncher.Suites) suites.Items.Add(suite, false); layout.Controls.Add(suites, 0, 1);
-        layout.Controls.Add(new Label { Text = "DLL / VSIX 경로 (비우면 배포 v0.12.1 → 기존 Release 산출물, 자동 빌드 없음)", AutoSize = true, Padding = new Padding(0, 8, 0, 0) }, 0, 2);
+        layout.Controls.Add(new Label { Text = "DLL / VSIX 경로 (비우면 배포 v0.13.0 → 기존 Release 산출물, 자동 빌드 없음)", AutoSize = true, Padding = new Padding(0, 8, 0, 0) }, 0, 2);
         var paths = new TableLayoutPanel { Dock = DockStyle.Fill, AutoSize = true, ColumnCount = 2, RowCount = 3 }; paths.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 95)); paths.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
         paths.Controls.Add(new Label { Text = "제품 DLL", AutoSize = true }, 0, 0); paths.Controls.Add(assembly, 1, 0); paths.Controls.Add(new Label { Text = "제품 VSIX", AutoSize = true }, 0, 1); paths.Controls.Add(vsix, 1, 1); paths.Controls.Add(new Label { Text = "Codex .exe", AutoSize = true }, 0, 2); paths.Controls.Add(codex, 1, 2); layout.Controls.Add(paths, 0, 3);
         assembly.Text = options.Assembly ?? ""; vsix.Text = options.Vsix ?? ""; codex.Text = options.Codex ?? "";

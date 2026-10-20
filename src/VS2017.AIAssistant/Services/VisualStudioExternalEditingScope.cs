@@ -20,9 +20,10 @@ namespace VS2017.AIAssistant.Services
     /// create date  : 2026-10-18
     /// update date  : 2026-10-18 CodexOrig : 문서별 알림 중지·읽기 전용 보호·동기화·복원.
     ///                2026-10-19 CodexOrig : TASK032 열린 프로젝트 파일도 제한된 실행 범위에서 동기화.
+    ///                2026-10-20 CodexOrig : TASK068 대화 간 공유 보호와 원래 읽기 전용 상태 구분.
     /// </summary>
     /// ---------------------------------------------------------------------
-    internal sealed class VisualStudioExternalEditingScope : IExternalEditingScope
+    internal sealed class VisualStudioExternalEditingScope : IExternalEditingScope, IExternalEditingScopeState
     {
         private readonly IVsRunningDocumentTable table;
         private readonly IVsFileChangeEx fileChanges;
@@ -36,6 +37,28 @@ namespace VS2017.AIAssistant.Services
         private long protectedBytes;
         private bool disposed;
         public string Notice { get { return String.Join("\n", notices); } }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : IsTemporarilyReadOnly
+        /// desc         : 이 범위가 편집 가능한 문서에 설정한 임시 읽기 전용 상태만 인정한다.
+        /// author       : CodexOrig
+        /// create date  : 2026-10-20
+        /// update date  : 2026-10-20 CodexOrig : TASK068 기존 버퍼·파일 읽기 전용과 종료된 보호 범위를 제외.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        public bool IsTemporarilyReadOnly(string filePath)
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+            ProtectedDocument entry;
+            if (disposed || String.IsNullOrWhiteSpace(filePath) || !documents.TryGetValue(filePath, out entry) ||
+                !entry.StateProtected || entry.OriginalReadOnly ||
+                (entry.OriginalState & (uint)(BUFFERSTATEFLAGS.BSF_USER_READONLY | BUFFERSTATEFLAGS.BSF_FILESYS_READONLY)) != 0)
+                return false;
+            try { return File.Exists(filePath) && (File.GetAttributes(filePath) & FileAttributes.ReadOnly) == 0; }
+            catch (IOException) { return false; }
+            catch (UnauthorizedAccessException) { return false; }
+        }
 
         /// ---------------------------------------------------------------------
         /// <summary>
@@ -54,7 +77,7 @@ namespace VS2017.AIAssistant.Services
             internal IVsDocDataFileChangeControl ChangeControl;
             internal IVsPersistDocData Persist;
             internal IVsTextLines Buffer;
-            internal bool Ignored, StateProtected;
+            internal bool Ignored, StateProtected, OriginalReadOnly;
         }
 
         /// ---------------------------------------------------------------------
@@ -156,6 +179,7 @@ namespace VS2017.AIAssistant.Services
         /// author       : CodexOrig
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : RDT·DocData의 중첩 알림 중지를 균형 있게 관리.
+        ///                2026-10-20 CodexOrig : 원래 문서·영역 읽기 전용 상태를 임시 보호 전에 보존.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void Protect(Document document)
@@ -175,6 +199,8 @@ namespace VS2017.AIAssistant.Services
             var entry = new ProtectedDocument { Path = path, Size = size, Cookie = cookie, ChangeControl = docData as IVsDocDataFileChangeControl, Persist = docData as IVsPersistDocData, Buffer = docData as IVsTextLines };
             if (entry.Buffer == null) { var provider = docData as IVsTextBufferProvider; if (provider != null) ErrorHandler.ThrowOnFailure(provider.GetTextBuffer(out entry.Buffer)); }
             if (entry.ChangeControl == null || entry.Persist == null || entry.Buffer == null) throw new InvalidOperationException("현재 편집기는 직접 수정 동기화를 지원하지 않습니다. 해당 문서를 닫은 뒤 요청하세요.");
+            var text = document.Object("TextDocument") as TextDocument;
+            entry.OriginalReadOnly = document.ReadOnly || text == null || text.StartPoint.CreateEditPoint().ReadOnly(text.EndPoint);
             entry.Fingerprint = Fingerprint(path);
             documents.Add(path, entry); protectedBytes += size;
             ErrorHandler.ThrowOnFailure(entry.ChangeControl.IgnoreFileChanges(1)); entry.Ignored = true;
