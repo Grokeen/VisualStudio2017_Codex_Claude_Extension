@@ -1,0 +1,516 @@
+{
+  "Completed": true,
+  "RecordedAt": "2026-10-23T23:58:33.3459861+09:00",
+  "PlanSha256": "B5F38112BADBB6CA53AD1B1687AE1ED485E9E4BF6651B0E6A898200E2CB9C5A0",
+  "KeptTags": [
+    "v0.14.2-preview.1",
+    "v0.14.1-preview.1",
+    "v0.11.1"
+  ],
+  "DeletedRemoteAssets": [
+    {
+      "ReleaseId": 418594108,
+      "Tag": "v0.14.0-preview.1",
+      "AssetId": 659786085,
+      "Name": "Grokeen-AI-Theme-Offline-Installer-0.14.0.exe",
+      "Bytes": 18749440,
+      "Digest": "sha256:42ce73abe69760005e3c5b9c9977adaff1999a22085a31a7b73b9168d5100225"
+    },
+    {
+      "ReleaseId": 418594108,
+      "Tag": "v0.14.0-preview.1",
+      "AssetId": 659786159,
+      "Name": "Grokeen-VisualStudio-Themes-0.14.0-VS2017.vsix",
+      "Bytes": 58000,
+      "Digest": "sha256:aababfca3eba23d3d838569ba3dfef8d155723b5f451ff069b714bb737018b57"
+    },
+    {
+      "ReleaseId": 418594108,
+      "Tag": "v0.14.0-preview.1",
+      "AssetId": 659786190,
+      "Name": "Grokeen-VisualStudio-Themes-0.14.0-VS2019.vsix",
+      "Bytes": 58002,
+      "Digest": "sha256:c5cbf1497701bcb2e62a5480e2f855a85e0da18c09f76b871f31dbf95b53702d"
+    },
+    {
+      "ReleaseId": 418594108,
+      "Tag": "v0.14.0-preview.1",
+      "AssetId": 659786218,
+      "Name": "Grokeen-VisualStudio-Themes-0.14.0-VS2022.vsix",
+      "Bytes": 58027,
+      "Digest": "sha256:c962484de868a5441b7fb0b0d9a6700007c09c2da1a6307b2f1b6916600dab73"
+    },
+    {
+      "ReleaseId": 418594108,
+      "Tag": "v0.14.0-preview.1",
+      "AssetId": 659786257,
+      "Name": "RELEASE_SHA256SUMS.txt",
+      "Bytes": 1433,
+      "Digest": "sha256:f2f906f59558710c4e81be917704831fe6f0c61f2634be8a4fece0bffae14793"
+    },
+    {
+      "ReleaseId": 418594108,
+      "Tag": "v0.14.0-preview.1",
+      "AssetId": 659786290,
+      "Name": "SHA256SUMS.txt",
+      "Bytes": 739,
+      "Digest": "sha256:01f7494bc35a0d5a2f771268b8782045c3fbec7f9e515614bcc5b6d31d29d616"
+    },
+    {
+      "ReleaseId": 418594108,
+      "Tag": "v0.14.0-preview.1",
+      "AssetId": 659787456,
+      "Name": "VisualStudio_AI_Assistant-0.14.0-Preview-UserGuide.pdf",
+      "Bytes": 2162985,
+      "Digest": "sha256:124285df5e7734917b5888e3c6d7868801234626d9cb7653c4e0142b1383fa35"
+    },
+    {
+      "ReleaseId": 418594108,
+      "Tag": "v0.14.0-preview.1",
+      "AssetId": 659786545,
+      "Name": "VisualStudio_AI_Assistant-0.14.0-Preview1-FullOffline-win-x64.zip",
+      "Bytes": 332115547,
+      "Digest": "sha256:48eea288cb88e23d7a19842bc451bdbaf64a537c7d63c80d26f2d3eaf81b81bf"
+    },
+    {
+      "ReleaseId": 418594108,
+      "Tag": "v0.14.0-preview.1",
+      "AssetId": 659787412,
+      "Name": "VisualStudio_AI_Assistant-0.14.0-Preview1-FullOffline-win-x64.zip.sha256",
+      "Bytes": 133,
+      "Digest": "sha256:5cdcc13ca6113113849bc37729ac4072605a3939591629688c817bda5e9f4ccb"
+    },
+    {
+      "ReleaseId": 418594108,
+      "Tag": "v0.14.0-preview.1",
+      "AssetId": 659786318,
+      "Name": "VisualStudio_AI_Assistant-0.14.0.zip",
+      "Bytes": 39136281,
+      "Digest": "sha256:e416c0624623d1470d5ee3f0ca10080e2c9a25bfdaae2624cb09a23eb421f1be"
+    },
+    {
+      "ReleaseId": 418594108,
+      "Tag": "v0.14.0-preview.1",
+      "AssetId": 659787493,
+      "Name": "VS2017.15.7.AIAssistant-0.14.0.vsix",
+      "Bytes": 4629196,
+      "Digest": "sha256:1bbea894fafc758068f34ab0ff82b7e94e160450290465d86e291d708ecc2e02"
+    },
+    {
+      "ReleaseId": 418594108,
+      "Tag": "v0.14.0-preview.1",
+      "AssetId": 659787536,
+      "Name": "VS2017.AIAssistant-0.14.0.vsix",
+      "Bytes": 4629158,
+      "Digest": "sha256:0faaa417cef642851ec7bb910aca215cb82f84716fae1e13074b069378710e16"
+    },
+    {
+      "ReleaseId": 418594108,
+      "Tag": "v0.14.0-preview.1",
+      "AssetId": 659787586,
+      "Name": "VS2019.AIAssistant-0.14.0.vsix",
+      "Bytes": 4628722,
+      "Digest": "sha256:6a3324923d77d3b61e8abb169f232ef326de20ced37dc9ba20f4fc52b641394c"
+    },
+    {
+      "ReleaseId": 418594108,
+      "Tag": "v0.14.0-preview.1",
+      "AssetId": 659787644,
+      "Name": "VS2022.AIAssistant-0.14.0.vsix",
+      "Bytes": 4627644,
+      "Digest": "sha256:b46d2eee6fc3a6be50475a2101634b87f971010df629fed3b49bfd9c359d873f"
+    },
+    {
+      "ReleaseId": 418041982,
+      "Tag": "v0.13.0-preview.1",
+      "AssetId": 658381349,
+      "Name": "Grokeen-VisualStudio-Themes-0.13.0-VS2017.vsix",
+      "Bytes": 57789,
+      "Digest": "sha256:228437df4da3cd910e43eb0e24daf9b5fdcb289fe3b15e7cbe4eefd2725d14f9"
+    },
+    {
+      "ReleaseId": 418041982,
+      "Tag": "v0.13.0-preview.1",
+      "AssetId": 658381368,
+      "Name": "Grokeen-VisualStudio-Themes-0.13.0-VS2019.vsix",
+      "Bytes": 57788,
+      "Digest": "sha256:69afaafc4d91f649d47657a43563a2f7f1fe46a58d28ecb595712075e87468a4"
+    },
+    {
+      "ReleaseId": 418041982,
+      "Tag": "v0.13.0-preview.1",
+      "AssetId": 658381391,
+      "Name": "Grokeen-VisualStudio-Themes-0.13.0-VS2022.vsix",
+      "Bytes": 57816,
+      "Digest": "sha256:392a1d12e77d004729113d0368252cce87d97a0bbf98321722a190d9732df62f"
+    },
+    {
+      "ReleaseId": 418041982,
+      "Tag": "v0.13.0-preview.1",
+      "AssetId": 658381410,
+      "Name": "RELEASE_SHA256SUMS.txt",
+      "Bytes": 1320,
+      "Digest": "sha256:eaca859fb5c0074ea652aa1964b4d6cf6e36b5e3aac53a9584f80d67460688b6"
+    },
+    {
+      "ReleaseId": 418041982,
+      "Tag": "v0.13.0-preview.1",
+      "AssetId": 658381418,
+      "Name": "SHA256SUMS.txt",
+      "Bytes": 739,
+      "Digest": "sha256:be399b2d5f197c25291ae0c8f2e3c99918cc2853caf780727d667d9045e8175b"
+    },
+    {
+      "ReleaseId": 418041982,
+      "Tag": "v0.13.0-preview.1",
+      "AssetId": 658382108,
+      "Name": "VisualStudio_AI_Assistant-0.13.0-Preview-UserGuide.pdf",
+      "Bytes": 1666997,
+      "Digest": "sha256:e96a03bd125550af364e7b4476b25262716463c990632e088b55ccbccd233e87"
+    },
+    {
+      "ReleaseId": 418041982,
+      "Tag": "v0.13.0-preview.1",
+      "AssetId": 658381486,
+      "Name": "VisualStudio_AI_Assistant-0.13.0-Preview1-FullOffline-win-x64.zip",
+      "Bytes": 311250542,
+      "Digest": "sha256:5a2b01c884c97d8661ff251ce776357c2132879a219328c73dcbf87e94764e83"
+    },
+    {
+      "ReleaseId": 418041982,
+      "Tag": "v0.13.0-preview.1",
+      "AssetId": 658382092,
+      "Name": "VisualStudio_AI_Assistant-0.13.0-Preview1-FullOffline-win-x64.zip.sha256",
+      "Bytes": 133,
+      "Digest": "sha256:b67058ea25720e412580b68e4c6e1926a5cc546601ea0f6fa423c3989d4497c7"
+    },
+    {
+      "ReleaseId": 418041982,
+      "Tag": "v0.13.0-preview.1",
+      "AssetId": 658381437,
+      "Name": "VisualStudio_AI_Assistant-0.13.0.zip",
+      "Bytes": 18271272,
+      "Digest": "sha256:731fe957268463d0734760a1e9e56e5cc16280391f724ad6dda5e4d16f8635c6"
+    },
+    {
+      "ReleaseId": 418041982,
+      "Tag": "v0.13.0-preview.1",
+      "AssetId": 658382121,
+      "Name": "VS2017.15.7.AIAssistant-0.13.0.vsix",
+      "Bytes": 4194521,
+      "Digest": "sha256:c167fd84adc1076ed424bb4e126e9d5bf0c347dc90fe9ecfacf050bf0e5a9a5c"
+    },
+    {
+      "ReleaseId": 418041982,
+      "Tag": "v0.13.0-preview.1",
+      "AssetId": 658382150,
+      "Name": "VS2017.AIAssistant-0.13.0.vsix",
+      "Bytes": 4194514,
+      "Digest": "sha256:d6d51f97f1c2fb9a773d2913078406f7bb0080b7c0627480b6f878786cc305b4"
+    },
+    {
+      "ReleaseId": 418041982,
+      "Tag": "v0.13.0-preview.1",
+      "AssetId": 658382189,
+      "Name": "VS2019.AIAssistant-0.13.0.vsix",
+      "Bytes": 4193729,
+      "Digest": "sha256:c43874cc0e881dfe4a9e4584ec5d6dbe5c81c41b7dbb4de6e04460b741daa56c"
+    },
+    {
+      "ReleaseId": 418041982,
+      "Tag": "v0.13.0-preview.1",
+      "AssetId": 658382214,
+      "Name": "VS2022.AIAssistant-0.13.0.vsix",
+      "Bytes": 4192418,
+      "Digest": "sha256:1a09c1ce979032d16e67435c43bb412159f1af7b6595d4e53c92cd6bdc0de45b"
+    }
+  ],
+  "DeletedLocalDirectories": [
+    "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.13.0",
+    "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.14.0"
+  ],
+  "KeptLocalTrees": [
+    {
+      "Directory": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.14.2",
+      "Version": "v0.14.2",
+      "Directories": [],
+      "Files": [
+        {
+          "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.14.2\\Grokeen-AI-Theme-Offline-Installer-0.14.2.exe",
+          "Bytes": 19752448,
+          "Sha256": "E6317F21A9D251E2CE07AD699BB786E334816BDDC02F41D8D0D53790FBF190A5"
+        },
+        {
+          "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.14.2\\Grokeen-VisualStudio-Themes-0.14.2-VS2017.vsix",
+          "Bytes": 68822,
+          "Sha256": "2F79804EE62A56CD3BF61051555CAF17BE85055F211EC8E74FCE1788132DD0B7"
+        },
+        {
+          "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.14.2\\Grokeen-VisualStudio-Themes-0.14.2-VS2019.vsix",
+          "Bytes": 68831,
+          "Sha256": "24050E62064CB53C7751A3C705F0C27B48A32C5DC702C0E99F8C57F932442022"
+        },
+        {
+          "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.14.2\\Grokeen-VisualStudio-Themes-0.14.2-VS2022.vsix",
+          "Bytes": 68957,
+          "Sha256": "AD4817B766D7E23073DE1A61999DA1E017AD8D8ABE4099A5E5577A7BA2C318B3"
+        },
+        {
+          "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.14.2\\Install-AIAssistant.ps1",
+          "Bytes": 29183,
+          "Sha256": "BF88DCB23C82685FD335FBA95B22FF4B1F3CC1DE167859F20F95CAC1E5D97D4A"
+        },
+        {
+          "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.14.2\\Install-OfflineCli.ps1",
+          "Bytes": 5495,
+          "Sha256": "921A970EE8E1D5DE1122698EE1E3B461FA465CE73D3BC4349711A888551353A5"
+        },
+        {
+          "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.14.2\\InstallAIAssistant.bat",
+          "Bytes": 697,
+          "Sha256": "67FFE79505F0B3829FDE89CFBE400A3DA29D88224A4E3DC3645839035C893372"
+        },
+        {
+          "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.14.2\\InstallOfflineCLI.bat",
+          "Bytes": 509,
+          "Sha256": "CDEB72E311C0792976B517E5DA240EEEBF5EBDE96F3D2D5B9F2CBBEE846ADD8F"
+        },
+        {
+          "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.14.2\\OFFLINE_INSTALL.md",
+          "Bytes": 23562,
+          "Sha256": "0D0580E397BA23FB9D80B9F36926F494E8C15B46853CE78A58105373C25B545B"
+        },
+        {
+          "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.14.2\\OfflineCli.Common.ps1",
+          "Bytes": 9594,
+          "Sha256": "D84D713D088360A5A104BE4A85FAE011E29DEC4FDE2F009E0906DC6F9256F650"
+        },
+        {
+          "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.14.2\\Prepare-OfflineSetup.ps1",
+          "Bytes": 11542,
+          "Sha256": "BF9F19794A70B64F733E07C15666AF6A924CB936AD814C5682A47AAF39DE2773"
+        },
+        {
+          "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.14.2\\PrepareOfflineSetup.bat",
+          "Bytes": 537,
+          "Sha256": "02E5EA52C607580027EA630CD075210B5EB219C1BA719403033E775362DF3831"
+        },
+        {
+          "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.14.2\\README.md",
+          "Bytes": 40872,
+          "Sha256": "22809AFF707367D77F17C7F42F860BA8026D05B90781B03BA400D4154D775FBB"
+        },
+        {
+          "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.14.2\\RELEASE_NOTES.md",
+          "Bytes": 2223,
+          "Sha256": "63B20BC8A7B47FBDC27AD49009C124BAF8D6D7EB0C31A8A95E3E19D8F24BE6A4"
+        },
+        {
+          "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.14.2\\RELEASE_SHA256SUMS.txt",
+          "Bytes": 1433,
+          "Sha256": "74DEE9D8151E8D1137323505071F89E43CDB58CC2F3643182F8FDBEAE859CA47"
+        },
+        {
+          "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.14.2\\SHA256SUMS.txt",
+          "Bytes": 739,
+          "Sha256": "F00BFAC7197AD7359A80E98AAAF75A1B4B44FED62BF0C84B50C0DE223D1E17AD"
+        },
+        {
+          "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.14.2\\Test-OfflineSetupOnTarget.ps1",
+          "Bytes": 10820,
+          "Sha256": "E3531A9FD1867966C6DE25C92F3DE6883962ECD19EB32191262B863DD4D3E2A2"
+        },
+        {
+          "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.14.2\\VerifyOfflineSetup.bat",
+          "Bytes": 462,
+          "Sha256": "70D838B614B1731E322D250059A00B57D6CBEBBE18D1F5D4D8156314EE0BF637"
+        },
+        {
+          "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.14.2\\VisualStudio_AI_Assistant-0.14.2-Preview-UserGuide.pdf",
+          "Bytes": 2427105,
+          "Sha256": "155DF0B5DD2C2C4AB958FE09958853C73A7C8EE1DBED0AB7022E21E18FF5B0DE"
+        },
+        {
+          "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.14.2\\VisualStudio_AI_Assistant-0.14.2.zip",
+          "Bytes": 41374032,
+          "Sha256": "91BE14AD9C68F52079B8FF59FFF46F3491FE647F50C6F35F204AACFE0F68052D"
+        },
+        {
+          "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.14.2\\VS2017.15.7.AIAssistant-0.14.2.vsix",
+          "Bytes": 4871795,
+          "Sha256": "FCF04E23391E7BCE1DC4F5C96FB11C19709F916465AE0A5B69F68ACDCAE16D73"
+        },
+        {
+          "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.14.2\\VS2017.AIAssistant-0.14.2.vsix",
+          "Bytes": 4871752,
+          "Sha256": "C18081B15879EC71A4D3308500E467B8193274824A25E501DCD85455E15806D7"
+        },
+        {
+          "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.14.2\\VS2019.AIAssistant-0.14.2.vsix",
+          "Bytes": 4871301,
+          "Sha256": "B53BF2255CD4EBD14965FFCEF1A89D22C6E7A25259D0468C35A8D3A33F63B88F"
+        },
+        {
+          "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.14.2\\VS2022.AIAssistant-0.14.2.vsix",
+          "Bytes": 4870340,
+          "Sha256": "6B7CE967DFD9F3471E6F5BB267BCF43826A5B42F54E999DB57CA390A1DA211C6"
+        }
+      ],
+      "TreeSha256": "57078AB718BA89409E1DEE593DB9C4437C157AC8E363B4D9F037C2A72D7931B9"
+    },
+    {
+      "Directory": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.14.1",
+      "Version": "v0.14.1",
+      "Directories": [],
+      "Files": [
+        {
+          "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.14.1\\Grokeen-AI-Theme-Offline-Installer-0.14.1.exe",
+          "Bytes": 18999296,
+          "Sha256": "69A7DA86BFD272A908C5BA2F6B97F336DD0FC9AF8D5D346C42058963B7B611EC"
+        },
+        {
+          "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.14.1\\Grokeen-VisualStudio-Themes-0.14.1-VS2017.vsix",
+          "Bytes": 58001,
+          "Sha256": "677737643A37E502BBF8D6FE44BC79E0D2BCFA933B54742AF1083A6275DC2046"
+        },
+        {
+          "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.14.1\\Grokeen-VisualStudio-Themes-0.14.1-VS2019.vsix",
+          "Bytes": 58002,
+          "Sha256": "AF5640955F7542368286C64675DF13B867DC3E5FA40A81400AD339C6FFB38421"
+        },
+        {
+          "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.14.1\\Grokeen-VisualStudio-Themes-0.14.1-VS2022.vsix",
+          "Bytes": 58030,
+          "Sha256": "38310CD2AC7F5643C9DE07BEB6B745C0E55B17C7CF826F546ECC0A722FA315BC"
+        },
+        {
+          "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.14.1\\Install-AIAssistant.ps1",
+          "Bytes": 29183,
+          "Sha256": "8F13B2A2317F3510912A7AF0E5825BC309E861F8344F2E7C7D24CD5C3B0B0E5D"
+        },
+        {
+          "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.14.1\\Install-OfflineCli.ps1",
+          "Bytes": 5495,
+          "Sha256": "921A970EE8E1D5DE1122698EE1E3B461FA465CE73D3BC4349711A888551353A5"
+        },
+        {
+          "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.14.1\\InstallAIAssistant.bat",
+          "Bytes": 697,
+          "Sha256": "67FFE79505F0B3829FDE89CFBE400A3DA29D88224A4E3DC3645839035C893372"
+        },
+        {
+          "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.14.1\\InstallOfflineCLI.bat",
+          "Bytes": 509,
+          "Sha256": "CDEB72E311C0792976B517E5DA240EEEBF5EBDE96F3D2D5B9F2CBBEE846ADD8F"
+        },
+        {
+          "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.14.1\\OFFLINE_INSTALL.md",
+          "Bytes": 19439,
+          "Sha256": "A093C2B9BB9F8FA7FD8FCD8EC06E3EAF5E61966AB83207E16CB332D434268F3D"
+        },
+        {
+          "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.14.1\\OfflineCli.Common.ps1",
+          "Bytes": 9594,
+          "Sha256": "D84D713D088360A5A104BE4A85FAE011E29DEC4FDE2F009E0906DC6F9256F650"
+        },
+        {
+          "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.14.1\\Prepare-OfflineSetup.ps1",
+          "Bytes": 11542,
+          "Sha256": "D9DDDAFD8BB74D27A39927D5868D6D81BC618AC833690B21A0CFC75A19BDD7CE"
+        },
+        {
+          "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.14.1\\PrepareOfflineSetup.bat",
+          "Bytes": 537,
+          "Sha256": "02E5EA52C607580027EA630CD075210B5EB219C1BA719403033E775362DF3831"
+        },
+        {
+          "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.14.1\\README.md",
+          "Bytes": 39041,
+          "Sha256": "5C6624A2C4692DBB7C4EEFA51302756D76CB5D4AF71BB886C98D256A9488037A"
+        },
+        {
+          "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.14.1\\RELEASE_NOTES.md",
+          "Bytes": 1105,
+          "Sha256": "D6B05108E6378F6D74678013B69EBBB46029252CDF85F6CCAC8D298903E3965C"
+        },
+        {
+          "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.14.1\\RELEASE_SHA256SUMS.txt",
+          "Bytes": 1433,
+          "Sha256": "6B83037FB7867F3529C56AF2350E06AD05CD36FE497075B5A3906A4AF0F9C109"
+        },
+        {
+          "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.14.1\\SHA256SUMS.txt",
+          "Bytes": 739,
+          "Sha256": "07F9B93B022DA069D86F0D7F1D9DA9E8AB1B8F30DDFD0FEECE16CAEF2A4C78B4"
+        },
+        {
+          "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.14.1\\Test-OfflineSetupOnTarget.ps1",
+          "Bytes": 10820,
+          "Sha256": "E3531A9FD1867966C6DE25C92F3DE6883962ECD19EB32191262B863DD4D3E2A2"
+        },
+        {
+          "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.14.1\\VerifyOfflineSetup.bat",
+          "Bytes": 462,
+          "Sha256": "70D838B614B1731E322D250059A00B57D6CBEBBE18D1F5D4D8156314EE0BF637"
+        },
+        {
+          "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.14.1\\VisualStudio_AI_Assistant-0.14.1-Preview-UserGuide.pdf",
+          "Bytes": 2200016,
+          "Sha256": "1F1D3635DC1E197EE0E30087FDCD4455995BB0918F4F94D60A560010E9F1036B"
+        },
+        {
+          "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.14.1\\VisualStudio_AI_Assistant-0.14.1-Preview1-FullOffline-win-x64.zip",
+          "Bytes": 332671811,
+          "Sha256": "6FB27F2151F7EF0369AE6269CA9084B6A9FDCFA1115DAA0190E09A59080623FC"
+        },
+        {
+          "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.14.1\\VisualStudio_AI_Assistant-0.14.1-Preview1-FullOffline-win-x64.zip.sha256",
+          "Bytes": 132,
+          "Sha256": "9D9E40D466EFE0B380274C128114DD5E68543A9E80B649DDA94C4DCF55EAFA1F"
+        },
+        {
+          "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.14.1\\VisualStudio_AI_Assistant-0.14.1.zip",
+          "Bytes": 39694191,
+          "Sha256": "71B6B75D4A2F6EB8F30496721DCCABAD7B0CAC952543BDD31FF3F94235DB33E2"
+        },
+        {
+          "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.14.1\\VS2017.15.7.AIAssistant-0.14.1.vsix",
+          "Bytes": 4691643,
+          "Sha256": "47CDD4524FBA1625154A9DFBF782C6A895CDC3954995E1301A6F43F8F3180B4E"
+        },
+        {
+          "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.14.1\\VS2017.AIAssistant-0.14.1.vsix",
+          "Bytes": 4691615,
+          "Sha256": "0304D615C8E0ACA62D226839A8F04A313878ECACBE6E5A2B797761CFCE114397"
+        },
+        {
+          "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.14.1\\VS2019.AIAssistant-0.14.1.vsix",
+          "Bytes": 4691162,
+          "Sha256": "C8D4BEE2CD1E5E55FA4D015CB0F387724F6F75095C6751B508F72FEF34CB8DF0"
+        },
+        {
+          "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\releases\\v0.14.1\\VS2022.AIAssistant-0.14.1.vsix",
+          "Bytes": 4690095,
+          "Sha256": "DD7E24AD398F397AD02A4E981C234D9F6EFFCC89FA89AE229BFEE52D0C8F2A12"
+        }
+      ],
+      "TreeSha256": "29281F232A2C5C5F43206398B2AFE5422329ABA9C5AD5741FD46628F54277B68"
+    }
+  ],
+  "InputHashes": [
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\MarkdownReport\\CodexOrig_TASK-072_Deployment.json",
+      "Sha256": "3C7ACCABD01CBB61476F37776EF3394F0E11AC107589610A44F56EB5BA851F18"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task072\\previous-release-snapshot.json",
+      "Sha256": "ECB7294430CEE40FD47F3C81F6D377E241C2532FE02A1DEA33A4B84CC3366962"
+    },
+    {
+      "Path": "C:\\dydgyqud\\VisualStudio2017_Codex_Claude_Extension\\artifacts\\task072\\stable-release-snapshot.json",
+      "Sha256": "25060A196820D4C9C5F83EC55CC8D9D8D55A05D05164F2EB4B6713F5D9174182"
+    }
+  ],
+  "ReleaseEntriesAndTagsPreserved": true,
+  "DevelopmentEvidenceAndUserDistributionPreserved": true
+}

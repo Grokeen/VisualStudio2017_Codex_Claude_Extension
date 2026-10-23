@@ -550,7 +550,7 @@ v0.14.2-preview.1에는 독립 Visual Studio 테마 패키지와 작은 MEF 분�
 
 ### 다운로드와 설치
 
-전체 오프라인 ZIP 또는 설치 대상 IDE에 맞는 VSIX를 [v0.14.2-preview.1 Release](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.14.2-preview.1)에서 받습니다. Preview 자산 링크는 Release 게시가 끝나면 활성화됩니다. 파일명은 `VisualStudio_AI_Assistant-0.14.2-Preview1-FullOffline-win-x64.zip`, `Grokeen-AI-Theme-Offline-Installer-0.14.2.exe`, `VS2017.15.7.AIAssistant-0.14.2.vsix`, `VS2017.AIAssistant-0.14.2.vsix`, `VS2019.AIAssistant-0.14.2.vsix`, `VS2022.AIAssistant-0.14.2.vsix`입니다. 직전 v0.14.1 Release는 보존되며, v0.14.0 당시의 44쪽 PDF는 [저장소 보존본](../output/pdf/VisualStudio_AI_Assistant_%EC%84%A4%EC%B9%98_%EC%82%AC%EC%9A%A9%EC%84%A4%EB%AA%85%EC%84%9C_v0.14.0_%EB%AF%B8%EB%A6%AC%EB%B3%B4%EA%B8%B0.pdf)에서 읽을 수 있습니다.
+전체 오프라인 ZIP 또는 설치 대상 IDE에 맞는 VSIX를 공개된 [v0.14.2-preview.1 Release](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.14.2-preview.1)에서 받습니다. 파일명은 `VisualStudio_AI_Assistant-0.14.2-Preview1-FullOffline-win-x64.zip`, `Grokeen-AI-Theme-Offline-Installer-0.14.2.exe`, `VS2017.15.7.AIAssistant-0.14.2.vsix`, `VS2017.AIAssistant-0.14.2.vsix`, `VS2019.AIAssistant-0.14.2.vsix`, `VS2022.AIAssistant-0.14.2.vsix`입니다. 직전 v0.14.1 Release는 보존되며, v0.14.0 당시의 44쪽 PDF는 [저장소 보존본](../output/pdf/VisualStudio_AI_Assistant_%EC%84%A4%EC%B9%98_%EC%82%AC%EC%9A%A9%EC%84%A4%EB%AA%85%EC%84%9C_v0.14.0_%EB%AF%B8%EB%A6%AC%EB%B3%B4%EA%B8%B0.pdf)에서 읽을 수 있습니다.
 
 1. 전체 ZIP을 새 폴더에 완전히 압축 해제하고 동봉 manifest/체크섬을 확인합니다.
 2. 열려 있는 Visual Studio 창을 모두 닫습니다.

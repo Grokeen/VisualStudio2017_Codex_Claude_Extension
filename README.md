@@ -6,7 +6,7 @@
 
 **v0.14.2-preview.1 설치·사용 안내** · [Preview 릴리스 및 다운로드 자산](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.14.2-preview.1) · [상세 사용자 안내](docs/USER_GUIDE.md) · [오프라인 설치 안내](docs/OFFLINE_INSTALL.md)
 
-v0.14.2-preview.1에서는 Dracula IDE 테마의 코드 diff·주석·오류 표식을 개선했습니다. 아래 Preview 자산은 릴리스 게시가 끝나면 내려받을 수 있습니다. 서비스 로그인과 실제 AI 요청은 설치와 별도입니다.
+v0.14.2-preview.1에서는 Dracula IDE 테마의 코드 diff·주석·오류 표식을 개선했습니다. 아래 링크에서 공개된 Preview 설치 파일을 내려받을 수 있습니다. 서비스 로그인과 실제 AI 요청은 설치와 별도입니다.
 
 | 다운로드 | 파일 |
 |---|---|

@@ -1,12 +1,22 @@
-# CodexOrig2 — TASK072 독립 감사 (중간 후보)
+# CodexOrig2 — TASK072 2차 독립 감사 보고
 
-감사 스냅샷: 2026-10-23 23:49 KST. 이 문서는 0.14.2 후보의 **C1·C2 실제 VS2017 IDE 실패, C3 VS2017 통과·VS2019 diff overview 실패, C4 VS2017·VS2019 통과·VS2022 실패, C5 기본 회귀 27/27·native 세 IDE 819/819·main 네 SKU 688/688·최종 실제 설치 17/17과 공식 6/6 통과**를 다룬다. C5 원본 VS2019 main IDE 예외 원인은 미확정이며 공개 Release는 아직 감사하지 않았다. 대상은 10월 23일 사용자 요청의 Dracula 기록 보기 native diff 대비·변경 위치, C# `//`·`///`·`/* */` 구분, 문법 오류 소스 강조다. [Role.md](Role.md)의 기존 주석 형식·범위 규칙도 확인했다. 감사자는 제품·공유 빌드·IDE·Git·배포를 수정하거나 실행하지 않았다.
+감사 스냅샷: 2026-10-24 00:00 KST. 이 문서는 0.14.2 후보의 **C1·C2 실제 VS2017 IDE 실패, C3 VS2017 통과·VS2019 diff overview 실패, C4 VS2017·VS2019 통과·VS2022 실패, C5 기본 회귀 27/27·native 세 IDE 819/819·main 네 SKU 688/688·최종 실제 설치 17/17과 공식 6/6 통과**, 공개 Preview 14개 익명 다운로드 및 승인 구버전 정리의 사후 검증을 다룬다. 대상은 10월 23일 사용자 요청의 Dracula 기록 보기 native diff 대비·변경 위치, C# `//`·`///`·`/* */` 구분, 문법 오류 소스 강조다. [Role.md](Role.md)의 기존 주석 형식·범위 규칙도 확인했다. 감사자는 제품·공유 빌드·IDE·Git·배포를 수정하거나 실행하지 않았다. 이 보고서는 TASK072 범위의 Role.md 반영 감사이며 Role.md 전체 기능의 완성을 주장하지 않는다.
 
-## 게시 전 독립 의견 — Preview 조건부 통과
+## 현재 2차 판정 — 공개 Preview 통과, 잔여 위험 명시
+
+`v0.14.2-preview.1`의 **공개 Preview 및 승인된 구버전 정리까지 TASK072 범위에서 통과**다. 감사자가 GitHub 공개 API와 익명 다운로드로 Release ID `421968926`, 태그·원본 커밋 `5300fe344f18b39856d6183d9c2fc27be861753a`, prerelease·비 draft, 업로드 자산 **14/14개의 크기·SHA-256·asset ID 일치**를 직접 확인했다. 가장 큰 FullOffline ZIP도 실제 익명 다운로드 바이트로 재해시했다. GitHub가 화면에 표시하는 16개 Assets에는 자동 생성 소스 압축 2개가 포함되며, 여기서 검증한 업로드 자산은 14개다. [공개 Release](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.14.2-preview.1) · [감사 원본](../artifacts/task072-audit/postpublication-audit.json).
+
+직전 `v0.14.1-preview.1`은 Release ID `418915872`, 이전 스냅샷의 자산 **14/14개 ID·크기·GitHub digest 일치**다. 안정판 `v0.11.1`은 Release ID `416791376`이며 GitHub `latest`도 그대로 이 릴리스를 가리킨다. 세 태그의 대상 커밋도 보존됐다. 직전 릴리스는 공개 메타데이터와 사전 스냅샷을 대조했으며 14개 전체를 다시 다운로드하지는 않았다. [이전 스냅샷](../artifacts/task072/previous-release-snapshot.json) · [안정판 스냅샷](../artifacts/task072/stable-release-snapshot.json).
+
+승인된 정리의 [계획](../artifacts/task072/old-release-cleanup-plan.json)과 [완료 기록](CodexOrig_TASK-072_ReleaseCleanup.json)은 SHA-256 `B5F38112…`로 연결되고, 원격 삭제 목록 **27/27** 및 로컬 두 폴더 목록이 정확히 일치한다. 감사자가 공개 API에서 구 `v0.13.0-preview.1`의 13개와 `v0.14.0-preview.1`의 14개 첨부가 모두 없어졌지만 두 Release entry는 남아 있음을 확인했다. 로컬 `releases/v0.13.0`·`v0.14.0`은 없고, 보존 대상 `v0.14.2` **24/24**, `v0.14.1` **26/26** 파일은 계획의 크기·SHA-256과 일치한다. 개발 증거와 UserDistribution의 보존은 계획·완료 기록을 확인했으며, 모든 개발 증거 파일을 재해시한 판정은 아니다. [정리 독립 대조](../artifacts/task072-audit/old-release-cleanup-audit.json).
+
+이 판정은 **Preview 배포와 TASK072 검증 범위의 통과**다. 첫 VS2019 main IDE `SIDEBAR-06`의 `Single` 예외 원인은 미확정이며, 후속 두 실행은 통과했어도 VS2019·VS2022 최종 main IDE 프로세스는 결과 저장 뒤 각각 한 번 강제 정리됐다. 고객 VS2017 Professional 15.7.1 실제 장비, 물리 화면·포인터, 실제 AI·TFS는 검증하지 않았다. 고객 대상 정식 릴리스나 이러한 환경까지 무조건 통과로 해석해서는 안 된다.
+
+## 게시 전 독립 의견 — Preview 조건부 통과 (당시 판정)
 
 동결된 C5/themes8 `v0.14.2-preview.1`은 **Preview 게시 전 기술 게이트를 조건부 통과**한다. 감사자가 C5 입력 160개·로컬 Release 자산 14개·UserDistribution 69개를 다시 해시해 불일치 0을 확인했다. 기본 회귀 **27/27**, 세 실제 IDE의 native 편집기 **819/819**, 네 SKU main IDE 기능 assertion **688/688**, 결합 설치기 사전 검사 **17/17**과 공식 VSIXInstaller **6/6 종료코드 0**, 번들 오프라인 CLI 네트워크 분리 **6/6**이다. [사전 게시 기계 의견](../artifacts/task072-audit/preview-prepublication-opinion.json).
 
-**남는 한계:** 첫 VS2019 main IDE `SIDEBAR-06`의 `Single` 예외 원인은 확정하지 못했다. 같은 C5 후보의 두 후속 VS2019 전체 실행은 기존 조건을 유지해 통과했고, 공개 0.14.1 대비 해당 제품 UI 소스 변경이 없으므로 TASK072 제품 회귀라고 단정할 직접 근거는 없다. 네 SKU 기능 688건은 통과했지만 VS2019·VS2022는 결과 저장 후 소유 PID가 10초 안에 종료되지 않아 제한된 강제 정리가 각각 한 번 있었다. 고객 VS2017 Professional 15.7.1 실제 장비, 물리 화면·포인터, 실제 AI·TFS는 검증하지 않았다. 이 한계를 보존하고 공개 후 자산 검증을 끝내야 **완료 판정**을 낼 수 있다.
+**당시 남은 한계:** 첫 VS2019 main IDE `SIDEBAR-06`의 `Single` 예외 원인은 확정하지 못했다. 같은 C5 후보의 두 후속 VS2019 전체 실행은 기존 조건을 유지해 통과했고, 공개 0.14.1 대비 해당 제품 UI 소스 변경이 없으므로 TASK072 제품 회귀라고 단정할 직접 근거는 없다. 네 SKU 기능 688건은 통과했지만 VS2019·VS2022는 결과 저장 후 소유 PID가 10초 안에 종료되지 않아 제한된 강제 정리가 각각 한 번 있었다. 고객 VS2017 Professional 15.7.1 실제 장비, 물리 화면·포인터, 실제 AI·TFS는 검증하지 않았다. 게시 전에는 공개 자산 검증도 보류했으며, 그 결과는 위의 현재 판정에 반영했다.
 
 ## 현재 확인
 
@@ -110,7 +120,7 @@ C4 제품 입력 **160/160**의 경로·크기·SHA-256을 재계산해 불일�
 
 ## 최종 로컬 패키지 준비 — 정적 감사
 
-[package-final1 검사 기록](../artifacts/task072/package-final1/package-validation.json)은 게시 전 로컬 `v0.14.2-preview.1` 자산 14개, 제품 VSIX 네 SKU, 테마 VSIX 세 개, 표준 ZIP 24 entry/체크섬 23행, FullOffline ZIP 71 entry/체크섬 70행을 기록한다. [감사자 독립 대조](../artifacts/task072-audit/package-final1-static-audit.json)는 현재 로컬 14개 파일의 경로·크기·SHA-256 **불일치 0**, `RELEASE_SHA256SUMS.txt` 13행 재해시 **불일치 0**, 네 제품·세 테마 VSIX의 기록 해시 일치를 확인했다. 패키징 검사기는 각 제품의 동봉 테마 **4/4 일치**와 두 archive checksum 전부 일치를 보고했다. 최종 안내 PDF 원본 해시는 `155DF0B5…`로 앞선 C5와 같다. [UserDistribution 독립 대조](../artifacts/task072-audit/user-distribution-final1-audit.json)는 `UserDistribution/v0.14.2`의 **69/69 파일 경로·크기·SHA-256 일치**, `OFFLINE_SHA256SUMS.txt` **68/68 재해시 일치**, 소스·PDB·프로필·인증 포함 0을 확인했다. 이는 로컬 배포 폴더의 파일 정합성 판정이다. [호환성 35개 합성 SKU 검사](../artifacts/task072/compatibility-final1/results.json)는 모두 통과했지만 고객 VS2017 Professional 15.7.1 실제 IDE 검사가 아니다. 공개 Release는 아직 게시되지 않았고 설치 실행·오프라인·네트워크 경계·익명 다운로드 판정은 보류한다.
+[package-final1 검사 기록](../artifacts/task072/package-final1/package-validation.json)은 게시 전 로컬 `v0.14.2-preview.1` 자산 14개, 제품 VSIX 네 SKU, 테마 VSIX 세 개, 표준 ZIP 24 entry/체크섬 23행, FullOffline ZIP 71 entry/체크섬 70행을 기록한다. [감사자 독립 대조](../artifacts/task072-audit/package-final1-static-audit.json)는 현재 로컬 14개 파일의 경로·크기·SHA-256 **불일치 0**, `RELEASE_SHA256SUMS.txt` 13행 재해시 **불일치 0**, 네 제품·세 테마 VSIX의 기록 해시 일치를 확인했다. 패키징 검사기는 각 제품의 동봉 테마 **4/4 일치**와 두 archive checksum 전부 일치를 보고했다. 최종 안내 PDF 원본 해시는 `155DF0B5…`로 앞선 C5와 같다. [UserDistribution 독립 대조](../artifacts/task072-audit/user-distribution-final1-audit.json)는 `UserDistribution/v0.14.2`의 **69/69 파일 경로·크기·SHA-256 일치**, `OFFLINE_SHA256SUMS.txt` **68/68 재해시 일치**, 소스·PDB·프로필·인증 포함 0을 확인했다. 이는 로컬 배포 폴더의 파일 정합성 판정이다. [호환성 35개 합성 SKU 검사](../artifacts/task072/compatibility-final1/results.json)는 모두 통과했지만 고객 VS2017 Professional 15.7.1 실제 IDE 검사가 아니다. 이 단락 당시에는 공개 자산·실제 설치·네트워크 판정이 보류됐고, 후속 결과는 위의 현재 판정과 아래 설치·네트워크 단락에 기록했다.
 
 [별도 설치·네트워크 계약 대조](../artifacts/task072-audit/compat-installer-network-final1-audit.json)는 설치 로그 경계 검사 PowerShell 5·7 각각 **23/23**, 합성 SKU 호환성 **35/35**, Windows AppContainer 무권한 네트워크 분리 **6/6**을 확인했다. AppContainer에서는 설치 전후 직접 TCP가 OS 오류 10013으로 차단되고 CLI 버전 실행·반복 준비가 통과했으며 프로필과 호스트 네트워크 설정을 복원했다. 이 실행은 **ZIP에 동봉된 오프라인 CLI 설치 스크립트**를 사용했으며 작업 중 스크립트로 대체하지 않았다. 물리 케이블 차단·고객 PC 또는 고객 VS2017 Professional 15.7.1 검사는 아니다. 최종 결합 EXE/VSIX 설치 통합의 별도 실측이 필요하다.
 
@@ -130,6 +140,6 @@ Root의 C5 최종 네 SKU main IDE 통합에서 Legacy·VS2017 실행은 각각 
 
 [최종 결합 설치기 결과](../artifacts/task072/installer-final1/result.json)는 사전 조건 **17/17 통과**다. 감사자가 [공식 VSIXInstaller 호출 원본](../artifacts/task072-audit/installer-final1-actual-audit.json)을 독립 대조해 설치된 VS2017 Community 15.9, VS2019 Community 16.11, VS2022 Community 17.14에 AI·테마 **6건 모두 종료코드 0**, 사용된 패키지와 복사한 공식 로그의 크기·SHA-256 불일치 0을 확인했다. 결합 EXE 안의 설치 스크립트·체크섬이 로컬 출시 파일과 일치하고, 사전 검사에서는 VS2017 15.7.1에 Legacy를 선택하며 변조 테마를 거부했다. 고객 VS2017 Professional 15.7.1의 실제 장비·실제 장애 원인은 별도로 확인되지 않았다.
 
-## 공개 후 완료 게이트
+## 공개 후 완료 게이트 — 충족 여부
 
-Preview 게시 전 기술 의견은 위의 **조건부 통과**다. C1 187/6과 C2 192/2, C4 VS2022 191/21 실패 원본은 성공 후보로 승격하지 않고 보존한다. Root가 게시한 뒤에만 새 버전의 **14개 공개 자산**과 익명 다운로드 SHA-256을 로컬 동결 자산과 대조하고, 이전 공개 0.14.1의 보존 및 승인된 정리 범위를 확인해 완료 판정을 낼 수 있다. 최초 VS2019 `Single` 예외 미확정·두 호스트 결과 저장 뒤 강제 정리·고객 15.7.1 Professional 및 물리 화면·실제 AI·TFS 부재는 최종 한계로 유지한다. [기계 판정](CodexOrig2_TASK-072_Evidence.json).
+게시 전 기술 의견은 **조건부 통과**였고, 공개 후 14개 익명 다운로드 SHA-256·이전 0.14.1 보존·승인된 구버전 정리 범위의 독립 검증으로 공개 Preview 게이트가 충족됐다. C1 187/6과 C2 192/2, C4 VS2022 191/21 실패 원본은 성공 후보로 승격하지 않고 보존한다. 최초 VS2019 `Single` 예외 미확정·두 호스트 결과 저장 뒤 강제 정리·고객 15.7.1 Professional 및 물리 화면·실제 AI·TFS 부재는 최종 한계로 유지한다. [기계 판정](CodexOrig2_TASK-072_Evidence.json).

@@ -4,7 +4,7 @@
 
 ## v0.14.2-preview.1 현재 설치·Dracula 편집기 안내
 
-현재 안내 대상은 v0.14.2-preview.1입니다. Preview 다운로드 링크는 Release 게시가 끝나면 활성화됩니다. 직전 v0.14.1-preview.1 Release는 보존하고, Preview 게시·익명 다운로드 검증 이후에는 v0.14.0 이하의 오래된 Release 첨부를 별도 정리할 수 있습니다. 이전 v0.14.0 안내 PDF는 [저장소 보존본](../output/pdf/VisualStudio_AI_Assistant_%EC%84%A4%EC%B9%98_%EC%82%AC%EC%9A%A9%EC%84%A4%EB%AA%85%EC%84%9C_v0.14.0_%EB%AF%B8%EB%A6%AC%EB%B3%B4%EA%B8%B0.pdf)으로 유지합니다.
+현재 안내 대상은 공개된 v0.14.2-preview.1입니다. 아래 Release에서 설치 파일을 내려받을 수 있습니다. 직전 v0.14.1-preview.1은 보존하고, 새 버전의 공개 다운로드 검증 후 v0.14.0 이하의 오래된 Release 첨부는 정리했습니다. 이전 v0.14.0 안내 PDF는 [저장소 보존본](../output/pdf/VisualStudio_AI_Assistant_%EC%84%A4%EC%B9%98_%EC%82%AC%EC%9A%A9%EC%84%A4%EB%AA%85%EC%84%9C_v0.14.0_%EB%AF%B8%EB%A6%AC%EB%B3%B4%EA%B8%B0.pdf)으로 유지합니다.
 
 1. [v0.14.2-preview.1 Release](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.14.2-preview.1)에서 CLI 포함 전체 오프라인 ZIP `VisualStudio_AI_Assistant-0.14.2-Preview1-FullOffline-win-x64.zip`을 받습니다. IDE 한 개를 수동 설치할 때는 같은 릴리스의 해당 연도 VSIX를 사용합니다.
 2. ZIP을 새 폴더에 완전히 압축 해제하고 manifest·체크섬을 확인합니다. 실행 중인 Visual Studio 창은 모두 닫습니다.
@@ -40,7 +40,7 @@ v0.14.1-preview.1 후보는 네 SKU 빌드와 대화 색상 화면 검사를 거
 
 이전 버전인 v0.13.0-preview.1의 사용자 전달 폴더에는 VSIX와 테마 패키지, `cli/codex/`·`cli/claude/` 런타임 및 라이선스·고지, 설치/검증 BAT·PowerShell, 체크섬·manifest, 안내 문서와 PDF만 포함했습니다. 제품 소스·프로젝트·PDB·테스트·개발/감사 증거·Git 자료·사용자 프로필·토큰·대화 기록·인터넷 준비용 도구는 제외했습니다. 이 설명은 이전 버전의 구성 기록이며 현재 설치에는 위의 v0.14.2-preview.1 묶음을 사용하세요.
 
-직전 v0.14.1-preview.1 Release와 v0.14.0·v0.13.0의 버전 기록은 보존합니다. 오래된 Release 첨부 정리는 v0.14.2 게시와 익명 다운로드 검증 후 별도 수행합니다. 이 문서의 v0.13.0 설명은 이전 버전 기록입니다. 설치 시에는 같은 버전의 VSIX, 테마 및 체크섬을 함께 사용하세요.
+직전 v0.14.1-preview.1 Release와 v0.14.0·v0.13.0의 버전 기록은 보존합니다. 오래된 Release 첨부 정리는 v0.14.2 게시와 익명 다운로드 검증 후 완료했으며 Release 항목·tag·Git 이력은 유지합니다. 이 문서의 v0.13.0 설명은 이전 버전 기록입니다. 설치 시에는 같은 버전의 VSIX, 테마 및 체크섬을 함께 사용하세요.
 
 > 준비 PC에는 인터넷 연결이 필요합니다. 오프라인 PC에는 확장 설치 파일과 CLI 실행 파일을 USB 등으로 옮깁니다. CLI 프로필, 로그인 정보, 토큰은 복사하지 않습니다.
 
