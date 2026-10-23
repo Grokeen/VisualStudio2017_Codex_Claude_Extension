@@ -136,6 +136,7 @@ public static class AssistantUiChecks
     /// create date  : 2026-10-19
     /// update date  : 2026-10-19 CodexOrig : TASK032 사용자 메시지 투명·회색 및 가로 띠 로고 가림 회귀.
     ///                2026-10-20 CodexOrig : 최신 Role #15 오른쪽 말풍선 계약으로 교체하고 본문 투명·로고 검사는 유지.
+    ///                2026-10-23 CodexOrig : TASK072 기존 0.14.1 입력란·사용자 말풍선 동일색을 실제 표면끼리 비교.
     /// </summary>
     /// ---------------------------------------------------------------------
     private static void CheckMessageAppearance(AssistantControl control, string directory)
@@ -160,7 +161,8 @@ public static class AssistantUiChecks
                 scroll.ScrollToHome(); control.UpdateLayout();
                 var user = Descendants(control).OfType<MarkdownPreview>().Single(x => x.Markdown.StartsWith("사용자 입력", StringComparison.Ordinal));
                 var bubble = Descendants(control).OfType<Border>().Single(x => x.Name == "MessageBubble" && Descendants(x).Contains(user));
-                Assert(!IsClear(bubble.Background) && ((SolidColorBrush)bubble.Background).Color == ((SolidColorBrush)control.FindResource("AssistantSurfaceBrush")).Color && bubble.HorizontalAlignment == HorizontalAlignment.Right && bubble.CornerRadius == new CornerRadius(12) && bubble.Padding == new Thickness(12, 9, 12, 9) && IsClear(user.Background) && IsClear(user.TextView.Background) && IsClear(user.TextView.Document.Background), label + " user message uses a right aligned themed bubble with transparent inner document");
+                var composer = Named<Border>(control, "ComposerSurface");
+                Assert(!IsClear(bubble.Background) && bubble.Background is SolidColorBrush && composer.Background is SolidColorBrush && ((SolidColorBrush)bubble.Background).Color == ((SolidColorBrush)composer.Background).Color && bubble.HorizontalAlignment == HorizontalAlignment.Right && bubble.CornerRadius == new CornerRadius(12) && bubble.Padding == new Thickness(12, 9, 12, 9) && IsClear(user.Background) && IsClear(user.TextView.Background) && IsClear(user.TextView.Document.Background), label + " user message matches the actual composer color in a right aligned themed bubble with transparent inner document");
                 Assert(((SolidColorBrush)user.Foreground).Color == ((SolidColorBrush)control.FindResource("AssistantForegroundBrush")).Color, label + " user message uses the theme readable foreground");
                 Assert(Descendants(control).OfType<MarkdownPreview>().Where(x => x.Name == "MessageBody").All(x => IsClear(x.Background) && IsClear(x.TextView.Document.Background)), label + " every conversation document keeps a transparent background behind its text");
                 var actual = RenderAppearance(control, System.IO.Path.Combine(directory, label + ".png"));

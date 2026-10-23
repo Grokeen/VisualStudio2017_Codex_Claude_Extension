@@ -8,12 +8,13 @@ create date  : 2026-10-20
 update date  : 2026-10-20 CodexOrig : 설치·레지스트리·현재 사용자 테마 변경 없이 색상 컴파일과 패키지만 생성.
 update date  : 2026-10-20 CodexOrig4 : TASK069 Dracula 스크롤 손잡이 대비 및 Kakao 탭 상태 대비 보정.
                2026-10-20 CodexOrig : TASK069 IDE 기본 우클릭 메뉴 표면·경계·선택 항목 대비 보정.
+               2026-10-23 CodexOrig : TASK072 diff 면/텍스트/overview와 C# 주석 색을 분리한다.
 -------------------------------------------------------------------------
 #>
 [CmdletBinding()]
 param(
     [Parameter(Mandatory=$true)][string]$OutputDirectory,
-    [ValidatePattern('^\d+\.\d+\.\d+$')][string]$Version='0.14.1'
+    [ValidatePattern('^\d+\.\d+\.\d+$')][string]$Version='0.14.2'
 )
 $ErrorActionPreference='Stop'
 Add-Type -AssemblyName System.Drawing
@@ -22,6 +23,8 @@ $themeRoot=Join-Path $repo 'themes/VisualStudio'
 $output=[IO.Path]::GetFullPath($OutputDirectory)
 if((Test-Path -LiteralPath $output) -and @(Get-ChildItem -LiteralPath $output -Force).Count){throw 'Use an empty output directory; preserve previous package evidence.'}
 $null=New-Item -ItemType Directory -Path $output -Force
+$themeInputs=@(@(Get-ChildItem -LiteralPath $themeRoot -Recurse -File)+@(Get-Item -LiteralPath $PSCommandPath) | Sort-Object FullName -Unique | ForEach-Object {[pscustomobject]@{Path=$_.FullName;Sha256=(Get-FileHash -LiteralPath $_.FullName).Hash;Bytes=$_.Length}})
+$themeInputs|ConvertTo-Json -Depth 4|Set-Content -LiteralPath (Join-Path $output 'source-inputs-before.json') -Encoding UTF8
 $compiler='C:/Program Files (x86)/Microsoft Visual Studio/2017/Community/VSSDK/VisualStudioIntegration/Tools/Bin/VsixColorCompiler.exe'
 $msbuild='C:/Program Files (x86)/Microsoft Visual Studio/2017/Community/MSBuild/15.0/Bin/MSBuild.exe'
 if(!(Test-Path -LiteralPath $compiler)){throw 'VS2017 VSSDK Color Compiler is required to build (not to install) these themes.'}
@@ -37,6 +40,24 @@ function Set-ThemeColor {
     $color=$entry.SelectSingleNode($Property)
     if(!$color){$color=$Document.CreateElement($Property);$null=$entry.AppendChild($color)}
     $color.SetAttribute('Type','CT_RAW');$color.SetAttribute('Source',('FF'+$Hex))
+}
+<#
+-------------------------------------------------------------------------
+name         : Set-EditorFormatColor
+desc         : 실제 WPF 편집기가 읽는 MEF 색 카테고리에 명시한 확장 포맷만 추가한다.
+author       : CodexOrig
+create date  : 2026-10-23
+-------------------------------------------------------------------------
+#>
+function Set-EditorFormatColor {
+    param([xml]$Document,[string]$Name,[ValidatePattern('^[A-Fa-f0-9]{8}$')][string]$Argb,[ValidateSet('Foreground','Background')][string]$Property='Foreground')
+    $category=$Document.SelectSingleNode("//Category[@Name='ColorizedSignatureHelp colors']")
+    if(!$category -or $category.GetAttribute('GUID') -ine '{75a05685-00a8-4ded-bae5-e7a50bfa929a}'){throw 'Pinned MEF font/color category differs.'}
+    $entry=$category.SelectSingleNode("Color[@Name='$Name']")
+    if(!$entry){$entry=$Document.CreateElement('Color');$entry.SetAttribute('Name',$Name);$null=$category.AppendChild($entry)}
+    $color=$entry.SelectSingleNode($Property)
+    if(!$color){$color=$Document.CreateElement($Property);$null=$entry.AppendChild($color)}
+    $color.SetAttribute('Type','CT_RAW');$color.SetAttribute('Source',$Argb.ToUpperInvariant())
 }
 $generated=Join-Path $output 'definitions';$null=New-Item -ItemType Directory -Path $generated
 $registration=New-Object Text.StringBuilder
@@ -122,6 +143,31 @@ foreach($definition in $definitions){
         Set-ThemeColor $xml 'ColorizedSignatureHelp colors' 'OverviewMarginVisible' '7586B5' 'Foreground'
         Set-ThemeColor $xml 'ColorizedSignatureHelp colors' 'MarkerFormatDefinition/BreakpointInScrollBar' 'BD93F9'
         Set-ThemeColor $xml 'ColorizedSignatureHelp colors' 'CurrentLineActiveFormat' '7586B5' 'Foreground'
+        # Difference fills must stay dark: the generic hue mapper made green text and fills identical.
+        foreach($name in @('deltadiff.add.line','data.tools.diff.add.line')){Set-ThemeColor $xml 'ColorizedSignatureHelp colors' $name '243B38'}
+        foreach($name in @('deltadiff.add.word','data.tools.diff.add.word')){
+            Set-ThemeColor $xml 'ColorizedSignatureHelp colors' $name '294D44'
+            Set-ThemeColor $xml 'ColorizedSignatureHelp colors' $name '50FA7B' 'Foreground'
+        }
+        foreach($name in @('deltadiff.remove.line','data.tools.diff.remove.line')){Set-ThemeColor $xml 'ColorizedSignatureHelp colors' $name '452D40'}
+        foreach($name in @('deltadiff.remove.word','data.tools.diff.remove.word')){
+            Set-ThemeColor $xml 'ColorizedSignatureHelp colors' $name '63384C'
+            Set-ThemeColor $xml 'ColorizedSignatureHelp colors' $name 'FFB3D9' 'Foreground'
+        }
+        Set-ThemeColor $xml 'ColorizedSignatureHelp colors' 'deltadiff.overview.color' '282A36'
+        # Native diff overview markers use word Foreground; overview Foreground is the viewport outline.
+        Set-ThemeColor $xml 'ColorizedSignatureHelp colors' 'deltadiff.overview.color' 'BD93F9' 'Foreground'
+        Set-ThemeColor $xml 'Text Editor Text Marker Items' 'Track Changes before save' 'F1FA8C'
+        Set-ThemeColor $xml 'Text Editor Text Marker Items' 'Track Changes after save' '50FA7B'
+        Set-ThemeColor $xml 'Text Editor Language Service Items' 'Comment' 'A0A6B5' 'Foreground'
+        Set-ThemeColor $xml 'Text Editor Language Service Items' 'XML Comment' 'C8D5F2' 'Foreground'
+        Set-EditorFormatColor $xml 'comment' 'FFA0A6B5'
+        Set-EditorFormatColor $xml 'Grokeen.Dracula.BlockComment' 'FFB5BDD4'
+        # Native editor colors discard background alpha; the MEF error format uses only a border.
+        Set-EditorFormatColor $xml 'Grokeen.Dracula.ErrorHighlight' 'FFFF79C6'
+        foreach($entry in $xml.SelectNodes("//Category[@Name='ColorizedSignatureHelp colors']/Color[starts-with(@Name,'xml doc comment - ')]")){
+            Set-ThemeColor $xml 'ColorizedSignatureHelp colors' $entry.Name $(if($entry.Name -match 'name|delimiter'){'B9C8E8'}else{'C8D5F2'}) 'Foreground'
+        }
         foreach($entry in $xml.SelectNodes("//Category[@Name='Text Editor Text Marker Items']/Color[starts-with(@Name,'Breakpoint') and contains(@Name,'Enabled')]")){
             Set-ThemeColor $xml 'Text Editor Text Marker Items' $entry.Name 'BD93F9'
             Set-ThemeColor $xml 'Text Editor Text Marker Items' $entry.Name '282A36' 'Foreground'
@@ -186,8 +232,34 @@ foreach($definition in $definitions){
 $packages=@()
 foreach($year in @('2017','2019','2022')){
     $folder=Join-Path $output ('source/'+$year);$null=New-Item -ItemType Directory -Path (Join-Path $folder 'Themes') -Force
-    foreach($name in @('VisualStudioThemes.csproj','ThemePackageMarker.cs','THIRD-PARTY-NOTICES.md')){Copy-Item -LiteralPath (Join-Path $themeRoot $name) -Destination $folder}
+    foreach($name in @('VisualStudioThemes.csproj','ThemePackageMarker.cs','EditorEnhancements.cs','THIRD-PARTY-NOTICES.md')){Copy-Item -LiteralPath (Join-Path $themeRoot $name) -Destination $folder}
+    [IO.File]::WriteAllText((Join-Path $folder 'AssemblyInfo.cs'),("using System.Reflection;`r`n[assembly: AssemblyVersion(`"$Version.0`")]`r`n[assembly: AssemblyFileVersion(`"$Version.0`")]`r`n"),$utf8)
     $targetMsbuild=$msbuild
+    $ideRoot=switch($year){'2017'{'C:/Program Files (x86)/Microsoft Visual Studio/2017/Community'}'2019'{'C:/Program Files (x86)/Microsoft Visual Studio/2019/Community'}default{'C:/Program Files/Microsoft Visual Studio/2022/Community'}}
+    $sdkDirectory=Join-Path $folder 'SdkReferences';$null=New-Item -ItemType Directory -Path $sdkDirectory
+    $sdkRecords=@()
+    $sdkNames=@('Microsoft.VisualStudio.CoreUtility','Microsoft.VisualStudio.Utilities','Microsoft.VisualStudio.Text.Data','Microsoft.VisualStudio.Text.Logic','Microsoft.VisualStudio.Text.UI','Microsoft.VisualStudio.Text.UI.Wpf','Microsoft.VisualStudio.Shell.15.0','Microsoft.VisualStudio.Shell.Framework','Microsoft.VisualStudio.OLE.Interop','Microsoft.VisualStudio.Shell.Interop.9.0','Microsoft.VisualStudio.Shell.Interop.10.0')
+    if($year -eq '2022'){$sdkNames+='Microsoft.VisualStudio.Interop'}
+    foreach($sdkName in $sdkNames){
+        $sdkFile=$null
+        foreach($location in @('VSSDK/VisualStudioIntegration/Common/Assemblies/v4.0','VSSDK/VisualStudioIntegration/Common/Assemblies/v2.0','Common7/IDE/CommonExtensions/Microsoft/Editor','Common7/IDE/CommonExtensions/Platform/MefHosting','Common7/IDE/PublicAssemblies','Common7/IDE/PrivateAssemblies','Common7/IDE')){
+            $sdkCandidate=Join-Path (Join-Path $ideRoot $location) ($sdkName+'.dll')
+            if(Test-Path -LiteralPath $sdkCandidate){$sdkFile=$sdkCandidate;break}
+        }
+        if(!$sdkFile){throw ('Official IDE SDK reference missing: '+$year+'/'+$sdkName)}
+        $identity=[Reflection.AssemblyName]::GetAssemblyName($sdkFile)
+        if($identity.Name -ne $sdkName){throw 'Official SDK reference identity differs.'}
+        $sdkCopy=Join-Path $sdkDirectory ($sdkName+'.dll');Copy-Item -LiteralPath $sdkFile -Destination $sdkCopy
+        $sdkHash=(Get-FileHash -LiteralPath $sdkFile).Hash
+        if((Get-FileHash -LiteralPath $sdkCopy).Hash -ne $sdkHash){throw 'SDK reference copy differs.'}
+        $sdkRecords+=[pscustomobject]@{Identity=$identity.FullName;Source=$sdkFile;Sha256=$sdkHash;DistributeInVsix=$false}
+    }
+    $sdkRecords|ConvertTo-Json -Depth 4|Set-Content -LiteralPath (Join-Path $output ('sdk-references-'+$year+'.json')) -Encoding UTF8
+    if($year -eq '2019'){
+        $projectFile=Join-Path $folder 'VisualStudioThemes.csproj'
+        [IO.File]::WriteAllText($projectFile,[IO.File]::ReadAllText($projectFile).Replace('v4.6.2','v4.7.2'),$utf8)
+        $targetMsbuild=Join-Path $ideRoot 'MSBuild/Current/Bin/MSBuild.exe'
+    }
     if($year -eq '2022'){
         $projectFile=Join-Path $folder 'VisualStudioThemes.csproj'
         $projectText=[IO.File]::ReadAllText($projectFile).Replace('15.9.3032','17.0.5241').Replace('v4.6.2','v4.7.2')
@@ -199,13 +271,14 @@ foreach($year in @('2017','2019','2022')){
     foreach($definition in $definitions){Copy-Item -LiteralPath (Join-Path $generated ($definition.Key+'.pkgdef')) -Destination (Join-Path $folder 'Themes')}
     $range=switch($year){'2017'{'[15.0,16.0)'}'2019'{'[16.0,17.0)'}default{'[17.0,18.0)'}}
     $architecture=if($year -eq '2022'){'<ProductArchitecture>amd64</ProductArchitecture>'}else{''}
+    $framework=if($year -eq '2017'){'4.6.2'}else{'4.7.2'}
     $manifest=@"
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011">
  <Metadata><Identity Id="Grokeen.VisualStudioThemes.$year" Version="$Version" Language="en-US" Publisher="Grokeen"/><DisplayName>Grokeen Independent Themes $year</DisplayName><Description xml:space="preserve">Optional Kakao-inspired and Dracula-inspired Visual Studio IDE themes. No AI extension or CLI dependency.</Description><MoreInfo>https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension</MoreInfo></Metadata>
  <Installation><InstallationTarget Id="Microsoft.VisualStudio.Community" Version="$range">$architecture</InstallationTarget></Installation>
- <Dependencies />
- <Assets><Asset Type="Microsoft.VisualStudio.VsPackage" Path="ThemeRegistration.pkgdef"/><Asset Type="Microsoft.VisualStudio.VsPackage" Path="Themes\Kakao.pkgdef"/><Asset Type="Microsoft.VisualStudio.VsPackage" Path="Themes\Dracula.pkgdef"/></Assets>
+ <Dependencies><Dependency Id="Microsoft.Framework.NDP" Version="[$framework,)" DisplayName=".NET Framework"/></Dependencies>
+ <Assets><Asset Type="Microsoft.VisualStudio.VsPackage" Path="ThemeRegistration.pkgdef"/><Asset Type="Microsoft.VisualStudio.VsPackage" Path="Themes\Kakao.pkgdef"/><Asset Type="Microsoft.VisualStudio.VsPackage" Path="Themes\Dracula.pkgdef"/><Asset Type="Microsoft.VisualStudio.MefComponent" Path="Grokeen.VisualStudioThemes.dll"/></Assets>
  <Prerequisites><Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor" Version="$range" DisplayName="Visual Studio core editor"/></Prerequisites>
 </PackageManifest>
 "@
@@ -220,4 +293,5 @@ foreach($year in @('2017','2019','2022')){
     $packages+=[pscustomobject]@{Year=$year;Path=$target;Bytes=(Get-Item -LiteralPath $target).Length;Sha256=(Get-FileHash -LiteralPath $target).Hash;BuildExitCode=$code;Warnings=0;Errors=0}
     Write-Output ('Built independent theme VSIX: '+$year)
 }
-[pscustomobject]@{Version=$Version;Definitions=$definitionRows;Packages=$packages;ActualIdeInstalled=$false;CurrentThemeChanged=$false} | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath (Join-Path $output 'result.json') -Encoding UTF8
+foreach($inputRecord in $themeInputs){if((Get-FileHash -LiteralPath $inputRecord.Path).Hash -ne $inputRecord.Sha256){throw ('Theme source changed during build: '+$inputRecord.Path)}}
+[pscustomobject]@{Version=$Version;Definitions=$definitionRows;Packages=$packages;SourceInputs=$themeInputs;SourceInputsUnchanged=$true;ActualIdeInstalled=$false;CurrentThemeChanged=$false} | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath (Join-Path $output 'result.json') -Encoding UTF8

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -12,7 +12,7 @@
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <Optimize>true</Optimize>
     <GeneratePkgDefFile>false</GeneratePkgDefFile>
-    <IncludeAssemblyInVSIXContainer>false</IncludeAssemblyInVSIXContainer>
+    <IncludeAssemblyInVSIXContainer>true</IncludeAssemblyInVSIXContainer>
     <IncludeDebugSymbolsInVSIXContainer>false</IncludeDebugSymbolsInVSIXContainer>
     <CreateVsixContainer>true</CreateVsixContainer>
     <DeployExtension>false</DeployExtension>
@@ -20,9 +20,29 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <!-- 2026-10-23 CodexOrig : 편집기 SDK는 IDE가 제공하며 테마 패키지에 복제하지 않는다. -->
+    <Reference Include="Microsoft.VisualStudio.CoreUtility"><HintPath>SdkReferences\Microsoft.VisualStudio.CoreUtility.dll</HintPath><Private>false</Private><IncludeInVSIX>false</IncludeInVSIX></Reference>
+    <Reference Include="Microsoft.VisualStudio.Utilities"><HintPath>SdkReferences\Microsoft.VisualStudio.Utilities.dll</HintPath><Private>false</Private><IncludeInVSIX>false</IncludeInVSIX></Reference>
+    <Reference Include="Microsoft.VisualStudio.Text.Data"><HintPath>SdkReferences\Microsoft.VisualStudio.Text.Data.dll</HintPath><Private>false</Private><IncludeInVSIX>false</IncludeInVSIX></Reference>
+    <Reference Include="Microsoft.VisualStudio.Text.Logic"><HintPath>SdkReferences\Microsoft.VisualStudio.Text.Logic.dll</HintPath><Private>false</Private><IncludeInVSIX>false</IncludeInVSIX></Reference>
+    <Reference Include="Microsoft.VisualStudio.Text.UI"><HintPath>SdkReferences\Microsoft.VisualStudio.Text.UI.dll</HintPath><Private>false</Private><IncludeInVSIX>false</IncludeInVSIX></Reference>
+    <Reference Include="Microsoft.VisualStudio.Text.UI.Wpf"><HintPath>SdkReferences\Microsoft.VisualStudio.Text.UI.Wpf.dll</HintPath><Private>false</Private><IncludeInVSIX>false</IncludeInVSIX></Reference>
+    <Reference Include="Microsoft.VisualStudio.Shell.15.0"><HintPath>SdkReferences\Microsoft.VisualStudio.Shell.15.0.dll</HintPath><Private>false</Private><IncludeInVSIX>false</IncludeInVSIX></Reference>
+    <Reference Include="Microsoft.VisualStudio.Shell.Framework"><HintPath>SdkReferences\Microsoft.VisualStudio.Shell.Framework.dll</HintPath><Private>false</Private><IncludeInVSIX>false</IncludeInVSIX></Reference>
+    <Reference Include="Microsoft.VisualStudio.OLE.Interop"><HintPath>SdkReferences\Microsoft.VisualStudio.OLE.Interop.dll</HintPath><Private>false</Private><IncludeInVSIX>false</IncludeInVSIX></Reference>
+    <Reference Include="Microsoft.VisualStudio.Shell.Interop.9.0"><HintPath>SdkReferences\Microsoft.VisualStudio.Shell.Interop.9.0.dll</HintPath><Private>false</Private><IncludeInVSIX>false</IncludeInVSIX></Reference>
+    <Reference Include="Microsoft.VisualStudio.Shell.Interop.10.0"><HintPath>SdkReferences\Microsoft.VisualStudio.Shell.Interop.10.0.dll</HintPath><Private>false</Private><IncludeInVSIX>false</IncludeInVSIX></Reference>
+    <Reference Include="Microsoft.VisualStudio.Interop" Condition="Exists('SdkReferences\Microsoft.VisualStudio.Interop.dll')"><HintPath>SdkReferences\Microsoft.VisualStudio.Interop.dll</HintPath><Private>false</Private><IncludeInVSIX>false</IncludeInVSIX></Reference>
     <PackageReference Include="Microsoft.VSSDK.BuildTools" Version="15.9.3032" PrivateAssets="all" />
     <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="all" />
     <Compile Include="ThemePackageMarker.cs" />
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="EditorEnhancements.cs" />
     <None Include="source.extension.vsixmanifest" />
     <Content Include="Themes\*.pkgdef"><IncludeInVSIX>true</IncludeInVSIX></Content>
     <Content Include="ThemeRegistration.pkgdef"><IncludeInVSIX>true</IncludeInVSIX></Content>

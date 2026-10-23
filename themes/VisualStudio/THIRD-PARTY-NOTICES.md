@@ -2,6 +2,8 @@
 
 These optional themes contain no AI Assistant, CLI, account, project or network dependency. Installing a package adds theme choices; the user chooses a theme in **Tools → Options → Environment → General → Color theme**. Existing Visual Studio themes and the current selection are preserved. Remove the package through Extensions to remove its added choices.
 
+Starting with 0.14.2, each theme package also contains `Grokeen.VisualStudioThemes.dll`, a small editor MEF component. In the selected Grokeen Dracula theme it reads existing C# classification and diagnostic tags to distinguish block comments and add an error highlight. It does not parse or edit source files, contact a service, or require the AI Assistant. Editor SDK assemblies are provided by Visual Studio and are not redistributed in the package. View-specific annotation settings are restored when leaving the theme; global editor settings are not written.
+
 **Grokeen Kakao Inspired** is an independently authored light IDE palette inspired by the reference screenshots and Kakao's published yellow `#FEE500` and text `#191919`. It is not an official Kakao product. No Kakao logo or artwork is included.
 
 **Grokeen Dracula Inspired** adapts the public Dracula palette to Visual Studio color tokens. It is not the official Dracula extension, and VS Code JSON themes cannot be installed directly in Visual Studio.

@@ -355,8 +355,8 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <Content Include="..\VS2017.AIAssistant\Assets\Themes\Grokeen-VisualStudio-Themes-0.14.1-VS2019.vsix">
-      <Link>Themes\Grokeen-VisualStudio-Themes-0.14.1-VS2019.vsix</Link>
+    <Content Include="..\VS2017.AIAssistant\Assets\Themes\Grokeen-VisualStudio-Themes-0.14.2-VS2019.vsix">
+      <Link>Themes\Grokeen-VisualStudio-Themes-0.14.2-VS2019.vsix</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>

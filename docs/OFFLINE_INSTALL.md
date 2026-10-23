@@ -2,7 +2,25 @@
 
 이 안내는 **Visual Studio AI Assistant 확장과 Windows용 Codex·Claude CLI를 인터넷이 없는 PC에 설치**하는 절차입니다. AI 모델 요청과 계정 인증까지 오프라인으로 처리하지는 않습니다. 설치 후 네트워크 연결이 허용되면 본인 계정으로 공식 로그인을 하고 연결을 확인하세요.
 
-## v0.14.1-preview.1 전용 확장·IDE 테마 설치기
+## v0.14.2-preview.1 현재 설치·Dracula 편집기 안내
+
+현재 안내 대상은 v0.14.2-preview.1입니다. Preview 다운로드 링크는 Release 게시가 끝나면 활성화됩니다. 직전 v0.14.1-preview.1 Release는 보존하고, Preview 게시·익명 다운로드 검증 이후에는 v0.14.0 이하의 오래된 Release 첨부를 별도 정리할 수 있습니다. 이전 v0.14.0 안내 PDF는 [저장소 보존본](../output/pdf/VisualStudio_AI_Assistant_%EC%84%A4%EC%B9%98_%EC%82%AC%EC%9A%A9%EC%84%A4%EB%AA%85%EC%84%9C_v0.14.0_%EB%AF%B8%EB%A6%AC%EB%B3%B4%EA%B8%B0.pdf)으로 유지합니다.
+
+1. [v0.14.2-preview.1 Release](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.14.2-preview.1)에서 CLI 포함 전체 오프라인 ZIP `VisualStudio_AI_Assistant-0.14.2-Preview1-FullOffline-win-x64.zip`을 받습니다. IDE 한 개를 수동 설치할 때는 같은 릴리스의 해당 연도 VSIX를 사용합니다.
+2. ZIP을 새 폴더에 완전히 압축 해제하고 manifest·체크섬을 확인합니다. 실행 중인 Visual Studio 창은 모두 닫습니다.
+3. `Grokeen-AI-Theme-Offline-Installer-0.14.2.exe`를 실행하면 동봉 확장과 IDE 테마 VSIX 설치를 진행합니다. 확장만 설치할 때는 `InstallAIAssistant.bat` 또는 해당 IDE 버전 VSIX를 사용합니다. 설치는 로컬 패키지를 사용하며 인터넷에서 파일을 받지 않습니다.
+4. 설치가 끝나면 같은 Visual Studio IDE를 다시 엽니다.
+5. **도구 → 옵션 → 환경 → 일반 → 색 테마**에서 **Grokeen Dracula Inspired**를 선택합니다. 편집기 변경 표시를 보려면 diff 보기와 overview 영역을 확인합니다.
+
+별도 선택 경로: 테마 VSIX 없이 AI Assistant VSIX만 수동 설치한 경우에 한해, **도구 → AI Assistant → 설정 → Dracula 테마 설치·적용**으로 IDE 테마 VSIX를 추가할 수 있습니다. 설치 관리자 완료 후 같은 IDE를 다시 열고 위 색 테마 메뉴에서 **Grokeen Dracula Inspired**를 선택하세요. 전체 오프라인 설치기 사용자는 이 추가 설치 단계를 건너뜁니다.
+
+독립 테마 VSIX에는 작은 `Grokeen.VisualStudioThemes.dll` MEF 구성 요소 하나가 포함되어 C# block comment와 오류 span을 IDE 편집기에서 읽기 전용으로 보강합니다. Visual Studio Editor SDK DLL/PDB는 테마 패키지에 넣지 않습니다. 이는 IDE가 제공하는 SDK 서비스에 연결되며, 테마 색상 표시를 위해 CLI 설치·로그인이나 AI 서비스 연결은 필요하지 않습니다. 서비스 요청을 사용하려면 별도의 CLI 설치·로그인이 필요합니다.
+
+오류 span은 기존 오류 squiggle을 유지하면서 분홍 1px 테두리 `#FFFF79C6`만 표시합니다. 분홍 배경 채움은 없으므로 본문 글자를 가리지 않습니다. added/removed diff 색은 줄 면과 변경 단어 전경/배경으로 나뉘며, 초록/분홍 변경 표식과 보라 viewport outline도 별도 표시입니다. 색상표와 주석 분류 설명은 [상세 사용자 안내](USER_GUIDE.md#v0142-preview1-설치dracula-편집기-색상-안내)와 [46쪽 PDF](../output/pdf/VisualStudio_AI_Assistant_%EC%84%A4%EC%B9%98_%EC%82%AC%EC%9A%A9%EC%84%A4%EB%AA%85%EC%84%9C_v0.14.2-preview.1_%EB%AF%B8%EB%A6%AC%EB%B3%B4%EA%B8%B0.pdf)를 참고하세요.
+
+버전별 설치·기능 검증 결과와 범위는 [TASK-072 통합 검증 보고서](../MarkdownReport/CodexOrig2_TASK-072_Audit.md)에서 확인하세요. 고객 VS2017 Professional 15.7.1·별도 오프라인 PC, 실제 AI/TFS 작업과 설치 UI의 물리 포인터 흐름은 아직 확인되지 않았습니다.
+
+## 이전 v0.14.1-preview.1 전용 확장·IDE 테마 설치기
 
 v0.14.1-preview.1 후보는 네 SKU 빌드와 대화 색상 화면 검사를 거쳤습니다. 고객 PC의 설치·실사용, 특히 VS2017 Professional 15.7.1 및 별도 제한망 PC 환경은 확인 범위에 포함하지 않았습니다. 이 묶음의 `Grokeen-AI-Theme-Offline-Installer-0.14.1.exe`는 설치된 Visual Studio를 감지해 선택한 IDE에 동봉 확장과 IDE 테마를 설치합니다. 설치 전 실행 중인 IDE는 사용자가 직접 닫아야 합니다. 설치기는 Codex·Claude CLI 설치나 계정 로그인·AI 요청을 수행하지 않습니다.
 
@@ -18,11 +36,11 @@ v0.14.1-preview.1 후보는 네 SKU 빌드와 대화 색상 화면 검사를 거
 
 전용 설치기 사용 후에도 CLI 런타임이 필요하면 아래 CLI 설치 절차를 별도로 진행하세요. CLI가 설치되어 있어도 서비스 로그인이나 실제 AI 요청은 네트워크와 계정 권한이 허용될 때만 가능합니다.
 
-이 안내의 현재 기준 묶음은 **v0.14.1-preview.1**의 [CLI 포함 전체 오프라인 ZIP](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.14.1-preview.1/VisualStudio_AI_Assistant-0.14.1-Preview1-FullOffline-win-x64.zip)입니다. 작은 ZIP과 구분해 전체 오프라인 ZIP을 받으세요. 설치 전 manifest와 체크섬을 확인하고, 이 안내와 같은 버전의 파일을 사용하세요.
+이전 버전의 기준 묶음은 **v0.14.1-preview.1**의 [CLI 포함 전체 오프라인 ZIP](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.14.1-preview.1/VisualStudio_AI_Assistant-0.14.1-Preview1-FullOffline-win-x64.zip)입니다. 작은 ZIP과 구분해 전체 오프라인 ZIP을 받으세요. 설치 전 manifest와 체크섬을 확인하고, 이 안내와 같은 버전의 파일을 사용하세요.
 
-이전 버전인 v0.13.0-preview.1의 사용자 전달 폴더에는 VSIX와 테마 패키지, `cli/codex/`·`cli/claude/` 런타임 및 라이선스·고지, 설치/검증 BAT·PowerShell, 체크섬·manifest, 안내 문서와 PDF만 포함했습니다. 제품 소스·프로젝트·PDB·테스트·개발/감사 증거·Git 자료·사용자 프로필·토큰·대화 기록·인터넷 준비용 도구는 제외했습니다. 이 설명은 이전 버전의 구성 기록이며 현재 설치에는 위의 v0.14.1 묶음을 사용하세요.
+이전 버전인 v0.13.0-preview.1의 사용자 전달 폴더에는 VSIX와 테마 패키지, `cli/codex/`·`cli/claude/` 런타임 및 라이선스·고지, 설치/검증 BAT·PowerShell, 체크섬·manifest, 안내 문서와 PDF만 포함했습니다. 제품 소스·프로젝트·PDB·테스트·개발/감사 증거·Git 자료·사용자 프로필·토큰·대화 기록·인터넷 준비용 도구는 제외했습니다. 이 설명은 이전 버전의 구성 기록이며 현재 설치에는 위의 v0.14.2-preview.1 묶음을 사용하세요.
 
-기존 v0.14.0과 v0.13.0의 배포 및 이력은 보존합니다. 이 문서의 v0.13.0 설명은 이전 버전 기록입니다. 설치 시에는 같은 버전의 VSIX, 테마 및 체크섬을 함께 사용하세요.
+직전 v0.14.1-preview.1 Release와 v0.14.0·v0.13.0의 버전 기록은 보존합니다. 오래된 Release 첨부 정리는 v0.14.2 게시와 익명 다운로드 검증 후 별도 수행합니다. 이 문서의 v0.13.0 설명은 이전 버전 기록입니다. 설치 시에는 같은 버전의 VSIX, 테마 및 체크섬을 함께 사용하세요.
 
 > 준비 PC에는 인터넷 연결이 필요합니다. 오프라인 PC에는 확장 설치 파일과 CLI 실행 파일을 USB 등으로 옮깁니다. CLI 프로필, 로그인 정보, 토큰은 복사하지 않습니다.
 
@@ -81,9 +99,11 @@ AI 모델 서비스 연결만 허용된 환경에서는 첫 로그인까지 완�
 
 Visual Studio 설정의 위치는 확장을 설치한 뒤 **도구 → AI Assistant → 설정**에서 찾을 수 있습니다. 계정 인증 방법은 네트워크 연결이 허용되는 시점에 제품의 공식 로그인 화면과 각 CLI의 공식 안내를 따르세요. 현재 CLI의 `InstallCLI.bat`은 인터넷에서 내려받는 온라인 설치 도구이므로 대상 PC에서 실행하지 마세요. 오프라인 설치에는 이 문서의 `InstallOfflineCLI.bat`을 사용합니다.
 
-### Visual Studio 전체 테마 설치와 재시작 적용
+### 수동 AI-VSIX 설치 시 Visual Studio 테마 추가
 
-1. 확장 설치 후 Visual Studio에서 **도구 → AI Assistant → 설정**을 열고 **Kakao 테마 설치·적용** 또는 **Dracula 테마 설치·적용**을 선택합니다. 이 기능은 확장 내부 대화창 팔레트와 별개로 Visual Studio IDE 전체 테마 패키지를 설치합니다.
+AI Assistant VSIX만 수동으로 설치했고 IDE 테마 패키지가 없는 경우에만 이 선택 경로를 사용합니다. 전체 오프라인 설치기의 기본 절차는 위의 EXE 설치 후 같은 IDE를 다시 열고 **도구 → 옵션 → 환경 → 일반 → 색 테마**에서 **Grokeen Dracula Inspired**를 선택하는 것입니다.
+
+1. **도구 → AI Assistant → 설정**에서 **Kakao 테마 설치·적용** 또는 **Dracula 테마 설치·적용**을 선택합니다. 이 버튼은 확장 내부 대화창 팔레트와 별개로 IDE 전체 테마 VSIX를 추가합니다.
 2. 해당 Visual Studio 버전의 공식 VSIX 설치 관리자가 열리면 안내에 따라 설치를 완료합니다. 설치 관리자에서 완료를 확인하고, 실행 중인 Visual Studio 창을 모두 닫습니다.
 3. 같은 Visual Studio 설치 인스턴스를 다시 시작합니다. 확장에 저장된 선택을 읽어 시작 시 IDE 테마 적용을 시도합니다.
 4. **도구 → 옵션 → 환경 → 일반 → 색 테마**에서 선택한 테마가 활성화됐는지 확인합니다. 적용되지 않았다면 이 메뉴에서 수동 선택을 시도하고, 선택 이름과 IDE 버전을 기록해 지원 요청에 전달하세요.

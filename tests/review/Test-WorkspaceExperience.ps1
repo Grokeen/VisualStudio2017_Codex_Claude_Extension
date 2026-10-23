@@ -405,6 +405,7 @@ namespace CodexCode.WorkspaceReview
         ///                2026-10-19 CodexOrig : Markdown 본문에서도 실제 RichTextBox 선택 복사와 원문 바인딩을 검사.
         ///                2026-10-19 CodexOrig : 사용자 요청에 따라 오른쪽 배치를 유지하며 무배경·회색 본문을 검사.
         ///                2026-10-20 CodexOrig : 최신 Role #15가 이전 무배경 지시를 대체하여 테마 말풍선·본문 보존 검사.
+        ///                2026-10-23 CodexOrig : TASK072 기존 0.14.1의 입력란·사용자 말풍선 동일색 계약을 실제 두 표면으로 검사.
         ///                2026-10-20 CodexOrig : TASK069 작성란과 사용자 표면 일치 및 더 진한 AI 답변 표면 계약을 검사.
         /// </summary>
         /// ---------------------------------------------------------------------
@@ -415,9 +416,11 @@ namespace CodexCode.WorkspaceReview
             var bubbles = Descendants(messages).OfType<Border>().Where(x => x.Name == "MessageBubble" && x.DataContext is ChatMessage).ToArray();
             var user = bubbles.Last(x => ((ChatMessage)x.DataContext).Role == "user");
             var assistant = bubbles.Last(x => ((ChatMessage)x.DataContext).Role == "assistant");
+            var composer = (Border)control.FindName("ComposerSurface");
             Check(user.HorizontalAlignment == HorizontalAlignment.Right &&
-                ((SolidColorBrush)user.Background).Color == ((SolidColorBrush)control.FindResource("AssistantSurfaceBrush")).Color && user.Padding == new Thickness(12, 9, 12, 9) && user.CornerRadius == new CornerRadius(12),
-                "User messages use right aligned rounded themed bubbles with readable padding");
+                user.Background is SolidColorBrush && composer.Background is SolidColorBrush &&
+                ((SolidColorBrush)user.Background).Color == ((SolidColorBrush)composer.Background).Color && user.Padding == new Thickness(12, 9, 12, 9) && user.CornerRadius == new CornerRadius(12),
+                "User messages match the actual composer color in right aligned rounded bubbles with readable padding");
             Check(assistant.Background is SolidColorBrush && ((SolidColorBrush)assistant.Background).Color == ((SolidColorBrush)control.FindResource("AssistantReplyBackgroundBrush")).Color &&
                 assistant.BorderThickness == new Thickness(0) && assistant.Padding == new Thickness(12, 9, 12, 9) && assistant.CornerRadius == new CornerRadius(12) &&
                 assistant.TranslatePoint(new Point(0, 0), messages).X < user.TranslatePoint(new Point(0, 0), messages).X,

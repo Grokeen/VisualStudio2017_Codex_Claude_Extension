@@ -61,6 +61,7 @@ namespace CodexCode.IdeIntegration
         ///                2026-10-18 CodexOrig : 실제 IDE의 진행 카드와 소유 WPF Window 연결 상태를 관찰 기록.
         ///                2026-10-19 CodexOrig : 새 Markdown 링크·공통 테마·목록 overlay·돋보기 실제 호스트 검증.
         ///                2026-10-20 CodexOrig : TASK068 미승인 수정안을 보존한 SQL 대기를 명시적 건너뛰기로 실행.
+        ///                2026-10-23 CodexOrig : TASK072 읽음 검사 전후의 실제 선택·열린 기록·읽기 경고를 진단하며 기존 조건은 유지.
         /// </summary>
         /// ---------------------------------------------------------------------
         internal static async Task RunAsync(Package product, DTE dte, TestConfig config)
@@ -325,9 +326,13 @@ namespace CodexCode.IdeIntegration
             Check("SIDEBAR-04 reopening restores the real resized width", Math.Abs(historyColumn.ActualWidth - resizedWidth) < 2);
             Check("SIDEBAR-05 actual successful AI requests retain completed state in Markdown", new MarkdownWorkspaceStore().LoadOpen("Codex").Any(r => r.State == ConversationRunState.Completed));
             var selectedRecord = (ConversationRecord)((ListBox)view.FindName("ConversationList")).SelectedItem;
+            WriteUnreadDiagnostic(view, selectedRecord, config.OutputDirectory, "before");
             selectedRecord.HasUnread = true;
             ((ScrollViewer)view.FindName("ConversationScroll")).RaiseEvent(new MouseButtonEventArgs(Mouse.PrimaryDevice, Environment.TickCount, MouseButton.Left) { RoutedEvent = Mouse.PreviewMouseDownEvent });
-            Check("SIDEBAR-06 viewing the IDE conversation clears only its persisted unread marker", !selectedRecord.HasUnread && !new MarkdownWorkspaceStore().LoadOpen("Codex").Single(r => r.Id == selectedRecord.Id).HasUnread);
+            var unreadStore = new MarkdownWorkspaceStore();
+            var unreadRecords = unreadStore.LoadOpen("Codex");
+            WriteUnreadDiagnostic(view, selectedRecord, config.OutputDirectory, "after", unreadStore, unreadRecords);
+            Check("SIDEBAR-06 viewing the IDE conversation clears only its persisted unread marker", !selectedRecord.HasUnread && !unreadRecords.Single(r => r.Id == selectedRecord.Id).HasUnread);
             using (var restoredSidebar = new AssistantControl())
                 Check("SIDEBAR-07 recreated IDE control restores list preference and width", ((ToggleButton)restoredSidebar.FindName("HistoryToggle")).IsChecked == true && Math.Abs(new AssistantSettingsStore().Load().HistoryWidth - resizedWidth) < 2);
             dte.ItemOperations.OpenFile(sourcePath);
@@ -471,6 +476,38 @@ namespace CodexCode.IdeIntegration
             File.AppendAllText(progressPath, "Frame transition actual=" + actual + "\r\n");
             return Convert.ToInt32(actual);
         }
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : WriteUnreadDiagnostic
+        /// desc         : 읽음 검사 선택과 저장소 상태를 익명 테스트 경로에 기록하며 제품 상태는 변경하지 않는다.
+        /// author       : CodexOrig
+        /// create date  : 2026-10-23
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        private static void WriteUnreadDiagnostic(AssistantControl view, ConversationRecord selected, string output, string phase, MarkdownWorkspaceStore observedStore = null, ConversationRecord[] observedRecords = null)
+        {
+            var flags = BindingFlags.Instance | BindingFlags.NonPublic;
+            var provider = (string)typeof(AssistantControl).GetField("selectedProvider", flags).GetValue(view);
+            var active = (System.Collections.IDictionary)typeof(AssistantControl).GetField("activeRecords", flags).GetValue(view);
+            var current = (ConversationRecord)active[provider];
+            var store = observedStore ?? new MarkdownWorkspaceStore();
+            var open = observedRecords ?? new ConversationRecord[0];
+            var uiStore = (MarkdownWorkspaceStore)typeof(AssistantControl).GetField("workspaceStore", flags).GetValue(view);
+            var observation = new {
+                Phase = phase, SelectedProvider = provider,
+                TabProvider = Convert.ToString(((TabItem)((TabControl)view.FindName("ProviderChoice")).SelectedItem).Tag),
+                UiWorkspaceRoot = uiStore.RootPath, ObservedWorkspaceRoot = store.RootPath,
+                EnvironmentRoot = Environment.GetEnvironmentVariable("VS2017_AI_WORKSPACE_PATH"),
+                ActualAssertionRecordsCaptured = observedRecords != null,
+                Selected = new { selected.Id, selected.Provider, selected.IsOpen, selected.HasUnread },
+                Active = new { current.Id, current.Provider, current.IsOpen, current.HasUnread },
+                Open = open.Select(r => new { r.Id, r.Provider, r.IsOpen, r.HasUnread }).ToArray(),
+                Warnings = store.LastLoadWarnings,
+                Status = ((TextBlock)view.FindName("StatusLabel")).Text
+            };
+            File.WriteAllText(Path.Combine(output, "sidebar-unread-" + phase + ".json"), new JavaScriptSerializer().Serialize(observation), new UTF8Encoding(false));
+        }
+
         /// ---------------------------------------------------------------------
         /// <summary>
         /// name         : CheckImageUiAsync

@@ -11,6 +11,7 @@ update date  : 2026-10-18 CodexOrig : TASK-020 감사 F01, 32비트 SDK15와 64�
                2026-10-20 CodexOrig : TASK-054 VSIX의 실제 PDF 이름을 런타임 고정 경로와 맞춘다.
                2026-10-20 CodexOrig : TASK069 최신 44쪽 0.14.0 설명서를 네 패키지 공통 리소스로 동기화한다.
                2026-10-21 CodexCode : Role #15 색상 변경 안내 1쪽을 더한 0.14.1 설명서로 동기화한다.
+               2026-10-23 CodexOrig : TASK072 Dracula 편집기 개선 안내를 네 패키지에 동기화한다.
 -------------------------------------------------------------------------
 #>
 [CmdletBinding()]
@@ -18,7 +19,7 @@ param()
 $ErrorActionPreference='Stop'
 $repositoryDir=[IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
 $baseDir=Join-Path $repositoryDir 'src\VS2017.AIAssistant'
-$guideSource=Join-Path $repositoryDir 'output\pdf\VisualStudio_AI_Assistant_설치_사용설명서_v0.14.1_미리보기.pdf'
+$guideSource=Join-Path $repositoryDir 'output\pdf\VisualStudio_AI_Assistant_설치_사용설명서_v0.14.2-preview.1_미리보기.pdf'
 $guideDirectory=Join-Path $baseDir 'Assets\CliGuide'
 $null=New-Item -ItemType Directory -Path $guideDirectory -Force
 Copy-Item -LiteralPath $guideSource -Destination (Join-Path $guideDirectory 'VisualStudio_AI_Assistant_설치_사용설명서.pdf') -Force

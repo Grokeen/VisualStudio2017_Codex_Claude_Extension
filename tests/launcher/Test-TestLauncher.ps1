@@ -14,6 +14,7 @@ update date  : 2026-10-18 CodexOrig : TASK-018 드롭다운·이미지 요구 �
                2026-10-20 CodexOrig : TASK069 첨부 실제 전달 검사 추가로 기본 26개 및 경로 계약 검증.
                2026-10-20 CodexOrig : TASK069 최신 0.14.0 기본 경로보다 명시 VSIX가 우선하는지 검증.
                2026-10-20 CodexOrig : TASK069 기본 27개·디버깅 도우미의 4SKU 고정 경로·원본 보존 검증.
+               2026-10-23 CodexOrig : TASK072 최신 기본 경로의 DLL보다 명시 VSIX 선택이 우선함을 검증.
 -------------------------------------------------------------------------
 #>
 [CmdletBinding()]
@@ -99,7 +100,7 @@ $archive = [IO.Compression.ZipFile]::Open($chosenVsix,[IO.Compression.ZipArchive
 try { $entry=$archive.CreateEntry('VS2017.AIAssistant.dll'); $stream=$entry.Open(); try { $bytes=[Text.Encoding]::UTF8.GetBytes('CHOSEN_PACKAGE'); $stream.Write($bytes,0,$bytes.Length) } finally { $stream.Dispose() } } finally { $archive.Dispose() }
 $archive = [IO.Compression.ZipFile]::Open($chosenVsix,[IO.Compression.ZipArchiveMode]::Update)
 try { foreach ($name in @('Resources/CliGuide/%EC%84%A4%EB%AA%85%EC%84%9C.pdf','Microsoft.Web.WebView2.Core.dll','runtimes/win-x64/native/WebView2Loader.dll','Resources/GuideMedia/01-connect.gif','Resources/GuideMedia/01-connect.png','ICSharpCode.AvalonEdit.dll','Resources/ThirdParty/AvalonEdit/LICENSE.txt')) { $entry=$archive.CreateEntry($name); $writer=New-Object IO.StreamWriter($entry.Open()); try {$writer.Write('VIEWER_ASSET')}finally{$writer.Dispose()} } } finally { $archive.Dispose() }
-$decoyRelease = Join-Path $fixtureDir 'releases\v0.14.0'; $null=New-Item -ItemType Directory -Path $decoyRelease -Force
+$decoyRelease = Join-Path $fixtureDir 'releases\v0.14.2'; $null=New-Item -ItemType Directory -Path $decoyRelease -Force
 [IO.File]::WriteAllText((Join-Path $decoyRelease 'VS2017.AIAssistant.dll'),'WRONG_DEFAULT',$utf8)
 $assetProbe = @'
 param([string]$AssemblyPath)

@@ -284,6 +284,7 @@ namespace CodexCode.IdeIntegration
         /// create date  : 2026-10-19
         /// update date  : 2026-10-19 CodexOrig : TASK032 합성 메시지만 추가하고 종료 시 원래 테마·대화로 복구.
         ///                2026-10-20 CodexOrig : 최신 Role #15 오른쪽 테마 말풍선 계약으로 교체.
+        ///                2026-10-23 CodexOrig : TASK072 기존 0.14.1 입력란·사용자 말풍선 동일색을 실제 두 표면으로 검사.
         /// </summary>
         /// ---------------------------------------------------------------------
         private static async Task CheckConversationAppearanceAsync(AssistantControl view, string output)
@@ -305,7 +306,8 @@ namespace CodexCode.IdeIntegration
                     await Task.Delay(100); await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(); view.UpdateLayout();
                     var preview = Visuals(view).OfType<MarkdownPreview>().Single(x => x.Markdown == message.Text);
                     var bubble = Visuals(view).OfType<Border>().Single(x => x.Name == "MessageBubble" && Visuals(x).Contains(preview));
-                    Check("UI054 " + mode + " actual user message uses right aligned composer surface bubble", !IsTransparent(bubble.Background) && ((SolidColorBrush)bubble.Background).Color == ((SolidColorBrush)view.FindResource("AssistantSurfaceBrush")).Color && bubble.HorizontalAlignment == HorizontalAlignment.Right && bubble.CornerRadius == new CornerRadius(12) && bubble.Padding == new Thickness(12, 9, 12, 9) && IsTransparent(preview.Background) && IsTransparent(preview.TextView.Background) && IsTransparent(preview.TextView.Document.Background));
+                    var composer = (Border)view.FindName("ComposerSurface");
+                    Check("UI054 " + mode + " actual user message uses right aligned composer surface bubble", !IsTransparent(bubble.Background) && bubble.Background is SolidColorBrush && composer.Background is SolidColorBrush && ((SolidColorBrush)bubble.Background).Color == ((SolidColorBrush)composer.Background).Color && bubble.HorizontalAlignment == HorizontalAlignment.Right && bubble.CornerRadius == new CornerRadius(12) && bubble.Padding == new Thickness(12, 9, 12, 9) && IsTransparent(preview.Background) && IsTransparent(preview.TextView.Background) && IsTransparent(preview.TextView.Document.Background));
                     Check("UI054 " + mode + " actual user text follows readable theme foreground", ((SolidColorBrush)preview.Foreground).Color == ((SolidColorBrush)view.FindResource("AssistantForegroundBrush")).Color);
                     Check("UI032 " + mode + " actual conversation documents keep transparent backgrounds", Visuals(view).OfType<MarkdownPreview>().Where(x => x.Name == "MessageBody").All(x => IsTransparent(x.Background) && IsTransparent(x.TextView.Document.Background)));
                     int width = Math.Max(1, (int)Math.Ceiling(view.ActualWidth)), height = Math.Max(1, (int)Math.Ceiling(view.ActualHeight));

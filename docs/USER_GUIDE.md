@@ -1,6 +1,6 @@
 # AI Assistant 사용 안내
 
-Claude·Codex와 대화를 이어 가고, 현재 파일의 수정안을 비교해 적용하는 방법입니다. [v0.14.1-preview.1 설치 파일과 릴리스 자산](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.14.1-preview.1)을 확인하세요. VS2017 15.7·15.8용, VS2017 15.9 이상용, VS2019용, VS2022 x64용을 제공합니다.
+Claude·Codex와 대화를 이어 가고, 현재 파일의 수정안을 비교해 적용하는 방법입니다. [v0.14.2-preview.1 설치 파일과 릴리스 자산](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.14.2-preview.1)을 확인하세요. VS2017 15.7·15.8용, VS2017 15.9 이상용, VS2019용, VS2022 x64용을 제공합니다. [46쪽 안내 PDF](../output/pdf/VisualStudio_AI_Assistant_%EC%84%A4%EC%B9%98_%EC%82%AC%EC%9A%A9%EC%84%A4%EB%AA%85%EC%84%9C_v0.14.2-preview.1_%EB%AF%B8%EB%A6%AC%EB%B3%B4%EA%B8%B0.pdf)에는 현재 버전의 테마 설치와 Dracula 편집기 색상 변경을 정리했습니다.
 
 ## 설치와 AI 연결
 
@@ -212,13 +212,13 @@ AI 답변에서 마우스 오른쪽 버튼을 누르고 **답변 전체를 새 �
 
 이번 후보 확인에서는 Claude CLI를 로그인 없이 실행해 버전·서명·인증 상태와 비인증 초기화를 확인하고, 합성 요청으로 프로토콜·오류·취소 경계를 검사했습니다. 실제 계정 로그인과 실제 Claude 답변은 이번 범위에 포함되지 않았으며, 실제 모델 이용 가능성이나 계정 권한을 확인한 결과가 아닙니다. 실제로 사용하려면 제공자의 공식 로그인 절차를 별도로 마친 뒤 로그인 상태를 확인하고 요청을 보내세요.
 
-### Visual Studio IDE 테마 설치
+### 수동 AI-VSIX 설치 시 Visual Studio 테마 추가
 
-확장 설정에서 **Kakao 테마 설치·적용** 또는 **Dracula 테마 설치·적용**을 선택하면 현재 Visual Studio 버전에 맞는 독립 IDE 테마 VSIX 설치 관리자가 열립니다. 확장 내부의 Kakao·Dracula 색상 팔레트와 IDE 전체 테마 설치는 서로 다른 기능입니다.
+이 절차는 AI Assistant VSIX만 수동으로 설치했고 IDE 테마 패키지가 없을 때 사용하는 별도 선택 경로입니다. 전체 오프라인 설치기를 사용했다면 설치가 끝난 뒤 같은 IDE를 다시 열고 **도구 → 옵션 → 환경 → 일반 → 색 테마**에서 **Grokeen Dracula Inspired**를 선택하세요. 확장 내부의 Kakao·Dracula 색상 팔레트와 IDE 전체 테마 설치는 서로 다른 기능입니다.
 
-1. 원하는 테마 설치·적용 버튼을 선택하고 VSIX 설치 관리자에서 설치를 완료합니다.
-2. 모든 Visual Studio 창을 닫은 다음 같은 Visual Studio 설치 인스턴스를 다시 엽니다. 시작할 때 선택한 IDE 테마가 적용됩니다.
-3. **도구 → 옵션 → 환경 → 일반 → 색 테마**에서 현재 테마 이름을 확인합니다. 적용되지 않으면 이 목록에서 테마를 직접 선택하고 Visual Studio를 다시 시작해 확인하세요.
+1. **도구 → AI Assistant → 설정**에서 **Kakao 테마 설치·적용** 또는 **Dracula 테마 설치·적용**을 선택하고 VSIX 설치를 완료합니다.
+2. 모든 Visual Studio 창을 닫은 다음 같은 IDE를 다시 엽니다.
+3. **도구 → 옵션 → 환경 → 일반 → 색 테마**에서 설치한 테마를 선택합니다.
 
 실제 Visual Studio 2017 15.9, 2019 16.11, 2022 17.14 통합 시험은 두 테마의 실제 선택 ID, 대표 환경 색상(Kakao `#FFD9DDE3`, Dracula `#FF282A36`), 보류 상태 처리와 임시 파일 정리를 확인했습니다. 이 결과는 설치 버튼을 실제 마우스로 누르고 설치 관리자를 완료하거나 재시작하는 물리적 고객 절차의 확인을 뜻하지 않습니다. VS2017 Professional 15.7.1과 고객의 제한망 PC도 실측하지 않았습니다.
 
@@ -226,7 +226,7 @@ AI 답변에서 마우스 오른쪽 버튼을 누르고 **답변 전체를 새 �
 
 ## 이전 v0.13.0-preview.1 기능 기록
 
-이 절은 이전 v0.13.0-preview.1의 기능 기록입니다. 당시 오프라인 ZIP은 `VisualStudio_AI_Assistant-0.13.0-Preview1-FullOffline-win-x64.zip`이었으며 [이전 34쪽 PDF](../output/pdf/VisualStudio_AI_Assistant_%EC%84%A4%EC%B9%98_%EC%82%AC%EC%9A%A9%EC%84%A4%EB%AA%85%EC%84%9C_v0.13.0_%EB%AF%B8%EB%A6%AC%EB%B3%B4%EA%B8%B0.pdf)는 그 버전의 안내를 보존합니다. 현재 기능·설치 파일은 [v0.14.1-preview.1 릴리스](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.14.1-preview.1)를 기준으로 확인하세요.
+이 절은 이전 v0.13.0-preview.1의 기능 기록입니다. 당시 오프라인 ZIP은 `VisualStudio_AI_Assistant-0.13.0-Preview1-FullOffline-win-x64.zip`이었으며 [이전 34쪽 PDF](../output/pdf/VisualStudio_AI_Assistant_%EC%84%A4%EC%B9%98_%EC%82%AC%EC%9A%A9%EC%84%A4%EB%AA%85%EC%84%9C_v0.13.0_%EB%AF%B8%EB%A6%AC%EB%B3%B4%EA%B8%B0.pdf)는 그 버전의 안내를 보존합니다. 현재 기능·설치 파일은 [v0.14.2-preview.1 릴리스](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.14.2-preview.1)를 기준으로 확인하세요.
 
 ### 대화별 독립 작업
 
@@ -266,7 +266,7 @@ C2 렌더에서는 긴 한국어 보기가 여러 줄로 표시되는 선택지 
 
 ### 설치 파일과 검증 상태
 
-이전 `UserDistribution/v0.13.0` 묶음은 VSIX와 IDE 테마, CLI 런타임·라이선스, 설치/검증 도구, 체크섬·manifest, 오프라인 안내와 PDF로 구성했습니다. 현재 묶음은 v0.14.0-preview.1의 파일과 릴리스 manifest를 따르며, 제품 소스·PDB·테스트·개발 증거·Git 자료·계정·토큰·사용자 기록은 포함하지 않습니다.
+이전 `UserDistribution/v0.13.0` 묶음은 VSIX와 IDE 테마, CLI 런타임·라이선스, 설치/검증 도구, 체크섬·manifest, 오프라인 안내와 PDF로 구성했습니다. 당시 묶음은 v0.14.0-preview.1의 파일과 릴리스 manifest를 따르며, 제품 소스·PDB·테스트·개발 증거·Git 자료·계정·토큰·사용자 기록은 포함하지 않습니다.
 
 배포와 로컬 `releases`에는 v0.14.0과 직전 v0.13.0을 보존하고, 새 파일과 체크섬 게시 후 v0.12.1 패키지 첨부만 정리합니다. 이전 태그·이력과 개발·감사 기록은 유지합니다.
 
@@ -412,7 +412,7 @@ C# 7.0과 .NET Framework 4.6.2에서 빌드할 수 있어야 합니다.
 
 ## 이전 v0.14.0-preview.1 사용자 안내
 
-이 절과 [이전 44쪽 PDF](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.14.0-preview.1/VisualStudio_AI_Assistant-0.14.0-Preview-UserGuide.pdf)는 v0.14.0-preview.1 당시 기능을 보존합니다. 현재 설치 파일과 45쪽 안내서는 [v0.14.1-preview.1 릴리스](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.14.1-preview.1)에서 받으세요.
+이 절은 v0.14.0-preview.1 당시 기능을 보존합니다. [당시 44쪽 PDF 저장소 보존본](../output/pdf/VisualStudio_AI_Assistant_%EC%84%A4%EC%B9%98_%EC%82%AC%EC%9A%A9%EC%84%A4%EB%AA%85%EC%84%9C_v0.14.0_%EB%AF%B8%EB%A6%AC%EB%B3%B4%EA%B8%B0.pdf)을 함께 제공합니다. 현재 설치 파일과 46쪽 안내서는 [v0.14.2-preview.1 릴리스](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.14.2-preview.1)에서 받으세요.
 
 ### AI에게 메시지를 전달하고 답변 받기
 
@@ -544,6 +544,50 @@ Dracula 테마 정의에서 메뉴 hover·중단점 스크롤 표식은 보라�
 
 Dracula 우클릭 메뉴의 hover·선택 위치와 편집기 오류·경고·중단점 스크롤 표식은 실제 Visual Studio 버전별 표시 확인이 끝나기 전까지 모든 환경에서 동작한다고 안내하지 않습니다. 문제가 보이면 IDE의 편집기 스크롤 표시 설정을 확인하고, 기존 색상 설정을 임의로 바꾸기 전에 화면과 버전을 기록해 지원에 전달하세요.
 
+## v0.14.2-preview.1 설치·Dracula 편집기 색상 안내
+
+v0.14.2-preview.1에는 독립 Visual Studio 테마 패키지와 작은 MEF 분류 DLL이 포함됩니다. Visual Studio Editor SDK DLL은 VSIX에 재배포하지 않으며 Visual Studio 호스트의 서비스를 사용합니다. 테마를 설치하고 편집기 색상을 확인하는 데 Codex·Claude CLI, 서비스 계정 로그인 또는 AI 네트워크 연결은 필요하지 않습니다. AI 요청은 별도의 CLI 설치·로그인을 마쳐야 합니다.
+
+### 다운로드와 설치
+
+전체 오프라인 ZIP 또는 설치 대상 IDE에 맞는 VSIX를 [v0.14.2-preview.1 Release](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.14.2-preview.1)에서 받습니다. Preview 자산 링크는 Release 게시가 끝나면 활성화됩니다. 파일명은 `VisualStudio_AI_Assistant-0.14.2-Preview1-FullOffline-win-x64.zip`, `Grokeen-AI-Theme-Offline-Installer-0.14.2.exe`, `VS2017.15.7.AIAssistant-0.14.2.vsix`, `VS2017.AIAssistant-0.14.2.vsix`, `VS2019.AIAssistant-0.14.2.vsix`, `VS2022.AIAssistant-0.14.2.vsix`입니다. 직전 v0.14.1 Release는 보존되며, v0.14.0 당시의 44쪽 PDF는 [저장소 보존본](../output/pdf/VisualStudio_AI_Assistant_%EC%84%A4%EC%B9%98_%EC%82%AC%EC%9A%A9%EC%84%A4%EB%AA%85%EC%84%9C_v0.14.0_%EB%AF%B8%EB%A6%AC%EB%B3%B4%EA%B8%B0.pdf)에서 읽을 수 있습니다.
+
+1. 전체 ZIP을 새 폴더에 완전히 압축 해제하고 동봉 manifest/체크섬을 확인합니다.
+2. 열려 있는 Visual Studio 창을 모두 닫습니다.
+3. `Grokeen-AI-Theme-Offline-Installer-0.14.2.exe`를 실행하면 동봉 확장과 IDE 테마 VSIX를 설치합니다. 확장만 설치하려면 `InstallAIAssistant.bat` 또는 해당 IDE 버전의 VSIX를 사용합니다.
+4. 설치가 끝나면 같은 Visual Studio IDE를 다시 엽니다.
+5. **도구 → 옵션 → 환경 → 일반 → 색 테마**에서 **Grokeen Dracula Inspired**를 선택합니다. 편집기 diff 표식과 주석/오류 표시를 보려면 코드 편집기와 diff 보기를 엽니다.
+
+테마 VSIX 없이 AI Assistant VSIX만 수동 설치했다면, 별도 선택 경로로 **도구 → AI Assistant → 설정 → Dracula 테마 설치·적용**을 사용해 IDE 테마 VSIX를 추가할 수 있습니다. 설치 관리자 완료 후 같은 IDE를 다시 열고 위 색 테마 메뉴에서 **Grokeen Dracula Inspired**를 선택하세요. 전체 오프라인 설치기 사용자는 이 추가 설치 단계를 건너뜁니다.
+
+### 편집기 색상 읽기
+
+![Dracula diff·주석 색상과 오류 span border-only 강조를 설명하는 익명 합성 그림. 실제 Visual Studio 캡처가 아니다.](assets/ui-guide-v0.14.2-preview.1/dracula-editor-colors.png)
+
+| 편집기 표시 | Dracula 색상 | 사용법 |
+|---|---|---|
+| 추가된 diff 줄·단어 | 줄 면 `#243B38`; 단어 전경 `#50FA7B`, 배경 `#294D44` | 기존 구문색을 유지할 수 있는 줄 면 위에서 밝은 초록 단어를 찾습니다. |
+| 삭제된 diff 줄·단어 | 줄 면 `#452D40`; 단어 전경 `#FFB3D9`, 배경 `#63384C` | 분홍 단어와 어두운 면으로 삭제 범위를 읽습니다. |
+| 변경 표식·현재 viewport | 변경 표식은 초록/분홍; overview 배경 `#282A36`, viewport 윤곽 `#BD93F9` | 변경 위치 표식과 현재 화면을 둘러싼 보라 윤곽은 다른 의미입니다. |
+| C# `//` 주석 | `#A0A6B5` | 일반 주석입니다. |
+| C# block `/* */` 주석 | `#B5BDD4` | companion MEF 분류로 일반 주석과 구분합니다. |
+| XML 문서 본문 / tag·delimiter | `#C8D5F2` / `#B9C8E8` | `///` 본문과 XML 요소 이름·구분자를 구분합니다. |
+| Roslyn 오류 span | 분홍 1px 테두리 `#FFFF79C6`, 배경 채움 없음 | 기존 squiggle은 그대로 두고 테두리로 범위를 찾습니다. 배경을 덮지 않아 본문 글자를 가리지 않습니다. |
+
+C# `//`와 `/* */`는 기본 Roslyn classification key가 `comment`를 공유합니다. block 주석 전용 색을 위해 동봉 MEF 분류가 native classification의 우선순위를 보완합니다. XML 문서 주석에는 기존 XML 전용 classification을 사용합니다. 색 테마 XML만으로 일반/block 주석이 구분된다고 가정하지 마세요.
+
+### Diff 보기와 옵션 복원
+
+Dracula 테마가 활성화된 동안 diff 줄의 추가·삭제 영역과 overview 변경 위치를 살펴봅니다. VS2019·VS2022에서는 diff view별 `ShowDiffOverviewMargin` 옵션을 로컬로 활성화해 native overview를 보이게 하고, 테마를 벗어나거나 view를 닫을 때 기존 local/inherited 설정을 복원합니다. 사용자가 그 사이에 변경한 설정은 보존하는 동작을 목표로 합니다. Visual Studio 전체의 설정을 영구 변경하는 기능은 아닙니다.
+
+### 확인 범위와 제한
+
+버전별 실제 IDE 기능 검사 결과와 적용 범위는 [TASK-072 통합 검증 보고서](../MarkdownReport/CodexOrig2_TASK-072_Audit.md)에서 확인하세요. 이 사용자 안내는 설치·사용 흐름과 기능, 알려진 제한을 설명하며 특정 후보의 검사 상태를 보증하지 않습니다.
+
+고객 VS2017 Professional 15.7.1, 별도 고객 오프라인 PC, 실제 Claude/OpenAI 계정 로그인·응답, 실제 TFS/TFVC 서버 작업, 설치 버튼의 물리적 마우스/포인터 흐름은 이 문서 작성 시점에 확인되지 않았습니다. 합성 설명 그림은 실제 IDE 화면 캡처가 아닙니다.
+
+이전 v0.14.0의 기능 설명과 캡션은 해당 버전의 이력으로 보존합니다. 구버전 Release 첨부 정리는 v0.14.2 게시·익명 다운로드 검증 이후 별도로 진행하며 v0.14.1은 직전 Release로 보존합니다.
+
 ## Git·SVN·TFVC와 배포
 
 프로젝트 작업 창에서 작업 종류, 프로젝트 폴더와 CLI 실행 파일을 지정합니다. CLI 경로를 비우면 PATH의 `git.exe`, `svn.exe`, `tf.exe`를 사용합니다. 해당 저장소의 인증·작업 사본/워크스페이스는 각 CLI에서 먼저 준비합니다.
@@ -595,6 +639,6 @@ CLI 경로가 비어 있으면 현재 프로세스·사용자·시스템 PATH와
 | 형상관리 명령 실패 | CLI 설치, 인증, 프로젝트 폴더, 추적 파일·브랜치 상태 확인 |
 | Visual Studio 라이선스 안내 | AI 계정과 별개. [IDE 로그인 안내](BUILD_AND_LICENSE.md) 참고 |
 
-저장소 전체를 받은 환경에서는 최상위 [VisualStudio_AIChat_ExtentionTest.exe](../VisualStudio_AIChat_ExtentionTest.exe)를 실행해 검사 항목을 선택하고 결과·로그를 확인할 수 있습니다. 실행 기록은 `artifacts/tl/<실행 ID>/launcher.log`와 `summary.txt`에도 남습니다. 현재 실행기에는 기본 검사 27개와 직접 선택 검사 2개가 표시됩니다. 실제 IDE 실행과 실시간 Codex 대화는 직접 선택 항목이며, 기본 검사 실행만으로 그 동작을 검증한 것으로 보지 않습니다. 실행기 목록의 수는 후보에서 각 검사가 통과했다는 뜻이 아니므로, 결과·로그와 최신 후보 검증 보고서를 확인하세요. VSIX를 설치해 AI Assistant를 사용하는 것과 테스트 실행에 필요한 개발 도구는 별개입니다.
+저장소 전체를 받은 환경에서는 최상위 [VisualStudio_AIChat_ExtentionTest.exe](../VisualStudio_AIChat_ExtentionTest.exe)를 실행해 검사 항목을 선택하고 결과·로그를 확인할 수 있습니다. 실행 기록은 `artifacts/tl/<실행 ID>/launcher.log`와 `summary.txt`에도 남습니다. 실제 IDE 실행과 실시간 Codex 대화는 사용자가 직접 선택해야 합니다. 결과와 범위는 [TASK-072 통합 검증 보고서](../MarkdownReport/CodexOrig2_TASK-072_Audit.md)를 확인하세요. VSIX를 설치해 AI Assistant를 사용하는 것과 저장소 검사는 별개입니다.
 
 문제 보고에는 IDE·확장·CLI 버전, 작업 순서와 오류 문구를 포함하세요. [개발 문서](DEVELOPMENT.md)와 [이번 검증 보고](../MarkdownReport/CodexOrig_TASK-025.md)에서 자동 검사·실계정/서버 검증 범위를 구분합니다.
