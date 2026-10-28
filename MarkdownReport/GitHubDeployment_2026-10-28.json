@@ -1,0 +1,280 @@
+﻿{
+    "CheckedAt":  "2026-10-28T10:14:22.3980670+09:00",
+    "Repository":  "Grokeen/VisualStudio2017_Codex_Claude_Extension",
+    "DefaultBranch":  "main",
+    "SourceIntegration":  {
+                              "publishedSource":  "60f9ff96f3e0ca18420569a197de9595f3c24b56",
+                              "verifiedRemoteMain":  true,
+                              "integratedCommits":  19,
+                              "mode":  "fast-forward, no force push",
+                              "previousMain":  "4a1fb85a742a6f35320aeff585da43bd537f1893"
+                          },
+    "BranchDiagnosis":  "Work continued and releases were published on task branches without integrating main. All remote codex branches are points in the same linear history. No divergent commits or conflicts.",
+    "BranchSnapshots":  [
+                            {
+                                "behindCurrentSource":  17,
+                                "uniqueCommits":  0,
+                                "name":  "codex/offline-verification-task041",
+                                "sha":  "7200f797a21336e14a0da7c3a87593f5310b0974"
+                            },
+                            {
+                                "behindCurrentSource":  12,
+                                "uniqueCommits":  0,
+                                "name":  "codex/role-2309-task051",
+                                "sha":  "47cbf3759597911e68e036b2adf4356ad37bbe3f"
+                            },
+                            {
+                                "behindCurrentSource":  0,
+                                "uniqueCommits":  0,
+                                "name":  "codex/role-0140-task054",
+                                "sha":  "60f9ff96f3e0ca18420569a197de9595f3c24b56"
+                            },
+                            {
+                                "behindCurrentSource":  14,
+                                "uniqueCommits":  0,
+                                "name":  "codex/fan-tooltip-task045",
+                                "localOnly":  true,
+                                "sha":  "7cdd6ef"
+                            }
+                        ],
+    "Release":  {
+                    "url":  "https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.14.2-preview.1",
+                    "draft":  false,
+                    "anonymousDownloadSizeAndSha256Passed":  14,
+                    "sourceCommit":  "5300fe344f18b39856d6183d9c2fc27be861753a",
+                    "publishedAt":  "2026-10-23T14:55:14Z",
+                    "assets":  14,
+                    "tag":  "v0.14.2-preview.1",
+                    "newBinaryPublicationRequired":  false,
+                    "prerelease":  true
+                },
+    "LatestStable":  {
+                         "explanation":  "Previews remain prereleases. Prior stable assets were removed in earlier cleanup. README now links the current Preview explicitly.",
+                         "assetCount":  0,
+                         "tag":  "v0.11.1"
+                     },
+    "ProductSource":  {
+                          "releaseTagMatchesIntegrationSource":  true,
+                          "comparedPaths":  [
+                                                "src",
+                                                "themes",
+                                                "scripts",
+                                                "installer",
+                                                "tests",
+                                                "VS2017.AIAssistant.sln",
+                                                "VisualStudio_AIChat_ExtentionTest.exe"
+                                            ],
+                          "buildsRerun":  false,
+                          "newProductChanges":  false,
+                          "reason":  "Only already published source history and documentation are integrated. Existing build and runtime evidence is in CodexOrig_TASK-072_FinalValidation.json."
+                      },
+    "ZipVerification":  {
+                            "entries":  71,
+                            "matchingVsixAssets":  7,
+                            "checks":  {
+                                           "value":  [
+                                                         {
+                                                             "name":  "Themes/Grokeen-VisualStudio-Themes-0.14.2-VS2017.vsix",
+                                                             "sha256":  "2f79804ee62a56cd3bf61051555caf17be85055f211ec8e74fce1788132dd0b7",
+                                                             "passed":  true
+                                                         },
+                                                         {
+                                                             "name":  "Themes/Grokeen-VisualStudio-Themes-0.14.2-VS2019.vsix",
+                                                             "sha256":  "24050e62064cb53c7751a3c705f0c27b48a32c5dc702c0e99f8c57f932442022",
+                                                             "passed":  true
+                                                         },
+                                                         {
+                                                             "name":  "Themes/Grokeen-VisualStudio-Themes-0.14.2-VS2022.vsix",
+                                                             "sha256":  "ad4817b766d7e23073de1a61999da1e017ad8d8abe4099a5e5577a7ba2c318b3",
+                                                             "passed":  true
+                                                         },
+                                                         {
+                                                             "name":  "VS2017.15.7.AIAssistant-0.14.2.vsix",
+                                                             "sha256":  "fcf04e23391e7bce1dc4f5c96fb11c19709f916465ae0a5b69f68acdcae16d73",
+                                                             "passed":  true
+                                                         },
+                                                         {
+                                                             "name":  "VS2017.AIAssistant-0.14.2.vsix",
+                                                             "sha256":  "c18081b15879ec71a4d3308500e467b8193274824a25e501dcd85455e15806d7",
+                                                             "passed":  true
+                                                         },
+                                                         {
+                                                             "name":  "VS2019.AIAssistant-0.14.2.vsix",
+                                                             "sha256":  "b53bf2255cd4ebd14965ffcef1a89d22c6e7a25259d0468c35a8d3a33f63b88f",
+                                                             "passed":  true
+                                                         },
+                                                         {
+                                                             "name":  "VS2022.AIAssistant-0.14.2.vsix",
+                                                             "sha256":  "6b7ce967dfd9f3471e6f5bb267bcf43826a5b42f54e999db57ca390a1da211c6",
+                                                             "passed":  true
+                                                         }
+                                                     ],
+                                           "Count":  7
+                                       }
+                        },
+    "Downloads":  {
+                      "value":  [
+                                    {
+                                        "name":  "Grokeen-AI-Theme-Offline-Installer-0.14.2.exe",
+                                        "size":  19752448,
+                                        "sha256":  "e6317f21a9d251e2ce07ad699bb786e334816bddc02f41d8d0d53790fbf190a5",
+                                        "githubDigestMatch":  true,
+                                        "githubSizeMatch":  true,
+                                        "localEvidence":  "release file",
+                                        "localEvidenceMatch":  true,
+                                        "passed":  true,
+                                        "url":  "https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.14.2-preview.1/Grokeen-AI-Theme-Offline-Installer-0.14.2.exe"
+                                    },
+                                    {
+                                        "name":  "Grokeen-VisualStudio-Themes-0.14.2-VS2017.vsix",
+                                        "size":  68822,
+                                        "sha256":  "2f79804ee62a56cd3bf61051555caf17be85055f211ec8e74fce1788132dd0b7",
+                                        "githubDigestMatch":  true,
+                                        "githubSizeMatch":  true,
+                                        "localEvidence":  "release file",
+                                        "localEvidenceMatch":  true,
+                                        "passed":  true,
+                                        "url":  "https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.14.2-preview.1/Grokeen-VisualStudio-Themes-0.14.2-VS2017.vsix"
+                                    },
+                                    {
+                                        "name":  "Grokeen-VisualStudio-Themes-0.14.2-VS2019.vsix",
+                                        "size":  68831,
+                                        "sha256":  "24050e62064cb53c7751a3c705f0c27b48a32c5dc702c0e99f8c57f932442022",
+                                        "githubDigestMatch":  true,
+                                        "githubSizeMatch":  true,
+                                        "localEvidence":  "release file",
+                                        "localEvidenceMatch":  true,
+                                        "passed":  true,
+                                        "url":  "https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.14.2-preview.1/Grokeen-VisualStudio-Themes-0.14.2-VS2019.vsix"
+                                    },
+                                    {
+                                        "name":  "Grokeen-VisualStudio-Themes-0.14.2-VS2022.vsix",
+                                        "size":  68957,
+                                        "sha256":  "ad4817b766d7e23073de1a61999da1e017ad8d8abe4099a5e5577a7ba2c318b3",
+                                        "githubDigestMatch":  true,
+                                        "githubSizeMatch":  true,
+                                        "localEvidence":  "release file",
+                                        "localEvidenceMatch":  true,
+                                        "passed":  true,
+                                        "url":  "https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.14.2-preview.1/Grokeen-VisualStudio-Themes-0.14.2-VS2022.vsix"
+                                    },
+                                    {
+                                        "name":  "RELEASE_SHA256SUMS.txt",
+                                        "size":  1433,
+                                        "sha256":  "74dee9d8151e8d1137323505071f89e43cdb58cc2f3643182f8fdbeae859ca47",
+                                        "githubDigestMatch":  true,
+                                        "githubSizeMatch":  true,
+                                        "localEvidence":  "release file",
+                                        "localEvidenceMatch":  true,
+                                        "passed":  true,
+                                        "url":  "https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.14.2-preview.1/RELEASE_SHA256SUMS.txt"
+                                    },
+                                    {
+                                        "name":  "SHA256SUMS.txt",
+                                        "size":  739,
+                                        "sha256":  "f00bfac7197ad7359a80e98aaaf75a1b4b44fed62bf0c84b50c0de223d1e17ad",
+                                        "githubDigestMatch":  true,
+                                        "githubSizeMatch":  true,
+                                        "localEvidence":  "release file",
+                                        "localEvidenceMatch":  true,
+                                        "passed":  true,
+                                        "url":  "https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.14.2-preview.1/SHA256SUMS.txt"
+                                    },
+                                    {
+                                        "name":  "VisualStudio_AI_Assistant-0.14.2-Preview-UserGuide.pdf",
+                                        "size":  2427105,
+                                        "sha256":  "155df0b5dd2c2c4ab958fe09958853c73a7c8ee1dbed0ab7022e21e18ff5b0de",
+                                        "githubDigestMatch":  true,
+                                        "githubSizeMatch":  true,
+                                        "localEvidence":  "release file",
+                                        "localEvidenceMatch":  true,
+                                        "passed":  true,
+                                        "url":  "https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.14.2-preview.1/VisualStudio_AI_Assistant-0.14.2-Preview-UserGuide.pdf"
+                                    },
+                                    {
+                                        "name":  "VisualStudio_AI_Assistant-0.14.2-Preview1-FullOffline-win-x64.zip",
+                                        "size":  334353287,
+                                        "sha256":  "65c4965218be935fd5895162dab9b55db86e334009973186527f9c02a4fa3434",
+                                        "githubDigestMatch":  true,
+                                        "githubSizeMatch":  true,
+                                        "localEvidence":  "RELEASE_SHA256SUMS.txt",
+                                        "localEvidenceMatch":  true,
+                                        "passed":  true,
+                                        "url":  "https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.14.2-preview.1/VisualStudio_AI_Assistant-0.14.2-Preview1-FullOffline-win-x64.zip"
+                                    },
+                                    {
+                                        "name":  "VisualStudio_AI_Assistant-0.14.2-Preview1-FullOffline-win-x64.zip.sha256",
+                                        "size":  133,
+                                        "sha256":  "4fc6c3639623aac61be71546430c7774e50a2667c20d13c11c750f3a1fe097f2",
+                                        "githubDigestMatch":  true,
+                                        "githubSizeMatch":  true,
+                                        "localEvidence":  "RELEASE_SHA256SUMS.txt",
+                                        "localEvidenceMatch":  true,
+                                        "passed":  true,
+                                        "url":  "https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.14.2-preview.1/VisualStudio_AI_Assistant-0.14.2-Preview1-FullOffline-win-x64.zip.sha256"
+                                    },
+                                    {
+                                        "name":  "VisualStudio_AI_Assistant-0.14.2.zip",
+                                        "size":  41374032,
+                                        "sha256":  "91be14ad9c68f52079b8ff59fff46f3491fe647f50c6f35f204aacfe0f68052d",
+                                        "githubDigestMatch":  true,
+                                        "githubSizeMatch":  true,
+                                        "localEvidence":  "release file",
+                                        "localEvidenceMatch":  true,
+                                        "passed":  true,
+                                        "url":  "https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.14.2-preview.1/VisualStudio_AI_Assistant-0.14.2.zip"
+                                    },
+                                    {
+                                        "name":  "VS2017.15.7.AIAssistant-0.14.2.vsix",
+                                        "size":  4871795,
+                                        "sha256":  "fcf04e23391e7bce1dc4f5c96fb11c19709f916465ae0a5b69f68acdcae16d73",
+                                        "githubDigestMatch":  true,
+                                        "githubSizeMatch":  true,
+                                        "localEvidence":  "release file",
+                                        "localEvidenceMatch":  true,
+                                        "passed":  true,
+                                        "url":  "https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.14.2-preview.1/VS2017.15.7.AIAssistant-0.14.2.vsix"
+                                    },
+                                    {
+                                        "name":  "VS2017.AIAssistant-0.14.2.vsix",
+                                        "size":  4871752,
+                                        "sha256":  "c18081b15879ec71a4d3308500e467b8193274824a25e501dcd85455e15806d7",
+                                        "githubDigestMatch":  true,
+                                        "githubSizeMatch":  true,
+                                        "localEvidence":  "release file",
+                                        "localEvidenceMatch":  true,
+                                        "passed":  true,
+                                        "url":  "https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.14.2-preview.1/VS2017.AIAssistant-0.14.2.vsix"
+                                    },
+                                    {
+                                        "name":  "VS2019.AIAssistant-0.14.2.vsix",
+                                        "size":  4871301,
+                                        "sha256":  "b53bf2255cd4ebd14965ffcef1a89d22c6e7a25259d0468c35a8d3a33f63b88f",
+                                        "githubDigestMatch":  true,
+                                        "githubSizeMatch":  true,
+                                        "localEvidence":  "release file",
+                                        "localEvidenceMatch":  true,
+                                        "passed":  true,
+                                        "url":  "https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.14.2-preview.1/VS2019.AIAssistant-0.14.2.vsix"
+                                    },
+                                    {
+                                        "name":  "VS2022.AIAssistant-0.14.2.vsix",
+                                        "size":  4870340,
+                                        "sha256":  "6b7ce967dfd9f3471e6f5bb267bcf43826a5b42f54e999db57ca390a1da211c6",
+                                        "githubDigestMatch":  true,
+                                        "githubSizeMatch":  true,
+                                        "localEvidence":  "release file",
+                                        "localEvidenceMatch":  true,
+                                        "passed":  true,
+                                        "url":  "https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.14.2-preview.1/VS2022.AIAssistant-0.14.2.vsix"
+                                    }
+                                ],
+                      "Count":  14
+                  },
+    "Preserved":  [
+                      "release tags",
+                      "release asset bytes",
+                      "existing task branches",
+                      "user working tree changes"
+                  ]
+}
