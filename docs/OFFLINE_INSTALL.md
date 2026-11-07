@@ -2,44 +2,30 @@
 
 이 안내는 **Visual Studio AI Assistant 확장과 Windows용 Codex·Claude CLI를 인터넷이 없는 PC에 설치**하는 절차입니다. AI 모델 요청과 계정 인증까지 오프라인으로 처리하지는 않습니다. 설치 후 네트워크 연결이 허용되면 본인 계정으로 공식 로그인을 하고 연결을 확인하세요.
 
-## 공개 v0.15.0-preview.1 설치 안내 · 다음 0.15.1 후보와 구분
+## 최신 v0.15.1-preview.1 설치 안내
 
-> ⚠️ **C# 주석 코드 제안 임시 중지:** 이미 설치된 v0.15.0-preview.1은 해당 메뉴를 자동 차단하지 않습니다. 기능 재개를 명시한 공지가 있을 때까지 **주석으로 코드 제안 요청…**을 사용하지 마세요. 기존 전송 확인 창이 나타나면 **아니요/취소**를 선택하세요. v0.15.1 소스 후보에는 전송 전 중지 안내가 있지만 새 패키지는 아직 공개되지 않았고 실제 IDE 동작은 확인되지 않았습니다. 일반 대화는 이 중지 대상이 아니지만 실제 IDE·계정 동작도 검증되지 않았습니다. 이 예방 조치는 실제 IDE 문서 불일치나 정보 유출이 확인됐다는 뜻이 아닙니다. [v0.15.1 임시 중지 공지 PDF 후보](../output/pdf/VisualStudio_AI_Assistant_설치_사용설명서_v0.15.1-preview.1_comment-code-pause-notice-candidate.pdf)는 검토용입니다.
+[공개 Preview Release](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.15.1-preview.1)에서 필요한 파일을 받으세요. 전체 오프라인 설치에는 `VisualStudio_AI_Assistant-0.15.1-Preview1-FullOffline-win-x64.zip`과 같은 이름의 `.zip.sha256` 파일이 필요합니다. 간단 ZIP `VisualStudio_AI_Assistant-0.15.1.zip`에는 CLI 런타임이 없습니다.
 
-현재 공개된 최신 Preview는 [v0.15.0-preview.1 Release](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.15.0-preview.1)입니다. 인터넷이 연결된 PC에서 **CLI 포함 전체 오프라인 ZIP**을 받거나, 연결이 가능한 대상 PC에서 해당 IDE용 VSIX를 받으세요. v0.15.1-preview.1은 아직 패키지와 Release가 공개되지 않은 문서·소스 후보입니다.
+> ⚠️ **C# 주석 코드 제안 임시 중지:** v0.15.1에서는 해당 메뉴를 선택하면 편집기 내용을 수집·전송하기 전에 중지 안내를 표시합니다. 실제 Visual Studio에서 이 동작은 검증하지 않았습니다. 이전 v0.15.0-preview.1 설치본은 자동 차단하지 않으므로 해당 메뉴를 사용하지 말고 전송 확인 창에서는 **아니요/취소**를 선택하세요. 실제 문서 불일치나 정보 유출이 확인됐다는 뜻은 아닙니다.
 
-**ZIP 종류에 따른 검증 파일:** 공개 v0.15.0 FullOffline ZIP에는 `offline-manifest.json`과 `VerifyOfflineSetup.bat`이 있습니다. 간단 ZIP에는 CLI manifest가 없고 `BUNDLE_SHA256SUMS.txt`가 있지만, 이 공개 ZIP에도 과거 설치형 `VerifyOfflineSetup.bat`이 들어 있습니다. **간단 ZIP의 VerifyOfflineSetup.bat은 실행하지 마세요.** FullOffline ZIP의 같은 이름 배치도 checksum만 확인할 때는 실행하지 말고, 실제 설치를 할 때만 아래 설치 절차에 따라 실행하세요. FullOffline ZIP 파일 자체는 같은 Release의 `.zip.sha256` sidecar와 비교하고, 간단 ZIP은 `RELEASE_SHA256SUMS.txt`에서 해당 ZIP의 항목을 찾아 비교합니다. `BUNDLE_SHA256SUMS.txt`는 ZIP 내부 파일 목록이며 ZIP 파일 자체나 공급자 서명을 증명하지 않습니다. 다음 0.15.1 출하 계약은 루트 실행 검증기와 CLI manifest를 FullOffline ZIP에만 두는 것입니다. 간단 ZIP의 루트에는 이를 두지 않고 내부 체크섬 목록을 제공할 계획이지만, 사용자가 따라 할 검증 명령은 아직 확정되지 않았습니다. 준비 도구 입력 ZIP에 `offline-templates/` 아래 검증기 템플릿이 있을 수 있습니다. 후보 준비 스크립트는 해당 템플릿을 읽고 버전을 반영한 검증 파일을 FullOffline 출력 루트에 새로 생성합니다. 이 경로는 PS5/PS7 합성 자료에서 시험됐지만 가짜 CLI·설치기와 대체 서명/파일 구조 검사를 사용했으며 실제 공식 CLI, ZIP, 서명, 설치는 확인하지 않았습니다. 최종 ZIP이 계약대로 구성됐는지는 출하 전에 archive entry로 확인해야 합니다.
-
-미공개 다음 버전 소스 후보는 `VerifyOfflineSetup.bat`을 파일 검사 전용으로 바꾸고, 4개 AI VSIX·3개 테마 VSIX, 체크섬, 루트 또는 `Themes/` 경로의 누락·중복·버전 불일치를 확인하도록 보완됐습니다. 패키지·조상 경로 및 체크섬·선택된 VSIX 경로에서 UNC·junction·심볼릭 링크를 거부하는 경로 검사도 추가됐습니다. 테마 설치를 선택하지 않으면 테마 경로는 요구하지 않습니다. 패키지는 일반 드라이브 문자 경로에 압축을 풀어 사용하세요. 드라이브 문자는 매핑된 네트워크일 수 있어 네트워크 격리를 증명하지 않으며, 검사 직후 파일 변경 경쟁도 막지 않습니다. 새 버전의 배치·설치 동작은 실제 IDE에서 확인되지 않았습니다.
-
-다음 버전의 설치 스크립트 버전은 출하 준비에서 0.15.1로 맞췄지만, 아직 새 설치기 EXE와 완성 ZIP이 공개되지 않았습니다. 변경된 PowerShell을 EXE에 포함하고, FullOffline/간단 ZIP의 파일 구성이 각각 계약에 맞는지, 버전·체크섬·manifest가 맞는지 완성 패키지에서 확인해야 합니다. 따라서 미공개 후보를 설치 파일로 간주하지 마세요. 아래 절차에서 공개 v0.15.0의 동명 배치는 검사 후 `-Install` 경로로 진행할 수 있으므로 그 버전에서는 설치할 때만 실행하세요.
-
-**v0.15.0 테마 설치 주의:** 공개 FullOffline ZIP을 읽기 전용으로 살펴보면 테마 VSIX 3개와 테마 checksum은 `Themes/` 아래에 있습니다. 동봉 `Install-AIAssistant.ps1`의 선택 옵션 `-InstallTheme`/`-RequireTheme`는 패키지 루트에서 테마를 찾으므로, Visual Studio SKU 사전 조건을 통과해도 이 옵션 경로는 `InvalidThemePackage`가 될 수 있습니다. 이 안내서의 일반 `InstallAIAssistant.bat`(테마 옵션 미지정), 별도 테마 EXE 또는 개별 VSIX 설치가 실패한다고 확인한 것은 아니며, 실제 설치는 실행하지 않았습니다. 미공개 다음 버전 후보에서는 루트/`Themes/` 구조와 경로 재분석 지점을 검사하지만 새 EXE 반영과 완성 ZIP 검증은 남아 있습니다.
-
-| 용도 | 파일 |
+| 용도 | v0.15.1 파일 |
 |---|---|
-| 전체 오프라인 설치 묶음 | `VisualStudio_AI_Assistant-0.15.0-Preview1-FullOffline-win-x64.zip` |
-| 간단 ZIP | `VisualStudio_AI_Assistant-0.15.0.zip` |
-| VS2017 15.7·15.8 x86 | `VS2017.15.7.AIAssistant-0.15.0.vsix` |
-| VS2017 15.9 이상 x86 | `VS2017.AIAssistant-0.15.0.vsix` |
-| VS2019 16.11 x86 | `VS2019.AIAssistant-0.15.0.vsix` |
-| VS2022 17.x x64 | `VS2022.AIAssistant-0.15.0.vsix` |
-| 오프라인 테마 설치기 | `Grokeen-AI-Theme-Offline-Installer-0.15.0.exe` |
-| 사용자 안내 PDF | `VisualStudio_AI_Assistant-0.15.0-Preview-UserGuide.pdf` |
+| CLI 포함 전체 오프라인 ZIP | `VisualStudio_AI_Assistant-0.15.1-Preview1-FullOffline-win-x64.zip` |
+| 간단 ZIP | `VisualStudio_AI_Assistant-0.15.1.zip` |
+| VS2017 15.7·15.8 | `VS2017.15.7.AIAssistant-0.15.1.vsix` |
+| VS2017 15.9 이상 | `VS2017.AIAssistant-0.15.1.vsix` |
+| VS2019 16.11 | `VS2019.AIAssistant-0.15.1.vsix` |
+| VS2022 17.x | `VS2022.AIAssistant-0.15.1.vsix` |
+| 오프라인 테마 설치기 | `Grokeen-AI-Theme-Offline-Installer-0.15.1.exe` |
+| 설치·사용 PDF | `VisualStudio_AI_Assistant-0.15.1-Preview-UserGuide.pdf` |
 
-현재 공개 Release에 연결된 55쪽 사용자 PDF와 고정 태그의 사용 안내에는 이전 주석 코드 절차가 남아 있습니다. 이 절차는 임시 중지 공지보다 오래됐으며 현재 사용법으로 따르지 마세요. v0.15.1 후보 PDF는 검토용이며 해당 Release 파일을 대체하지 않습니다. 아직 v0.15.1 설치 패키지가 공개되지 않았습니다.
+1. 준비 PC에서 전체 ZIP과 `.zip.sha256`을 내려받고 `Get-FileHash .\VisualStudio_AI_Assistant-0.15.1-Preview1-FullOffline-win-x64.zip -Algorithm SHA256`의 `Hash`를 sidecar의 값과 비교하세요. 같은 Release의 간단 ZIP은 `RELEASE_SHA256SUMS.txt`에 기록된 해당 행과 비교합니다. 같은 출처의 ZIP과 체크섬을 비교하는 것만으로 공급자 진위를 독립 증명하지는 않습니다.
+2. 승인된 이동 매체로 ZIP을 대상 PC에 옮긴 뒤 일반 로컬 폴더에 완전히 압축을 풉니다. ZIP 안에서 배치를 직접 실행하지 마세요.
+3. 전체 ZIP 루트의 `VerifyOfflineSetup.bat`을 실행하면 파일 목록·SHA-256만 검사합니다. **설치하지 않습니다.** 간단 ZIP에는 이 루트 실행 검증기와 CLI manifest가 없으며 `offline-templates/`는 오프라인 묶음 준비용 입력입니다. ZIP 내부의 `OFFLINE_SHA256SUMS.txt`와 `BUNDLE_SHA256SUMS.txt`는 각각 내부 파일 목록이며 ZIP 자체의 해시가 아닙니다.
+4. 설치를 진행할 때는 필요한 사용자 데이터를 백업하고 모든 Visual Studio 창을 닫은 뒤, 전체 ZIP에서 CLI는 `InstallOfflineCLI.bat`, IDE 확장은 `InstallAIAssistant.bat`으로 **별도로** 설치합니다. 대상 Visual Studio 버전에 맞는 VSIX와 독립 테마 설치기를 선택하세요. 설치 과정은 사용자 PC를 변경하므로 결과를 확인하며 진행하세요.
+5. 설치 후 Visual Studio 확장 관리자와 **도구 → AI Assistant** 표시를 사용자가 직접 확인하세요. 실제 설치·IDE 화면, Codex·Claude 계정 로그인과 AI 응답은 이 릴리스 출하 검증에서 실행하지 않았습니다. 로그인은 네트워크 연결이 허용되는 환경에서 본인 계정으로 진행하세요.
 
-### 오프라인 설치
-
-1. 준비 PC에서 Release의 FullOffline ZIP과 해당 ZIP의 `.zip.sha256` 파일을 받습니다. ZIP 바이트만 확인하려면 PowerShell에서 `Get-FileHash .\VisualStudio_AI_Assistant-0.15.0-Preview1-FullOffline-win-x64.zip -Algorithm SHA256`을 실행해 출력된 `Hash`를 같은 Release의 `.zip.sha256` 값과 비교하세요. 이는 ZIP 자체의 바이트가 공개 sidecar와 일치하는지만 확인하며 ZIP 안의 파일 목록이나 설치를 검증하지 않습니다. ZIP과 sidecar를 같은 출처에서 받았다면 이 비교만으로 출처 자체의 진위까지 독립 검증하는 것은 아닙니다. `VerifyOfflineSetup.bat`은 설치 동작을 포함하므로 해시 확인만을 위해 실행하지 마세요.
-2. ZIP을 승인된 이동 매체로 대상 PC에 옮기고 대상 PC에서 완전히 압축을 풉니다. ZIP 안에서 설치를 직접 실행하지 않습니다.
-3. 실행 중인 Visual Studio 창을 모두 닫습니다. 선택한 대상 버전에서 오프라인 테마 설치기를 실행하거나 해당 Visual Studio 버전의 VSIX를 설치합니다.
-4. 설치가 끝나면 같은 Visual Studio를 다시 열어 도구 메뉴와 확장 관리자에서 표시되는 설치를 확인합니다.
-5. CLI 계정 인증은 설치와 별도입니다. 인터넷이 허용되는 네트워크에서 사용자가 Codex·Claude의 공식 로그인 절차를 진행합니다. 인증 정보·토큰·대화 기록을 ZIP에 넣거나 다른 사용자 프로필로 복사하지 마세요.
-
-[현재 공개된 v0.15.0-preview.1 설치·사용 안내 PDF](../output/pdf/VisualStudio_AI_Assistant_설치_사용설명서_v0.15.0-preview.1.pdf)를 참고하세요. 실계정 인증·실제 AI 요청, Visual Studio SDK 설치 호환, 실제 화면/IME/native Undo는 이번 Preview에서 검증되지 않았습니다. GUI 확인 결과로 표현된 그림은 없으며 활동함 예시는 합성 데이터입니다. 주석 코드 요청은 임시 중지 중이며 실제 메뉴 전송 차단은 공개 v0.15.0에서 보장되지 않습니다.
-
-솔루션 전환 시 실행·대기·협업 작업이 남아 있으면 전환을 기다립니다. 대기 중 새 요청을 보내지 말고, 기존 입력과 대화 기록을 유지한 채 현재 작업이 끝날 때까지 기다리세요.
+**이전 v0.15.0-preview.1 주의:** 그 버전의 `VerifyOfflineSetup.bat`은 이름과 달리 설치 경로를 시작할 수 있습니다. 특히 간단 ZIP의 동명 배치는 실행하지 마세요. 전체 ZIP의 동명 배치는 단순 체크섬 검사에 사용하지 마세요. v0.15.0 FullOffline의 선택 테마 설치 옵션은 `Themes/` 경로와 패키지 루트 경로가 달라 조건부 실패할 수 있습니다. 실제 설치 실패를 관측한 것은 아닙니다. 아래 이전 버전 기록과 당시 사용 절차보다 위 v0.15.1 안내를 우선하세요.
 
 ## 이전 v0.14.2-preview.1 설치·Dracula 편집기 안내
 
@@ -75,13 +61,16 @@
 
 전용 설치기 사용 후에도 CLI 런타임이 필요하면 아래 CLI 설치 절차를 별도로 진행하세요. CLI가 설치되어 있어도 서비스 로그인이나 실제 AI 요청은 네트워크와 계정 권한이 허용될 때만 가능합니다.
 
-아래 v0.14.1 절차는 당시 설치 흐름을 기록한 역사적 설명입니다. 2026-11-08 확인 시 이 Release에는 다운로드 가능한 첨부 자산이 없으므로 ZIP 링크를 제공하거나 현재 설치용으로 안내하지 않습니다. 설치가 필요하면 문서 상단의 현재 공개 v0.15.0 Release를 사용하세요.
+아래 v0.14.1 절차는 당시 설치 흐름을 기록한 역사적 설명입니다. 2026-11-08 확인 시 이 Release에는 다운로드 가능한 첨부 자산이 없으므로 ZIP 링크를 제공하거나 현재 설치용으로 안내하지 않습니다. 설치가 필요하면 문서 상단의 현재 공개 v0.15.1 Release를 사용하세요.
 
-이전 버전인 v0.13.0-preview.1의 사용자 전달 폴더에는 VSIX와 테마 패키지, `cli/codex/`·`cli/claude/` 런타임 및 라이선스·고지, 설치/검증 BAT·PowerShell, 체크섬·manifest, 안내 문서와 PDF만 포함했습니다. 제품 소스·프로젝트·PDB·테스트·개발/감사 증거·Git 자료·사용자 프로필·토큰·대화 기록·인터넷 준비용 도구는 제외했습니다. 이 설명은 이전 버전의 구성 기록입니다. 현재 공개 설치 파일은 [v0.15.0-preview.1 Release](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.15.0-preview.1)와 이 문서 상단의 최신 설치 표를 확인하세요.
+이전 버전인 v0.13.0-preview.1의 사용자 전달 폴더에는 VSIX와 테마 패키지, `cli/codex/`·`cli/claude/` 런타임 및 라이선스·고지, 설치/검증 BAT·PowerShell, 체크섬·manifest, 안내 문서와 PDF만 포함했습니다. 제품 소스·프로젝트·PDB·테스트·개발/감사 증거·Git 자료·사용자 프로필·토큰·대화 기록·인터넷 준비용 도구는 제외했습니다. 이 설명은 이전 버전의 구성 기록입니다. 현재 공개 설치 파일은 [v0.15.1-preview.1 Release](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.15.1-preview.1)와 이 문서 상단의 최신 설치 표를 확인하세요.
 
 직전 v0.14.1-preview.1 Release와 v0.14.0·v0.13.0의 버전 기록은 보존합니다. 오래된 Release 첨부 정리는 v0.14.2 게시와 익명 다운로드 검증 후 완료했으며 Release 항목·tag·Git 이력은 유지합니다. 이 문서의 v0.13.0 설명은 이전 버전 기록입니다. 설치 시에는 같은 버전의 VSIX, 테마 및 체크섬을 함께 사용하세요.
 
 > 준비 PC에는 인터넷 연결이 필요합니다. 오프라인 PC에는 확장 설치 파일과 CLI 실행 파일을 USB 등으로 옮깁니다. CLI 프로필, 로그인 정보, 토큰은 복사하지 않습니다.
+
+
+> 아래 1~6절은 이전 버전의 준비·설치 흐름도 보존합니다. v0.15.1 사용자는 문서 맨 위의 최신 설치 절차와 해당 Release 파일 구성을 우선하세요.
 
 ## 1. 준비할 환경
 
@@ -102,7 +91,7 @@
 설치 대상과 맞는 VSIX를 사용하세요. VS2017 15.7 전용 패키지는 .NET Framework 4.6.2 이상 등 해당 Visual Studio 구성 요소가 필요합니다.
 
 
-배포된 완성 ZIP을 받았다면 대상 PC에서 압축을 모두 푸세요. 현재 공개 v0.15.0 ZIP의 `VerifyOfflineSetup.bat`은 이름과 달리 검증 전용이 아닙니다. checksum 확인만 원하면 실행하지 마세요. 실제 설치를 진행하려는 경우에만 아래 6절의 주의사항을 읽고 실행하세요. 별도로 CLI를 내려받아 묶음을 다시 준비할 필요는 없습니다. 번들에는 IDE 전체 색 테마용 독립 VSIX도 포함됩니다. 완성 묶음을 직접 준비하는 경우에는 동일 버전의 준비 도구 ZIP을 사용하고, 준비 완료 후 `offline-manifest.json`과 VSIX 체크섬 파일에서 모든 파일이 같은 패키지 버전인지 확인하세요. `PrepareOfflineSetup.bat`은 `PreparedOffline-날짜-시간.zip`을 생성합니다.
+배포된 완성 ZIP을 받았다면 대상 PC에서 압축을 모두 푸세요. 이전 공개 v0.15.0 ZIP의 `VerifyOfflineSetup.bat`은 이름과 달리 검증 전용이 아닙니다. checksum 확인만 원하면 실행하지 마세요. 실제 설치를 진행하려는 경우에만 아래 6절의 주의사항을 읽고 실행하세요. 별도로 CLI를 내려받아 묶음을 다시 준비할 필요는 없습니다. 번들에는 IDE 전체 색 테마용 독립 VSIX도 포함됩니다. 완성 묶음을 직접 준비하는 경우에는 동일 버전의 준비 도구 ZIP을 사용하고, 준비 완료 후 `offline-manifest.json`과 VSIX 체크섬 파일에서 모든 파일이 같은 패키지 버전인지 확인하세요. `PrepareOfflineSetup.bat`은 `PreparedOffline-날짜-시간.zip`을 생성합니다.
 ## 2. 인터넷 PC에서 오프라인 묶음 준비
 
 1. 인터넷에 연결된 준비 PC에서 준비 도구 ZIP을 새 폴더에 모두 압축 해제합니다. 이 준비 도구 ZIP은 완성 설치 ZIP을 만드는 용도이며, 오프라인 대상 PC에 전달할 파일은 아래 절차로 생성되는 완성 설치 ZIP입니다.
@@ -153,7 +142,7 @@ AI Assistant VSIX만 수동으로 설치했고 IDE 테마 패키지가 없는 �
 
 ## 6. 대상 PC에서 설치 실행 (설치 없는 checksum 확인이 아님)
 
-현재 공개 v0.15.0의 `VerifyOfflineSetup.bat`은 설치 동작을 포함하는 배치입니다. 이름만으로 검증 전용이라고 판단하지 마세요. ZIP checksum만 확인하려는 경우에는 이 배치를 실행하지 말고 위의 `Get-FileHash` 절차를 사용하세요. 설치할 때만 전체 압축을 푼 패키지에서 실행합니다. 배치는 로컬 사전 검사 후 오프라인 대상 PC인지 확인을 요청하며, 이는 사용자의 확인값일 뿐 네트워크 차단을 증명하거나 방화벽을 변경하지 않습니다. 계속 진행하면 Visual Studio를 닫도록 요구하고, 설치 가능한 IDE가 여러 개면 대상을 선택하게 합니다. 그 뒤 CLI를 설치하고 임시 프로필에서 두 CLI의 `--version`을 확인한 다음 공식 VSIX 설치기를 실행합니다. 로그인이나 AI 모델 요청은 수행하지 않습니다.
+이전 공개 v0.15.0의 `VerifyOfflineSetup.bat`은 설치 동작을 포함하는 배치입니다. 이름만으로 검증 전용이라고 판단하지 마세요. ZIP checksum만 확인하려는 경우에는 이 배치를 실행하지 말고 위의 `Get-FileHash` 절차를 사용하세요. 설치할 때만 전체 압축을 푼 패키지에서 실행합니다. 배치는 로컬 사전 검사 후 오프라인 대상 PC인지 확인을 요청하며, 이는 사용자의 확인값일 뿐 네트워크 차단을 증명하거나 방화벽을 변경하지 않습니다. 계속 진행하면 Visual Studio를 닫도록 요구하고, 설치 가능한 IDE가 여러 개면 대상을 선택하게 합니다. 그 뒤 CLI를 설치하고 임시 프로필에서 두 CLI의 `--version`을 확인한 다음 공식 VSIX 설치기를 실행합니다. 로그인이나 AI 모델 요청은 수행하지 않습니다.
 
 **설치 순서:** 보존할 사용자 데이터가 있다면 먼저 백업하세요. 기존 `%LOCALAPPDATA%\VS2017AIAssistant` 데이터는 삭제하지 마세요. 패키지 전체를 압축 해제하고 `offline-manifest.json`을 살펴본 뒤, 설치하려는 경우에만 모든 Visual Studio 창을 직접 닫고 배치를 실행합니다. 오프라인 대상 여부 확인에 `Y`를 입력하는 것은 사용자의 확인이며 실제 네트워크 차단을 증명하지 않습니다. 여러 IDE가 있으면 설치 대상을 선택합니다. 이 과정을 계속하면 CLI 설치가 진행되고 공식 VSIX 설치기가 열립니다. 취소하거나 조건을 충족하지 않으면 설치 단계로 진행하지 않습니다. 이 배치를 단순 checksum 검사나 읽기 전용 진단으로 사용하지 마세요. 설치 없는 직접 진단은 설치·실제 CLI 실행을 하지 않지만 결과 폴더·로그·JSON을 만들고 레지스트리를 읽을 수 있어 무부작용 또는 checksum 전용 동작은 아닙니다. 공개 패키지에서 PowerShell 5.1 `-File` 직접 호출은 `-BundleDirectory` 생략 시 오류가 날 수 있습니다. 명시 경로 전달은 합성 시험에서만 확인됐고 전체 진단 성공은 검증하지 않았으므로 해결된 우회 방법으로 안내하지 않습니다. `ReadyDiagnosticOnly`는 설치가 되지 않았다는 의미이며, Release ZIP 자체의 checksum이나 패키지 내부 전체가 검증되었다는 보증은 아닙니다.
 

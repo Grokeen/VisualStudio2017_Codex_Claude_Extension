@@ -4,11 +4,22 @@
 
 오류 화면과 참고 문서를 보여 주고 자연어로 작업을 요청하세요. 바뀔 코드를 먼저 비교해 승인하거나, **전체 액세스**를 선택해 AI가 직접 파일 수정과 명령·테스트를 수행하게 할 수 있습니다. 대화와 공통 규칙은 내 PC의 Markdown에 남습니다.
 
-**최신 공개 릴리스: v0.15.0-preview.1** · [공개 Preview](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.15.0-preview.1) · [상세 사용자 안내](docs/USER_GUIDE.md) · [오프라인 설치 안내](docs/OFFLINE_INSTALL.md)
+**최신 공개 Preview: [v0.15.1-preview.1](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.15.1-preview.1)** · [설치·사용 PDF](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.15.1-preview.1/VisualStudio_AI_Assistant-0.15.1-Preview-UserGuide.pdf) · [오프라인 설치 안내](docs/OFFLINE_INSTALL.md)
 
-> ⚠️ **다음 패키지용 문서 후보: v0.15.1-preview.1 · 아직 미공개.** C# 주석 코드 제안은 임시 중지 중입니다. 문서 대상 확인을 보완하는 예방 조치이며 실제 편집기 문서 불일치나 정보 유출은 확인되지 않았습니다. 현재 공개 v0.15.0-preview.1은 이 기능을 자동 차단하지 않으므로 메뉴를 사용하지 말고, 기존 전송 확인 창이 나타나면 **아니요/취소**를 선택하세요. v0.15.1 소스 후보에는 전송 전 중지 안내가 포함됐지만 새 패키지는 아직 공개되지 않았고 실제 IDE 동작은 검증되지 않았습니다. 일반 대화는 이 중지 범위 밖이지만 실제 IDE·계정에서의 동작도 검증되지 않았습니다. [v0.15.1 임시 중지 공지 PDF 후보](output/pdf/VisualStudio_AI_Assistant_설치_사용설명서_v0.15.1-preview.1_comment-code-pause-notice-candidate.pdf)는 배포용 Release 파일이 아닙니다.
+> ⚠️ **C# 주석 코드 제안은 v0.15.1-preview.1에서 임시 중지됩니다.** 메뉴를 선택하면 편집기 내용을 수집·전송하기 전에 안내하고 요청을 중단합니다. 문서 대상 확인을 보완하기 위한 예방 조치이며 실제 문서 불일치나 정보 유출이 확인됐다는 뜻은 아닙니다. 이전 v0.15.0-preview.1 설치본은 자동 차단하지 않으므로 해당 메뉴를 사용하지 말고 전송 확인 창에서는 **아니요/취소**를 선택하세요. 실제 Visual Studio와 계정·AI 응답 동작은 검증하지 않았습니다.
 
-## v0.15.0-preview.1 다운로드
+## v0.15.1-preview.1 다운로드
+
+| 다운로드 | 파일 |
+|---|---|
+| [CLI 포함 전체 오프라인 ZIP](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.15.1-preview.1/VisualStudio_AI_Assistant-0.15.1-Preview1-FullOffline-win-x64.zip) | `VisualStudio_AI_Assistant-0.15.1-Preview1-FullOffline-win-x64.zip` |
+| [간단 ZIP](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.15.1-preview.1/VisualStudio_AI_Assistant-0.15.1.zip) | `VisualStudio_AI_Assistant-0.15.1.zip` |
+| [설치·사용 PDF](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.15.1-preview.1/VisualStudio_AI_Assistant-0.15.1-Preview-UserGuide.pdf) | `VisualStudio_AI_Assistant-0.15.1-Preview-UserGuide.pdf` |
+| [오프라인 테마 설치기](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.15.1-preview.1/Grokeen-AI-Theme-Offline-Installer-0.15.1.exe) | `Grokeen-AI-Theme-Offline-Installer-0.15.1.exe` |
+
+전체 ZIP의 `VerifyOfflineSetup.bat`은 파일 목록과 SHA-256만 검사하며 설치하지 않습니다. 설치를 선택할 때는 별도 `InstallAIAssistant.bat`과 [오프라인 설치 안내](docs/OFFLINE_INSTALL.md)를 사용하세요. 간단 ZIP에는 CLI와 루트 실행 검증기가 없고 `offline-templates/` 입력만 들어 있습니다. ZIP 자체의 SHA-256은 전체 ZIP의 `.zip.sha256` 또는 간단 ZIP의 `RELEASE_SHA256SUMS.txt` 해당 행과 비교하세요. 실제 IDE 설치·로그인·AI 응답은 검증하지 않았습니다.
+
+## 이전 v0.15.0-preview.1 다운로드
 
 v0.15.0-preview.1 Preview에는 대화 활동함과 아래 사용자 안내에 정리한 기능 변경이 포함됩니다. 실제 IDE 화면, 실계정 인증/응답, SDK 설치 호환 및 IME/Undo 동작은 검증하지 않았습니다. 해당 제한을 확인한 뒤 Preview로 사용하세요.
 
@@ -48,7 +59,7 @@ v0.15.0-preview.1 Preview에는 대화 활동함과 아래 사용자 안내에 �
 
 ## v0.15.0-preview.1 Preview 기능 안내
 
-현재 공개 설치 파일은 v0.15.0-preview.1입니다. README의 기존 기능 소개와 이전 릴리스 다운로드 표는 아래에 보존합니다.
+최신 공개 Preview 설치 파일은 v0.15.1-preview.1입니다. 아래에는 이전 버전의 기능 기록과 다운로드 표도 보존합니다.
 
 ### 대화 활동함
 
@@ -64,9 +75,9 @@ v0.15.0-preview.1 Preview에는 대화 활동함과 아래 사용자 안내에 �
 
 솔루션별 대화와 요청 문맥을 구분합니다. 실행·대기 요청이나 협업 작업이 남아 있는 동안에는 솔루션 전환을 보류합니다. 전환 대기 중에는 다른 솔루션에서 새 요청이나 문맥 캡처를 시작할 수 없고, 기존 요청·초안·기록은 보존됩니다. 모두 유휴 상태가 되면 대화 저장소를 맞춰 전환합니다. 공통 지침은 솔루션별 대화와 별도로 공유됩니다.
 
-### C# 주석 코드 제안 상태: v0.15.1 후보에서 임시 중지
+### C# 주석 코드 제안 상태: v0.15.1에서 임시 중지
 
-당분간 AI Assistant 도구 창의 **주석으로 코드 제안 요청…**을 사용하지 마세요. 현재 공개된 v0.15.0-preview.1에는 자동 차단이 없으므로 메뉴를 선택하면 기존 전송 확인 창이 열릴 수 있습니다. 이 창이 나오면 동의하지 말고 **아니요/취소**를 선택하세요. v0.15.1 소스 후보는 메뉴 선택 시 전송 전에 중지 안내를 표시하고 해당 요청의 원본을 전송하거나 변경하지 않도록 했습니다. 이 새 패키지는 아직 공개되지 않았으며 실제 IDE에서 그 동작을 검증하지 않았습니다. 일반 대화는 이 중지 대상이 아니지만 실제 IDE·계정 동작은 검증되지 않았습니다. 실제 문서 불일치나 정보 유출 사건은 확인되지 않았습니다.
+v0.15.1-preview.1에서 AI Assistant 도구 창의 **주석으로 코드 제안 요청…**을 선택하면 전송 전에 중지 안내가 표시됩니다. 실제 IDE에서 이 동작을 검증하지는 않았습니다. 이전 v0.15.0-preview.1 설치본은 자동 차단하지 않으므로 해당 메뉴를 사용하지 말고, 전송 확인 창에서는 **아니요/취소**를 선택하세요. 일반 대화는 이번 임시 중지 범위 밖입니다. 실제 문서 불일치나 정보 유출이 확인됐다는 뜻은 아닙니다.
 
 ### Markdown 제목 도구
 
@@ -118,7 +129,7 @@ Markdown 작성기의 **H1**, **H2**, **H3** 버튼으로 선택 영역 또는 �
 
 설치 묶음 ZIP을 모두 풀고 **InstallAIAssistant.bat**를 실행하면 설치된 IDE의 버전·패키지 무결성을 검사하고 해당 버전용 설치기를 엽니다. 여러 IDE가 있으면 설치할 대상을 선택합니다. [설치 오류 해결과 진단 방법](docs/INSTALL_TROUBLESHOOTING.md)을 함께 제공합니다.
 
-**설치할 때 인터넷이 없다면:** GitHub Releases에서 CLI 포함 완성 오프라인 ZIP과 그 `.zip.sha256` sidecar를 받으세요. 간단 ZIP의 ZIP 자체 해시는 Release의 `RELEASE_SHA256SUMS.txt`에서 해당 ZIP 항목과 비교합니다. 공개 v0.15.0 간단 ZIP의 과거 **VerifyOfflineSetup.bat은 실행하지 마세요.** FullOffline ZIP의 같은 이름 배치는 checksum만 확인할 때 실행하지 말고, 실제 설치를 할 때만 안내된 FullOffline ZIP 절차에 따라 실행하세요. 미공개 다음 버전 후보에는 필수 확장·테마 파일 검사와 경로 검사가 추가됐지만 새 설치기 EXE와 완성 ZIP은 아직 없습니다. 다음 버전용 FullOffline ZIP에는 루트 실행 검증기와 CLI manifest를 두고, 간단 ZIP에서는 이를 제외할 계획입니다. 준비 도구 묶음에는 offline-templates/ 아래 검증 템플릿이 들어갈 수 있습니다. BUNDLE_SHA256SUMS.txt는 ZIP 내부 파일 목록일 뿐 ZIP 자체나 공급자 서명을 증명하지 않으며, 이 후보에 대한 사용자가 실행할 검증 절차는 아직 확정되지 않았습니다. 합성 시험은 가짜 CLI·설치기와 대체 서명/파일 구조 검사를 사용했으며 실제 공식 CLI·서명 또는 최종 ZIP은 검증되지 않았습니다. 경로 검사는 네트워크 격리나 검사 직후의 파일 변경을 막는 보증이 아닙니다. [오프라인 설치 안내](docs/OFFLINE_INSTALL.md)의 설치 동의·백업·Visual Studio 종료 단계를 먼저 확인하세요. 로그인과 AI 사용은 연결 가능한 시점에 진행합니다.
+**설치할 때 인터넷이 없다면:** v0.15.1-preview.1 Release에서 CLI 포함 전체 오프라인 ZIP과 그 `.zip.sha256` sidecar를 받으세요. 간단 ZIP의 ZIP 자체 해시는 Release의 `RELEASE_SHA256SUMS.txt`에서 해당 ZIP 항목과 비교합니다. 새 FullOffline의 `VerifyOfflineSetup.bat`은 파일 검사 전용이며 설치하지 않습니다. 설치는 별도 `InstallAIAssistant.bat`에서 명시적으로 시작합니다. 간단 ZIP에는 CLI와 루트 실행 검증기가 없으며, `offline-templates/`는 준비 단계의 검증 파일 생성 입력입니다. ZIP 내부의 `BUNDLE_SHA256SUMS.txt`와 `OFFLINE_SHA256SUMS.txt`는 ZIP 자체나 공급자 서명을 증명하지 않습니다. 경로 검사는 네트워크 격리나 검사 직후의 파일 변경을 막는 보증이 아닙니다. 실제 IDE 설치·계정 로그인·AI 응답은 검증하지 않았습니다. [오프라인 설치 안내](docs/OFFLINE_INSTALL.md)의 백업과 Visual Studio 종료 단계를 먼저 확인하세요.
 
 설치된 확장만 제거하려면 VS2017에서 **도구 → 확장 및 업데이트 → 설치됨**, VS2019·2022에서 **확장 → 확장 관리 → 설치됨**을 여세요. 목록에서 해당 버전의 AI Assistant 항목을 **제거**한 뒤 모든 Visual Studio 창을 닫습니다. 잠시 끄기만 하려면 **사용 안 함**을 선택하고 Visual Studio를 다시 여세요. 버전별 실제 항목 이름과 데이터 보존 안내는 [사용자 안내서](docs/USER_GUIDE.md#visual-studio-ai-assistant-확장-제거)를 참조하세요.
 
@@ -126,7 +137,7 @@ Markdown 작성기의 **H1**, **H2**, **H3** 버튼으로 선택 영역 또는 �
 
 ## 이전 v0.13.0-preview.1의 기능 기록
 
-v0.13.0의 기능 기록입니다. 당시 배포된 오프라인 ZIP은 `VisualStudio_AI_Assistant-0.13.0-Preview1-FullOffline-win-x64.zip`이며, [이전 34쪽 PDF](output/pdf/VisualStudio_AI_Assistant_%EC%84%A4%EC%B9%98_%EC%82%AC%EC%9A%A9%EC%84%A4%EB%AA%85%EC%84%9C_v0.13.0_%EB%AF%B8%EB%A6%AC%EB%B3%B4%EA%B8%B0.pdf)는 v0.13.0 설명을 보존합니다. 현재 공개 설치 파일은 [v0.15.0-preview.1 Release](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.15.0-preview.1)와 위 다운로드 표를 확인하세요. 주석 코드 제안에는 문서 상단의 임시 중지 안내가 적용됩니다.
+v0.13.0의 기능 기록입니다. 당시 배포된 오프라인 ZIP과 [이전 34쪽 PDF](output/pdf/VisualStudio_AI_Assistant_%EC%84%A4%EC%B9%98_%EC%82%AC%EC%9A%A9%EC%84%A4%EB%AA%85%EC%84%9C_v0.13.0_%EB%AF%B8%EB%A6%AC%EB%B3%B4%EA%B8%B0.pdf)는 과거 설명을 보존합니다. 현재 설치 파일은 [v0.15.1-preview.1 Release](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.15.1-preview.1)와 맨 위 다운로드 표를 확인하세요. 주석 코드 제안에는 문서 상단의 임시 중지 안내가 적용됩니다.
 
 | 기능 | 사용 방법 |
 |---|---|
@@ -144,7 +155,7 @@ v0.13.0의 기능 기록입니다. 당시 배포된 오프라인 ZIP은 `VisualS
 
 ## 이전 v0.14.0-preview.1의 기능 안내
 
-이 절은 v0.14.0-preview.1 당시 기능을 보존합니다. [당시 44쪽 PDF 저장소 보존본](output/pdf/VisualStudio_AI_Assistant_%EC%84%A4%EC%B9%98_%EC%82%AC%EC%9A%A9%EC%84%A4%EB%AA%85%EC%84%9C_v0.14.0_%EB%AF%B8%EB%A6%AC%EB%B3%B4%EA%B8%B0.pdf)을 함께 제공합니다. 현재 공개 설치 파일은 [v0.15.0-preview.1 Release](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.15.0-preview.1)와 README 다운로드 표를 확인하세요.
+이 절은 v0.14.0-preview.1 당시 기능을 보존합니다. [당시 44쪽 PDF 저장소 보존본](output/pdf/VisualStudio_AI_Assistant_%EC%84%A4%EC%B9%98_%EC%82%AC%EC%9A%A9%EC%84%A4%EB%AA%85%EC%84%9C_v0.14.0_%EB%AF%B8%EB%A6%AC%EB%B3%B4%EA%B8%B0.pdf)을 함께 제공합니다. 현재 설치 파일은 [v0.15.1-preview.1 Release](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.15.1-preview.1)와 맨 위 다운로드 표를 확인하세요.
 
 | 기능 | 사용 흐름 |
 |---|---|
