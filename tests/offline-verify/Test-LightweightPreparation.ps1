@@ -83,12 +83,28 @@ foreach($shell in $shells){Run-Preparation 'unsafe-entry' $shell $false 'Invalid
 [IO.File]::WriteAllLines($list,[string[]]$saved)
 $listTarget=Join-Path $out 'template-checksums-target.txt';Copy-Item -LiteralPath $list -Destination $listTarget
 Remove-Item -LiteralPath $list
-[void](New-Item -ItemType SymbolicLink -Path $list -Target $listTarget)
+$linkCreatorRuntime=$PSVersionTable.PSVersion.ToString();$linkCreation='direct'
+try{[void](New-Item -ItemType SymbolicLink -Path $list -Target $listTarget)}
+catch{
+    if($_.FullyQualifiedErrorId -notlike 'NewItemSymbolicLinkElevationRequired*'){throw}
+    $helper=Join-Path $out 'Create-TestFileLink.ps1'
+    [IO.File]::WriteAllText($helper,'param($LinkPath,$TargetPath) $ErrorActionPreference="Stop"; [void](New-Item -ItemType SymbolicLink -Path $LinkPath -Target $TargetPath); $PSVersionTable.PSVersion.ToString()')
+    $pwsh=Get-Command pwsh.exe -ErrorAction Stop
+    $oldPreference=$ErrorActionPreference;$ErrorActionPreference='Continue'
+    try{$helperOutput=@(& $pwsh.Source -NoProfile -File $helper $list $listTarget 2>&1);$helperExit=$LASTEXITCODE}finally{$ErrorActionPreference=$oldPreference}
+    if($helperExit -ne 0){throw ('Test-only symbolic-link helper failed: '+($helperOutput -join ' '))}
+    $linkCreatorRuntime=[string]$helperOutput[-1];$linkCreation='pwsh-helper'
+}
+$linkItem=Get-Item -LiteralPath $list -Force
+$linkTargetHash=(Get-FileHash -LiteralPath $listTarget).Hash
+if(!($linkItem.Attributes -band [IO.FileAttributes]::ReparsePoint) -or $linkItem.LinkType -ne 'SymbolicLink' -or [IO.Path]::GetFullPath([string]$linkItem.Target) -ne [IO.Path]::GetFullPath($listTarget) -or (Get-FileHash -LiteralPath $list).Hash -ne $linkTargetHash){throw 'Test-only checksum symlink differs from its owned target.'}
 foreach($shell in $shells){Run-Preparation 'checksum-link' $shell $false '연결 경로는 사용하지 않습니다'}
-Remove-Item -LiteralPath $list
+if(!((Get-Item -LiteralPath $list -Force).Attributes -band [IO.FileAttributes]::ReparsePoint)){throw 'Refuse removal of non-link checksum fixture.'}
+[IO.File]::Delete($list)
+if((Get-FileHash -LiteralPath $listTarget).Hash -ne $linkTargetHash){throw 'Test-only link target changed.'}
 Copy-Item -LiteralPath $listTarget -Destination $list
 $linkSource=Join-Path $out 'template-target';Move-Item -LiteralPath $templates -Destination $linkSource
 [void](New-Item -ItemType Junction -Path $templates -Target $linkSource)
 foreach($shell in $shells){Run-Preparation 'junction' $shell $false '연결 경로는 사용하지 않습니다'}
-[pscustomobject]@{Checks=$results;ShellVersions=$shellVersions;TestScriptSha256=(Get-FileHash -LiteralPath $PSCommandPath).Hash;OriginalPrepareSha256=$originalHash;FixturePrepareSha256=(Get-FileHash -LiteralPath $prepare).Hash;CommonSha256=(Get-FileHash -LiteralPath (Join-Path $repo 'scripts/OfflinePackage.Common.ps1')).Hash;VerifierSha256=(Get-FileHash -LiteralPath (Join-Path $repo 'scripts/Verify-OfflineFiles.ps1')).Hash;LightRootVerificationAbsent=$true;PublisherAndClaudeVersionStubbed=$true;InstallerExecuted=$false;CliExecuted=$false;NetworkUsed=$false;OutsideSentinelSha256=$sentinelHash;OutsideSentinelUnchanged=$true}|ConvertTo-Json -Depth 5|Set-Content -LiteralPath (Join-Path $out 'result.json') -Encoding UTF8
+[pscustomobject]@{Checks=$results;ShellVersions=$shellVersions;TestScriptSha256=(Get-FileHash -LiteralPath $PSCommandPath).Hash;OriginalPrepareSha256=$originalHash;FixturePrepareSha256=(Get-FileHash -LiteralPath $prepare).Hash;CommonSha256=(Get-FileHash -LiteralPath (Join-Path $repo 'scripts/OfflinePackage.Common.ps1')).Hash;VerifierSha256=(Get-FileHash -LiteralPath (Join-Path $repo 'scripts/Verify-OfflineFiles.ps1')).Hash;ChecksumLinkCreation=$linkCreation;ChecksumLinkCreatorRuntime=$linkCreatorRuntime;ChecksumLinkTargetSHA256=$linkTargetHash;LightRootVerificationAbsent=$true;PublisherAndClaudeVersionStubbed=$true;InstallerExecuted=$false;CliExecuted=$false;NetworkUsed=$false;OutsideSentinelSha256=$sentinelHash;OutsideSentinelUnchanged=$true}|ConvertTo-Json -Depth 5|Set-Content -LiteralPath (Join-Path $out 'result.json') -Encoding UTF8
 Write-Output ('PASS '+$results.Count+' synthetic preparation cases; publisher and Claude version checks stubbed; no CLI or installer execution.')
