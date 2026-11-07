@@ -111,7 +111,7 @@ def notice_page():
     h = box(
         c,
         "이 안내서의 이전 사용 절차보다 이 공지를 우선해 주세요",
-        "이 페이지는 기존 v0.15.0의 55쪽 설명서 앞에 붙인 v0.15.1 미공개 후보 공지입니다. 뒤쪽에 이전 주석 코드 제안 절차가 남아 있어도 이 공지를 우선하고 사용하지 마세요. 기능 재개는 이를 명시한 향후 공지에서 확인하세요.",
+        "이 페이지는 기존 v0.15.0의 55쪽 설명서 앞에 붙인 v0.15.1 미공개 후보 공지입니다. 뒤쪽의 이전 주석 코드 절차는 따르지 말고 이 공지를 우선하세요. 본문에서 현재 버전을 v0.14.2로 부르는 구간은 당시 기록이며, 지금 공개된 설치본은 v0.15.0-preview.1입니다. 기능 재개는 이를 명시한 향후 공지에서 확인하세요.",
         margin, y, W - 2 * margin, BLUE_BG, BLUE_EDGE, size=9.4,
     )
     y -= h + 12
@@ -119,7 +119,7 @@ def notice_page():
     h = box(
         c,
         "오프라인 검사 배치는 설치와 구분하세요",
-        "공개 v0.15.0의 <b>VerifyOfflineSetup.bat</b>은 실제 설치 모드로 진행할 수 있으므로 checksum 확인만 위해 실행하지 마세요. ZIP 해시는 같은 Release의 <b>.zip.sha256</b>과 비교합니다. v0.15.1 후보 검사는 읽기 전용이지만 네트워크 차단을 증명하지 않습니다. 필수 VSIX 목록 대조와 배포 ZIP 검증이 남아 있습니다.",
+        "공개 v0.15.0의 <b>VerifyOfflineSetup.bat</b>은 실제 설치 모드로 진행할 수 있으므로 checksum 확인만 위해 실행하지 마세요. ZIP 해시는 같은 Release의 <b>.zip.sha256</b>과 비교합니다. 이 ZIP은 테마 VSIX를 <b>Themes/</b> 아래 둡니다. 포함 PowerShell의 선택 테마 옵션은 루트를 찾을 수 있어 실패 가능성이 있으나 실제 설치하지 않았습니다. v0.15.1 후보 검사는 읽기 전용이지만 네트워크 차단을 증명하지 않습니다. 필수 VSIX 목록 대조와 배포 ZIP 검증이 남아 있습니다.",
         margin, y, W - 2 * margin, AMBER_BG, AMBER_EDGE, title_color=AMBER, size=9.0,
     )
     y -= h + 12
@@ -174,6 +174,7 @@ def main():
         "오프라인 검사 배치는 설치와 구분하세요",
         "공개 v0.15.0의 VerifyOfflineSetup.bat은 실제 설치 모드로 진행할 수 있으므로 checksum 확인만 위해 실행하지 마세요",
         "v0.15.1 후보 검사는 읽기 전용이지만 네트워크 차단을 증명하지 않습니다",
+        "이 ZIP은 테마 VSIX를 Themes/ 아래 둡니다",
     )
     for phrase in unique_phrases:
         count = normalized.count(phrase)

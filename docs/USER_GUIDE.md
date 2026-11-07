@@ -280,7 +280,7 @@ AI 답변에서 마우스 오른쪽 버튼을 누르고 **답변 전체를 새 �
 
 ## 이전 v0.13.0-preview.1 기능 기록
 
-이 절은 이전 v0.13.0-preview.1의 기능 기록입니다. 당시 오프라인 ZIP은 `VisualStudio_AI_Assistant-0.13.0-Preview1-FullOffline-win-x64.zip`이었으며 [이전 34쪽 PDF](../output/pdf/VisualStudio_AI_Assistant_%EC%84%A4%EC%B9%98_%EC%82%AC%EC%9A%A9%EC%84%A4%EB%AA%85%EC%84%9C_v0.13.0_%EB%AF%B8%EB%A6%AC%EB%B3%B4%EA%B8%B0.pdf)는 그 버전의 안내를 보존합니다. 현재 기능·설치 파일은 [v0.14.2-preview.1 릴리스](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.14.2-preview.1)를 기준으로 확인하세요.
+이 절은 이전 v0.13.0-preview.1의 기능 기록입니다. 당시 오프라인 ZIP은 `VisualStudio_AI_Assistant-0.13.0-Preview1-FullOffline-win-x64.zip`이었으며 [이전 34쪽 PDF](../output/pdf/VisualStudio_AI_Assistant_%EC%84%A4%EC%B9%98_%EC%82%AC%EC%9A%A9%EC%84%A4%EB%AA%85%EC%84%9C_v0.13.0_%EB%AF%B8%EB%A6%AC%EB%B3%B4%EA%B8%B0.pdf)는 그 버전의 안내를 보존합니다. 현재 공개 설치 파일은 [v0.15.0-preview.1 릴리스](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.15.0-preview.1)에서 확인하세요. 이 문서 상단의 임시 중지 안내를 먼저 따르세요.
 
 ### 대화별 독립 작업
 
@@ -466,7 +466,7 @@ C# 7.0과 .NET Framework 4.6.2에서 빌드할 수 있어야 합니다.
 
 ## 이전 v0.14.0-preview.1 사용자 안내
 
-이 절은 v0.14.0-preview.1 당시 기능을 보존합니다. [당시 44쪽 PDF 저장소 보존본](../output/pdf/VisualStudio_AI_Assistant_%EC%84%A4%EC%B9%98_%EC%82%AC%EC%9A%A9%EC%84%A4%EB%AA%85%EC%84%9C_v0.14.0_%EB%AF%B8%EB%A6%AC%EB%B3%B4%EA%B8%B0.pdf)을 함께 제공합니다. 현재 설치 파일과 46쪽 안내서는 [v0.14.2-preview.1 릴리스](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.14.2-preview.1)에서 받으세요.
+이 절은 v0.14.0-preview.1 당시 기능을 보존합니다. [당시 44쪽 PDF 저장소 보존본](../output/pdf/VisualStudio_AI_Assistant_%EC%84%A4%EC%B9%98_%EC%82%AC%EC%9A%A9%EC%84%A4%EB%AA%85%EC%84%9C_v0.14.0_%EB%AF%B8%EB%A6%AC%EB%B3%B4%EA%B8%B0.pdf)을 함께 제공합니다. 현재 공개 설치 파일은 [v0.15.0-preview.1 릴리스](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.15.0-preview.1)에서 확인하고, 이 문서 상단의 임시 중지 안내를 먼저 따르세요.
 
 ### AI에게 메시지를 전달하고 답변 받기
 

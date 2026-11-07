@@ -8,7 +8,9 @@
 
 현재 공개된 최신 Preview는 [v0.15.0-preview.1 Release](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.15.0-preview.1)입니다. 인터넷이 연결된 PC에서 **CLI 포함 전체 오프라인 ZIP**을 받거나, 연결이 가능한 대상 PC에서 해당 IDE용 VSIX를 받으세요. v0.15.1-preview.1은 아직 패키지와 Release가 공개되지 않은 문서·소스 후보입니다.
 
-v0.15.1 후보의 읽기 전용 검사기 호출은 소스 커밋 `010f0f03f5d2e273ad6fee219821575e6d5bf6ae`에, 설치 배치의 0.15.1 패키지 버전 선택은 후속 커밋 `d0c643b3117244b5ab1c4b4c7ca9d5403745e7ce`에 반영되어 있습니다. 이 후보의 `VerifyOfflineSetup.bat`은 파일 무결성 검사 스크립트만 호출하며 설치 명령이나 CLI를 실행하지 않습니다. 경로 형식과 파일 해시를 검사해도 실제 네트워크 차단은 확인·강제하지 않습니다. 드라이브 문자 경로만으로 로컬 디스크를 보장할 수도 없습니다(네트워크 매핑 드라이브일 수 있음). 필수 7개 VSIX와 checksum 목록의 완전한 대조 보완 및 최종 배포 ZIP 검증은 아직 남아 있으므로 완성된 검증 범위로 간주하지 마세요. 아래 절차에서 공개 v0.15.0의 동명 배치는 검사 후 `-Install` 경로로 진행할 수 있으므로 그 버전에서는 설치할 때만 실행하세요.
+v0.15.1 후보의 읽기 전용 검사기 호출은 소스 커밋 `010f0f03f5d2e273ad6fee219821575e6d5bf6ae`에, 설치 배치의 0.15.1 패키지 버전 선택은 후속 커밋 `d0c643b3117244b5ab1c4b4c7ca9d5403745e7ce`에 반영되어 있습니다. 이 후보의 `VerifyOfflineSetup.bat`은 파일 무결성 검사 스크립트만 호출하며 설치 명령이나 CLI를 실행하지 않습니다. 경로 형식과 파일 해시를 검사해도 실제 네트워크 차단은 확인·강제하지 않습니다. 드라이브 문자 경로만으로 로컬 디스크를 보장할 수도 없습니다(네트워크 매핑 드라이브일 수 있음). 필수 7개 VSIX와 checksum 목록의 완전한 대조 보완, 중첩 FullOffline/평면 Prepared ZIP 두 구조 지원 및 최종 배포 ZIP 검증이 아직 남아 있으므로 완성된 검증 범위로 간주하지 마세요. 아래 절차에서 공개 v0.15.0의 동명 배치는 검사 후 `-Install` 경로로 진행할 수 있으므로 그 버전에서는 설치할 때만 실행하세요.
+
+**v0.15.0 테마 설치 주의:** 공개 FullOffline ZIP을 읽기 전용으로 살펴보면 테마 VSIX 3개와 테마 checksum은 `Themes/` 아래에 있습니다. 동봉 `Install-AIAssistant.ps1`의 선택 옵션 `-InstallTheme`/`-RequireTheme`는 패키지 루트에서 테마를 찾으므로, Visual Studio SKU 사전 조건을 통과해도 이 옵션 경로는 `InvalidThemePackage`가 될 수 있습니다. 이 안내서의 일반 `InstallAIAssistant.bat`(테마 옵션 미지정), 별도 테마 EXE 또는 개별 VSIX 설치가 실패한다고 확인한 것은 아니며, 실제 설치는 실행하지 않았습니다. 0.15.1 출하 후보에서는 평면·중첩 묶음 양쪽의 테마 경로 처리를 보완 중이므로, 최종 ZIP 검증 전에는 0.15.1 설치 결과로 간주하지 마세요.
 
 | 용도 | 파일 |
 |---|---|
@@ -71,7 +73,7 @@ v0.14.1-preview.1 후보는 네 SKU 빌드와 대화 색상 화면 검사를 거
 
 이전 버전의 기준 묶음은 **v0.14.1-preview.1**의 [CLI 포함 전체 오프라인 ZIP](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.14.1-preview.1/VisualStudio_AI_Assistant-0.14.1-Preview1-FullOffline-win-x64.zip)입니다. 작은 ZIP과 구분해 전체 오프라인 ZIP을 받으세요. 설치 전 manifest와 체크섬을 확인하고, 이 안내와 같은 버전의 파일을 사용하세요.
 
-이전 버전인 v0.13.0-preview.1의 사용자 전달 폴더에는 VSIX와 테마 패키지, `cli/codex/`·`cli/claude/` 런타임 및 라이선스·고지, 설치/검증 BAT·PowerShell, 체크섬·manifest, 안내 문서와 PDF만 포함했습니다. 제품 소스·프로젝트·PDB·테스트·개발/감사 증거·Git 자료·사용자 프로필·토큰·대화 기록·인터넷 준비용 도구는 제외했습니다. 이 설명은 이전 버전의 구성 기록이며 현재 설치에는 위의 v0.14.2-preview.1 묶음을 사용하세요.
+이전 버전인 v0.13.0-preview.1의 사용자 전달 폴더에는 VSIX와 테마 패키지, `cli/codex/`·`cli/claude/` 런타임 및 라이선스·고지, 설치/검증 BAT·PowerShell, 체크섬·manifest, 안내 문서와 PDF만 포함했습니다. 제품 소스·프로젝트·PDB·테스트·개발/감사 증거·Git 자료·사용자 프로필·토큰·대화 기록·인터넷 준비용 도구는 제외했습니다. 이 설명은 이전 버전의 구성 기록입니다. 현재 공개 설치 파일은 [v0.15.0-preview.1 Release](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.15.0-preview.1)와 이 문서 상단의 최신 설치 표를 확인하세요.
 
 직전 v0.14.1-preview.1 Release와 v0.14.0·v0.13.0의 버전 기록은 보존합니다. 오래된 Release 첨부 정리는 v0.14.2 게시와 익명 다운로드 검증 후 완료했으며 Release 항목·tag·Git 이력은 유지합니다. 이 문서의 v0.13.0 설명은 이전 버전 기록입니다. 설치 시에는 같은 버전의 VSIX, 테마 및 체크섬을 함께 사용하세요.
 

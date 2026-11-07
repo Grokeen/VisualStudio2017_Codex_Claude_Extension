@@ -126,7 +126,7 @@ Markdown 작성기의 **H1**, **H2**, **H3** 버튼으로 선택 영역 또는 �
 
 ## 이전 v0.13.0-preview.1의 기능 기록
 
-v0.13.0의 기능 기록입니다. 당시 배포된 오프라인 ZIP은 `VisualStudio_AI_Assistant-0.13.0-Preview1-FullOffline-win-x64.zip`이며, [이전 34쪽 PDF](output/pdf/VisualStudio_AI_Assistant_%EC%84%A4%EC%B9%98_%EC%82%AC%EC%9A%A9%EC%84%A4%EB%AA%85%EC%84%9C_v0.13.0_%EB%AF%B8%EB%A6%AC%EB%B3%B4%EA%B8%B0.pdf)는 v0.13.0 설명을 보존합니다. 현재 기능과 설치 파일은 위의 v0.14.2-preview.1 자료를 기준으로 확인하세요.
+v0.13.0의 기능 기록입니다. 당시 배포된 오프라인 ZIP은 `VisualStudio_AI_Assistant-0.13.0-Preview1-FullOffline-win-x64.zip`이며, [이전 34쪽 PDF](output/pdf/VisualStudio_AI_Assistant_%EC%84%A4%EC%B9%98_%EC%82%AC%EC%9A%A9%EC%84%A4%EB%AA%85%EC%84%9C_v0.13.0_%EB%AF%B8%EB%A6%AC%EB%B3%B4%EA%B8%B0.pdf)는 v0.13.0 설명을 보존합니다. 현재 공개 설치 파일은 [v0.15.0-preview.1 Release](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.15.0-preview.1)와 위 다운로드 표를 확인하세요. 주석 코드 제안에는 문서 상단의 임시 중지 안내가 적용됩니다.
 
 | 기능 | 사용 방법 |
 |---|---|
@@ -144,7 +144,7 @@ v0.13.0의 기능 기록입니다. 당시 배포된 오프라인 ZIP은 `VisualS
 
 ## 이전 v0.14.0-preview.1의 기능 안내
 
-이 절은 v0.14.0-preview.1 당시 기능을 보존합니다. [당시 44쪽 PDF 저장소 보존본](output/pdf/VisualStudio_AI_Assistant_%EC%84%A4%EC%B9%98_%EC%82%AC%EC%9A%A9%EC%84%A4%EB%AA%85%EC%84%9C_v0.14.0_%EB%AF%B8%EB%A6%AC%EB%B3%B4%EA%B8%B0.pdf)을 함께 제공합니다. 현재 설치 파일은 위의 v0.14.2-preview.1 자료를 확인하세요.
+이 절은 v0.14.0-preview.1 당시 기능을 보존합니다. [당시 44쪽 PDF 저장소 보존본](output/pdf/VisualStudio_AI_Assistant_%EC%84%A4%EC%B9%98_%EC%82%AC%EC%9A%A9%EC%84%A4%EB%AA%85%EC%84%9C_v0.14.0_%EB%AF%B8%EB%A6%AC%EB%B3%B4%EA%B8%B0.pdf)을 함께 제공합니다. 현재 공개 설치 파일은 [v0.15.0-preview.1 Release](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.15.0-preview.1)와 README 다운로드 표를 확인하세요.
 
 | 기능 | 사용 흐름 |
 |---|---|
@@ -302,7 +302,7 @@ AI 답변은 제목·강조·목록·표·코드·링크를 Markdown으로 표�
 
 별도 문서는 **우클릭 → Markdown 문서 작성**으로 시작합니다. 줄 번호와 구문 색상, 검색, Undo·Redo, 편집·미리보기·분할 보기, 자동 줄바꿈과 확대·축소를 사용할 수 있습니다. **Ctrl+B/I/K**는 서식·링크, **Ctrl+Shift+C**는 체크 목록, **Ctrl+Enter**는 체크 전환, **Ctrl+F**는 검색입니다. 작성기의 단축키는 대화 입력란의 전송 단축키와 구분됩니다. 명시적으로 불러온 Markdown 문서는 같은 폴더의 로컬 이미지·GIF도 미리보기로 확인할 수 있으며, UTF-8로 저장합니다.
 
-**저장/Ctrl+S**는 현재 문서에, **다른 이름으로 저장/Ctrl+Shift+S**는 새 경로에 저장합니다. 접이식 문서 목록은 넓은 창에서 왼쪽, 좁은 창에서 탭 위에 나타나며 안쪽에서 스크롤할 수 있습니다. 목록에서 문서를 열고 이름 변경·파일 위치를 확인할 수 있고, 삭제는 현재 열려 있는 문서와 저장하지 않은 내용까지 지우므로 확인 단계를 거칩니다. 참조형 링크와 제한된 정적 HTML을 미리보기에서 지원합니다. 일반 Markdown 표는 최대 16열, 정적 HTML 표는 최대 128행·16열까지 표시하며 한도를 넘긴 내용이 있으면 생략 안내를 표시합니다. 스크립트·스타일시트·iframe 실행이나 원격 자료 자동 로딩은 하지 않습니다. [Markdown 작성기 그림 사용 설명서 C8 검토판](docs/visual-guide-orig3/markdown-editor/revision-c8/Markdown%EC%9E%91%EC%84%B1%EA%B8%B0_%EC%82%AC%EC%9A%A9%EC%84%A4%EB%AA%85%EC%84%9C_C8.md) · [PDF](output/pdf/Markdown%EC%9E%91%EC%84%B1%EA%B8%B0_%EC%82%AC%EC%9A%A9%EC%84%A4%EB%AA%85%EC%84%9C_C8.pdf).
+**저장/Ctrl+S**는 현재 문서에, **다른 이름으로 저장/Ctrl+Shift+S**는 새 경로에 저장합니다. 접이식 문서 목록은 넓은 창에서 왼쪽, 좁은 창에서 탭 위에 나타나며 안쪽에서 스크롤할 수 있습니다. 목록에서 문서를 열고 이름 변경·파일 위치를 확인할 수 있고, 삭제는 현재 열려 있는 문서와 저장하지 않은 내용까지 지우므로 확인 단계를 거칩니다. 참조형 링크와 제한된 정적 HTML을 미리보기에서 지원합니다. 일반 Markdown 표는 최대 16열, 정적 HTML 표는 최대 128행·16열까지 표시하며 한도를 넘긴 내용이 있으면 생략 안내를 표시합니다. 스크립트·스타일시트·iframe 실행이나 원격 자료 자동 로딩은 하지 않습니다. 자세한 그림 안내는 [이전 C7 검토판 Markdown 설명서](docs/visual-guide-orig3/markdown-editor/revision-c7/Markdown작성기_사용설명서_C7.md)와 [PDF](output/pdf/Markdown작성기_사용설명서_C7.pdf)를 참고하세요. C7 검토판은 이전 기능 기준이므로 이 README의 최신 기능 설명을 우선합니다.
 
 **설정 → 화면 테마**의 기본값은 **자동 · Visual Studio 우선**입니다. IDE 밖에서는 Windows 앱 모드를 따릅니다. 밝게·어둡게를 직접 고르고 설정을 저장할 수도 있습니다. 설정의 상세 설명은 필요할 때 펼치고, 작은 창에서는 대화 목록 뒤의 화면을 흐리게 구분해 읽을 수 있습니다.
 
