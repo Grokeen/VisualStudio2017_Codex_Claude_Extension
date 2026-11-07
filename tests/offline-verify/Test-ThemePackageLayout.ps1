@@ -90,6 +90,8 @@ $themePath=Join-Path $root 'Themes';$themeTarget=Join-Path $outside 'themes';Mov
 Check-LinkedPlan 'theme-junction' $root $true 'InvalidThemePackage'
 Check-LinkedPlan 'unrequested-theme-junction' $root $false 'Ready'
 if((Get-FileHash -LiteralPath $sentinel).Hash -ne $sentinelHash){throw 'Outside sentinel changed.'}
-[pscustomobject]@{Succeeded=$true;Checks=$results;Runtime=$PSVersionTable.PSVersion.ToString();PSHome=$PSHOME;TestScriptSha256=(Get-FileHash -LiteralPath $PSCommandPath).Hash;ProductScriptSha256=(Get-FileHash -LiteralPath (Join-Path $repo 'scripts/Install-AIAssistant.ps1')).Hash;ActualVsixInstallerExecuted=$false;ActualIDE=$false;NetworkUsed=$false}|ConvertTo-Json -Depth 4|Set-Content -LiteralPath (Join-Path $out 'result.json') -Encoding UTF8
 $skipped=@($results|Where-Object Status -eq 'Skipped').Count
+$passed=$results.Count-$skipped
+if($results.Count -ne 18){throw 'Theme fixture case inventory differs.'}
+[pscustomobject]@{Succeeded=$true;ExpectedCases=18;PassedCases=$passed;SkippedCases=$skipped;FailedCases=0;AllCasesExecuted=($skipped -eq 0);Checks=$results;Runtime=$PSVersionTable.PSVersion.ToString();PSHome=$PSHOME;TestScriptSha256=(Get-FileHash -LiteralPath $PSCommandPath).Hash;ProductScriptSha256=(Get-FileHash -LiteralPath (Join-Path $repo 'scripts/Install-AIAssistant.ps1')).Hash;ActualVsixInstallerExecuted=$false;ActualIDE=$false;NetworkUsed=$false}|ConvertTo-Json -Depth 4|Set-Content -LiteralPath (Join-Path $out 'result.json') -Encoding UTF8
 Write-Output ('PASS '+($results.Count-$skipped)+' synthetic theme layout and install-plan cases; skipped '+$skipped+'; no installer was run.')
