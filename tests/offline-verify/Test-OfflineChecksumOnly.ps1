@@ -1,4 +1,4 @@
-[CmdletBinding()]
+﻿[CmdletBinding()]
 param([Parameter(Mandatory=$true)][string]$OutputDirectory)
 $ErrorActionPreference='Stop'
 Set-StrictMode -Version Latest
@@ -46,7 +46,7 @@ function New-Fixture([string]$name){
     @{SchemaVersion=1;Architecture='amd64';CodexVersion='1.2.3';ClaudeVersion='4.5.6';BundleId='codex-1.2.3_claude-4.5.6_win-x64';Files=$items;ProfilesIncluded=$false;AuthenticationCopied=$false;CliExecutedDuringPreparation=$false}|ConvertTo-Json -Depth 5|Set-Content -LiteralPath (Join-Path $root 'offline-manifest.json') -Encoding UTF8
     Copy-Item -LiteralPath $verifier -Destination (Join-Path $root 'Verify-OfflineFiles.ps1')
     Copy-Item -LiteralPath $batch -Destination (Join-Path $root 'VerifyOfflineSetup.bat')
-    $version='0.15.0'
+    $version='0.15.1'
     $extensions=@("VS2017.15.7.AIAssistant-$version.vsix","VS2017.AIAssistant-$version.vsix","VS2019.AIAssistant-$version.vsix","VS2022.AIAssistant-$version.vsix","Grokeen-VisualStudio-Themes-$version-VS2017.vsix","Grokeen-VisualStudio-Themes-$version-VS2019.vsix","Grokeen-VisualStudio-Themes-$version-VS2022.vsix")
     $extensionRows=@(foreach($name in $extensions){$file=Join-Path $root $name;[IO.File]::WriteAllText($file,'synthetic VSIX '+$name);(Get-FileHash -LiteralPath $file).Hash+'  '+$name})
     [IO.File]::WriteAllLines((Join-Path $root 'SHA256SUMS.txt'),[string[]]$extensionRows)
@@ -100,15 +100,15 @@ Check 'cli-unlisted-in-manifest' {param($r) [IO.File]::WriteAllText((Join-Path $
 Check 'required-cli-missing' {param($r) $p=Join-Path $r 'offline-manifest.json';$j=Get-Content -LiteralPath $p -Raw|ConvertFrom-Json;$j.Files=@($j.Files|Where-Object {$_.Path -ne 'cli/codex/bin/codex.exe'});$j|ConvertTo-Json -Depth 5|Set-Content -LiteralPath $p -Encoding UTF8;Remove-Item -LiteralPath (Join-Path $r 'cli/codex/bin/codex.exe');Write-Sums $r} $false 'Required CLI manifest file missing.'
 Check 'missing-safety-flag' {param($r) $p=Join-Path $r 'offline-manifest.json';$j=Get-Content -LiteralPath $p -Raw|ConvertFrom-Json;$j.PSObject.Properties.Remove('ProfilesIncluded');$j|ConvertTo-Json -Depth 5|Set-Content -LiteralPath $p -Encoding UTF8;Write-Sums $r} $false 'Offline CLI manifest safety flag is missing or invalid.'
 Check 'wrong-safety-flag-type' {param($r) $p=Join-Path $r 'offline-manifest.json';$j=Get-Content -LiteralPath $p -Raw|ConvertFrom-Json;$j.ProfilesIncluded='false';$j|ConvertTo-Json -Depth 5|Set-Content -LiteralPath $p -Encoding UTF8;Write-Sums $r} $false 'Offline CLI manifest safety flag is missing or invalid.'
-Check 'vsix-file-and-row-removed' {param($r) $name='VS2019.AIAssistant-0.15.0.vsix';Remove-Item -LiteralPath (Join-Path $r $name);$p=Join-Path $r 'SHA256SUMS.txt';[IO.File]::WriteAllLines($p,[string[]]@([IO.File]::ReadAllLines($p)|Where-Object {$_ -notlike "*$name"}));Write-Sums $r} $false 'Extension checksum list must contain exactly seven entries.'
-Check 'vsix-only-row-removed' {param($r) $name='VS2019.AIAssistant-0.15.0.vsix';$p=Join-Path $r 'SHA256SUMS.txt';[IO.File]::WriteAllLines($p,[string[]]@([IO.File]::ReadAllLines($p)|Where-Object {$_ -notlike "*$name"}));Write-Sums $r} $false 'Extension checksum list must contain exactly seven entries.'
-Check 'vsix-only-file-removed' {param($r) Remove-Item -LiteralPath (Join-Path $r 'VS2019.AIAssistant-0.15.0.vsix');Write-Sums $r} $false 'Extension package missing from full checksums.'
-Check 'theme-file-and-row-removed' {param($r) $name='Grokeen-VisualStudio-Themes-0.15.0-VS2022.vsix';Remove-Item -LiteralPath (Join-Path $r $name);$p=Join-Path $r 'SHA256SUMS.txt';[IO.File]::WriteAllLines($p,[string[]]@([IO.File]::ReadAllLines($p)|Where-Object {$_ -notlike "*$name"}));Write-Sums $r} $false 'Extension checksum list must contain exactly seven entries.'
+Check 'vsix-file-and-row-removed' {param($r) $name='VS2019.AIAssistant-0.15.1.vsix';Remove-Item -LiteralPath (Join-Path $r $name);$p=Join-Path $r 'SHA256SUMS.txt';[IO.File]::WriteAllLines($p,[string[]]@([IO.File]::ReadAllLines($p)|Where-Object {$_ -notlike "*$name"}));Write-Sums $r} $false 'Extension checksum list must contain exactly seven entries.'
+Check 'vsix-only-row-removed' {param($r) $name='VS2019.AIAssistant-0.15.1.vsix';$p=Join-Path $r 'SHA256SUMS.txt';[IO.File]::WriteAllLines($p,[string[]]@([IO.File]::ReadAllLines($p)|Where-Object {$_ -notlike "*$name"}));Write-Sums $r} $false 'Extension checksum list must contain exactly seven entries.'
+Check 'vsix-only-file-removed' {param($r) Remove-Item -LiteralPath (Join-Path $r 'VS2019.AIAssistant-0.15.1.vsix');Write-Sums $r} $false 'Extension package missing from full checksums.'
+Check 'theme-file-and-row-removed' {param($r) $name='Grokeen-VisualStudio-Themes-0.15.1-VS2022.vsix';Remove-Item -LiteralPath (Join-Path $r $name);$p=Join-Path $r 'SHA256SUMS.txt';[IO.File]::WriteAllLines($p,[string[]]@([IO.File]::ReadAllLines($p)|Where-Object {$_ -notlike "*$name"}));Write-Sums $r} $false 'Extension checksum list must contain exactly seven entries.'
 Check 'vsix-sums-removed' {param($r) Remove-Item -LiteralPath (Join-Path $r 'SHA256SUMS.txt');Write-Sums $r} $false 'Extension checksum list is missing.'
 Check 'vsix-unlisted' {param($r) [IO.File]::WriteAllText((Join-Path $r 'unexpected.vsix'),'unlisted extension');Write-Sums $r} $false 'Unlisted extension VSIX file.'
 Check 'vsix-duplicate' {param($r) $p=Join-Path $r 'SHA256SUMS.txt';$lines=[IO.File]::ReadAllLines($p);$lines[1]=$lines[0];[IO.File]::WriteAllLines($p,[string[]]$lines);Write-Sums $r} $false 'Unexpected or duplicate extension checksum entry.'
 Check 'vsix-checksum-mismatch' {param($r) $p=Join-Path $r 'SHA256SUMS.txt';$lines=[IO.File]::ReadAllLines($p);$lines[0]=('A'*64)+$lines[0].Substring(64);[IO.File]::WriteAllLines($p,[string[]]$lines);Write-Sums $r} $false 'Extension and full checksums disagree.'
-Check 'vsix-wrong-version' {param($r) $p=Join-Path $r 'SHA256SUMS.txt';$lines=@([IO.File]::ReadAllLines($p)|ForEach-Object {$_.Replace('0.15.0','0.11.1')});[IO.File]::WriteAllLines($p,[string[]]$lines);Get-ChildItem -LiteralPath $r -File -Filter '*.vsix'|ForEach-Object {Rename-Item -LiteralPath $_.FullName -NewName ($_.Name.Replace('0.15.0','0.11.1'))};Write-Sums $r} $false 'Unexpected or duplicate extension checksum entry.'
+Check 'vsix-wrong-version' {param($r) $p=Join-Path $r 'SHA256SUMS.txt';$lines=@([IO.File]::ReadAllLines($p)|ForEach-Object {$_.Replace('0.15.1','0.11.1')});[IO.File]::WriteAllLines($p,[string[]]$lines);Get-ChildItem -LiteralPath $r -File -Filter '*.vsix'|ForEach-Object {Rename-Item -LiteralPath $_.FullName -NewName ($_.Name.Replace('0.15.1','0.11.1'))};Write-Sums $r} $false 'Unexpected or duplicate extension checksum entry.'
 $link=Join-Path $output 'ancestor-link'
 [void](New-Item -ItemType Junction -Path $link -Target (Join-Path $output 'normal'))
 foreach($shell in @('powershell.exe','pwsh.exe')){

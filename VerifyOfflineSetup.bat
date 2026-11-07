@@ -1,6 +1,6 @@
 @echo off
 setlocal
-set "OFFLINE_PACKAGE_VERSION=0.15.0"
+set "OFFLINE_PACKAGE_VERSION=0.15.1"
 set "TASK_SCRIPT=%~dp0Verify-OfflineFiles.ps1"
 if not exist "%TASK_SCRIPT%" set "TASK_SCRIPT=%~dp0scripts\Verify-OfflineFiles.ps1"
 if not exist "%TASK_SCRIPT%" (
