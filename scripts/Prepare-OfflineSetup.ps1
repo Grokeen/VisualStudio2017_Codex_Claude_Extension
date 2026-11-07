@@ -19,6 +19,9 @@ param(
     [switch]$CreateZip
 )
 $ErrorActionPreference='Stop'
+foreach($module in @('Microsoft.PowerShell.Management','Microsoft.PowerShell.Utility')){
+    Import-Module -Name (Join-Path $PSHOME ('Modules/'+$module+'/'+$module+'.psd1')) -ErrorAction Stop
+}
 . (Join-Path $PSScriptRoot 'OfflineCli.Common.ps1')
 . (Join-Path $PSScriptRoot 'OfflinePackage.Common.ps1')
 
@@ -106,8 +109,15 @@ try {
     })
     [pscustomobject]@{SchemaVersion=1;Architecture='amd64';BundleId=('codex-'+$metadata.version+'_claude-'+$claudeVersion+'_win-x64');CodexVersion=$metadata.version;ClaudeVersion=$claudeVersion;PreparedAt=[DateTimeOffset]::Now.ToString('o');Files=$rows;PublisherChecks=$signatures;ProfilesIncluded=$false;CliExecutedDuringPreparation=$false;AuthenticationCopied=$false}|ConvertTo-Json -Depth 8|Set-Content -LiteralPath (Join-Path $output 'offline-manifest.json') -Encoding UTF8
     Copy-OfflineExtensionInventory -Inventory $inventory -ExtensionRoot $extensionRoot -Destination $output -PackageVersion $PackageVersion
-    foreach($name in $toolFiles){Copy-Item -LiteralPath (Join-Path $sourceRoot $name) -Destination $output}
-    foreach($name in @('InstallOfflineCLI.bat','InstallAIAssistant.bat','VerifyOfflineSetup.bat')){Copy-Item -LiteralPath (Join-Path $assetRoot $name) -Destination $output}
+    foreach($name in $toolFiles){
+        $source=Join-Path $sourceRoot $name;$destination=Join-Path $output $name
+        if($name -in @('Install-AIAssistant.ps1','Test-OfflineSetupOnTarget.ps1','Verify-OfflineFiles.ps1')){Write-OfflineVersionedPowerShell -Template $source -Destination $destination -PackageVersion $PackageVersion}
+        else{Copy-Item -LiteralPath $source -Destination $destination}
+    }
+    Copy-Item -LiteralPath (Join-Path $assetRoot 'InstallOfflineCLI.bat') -Destination $output
+    # Bind both launchers to the version actually prepared, including explicitly requested versions.
+    Write-OfflineVersionedLauncher -Template (Join-Path $assetRoot 'InstallAIAssistant.bat') -Destination (Join-Path $output 'InstallAIAssistant.bat') -PackageVersion $PackageVersion -VariableName 'AI_ASSISTANT_PACKAGE_VERSION'
+    Write-OfflineVersionedLauncher -Template (Join-Path $assetRoot 'VerifyOfflineSetup.bat') -Destination (Join-Path $output 'VerifyOfflineSetup.bat') -PackageVersion $PackageVersion -VariableName 'OFFLINE_PACKAGE_VERSION'
     Copy-Item -LiteralPath $guide -Destination (Join-Path $output 'OFFLINE_INSTALL.md')
     $null=Read-OfflineCliBundle $output
     $sums=@(Get-OfflinePlainFiles $output|ForEach-Object{(Get-FileHash -LiteralPath $_.FullName).Hash+'  '+$_.FullName.Substring($output.Length+1).Replace('\','/')})

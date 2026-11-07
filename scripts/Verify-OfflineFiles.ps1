@@ -1,8 +1,12 @@
 # TASK074 / 2026-11-08 CodexOrig8 : Pure checksum verification for an extracted bundle.
 [CmdletBinding()]
-param([string]$BundleDirectory=$PSScriptRoot)
+param([string]$BundleDirectory=$PSScriptRoot,[ValidatePattern('^\d+\.\d+\.\d+$')][string]$PackageVersion='0.15.0')
 $ErrorActionPreference='Stop'
-Import-Module Microsoft.PowerShell.Utility -ErrorAction Stop
+# Use modules for this PowerShell runtime even when a parent process supplied another runtime's PSModulePath.
+foreach($module in @('Microsoft.PowerShell.Management','Microsoft.PowerShell.Utility')){
+    $modulePath=Join-Path $PSHOME ('Modules/'+$module+'/'+$module+'.psd1')
+    Import-Module -Name $modulePath -ErrorAction Stop
+}
 $root=[IO.Path]::GetFullPath($BundleDirectory).TrimEnd('\')
 if($root -notmatch '^[A-Za-z]:\\.+'){throw 'A local extracted bundle directory is required.'}
 if(!(Test-Path -LiteralPath $root -PathType Container)){throw 'Bundle directory missing.'}
@@ -25,6 +29,7 @@ $sums=Join-Path $root 'OFFLINE_SHA256SUMS.txt'
 Assert-PlainBundlePath $sums
 $lines=@([IO.File]::ReadAllLines($sums))
 $seen=[Collections.Generic.HashSet[string]]::new([StringComparer]::OrdinalIgnoreCase)
+$fullHashes=New-Object 'System.Collections.Generic.Dictionary[string,string]' ([StringComparer]::OrdinalIgnoreCase)
 foreach($line in $lines){
     if($line -cnotmatch '^([A-Fa-f0-9]{64})  (.+)$'){throw 'Invalid checksum row.'}
     $expected=$matches[1].ToUpperInvariant();$relative=$matches[2].Replace('\','/')
@@ -34,6 +39,7 @@ foreach($line in $lines){
     if(!$file.StartsWith($root+'\',[StringComparison]::OrdinalIgnoreCase) -or !(Test-Path -LiteralPath $file -PathType Leaf)){throw 'Listed file missing or outside bundle.'}
     Assert-PlainBundlePath $file
     if((Get-FileHash -LiteralPath $file -Algorithm SHA256).Hash -cne $expected){throw 'Listed file hash mismatch.'}
+    $fullHashes.Add($relative,$expected)
 }
 $pending=New-Object 'System.Collections.Generic.Queue[string]'
 $pending.Enqueue($root)
@@ -67,4 +73,29 @@ foreach($item in $manifestFiles){
 $required=@('cli/codex/codex-package.json','cli/codex/bin/codex.exe','cli/codex/bin/codex-code-mode-host.exe','cli/codex/codex-path/rg.exe','cli/codex/codex-resources/codex-command-runner.exe','cli/codex/codex-resources/codex-windows-sandbox-setup.exe','cli/claude/claude.exe')
 foreach($name in $required){if(!$cliPaths.Contains($name)){throw 'Required CLI manifest file missing.'}}
 foreach($relative in $seen){if($relative.StartsWith('cli/',[StringComparison]::OrdinalIgnoreCase) -and !$cliPaths.Contains($relative)){throw 'Unlisted CLI manifest file.'}}
-Write-Output ('PASS checksum-only bundle verification: '+$seen.Count+' files; '+$cliPaths.Count+' CLI manifest files.')
+
+# Filenames and checksums are a consistency check, not proof of signed VSIX identity or SKU.
+$aiNames=@("VS2017.15.7.AIAssistant-$PackageVersion.vsix","VS2017.AIAssistant-$PackageVersion.vsix","VS2019.AIAssistant-$PackageVersion.vsix","VS2022.AIAssistant-$PackageVersion.vsix")
+$themeNames=@("Grokeen-VisualStudio-Themes-$PackageVersion-VS2017.vsix","Grokeen-VisualStudio-Themes-$PackageVersion-VS2019.vsix","Grokeen-VisualStudio-Themes-$PackageVersion-VS2022.vsix")
+$expectedNames=[Collections.Generic.HashSet[string]]::new([StringComparer]::Ordinal)
+foreach($name in @($aiNames)+@($themeNames)){[void]$expectedNames.Add($name)}
+$packageSums=Join-Path $root 'SHA256SUMS.txt'
+if(!$seen.Contains('SHA256SUMS.txt')){throw 'Extension checksum list is missing.'}
+$extensionRows=@([IO.File]::ReadAllLines($packageSums))
+if($extensionRows.Count -ne 7){throw 'Extension checksum list must contain exactly seven entries.'}
+$extensionSeen=[Collections.Generic.HashSet[string]]::new([StringComparer]::Ordinal)
+$extensionPaths=[Collections.Generic.HashSet[string]]::new([StringComparer]::OrdinalIgnoreCase)
+foreach($line in $extensionRows){
+    if($line -cnotmatch '^([A-Fa-f0-9]{64})  (.+)$'){throw 'Invalid extension checksum row.'}
+    $hash=$matches[1].ToUpperInvariant();$relative=$matches[2].Replace('\','/')
+    $name=[IO.Path]::GetFileName($relative)
+    if(!$expectedNames.Contains($name) -or !$extensionSeen.Add($name)){throw 'Unexpected or duplicate extension checksum entry.'}
+    if($relative -cne $name -and !($relative -ceq ('Themes/'+$name) -and $themeNames -ccontains $name)){throw 'Unsafe extension checksum path.'}
+    if(!$extensionPaths.Add($relative) -or !$fullHashes.ContainsKey($relative)){throw 'Extension package missing from full checksums.'}
+    if($fullHashes[$relative] -cne $hash){throw 'Extension and full checksums disagree.'}
+}
+if($extensionSeen.Count -ne 7){throw 'Extension checksum list is incomplete.'}
+foreach($relative in $seen){
+    if($relative -match '(?i)\.vsix$' -and !$relative.StartsWith('cli/',[StringComparison]::OrdinalIgnoreCase) -and !$extensionPaths.Contains($relative)){throw 'Unlisted extension VSIX file.'}
+}
+Write-Output ('PASS checksum-only bundle verification: '+$seen.Count+' files; '+$cliPaths.Count+' CLI files; seven '+$PackageVersion+' VSIX filenames/checksums. VSIX identity and installation were not verified.')

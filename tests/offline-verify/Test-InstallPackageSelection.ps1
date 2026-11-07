@@ -1,6 +1,7 @@
 [CmdletBinding()]
 param([Parameter(Mandatory=$true)][string]$OutputDirectory)
 $ErrorActionPreference='Stop'
+foreach($module in @('Microsoft.PowerShell.Management','Microsoft.PowerShell.Utility')){Import-Module -Name (Join-Path $PSHOME ('Modules/'+$module+'/'+$module+'.psd1')) -ErrorAction Stop}
 $repo=[IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../..'))
 $batch=Join-Path $repo 'InstallAIAssistant.bat'
 $text=[IO.File]::ReadAllText($batch)

@@ -91,11 +91,20 @@ create date  : 2026-10-20
 function Read-AIAssistantThemePackage {
     param([string]$Directory,[string]$Year,[string]$Architecture)
     $name="Grokeen-VisualStudio-Themes-$PackageVersion-VS$Year.vsix"
-    $path=Join-Path $Directory $name
-    if(!(Test-Path -LiteralPath $path -PathType Leaf)){throw "테마 설치 파일이 없습니다: $path"}
+    $flat=Join-Path $Directory $name
+    $themeDirectory=Join-Path $Directory 'Themes'
+    $nested=Join-Path $themeDirectory $name
+    $flatExists=Test-Path -LiteralPath $flat -PathType Leaf
+    $nestedExists=Test-Path -LiteralPath $nested -PathType Leaf
+    if($flatExists -eq $nestedExists){throw "테마 설치 파일이 없거나 두 위치에 중복됩니다: $name"}
+    $path=if($flatExists){$flat}else{$nested}
+    $relative=if($flatExists){$name}else{'Themes/'+$name}
+    if((Get-Item -LiteralPath $path -Force).Attributes -band [IO.FileAttributes]::ReparsePoint){throw '테마 파일의 연결 경로는 사용할 수 없습니다.'}
+    if($nestedExists -and ((Get-Item -LiteralPath $themeDirectory -Force).Attributes -band [IO.FileAttributes]::ReparsePoint)){throw '테마 폴더의 연결 경로는 사용할 수 없습니다.'}
     $checksums=Join-Path $Directory 'SHA256SUMS.txt'
-    $lines=@([IO.File]::ReadAllLines($checksums)|Where-Object {$_ -match ('^[A-Fa-f0-9]{64}\s+\*?'+[regex]::Escape($name)+'$')})
+    $lines=@([IO.File]::ReadAllLines($checksums)|Where-Object {$_ -match ('^[A-Fa-f0-9]{64}\s+\*?(?:Themes[/\\])?'+[regex]::Escape($name)+'$')})
     if($lines.Count -ne 1){throw "테마 체크섬 항목이 없거나 중복입니다: $name"}
+    if($lines[0] -notmatch ('^[A-Fa-f0-9]{64}\s+\*?(?<path>(?:Themes[/\\])?'+[regex]::Escape($name)+')$') -or $matches['path'].Replace('\','/') -cne $relative){throw "테마 파일과 체크섬 경로가 다릅니다: $name"}
     $hash=(Get-FileHash -LiteralPath $path -Algorithm SHA256).Hash
     if($hash -ne $lines[0].Substring(0,64)){throw "테마 파일 체크섬 불일치: $name"}
     Add-Type -AssemblyName System.IO.Compression.FileSystem

@@ -9,7 +9,7 @@ update date  : 2026-10-19 CodexOrig : TASK-041 오프라인 사용자 확인과 
 -------------------------------------------------------------------------
 #>
 [CmdletBinding()]
-param([string]$BundleDirectory=$PSScriptRoot,[string]$OutputDirectory,[string]$InstanceId,[switch]$Install,[switch]$LibraryOnly)
+param([string]$BundleDirectory=$PSScriptRoot,[string]$OutputDirectory,[string]$InstanceId,[switch]$Install,[switch]$LibraryOnly,[ValidatePattern('^\d+\.\d+\.\d+$')][string]$PackageVersion='0.15.0')
 $ErrorActionPreference='Stop'
 
 <#
@@ -84,7 +84,7 @@ try {
     $manifest=Read-OfflineCliBundle $BundleDirectory
     $summary.BundleId=$manifest.BundleId
     & (Join-Path $BundleDirectory 'Install-OfflineCli.ps1') -BundleDirectory $BundleDirectory -ReportPath (Join-Path $OutputDirectory 'cli-preflight.json') *> (Join-Path $OutputDirectory 'cli-preflight.log')
-    & (Join-Path $BundleDirectory 'Install-AIAssistant.ps1') -PackageDirectory $BundleDirectory -ReportPath (Join-Path $OutputDirectory 'vsix-preflight.json') *> (Join-Path $OutputDirectory 'vsix-preflight.log')
+    & (Join-Path $BundleDirectory 'Install-AIAssistant.ps1') -PackageDirectory $BundleDirectory -PackageVersion $PackageVersion -ReportPath (Join-Path $OutputDirectory 'vsix-preflight.json') *> (Join-Path $OutputDirectory 'vsix-preflight.log')
     $preflight=Get-Content (Join-Path $OutputDirectory 'vsix-preflight.json') -Raw -Encoding UTF8|ConvertFrom-Json
     $ready=@($preflight.Plans|Where-Object Status -EQ 'Ready')
     if($InstanceId){$ready=@($ready|Where-Object InstanceId -CEQ $InstanceId)}
@@ -108,7 +108,7 @@ try {
         $summary.CliInstallation=$receipt.Status
         $summary.CliVersionChecks=@(Invoke-OfflineTargetVersion 'Codex' $receipt.CodexExecutable ('^codex-cli '+[regex]::Escape($manifest.CodexVersion)+'$') (Join-Path $OutputDirectory 'codex-profile');Invoke-OfflineTargetVersion 'Claude' $receipt.ClaudeExecutable ('^'+[regex]::Escape($manifest.ClaudeVersion)+' \(Claude Code\)$') (Join-Path $OutputDirectory 'claude-profile'))
         $summary.Steps+=@{Name='CLI install and isolated-profile version checks';Passed=$true}
-        & (Join-Path $BundleDirectory 'Install-AIAssistant.ps1') -PackageDirectory $BundleDirectory -InstanceId $selected.InstanceId -Install -ReportPath (Join-Path $OutputDirectory 'vsix-install.json') *> (Join-Path $OutputDirectory 'vsix-install.log')
+        & (Join-Path $BundleDirectory 'Install-AIAssistant.ps1') -PackageDirectory $BundleDirectory -PackageVersion $PackageVersion -InstanceId $selected.InstanceId -Install -ReportPath (Join-Path $OutputDirectory 'vsix-install.json') *> (Join-Path $OutputDirectory 'vsix-install.log')
         $summary.Steps+=@{Name='Official VSIXInstaller returned success';Passed=$true}
         Add-Type -AssemblyName System.IO.Compression.FileSystem
         $zip=[IO.Compression.ZipFile]::OpenRead($selected.Package.Path);$sha=[Security.Cryptography.SHA256]::Create()
