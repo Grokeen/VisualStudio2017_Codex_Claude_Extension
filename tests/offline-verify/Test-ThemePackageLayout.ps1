@@ -63,6 +63,9 @@ function Check-LinkedPlan([string]$name,[string]$directory,[bool]$requestTheme,[
     $script:results+=[pscustomobject]@{Case=$name;Status=$plan.Status;ThemeRequested=$requestTheme;ExpectedReason='Reparse paths are not accepted';Runtime=$PSVersionTable.PSVersion.ToString();Log=$log;LogSHA256=(Get-FileHash -LiteralPath $log).Hash}
 }
 $outside=Join-Path $out 'outside';[void][IO.Directory]::CreateDirectory($outside)
+$linkEvidence=@()
+$helper=Join-Path $out 'New-TestSymbolicLink.ps1'
+[IO.File]::WriteAllText($helper,'param($LinkPath,$TargetPath) $ErrorActionPreference="Stop"; [void](New-Item -ItemType SymbolicLink -Path $LinkPath -Target $TargetPath); $PSVersionTable.PSVersion.ToString()')
 $sentinel=Join-Path $outside 'sentinel.txt';[IO.File]::WriteAllText($sentinel,'unchanged');$sentinelHash=(Get-FileHash -LiteralPath $sentinel).Hash
 $real=New-ThemeFixture 'outside/package' 'flat' 'Grokeen.VisualStudioThemes.2017' '0.15.1' '[15.0,16.0)' 'x86'
 $link=Join-Path $out 'package-junction';[void](New-Item -ItemType Junction -Path $link -Target $real)
@@ -74,15 +77,28 @@ foreach($file in @('SHA256SUMS.txt','VS2017.AIAssistant-0.15.1.vsix','Grokeen-Vi
     $root=New-ThemeFixture $name 'flat' 'Grokeen.VisualStudioThemes.2017' '0.15.1' '[15.0,16.0)' 'x86'
     $path=Join-Path $root $file;$target=Join-Path $outside ($name+'.target');Copy-Item -LiteralPath $path -Destination $target
     Remove-Item -LiteralPath $path
-    try{[void](New-Item -ItemType SymbolicLink -Path $path -Target $target)}
+    $creator=$PSVersionTable.PSVersion.ToString();$created=$false
+    try{[void](New-Item -ItemType SymbolicLink -Path $path -Target $target);$created=$true}
     catch{
         if($_.FullyQualifiedErrorId -notlike 'NewItemSymbolicLinkElevationRequired*'){throw}
-        $log=Join-Path $out ($name+'.log');[IO.File]::WriteAllText($log,'SKIPPED: operating system did not permit creation of the symbolic-link fixture.',(New-Object Text.UTF8Encoding($false)))
-        $script:results+=[pscustomobject]@{Case=$name;Status='Skipped';ThemeRequested=$true;ExpectedReason='Symbolic-link fixture creation requires privilege';Runtime=$PSVersionTable.PSVersion.ToString();Log=$log;LogSHA256=(Get-FileHash -LiteralPath $log).Hash}
+        $pwsh=Get-Command pwsh.exe -ErrorAction SilentlyContinue
+        if($pwsh){
+            try{$creator=@(& $pwsh.Source -NoProfile -File $helper $path $target 2>&1)[-1];$created=($LASTEXITCODE -eq 0)}catch{$created=$false}
+        }
+    }
+    if(!$created){
+        $log=Join-Path $out ($name+'.log');[IO.File]::WriteAllText($log,'SKIPPED: symbolic-link fixture could not be created.',(New-Object Text.UTF8Encoding($false)))
+        $script:results+=[pscustomobject]@{Case=$name;Status='Skipped';ThemeRequested=$true;ExpectedReason='Symbolic-link fixture unavailable';Runtime=$PSVersionTable.PSVersion.ToString();Log=$log;LogSHA256=(Get-FileHash -LiteralPath $log).Hash}
         continue
     }
+    $item=Get-Item -LiteralPath $path -Force
+    if(-not ($item.Attributes -band [IO.FileAttributes]::ReparsePoint) -or $item.LinkType -ne 'SymbolicLink' -or [IO.Path]::GetFullPath([string]$item.Target) -ne [IO.Path]::GetFullPath($target)){throw "$name is not the expected symbolic link"}
+    $targetHash=(Get-FileHash -LiteralPath $target).Hash
+    if((Get-FileHash -LiteralPath $path).Hash -ne $targetHash){throw "$name target content mismatch"}
     $expected=if($name -eq 'theme-link'){'InvalidThemePackage'}else{'InvalidPackage'}
     Check-LinkedPlan $name $root $true $expected
+    if((Get-FileHash -LiteralPath $target).Hash -ne $targetHash){throw "$name target changed"}
+    $linkEvidence+=[pscustomobject]@{Case=$name;CreatorRuntime=[string]$creator;PlanRuntime=$PSVersionTable.PSVersion.ToString();LinkPath=$path;TargetPath=$target;LinkType=$item.LinkType;ReparsePoint=$true;TargetSHA256=$targetHash;TargetUnchanged=$true}
 }
 $root=New-ThemeFixture 'theme-junction' 'nested' 'Grokeen.VisualStudioThemes.2017' '0.15.1' '[15.0,16.0)' 'x86'
 $themePath=Join-Path $root 'Themes';$themeTarget=Join-Path $outside 'themes';Move-Item -LiteralPath $themePath -Destination $themeTarget
@@ -91,7 +107,6 @@ Check-LinkedPlan 'theme-junction' $root $true 'InvalidThemePackage'
 Check-LinkedPlan 'unrequested-theme-junction' $root $false 'Ready'
 if((Get-FileHash -LiteralPath $sentinel).Hash -ne $sentinelHash){throw 'Outside sentinel changed.'}
 $skipped=@($results|Where-Object Status -eq 'Skipped').Count
-$passed=$results.Count-$skipped
 if($results.Count -ne 18){throw 'Theme fixture case inventory differs.'}
-[pscustomobject]@{Succeeded=$true;ExpectedCases=18;PassedCases=$passed;SkippedCases=$skipped;FailedCases=0;AllCasesExecuted=($skipped -eq 0);Checks=$results;Runtime=$PSVersionTable.PSVersion.ToString();PSHome=$PSHOME;TestScriptSha256=(Get-FileHash -LiteralPath $PSCommandPath).Hash;ProductScriptSha256=(Get-FileHash -LiteralPath (Join-Path $repo 'scripts/Install-AIAssistant.ps1')).Hash;ActualVsixInstallerExecuted=$false;ActualIDE=$false;NetworkUsed=$false}|ConvertTo-Json -Depth 4|Set-Content -LiteralPath (Join-Path $out 'result.json') -Encoding UTF8
+[pscustomobject]@{ExecutedCasesSucceeded=$true;ExpectedCases=18;Passed=($results.Count-$skipped);Skipped=$skipped;Failed=0;AllCasesExecuted=($skipped -eq 0);Checks=$results;LinkEvidence=$linkEvidence;SentinelSHA256=$sentinelHash;SentinelUnchanged=$true;Runtime=$PSVersionTable.PSVersion.ToString();PSHome=$PSHOME;TestScriptSha256=(Get-FileHash -LiteralPath $PSCommandPath).Hash;ProductScriptSha256=(Get-FileHash -LiteralPath (Join-Path $repo 'scripts/Install-AIAssistant.ps1')).Hash;ActualVsixInstallerExecuted=$false;ActualIDE=$false;NetworkUsed=$false}|ConvertTo-Json -Depth 5|Set-Content -LiteralPath (Join-Path $out 'result.json') -Encoding UTF8
 Write-Output ('PASS '+($results.Count-$skipped)+' synthetic theme layout and install-plan cases; skipped '+$skipped+'; no installer was run.')
