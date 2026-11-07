@@ -77,18 +77,23 @@ foreach($file in @('SHA256SUMS.txt','VS2017.AIAssistant-0.15.1.vsix','Grokeen-Vi
     $root=New-ThemeFixture $name 'flat' 'Grokeen.VisualStudioThemes.2017' '0.15.1' '[15.0,16.0)' 'x86'
     $path=Join-Path $root $file;$target=Join-Path $outside ($name+'.target');Copy-Item -LiteralPath $path -Destination $target
     Remove-Item -LiteralPath $path
-    $creator=$PSVersionTable.PSVersion.ToString();$created=$false
+    $creator=$PSVersionTable.PSVersion.ToString();$created=$false;$skipReason=$null
     try{[void](New-Item -ItemType SymbolicLink -Path $path -Target $target);$created=$true}
     catch{
         if($_.FullyQualifiedErrorId -notlike 'NewItemSymbolicLinkElevationRequired*'){throw}
         $pwsh=Get-Command pwsh.exe -ErrorAction SilentlyContinue
         if($pwsh){
-            try{$creator=@(& $pwsh.Source -NoProfile -File $helper $path $target 2>&1)[-1];$created=($LASTEXITCODE -eq 0)}catch{$created=$false}
-        }
+            try{$helperOutput=@(& $pwsh.Source -NoProfile -File $helper $path $target 2>&1);$helperExit=$LASTEXITCODE}
+            catch{if($_.Exception.Message -notmatch 'NewItemSymbolicLinkElevationRequired|Administrator privilege required'){throw};$helperOutput=@($_.Exception.Message);$helperExit=1}
+            if($helperExit -eq 0){$creator=[string]$helperOutput[-1];$created=$true}
+            elseif(($helperOutput -join "`n") -match 'NewItemSymbolicLinkElevationRequired|Administrator privilege required'){$skipReason='Symbolic-link fixture creation requires privilege'}
+            else{throw ("Unexpected symbolic-link helper failure: exit $helperExit; "+($helperOutput -join ' '))}
+        }else{$skipReason='PowerShell 7 helper unavailable'}
     }
     if(!$created){
-        $log=Join-Path $out ($name+'.log');[IO.File]::WriteAllText($log,'SKIPPED: symbolic-link fixture could not be created.',(New-Object Text.UTF8Encoding($false)))
-        $script:results+=[pscustomobject]@{Case=$name;Status='Skipped';ThemeRequested=$true;ExpectedReason='Symbolic-link fixture unavailable';Runtime=$PSVersionTable.PSVersion.ToString();Log=$log;LogSHA256=(Get-FileHash -LiteralPath $log).Hash}
+        if(!$skipReason){throw 'Symbolic-link fixture was not created for an unknown reason.'}
+        $log=Join-Path $out ($name+'.log');[IO.File]::WriteAllText($log,('SKIPPED: '+$skipReason),(New-Object Text.UTF8Encoding($false)))
+        $script:results+=[pscustomobject]@{Case=$name;Status='Skipped';ThemeRequested=$true;ExpectedReason=$skipReason;Runtime=$PSVersionTable.PSVersion.ToString();Log=$log;LogSHA256=(Get-FileHash -LiteralPath $log).Hash}
         continue
     }
     $item=Get-Item -LiteralPath $path -Force
