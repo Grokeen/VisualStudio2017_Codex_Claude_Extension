@@ -4,7 +4,9 @@
 
 오류 화면과 참고 문서를 보여 주고 자연어로 작업을 요청하세요. 바뀔 코드를 먼저 비교해 승인하거나, **전체 액세스**를 선택해 AI가 직접 파일 수정과 명령·테스트를 수행하게 할 수 있습니다. 대화와 공통 규칙은 내 PC의 Markdown에 남습니다.
 
-**v0.15.0-preview.1 Preview 안내** · [최신 Preview 릴리스](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.15.0-preview.1) · [상세 사용자 안내](docs/USER_GUIDE.md) · [오프라인 설치 안내](docs/OFFLINE_INSTALL.md) · [Release Notes](releases/v0.15.0-preview.1/RELEASE_NOTES.md)
+**최신 공개 릴리스: v0.15.0-preview.1** · [공개 Preview](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.15.0-preview.1) · [상세 사용자 안내](docs/USER_GUIDE.md) · [오프라인 설치 안내](docs/OFFLINE_INSTALL.md)
+
+> ⚠️ **다음 패키지용 문서 후보: v0.15.1-preview.1 · 아직 미공개.** C# 주석 코드 제안은 임시 중지 중입니다. 문서 대상 확인을 보완하는 예방 조치이며 실제 편집기 문서 불일치나 정보 유출은 확인되지 않았습니다. 현재 공개 v0.15.0-preview.1은 이 기능을 자동 차단하지 않으므로 메뉴를 사용하지 말고, 기존 전송 확인 창이 나타나면 **아니요/취소**를 선택하세요. v0.15.1 소스 후보에는 전송 전 중지 안내가 포함됐지만 새 패키지는 아직 공개되지 않았고 실제 IDE 동작은 검증되지 않았습니다. 일반 대화는 이 중지 범위 밖이지만 실제 IDE·계정에서의 동작도 검증되지 않았습니다. [v0.15.1 임시 중지 공지 PDF 후보](output/pdf/VisualStudio_AI_Assistant_설치_사용설명서_v0.15.1-preview.1_comment-code-pause-notice-candidate.pdf)는 배포용 Release 파일이 아닙니다.
 
 ## v0.15.0-preview.1 다운로드
 
@@ -16,6 +18,8 @@ v0.15.0-preview.1 Preview에는 대화 활동함과 아래 사용자 안내에 �
 | [설치·사용 PDF · 55쪽](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.15.0-preview.1/VisualStudio_AI_Assistant-0.15.0-Preview-UserGuide.pdf) | `VisualStudio_AI_Assistant-0.15.0-Preview-UserGuide.pdf` |
 | [오프라인 IDE 확장·테마 설치기](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.15.0-preview.1/Grokeen-AI-Theme-Offline-Installer-0.15.0.exe) | `Grokeen-AI-Theme-Offline-Installer-0.15.0.exe` |
 | [간단 ZIP](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.15.0-preview.1/VisualStudio_AI_Assistant-0.15.0.zip) | `VisualStudio_AI_Assistant-0.15.0.zip` |
+
+위 Release의 55쪽 설치·사용 PDF는 고정 태그에 보존된 이전 설명서입니다. 안에 남아 있는 C# 주석 코드 제안 절차는 현재 중지 공지보다 오래됐으므로 따르지 마세요. 위 임시 중지 공지와 최신 README 안내를 우선합니다.
 
 | 사용 중인 Visual Studio | 설치 파일 |
 |---|---|
@@ -60,9 +64,9 @@ v0.15.0-preview.1 Preview에는 대화 활동함과 아래 사용자 안내에 �
 
 솔루션별 대화와 요청 문맥을 구분합니다. 실행·대기 요청이나 협업 작업이 남아 있는 동안에는 솔루션 전환을 보류합니다. 전환 대기 중에는 다른 솔루션에서 새 요청이나 문맥 캡처를 시작할 수 없고, 기존 요청·초안·기록은 보존됩니다. 모두 유휴 상태가 되면 대화 저장소를 맞춰 전환합니다. 공통 지침은 솔루션별 대화와 별도로 공유됩니다.
 
-### C# 주석에서 코드 요청
+### C# 주석 코드 제안 상태: v0.15.1 후보에서 임시 중지
 
-사용자는 C# 파일을 Visual Studio 편집기에서 열고 주석을 선택하거나 현재·직전 `//` 주석 줄에 커서를 둡니다. 이어서 AI Assistant 도구 창의 우클릭 메뉴에서 **주석으로 코드 제안 요청…**을 선택합니다. 전송 확인 창에서 파일 이름, 현재 C# 편집 버퍼 전체, 명시한 주석과 기본 안전 지침을 확인할 수 있습니다. 동의하면 이 정보가 실제 설정된 CLI에 전달됩니다. 선택한 내용은 참고 문맥으로 사용하며, 대화 기록과 첨부는 보내지 않습니다. 결과는 미리보기에서 검토하며, **명시적으로 수락**해야 현재 커서에 편집 내용이 삽입됩니다. 삽입된 내용은 자동 저장되지 않으며 Visual Studio의 한 번 실행 취소로 되돌리는 흐름을 목표로 합니다. 입력 중 자동 전송이나 Copilot식 ghost text/자동완성은 제공하지 않습니다.
+당분간 AI Assistant 도구 창의 **주석으로 코드 제안 요청…**을 사용하지 마세요. 현재 공개된 v0.15.0-preview.1에는 자동 차단이 없으므로 메뉴를 선택하면 기존 전송 확인 창이 열릴 수 있습니다. 이 창이 나오면 동의하지 말고 **아니요/취소**를 선택하세요. v0.15.1 소스 후보는 메뉴 선택 시 전송 전에 중지 안내를 표시하고 해당 요청의 원본을 전송하거나 변경하지 않도록 했습니다. 이 새 패키지는 아직 공개되지 않았으며 실제 IDE에서 그 동작을 검증하지 않았습니다. 일반 대화는 이 중지 대상이 아니지만 실제 IDE·계정 동작은 검증되지 않았습니다. 실제 문서 불일치나 정보 유출 사건은 확인되지 않았습니다.
 
 ### Markdown 제목 도구
 
@@ -114,7 +118,7 @@ Markdown 작성기의 **H1**, **H2**, **H3** 버튼으로 선택 영역 또는 �
 
 설치 묶음 ZIP을 모두 풀고 **InstallAIAssistant.bat**를 실행하면 설치된 IDE의 버전·패키지 무결성을 검사하고 해당 버전용 설치기를 엽니다. 여러 IDE가 있으면 설치할 대상을 선택합니다. [설치 오류 해결과 진단 방법](docs/INSTALL_TROUBLESHOOTING.md)을 함께 제공합니다.
 
-**설치할 때 인터넷이 없다면:** GitHub Releases에서 CLI 포함 완성 오프라인 ZIP을 선택해 USB로 옮기고, 압축을 모두 해제한 뒤 **VerifyOfflineSetup.bat**을 실행하세요. CLI를 다시 내려받아 묶음을 준비할 필요가 없습니다. [오프라인 설치 안내](docs/OFFLINE_INSTALL.md)와 [현재 공개 사용자 PDF](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases)를 참고하세요. 로그인과 AI 사용은 연결 가능한 시점에 진행합니다.
+**설치할 때 인터넷이 없다면:** GitHub Releases에서 CLI 포함 완성 오프라인 ZIP과 matching `.zip.sha256` 파일을 받으세요. ZIP 바이트만 확인하려면 PowerShell `Get-FileHash` 결과를 sidecar 값과 비교합니다. 현재 공개 v0.15.0의 **VerifyOfflineSetup.bat은 검증 전용이 아니라 실제 설치 모드**입니다. 설치할 때만 실행하고, checksum 확인만 원하면 실행하지 마세요. [오프라인 설치 안내](docs/OFFLINE_INSTALL.md)의 설치 동의·백업·Visual Studio 종료 단계를 먼저 확인하세요. 로그인과 AI 사용은 연결 가능한 시점에 진행합니다.
 
 설치된 확장만 제거하려면 VS2017에서 **도구 → 확장 및 업데이트 → 설치됨**, VS2019·2022에서 **확장 → 확장 관리 → 설치됨**을 여세요. 목록에서 해당 버전의 AI Assistant 항목을 **제거**한 뒤 모든 Visual Studio 창을 닫습니다. 잠시 끄기만 하려면 **사용 안 함**을 선택하고 Visual Studio를 다시 여세요. 버전별 실제 항목 이름과 데이터 보존 안내는 [사용자 안내서](docs/USER_GUIDE.md#visual-studio-ai-assistant-확장-제거)를 참조하세요.
 
