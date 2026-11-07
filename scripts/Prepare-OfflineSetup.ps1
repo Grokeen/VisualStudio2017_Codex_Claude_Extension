@@ -15,7 +15,7 @@ param(
     [string]$CodexPackageDirectory=(Join-Path $env:USERPROFILE '.codex/packages/standalone/current'),
     [string]$ClaudeExecutable=(Join-Path $env:USERPROFILE '.local/bin/claude.exe'),
     [string]$ExtensionPackageDirectory,
-    [ValidatePattern('^\d+\.\d+\.\d+$')][string]$PackageVersion='0.15.0',
+    [ValidatePattern('^\d+\.\d+\.\d+$')][string]$PackageVersion='0.15.1',
     [switch]$CreateZip
 )
 $ErrorActionPreference='Stop'

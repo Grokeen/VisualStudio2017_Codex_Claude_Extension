@@ -12,7 +12,7 @@ create date  : 2026-10-20
 param(
     [string]$PackageDirectory,
     [string]$OutputDirectory,
-    [ValidatePattern('^\d+\.\d+\.\d+$')][string]$PackageVersion='0.15.0'
+    [ValidatePattern('^\d+\.\d+\.\d+$')][string]$PackageVersion='0.15.1'
 )
 $ErrorActionPreference='Stop'
 $repository=[IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))

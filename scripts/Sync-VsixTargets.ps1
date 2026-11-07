@@ -22,7 +22,7 @@ param()
 $ErrorActionPreference='Stop'
 $repositoryDir=[IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
 $baseDir=Join-Path $repositoryDir 'src\VS2017.AIAssistant'
-$guideSource=Join-Path $repositoryDir 'output\pdf\VisualStudio_AI_Assistant_설치_사용설명서_v0.15.0-preview.1.pdf'
+$guideSource=Join-Path $repositoryDir 'output\pdf\VisualStudio_AI_Assistant_설치_사용설명서_v0.15.1-preview.1.pdf'
 $guideDirectory=Join-Path $baseDir 'Assets\CliGuide'
 $null=New-Item -ItemType Directory -Path $guideDirectory -Force
 Copy-Item -LiteralPath $guideSource -Destination (Join-Path $guideDirectory 'VisualStudio_AI_Assistant_설치_사용설명서.pdf') -Force
