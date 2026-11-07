@@ -355,10 +355,12 @@ namespace VS2017.AIAssistant.Views
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : 디스크나 다른 탭의 대화는 변경하지 않음.
         /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
+        ///                2026-11-08 CodexOrig8 : 솔루션 대화 컨텍스트 접근 전에 소유 UI 스레드를 확인.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void NewChatClicked(object sender, RoutedEventArgs e)
         {
+            Dispatcher.VerifyAccess();
             if (busy || disposed) return;
             CreateConversation();
         }

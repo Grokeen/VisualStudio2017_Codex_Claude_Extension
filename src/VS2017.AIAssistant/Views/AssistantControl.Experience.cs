@@ -310,10 +310,12 @@ namespace VS2017.AIAssistant.Views
         /// update date  : 2026-10-18 CodexCode : TASK-017 이미지 분석 기반 드롭다운·안내·대화 지정 흐름 개선.
         ///                2026-10-20 CodexOrig : 보조 개발 TASK055 대기 요청이 소유한 대화·권한의 전환 차단.
         /// update date  : 2026-11-07 CodexOrig : 대화 I/O는 솔루션 범위 store로 연결하고 공통 instruction은 전역에 보존.
+        ///                2026-11-08 CodexOrig8 : 솔루션 대화 컨텍스트 접근 전에 소유 UI 스레드를 확인.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void CreateConversation()
         {
+            Dispatcher.VerifyAccess();
             if (!experienceReady || busy || queuedRequests.Count > 0 || disposed) return;
             try {
                 EnsureProjectConversationRequestContext();
@@ -418,10 +420,12 @@ namespace VS2017.AIAssistant.Views
         /// update date  : 2026-10-18 CodexCode : Role 추가 사용자 흐름 구현.
         ///                2026-10-20 CodexOrig : 보조 개발 TASK055 대기 요청이 소유한 대화·권한의 전환 차단.
         /// update date  : 2026-11-07 CodexOrig : 대화 I/O는 솔루션 범위 store로 연결하고 공통 instruction은 전역에 보존.
+        ///                2026-11-08 CodexOrig8 : 솔루션 대화 컨텍스트 접근 전에 소유 UI 스레드를 확인.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void LoadChatClicked(object sender, RoutedEventArgs e)
         {
+            Dispatcher.VerifyAccess();
             if (busy || roomRuns.Count > 0 || queuedRequests.Count > 0 || disposed || !experienceReady) return;
             var picker = new OpenFileDialog { Filter = "저장한 대화 Markdown (*.md)|*.md", CheckFileExists = true, InitialDirectory = ConversationStorage.RootPath };
             if (picker.ShowDialog() != true) return;

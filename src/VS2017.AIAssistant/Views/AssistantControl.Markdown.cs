@@ -179,6 +179,7 @@ namespace VS2017.AIAssistant.Views
         /// create date  : 2026-10-19
         /// update date  : 2026-10-19 CodexCode : 기존 입력 길이·설정 저장·대화 전송을 우회하지 않음.
         ///                2026-11-08 CodexOrig8 : 저장 후 닫기 이벤트의 UI 스레드를 확인하고 비파괴 확인 선택을 유지.
+        ///                2026-11-08 CodexOrig8 : 닫기 확인의 포커스 예약에 명시적인 Dispatcher 입력 우선순위를 사용.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void OpenMarkdownEditor(TextBox target, string title)
@@ -246,7 +247,7 @@ namespace VS2017.AIAssistant.Views
                 dialog.Actions.Children.Insert(0, discardAndClose);
                 dialog.Actions.Children.Insert(0, saveAndClose);
                 closePromptVisible = true;
-                dialog.Dispatcher.BeginInvoke(new Action(() => { if (closePromptVisible) keepEditing.Focus(); }));
+                dialog.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Input, new Action(() => { if (closePromptVisible) keepEditing.Focus(); }));
             };
             saveAndClose.Click += (sender, args) =>
             {
