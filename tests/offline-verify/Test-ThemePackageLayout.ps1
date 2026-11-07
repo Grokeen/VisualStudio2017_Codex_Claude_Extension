@@ -1,5 +1,5 @@
 ﻿[CmdletBinding()]
-param([Parameter(Mandatory=$true)][string]$OutputDirectory)
+param([Parameter(Mandatory=$true)][string]$OutputDirectory,[ValidateSet('Normal','MissingHelper','PermissionDenied','UnexpectedExit','UnexpectedException')][string]$LinkHelperMode='Normal')
 $ErrorActionPreference='Stop'
 foreach($module in @('Microsoft.PowerShell.Management','Microsoft.PowerShell.Utility')){Import-Module -Name (Join-Path $PSHOME ('Modules/'+$module+'/'+$module+'.psd1')) -ErrorAction Stop}
 $repo=[IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../..'))
@@ -65,7 +65,29 @@ function Check-LinkedPlan([string]$name,[string]$directory,[bool]$requestTheme,[
 $outside=Join-Path $out 'outside';[void][IO.Directory]::CreateDirectory($outside)
 $linkEvidence=@()
 $helper=Join-Path $out 'New-TestSymbolicLink.ps1'
-[IO.File]::WriteAllText($helper,'param($LinkPath,$TargetPath) $ErrorActionPreference="Stop"; [void](New-Item -ItemType SymbolicLink -Path $LinkPath -Target $TargetPath); $PSVersionTable.PSVersion.ToString()')
+$helperText=switch($LinkHelperMode){
+    'PermissionDenied' {'throw "Administrator privilege required for this operation."'}
+    'UnexpectedExit' {'Write-Output "INJECTED_UNEXPECTED_HELPER_EXIT"; exit 7'}
+    'UnexpectedException' {'throw "INJECTED_UNEXPECTED_HELPER_EXCEPTION"'}
+    default {'param($LinkPath,$TargetPath) $ErrorActionPreference="Stop"; [void](New-Item -ItemType SymbolicLink -Path $LinkPath -Target $TargetPath); $PSVersionTable.PSVersion.ToString()'}
+}
+[IO.File]::WriteAllText($helper,$helperText)
+function Invoke-TestLinkHelper([string]$Executable,[string]$HelperPath,[string]$LinkPath,[string]$TargetPath){
+    foreach($value in @($HelperPath,$LinkPath,$TargetPath)){if($value.Contains('"')){throw 'Unexpected quote in owned link fixture path.'}}
+    $start=New-Object Diagnostics.ProcessStartInfo
+    $start.FileName=$Executable
+    $start.Arguments='-NoProfile -File "'+$HelperPath+'" "'+$LinkPath+'" "'+$TargetPath+'"'
+    $start.UseShellExecute=$false;$start.CreateNoWindow=$true
+    $start.RedirectStandardOutput=$true;$start.RedirectStandardError=$true
+    $process=New-Object Diagnostics.Process;$process.StartInfo=$start
+    try{
+        if(!$process.Start()){throw 'Symbolic-link helper failed to start.'}
+        $stdout=$process.StandardOutput.ReadToEndAsync();$stderr=$process.StandardError.ReadToEndAsync()
+        if(!$process.WaitForExit(30000)){$process.Kill();$process.WaitForExit();throw 'Symbolic-link helper timed out.'}
+        $process.WaitForExit()
+        return [pscustomobject]@{ExitCode=$process.ExitCode;Output=$stdout.GetAwaiter().GetResult();Error=$stderr.GetAwaiter().GetResult()}
+    }finally{$process.Dispose()}
+}
 $sentinel=Join-Path $outside 'sentinel.txt';[IO.File]::WriteAllText($sentinel,'unchanged');$sentinelHash=(Get-FileHash -LiteralPath $sentinel).Hash
 $real=New-ThemeFixture 'outside/package' 'flat' 'Grokeen.VisualStudioThemes.2017' '0.15.1' '[15.0,16.0)' 'x86'
 $link=Join-Path $out 'package-junction';[void](New-Item -ItemType Junction -Path $link -Target $real)
@@ -81,13 +103,12 @@ foreach($file in @('SHA256SUMS.txt','VS2017.AIAssistant-0.15.1.vsix','Grokeen-Vi
     try{[void](New-Item -ItemType SymbolicLink -Path $path -Target $target);$created=$true}
     catch{
         if($_.FullyQualifiedErrorId -notlike 'NewItemSymbolicLinkElevationRequired*'){throw}
-        $pwsh=Get-Command pwsh.exe -ErrorAction SilentlyContinue
+        $pwsh=if($LinkHelperMode -eq 'MissingHelper'){$null}else{Get-Command pwsh.exe -ErrorAction SilentlyContinue}
         if($pwsh){
-            try{$helperOutput=@(& $pwsh.Source -NoProfile -File $helper $path $target 2>&1);$helperExit=$LASTEXITCODE}
-            catch{if($_.Exception.Message -notmatch 'NewItemSymbolicLinkElevationRequired|Administrator privilege required'){throw};$helperOutput=@($_.Exception.Message);$helperExit=1}
-            if($helperExit -eq 0){$creator=[string]$helperOutput[-1];$created=$true}
-            elseif(($helperOutput -join "`n") -match 'NewItemSymbolicLinkElevationRequired|Administrator privilege required'){$skipReason='Symbolic-link fixture creation requires privilege'}
-            else{throw ("Unexpected symbolic-link helper failure: exit $helperExit; "+($helperOutput -join ' '))}
+            $helperResult=Invoke-TestLinkHelper $pwsh.Source $helper $path $target
+            if($helperResult.ExitCode -eq 0){$creator=$helperResult.Output.Trim();if(!$creator){throw 'Symbolic-link helper returned no runtime.'};$created=$true}
+            elseif($helperResult.Error -match 'NewItemSymbolicLinkElevationRequired|Administrator privilege required'){$skipReason='Symbolic-link fixture creation requires privilege'}
+            else{throw ("Unexpected symbolic-link helper failure: exit $($helperResult.ExitCode); "+$helperResult.Output+' '+$helperResult.Error)}
         }else{$skipReason='PowerShell 7 helper unavailable'}
     }
     if(!$created){
@@ -112,6 +133,8 @@ Check-LinkedPlan 'theme-junction' $root $true 'InvalidThemePackage'
 Check-LinkedPlan 'unrequested-theme-junction' $root $false 'Ready'
 if((Get-FileHash -LiteralPath $sentinel).Hash -ne $sentinelHash){throw 'Outside sentinel changed.'}
 $skipped=@($results|Where-Object Status -eq 'Skipped').Count
-if($results.Count -ne 18){throw 'Theme fixture case inventory differs.'}
-[pscustomobject]@{ExecutedCasesSucceeded=$true;ExpectedCases=18;Passed=($results.Count-$skipped);Skipped=$skipped;Failed=0;AllCasesExecuted=($skipped -eq 0);Checks=$results;LinkEvidence=$linkEvidence;SentinelSHA256=$sentinelHash;SentinelUnchanged=$true;Runtime=$PSVersionTable.PSVersion.ToString();PSHome=$PSHOME;TestScriptSha256=(Get-FileHash -LiteralPath $PSCommandPath).Hash;ProductScriptSha256=(Get-FileHash -LiteralPath (Join-Path $repo 'scripts/Install-AIAssistant.ps1')).Hash;ActualVsixInstallerExecuted=$false;ActualIDE=$false;NetworkUsed=$false}|ConvertTo-Json -Depth 5|Set-Content -LiteralPath (Join-Path $out 'result.json') -Encoding UTF8
+$expectedCases=@('flat','nested','missing','without-theme-option','both-locations','path-mismatch','tampered','wrong-id','wrong-version','wrong-target','wrong-arch','package-junction','ancestor-junction','checksum-link','ai-link','theme-link','theme-junction','unrequested-theme-junction')
+$actualCases=@($results|ForEach-Object Case)
+if($actualCases.Count -ne $expectedCases.Count -or @(Compare-Object -ReferenceObject $expectedCases -DifferenceObject $actualCases).Count -ne 0 -or @($actualCases|Select-Object -Unique).Count -ne $actualCases.Count){throw 'Theme fixture case inventory differs.'}
+[pscustomobject]@{ExecutedCasesSucceeded=$true;ExpectedCases=18;Passed=($results.Count-$skipped);Skipped=$skipped;Failed=0;AllCasesExecuted=($skipped -eq 0);LinkHelperMode=$LinkHelperMode;Checks=$results;LinkEvidence=$linkEvidence;SentinelSHA256=$sentinelHash;SentinelUnchanged=$true;Runtime=$PSVersionTable.PSVersion.ToString();PSHome=$PSHOME;TestScriptSha256=(Get-FileHash -LiteralPath $PSCommandPath).Hash;ProductScriptSha256=(Get-FileHash -LiteralPath (Join-Path $repo 'scripts/Install-AIAssistant.ps1')).Hash;ActualVsixInstallerExecuted=$false;ActualIDE=$false;NetworkUsed=$false}|ConvertTo-Json -Depth 5|Set-Content -LiteralPath (Join-Path $out 'result.json') -Encoding UTF8
 Write-Output ('PASS '+($results.Count-$skipped)+' synthetic theme layout and install-plan cases; skipped '+$skipped+'; no installer was run.')
