@@ -180,6 +180,7 @@ namespace VS2017.AIAssistant.Views
         /// update date  : 2026-10-19 CodexCode : 기존 입력 길이·설정 저장·대화 전송을 우회하지 않음.
         ///                2026-11-08 CodexOrig8 : 저장 후 닫기 이벤트의 UI 스레드를 확인하고 비파괴 확인 선택을 유지.
         ///                2026-11-08 CodexOrig8 : 닫기 확인의 포커스 예약에 명시적인 Dispatcher 입력 우선순위를 사용.
+        ///                2026-11-08 CodexOrig8 : SDK 검사에 맞춰 예약 API 대신 Loaded·즉시 포커스의 WPF 경로로 정리.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void OpenMarkdownEditor(TextBox target, string title)
@@ -220,6 +221,11 @@ namespace VS2017.AIAssistant.Views
             keepEditing.SetResourceReference(FrameworkElement.StyleProperty, "SurfaceButton");
             AutomationProperties.SetName(keepEditing, "Markdown 작성기로 돌아가기");
             AutomationProperties.SetHelpText(keepEditing, "저장하지 않은 변경을 유지하고 확인을 취소하여 편집기로 돌아갑니다.");
+            keepEditing.Loaded += (sender, args) =>
+            {
+                Dispatcher.VerifyAccess();
+                if (closePromptVisible) keepEditing.Focus();
+            };
             Action hideClosePrompt = () =>
             {
                 if (!closePromptVisible) return;
@@ -236,6 +242,7 @@ namespace VS2017.AIAssistant.Views
             };
             Action showClosePrompt = () =>
             {
+                Dispatcher.VerifyAccess();
                 if (closePromptVisible) return;
                 dialog.Message.Text = "저장되지 않은 변경이 있습니다. 저장 후 닫거나, 변경을 버리고 닫을 수 있습니다.";
                 dialog.Message.SetResourceReference(TextBlock.ForegroundProperty, "AssistantWarningBrush");
@@ -247,7 +254,7 @@ namespace VS2017.AIAssistant.Views
                 dialog.Actions.Children.Insert(0, discardAndClose);
                 dialog.Actions.Children.Insert(0, saveAndClose);
                 closePromptVisible = true;
-                dialog.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Input, new Action(() => { if (closePromptVisible) keepEditing.Focus(); }));
+                keepEditing.Focus();
             };
             saveAndClose.Click += (sender, args) =>
             {
