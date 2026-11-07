@@ -119,13 +119,13 @@ def notice_page():
     h = box(
         c,
         "오프라인 검사 배치는 설치와 구분하세요",
-        "공개 v0.15.0의 <b>VerifyOfflineSetup.bat</b>은 실제 설치 모드로 진행할 수 있으므로 checksum 확인만 위해 실행하지 마세요. ZIP 해시는 같은 Release의 <b>.zip.sha256</b>과 비교합니다. 이 ZIP은 테마 VSIX를 <b>Themes/</b> 아래 둡니다. 포함 PowerShell의 선택 테마 옵션은 루트를 찾을 수 있어 실패 가능성이 있으나 실제 설치하지 않았습니다. v0.15.1 후보 검사는 읽기 전용이지만 네트워크 차단을 증명하지 않습니다. 필수 VSIX 목록 대조와 배포 ZIP 검증이 남아 있습니다.",
+        "공개 v0.15.0 간단 ZIP의 과거 <b>VerifyOfflineSetup.bat</b>은 실행하지 마세요. FullOffline ZIP의 같은 이름 배치는 checksum만 확인할 때 실행하지 말고, 실제 설치를 할 때만 안내된 FullOffline 절차에 따라 실행하세요. FullOffline ZIP 자체는 Release의 <b>.zip.sha256</b>, 간단 ZIP은 <b>RELEASE_SHA256SUMS.txt</b>의 해당 행과 비교합니다. FullOffline ZIP은 테마 VSIX를 <b>Themes/</b> 아래 둡니다. 선택 테마 옵션은 루트 위치를 찾을 수 있어 실패 가능성이 있으나 실제 설치하지 않았습니다. 미공개 다음 버전 후보는 필수 7개 VSIX·체크섬과 경로를 확인하지만 새 설치기 EXE와 완성 ZIP은 아직 없습니다. 계약은 루트 실행 검증기/CLI manifest를 FullOffline에만, <b>BUNDLE_SHA256SUMS.txt</b>를 간단 ZIP에 두는 것입니다. offline-templates/ 템플릿을 읽어 버전을 반영한 검증 파일을 FullOffline 출력 루트에 새로 생성하는 경로는 후보 코드로 보완됐습니다. 템플릿 SHA는 바이트 일치만 확인합니다. 이 내부 목록은 ZIP 자체나 공급자 서명을 증명하지 않으며, 사용자가 따라 할 확인 명령은 아직 확정되지 않았습니다. PowerShell 5.1의 직접 진단은 경로 누락 시 실패할 수 있고, 명시 경로를 쓴 합성 입력에서 인자 전달만 확인했을 뿐 전체 진단은 검증하지 않았습니다. 합성 시험은 가짜 CLI·설치기와 대체 서명/파일 구조 검사를 썼고 실제 ZIP·설치는 미확인입니다. 일반 드라이브 경로도 매핑된 네트워크일 수 있고 검사 후 경로 변경 경쟁까지 막는 것은 아니므로 네트워크 격리 증거로 보지 마세요.",
         margin, y, W - 2 * margin, AMBER_BG, AMBER_EDGE, title_color=AMBER, size=9.0,
     )
     y -= h + 12
 
     paragraph(c,
-        "실제 Visual Studio의 편집기 뷰와 DTE 문서가 같은 문서·버퍼인지 검증되지 않았습니다. 실제 불일치, 원치 않는 변경 또는 유출이 확인됐다는 의미는 아닙니다. 이 PDF는 배포 전 검토 후보이며 공개 Release 파일이나 고정 태그 파일을 대체하지 않습니다.",
+        "실제 Visual Studio의 편집기 뷰와 DTE 문서가 같은 문서·버퍼인지 검증되지 않았습니다. 실제 불일치, 원치 않는 변경 또는 유출이 확인됐다는 의미는 아닙니다. 이 PDF는 v0.15.1 출하용 문서 후보이며, 실제 IDE·설치 및 패키지 검증이 끝나기 전에는 공개 Release 파일을 대체하지 않습니다.",
         margin, y, W - 2 * margin, size=8.6, leading=11.6, color=MUTED,
     )
 
@@ -149,9 +149,9 @@ def main():
     for page in base.pages:
         writer.add_page(page)
     writer.add_metadata({
-        "/Title": "v0.15.1-preview.1 C# comment-code pause notice candidate",
-        "/Author": "Visual Studio AI Assistant documentation candidate",
-        "/Subject": "v0.15.1 source candidate notice; package pending and actual IDE behavior unverified",
+        "/Title": "v0.15.1-preview.1 Shipping Guide Candidate",
+        "/Author": "Visual Studio AI Assistant",
+        "/Subject": "Shipping-purpose document candidate; package and actual IDE behavior remain unverified",
     })
     temp = OUTPUT.with_suffix(".new.pdf")
     with temp.open("wb") as stream:
@@ -172,9 +172,15 @@ def main():
         "이 안내서의 이전 사용 절차보다 이 공지를 우선해 주세요",
         "이 페이지는 기존 v0.15.0의 55쪽 설명서 앞에 붙인 v0.15.1 미공개 후보 공지입니다",
         "오프라인 검사 배치는 설치와 구분하세요",
-        "공개 v0.15.0의 VerifyOfflineSetup.bat은 실제 설치 모드로 진행할 수 있으므로 checksum 확인만 위해 실행하지 마세요",
-        "v0.15.1 후보 검사는 읽기 전용이지만 네트워크 차단을 증명하지 않습니다",
-        "이 ZIP은 테마 VSIX를 Themes/ 아래 둡니다",
+        "공개 v0.15.0 간단 ZIP의 과거 VerifyOfflineSetup.bat은 실행하지 마세요",
+        "FullOffline ZIP의 같은 이름 배치는 checksum만 확인할 때 실행하지 말고, 실제 설치를 할 때만 안내된 FullOffline 절차에 따라 실행하세요",
+        "미공개 다음 버전 후보는 필수 7개 VSIX·체크섬과 경로를 확인하지만 새 설치기 EXE와 완성 ZIP은 아직 없습니다",
+        "FullOffline ZIP은 테마 VSIX를 Themes/ 아래 둡니다",
+        "BUNDLE_SHA256SUMS.txt",
+        "offline-templates/ 템플릿을 읽어 버전을 반영한 검증 파일을 FullOffline 출력 루트에 새로 생성하는 경로는 후보 코드로 보완됐습니다",
+        "PowerShell 5.1의 직접 진단은 경로 누락 시 실패할 수 있고, 명시 경로를 쓴 합성 입력에서 인자 전달만 확인했을 뿐 전체 진단은 검증하지 않았습니다",
+        "사용자가 따라 할 확인 명령은 아직 확정되지 않았습니다",
+        "합성 시험은 가짜 CLI·설치기와 대체 서명/파일 구조 검사를 썼고 실제 ZIP·설치는 미확인입니다",
     )
     for phrase in unique_phrases:
         count = normalized.count(phrase)

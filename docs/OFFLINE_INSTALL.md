@@ -8,9 +8,13 @@
 
 현재 공개된 최신 Preview는 [v0.15.0-preview.1 Release](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.15.0-preview.1)입니다. 인터넷이 연결된 PC에서 **CLI 포함 전체 오프라인 ZIP**을 받거나, 연결이 가능한 대상 PC에서 해당 IDE용 VSIX를 받으세요. v0.15.1-preview.1은 아직 패키지와 Release가 공개되지 않은 문서·소스 후보입니다.
 
-v0.15.1 후보의 읽기 전용 검사기 호출은 소스 커밋 `010f0f03f5d2e273ad6fee219821575e6d5bf6ae`에, 설치 배치의 0.15.1 패키지 버전 선택은 후속 커밋 `d0c643b3117244b5ab1c4b4c7ca9d5403745e7ce`에 반영되어 있습니다. 이 후보의 `VerifyOfflineSetup.bat`은 파일 무결성 검사 스크립트만 호출하며 설치 명령이나 CLI를 실행하지 않습니다. 경로 형식과 파일 해시를 검사해도 실제 네트워크 차단은 확인·강제하지 않습니다. 드라이브 문자 경로만으로 로컬 디스크를 보장할 수도 없습니다(네트워크 매핑 드라이브일 수 있음). 필수 7개 VSIX와 checksum 목록의 완전한 대조 보완, 중첩 FullOffline/평면 Prepared ZIP 두 구조 지원 및 최종 배포 ZIP 검증이 아직 남아 있으므로 완성된 검증 범위로 간주하지 마세요. 아래 절차에서 공개 v0.15.0의 동명 배치는 검사 후 `-Install` 경로로 진행할 수 있으므로 그 버전에서는 설치할 때만 실행하세요.
+**ZIP 종류에 따른 검증 파일:** 공개 v0.15.0 FullOffline ZIP에는 `offline-manifest.json`과 `VerifyOfflineSetup.bat`이 있습니다. 간단 ZIP에는 CLI manifest가 없고 `BUNDLE_SHA256SUMS.txt`가 있지만, 이 공개 ZIP에도 과거 설치형 `VerifyOfflineSetup.bat`이 들어 있습니다. **간단 ZIP의 VerifyOfflineSetup.bat은 실행하지 마세요.** FullOffline ZIP의 같은 이름 배치도 checksum만 확인할 때는 실행하지 말고, 실제 설치를 할 때만 아래 설치 절차에 따라 실행하세요. FullOffline ZIP 파일 자체는 같은 Release의 `.zip.sha256` sidecar와 비교하고, 간단 ZIP은 `RELEASE_SHA256SUMS.txt`에서 해당 ZIP의 항목을 찾아 비교합니다. `BUNDLE_SHA256SUMS.txt`는 ZIP 내부 파일 목록이며 ZIP 파일 자체나 공급자 서명을 증명하지 않습니다. 다음 0.15.1 출하 계약은 루트 실행 검증기와 CLI manifest를 FullOffline ZIP에만 두는 것입니다. 간단 ZIP의 루트에는 이를 두지 않고 내부 체크섬 목록을 제공할 계획이지만, 사용자가 따라 할 검증 명령은 아직 확정되지 않았습니다. 준비 도구 입력 ZIP에 `offline-templates/` 아래 검증기 템플릿이 있을 수 있습니다. 후보 준비 스크립트는 해당 템플릿을 읽고 버전을 반영한 검증 파일을 FullOffline 출력 루트에 새로 생성합니다. 이 경로는 PS5/PS7 합성 자료에서 시험됐지만 가짜 CLI·설치기와 대체 서명/파일 구조 검사를 사용했으며 실제 공식 CLI, ZIP, 서명, 설치는 확인하지 않았습니다. 최종 ZIP이 계약대로 구성됐는지는 출하 전에 archive entry로 확인해야 합니다.
 
-**v0.15.0 테마 설치 주의:** 공개 FullOffline ZIP을 읽기 전용으로 살펴보면 테마 VSIX 3개와 테마 checksum은 `Themes/` 아래에 있습니다. 동봉 `Install-AIAssistant.ps1`의 선택 옵션 `-InstallTheme`/`-RequireTheme`는 패키지 루트에서 테마를 찾으므로, Visual Studio SKU 사전 조건을 통과해도 이 옵션 경로는 `InvalidThemePackage`가 될 수 있습니다. 이 안내서의 일반 `InstallAIAssistant.bat`(테마 옵션 미지정), 별도 테마 EXE 또는 개별 VSIX 설치가 실패한다고 확인한 것은 아니며, 실제 설치는 실행하지 않았습니다. 0.15.1 출하 후보에서는 평면·중첩 묶음 양쪽의 테마 경로 처리를 보완 중이므로, 최종 ZIP 검증 전에는 0.15.1 설치 결과로 간주하지 마세요.
+미공개 다음 버전 소스 후보는 `VerifyOfflineSetup.bat`을 파일 검사 전용으로 바꾸고, 4개 AI VSIX·3개 테마 VSIX, 체크섬, 루트 또는 `Themes/` 경로의 누락·중복·버전 불일치를 확인하도록 보완됐습니다. 패키지·조상 경로 및 체크섬·선택된 VSIX 경로에서 UNC·junction·심볼릭 링크를 거부하는 경로 검사도 추가됐습니다. 테마 설치를 선택하지 않으면 테마 경로는 요구하지 않습니다. 패키지는 일반 드라이브 문자 경로에 압축을 풀어 사용하세요. 드라이브 문자는 매핑된 네트워크일 수 있어 네트워크 격리를 증명하지 않으며, 검사 직후 파일 변경 경쟁도 막지 않습니다. 새 버전의 배치·설치 동작은 실제 IDE에서 확인되지 않았습니다.
+
+다음 버전의 설치 스크립트 버전은 출하 준비에서 0.15.1로 맞췄지만, 아직 새 설치기 EXE와 완성 ZIP이 공개되지 않았습니다. 변경된 PowerShell을 EXE에 포함하고, FullOffline/간단 ZIP의 파일 구성이 각각 계약에 맞는지, 버전·체크섬·manifest가 맞는지 완성 패키지에서 확인해야 합니다. 따라서 미공개 후보를 설치 파일로 간주하지 마세요. 아래 절차에서 공개 v0.15.0의 동명 배치는 검사 후 `-Install` 경로로 진행할 수 있으므로 그 버전에서는 설치할 때만 실행하세요.
+
+**v0.15.0 테마 설치 주의:** 공개 FullOffline ZIP을 읽기 전용으로 살펴보면 테마 VSIX 3개와 테마 checksum은 `Themes/` 아래에 있습니다. 동봉 `Install-AIAssistant.ps1`의 선택 옵션 `-InstallTheme`/`-RequireTheme`는 패키지 루트에서 테마를 찾으므로, Visual Studio SKU 사전 조건을 통과해도 이 옵션 경로는 `InvalidThemePackage`가 될 수 있습니다. 이 안내서의 일반 `InstallAIAssistant.bat`(테마 옵션 미지정), 별도 테마 EXE 또는 개별 VSIX 설치가 실패한다고 확인한 것은 아니며, 실제 설치는 실행하지 않았습니다. 미공개 다음 버전 후보에서는 루트/`Themes/` 구조와 경로 재분석 지점을 검사하지만 새 EXE 반영과 완성 ZIP 검증은 남아 있습니다.
 
 | 용도 | 파일 |
 |---|---|
@@ -39,7 +43,7 @@ v0.15.1 후보의 읽기 전용 검사기 호출은 소스 커밋 `010f0f03f5d2e
 
 ## 이전 v0.14.2-preview.1 설치·Dracula 편집기 안내
 
-이 절은 이전 v0.14.2-preview.1의 설치·테마 사용 기록입니다. 아래 Release에서 설치 파일을 내려받을 수 있습니다. 직전 v0.14.1-preview.1은 보존하고, 새 버전의 공개 다운로드 검증 후 v0.14.0 이하의 오래된 Release 첨부는 정리했습니다. 이전 v0.14.0 안내 PDF는 [저장소 보존본](../output/pdf/VisualStudio_AI_Assistant_%EC%84%A4%EC%B9%98_%EC%82%AC%EC%9A%A9%EC%84%A4%EB%AA%85%EC%84%9C_v0.14.0_%EB%AF%B8%EB%A6%AC%EB%B3%B4%EA%B8%B0.pdf)으로 유지합니다.
+이 절은 이전 v0.14.2-preview.1의 설치·테마 사용 기록입니다. 아래 Release에서 설치 파일을 내려받을 수 있습니다. v0.14.1-preview.1 Release/tag 기록은 당시 보존했지만, 2026-11-08 익명 Release API 확인에서는 첨부 자산이 0개였습니다. 이 버전의 ZIP 다운로드 절차는 현재 사용할 수 없습니다. 새 버전의 공개 다운로드 검증 후 v0.14.0 이하의 오래된 Release 첨부를 정리했습니다. 이전 v0.14.0 안내 PDF는 [저장소 보존본](../output/pdf/VisualStudio_AI_Assistant_%EC%84%A4%EC%B9%98_%EC%82%AC%EC%9A%A9%EC%84%A4%EB%AA%85%EC%84%9C_v0.14.0_%EB%AF%B8%EB%A6%AC%EB%B3%B4%EA%B8%B0.pdf)으로 유지합니다.
 
 1. [v0.14.2-preview.1 Release](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.14.2-preview.1)에서 CLI 포함 전체 오프라인 ZIP `VisualStudio_AI_Assistant-0.14.2-Preview1-FullOffline-win-x64.zip`을 받습니다. IDE 한 개를 수동 설치할 때는 같은 릴리스의 해당 연도 VSIX를 사용합니다.
 2. ZIP을 새 폴더에 완전히 압축 해제하고 manifest·체크섬을 확인합니다. 실행 중인 Visual Studio 창은 모두 닫습니다.
@@ -55,11 +59,11 @@ v0.15.1 후보의 읽기 전용 검사기 호출은 소스 커밋 `010f0f03f5d2e
 
 설치 대상 Visual Studio와 사용 환경에 따라 지원 범위가 달라질 수 있습니다. 고객 VS2017 Professional 15.7.1·별도 오프라인 PC, 실제 AI/TFS 작업은 확인되지 않았으므로 공개 Release의 버전별 안내를 확인하세요.
 
-## 이전 v0.14.1-preview.1 전용 확장·IDE 테마 설치기
+## 이전 v0.14.1-preview.1 전용 확장·IDE 테마 설치기 (역사적 기록)
 
-v0.14.1-preview.1 후보는 네 SKU 빌드와 대화 색상 화면 검사를 거쳤습니다. 고객 PC의 설치·실사용, 특히 VS2017 Professional 15.7.1 및 별도 제한망 PC 환경은 확인 범위에 포함하지 않았습니다. 이 묶음의 `Grokeen-AI-Theme-Offline-Installer-0.14.1.exe`는 설치된 Visual Studio를 감지해 선택한 IDE에 동봉 확장과 IDE 테마를 설치합니다. 설치 전 실행 중인 IDE는 사용자가 직접 닫아야 합니다. 설치기는 Codex·Claude CLI 설치나 계정 로그인·AI 요청을 수행하지 않습니다.
+다음 순서는 v0.14.1-preview.1 당시의 설치 기록입니다. 2026-11-08 익명 Release API 확인에서 이 Release의 첨부 자산은 0개였으므로 현재 내려받아 설치할 수 없습니다. 지금 설치가 필요하면 문서 상단의 공개 v0.15.0-preview.1 Release를 사용하세요. v0.14.1 후보는 네 SKU 빌드와 대화 색상 화면 검사를 거쳤습니다. 고객 PC의 설치·실사용, 특히 VS2017 Professional 15.7.1 및 별도 제한망 PC 환경은 확인 범위에 포함하지 않았습니다. 당시 설치기는 Codex·Claude CLI 설치나 계정 로그인·AI 요청을 수행하지 않았습니다.
 
-1. 같은 v0.14.1 묶음의 ZIP을 새 폴더에 모두 압축 해제하고 manifest/체크섬으로 파일을 확인합니다.
+1. 당시에는 같은 v0.14.1 묶음의 ZIP을 새 폴더에 압축 해제하고 manifest/체크섬으로 파일을 확인했습니다.
 2. 실행 중인 모든 Visual Studio 인스턴스를 직접 닫습니다. 설치기는 IDE를 강제 종료하지 않고 닫힐 때까지 기다릴 수 있습니다.
 3. `Grokeen-AI-Theme-Offline-Installer-0.14.1.exe`를 실행합니다. 발견된 Visual Studio 버전과 설치 인스턴스를 검토합니다. 여러 대상이 표시되면 사용할 항목을 고릅니다.
 4. 설치 전 확인을 통과하면 묶음의 확장 VSIX와 IDE 테마 VSIX를 해당 Visual Studio 설치기로 설치합니다. 네트워크에서 설치 파일을 다운로드하지 않습니다.
@@ -71,7 +75,7 @@ v0.14.1-preview.1 후보는 네 SKU 빌드와 대화 색상 화면 검사를 거
 
 전용 설치기 사용 후에도 CLI 런타임이 필요하면 아래 CLI 설치 절차를 별도로 진행하세요. CLI가 설치되어 있어도 서비스 로그인이나 실제 AI 요청은 네트워크와 계정 권한이 허용될 때만 가능합니다.
 
-이전 버전의 기준 묶음은 **v0.14.1-preview.1**의 [CLI 포함 전체 오프라인 ZIP](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.14.1-preview.1/VisualStudio_AI_Assistant-0.14.1-Preview1-FullOffline-win-x64.zip)입니다. 작은 ZIP과 구분해 전체 오프라인 ZIP을 받으세요. 설치 전 manifest와 체크섬을 확인하고, 이 안내와 같은 버전의 파일을 사용하세요.
+아래 v0.14.1 절차는 당시 설치 흐름을 기록한 역사적 설명입니다. 2026-11-08 확인 시 이 Release에는 다운로드 가능한 첨부 자산이 없으므로 ZIP 링크를 제공하거나 현재 설치용으로 안내하지 않습니다. 설치가 필요하면 문서 상단의 현재 공개 v0.15.0 Release를 사용하세요.
 
 이전 버전인 v0.13.0-preview.1의 사용자 전달 폴더에는 VSIX와 테마 패키지, `cli/codex/`·`cli/claude/` 런타임 및 라이선스·고지, 설치/검증 BAT·PowerShell, 체크섬·manifest, 안내 문서와 PDF만 포함했습니다. 제품 소스·프로젝트·PDB·테스트·개발/감사 증거·Git 자료·사용자 프로필·토큰·대화 기록·인터넷 준비용 도구는 제외했습니다. 이 설명은 이전 버전의 구성 기록입니다. 현재 공개 설치 파일은 [v0.15.0-preview.1 Release](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.15.0-preview.1)와 이 문서 상단의 최신 설치 표를 확인하세요.
 
@@ -111,7 +115,7 @@ v0.14.1-preview.1 후보는 네 SKU 빌드와 대화 색상 화면 검사를 거
 ## 3. 오프라인 PC에 CLI 설치
 
 1. USB에서 `PreparedOffline-...zip` 전체를 대상 PC의 새 폴더로 복사한 뒤 압축을 모두 풉니다. 압축 파일 안에서 BAT를 직접 실행하지 마세요.
-2. `InstallOfflineCLI.bat`을 실행합니다. 직접 PowerShell 스크립트를 실행하면 기본은 검증만 하며, 파일을 복사하려면 `-Install`을 지정해야 합니다.
+2. CLI 파일 설치는 압축을 모두 푼 FullOffline 폴더에서 `InstallOfflineCLI.bat`을 실행합니다. 공개 패키지의 PowerShell 5.1 직접 호출은 `-File`로 스크립트를 실행하면서 `-BundleDirectory`를 생략하면 경로 오류가 날 수 있습니다. 명시 경로 시험은 격리된 합성 모듈에 인자가 전달되는 것만 확인했고, 실제 공통 모듈이나 전체 진단 성공은 확인하지 않았으므로 해결된 우회 방법으로 안내하지 않습니다. 직접 실행은 기본 검증이며 파일을 복사하려면 `-Install`을 지정해야 합니다.
 3. 오프라인 설치기는 manifest의 파일 수·크기·SHA-256과 실행 파일의 x64 구조를 확인합니다. 이 단계에서 온라인 서명 조회나 CLI 실행은 하지 않습니다. 검사를 마치면 새 사용자별 폴더에 복사합니다. 기본 설치 위치는 `%LOCALAPPDATA%\Programs\VisualStudioAIAssistant\OfflineCLI\codex-<Codex버전>_claude-<Claude버전>_win-x64`입니다. 완료 화면에 표시된 `codex.exe`와 `claude.exe`의 전체 경로를 기록합니다. 실행 파일은 각각 `cli\codex\bin\codex.exe`와 `cli\claude\claude.exe`에 있습니다.
 
 CLI 설치기는 묶음을 검증할 때 CLI를 실행하거나 네트워크에 접속하지 않습니다. 같은 묶음을 다시 실행하면 설치 파일 무결성을 재확인합니다. 기존 CLI 설치 파일을 덮어쓰거나 PATH·기존 설정·계정 정보를 자동으로 변경하지 않습니다. `InstallCLI.bat`은 온라인 다운로드용이므로 오프라인 PC에서는 실행하지 마세요. CLI 설치 결과 JSON은 기본적으로 `%TEMP%\OfflineCLI-install-<GUID>.json`에 생성되며, 콘솔에 표시되는 로그 경로를 보관하세요. VS 설정에서 CLI 경로를 지정할 때 기존 CLI와 새 전용 폴더 중 사용할 경로를 직접 선택하세요.
@@ -151,7 +155,7 @@ AI Assistant VSIX만 수동으로 설치했고 IDE 테마 패키지가 없는 �
 
 현재 공개 v0.15.0의 `VerifyOfflineSetup.bat`은 설치 동작을 포함하는 배치입니다. 이름만으로 검증 전용이라고 판단하지 마세요. ZIP checksum만 확인하려는 경우에는 이 배치를 실행하지 말고 위의 `Get-FileHash` 절차를 사용하세요. 설치할 때만 전체 압축을 푼 패키지에서 실행합니다. 배치는 로컬 사전 검사 후 오프라인 대상 PC인지 확인을 요청하며, 이는 사용자의 확인값일 뿐 네트워크 차단을 증명하거나 방화벽을 변경하지 않습니다. 계속 진행하면 Visual Studio를 닫도록 요구하고, 설치 가능한 IDE가 여러 개면 대상을 선택하게 합니다. 그 뒤 CLI를 설치하고 임시 프로필에서 두 CLI의 `--version`을 확인한 다음 공식 VSIX 설치기를 실행합니다. 로그인이나 AI 모델 요청은 수행하지 않습니다.
 
-**설치 순서:** 보존할 사용자 데이터가 있다면 먼저 백업하세요. 기존 `%LOCALAPPDATA%\VS2017AIAssistant` 데이터는 삭제하지 마세요. 패키지 전체를 압축 해제하고 `offline-manifest.json`을 살펴본 뒤, 설치하려는 경우에만 모든 Visual Studio 창을 직접 닫고 배치를 실행합니다. 오프라인 대상 여부 확인에 `Y`를 입력하는 것은 사용자의 확인이며 실제 네트워크 차단을 증명하지 않습니다. 여러 IDE가 있으면 설치 대상을 선택합니다. 이 과정을 계속하면 CLI 설치가 진행되고 공식 VSIX 설치기가 열립니다. 취소하거나 조건을 충족하지 않으면 설치 단계로 진행하지 않습니다. 이 배치를 단순 checksum 검사나 읽기 전용 진단으로 사용하지 마세요. 설치 없이 진단 상태만 보려면 `Test-OfflineSetupOnTarget.ps1`을 `-Install` 없이 직접 실행할 수 있습니다. 이 결과 `ReadyDiagnosticOnly`는 설치가 되지 않았다는 의미이며, Release ZIP 자체의 checksum이나 패키지 내부 전체가 검증되었다는 보증은 아닙니다.
+**설치 순서:** 보존할 사용자 데이터가 있다면 먼저 백업하세요. 기존 `%LOCALAPPDATA%\VS2017AIAssistant` 데이터는 삭제하지 마세요. 패키지 전체를 압축 해제하고 `offline-manifest.json`을 살펴본 뒤, 설치하려는 경우에만 모든 Visual Studio 창을 직접 닫고 배치를 실행합니다. 오프라인 대상 여부 확인에 `Y`를 입력하는 것은 사용자의 확인이며 실제 네트워크 차단을 증명하지 않습니다. 여러 IDE가 있으면 설치 대상을 선택합니다. 이 과정을 계속하면 CLI 설치가 진행되고 공식 VSIX 설치기가 열립니다. 취소하거나 조건을 충족하지 않으면 설치 단계로 진행하지 않습니다. 이 배치를 단순 checksum 검사나 읽기 전용 진단으로 사용하지 마세요. 설치 없는 직접 진단은 설치·실제 CLI 실행을 하지 않지만 결과 폴더·로그·JSON을 만들고 레지스트리를 읽을 수 있어 무부작용 또는 checksum 전용 동작은 아닙니다. 공개 패키지에서 PowerShell 5.1 `-File` 직접 호출은 `-BundleDirectory` 생략 시 오류가 날 수 있습니다. 명시 경로 전달은 합성 시험에서만 확인됐고 전체 진단 성공은 검증하지 않았으므로 해결된 우회 방법으로 안내하지 않습니다. `ReadyDiagnosticOnly`는 설치가 되지 않았다는 의미이며, Release ZIP 자체의 checksum이나 패키지 내부 전체가 검증되었다는 보증은 아닙니다.
 
 검사 결과는 `%TEMP%\OfflineSetupVerify-<GUID>\RESULT.json` 및 같은 폴더의 CLI·VSIX 로그에 저장됩니다. 콘솔에 출력된 정확한 결과 폴더 경로를 기록하세요. `InstalledPendingIdeCheck`는 설치 파일 확인까지 끝났다는 뜻이며 완료 판정은 아닙니다. Visual Studio를 직접 열어 **도구 → AI Assistant** 창이 표시되는지 확인하세요. `InstallerSucceededPendingInstalledFileCheck`이면 설치기가 성공을 반환했지만 설치 파일 확인은 끝나지 않은 상태이므로 결과 폴더의 로그와 파일을 확인해야 합니다. `Failed`이면 `RESULT.json`의 오류 문구와 관련 로그를 확인합니다.
 
