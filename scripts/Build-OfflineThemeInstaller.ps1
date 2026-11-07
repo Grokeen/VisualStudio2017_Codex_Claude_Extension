@@ -5,13 +5,14 @@ name         : Build-OfflineThemeInstaller
 desc         : 검증된 로컬 VSIX 7개와 설치 스크립트를 단일 오프라인 WinForms EXE에 내장한다.
 author       : CodexCode
 create date  : 2026-10-20
+               2026-11-03 CodexOrig : TASK073 standard 0.15.0 package metadata.
 -------------------------------------------------------------------------
 #>
 [CmdletBinding()]
 param(
     [string]$PackageDirectory,
     [string]$OutputDirectory,
-    [ValidatePattern('^\d+\.\d+\.\d+$')][string]$PackageVersion='0.14.2'
+    [ValidatePattern('^\d+\.\d+\.\d+$')][string]$PackageVersion='0.15.0'
 )
 $ErrorActionPreference='Stop'
 $repository=[IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))

@@ -114,11 +114,15 @@ namespace VS2017.AIAssistant.Views
         /// create date  : 2026-10-20
         /// update date  : 2026-10-20 CodexOrig : TASK069 캡처한 첨부의 이름·본문 분량만 전송 기록에 표시.
         /// update date  : 2026-10-20 CodexCode : 원래 읽기 전용 문서는 입력을 소비하기 전에 거절한다.
+        /// update date  : 2026-11-07 CodexOrig : 실제 솔루션/대화 범위와 캡처 세대를 입력 소비 전에 재검증.
         /// </summary>
         /// ---------------------------------------------------------------------
         private QueuedUiRequest CaptureCurrentRequest(bool independent)
         {
             Dispatcher.VerifyAccess();
+            BeginProjectConversationCapture();
+            try
+            {
             if (string.IsNullOrWhiteSpace(Instruction.Text)) throw new InvalidOperationException("요청을 입력하세요.");
             if (Instruction.Text.Length > 16000) throw new InvalidOperationException("프롬프트는 16000자 이하로 입력하세요.");
             if (!independent && queuedRequests.Count >= MaximumQueuedRequests) throw new InvalidOperationException("대기 요청은 최대 8개입니다. 입력 내용은 그대로 보존했습니다.");
@@ -164,6 +168,7 @@ namespace VS2017.AIAssistant.Views
             string instructions = File.Exists(workspaceStore.InstructionsPath) ? workspaceStore.LoadInstructions() : RulesText.Text;
             request.Context = new ChatRequestContext(instructions, ModelName.Text, request.Chat.Messages.ToArray(), request.Chat.Attachments.ToArray(), efforts[request.Provider], speeds[request.Provider]);
             new ProviderExecutionOptions(request.Provider, request.Context.Model, request.Context.ReasoningEffort, request.Context.Speed);
+            EnsureProjectConversationRequestContext();
             var previousMessages = request.Chat.Messages.ToArray();
             request.Chat.Add("user", request.Instruction + AttachmentDisplayInfo.SubmissionSummary(request.Context.Attachments));
             var submittedMessage = request.Chat.Messages.Last();
@@ -179,6 +184,8 @@ namespace VS2017.AIAssistant.Views
                 throw new InvalidOperationException("대화 기록 저장에 실패해 대기에 등록하지 않았습니다. 입력을 보존했습니다.");
             }
             return request;
+            }
+            finally { EndProjectConversationCapture(); }
         }
 
         /// ---------------------------------------------------------------------

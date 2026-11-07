@@ -599,3 +599,12 @@ Orig2 사후 감사 통과/동결. CodexOrig_TASK-069.md 및 Deployment/ReleaseC
 다른역할에대한사용자완료기준은 자기파트완료가아닌 빌드·컴파일→최신Release제작→실제게시→공개다운로드해시검증까지다. Orig3·4·연구역할·CodexCode에최종링크와기준을직접전송성공했다. 이번에는CodexCode도수신가능하며기존의active-writer실패로기록하지않는다. Orig2에는실제공개/정리사후감사를요청했다. 제품/배포/PDF동결을유지하고Root가최종감사와기록commit/push를마감한다.
 
 CodexOrig2 사후 감사 상태: PASS_PUBLIC_PREVIEW_TASK072_WITH_DOCUMENTED_RESIDUALS. 공개14익명SHA·직전보존·승인정리까지 TASK072 Preview 범위 통과이며, 첫Single/종료지연/고객환경한계는유지한다.
+
+## 0.15.0 Preview 소스 통합 준비 — CodexOrig8 / 2026-11-08 00:24:00 KST
+
+- 이번 통합 구간: 2026-11-07 23:36:50 ~ 2026-11-08 00:24:00 KST, 소요 47분 10초. 이전 TASK073 후보 준비 기록은 별도로 보존했습니다.
+- 작업: 활동함·키보드 툴팁 후보에 CLI 모델 설정 보존/조회 복구, 유효한 현재 계정 할당량의 남은 비율, 솔루션별 대화 저장·유휴 전환, 수동 C# 주석 코드 요청/미리보기/명시 수락, 내부 Markdown 제목·미저장 닫기 확인을 통합했습니다.
+- 주요 경로: src/VS2017.AIAssistant/Providers, Services/ProjectConversationContext.cs, Views/AssistantControl.ProjectConversations.cs, Views/AssistantControl.ActivityFeed.cs, Views/MarkdownEditor.cs 및 관련 partial, scripts/Sync-VsixTargets.ps1, tests/project-conversations, tests/quota-remaining, tests/comment-code-product, tests/markdown-headings, tests/markdown-close-confirm.
+- 문서/입력: 한국어 릴리스 노트와 55쪽 설명서를 반영하고 같은 PDF를 네 SKU에 연결했습니다. 별도 새로 빌드한 0.15.0 테마 3종을 내장 입력으로 고정했습니다. 이전 판 PDF와 개발 후보 실패 원본은 보존했습니다.
+- 이 단계 확인: 명시 목록의 원본 해시·복사 해시, 선택 외 index 보존, 병합 충돌 해소, diffcheck, 여섯 프로젝트의 정적 참조 범위, 활동함의 기존 CAS/postcommit 메서드 보존을 확인했습니다. 소스/모의 검사와 이전 0.14.2 개발 DLL 결과를 최종 0.15 DLL 검사로 표시하지 않았습니다.
+- 다음 단계: 이 통합 커밋의 별도 체크아웃에서 Root가 네 SKU strict Release와 실제 DLL 비GUI 회귀를 수행하고, 동일 산출물 14개의 묶음·해시·익명 다운로드를 확인한 후 Preview로 게시합니다. 실제 IDE 설치/화면, 계정 인증/live AI, IME/native Undo는 미검증이며 GUI 중단을 유지합니다. 일반 VS .md 편집기 연동 미리보기는 포함하지 않습니다.

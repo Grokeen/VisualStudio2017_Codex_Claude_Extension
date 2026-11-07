@@ -9,12 +9,13 @@ update date  : 2026-10-20 CodexOrig : 설치·레지스트리·현재 사용자 
 update date  : 2026-10-20 CodexOrig4 : TASK069 Dracula 스크롤 손잡이 대비 및 Kakao 탭 상태 대비 보정.
                2026-10-20 CodexOrig : TASK069 IDE 기본 우클릭 메뉴 표면·경계·선택 항목 대비 보정.
                2026-10-23 CodexOrig : TASK072 diff 면/텍스트/overview와 C# 주석 색을 분리한다.
+               2026-11-03 CodexOrig : TASK073 standard 0.15.0 package metadata.
 -------------------------------------------------------------------------
 #>
 [CmdletBinding()]
 param(
     [Parameter(Mandatory=$true)][string]$OutputDirectory,
-    [ValidatePattern('^\d+\.\d+\.\d+$')][string]$Version='0.14.2'
+    [ValidatePattern('^\d+\.\d+\.\d+$')][string]$Version='0.15.0'
 )
 $ErrorActionPreference='Stop'
 Add-Type -AssemblyName System.Drawing
@@ -47,6 +48,7 @@ name         : Set-EditorFormatColor
 desc         : 실제 WPF 편집기가 읽는 MEF 색 카테고리에 명시한 확장 포맷만 추가한다.
 author       : CodexOrig
 create date  : 2026-10-23
+               2026-11-03 CodexOrig : TASK073 standard 0.15.0 package metadata.
 -------------------------------------------------------------------------
 #>
 function Set-EditorFormatColor {

@@ -217,6 +217,23 @@ namespace VS2017.AIAssistant.Views
 
         /// ---------------------------------------------------------------------
         /// <summary>
+        /// name         : SaveAndCheckBeforeClose
+        /// desc         : 현재 문서를 저장 또는 내보내기 대화상자로 저장하고 실제 dirty 상태를 반환한다.
+        /// author       : CodexOrig4
+        /// create date  : 2026-11-07
+        /// update date  : 2026-11-07 CodexOrig4 : 저장 취소·오류 시 닫기를 허용하지 않도록 확인값 제공.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        public bool SaveAndCheckBeforeClose()
+        {
+            Dispatcher.VerifyAccess();
+            if (disposed) throw new ObjectDisposedException("MarkdownEditor");
+            ChooseSave();
+            return !IsDirty;
+        }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
         /// name         : OpenCurrentDocumentLocation
         /// desc         : 사용자가 누른 경우에만 검증한 현재 Markdown 파일을 탐색기에서 선택한다.
         /// author       : CodexOrig

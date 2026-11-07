@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
+using System.Windows.Automation;
 using System.Windows.Controls;
 using VS2017.AIAssistant.Editing;
 
@@ -14,6 +15,7 @@ namespace VS2017.AIAssistant.Views
     /// author       : CodexCode
     /// create date  : 2026-10-19
     /// update date  : 2026-10-19 CodexCode : TASK-024 이미지30·31·36의 원시 Markdown과 링크 표시 보완.
+    ///                2026-11-07 CodexOrig4 : dirty Markdown 닫기 확인을 고정 footer의 명시 선택으로 제공.
     /// </summary>
     /// ---------------------------------------------------------------------
     public partial class AssistantControl
@@ -176,6 +178,7 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexCode
         /// create date  : 2026-10-19
         /// update date  : 2026-10-19 CodexCode : 기존 입력 길이·설정 저장·대화 전송을 우회하지 않음.
+        ///                2026-11-08 CodexOrig8 : 저장 후 닫기 이벤트의 UI 스레드를 확인하고 비파괴 확인 선택을 유지.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void OpenMarkdownEditor(TextBox target, string title)
@@ -201,7 +204,77 @@ namespace VS2017.AIAssistant.Views
                 target.Text = editor.Text; target.CaretIndex = target.Text.Length; editor.MarkSaved(); dialog.Close(); target.Focus();
             };
             if (target != null) dialog.Actions.Children.Insert(0, apply);
-            dialog.Closing += (sender, args) => { if (!disposed && !editor.ConfirmClose(() => dialog.Close())) args.Cancel = true; };
+            bool discardApproved = false;
+            bool closePromptVisible = false;
+            var saveAndClose = new Button { Content = "저장 후 닫기", Margin = new Thickness(0, 0, 8, 0), ToolTip = "현재 Markdown을 저장한 뒤 창을 닫습니다." };
+            saveAndClose.SetResourceReference(FrameworkElement.StyleProperty, "PrimaryButton");
+            AutomationProperties.SetName(saveAndClose, "변경 저장 후 Markdown 작성기 닫기");
+            AutomationProperties.SetHelpText(saveAndClose, "기존 파일은 같은 경로에 저장하고, 새 문서는 저장 위치를 선택합니다. 저장이 취소되거나 실패하면 창은 열려 있습니다.");
+            var discardAndClose = new Button { Content = "변경 버리고 닫기", Margin = new Thickness(0, 0, 8, 0), ToolTip = "저장하지 않은 변경을 버리고 창을 닫습니다." };
+            discardAndClose.SetResourceReference(Control.ForegroundProperty, "AssistantWarningBrush");
+            discardAndClose.SetResourceReference(Control.BorderBrushProperty, "AssistantWarningBrush");
+            AutomationProperties.SetName(discardAndClose, "저장하지 않은 변경을 버리고 Markdown 작성기 닫기");
+            AutomationProperties.SetHelpText(discardAndClose, "현재 작성기의 저장되지 않은 변경을 보존하지 않고 닫습니다.");
+            var keepEditing = new Button { Content = "계속 작성", ToolTip = "창을 닫지 않고 현재 문서를 계속 편집합니다." };
+            keepEditing.SetResourceReference(FrameworkElement.StyleProperty, "SurfaceButton");
+            AutomationProperties.SetName(keepEditing, "Markdown 작성기로 돌아가기");
+            AutomationProperties.SetHelpText(keepEditing, "저장하지 않은 변경을 유지하고 확인을 취소하여 편집기로 돌아갑니다.");
+            Action hideClosePrompt = () =>
+            {
+                if (!closePromptVisible) return;
+                dialog.Actions.Children.Remove(saveAndClose);
+                dialog.Actions.Children.Remove(discardAndClose);
+                dialog.Actions.Children.Remove(keepEditing);
+                dialog.Message.Text = String.Empty;
+                dialog.Message.ClearValue(TextBlock.ForegroundProperty);
+                dialog.Message.ClearValue(TextBlock.FontSizeProperty);
+                dialog.Message.ClearValue(TextBlock.FontWeightProperty);
+                AutomationProperties.SetName(dialog.Message, String.Empty);
+                AutomationProperties.SetHelpText(dialog.Message, String.Empty);
+                closePromptVisible = false;
+            };
+            Action showClosePrompt = () =>
+            {
+                if (closePromptVisible) return;
+                dialog.Message.Text = "저장되지 않은 변경이 있습니다. 저장 후 닫거나, 변경을 버리고 닫을 수 있습니다.";
+                dialog.Message.SetResourceReference(TextBlock.ForegroundProperty, "AssistantWarningBrush");
+                dialog.Message.FontSize = 13;
+                dialog.Message.FontWeight = FontWeights.SemiBold;
+                AutomationProperties.SetName(dialog.Message, "저장하지 않은 Markdown 변경 확인");
+                AutomationProperties.SetHelpText(dialog.Message, "저장 후 닫기, 변경 버리고 닫기, 계속 작성 중 하나를 선택하세요.");
+                dialog.Actions.Children.Insert(0, keepEditing);
+                dialog.Actions.Children.Insert(0, discardAndClose);
+                dialog.Actions.Children.Insert(0, saveAndClose);
+                closePromptVisible = true;
+                dialog.Dispatcher.BeginInvoke(new Action(() => { if (closePromptVisible) keepEditing.Focus(); }));
+            };
+            saveAndClose.Click += (sender, args) =>
+            {
+                Dispatcher.VerifyAccess();
+                if (disposed) return;
+                if (editor.SaveAndCheckBeforeClose()) { hideClosePrompt(); dialog.Close(); }
+                else
+                {
+                    dialog.Message.Text = "저장이 완료되지 않았습니다. 계속 작성하거나 변경을 버리고 닫을 수 있습니다.";
+                    AutomationProperties.SetName(dialog.Message, "저장이 완료되지 않음");
+                    AutomationProperties.SetHelpText(dialog.Message, "저장하지 않은 변경은 유지됩니다. 계속 작성하거나 변경 버리고 닫기를 선택하세요.");
+                    AutomationProperties.SetHelpText(keepEditing, "저장이 완료되지 않아 변경은 그대로 유지됩니다. 편집기로 돌아갑니다.");
+                    keepEditing.Focus();
+                }
+            };
+            discardAndClose.Click += (sender, args) =>
+            {
+                discardApproved = true;
+                hideClosePrompt();
+                dialog.Close();
+            };
+            keepEditing.Click += (sender, args) => { hideClosePrompt(); editor.Editor.Focus(); };
+            dialog.Closing += (sender, args) =>
+            {
+                if (disposed || discardApproved || !editor.IsDirty) { hideClosePrompt(); return; }
+                args.Cancel = true;
+                showClosePrompt();
+            };
             activeMarkdownDialog = dialog;
             try { dialog.ShowDialog(); }
             finally { activeMarkdownDialog = null; editor.Preview.LinkRequested -= MarkdownLinkRequested; editor.Dispose(); }

@@ -45,6 +45,11 @@
     <Compile Include="IdeTests.cs" />
     <Compile Include="IdeTests.LatestUi.cs" />
     <Compile Include="IdeTests.Debugging.cs" />
+    <Compile Include="IdeTests.ActivityFeed73.cs" />
+    <Compile Include="..\task073-runtime\ActivityFeedRuntime73.cs"><Link>ActivityFeedRuntime73.cs</Link></Compile>
+    <Compile Include="..\task073-runtime\ActivityFeedRuntimeProbe73.cs"><Link>ActivityFeedRuntimeProbe73.cs</Link></Compile>
+    <Compile Include="..\task073-runtime\ActivityFeedSnapshot73.cs"><Link>ActivityFeedSnapshot73.cs</Link></Compile>
+    <Compile Include="..\task073-runtime\ShutdownObservation73.cs"><Link>ShutdownObservation73.cs</Link></Compile>
     <Compile Include="..\ux\DialogChecks.cs"><Link>DialogChecks.cs</Link></Compile>
     <Compile Include="..\ux\ProductUi.cs"><Link>ProductUi.cs</Link></Compile>
     <None Include="source.extension.vsixmanifest" />

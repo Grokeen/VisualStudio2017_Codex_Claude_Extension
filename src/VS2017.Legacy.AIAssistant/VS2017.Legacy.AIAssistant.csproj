@@ -47,6 +47,7 @@
     <PackageReference Include="AvalonEdit" Version="6.3.1.120" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
@@ -67,6 +68,11 @@
     <!-- IDE에서 제공하는 SDK 어셈블리는 VSIX에 중복 배포하지 않는다. -->
     <PackageReference Include="Microsoft.VisualStudio.Shell.15.0" Version="15.7.27703" ExcludeAssets="runtime" />
     <PackageReference Include="EnvDTE" Version="8.0.2" ExcludeAssets="runtime" />
+    <!-- 2026-11-07 CodexOrig : 실제 editor adapter의 compile-only SDK. IDE가 제공하는 DLL은 VSIX에 복제하지 않는다. -->
+    <PackageReference Include="Microsoft.VisualStudio.Editor" Version="15.6.27740" PrivateAssets="all" ExcludeAssets="runtime" />
+    <PackageReference Include="Microsoft.VisualStudio.Text.Logic" Version="15.6.27740" PrivateAssets="all" ExcludeAssets="runtime" />
+    <PackageReference Include="Microsoft.VisualStudio.Text.UI.Wpf" Version="15.6.27740" PrivateAssets="all" ExcludeAssets="runtime" />
+    <PackageReference Include="Microsoft.VisualStudio.ComponentModelHost" Version="15.7.27703" PrivateAssets="all" ExcludeAssets="runtime" />
     <PackageReference Include="Microsoft.VisualStudio.Threading" Version="15.6.31" ExcludeAssets="runtime" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" ExcludeAssets="runtime" />
     <PackageReference Include="Microsoft.VSSDK.BuildTools" Version="15.9.3032" PrivateAssets="all" />
@@ -75,6 +81,24 @@
   <ItemGroup>
     <Compile Include="..\VS2017.AIAssistant\AiAssistantPackage.cs">
       <Link>AiAssistantPackage.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\..\CommentCodePreview.Poc\EditorContract.cs">
+      <Link>CommentCodePreview\EditorContract.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\..\CommentCodePreview.Poc\PreviewSession.cs">
+      <Link>CommentCodePreview\PreviewSession.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Providers\CommentCodeProviderAdapter.cs">
+      <Link>Providers\CommentCodeProviderAdapter.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Services\CommentCodeEditorAdapter.cs">
+      <Link>Services\CommentCodeEditorAdapter.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Views\AssistantControl.CommentCode.cs">
+      <Link>Views\AssistantControl.CommentCode.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Views\CommentCodePreviewDialog.cs">
+      <Link>Views\CommentCodePreviewDialog.cs</Link>
     </Compile>
     <Compile Include="..\VS2017.AIAssistant\Commands\OpenAssistantCommand.cs">
       <Link>Commands\OpenAssistantCommand.cs</Link>
@@ -90,6 +114,9 @@
     </Compile>
     <Compile Include="..\VS2017.AIAssistant\Chat\ChatWorkspace.cs">
       <Link>Chat\ChatWorkspace.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Chat\ConversationActivityFeed.cs">
+      <Link>Chat\ConversationActivityFeed.cs</Link>
     </Compile>
     <Compile Include="..\VS2017.AIAssistant\Chat\DocumentAttachmentReader.cs">
       <Link>Chat\DocumentAttachmentReader.cs</Link>
@@ -274,6 +301,18 @@
     <Compile Include="..\VS2017.AIAssistant\Views\AssistantControl.Experience.cs">
       <Link>Views\AssistantControl.Experience.cs</Link>
     </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Views\AssistantControl.ActivityFeed.cs">
+      <Link>Views\AssistantControl.ActivityFeed.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Views\AssistantControl.ActivityFeedView.cs">
+      <Link>Views\AssistantControl.ActivityFeedView.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Views\AssistantKeyboardToolTip.cs">
+      <Link>Views\AssistantKeyboardToolTip.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Views\AssistantControl.ProjectConversations.cs">
+      <Link>Views\AssistantControl.ProjectConversations.cs</Link>
+    </Compile>
     <Compile Include="..\VS2017.AIAssistant\Views\AssistantControl.Conversations.cs">
       <Link>Views\AssistantControl.Conversations.cs</Link>
     </Compile>
@@ -312,6 +351,9 @@
     </Compile>
     <Compile Include="..\VS2017.AIAssistant\Services\VisualStudioDocumentService.cs">
       <Link>Services\VisualStudioDocumentService.cs</Link>
+    </Compile>
+    <Compile Include="..\VS2017.AIAssistant\Services\ProjectConversationContext.cs">
+      <Link>Services\ProjectConversationContext.cs</Link>
     </Compile>
     <Compile Include="..\VS2017.AIAssistant\Services\VisualStudioExternalEditingScope.cs">
       <Link>Services\VisualStudioExternalEditingScope.cs</Link>
@@ -359,8 +401,8 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <Content Include="..\VS2017.AIAssistant\Assets\Themes\Grokeen-VisualStudio-Themes-0.14.2-VS2017.vsix">
-      <Link>Themes\Grokeen-VisualStudio-Themes-0.14.2-VS2017.vsix</Link>
+    <Content Include="..\VS2017.AIAssistant\Assets\Themes\Grokeen-VisualStudio-Themes-0.15.0-VS2017.vsix">
+      <Link>Themes\Grokeen-VisualStudio-Themes-0.15.0-VS2017.vsix</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>

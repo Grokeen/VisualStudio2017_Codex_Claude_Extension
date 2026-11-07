@@ -46,6 +46,7 @@
     <PackageReference Include="AvalonEdit" Version="6.3.1.120" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
@@ -63,6 +64,11 @@
     <!-- IDE에서 제공하는 SDK 어셈블리는 VSIX에 중복 배포하지 않는다. -->
     <PackageReference Include="Microsoft.VisualStudio.Shell.15.0" Version="15.9.28307" ExcludeAssets="runtime" />
     <PackageReference Include="EnvDTE" Version="8.0.2" ExcludeAssets="runtime" />
+    <!-- 2026-11-07 CodexOrig : 실제 editor adapter의 compile-only SDK. IDE가 제공하는 DLL은 VSIX에 복제하지 않는다. -->
+    <PackageReference Include="Microsoft.VisualStudio.Editor" Version="15.6.27740" PrivateAssets="all" ExcludeAssets="runtime" />
+    <PackageReference Include="Microsoft.VisualStudio.Text.Logic" Version="15.6.27740" PrivateAssets="all" ExcludeAssets="runtime" />
+    <PackageReference Include="Microsoft.VisualStudio.Text.UI.Wpf" Version="15.6.27740" PrivateAssets="all" ExcludeAssets="runtime" />
+    <PackageReference Include="Microsoft.VisualStudio.ComponentModelHost" Version="15.7.27703" PrivateAssets="all" ExcludeAssets="runtime" />
     <PackageReference Include="Microsoft.VisualStudio.Threading" Version="15.8.122" ExcludeAssets="runtime" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" ExcludeAssets="runtime" />
     <PackageReference Include="Microsoft.VSSDK.BuildTools" Version="15.9.3032" PrivateAssets="all" />
@@ -70,11 +76,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AiAssistantPackage.cs" />
+    <Compile Include="..\CommentCodePreview.Poc\EditorContract.cs"><Link>CommentCodePreview\EditorContract.cs</Link></Compile>
+    <Compile Include="..\CommentCodePreview.Poc\PreviewSession.cs"><Link>CommentCodePreview\PreviewSession.cs</Link></Compile>
+    <Compile Include="Providers\CommentCodeProviderAdapter.cs" />
+    <Compile Include="Services\CommentCodeEditorAdapter.cs" />
+    <Compile Include="Views\AssistantControl.CommentCode.cs" />
+    <Compile Include="Views\CommentCodePreviewDialog.cs" />
     <Compile Include="Commands\OpenAssistantCommand.cs" />
     <Compile Include="Editing\DocumentSnapshot.cs" />
     <Compile Include="Editing\IFullAccessDocumentService.cs" />
     <Compile Include="Editing\IExternalEditingDocumentService.cs" />
     <Compile Include="Chat\ChatWorkspace.cs" />
+    <Compile Include="Chat\ConversationActivityFeed.cs" />
     <Compile Include="Chat\DocumentAttachmentReader.cs" />
     <Compile Include="Chat\DocumentWorkerLauncher.cs" />
     <Compile Include="Chat\ConversationCollaboration.cs" />
@@ -136,6 +149,10 @@
     <Compile Include="Views\CliGuideDialog.cs" />
     <Compile Include="Views\WorkspaceActionsDialog.cs" />
     <Compile Include="Views\AssistantControl.Experience.cs" />
+    <Compile Include="Views\AssistantControl.ActivityFeed.cs" />
+    <Compile Include="Views\AssistantControl.ActivityFeedView.cs" />
+    <Compile Include="Views\AssistantKeyboardToolTip.cs" />
+    <Compile Include="Views\AssistantControl.ProjectConversations.cs" />
     <Compile Include="Views\AssistantControl.Conversations.cs" />
     <Compile Include="Views\AssistantControl.Options.cs" />
     <Compile Include="Views\AssistantControl.Dropdowns.cs" />
@@ -149,6 +166,7 @@
     <Compile Include="Providers\CliEditProvider.cs" />
     <Compile Include="Providers\ProcessJob.cs" />
     <Compile Include="Services\VisualStudioDocumentService.cs" />
+    <Compile Include="Services\ProjectConversationContext.cs" />
     <Compile Include="Services\VisualStudioExternalEditingScope.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ToolWindows\AssistantToolWindow.cs" />
@@ -166,7 +184,7 @@
     <Content Include="Assets\ThirdParty\AvalonEdit\LICENSE.txt"><Link>Resources\ThirdParty\AvalonEdit\LICENSE.txt</Link><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory><IncludeInVSIX>true</IncludeInVSIX></Content>
     <Content Include="..\..\HowToInstallCLI.md"><Link>Resources\CliGuide\HowToInstallCLI.md</Link><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory><IncludeInVSIX>true</IncludeInVSIX></Content>
     <Content Include="..\..\InstallCLI.bat"><Link>Resources\CliGuide\InstallCLI.bat</Link><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory><IncludeInVSIX>true</IncludeInVSIX></Content>
-    <Content Include="Assets\Themes\Grokeen-VisualStudio-Themes-0.14.2-VS2017.vsix"><Link>Themes\Grokeen-VisualStudio-Themes-0.14.2-VS2017.vsix</Link><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory><IncludeInVSIX>true</IncludeInVSIX></Content>
+    <Content Include="Assets\Themes\Grokeen-VisualStudio-Themes-0.15.0-VS2017.vsix"><Link>Themes\Grokeen-VisualStudio-Themes-0.15.0-VS2017.vsix</Link><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory><IncludeInVSIX>true</IncludeInVSIX></Content>
     <Content Include="Assets\CliGuide\VisualStudio_AI_Assistant_설치_사용설명서.pdf"><Link>Resources\CliGuide\VisualStudio_AI_Assistant_설치_사용설명서.pdf</Link><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory><IncludeInVSIX>true</IncludeInVSIX></Content>
     <Content Include="..\..\docs\assets\cli-manual\*.png"><Link>Resources\CliGuide\docs\assets\cli-manual\%(Filename)%(Extension)</Link><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory><IncludeInVSIX>true</IncludeInVSIX></Content>
     <Content Include="..\..\docs\assets\guide-media\*.gif"><Link>Resources\GuideMedia\%(Filename)%(Extension)</Link><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory><IncludeInVSIX>true</IncludeInVSIX></Content>

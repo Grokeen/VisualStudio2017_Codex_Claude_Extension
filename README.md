@@ -4,11 +4,29 @@
 
 오류 화면과 참고 문서를 보여 주고 자연어로 작업을 요청하세요. 바뀔 코드를 먼저 비교해 승인하거나, **전체 액세스**를 선택해 AI가 직접 파일 수정과 명령·테스트를 수행하게 할 수 있습니다. 대화와 공통 규칙은 내 PC의 Markdown에 남습니다.
 
-**v0.14.2-preview.1 설치·사용 안내** · [Preview 릴리스 및 다운로드 자산](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.14.2-preview.1) · [상세 사용자 안내](docs/USER_GUIDE.md) · [오프라인 설치 안내](docs/OFFLINE_INSTALL.md)
+**v0.15.0-preview.1 Preview 안내** · [최신 Preview 릴리스](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.15.0-preview.1) · [상세 사용자 안내](docs/USER_GUIDE.md) · [오프라인 설치 안내](docs/OFFLINE_INSTALL.md) · [Release Notes](releases/v0.15.0-preview.1/RELEASE_NOTES.md)
+
+## v0.15.0-preview.1 다운로드
+
+v0.15.0-preview.1 Preview에는 대화 활동함과 아래 사용자 안내에 정리한 기능 변경이 포함됩니다. 실제 IDE 화면, 실계정 인증/응답, SDK 설치 호환 및 IME/Undo 동작은 검증하지 않았습니다. 해당 제한을 확인한 뒤 Preview로 사용하세요.
+
+| 다운로드 | 파일 |
+|---|---|
+| [CLI 포함 전체 오프라인 ZIP](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.15.0-preview.1/VisualStudio_AI_Assistant-0.15.0-Preview1-FullOffline-win-x64.zip) | `VisualStudio_AI_Assistant-0.15.0-Preview1-FullOffline-win-x64.zip` |
+| [설치·사용 PDF · 55쪽](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.15.0-preview.1/VisualStudio_AI_Assistant-0.15.0-Preview-UserGuide.pdf) | `VisualStudio_AI_Assistant-0.15.0-Preview-UserGuide.pdf` |
+| [오프라인 IDE 확장·테마 설치기](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.15.0-preview.1/Grokeen-AI-Theme-Offline-Installer-0.15.0.exe) | `Grokeen-AI-Theme-Offline-Installer-0.15.0.exe` |
+| [간단 ZIP](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.15.0-preview.1/VisualStudio_AI_Assistant-0.15.0.zip) | `VisualStudio_AI_Assistant-0.15.0.zip` |
+
+| 사용 중인 Visual Studio | 설치 파일 |
+|---|---|
+| 2017 15.7·15.8 · x86 IDE | [VS2017 15.7용 VSIX](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.15.0-preview.1/VS2017.15.7.AIAssistant-0.15.0.vsix) |
+| 2017 15.9 이상 · x86 IDE | [VS2017용 VSIX](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.15.0-preview.1/VS2017.AIAssistant-0.15.0.vsix) |
+| 2019 16.11 · x86 IDE | [VS2019용 VSIX](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.15.0-preview.1/VS2019.AIAssistant-0.15.0.vsix) |
+| 2022 17.x · x64 IDE | [VS2022용 VSIX](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.15.0-preview.1/VS2022.AIAssistant-0.15.0.vsix) |
 
 `main`은 최신 공개 Preview의 소스와 배포 안내를 포함합니다. 최신 설치 파일은 위 **Preview 릴리스**에서 받으세요. GitHub의 `Latest`와 `/releases/latest`는 이전 정식 v0.11.1을 가리키며, 그 버전의 설치 첨부는 정리되어 있습니다. [브랜치와 배포 기준](docs/DEVELOPMENT.md#브랜치와-github-배포)을 참고하세요.
 
-v0.14.2-preview.1에서는 Dracula IDE 테마의 코드 diff·주석·오류 표식을 개선했습니다. 아래 링크에서 공개된 Preview 설치 파일을 내려받을 수 있습니다. 서비스 로그인과 실제 AI 요청은 설치와 별도입니다.
+이전 이전 이전 이전 이전 이전 이전 v0.14.2-preview.1에서는 Dracula IDE 테마의 코드 diff·주석·오류 표식을 개선했습니다. 아래 링크에서 공개된 Preview 설치 파일을 내려받을 수 있습니다. 서비스 로그인과 실제 AI 요청은 설치와 별도입니다.
 
 | 다운로드 | 파일 |
 |---|---|
@@ -24,19 +42,39 @@ v0.14.2-preview.1에서는 Dracula IDE 테마의 코드 diff·주석·오류 표
 | 2019 16.11 · x86 IDE | [VS2019용 VSIX](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.14.2-preview.1/VS2019.AIAssistant-0.14.2.vsix) |
 | 2022 17.x · x64 IDE | [VS2022용 VSIX](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.14.2-preview.1/VS2022.AIAssistant-0.14.2.vsix) |
 
-직전 v0.14.1-preview.1 Release와 로컬 패키지는 보존합니다. v0.14.2 게시와 익명 다운로드 검증 뒤, 이전 v0.14.0 이하의 오래된 Release 첨부만 정리할 수 있습니다. v0.14.0 당시 PDF는 [저장소 보존본](output/pdf/VisualStudio_AI_Assistant_%EC%84%A4%EC%B9%98_%EC%82%AC%EC%9A%A9%EC%84%A4%EB%AA%85%EC%84%9C_v0.14.0_%EB%AF%B8%EB%A6%AC%EB%B3%B4%EA%B8%B0.pdf)에서 계속 확인할 수 있습니다. 태그·소스 이력과 감사 자료는 첨부 정리와 별개로 보존합니다.
+## v0.15.0-preview.1 Preview 기능 안내
 
-**현재 설치:** 완성 ZIP을 압축 해제하고 `Grokeen-AI-Theme-Offline-Installer-0.14.2.exe`를 실행하면 동봉 확장과 IDE 테마 설치를 진행합니다. 확장만 설치할 때는 `InstallAIAssistant.bat`을 실행합니다. 설치 전 열린 Visual Studio를 닫고, 설치 대상 인스턴스를 확인하세요. AI CLI 설치·로그인은 테마 색상 보기와 무관합니다. [오프라인 설치 전체 절차](docs/OFFLINE_INSTALL.md)를 따르세요.
+현재 공개 설치 파일은 v0.15.0-preview.1입니다. README의 기존 기능 소개와 이전 릴리스 다운로드 표는 아래에 보존합니다.
 
-### Dracula 편집기 색상 안내
+### 대화 활동함
 
-C# `//` 주석은 `#A0A6B5`, `/* */` block comment는 `#B5BDD4`, XML 문서 본문은 `#C8D5F2`, XML tag/delimiter는 `#B9C8E8` 후보색입니다. 추가/삭제 diff는 각각 어두운 줄 면과 초록/분홍 단어 색을 쓰며, 오류 span은 배경 채움 없이 **분홍 1px 테두리만** 표시해 본문을 가리지 않도록 합니다. overview 변경 표식과 보라 viewport 윤곽은 서로 다른 표식입니다.
+열려 있는 Claude·Codex 대화를 최신 상태 한 행씩 모아 `전체`, `확인 필요`, `실행 중·대기`, `완료`, `실패·중지`로 찾습니다. 대화 내용이 활성 화면에 표시될 때 조건부 자동 읽음 처리가 적용되며, 대화 화면을 열지 않고 직접 표시를 바꾸려면 활동함의 **✓ 읽음 처리**를 선택합니다. 목록에는 제목·메시지·파일 경로·CLI 출력이 표시되지 않습니다.
 
-테마 패키지에는 작은 MEF 분류 DLL이 동봉되며, Visual Studio Editor SDK DLL은 별도로 재배포하지 않습니다. IDE가 제공하는 편집기 서비스를 사용하므로 이 색상 기능에 Codex/Claude CLI 로그인이나 AI 네트워크 연결이 필요하지 않습니다. VS2019/2022의 diff overview 옵션은 해당 view에서 국소적으로 켜고, 테마 전환·종료 때 원래 local/inherited 값을 복원하는 경로를 둡니다.
+### 모델 선택 복구와 계정 사용량
 
-![v0.14.2-preview.1 Dracula diff·주석·오류 표식. 익명 합성 설명 그림이며 실제 IDE 캡처가 아니다.](docs/assets/ui-guide-v0.14.2-preview.1/dracula-editor-colors.png)
+모델 목록 조회가 실패해도 저장된 모델·생각 강도·응답 속도 선택을 임의로 지우지 않습니다. 저장된 모델을 그대로 유지하고, 사용 가능한 로컬 목록이나 기본/직접 입력 안내를 사용합니다. 목록이 보인다는 사실만으로 계정 로그인이나 모델 사용 권한이 확인된 것은 아닙니다. 지원하지 않는 모델 조합은 요청 시 거절됩니다.
 
-버전별 실제 IDE 검사 결과와 검증 범위는 [TASK-072 통합 검증 보고서](MarkdownReport/CodexOrig2_TASK-072_Audit.md)에서 확인하세요. 고객 VS2017 Professional 15.7.1·별도 오프라인 PC, 실제 AI 계정/응답, TFS, 설치 버튼의 물리 클릭·포인터 동작은 별도 미검증입니다.
+현재 선택한 제공자의 runtime metadata에 계정 quota 사용량이 유효하게 포함된 경우에만 **남은 비율(%)**을 표시합니다. 값이 없거나 유효하지 않으면 **확인 불가**로 표시하며 이전 계정의 캐시 값을 현재 계정 값처럼 사용하지 않습니다. 토큰 사용량이나 문맥(context) 잔여량을 추정하지 않습니다.
+
+### 솔루션별 대화 분리
+
+솔루션별 대화와 요청 문맥을 구분합니다. 실행·대기 요청이나 협업 작업이 남아 있는 동안에는 솔루션 전환을 보류합니다. 전환 대기 중에는 다른 솔루션에서 새 요청이나 문맥 캡처를 시작할 수 없고, 기존 요청·초안·기록은 보존됩니다. 모두 유휴 상태가 되면 대화 저장소를 맞춰 전환합니다. 공통 지침은 솔루션별 대화와 별도로 공유됩니다.
+
+### C# 주석에서 코드 요청
+
+사용자가 C# 주석을 선택하고 **주석에서 코드 요청** 메뉴를 직접 실행합니다. 전송 확인을 거친 뒤 선택한 주석과 제한된 문맥이 실제 설정된 CLI에 전달됩니다. 결과는 미리보기에서 검토하며, **명시적으로 수락**해야 현재 커서에 편집 내용이 삽입됩니다. 삽입된 내용은 자동 저장되지 않으며 Visual Studio의 한 번 실행 취소로 되돌리는 흐름을 목표로 합니다. 입력 중 자동 전송이나 Copilot식 ghost text/자동완성은 제공하지 않습니다.
+
+### Markdown 제목 도구
+
+Markdown 작성기의 **H1**, **H2**, **H3** 버튼으로 선택 영역 또는 현재 줄의 제목 수준을 지정합니다. 기존 제목 표기와 줄바꿈을 보존해 해당 범위만 바꿉니다.
+
+### 저장하지 않은 Markdown 변경과 닫기
+
+작성 내용에 저장하지 않은 변경이 있을 때 창의 닫기 버튼이나 **X**를 누르면 닫기 확인이 표시됩니다. **저장 후 닫기**는 현재 파일에 저장한 뒤 닫으며, 새 문서라면 저장 위치를 선택합니다. **변경 버리고 닫기**는 저장하지 않은 변경을 버리고, **계속 작성**은 창을 열어 둔 채 편집기로 돌아갑니다. 저장 위치 선택을 취소하거나 저장이 실패하면 창은 열린 상태로 유지됩니다. 입력란에 적용하는 Markdown 편집기의 경우도 입력란 변경 적용과 작성기 닫기는 별도 동작입니다.
+
+### Preview 제한과 그림 출처
+
+대화 활동함 이미지는 가상 데이터로 만든 합성 UI 예시입니다. 주석 요청은 실제 Visual Studio 캡처가 없어 PDF의 흐름도를 예시로 제공합니다. 실제 IDE 설치/화면, 실제 계정 인증·AI 응답·할당량, 전체 Visual Studio SDK 호환, IME 입력과 native Undo 동작은 이 Preview에서 검증되지 않았습니다. 비GUI 결과는 실제 IDE 실행으로 해석하지 마세요.
 
 ## 공통 사용 안내와 직전 버전의 화면 예시
 

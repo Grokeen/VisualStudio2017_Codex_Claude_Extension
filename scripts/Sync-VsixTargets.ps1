@@ -12,6 +12,9 @@ update date  : 2026-10-18 CodexOrig : TASK-020 감사 F01, 32비트 SDK15와 64�
                2026-10-20 CodexOrig : TASK069 최신 44쪽 0.14.0 설명서를 네 패키지 공통 리소스로 동기화한다.
                2026-10-21 CodexCode : Role #15 색상 변경 안내 1쪽을 더한 0.14.1 설명서로 동기화한다.
                2026-10-23 CodexOrig : TASK072 Dracula 편집기 개선 안내를 네 패키지에 동기화한다.
+               2026-11-03 CodexOrig : TASK073 standard 0.15.0 package metadata.
+               2026-11-07 CodexOrig : 주석 코드 편집기 SDK 참조를 VS2022의 17.0 계열로 분리한다.
+               2026-11-08 CodexOrig8 : 최종 0.15 Preview 설명서의 표준 파일명으로 내장 PDF를 동기화한다.
 -------------------------------------------------------------------------
 #>
 [CmdletBinding()]
@@ -19,7 +22,7 @@ param()
 $ErrorActionPreference='Stop'
 $repositoryDir=[IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
 $baseDir=Join-Path $repositoryDir 'src\VS2017.AIAssistant'
-$guideSource=Join-Path $repositoryDir 'output\pdf\VisualStudio_AI_Assistant_설치_사용설명서_v0.14.2-preview.1_미리보기.pdf'
+$guideSource=Join-Path $repositoryDir 'output\pdf\VisualStudio_AI_Assistant_설치_사용설명서_v0.15.0-preview.1.pdf'
 $guideDirectory=Join-Path $baseDir 'Assets\CliGuide'
 $null=New-Item -ItemType Directory -Path $guideDirectory -Force
 Copy-Item -LiteralPath $guideSource -Destination (Join-Path $guideDirectory 'VisualStudio_AI_Assistant_설치_사용설명서.pdf') -Force
@@ -36,7 +39,7 @@ foreach($target in @('2017.Legacy','2019','2022')) {
     $project.SelectSingleNode('//m:MinimumVisualStudioVersion',$namespace).InnerText=($major.ToString()+'.0')
     if($target -eq '2022') {
         $project.SelectSingleNode('//m:TargetFrameworkVersion',$namespace).InnerText='v4.7.2'
-        $versions=@{'Microsoft.VisualStudio.Shell.15.0'='17.0.32112.339';'Microsoft.VisualStudio.Threading'='17.0.64';'Microsoft.VSSDK.BuildTools'='17.0.5241'}
+        $versions=@{'Microsoft.VisualStudio.Shell.15.0'='17.0.32112.339';'Microsoft.VisualStudio.Threading'='17.0.64';'Microsoft.VSSDK.BuildTools'='17.0.5241';'Microsoft.VisualStudio.Editor'='17.0.491';'Microsoft.VisualStudio.Text.Logic'='17.0.491';'Microsoft.VisualStudio.Text.UI.Wpf'='17.0.491';'Microsoft.VisualStudio.ComponentModelHost'='17.0.491'}
         foreach($package in $project.SelectNodes('//m:PackageReference',$namespace)) {
             if($versions.ContainsKey($package.Include)){$package.SetAttribute('Version',$versions[$package.Include])}
             if($package.Include -eq 'EnvDTE'){$null=$package.ParentNode.RemoveChild($package)}

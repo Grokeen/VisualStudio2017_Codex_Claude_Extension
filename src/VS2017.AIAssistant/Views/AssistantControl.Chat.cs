@@ -201,6 +201,7 @@ namespace VS2017.AIAssistant.Views
         /// update date  : 2026-10-19 CodexCode : TASK049 상단 스크롤에서만 이전 페이지 공개.
         ///                2026-10-20 CodexCode : 메모리 페이지가 끝나면 시간별 Markdown에서 직전 페이지를 읽음.
         ///                2026-10-20 CodexOrig : TASK068 파일 조회를 백그라운드로 옮기고 대화·커서·세대가 바뀐 지연 결과를 폐기.
+        /// update date  : 2026-11-07 CodexOrig : 이전 페이지 조회 전에 원래 솔루션 store를 캡처.
         /// </summary>
         /// ---------------------------------------------------------------------
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "VSTHRD001:Avoid legacy thread switching APIs", Justification = "The owned WPF Dispatcher applies only this control's captured history result; no Visual Studio service is accessed.")]
@@ -238,12 +239,13 @@ namespace VS2017.AIAssistant.Views
                 Messages = record.Messages.Select(message => new ChatMessage { Id = message.Id, CreatedAt = message.CreatedAt, Role = message.Role, Text = message.Text }).ToList()
             };
             var cursor = new ChatMessage { Id = first.Id, CreatedAt = first.CreatedAt, Role = first.Role, Text = first.Text };
+            var historyStore = ConversationStorage;
             try
             {
                 var older = await System.Threading.Tasks.Task.Run(() =>
                 {
                     token.ThrowIfCancellationRequested();
-                    var page = workspaceStore.LoadOlder(snapshot, cursor, ConversationPageSize);
+                    var page = historyStore.LoadOlder(snapshot, cursor, ConversationPageSize);
                     token.ThrowIfCancellationRequested();
                     return page;
                 }, token).ConfigureAwait(false);

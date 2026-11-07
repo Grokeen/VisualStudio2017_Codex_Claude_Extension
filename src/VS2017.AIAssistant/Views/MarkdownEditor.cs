@@ -27,6 +27,7 @@ namespace VS2017.AIAssistant.Views
     /// update date  : 2026-10-19 CodexCode : TASK-024 저장·AI 호출 없이 원문 양방향 바인딩만 제공.
     ///                2026-10-19 CodexCode : Role 추가에 따라 AvalonEdit 작성·선택적 파일 내보내기 기능 확대.
     ///                2026-10-19 CodexOrig : R3-03 문서 목록·현재 저장·이름 변경·삭제·위치 열기와 연결.
+    ///                2026-11-07 CodexOrig4 : 서식 도구에 제목 1·2·3 적용을 추가하고 ATX/Setext 제목을 교체.
     /// </summary>
     /// ---------------------------------------------------------------------
     public sealed partial class MarkdownEditor : UserControl, IDisposable
@@ -211,6 +212,9 @@ namespace VS2017.AIAssistant.Views
             AddTool(editTools,"↶ 실행 취소","실행 취소 · Ctrl+Z",(s,e)=>{if(Editor.CanUndo)Editor.Undo();});AddTool(editTools,"↷ 다시 실행","다시 실행 · Ctrl+Y",(s,e)=>{if(Editor.CanRedo)Editor.Redo();});
             var formatTools=AddToolGroup(tools,"서식","B");
             AddTool(formatTools,"B 굵게","선택한 글을 굵게 표시",BoldClicked);AddTool(formatTools,"I 기울임","기울임 · Ctrl+I",(s,e)=>WrapSelection("*","*","기울임"));
+            AddTool(formatTools,"H1 제목","선택한 줄 또는 현재 줄을 제목 1로 적용",(s,e)=>ApplyHeadingLevel(1));
+            AddTool(formatTools,"H2 제목","선택한 줄 또는 현재 줄을 제목 2로 적용",(s,e)=>ApplyHeadingLevel(2));
+            AddTool(formatTools,"H3 제목","선택한 줄 또는 현재 줄을 제목 3으로 적용",(s,e)=>ApplyHeadingLevel(3));
             var insertTools=AddToolGroup(tools,"삽입","＋");
             AddTool(insertTools,"• 목록","선택한 줄을 목록으로 작성",ListClicked);AddTool(insertTools,"↗ 링크","선택한 글에 링크 작성",LinkClicked);AddTool(insertTools,"</> 코드","선택한 코드를 fenced block으로 작성",CodeClicked);
             var taskTools=AddToolGroup(tools,"체크 목록","☑");
@@ -579,6 +583,41 @@ namespace VS2017.AIAssistant.Views
         /// </summary>
         /// ---------------------------------------------------------------------
         public void WrapSelection(string before,string after,string placeholder){string value=Editor.SelectionLength==0?placeholder:Editor.SelectedText;ReplaceSelection(before+value+after,before.Length,value.Length);}
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : ApplyHeadingLevel
+        /// desc         : 선택 줄 또는 현재 줄에 명시한 제목 수준을 한 번의 원문 편집으로 적용한다.
+        /// author       : CodexOrig4
+        /// create date  : 2026-11-07
+        /// update date  : 2026-11-07 CodexOrig4 : 기존 ATX/Setext 표식을 교체하고 줄바꿈·본문을 보존.
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        private void ApplyHeadingLevel(int level)
+        {
+            Dispatcher.VerifyAccess();
+            if (disposed || level < 1 || level > 3) return;
+
+            int selectionStart = Editor.SelectionStart;
+            int selectionEnd = selectionStart + Editor.SelectionLength;
+            var first = Editor.Document.GetLineByOffset(selectionStart);
+            var last = Editor.Document.GetLineByOffset(selectionEnd);
+            if (Editor.SelectionLength > 0 && last.Offset == selectionEnd && last != first) last = last.PreviousLine;
+
+            if (MarkdownHeadingEditing.IsSetextUnderline(Editor.Document.GetText(first.Offset, first.Length)) && first.PreviousLine != null)
+                first = first.PreviousLine;
+            if (last.NextLine != null && MarkdownHeadingEditing.IsSetextUnderline(Editor.Document.GetText(last.NextLine.Offset, last.NextLine.Length)))
+                last = last.NextLine;
+
+            var source = new StringBuilder();
+            for (var line = first; line != null; line = line.NextLine)
+            {
+                source.Append(Editor.Document.GetText(line.Offset, line.Length));
+                if (line == last) break;
+                source.Append(Editor.Document.GetText(line.EndOffset, line.DelimiterLength));
+            }
+            string value = MarkdownHeadingEditing.Apply(source.ToString(), level, Editor.SelectionLength == 0);
+            ReplaceRange(first.Offset, last.EndOffset - first.Offset, value, 0, value.Length);
+        }
         /// ---------------------------------------------------------------------
         /// <summary>
         /// name         : ReplaceRange

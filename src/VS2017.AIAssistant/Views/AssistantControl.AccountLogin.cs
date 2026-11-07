@@ -31,6 +31,7 @@ namespace VS2017.AIAssistant.Views
         /// create date  : 2026-10-19
         /// update date  : 2026-10-19 CodexCode : TASK-024 열기만으로 인증·상태 프로세스를 실행하지 않음.
         ///                2026-10-19 CodexCode : 설정 모달에서 연 경우 실제 호출 창을 소유자로 지정하여 중첩 입력 유지.
+        ///                2026-11-07 CodexOrig : 계정 상태 확인 후 이전 할당량을 무효화하고 현재 CLI 메타데이터를 다시 조회.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void AccountLoginClicked(object sender, RoutedEventArgs args)
@@ -43,7 +44,9 @@ namespace VS2017.AIAssistant.Views
             var owner = ResolveAccountLoginOwner(sender, activeSettingsDialog, this);
             if (owner != null) dialog.Owner = owner;
             dialog.ConnectionChecked += (providerName, executable, connected) => {
+                Dispatcher.VerifyAccess();
                 if (disposed || selectedProvider != providerName || !String.Equals(ExecutablePath.Text, executable, StringComparison.Ordinal)) return;
+                RuntimeProviderChanged();
                 AccountLabel.Text = connected ? "로그인 정보가 있습니다 · 실제 모델 이용 가능 여부는 요청 결과를 확인하세요." : "로그인 정보가 없습니다. 공식 로그인 후 다시 확인하세요.";
             };
             activeAccountLoginDialog = dialog;

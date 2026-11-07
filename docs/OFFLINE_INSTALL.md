@@ -2,9 +2,36 @@
 
 이 안내는 **Visual Studio AI Assistant 확장과 Windows용 Codex·Claude CLI를 인터넷이 없는 PC에 설치**하는 절차입니다. AI 모델 요청과 계정 인증까지 오프라인으로 처리하지는 않습니다. 설치 후 네트워크 연결이 허용되면 본인 계정으로 공식 로그인을 하고 연결을 확인하세요.
 
-## v0.14.2-preview.1 현재 설치·Dracula 편집기 안내
+## v0.15.0-preview.1 설치 안내
 
-현재 안내 대상은 공개된 v0.14.2-preview.1입니다. 아래 Release에서 설치 파일을 내려받을 수 있습니다. 직전 v0.14.1-preview.1은 보존하고, 새 버전의 공개 다운로드 검증 후 v0.14.0 이하의 오래된 Release 첨부는 정리했습니다. 이전 v0.14.0 안내 PDF는 [저장소 보존본](../output/pdf/VisualStudio_AI_Assistant_%EC%84%A4%EC%B9%98_%EC%82%AC%EC%9A%A9%EC%84%A4%EB%AA%85%EC%84%9C_v0.14.0_%EB%AF%B8%EB%A6%AC%EB%B3%B4%EA%B8%B0.pdf)으로 유지합니다.
+최신 Preview는 [v0.15.0-preview.1 Release](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.15.0-preview.1)에서 받습니다. 인터넷이 연결된 PC에서 **CLI 포함 전체 오프라인 ZIP**을 받거나, 연결이 가능한 대상 PC에서 해당 IDE용 VSIX를 받으세요.
+
+| 용도 | 파일 |
+|---|---|
+| 전체 오프라인 설치 묶음 | `VisualStudio_AI_Assistant-0.15.0-Preview1-FullOffline-win-x64.zip` |
+| 간단 ZIP | `VisualStudio_AI_Assistant-0.15.0.zip` |
+| VS2017 15.7·15.8 x86 | `VS2017.15.7.AIAssistant-0.15.0.vsix` |
+| VS2017 15.9 이상 x86 | `VS2017.AIAssistant-0.15.0.vsix` |
+| VS2019 16.11 x86 | `VS2019.AIAssistant-0.15.0.vsix` |
+| VS2022 17.x x64 | `VS2022.AIAssistant-0.15.0.vsix` |
+| 오프라인 테마 설치기 | `Grokeen-AI-Theme-Offline-Installer-0.15.0.exe` |
+| 사용자 안내 PDF | `VisualStudio_AI_Assistant-0.15.0-Preview-UserGuide.pdf` |
+
+### 오프라인 설치
+
+1. 준비 PC에서 Release의 FullOffline ZIP과 동봉 manifest/체크섬을 받습니다. ZIP을 풀고 `VerifyOfflineSetup.bat`가 제공되면 실행하여 파일 수·크기·SHA-256을 확인합니다.
+2. ZIP을 승인된 이동 매체로 대상 PC에 옮기고 대상 PC에서 완전히 압축을 풉니다. ZIP 안에서 설치를 직접 실행하지 않습니다.
+3. 실행 중인 Visual Studio 창을 모두 닫습니다. 선택한 대상 버전에서 오프라인 테마 설치기를 실행하거나 해당 Visual Studio 버전의 VSIX를 설치합니다.
+4. 설치가 끝나면 같은 Visual Studio를 다시 열어 도구 메뉴와 확장 관리자에서 표시되는 설치를 확인합니다.
+5. CLI 계정 인증은 설치와 별도입니다. 인터넷이 허용되는 네트워크에서 사용자가 Codex·Claude의 공식 로그인 절차를 진행합니다. 인증 정보·토큰·대화 기록을 ZIP에 넣거나 다른 사용자 프로필로 복사하지 마세요.
+
+[v0.15.0-preview.1 설치·사용 안내 PDF](../output/pdf/VisualStudio_AI_Assistant_설치_사용설명서_v0.15.0-preview.1.pdf)를 참고하세요. 실계정 인증·실제 AI 요청, Visual Studio SDK 설치 호환, 실제 화면/IME/native Undo는 이번 Preview에서 검증되지 않았습니다. GUI 확인 결과로 표현된 그림은 없으며 활동함 예시는 합성 데이터, 주석 요청은 흐름도입니다.
+
+솔루션 전환 시 실행·대기·협업 작업이 남아 있으면 전환을 기다립니다. 대기 중 새 요청을 보내지 말고, 기존 입력과 대화 기록을 유지한 채 현재 작업이 끝날 때까지 기다리세요.
+
+## 이전 v0.14.2-preview.1 설치·Dracula 편집기 안내
+
+이 절은 이전 v0.14.2-preview.1의 설치·테마 사용 기록입니다. 아래 Release에서 설치 파일을 내려받을 수 있습니다. 직전 v0.14.1-preview.1은 보존하고, 새 버전의 공개 다운로드 검증 후 v0.14.0 이하의 오래된 Release 첨부는 정리했습니다. 이전 v0.14.0 안내 PDF는 [저장소 보존본](../output/pdf/VisualStudio_AI_Assistant_%EC%84%A4%EC%B9%98_%EC%82%AC%EC%9A%A9%EC%84%A4%EB%AA%85%EC%84%9C_v0.14.0_%EB%AF%B8%EB%A6%AC%EB%B3%B4%EA%B8%B0.pdf)으로 유지합니다.
 
 1. [v0.14.2-preview.1 Release](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.14.2-preview.1)에서 CLI 포함 전체 오프라인 ZIP `VisualStudio_AI_Assistant-0.14.2-Preview1-FullOffline-win-x64.zip`을 받습니다. IDE 한 개를 수동 설치할 때는 같은 릴리스의 해당 연도 VSIX를 사용합니다.
 2. ZIP을 새 폴더에 완전히 압축 해제하고 manifest·체크섬을 확인합니다. 실행 중인 Visual Studio 창은 모두 닫습니다.
@@ -18,7 +45,7 @@
 
 오류 span은 기존 오류 squiggle을 유지하면서 분홍 1px 테두리 `#FFFF79C6`만 표시합니다. 분홍 배경 채움은 없으므로 본문 글자를 가리지 않습니다. added/removed diff 색은 줄 면과 변경 단어 전경/배경으로 나뉘며, 초록/분홍 변경 표식과 보라 viewport outline도 별도 표시입니다. 색상표와 주석 분류 설명은 [상세 사용자 안내](USER_GUIDE.md#v0142-preview1-설치dracula-편집기-색상-안내)와 [46쪽 PDF](../output/pdf/VisualStudio_AI_Assistant_%EC%84%A4%EC%B9%98_%EC%82%AC%EC%9A%A9%EC%84%A4%EB%AA%85%EC%84%9C_v0.14.2-preview.1_%EB%AF%B8%EB%A6%AC%EB%B3%B4%EA%B8%B0.pdf)를 참고하세요.
 
-버전별 설치·기능 검증 결과와 범위는 [TASK-072 통합 검증 보고서](../MarkdownReport/CodexOrig2_TASK-072_Audit.md)에서 확인하세요. 고객 VS2017 Professional 15.7.1·별도 오프라인 PC, 실제 AI/TFS 작업과 설치 UI의 물리 포인터 흐름은 아직 확인되지 않았습니다.
+설치 대상 Visual Studio와 사용 환경에 따라 지원 범위가 달라질 수 있습니다. 고객 VS2017 Professional 15.7.1·별도 오프라인 PC, 실제 AI/TFS 작업은 확인되지 않았으므로 공개 Release의 버전별 안내를 확인하세요.
 
 ## 이전 v0.14.1-preview.1 전용 확장·IDE 테마 설치기
 

@@ -6,6 +6,7 @@ desc         : 공식 설치된 CLI의 전체 런타임과 VSIX를 계정 정보
 author       : CodexOrig
 create date  : 2026-10-19
 update date  : 2026-10-19 CodexOrig : TASK-038 준비 PC에서 서명 확인, 대상 PC에서는 다운로드 불필요.
+               2026-11-03 CodexOrig : TASK073 standard 0.15.0 package metadata.
 -------------------------------------------------------------------------
 #>
 [CmdletBinding()]
@@ -14,7 +15,7 @@ param(
     [string]$CodexPackageDirectory=(Join-Path $env:USERPROFILE '.codex/packages/standalone/current'),
     [string]$ClaudeExecutable=(Join-Path $env:USERPROFILE '.local/bin/claude.exe'),
     [string]$ExtensionPackageDirectory,
-    [ValidatePattern('^\d+\.\d+\.\d+$')][string]$PackageVersion='0.14.2',
+    [ValidatePattern('^\d+\.\d+\.\d+$')][string]$PackageVersion='0.15.0',
     [switch]$CreateZip
 )
 $ErrorActionPreference='Stop'
@@ -27,6 +28,7 @@ desc         : 연결 가능한 준비 PC에서 공식 게시자 서명을 확�
 author       : CodexOrig
 create date  : 2026-10-19
 update date  : 2026-10-19 CodexOrig : unsigned 임의 실행파일의 오프라인 이동 방지.
+               2026-11-03 CodexOrig : TASK073 standard 0.15.0 package metadata.
 -------------------------------------------------------------------------
 #>
 function Assert-OfflineSourcePublisher {

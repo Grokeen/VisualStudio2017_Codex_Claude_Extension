@@ -20,6 +20,7 @@ namespace VS2017.AIAssistant.ToolWindows
     public sealed class AssistantToolWindow : ToolWindowPane
     {
         private VisualStudioDocumentService documentService;
+        private ProjectConversationContext projectConversationContext;
         /// ---------------------------------------------------------------------
         /// <summary>
         /// name         : AssistantToolWindow
@@ -46,6 +47,7 @@ namespace VS2017.AIAssistant.ToolWindows
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 생성 시 서비스 연결.
         /// update date  : 2026-10-18 CodexOrig : Chat 컨텍스트·설정·창 이동 및 검증 흐름 갱신.
+        /// update date  : 2026-11-07 CodexOrig : DTE 솔루션 열기·닫기 구독과 대화 전환 타이머 수명을 연결.
         /// </summary>
         /// ---------------------------------------------------------------------
         public override void OnToolWindowCreated()
@@ -54,6 +56,8 @@ namespace VS2017.AIAssistant.ToolWindows
             ThreadHelper.ThrowIfNotOnUIThread();
             documentService = new VisualStudioDocumentService((System.IServiceProvider)Package);
             ((AssistantControl)Content).Initialize(documentService, new RuntimeEditProvider());
+            projectConversationContext = new ProjectConversationContext((System.IServiceProvider)Package);
+            ((AssistantControl)Content).AttachProjectConversations(projectConversationContext);
         }
 
         /// ---------------------------------------------------------------------
@@ -64,13 +68,15 @@ namespace VS2017.AIAssistant.ToolWindows
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : IDE 종료 시 AI 프로세스 정리 연결.
         /// update date  : 2026-10-18 CodexOrig : Chat 컨텍스트·설정·창 이동 및 검증 흐름 갱신.
+        /// update date  : 2026-11-07 CodexOrig : DTE 솔루션 열기·닫기 구독과 대화 전환 타이머 수명을 연결.
         /// </summary>
         /// ---------------------------------------------------------------------
         protected override void Dispose(bool disposing)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
             var view = Content as AssistantControl;
-            if (disposing && view != null) view.Dispose();
+            if (disposing && view != null) { view.DetachProjectConversations(); view.Dispose(); }
+            if (disposing && projectConversationContext != null) projectConversationContext.Dispose();
             if (disposing && documentService != null) documentService.Dispose();
             base.Dispose(disposing);
         }

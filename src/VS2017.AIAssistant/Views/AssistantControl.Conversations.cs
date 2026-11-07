@@ -28,6 +28,7 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexOrig
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : 자동 스크롤을 사용자 읽음 동작으로 오인하지 않도록 분리.
+        /// update date  : 2026-11-03 CodexOrig : 포커스 이벤트의 실제 UI 스레드를 읽음 진입 전에 검증.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void InitializeConversationTracking(AssistantSettings settings)
@@ -38,7 +39,7 @@ namespace VS2017.AIAssistant.Views
             ConversationScroll.AddHandler(Mouse.PreviewMouseWheelEvent, new MouseWheelEventHandler(ConversationViewed), true);
             ConversationScroll.GotKeyboardFocus += ConversationViewed;
             ConversationList.PreviewMouseUp += ConversationViewed;
-            IsKeyboardFocusWithinChanged += (sender, args) => { if (IsKeyboardFocusWithin && IsConversationInView()) MarkCurrentConversationRead(); };
+            IsKeyboardFocusWithinChanged += (sender, args) => { Dispatcher.VerifyAccess(); if (IsKeyboardFocusWithin && IsConversationInView()) MarkCurrentConversationRead(); };
             ApplyHistoryLayout();
         }
 
@@ -176,9 +177,10 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexOrig
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : 읽음 저장 실패 시 점을 복원하여 기록과 표시 일치.
+        /// update date  : 2026-11-03 CodexOrig : 입력 이벤트에서 UI 스레드를 검증한 뒤 명시 읽음을 호출.
         /// </summary>
         /// ---------------------------------------------------------------------
-        private void ConversationViewed(object sender, RoutedEventArgs e) { MarkCurrentConversationRead(); }
+        private void ConversationViewed(object sender, RoutedEventArgs e) { Dispatcher.VerifyAccess(); MarkCurrentConversationRead(); }
 
         /// ---------------------------------------------------------------------
         /// <summary>
@@ -187,15 +189,25 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexOrig
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : 복원만으로 읽지 않은 기록이 사라지지 않도록 명시적 확인 사용.
+        /// update date  : 2026-11-03 CodexOrig : 활동함 전환 중 포커스 이벤트가 읽음을 앞당기지 않도록 차단.
+        ///                2026-11-03 CodexOrig : 활동함에서 열린 정확한 대상의 읽음을 명시 CAS 경로로 전달.
+        ///                2026-11-03 CodexOrig : CAS 읽음 호출 전 실제 UI dispatcher 진입을 검증.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void MarkCurrentConversationRead()
         {
-            if (!experienceReady || disposed) return;
+            Dispatcher.VerifyAccess();
+            if (!experienceReady || disposed || deferActivityRead) return;
             var record = activeRecords[selectedProvider];
             if (!record.HasUnread) return;
+            if (ReferenceEquals(activityReadCasTarget, record))
+            {
+                TryMarkActivityConversationRead(new ConversationActivityItem { Provider = record.Provider, Id = record.Id });
+                return;
+            }
             record.HasUnread = false;
             if (!PersistCurrentConversation()) record.HasUnread = true;
+            RefreshActivityFeedBadge();
         }
 
         /// ---------------------------------------------------------------------
@@ -211,6 +223,7 @@ namespace VS2017.AIAssistant.Views
         {
             record.State = state;
             record.HasUnread = state != ConversationRunState.Running && !IsConversationInView();
+            RefreshActivityFeedBadge();
         }
     }
 }

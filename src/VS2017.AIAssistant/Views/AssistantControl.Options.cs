@@ -96,33 +96,42 @@ namespace VS2017.AIAssistant.Views
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : 캐시 부재 시 기본·직접 입력을 유지.
         ///                2026-10-18 CodexOrig : TASK-020 연결에서 발견한 모델명·강도·속도 기능을 표시.
+        ///                2026-11-07 CodexOrig : 목록 조회 중에도 저장 선호를 보존하고 표시 갱신 이벤트의 재저장을 차단.
+        ///                2026-11-07 CodexOrig : 동기 갱신의 기존 UI 호출 계약을 유지하고 이벤트 재진입 경계만 분리.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void RefreshModelChoices(bool updateModels = true)
         {
-            var catalog = ProviderModelCatalog.ForProvider(selectedProvider);
-            var capability = catalog.Find(ModelName.Text);
-            string effort = efforts[selectedProvider];
-            string[] levels = new[] { "auto" }.Concat(capability == null ? new[] { "low", "medium", "high" } : capability.Efforts.ToArray()).ToArray();
-            if (!levels.Contains(effort)) effort = efforts[selectedProvider] = "auto";
-            if (updateModels) {
-                RequestModel.Items.Clear(); RequestModel.Items.Add("CLI 기본");
-                foreach (var model in catalog.Models) RequestModel.Items.Add(model.Id);
-                RequestModel.Text = string.IsNullOrEmpty(ModelName.Text) ? "CLI 기본" : ModelName.Text;
-            }
-            ModeChoice.Items.Clear();
-            foreach (string level in levels) ModeChoice.Items.Add(new ComboBoxItem { Content = EffortLabel(level), Tag = level });
-            ModeChoice.SelectedValue = effort;
+            bool previousSyncing = syncingModel, previousRefreshing = refreshingOptions;
+            syncingModel = true;
             refreshingOptions = true;
             try
             {
-                if (capability == null || !capability.SupportsFast) speeds[selectedProvider] = "standard";
+                var catalog = ProviderModelCatalog.ForProvider(selectedProvider);
+                var capability = catalog.Find(ModelName.Text);
+                string effort = efforts[selectedProvider];
+                string[] levels = new[] { "auto" }.Concat(capability == null ? new[] { "low", "medium", "high" } : capability.Efforts.ToArray()).Distinct().ToArray();
+                bool supportedEffort = levels.Contains(effort), supportedFast = capability != null && capability.SupportsFast;
+                if (updateModels) {
+                    RequestModel.Items.Clear(); RequestModel.Items.Add("CLI 기본");
+                    foreach (var model in catalog.Models) RequestModel.Items.Add(model.Id);
+                    RequestModel.Text = string.IsNullOrEmpty(ModelName.Text) ? "CLI 기본" : ModelName.Text;
+                }
+                ModeChoice.Items.Clear();
+                foreach (string level in levels) ModeChoice.Items.Add(new ComboBoxItem { Content = EffortLabel(level), Tag = level });
+                if (!supportedEffort) ModeChoice.Items.Add(new ComboBoxItem {
+                    Content = EffortLabel(effort) + " · 지원 확인 필요", Tag = effort, IsEnabled = false,
+                    ToolTip = "저장된 강도를 보존했습니다. 모델 지원을 확인하거나 다른 강도를 선택하세요."
+                });
+                ModeChoice.SelectedValue = effort;
                 FastToggle.IsChecked = speeds[selectedProvider] == "fast";
-                FastToggle.IsEnabled = !busy && capability != null && capability.SupportsFast;
-                FastToggle.ToolTip = capability != null && capability.SupportsFast ? "Fast · 빠른 응답, 사용량 증가 · " + capability.SpeedDescription : "선택한 모델의 Fast 지원이 확인되지 않았습니다.";
-                ModelOptionsButton.Content = "☷ " + (String.IsNullOrWhiteSpace(ModelName.Text) ? "기본 모델" : ModelName.Text) + " · " + EffortLabel(effort) + " ⌄";
+                FastToggle.IsEnabled = !busy && supportedFast;
+                FastToggle.ToolTip = supportedFast ? "Fast · 빠른 응답, 사용량 증가 · " + capability.SpeedDescription :
+                    "선택한 모델의 Fast 지원이 확인되지 않았습니다. 저장된 선택은 보존되며 모델 설정에서 표준 속도로 바꿀 수 있습니다.";
+                bool needsConfirmation = !supportedEffort || (speeds[selectedProvider] == "fast" && !supportedFast);
+                ModelOptionsButton.Content = "☷ " + (String.IsNullOrWhiteSpace(ModelName.Text) ? "기본 모델" : ModelName.Text) + " · " + EffortLabel(effort) + (needsConfirmation ? " · 지원 확인 필요" : "") + " ⌄";
             }
-            finally { refreshingOptions = false; }
+            finally { refreshingOptions = previousRefreshing; syncingModel = previousSyncing; }
         }
 
         /// ---------------------------------------------------------------------
@@ -149,10 +158,12 @@ namespace VS2017.AIAssistant.Views
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : 지원 목록을 따르는 고급 옵션과 명시적 설정 저장.
         /// update date  : 2026-10-18 CodexCode : TASK-017 이미지 분석 기반 드롭다운·안내·대화 지정 흐름 개선.
+        ///                2026-11-07 CodexOrig : 명시적 모델 설정 버튼의 UI 스레드 진입을 확인한다.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void ModelOptionsClicked(object sender, RoutedEventArgs e)
         {
+            Dispatcher.VerifyAccess();
             ShowModelDropdown(ModelOptionsButton);
         }
 
@@ -386,7 +397,7 @@ namespace VS2017.AIAssistant.Views
         /// ---------------------------------------------------------------------
         private void SavePeerConversation(ConversationRecord record, ChatSession chat)
         {
-            record.Messages = chat.Messages.Select(m => new ChatMessage { Id = m.Id, CreatedAt = m.CreatedAt, Role = m.Role, Text = m.Text }).ToList(); record.Draft = chat.Draft; record.HasUnread = true; workspaceStore.Save(record);
+            record.Messages = chat.Messages.Select(m => new ChatMessage { Id = m.Id, CreatedAt = m.CreatedAt, Role = m.Role, Text = m.Text }).ToList(); record.Draft = chat.Draft; record.HasUnread = true; ConversationStorage.Save(record);
             if (!disposed) RefreshConversationList();
         }
 
@@ -438,7 +449,7 @@ namespace VS2017.AIAssistant.Views
         {
             string[] oldParticipants = record.CollaboratorIds;
             var changed = collaborationStore.UpdateAgent(record.Id, record.Provider, name, role, team, previous.Revision);
-            try { record.CollaboratorIds = collaborators; workspaceStore.Save(record); return changed; }
+            try { record.CollaboratorIds = collaborators; ConversationStorage.Save(record); return changed; }
             catch (Exception error) {
                 record.CollaboratorIds = oldParticipants;
                 try { collaborationStore.UpdateAgent(record.Id, record.Provider, previous.Name, previous.Role, previous.Team, changed.Revision); }

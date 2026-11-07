@@ -101,6 +101,7 @@ namespace VS2017.AIAssistant.Views
         /// update date  : 2026-10-18 CodexOrig : TASK-016 문서 첨부·모델 설정·AI 역할 협업과 실패 복구 흐름 연결.
         ///                2026-10-18 CodexOrig : TASK-020 전체 액세스 분기와 선택 문맥·요청별 실제 사용량 연결.
         ///                2026-10-20 CodexOrig : 보조 개발 TASK055 입력 FIFO·문맥 보존 및 중복 작업 최소화.
+        /// update date  : 2026-11-07 CodexOrig : 전환 대기 중 새 전송을 차단하고 기존 작업 후 안전 전환을 재확인.
         /// </summary>
         /// ---------------------------------------------------------------------
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "VSTHRD100", Justification = "WPF/Dispatcher event handler; awaited operation handles cancellation and failures.")]
@@ -111,6 +112,7 @@ namespace VS2017.AIAssistant.Views
             if (documents == null || provider == null || disposed) return;
             try
             {
+                EnsureProjectConversationRequestContext();
                 if (provider is RuntimeEditProvider)
                 {
                     QueueConcurrentRoomRequest(CaptureCurrentRequest(true));
@@ -120,6 +122,7 @@ namespace VS2017.AIAssistant.Views
                 await DrainRequestQueueAsync();
             }
             catch (Exception error) { if (!disposed) StatusLabel.Text = "요청 대기 실패: " + error.Message; }
+            finally { Dispatcher.VerifyAccess(); TryApplyProjectConversationContext(); }
         }
 
         /// ---------------------------------------------------------------------
@@ -306,10 +309,13 @@ namespace VS2017.AIAssistant.Views
         /// update date  : 2026-10-18 CodexOrig : TASK-014 직접 선택한 AI의 대화를 읽음 처리.
         ///                2026-10-18 CodexOrig : TASK-020 선택 항목·내부 제공자 동기화 및 연결 세대 초기화.
         ///                2026-10-20 CodexOrig : 보조 개발 TASK055 입력 FIFO·문맥 보존 및 중복 작업 최소화.
+        /// update date  : 2026-11-03 CodexOrig : 활동함 대상 전환과 읽음 보류를 연결하고 출발 방의 미승인 제안을 보존.
+        ///                2026-11-03 CodexOrig : Provider 선택 이벤트의 UI 스레드를 읽음 경로 진입 전에 검증.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void ProviderChanged(object sender, SelectionChangedEventArgs e)
         {
+            Dispatcher.VerifyAccess();
             if (ExecutablePath == null || ReviewApproval == null) return;
             if (!ReferenceEquals(e.OriginalSource, ProviderChoice)) return;
             string nextProvider = Convert.ToString((ProviderChoice.SelectedItem as TabItem)?.Tag);
@@ -322,13 +328,17 @@ namespace VS2017.AIAssistant.Views
                 ProviderChoice.SelectedItem = ProviderChoice.Items.Cast<TabItem>().First(t => Convert.ToString(t.Tag) == selectedProvider);
                 return;
             }
+            PreserveActivityPendingProposal();
             selectedProvider = nextProvider;
+            if (activityNavigationTarget != null && activityNavigationTarget.Provider == selectedProvider &&
+                conversationRecords[selectedProvider].Contains(activityNavigationTarget) && activityNavigationTarget.IsOpen)
+                activeRecords[selectedProvider] = activityNavigationTarget;
             string path;
             string nextPath = executablePaths.TryGetValue(selectedProvider, out path) ? path : "";
             if (ExecutablePath.Text == nextPath) RuntimeProviderChanged();
             else ExecutablePath.Text = nextPath;
             ShowChat();
-            MarkCurrentConversationRead();
+            if (!deferActivityRead) MarkCurrentConversationRead();
             ClearProposal();
             RestoreRoomPresentation();
             UpdateButtons();
@@ -449,6 +459,7 @@ namespace VS2017.AIAssistant.Views
         ///                2026-10-20 CodexOrig : 보조 개발 TASK055 입력 FIFO·문맥 보존 및 중복 작업 최소화.
         ///                2026-10-20 CodexOrig : TASK069 메시지 센터의 별도 실행과 팝업 수명도 종료.
         ///                2026-10-20 CodexOrig : TASK069 #18 디버깅 읽기 취소/상태 이벤트 해제.
+        ///                2026-11-07 CodexOrig : 주석 코드 요청·미리보기의 자기 수명만 해제.
         /// </summary>
         /// ---------------------------------------------------------------------
         public void Dispose()
@@ -462,6 +473,7 @@ namespace VS2017.AIAssistant.Views
             DisposeCompletionNotification();
             DisposeMessageCenter();
             DisposeDebuggingHelper();
+            DisposeCommentCode();
             disposed = true;
             CancelQueuedRequests(null);
             if (requestCancellation != null) requestCancellation.Cancel();

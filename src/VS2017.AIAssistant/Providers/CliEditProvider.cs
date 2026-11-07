@@ -59,6 +59,7 @@ namespace VS2017.AIAssistant.Providers
     {
         public event Action<string, string> ProtocolMessage;
         public TimeSpan Timeout { get; private set; }
+        private readonly bool commentCodePreviewOnly;
 
         /// ---------------------------------------------------------------------
         /// <summary>
@@ -84,10 +85,20 @@ namespace VS2017.AIAssistant.Providers
         /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// </summary>
         /// ---------------------------------------------------------------------
-        public CliEditProvider(TimeSpan timeout)
+        public CliEditProvider(TimeSpan timeout) : this(timeout, false) { }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : CliEditProvider
+        /// desc         : 수동 주석 미리보기만 별도 제한 옵션을 켜며 기존 생성자의 동작은 유지한다.
+        /// author       : CodexOrig
+        /// create date  : 2026-11-07
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        internal CliEditProvider(TimeSpan timeout, bool commentCodePreviewOnly)
         {
             if (timeout <= TimeSpan.Zero || timeout > TimeSpan.FromHours(1)) throw new ArgumentOutOfRangeException(nameof(timeout));
-            Timeout = timeout;
+            Timeout = timeout; this.commentCodePreviewOnly = commentCodePreviewOnly;
         }
 
         /// ---------------------------------------------------------------------
@@ -166,6 +177,7 @@ namespace VS2017.AIAssistant.Providers
                 if (executionOptions.MinimumCliVersion != null)
                     executionOptions.ValidateCliVersion(await ReadCliVersionAsync(executable, runDirectory, cancellationToken).ConfigureAwait(false));
                 arguments.AddRange(executionOptions.BuildProposalArguments());
+                if (commentCodePreviewOnly) RestrictCommentCodeArguments(provider, arguments);
                 var images = context.Attachments.Where(a => a.IsImage).ToArray();
                 if (provider == "Codex")
                 {
@@ -348,6 +360,44 @@ namespace VS2017.AIAssistant.Providers
                     history = context.History.Select(m => new { role = m.Role, text = m.Text }).ToArray(),
                     attachments = context.Attachments.Select(a => new { name = a.Name, media_type = a.MediaType, text = a.Text }).ToArray()
                 });
+        }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : RestrictCommentCodeArguments
+        /// desc         : 명시 미리보기에서 도구·hook·plugin을 억제하고 Claude fastMode 설정과 합친다. 조직 관리 정책 우회는 제공하지 않는다.
+        /// author       : CodexOrig
+        /// create date  : 2026-11-07
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        internal static void RestrictCommentCodeArguments(string provider, List<string> arguments)
+        {
+            if (provider == "Codex")
+            {
+                foreach (string feature in new[] { "shell_tool", "unified_exec", "shell_snapshot", "hooks", "plugins", "apps" })
+                { arguments.Add("--disable"); arguments.Add(feature); }
+                arguments.Add("--config"); arguments.Add("web_search=\"disabled\"");
+                arguments.Add("--config"); arguments.Add("mcp_servers={}");
+                arguments.Add("--ignore-rules");
+            }
+            else if (provider == "Claude")
+            {
+                var settings = new Dictionary<string, object>();
+                for (int index = 0; index < arguments.Count; index++)
+                    if (arguments[index] == "--settings")
+                    {
+                        if (index + 1 >= arguments.Count) throw new InvalidOperationException("CLI 설정 인자가 올바르지 않습니다.");
+                        var values = new JavaScriptSerializer().DeserializeObject(arguments[index + 1]) as Dictionary<string, object>;
+                        if (values == null) throw new InvalidOperationException("CLI 설정 JSON이 올바르지 않습니다.");
+                        foreach (var pair in values) settings[pair.Key] = pair.Value;
+                        arguments.RemoveRange(index, 2); index--;
+                    }
+                settings["disableAllHooks"] = true;
+                arguments.Add("--settings"); arguments.Add(new JavaScriptSerializer().Serialize(settings));
+                arguments.Add("--disable-slash-commands");
+                // 기존 --tools 빈 목록과 strict-mcp-config/빈 mcp.json을 유지한다.
+            }
+            else throw new ArgumentException("지원하지 않는 공급자입니다.");
         }
 
         /// ---------------------------------------------------------------------

@@ -14,6 +14,7 @@ namespace VS2017.AIAssistant.Providers
     /// author       : CodexOrig
     /// create date  : 2026-10-18
     /// update date  : 2026-10-18 CodexOrig : TASK-020 동적 모델·계정·사용량 조회.
+    ///                2026-11-07 CodexOrig 보조 개발 055 : 계정·모델 목록 실패를 분리하고 캐시·계정 미확인 출처를 보존.
     /// </summary>
     /// ---------------------------------------------------------------------
     public sealed class ProviderRuntimeService
@@ -57,12 +58,12 @@ namespace VS2017.AIAssistant.Providers
                 try {
                     if (provider == "Codex") await ReadCodexAsync(path, info, deadline.Token).ConfigureAwait(false);
                     else await ReadClaudeAsync(path, info, deadline.Token).ConfigureAwait(false);
-                    info.Status = "연결된 CLI에서 모델 목록을 갱신했습니다. 모델 목록은 유료 사용 권한 보장이 아니며 실제 요청 시 서버가 확인합니다.";
+                    info.Status = provider == "Codex" ? DescribeCodexMetadata(info) : "연결된 CLI에서 모델 목록을 갱신했습니다. 모델 목록은 유료 사용 권한 보장이 아니며 실제 요청 시 서버가 확인합니다.";
                     if (provider == "Claude" && !info.Authenticated.HasValue) info.Status += " 모델 초기화만으로 로그인 여부를 확정하지 않습니다. 계정 연결 확인에서 별도로 검사하세요.";
                 }
                 catch (OperationCanceledException) {
                     cancellation.ThrowIfCancellationRequested();
-                    info.Status = "CLI 기능 조회 시간이 초과되었습니다. 기본/직접 입력 모델을 사용할 수 있습니다.";
+                    info.Status = provider == "Codex" && info.Catalog != null ? DescribeCodexMetadata(info) + " 일부 CLI 메타데이터 조회 시간이 초과되었습니다." : "CLI 기능 조회 시간이 초과되었습니다. 기본/직접 입력 모델을 사용할 수 있습니다.";
                 }
                 catch (Exception error) when (error is IOException || error is InvalidOperationException || error is ArgumentException || error is System.ComponentModel.Win32Exception || error is System.Security.SecurityException) {
                     info.Status = "CLI 기능 조회를 지원하지 않거나 연결하지 못했습니다. CLI 버전·로그인을 확인하세요.";
@@ -96,18 +97,64 @@ namespace VS2017.AIAssistant.Providers
         /// author       : CodexOrig
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : TASK-020 동적 모델·계정·사용량 조회.
+        ///                2026-11-07 CodexOrig 보조 개발 055 : 계정과 목록을 독립 시작하고 모든 작업을 기다린 뒤 동일 session을 해제.
         /// </summary>
         /// ---------------------------------------------------------------------
         private static async Task ReadCodexAsync(string path, ProviderRuntimeInfo info, CancellationToken cancellation)
         {
             using (var session = new NativeJsonSession(path, new[] { "app-server" }, Path.GetTempPath())) {
                 await InitializeCodexAsync(session, cancellation).ConfigureAwait(false);
+                var account = ReadCodexAccountAsync(session, info, cancellation);
+                var models = ReadCodexModelsAsync(session, info, cancellation);
+                await Task.WhenAll(account, models).ConfigureAwait(false);
+                try {
+                    var quota = await session.CallAsync("account/rateLimits/read", new { }, cancellation).ConfigureAwait(false);
+                    var primary = RuntimeJson.Child(RuntimeJson.Child(quota, "rateLimits"), "primary"); double percent;
+                    if (Double.TryParse(Convert.ToString(RuntimeJson.Get(primary, "usedPercent"), System.Globalization.CultureInfo.InvariantCulture), System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out percent) && percent >= 0 && percent <= 100) info.Usage.QuotaUsedPercent = percent;
+                    var reset = RuntimeJson.Count(primary, "resetsAt"); if (reset.HasValue && reset.Value <= 253402300799L) info.Usage.QuotaResetsAt = DateTimeOffset.FromUnixTimeSeconds(reset.Value);
+                    info.Usage.Source = "Codex account/rateLimits/read";
+                } catch (InvalidOperationException) { info.Usage.Source = "계정 한도 조회 미지원"; }
+            }
+        }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : ReadCodexAccountAsync
+        /// desc         : 계정 메타데이터 오류는 미확인으로 남기며 독립 모델 조회와 사용자 취소를 막지 않는다.
+        /// author       : CodexOrig 보조 개발 055
+        /// create date  : 2026-11-07
+        /// update date  :
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        private static async Task ReadCodexAccountAsync(NativeJsonSession session, ProviderRuntimeInfo info, CancellationToken cancellation)
+        {
+            try {
                 var account = RuntimeJson.Child(await session.CallAsync("account/read", new { refreshToken = false }, cancellation).ConfigureAwait(false), "account");
                 info.Plan = RuntimeJson.Text(account, "planType");
                 if (info.Plan.Length == 0) info.Plan = RuntimeJson.Text(account, "type");
+                if (info.Plan.Length == 0) info.Plan = "확인 불가";
                 info.Authenticated = account.Count > 0;
+            }
+            catch (Exception error) when (error is IOException || error is InvalidOperationException || error is ArgumentException || error is System.ComponentModel.Win32Exception || error is System.Security.SecurityException) {
+                info.Authenticated = null;
+                info.Plan = "확인 불가";
+            }
+        }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : ReadCodexModelsAsync
+        /// desc         : 실제 목록의 필터·페이지 경계를 유지하고 목록 오류 시에만 기존 로컬 캐시와 직접 입력 경로를 남긴다.
+        /// author       : CodexOrig 보조 개발 055
+        /// create date  : 2026-11-07
+        /// update date  :
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        private static async Task ReadCodexModelsAsync(NativeJsonSession session, ProviderRuntimeInfo info, CancellationToken cancellation)
+        {
+            var cached = ProviderModelCatalog.LoadCodex();
+            try {
                 var models = new List<ProviderModelDescriptor>(); string cursor = null;
-                var cached = ProviderModelCatalog.LoadCodex();
                 for (int page = 0; page < 8; page++) {
                     var response = await session.CallAsync("model/list", new { limit = 100, includeHidden = false, cursor }, cancellation).ConfigureAwait(false);
                     foreach (var raw in RuntimeJson.Items(RuntimeJson.Get(response, "data"))) {
@@ -123,14 +170,30 @@ namespace VS2017.AIAssistant.Providers
                 }
                 info.Catalog = new ProviderModelCatalog(models.GroupBy(m => m.Id).Select(g => g.First()), "Codex app-server model/list · " + DateTimeOffset.Now.ToString("g"));
                 info.SupportsProtocol = true;
-                try {
-                    var quota = await session.CallAsync("account/rateLimits/read", new { }, cancellation).ConfigureAwait(false);
-                    var primary = RuntimeJson.Child(RuntimeJson.Child(quota, "rateLimits"), "primary"); double percent;
-                    if (Double.TryParse(Convert.ToString(RuntimeJson.Get(primary, "usedPercent"), System.Globalization.CultureInfo.InvariantCulture), System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out percent) && percent >= 0 && percent <= 100) info.Usage.QuotaUsedPercent = percent;
-                    var reset = RuntimeJson.Count(primary, "resetsAt"); if (reset.HasValue && reset.Value <= 253402300799L) info.Usage.QuotaResetsAt = DateTimeOffset.FromUnixTimeSeconds(reset.Value);
-                    info.Usage.Source = "Codex account/rateLimits/read";
-                } catch (InvalidOperationException) { info.Usage.Source = "계정 한도 조회 미지원"; }
             }
+            catch (OperationCanceledException) { info.Catalog = cached; throw; }
+            catch (Exception error) when (error is IOException || error is InvalidOperationException || error is ArgumentException || error is System.ComponentModel.Win32Exception || error is System.Security.SecurityException) {
+                info.Catalog = cached;
+            }
+        }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : DescribeCodexMetadata
+        /// desc         : 실제 모델 출처와 계정 확인 여부를 구분하고 목록만으로 로그인·모델 사용 권한을 보장하지 않는다.
+        /// author       : CodexOrig 보조 개발 055
+        /// create date  : 2026-11-07
+        /// update date  :
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        private static string DescribeCodexMetadata(ProviderRuntimeInfo info)
+        {
+            string status = info.SupportsProtocol ? "연결된 CLI에서 모델 목록을 갱신했습니다." :
+                info.Catalog != null && info.Catalog.Models.Count > 0 ? "Codex model/list 조회에 실패했습니다. 로컬 모델 캐시를 표시합니다. CLI 기본/직접 입력 모델을 사용할 수 있습니다." :
+                "Codex model/list 조회에 실패했고 표시할 로컬 모델 캐시가 없습니다. CLI 기본/직접 입력 모델을 사용할 수 있습니다.";
+            status += !info.Authenticated.HasValue ? " 계정 상태는 미확인입니다. 로그인 성공을 확인하지 못했습니다." :
+                info.Authenticated.Value ? " 계정 메타데이터를 확인했습니다." : " CLI가 연결된 계정이 없다고 응답했습니다.";
+            return status + " 모델 목록은 유료 사용 권한 보장이 아니며 실제 요청 시 서버가 확인합니다.";
         }
 
         /// ---------------------------------------------------------------------

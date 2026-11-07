@@ -92,11 +92,15 @@ namespace VS2017.AIAssistant.Views
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 이미지의 버튼 연결 선택 창과 잘못된 모델 조합 차단.
         ///                2026-10-19 CodexOrig4 : 강도·모델설명·고정 하단 영역도 같은 동적 팔레트 사용.
+        ///                2026-11-07 CodexOrig : 팝업의 미확인 저장 선택을 보존하고 제공자 변경 뒤 적용을 거절.
+        ///                2026-11-07 CodexOrig : 기존 동기 UI 호출 계약을 유지하고 명시 적용 콜백에서 스레드를 확인.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void ShowModelDropdown(FrameworkElement anchor)
         {
-            var catalog = ProviderModelCatalog.ForProvider(selectedProvider);
+            string providerName = selectedProvider, pendingEffort = efforts[selectedProvider];
+            bool pendingFast = speeds[selectedProvider] == "fast";
+            var catalog = ProviderModelCatalog.ForProvider(providerName);
             var panel = new StackPanel();
             var model = new ComboBox { IsEditable = true, IsTextSearchEnabled = false, Text = ModelName.Text, Margin = new Thickness(0, 4, 0, 16), MinWidth = 160 };
             model.Items.Add(""); foreach (var entry in catalog.Models) model.Items.Add(entry.Id);
@@ -113,24 +117,32 @@ namespace VS2017.AIAssistant.Views
                 try {
                     var capability = catalog.Find(model.Text);
                     levels = new[] { "auto" }.Concat(capability == null ? new[] { "low", "medium", "high" } : capability.Efforts.ToArray()).Distinct().ToArray();
-                    gauge.Maximum = levels.Length - 1; gauge.Value = Math.Max(0, Array.IndexOf(levels, efforts[selectedProvider]));
-                    label.Text = EffortLabel(levels[(int)gauge.Value]);
-                    fast.IsEnabled = capability != null && capability.SupportsFast; fast.IsChecked = fast.IsEnabled && speeds[selectedProvider] == "fast";
+                    bool supportedEffort = levels.Contains(pendingEffort), supportedFast = capability != null && capability.SupportsFast;
+                    if (!supportedEffort) levels = levels.Concat(new[] { pendingEffort }).ToArray();
+                    gauge.Maximum = levels.Length - 1; gauge.Value = Array.IndexOf(levels, pendingEffort);
+                    label.Text = EffortLabel(pendingEffort) + (supportedEffort ? "" : " · 지원 확인 필요");
+                    fast.IsChecked = pendingFast;
+                    fast.IsEnabled = supportedFast || pendingFast;
+                    fast.ToolTip = supportedFast ? capability.SpeedDescription : "Fast 지원 미확인 · 저장된 Fast 선택을 해제할 수 있습니다.";
                     details.Text = (capability == null ? "CLI 기본 또는 직접 입력 모델 · 고급 강도와 Fast 지원 미확인" : capability.DisplayName + (capability.MinimumCliVersion == null ? "" : " · CLI " + capability.MinimumCliVersion + " 이상")) + "\nFast는 계정 지원이 필요하며 사용량이 증가합니다. 생각 강도는 추론량이며 정확도 점수가 아닙니다." + (String.IsNullOrEmpty(catalog.Warning) ? "" : "\n" + catalog.Warning);
                 } finally { updating = false; }
             };
             model.AddHandler(TextBoxBase.TextChangedEvent, new TextChangedEventHandler((s, e) => refresh()));
-            gauge.ValueChanged += (s, e) => { if (!updating && levels.Length > 0) label.Text = EffortLabel(levels[Math.Min(levels.Length - 1, (int)gauge.Value)]); };
+            gauge.ValueChanged += (s, e) => { if (!updating && levels.Length > 0) { pendingEffort = levels[Math.Min(levels.Length - 1, (int)gauge.Value)]; label.Text = EffortLabel(pendingEffort); } };
+            fast.Checked += (s, e) => { if (!updating) pendingFast = true; };
+            fast.Unchecked += (s, e) => { if (!updating) { pendingFast = false; var capability = catalog.Find(model.Text); fast.IsEnabled = capability != null && capability.SupportsFast; } };
             panel.Children.Add(new TextBlock { Text = "◉ 생각 강도", FontWeight = FontWeights.SemiBold }); panel.Children.Add(label); panel.Children.Add(gauge);
             panel.Children.Add(new Separator { Margin = new Thickness(0, 0, 0, 12) }); panel.Children.Add(fast); panel.Children.Add(details);
             var apply = new Button { Content = "✓ 선택 적용", HorizontalAlignment = HorizontalAlignment.Stretch };
             apply.Click += (s, e) => {
+                Dispatcher.VerifyAccess();
                 try {
-                    var option = new ProviderExecutionOptions(selectedProvider, model.Text, levels[(int)gauge.Value], fast.IsChecked == true ? "fast" : "standard", catalog);
+                    if (selectedProvider != providerName) throw new InvalidOperationException("AI가 변경되었습니다. 모델 설정을 다시 열어 선택하세요.");
+                    var option = new ProviderExecutionOptions(providerName, model.Text, pendingEffort, pendingFast ? "fast" : "standard", ProviderModelCatalog.ForProvider(providerName));
                     var settings = settingsStore.Load();
-                    if (selectedProvider == "Codex") { settings.CodexModel = option.Model; settings.CodexEffort = option.ReasoningEffort; settings.CodexSpeed = option.Speed; }
+                    if (providerName == "Codex") { settings.CodexModel = option.Model; settings.CodexEffort = option.ReasoningEffort; settings.CodexSpeed = option.Speed; }
                     else { settings.ClaudeModel = option.Model; settings.ClaudeEffort = option.ReasoningEffort; settings.ClaudeSpeed = option.Speed; }
-                    settingsStore.Save(settings); models[selectedProvider] = option.Model; efforts[selectedProvider] = option.ReasoningEffort; speeds[selectedProvider] = option.Speed;
+                    settingsStore.Save(settings); models[providerName] = option.Model; efforts[providerName] = option.ReasoningEffort; speeds[providerName] = option.Speed;
                     ModelName.Text = option.Model; CloseDropdown(); RefreshExperience();
                 } catch (Exception error) { if (dropdownMessage != null) dropdownMessage.Text = error.Message; }
             };
@@ -151,10 +163,12 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 독립 토글 대신 모델·게이지와 함께 속도 검토.
+        ///                2026-11-07 CodexOrig : 실제 버튼 이벤트의 UI 스레드를 확인하고 모델 팝업을 연다.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void FastOptionsClicked(object sender, RoutedEventArgs e)
         {
+            Dispatcher.VerifyAccess();
             refreshingOptions = true; try { FastToggle.IsChecked = speeds[selectedProvider] == "fast"; } finally { refreshingOptions = false; }
             ShowModelDropdown(FastToggle);
         }
@@ -214,7 +228,7 @@ namespace VS2017.AIAssistant.Views
                 foreach (var agent in collaborationStore.ListAssignableAgents(selectedProvider)) {
                     var target = agent;
                     var button = new Button { Content = (activeRecords[selectedProvider].Id == agent.ConversationId ? "✓ " : "○ ") + agent.Name, ToolTip = agent.Role, HorizontalContentAlignment = HorizontalAlignment.Left, Margin = new Thickness(0, 0, 0, 7) };
-                    button.Click += (s, a) => { if (ActivateAssignedAgent(target)) CloseDropdown(); }; body.Children.Add(button);
+                    button.Click += (s, a) => { Dispatcher.VerifyAccess(); if (ActivateAssignedAgent(target)) CloseDropdown(); }; body.Children.Add(button);
                 }
                 var agentDescription = CreateThemedDescription("선택한 AI의 대화로 이동합니다. AI마다 역할·기록을 유지하며 A~Z를 모두 사용하면 A에게 이어서 지시합니다.", new Thickness(0, 10, 0, 14));
                 agentDescription.FontSize = 12; body.Children.Add(agentDescription);
@@ -258,10 +272,12 @@ namespace VS2017.AIAssistant.Views
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 대화 전환 전 초안 저장 실패 시 현재 대상을 보존.
         ///                2026-10-20 CodexCode : 담당 AI 재선택 시 방의 미승인 수정안을 다시 표시.
+        /// update date  : 2026-11-03 CodexOrig : 소유 대화 전환과 읽음 처리의 UI 스레드를 예외 처리 밖에서 검증.
         /// </summary>
         /// ---------------------------------------------------------------------
         private bool ActivateAssignedAgent(ConversationAgentIdentity agent)
         {
+            Dispatcher.VerifyAccess();
             try {
                 if (!PersistCurrentConversation()) return false;
                 var record = ResolveAssignedRecord(agent, null);
@@ -278,6 +294,7 @@ namespace VS2017.AIAssistant.Views
         /// author       : CodexCode
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexCode : 최초 시작과 한도 재사용에서도 추가 대화 파일 생성을 방지.
+        /// update date  : 2026-11-07 CodexOrig : AI 기록 복원·재열기는 현재 솔루션 대화 저장소에 한정.
         /// </summary>
         /// ---------------------------------------------------------------------
         private ConversationRecord ResolveAssignedRecord(ConversationAgentIdentity agent, ConversationRecord created)
@@ -285,8 +302,8 @@ namespace VS2017.AIAssistant.Views
             if (created != null) return created;
             System.Collections.Generic.List<ConversationRecord> records;
             var record = conversationRecords.TryGetValue(agent.Provider, out records) ? records.FirstOrDefault(r => r.Id == agent.ConversationId) : null;
-            if (record == null) record = workspaceStore.Load(workspaceStore.GetPath(new ConversationRecord { Id = agent.ConversationId, Provider = agent.Provider }), agent.Provider);
-            if (!record.IsOpen) { record.IsOpen = true; workspaceStore.Save(record); }
+            if (record == null) record = ConversationStorage.Load(ConversationStorage.GetPath(new ConversationRecord { Id = agent.ConversationId, Provider = agent.Provider }), agent.Provider);
+            if (!record.IsOpen) { record.IsOpen = true; ConversationStorage.Save(record); }
             collaborationStore.SetConversationOpen(record.Id, record.Provider, true); return record;
         }
     }

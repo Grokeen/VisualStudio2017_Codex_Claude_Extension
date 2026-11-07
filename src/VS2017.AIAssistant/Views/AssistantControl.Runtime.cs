@@ -309,6 +309,7 @@ namespace VS2017.AIAssistant.Views
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : TASK-020 실제 연결·사용량·전체 액세스 UI.
         ///                2026-10-18 CodexOrig : 완료 사용량 순서 보존·연결 조회 실패와 실제 토큰 분리.
+        ///                2026-11-07 CodexOrig 보조 개발 055 : 방의 과거 quota 대신 현재 연결 메타데이터로만 계정 할당량 표시.
         /// </summary>
         /// ---------------------------------------------------------------------
         private void RefreshRuntimeTooltip()
@@ -316,7 +317,7 @@ namespace VS2017.AIAssistant.Views
             if (runtimeToolTip == null) return;
             PermissionsButton.Content = agentFullAccess ? "⚿ 전체 액세스" : workspacePolicy.AllowSourceControl || workspacePolicy.AllowDatabaseSchema || workspacePolicy.AllowDeployment ? "⚿ 작업 도구 허용" : "⚿ 승인 요청";
             string connection = runtimeInfo == null ? runtimeMetadataError ?? "연결 정보: 아직 조회하지 않음" : "AI: " + runtimeInfo.Provider + "\n계정 종류: " + (String.IsNullOrWhiteSpace(runtimeInfo.Plan) ? "미제공" : runtimeInfo.Plan) + "\n계정 확인: " + runtimeInfo.CheckedAt.ToLocalTime().ToString("HH:mm:ss") + "\n" + runtimeInfo.Status;
-            runtimeToolTip.Content = connection + "\n\n" + (runtimeUsage == null ? "사용량: CLI가 아직 제공하지 않음" : runtimeUsage.Describe()) +
+            runtimeToolTip.Content = connection + "\n\n" + (runtimeUsage == null ? "사용량: CLI가 아직 제공하지 않음" : runtimeUsage.DescribeForAccount(runtimeInfo == null ? null : runtimeInfo.Usage)) +
                 "\n\n실행 모드: " + (agentFullAccess ? "전체 액세스 · CLI가 직접 파일 수정·명령·테스트 수행" : "수정안 검토 · 비교/승인 후 편집기에 적용");
         }
 

@@ -62,6 +62,8 @@ namespace CodexCode.IdeIntegration
         ///                2026-10-19 CodexOrig : 새 Markdown 링크·공통 테마·목록 overlay·돋보기 실제 호스트 검증.
         ///                2026-10-20 CodexOrig : TASK068 미승인 수정안을 보존한 SQL 대기를 명시적 건너뛰기로 실행.
         ///                2026-10-23 CodexOrig : TASK072 읽음 검사 전후의 실제 선택·열린 기록·읽기 경고를 진단하며 기존 조건은 유지.
+        ///                2026-11-03 CodexOrig 보조 개발 055 : 명시 exercise 옵션에서만 TASK073 실제 활동함 addon을 연결.
+        ///                2026-11-03 CodexOrig 보조 개발 055 : IDE04 조건은 유지하고 창 전환 전후 Generate 상속·서비스·소유 창 진단만 기록.
         /// </summary>
         /// ---------------------------------------------------------------------
         internal static async Task RunAsync(Package product, DTE dte, TestConfig config)
@@ -85,18 +87,27 @@ namespace CodexCode.IdeIntegration
             Check("IDE-02 actual configured Visual Studio host " + config.ExpectedIdeMajor, dte.Version.StartsWith(config.ExpectedIdeMajor + "."));
             Check("IDE-03 tool window created", pane != null && pane.Frame != null);
             var view = (AssistantControl)pane.Content;
+            WriteGenerateAvailabilityDiagnostic(view, pane, config.OutputDirectory, "created-before-frame");
             Check("WORK-01 first provider tab is Claude", Equals(((TabItem)((TabControl)view.FindName("ProviderChoice")).Items[0]).Tag, "Claude"));
             var frame = (IVsWindowFrame)pane.Frame;
+            await WaitForActualAssistantViewAsync(view, pane, config.OutputDirectory, "before-frame");
             object frameMode;
             frame.GetProperty((int)__VSFPROPID.VSFPROPID_FrameMode, out frameMode);
             File.AppendAllText(progressPath, "Actual caption=" + pane.Caption + "; FrameMode=" + frameMode + "\r\n");
             Check("CHAT-01 IDE caption removes Chat and retains document tab", pane.Caption == "Claude · Codex" && Convert.ToInt32(frameMode) == (int)VSFRAMEMODE.VSFM_MdiChild);
             frameMode = await ChangeFrameModeAsync(frame, VSFRAMEMODE.VSFM_Float, dte);
+            WriteGenerateAvailabilityDiagnostic(view, pane, config.OutputDirectory, "after-float");
+            await WaitForActualAssistantViewAsync(view, pane, config.OutputDirectory, "after-float");
             Check("CHAT-02 Chat can float", Convert.ToInt32(frameMode) == (int)VSFRAMEMODE.VSFM_Float);
             frameMode = await ChangeFrameModeAsync(frame, VSFRAMEMODE.VSFM_Dock, dte);
+            WriteGenerateAvailabilityDiagnostic(view, pane, config.OutputDirectory, "after-dock");
+            await WaitForActualAssistantViewAsync(view, pane, config.OutputDirectory, "after-dock");
             Check("CHAT-03 Chat can dock", Convert.ToInt32(frameMode) == (int)VSFRAMEMODE.VSFM_Dock);
             frameMode = await ChangeFrameModeAsync(frame, VSFRAMEMODE.VSFM_MdiChild, dte);
+            WriteGenerateAvailabilityDiagnostic(view, pane, config.OutputDirectory, "after-mdi");
+            await WaitForActualAssistantViewAsync(view, pane, config.OutputDirectory, "after-mdi");
             Check("CHAT-04 Chat returns to document tab", Convert.ToInt32(frameMode) == (int)VSFRAMEMODE.VSFM_MdiChild);
+            WriteGenerateAvailabilityDiagnostic(view, pane, config.OutputDirectory, "before-ide04");
             Check("IDE-04 real document service connected", Button(view, "GenerateButton").IsEnabled);
             var mainWindow = Application.Current == null ? null : Application.Current.MainWindow;
             var licenseTexts = mainWindow == null ? new string[0] : Visuals(mainWindow).OfType<TextBlock>().Where(block => block.IsVisible).Select(block => block.Text).ToArray();
@@ -415,6 +426,10 @@ namespace CodexCode.IdeIntegration
             dte.Documents.CloseAll(vsSaveChanges.vsSaveChangesNo);
             Check("FULL-03 a solution without an active source permits project context", directDocuments.CaptureFullAccessContext() == null && ((ISourceNavigationService)service).GetProjectDirectory() == Path.GetDirectoryName(config.SolutionPath));
             await CheckDebuggingHelperAsync(view, dte, config.OutputDirectory);
+            if (config.ActivityFeedPhase == "exercise")
+                await ActivityFeedRuntime73.RunAsync(view, dte, config.OutputDirectory, config.ActivityFeedFixturePath,
+                    config.ActivityFeedPhase, config.ActivityFeedSnapshotManifestPath, Check,
+                    config.ActivityFeedFixtureSHA256, config.ActivityFeedSnapshotManifestSHA256);
             var json = new JavaScriptSerializer();
             File.WriteAllText(Path.Combine(config.OutputDirectory, "result.json"), json.Serialize(new {
                 Succeeded = failed == 0, Passed = passed, Failed = failed, IdeRuntimeTest = true,
@@ -476,6 +491,128 @@ namespace CodexCode.IdeIntegration
             File.AppendAllText(progressPath, "Frame transition actual=" + actual + "\r\n");
             return Convert.ToInt32(actual);
         }
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : WaitForActualAssistantViewAsync
+        /// desc         : 기존 15초·50ms 비동기 경계로 실제 표시된 제품 화면만 기다리며 속성·overlay·서비스를 조작하지 않는다.
+        /// author       : CodexOrig 보조 개발 055
+        /// create date  : 2026-11-03
+        /// update date  :
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        private static async Task WaitForActualAssistantViewAsync(AssistantControl view, ToolWindowPane pane, string output, string phase)
+        {
+            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+            var clock = System.Diagnostics.Stopwatch.StartNew();
+            while (!view.IsLoaded || !view.IsVisible)
+            {
+                if (clock.ElapsedMilliseconds >= 15000)
+                {
+                    WriteGenerateAvailabilityDiagnostic(view, pane, output, "actual-view-" + phase + "-timeout");
+                    throw new TimeoutException("The actual production assistant view did not become loaded and visible within 15 seconds.");
+                }
+                await Task.Delay(50);
+                await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+            }
+            WriteGenerateAvailabilityDiagnostic(view, pane, output, "actual-view-" + phase + "-ready");
+        }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : WriteGenerateAvailabilityDiagnostic
+        /// desc         : IDE04의 기존 조건을 바꾸지 않고 버튼 로컬·상속 상태와 서비스·창 소유권만 비민감 JSON으로 기록한다.
+        /// author       : CodexOrig 보조 개발 055
+        /// create date  : 2026-11-03
+        /// update date  :
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        private static void WriteGenerateAvailabilityDiagnostic(AssistantControl view, ToolWindowPane pane, string output, string phase)
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+            object observation;
+            try
+            {
+                var flags = BindingFlags.Instance | BindingFlags.NonPublic;
+                var type = typeof(AssistantControl);
+                var generate = Button(view, "GenerateButton");
+                var documents = type.GetField("documents", flags).GetValue(view);
+                var provider = type.GetField("provider", flags).GetValue(view);
+                var queue = (System.Collections.ICollection)type.GetField("queuedRequests", flags).GetValue(view);
+                int maximum = (int)type.GetField("MaximumQueuedRequests", BindingFlags.Static | BindingFlags.NonPublic).GetRawConstantValue();
+                bool disposed = (bool)type.GetField("disposed", flags).GetValue(view);
+                bool busy = (bool)type.GetField("busy", flags).GetValue(view);
+                var application = Application.Current;
+                var mainWindow = application == null ? null : application.MainWindow;
+                var ownWindow = System.Windows.Window.GetWindow(view);
+                var composer = view.FindName("ComposerSurface") as FrameworkElement;
+                var layout = view.FindName("LayoutRoot") as FrameworkElement;
+                object composerLocal = composer == null ? DependencyProperty.UnsetValue : composer.ReadLocalValue(UIElement.IsEnabledProperty);
+                bool overlayActive = (bool)type.GetField("historyOverlayActive", flags).GetValue(view);
+                var parents = new List<object>();
+                var seen = new HashSet<DependencyObject>();
+                DependencyObject current = generate;
+                while (current != null && parents.Count < 64 && seen.Add(current))
+                {
+                    var ui = current as UIElement;
+                    var content = current as ContentElement;
+                    var property = content == null ? UIElement.IsEnabledProperty : ContentElement.IsEnabledProperty;
+                    object local = current.ReadLocalValue(property);
+                    parents.Add(new { NodeType = current.GetType().FullName,
+                        EffectiveIsEnabled = ui != null ? (bool?)ui.IsEnabled : content != null ? (bool?)content.IsEnabled : null,
+                        LocalIsEnabledKind = ReferenceEquals(local, DependencyProperty.UnsetValue) ? "UnsetValue" : local is bool ? "Boolean" : local.GetType().FullName,
+                        LocalIsEnabled = local is bool ? (bool?)local : null });
+                    var parent = current is Visual || current is System.Windows.Media.Media3D.Visual3D ? VisualTreeHelper.GetParent(current) : null;
+                    current = parent ?? LogicalTreeHelper.GetParent(current);
+                }
+                object buttonLocal = generate.ReadLocalValue(UIElement.IsEnabledProperty);
+                var dialogs = application == null ? new AssistantDialog[0] : application.Windows.OfType<AssistantDialog>().ToArray();
+                observation = new { Phase = phase, At = DateTimeOffset.Now.ToString("o"),
+                    UiThreadVerified = true, DispatcherAccess = view.Dispatcher.CheckAccess(), ApartmentState = System.Threading.Thread.CurrentThread.GetApartmentState().ToString(),
+                    PaneContentMatchesOriginalView = ReferenceEquals(pane.Content, view),
+                    Generate = new { LocalIsEnabledKind = ReferenceEquals(buttonLocal, DependencyProperty.UnsetValue) ? "UnsetValue" : buttonLocal is bool ? "Boolean" : buttonLocal.GetType().FullName,
+                        LocalIsEnabled = buttonLocal is bool ? (bool?)buttonLocal : null,
+                        EffectiveIsEnabled = generate.IsEnabled, generate.IsVisible, generate.IsLoaded },
+                    View = new { view.IsEnabled, view.IsVisible, view.IsLoaded, view.IsKeyboardFocusWithin, Width = DiagnosticWidth(view.Width), view.ActualWidth },
+                    LayoutWidth = layout == null ? null : DiagnosticWidth(layout.Width), LayoutActualWidth = layout == null ? (double?)null : layout.ActualWidth,
+                    HistoryOverlayActive = overlayActive,
+                    ComposerSurface = new { Present = composer != null,
+                        LocalIsEnabledKind = ReferenceEquals(composerLocal, DependencyProperty.UnsetValue) ? "UnsetValue" : composerLocal is bool ? "Boolean" : composerLocal.GetType().FullName,
+                        LocalIsEnabled = composerLocal is bool ? (bool?)composerLocal : null, EffectiveIsEnabled = composer == null ? (bool?)null : composer.IsEnabled,
+                        Width = composer == null ? null : DiagnosticWidth(composer.Width), ActualWidth = composer == null ? (double?)null : composer.ActualWidth },
+                    DocumentsPresent = documents != null, DocumentsType = documents == null ? null : documents.GetType().FullName,
+                    ProviderPresent = provider != null, ProviderType = provider == null ? null : provider.GetType().FullName,
+                    Disposed = disposed, Busy = busy, QueueCount = queue.Count, MaximumQueuedRequests = maximum,
+                    ProductLocalGeneratePredicateObserved = !disposed && documents != null && provider != null && queue.Count < maximum,
+                    MainWindowPresent = mainWindow != null, MainWindowIsEnabled = mainWindow == null ? (bool?)null : mainWindow.IsEnabled,
+                    MainWindowIsActive = mainWindow == null ? (bool?)null : mainWindow.IsActive,
+                    OwnWindowPresent = ownWindow != null, OwnWindowIsEnabled = ownWindow == null ? (bool?)null : ownWindow.IsEnabled,
+                    OwnWindowIsActive = ownWindow == null ? (bool?)null : ownWindow.IsActive,
+                    ParentIsEnabledChain = parents, ParentChainStoppedAtBoundOrCycle = current != null,
+                    AssistantDialogs = dialogs.Select(dialog => new { Kind = dialog.GetType().FullName, dialog.IsVisible, dialog.IsLoaded, dialog.IsEnabled, dialog.IsActive,
+                        OwnerPresent = dialog.Owner != null, OwnerEqualsViewWindow = ownWindow != null && ReferenceEquals(dialog.Owner, ownWindow),
+                        OwnerEqualsMainWindow = mainWindow != null && ReferenceEquals(dialog.Owner, mainWindow) }).ToArray(),
+                    TextTitlePathCaptured = false, StateModified = false };
+            }
+            catch (Exception error)
+            {
+                observation = new { Phase = phase, DiagnosticCaptureFailed = true, ExceptionType = error.GetType().FullName,
+                    TextTitlePathCaptured = false, StateModified = false, OriginalIde04PredicateRetained = true };
+            }
+            File.WriteAllText(Path.Combine(output, "ide04-generate-" + phase + ".json"), new JavaScriptSerializer().Serialize(observation), new UTF8Encoding(false));
+        }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : DiagnosticWidth
+        /// desc         : WPF 자동 폭의 NaN과 유한 폭을 상태 변경 없이 JSON에 안전한 문자열로 기록한다.
+        /// author       : CodexOrig 보조 개발 055
+        /// create date  : 2026-11-03
+        /// update date  :
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        private static string DiagnosticWidth(double value)
+        { return value.ToString("R", System.Globalization.CultureInfo.InvariantCulture); }
+
         /// ---------------------------------------------------------------------
         /// <summary>
         /// name         : WriteUnreadDiagnostic

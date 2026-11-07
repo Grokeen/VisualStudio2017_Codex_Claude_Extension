@@ -565,3 +565,11 @@ Orig2 사후 감사 통과/동결. CodexOrig_TASK-069.md 및 Deployment/ReleaseC
 다른역할에대한사용자완료기준은 자기파트완료가아닌 빌드·컴파일→최신Release제작→실제게시→공개다운로드해시검증까지다. Orig3·4·연구역할·CodexCode에최종링크와기준을직접전송성공했다. 이번에는CodexCode도수신가능하며기존의active-writer실패로기록하지않는다. Orig2에는실제공개/정리사후감사를요청했다. 제품/배포/PDF동결을유지하고Root가최종감사와기록commit/push를마감한다.
 
 CodexOrig2 사후 감사 상태: PASS_PUBLIC_PREVIEW_TASK072_WITH_DOCUMENTED_RESIDUALS. 공개14익명SHA·직전보존·승인정리까지 TASK072 Preview 범위 통과이며, 첫Single/종료지연/고객환경한계는유지한다.
+
+## 0.15.0 Preview 통합 보고 — CodexOrig8 / 2026-11-08 00:24:00 KST
+
+표준 공개판의 소스와 사용자 문서를 독립 통합 브랜치에 정리했습니다. BestCare 비공개판 소스와 공유 작업 체크아웃은 건드리지 않았습니다. 활동함과 솔루션별 저장 연결은 기존 저장 성공/캐시 실패 경계를 보존했고, 범위 전환 때 파생 UI 대상을 비우며 해당 범위의 일시적 저장 실패 표식은 복원합니다. CLI 설정 병합은 기존 선택을 보존합니다.
+
+최종 검증은 이 커밋을 새 경로에 체크아웃한 실제 바이트와 생성 DLL/VSIX 해시에 묶습니다. Root 단독 빌드 슬롯에서 네 SKU를 경고 오류 처리와 SKU별 요약/전체 로그/binlog로 빌드합니다. 관련 검사는 tests/provider-options, tests/provider-cli, tests/task020, tests/project-conversations, tests/quota-remaining, tests/comment-code-product, tests/markdown-headings, tests/markdown-close-confirm 및 TASK073 계약으로 실행합니다. 실제 DLL 검사와 소스 발췌·모의 검사는 결과에서 구분합니다.
+
+이 보고 시점에는 최종 통합 DLL 검사와 공개 게시가 아직 실행되지 않았습니다. 게시 전에는 동일 소스·55쪽 PDF·내장 테마·14개 사용자 자산의 해시를 대조하고, 게시 후 14개 익명 다운로드 원본을 독립 재검산합니다. 사용자 배포 폴더에는 소스·PDB·계정·개발 증거를 넣지 않습니다. 실제 IDE/실계정/실 AI 검증을 했다고 보고하지 않으며 기존 GUI 중단도 유지합니다.

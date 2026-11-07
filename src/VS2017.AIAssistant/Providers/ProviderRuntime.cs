@@ -14,6 +14,7 @@ namespace VS2017.AIAssistant.Providers
     /// author       : CodexOrig
     /// create date  : 2026-10-18
     /// update date  : 2026-10-18 CodexOrig : TASK-020 실제 CLI 메타데이터와 전체 권한 실행 계약.
+    ///                2026-11-07 CodexOrig 보조 개발 055 : 과거 방의 토큰 통계와 현재 연결의 계정 quota 표시를 부작용 없이 분리.
     /// </summary>
     /// ---------------------------------------------------------------------
     public sealed class ProviderUsageSnapshot
@@ -29,23 +30,71 @@ namespace VS2017.AIAssistant.Providers
         public DateTimeOffset UpdatedAt { get; set; } = DateTimeOffset.Now;
         /// ---------------------------------------------------------------------
         /// <summary>
+        /// name         : QuotaRemainingPercent
+        /// desc         : 실제 계정 사용률이 유효할 때만 남은 할당량 비율을 계산하며 토큰 수나 문맥 잔여량을 추정하지 않는다.
+        /// author       : CodexOrig
+        /// create date  : 2026-11-07
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        public double? QuotaRemainingPercent
+        {
+            get
+            {
+                if (!QuotaUsedPercent.HasValue || Double.IsNaN(QuotaUsedPercent.Value) ||
+                    Double.IsInfinity(QuotaUsedPercent.Value) || QuotaUsedPercent.Value < 0 || QuotaUsedPercent.Value > 100) return null;
+                return 100 - QuotaUsedPercent.Value;
+            }
+        }
+        /// ---------------------------------------------------------------------
+        /// <summary>
         /// name         : Describe
         /// desc         : 확인된 토큰과 계정 한도를 서로 다른 단위로 표시한다.
         /// author       : CodexOrig
         /// create date  : 2026-10-18
         /// update date  : 2026-10-18 CodexOrig : TASK-020 실제 CLI 메타데이터와 전체 권한 실행 계약.
+        ///                2026-11-07 CodexOrig : 확인된 계정 사용률로만 남은 할당량 비율을 표시하고 토큰 잔여량과 구분.
         /// </summary>
         /// ---------------------------------------------------------------------
         public string Describe()
         {
             Func<long?, string> value = n => n.HasValue ? n.Value.ToString("N0", CultureInfo.CurrentCulture) : "확인 불가";
+            double? remaining = QuotaRemainingPercent;
             return "실제 보고 사용량\n입력(캐시 포함): " + value(InputTokens) + " tokens\n출력: " + value(OutputTokens) +
                 " tokens\n캐시 입력: " + value(CachedInputTokens) + " tokens\n합계: " + value(TotalTokens) +
                 " tokens\n컨텍스트 한도: " + value(ContextWindow) + " tokens\n계정 할당량 사용률: " +
-                (QuotaUsedPercent.HasValue ? QuotaUsedPercent.Value.ToString("0.#", CultureInfo.InvariantCulture) + "%" : "확인 불가") +
+                (remaining.HasValue ? QuotaUsedPercent.Value.ToString("0.#", CultureInfo.InvariantCulture) + "%" : "확인 불가") +
+                "\n계정 할당량 남음(사용률 기준): " + (remaining.HasValue ? remaining.Value.ToString("0.#", CultureInfo.InvariantCulture) + "%" : "확인 불가") +
+                "\n남은 비율은 계정 할당량 기준이며 남은 토큰 수·컨텍스트 잔여량이 아닙니다." +
                 (QuotaResetsAt.HasValue ? "\n한도 초기화: " + QuotaResetsAt.Value.ToLocalTime().ToString("g") : "") +
                 "\n출처: " + (Source ?? "CLI가 아직 사용량을 제공하지 않음") +
                 "\n갱신: " + UpdatedAt.ToLocalTime().ToString("HH:mm:ss") + "\n수신한 이벤트마다 갱신합니다. 미제공 수치는 추정하지 않습니다.";
+        }
+
+        /// ---------------------------------------------------------------------
+        /// <summary>
+        /// name         : DescribeForAccount
+        /// desc         : 토큰은 현재 통계를 유지하고 quota는 현재 계정 메타데이터에서만 표시하며 원본·방 캐시를 변경하지 않는다.
+        /// author       : CodexOrig 보조 개발 055
+        /// create date  : 2026-11-07
+        /// update date  :
+        /// </summary>
+        /// ---------------------------------------------------------------------
+        public string DescribeForAccount(ProviderUsageSnapshot accountUsage)
+        {
+            bool hasTokens = InputTokens.HasValue || OutputTokens.HasValue || CachedInputTokens.HasValue || TotalTokens.HasValue || ContextWindow.HasValue;
+            var displayed = new ProviderUsageSnapshot {
+                InputTokens = InputTokens, OutputTokens = OutputTokens, CachedInputTokens = CachedInputTokens,
+                TotalTokens = TotalTokens, ContextWindow = ContextWindow,
+                QuotaUsedPercent = accountUsage == null ? null : accountUsage.QuotaUsedPercent,
+                QuotaResetsAt = accountUsage == null ? null : accountUsage.QuotaResetsAt,
+                Source = hasTokens ? Source : "CLI가 아직 토큰 통계를 제공하지 않음", UpdatedAt = UpdatedAt
+            };
+            string accountSource = accountUsage == null ? "현재 연결의 계정 한도 미확인" :
+                String.IsNullOrWhiteSpace(accountUsage.Source) ? "현재 연결의 CLI가 계정 한도 출처를 제공하지 않음" : accountUsage.Source;
+            bool hasAccountReport = accountUsage != null && (accountUsage.QuotaUsedPercent.HasValue || accountUsage.QuotaResetsAt.HasValue || !String.IsNullOrWhiteSpace(accountUsage.Source));
+            return displayed.Describe().Replace("\n출처: ", "\n토큰 통계 출처: ").Replace("\n갱신: ", "\n토큰 통계 갱신: ") +
+                "\n계정 할당량 출처: " + accountSource + "\n계정 할당량 갱신: " +
+                (hasAccountReport ? accountUsage.UpdatedAt.ToLocalTime().ToString("HH:mm:ss") : "미확인");
         }
     }
     /// ---------------------------------------------------------------------

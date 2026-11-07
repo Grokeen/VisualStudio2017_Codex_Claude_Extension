@@ -10,12 +10,13 @@ update date  : 2026-10-19 CodexOrig : TASK-036 NoApplicableSKUsException 설치 
                2026-10-20 CodexCode : 설치기 중지 요청을 IDE 대기 중 즉시, VSIX 경계에서 안전하게 처리.
                2026-10-20 CodexCode : 설치 성공 패키지 수를 중앙 진행 게이지에 전달.
                2026-10-21 CodexOrig : 공식 TEMP 로그 이름 계약과 검증된 진단 사본·로그 누락 경고를 분리.
+               2026-11-03 CodexOrig : TASK073 standard 0.15.0 package metadata.
 -------------------------------------------------------------------------
 #>
 [CmdletBinding()]
 param(
     [string]$PackageDirectory,
-    [ValidatePattern('^\d+\.\d+\.\d+$')][string]$PackageVersion='0.14.2',
+    [ValidatePattern('^\d+\.\d+\.\d+$')][string]$PackageVersion='0.15.0',
     [string]$InstanceId,
     [switch]$Install,
     [switch]$InstallTheme,
@@ -38,6 +39,7 @@ desc         : 설치 파일의 체크섬과 실제 매니페스트를 확인한
 author       : CodexOrig
 create date  : 2026-10-19
 update date  : 2026-10-19 CodexOrig : DTD와 외부 엔터티 금지·예상 제품 ID/버전 확인.
+               2026-11-03 CodexOrig : TASK073 standard 0.15.0 package metadata.
 -------------------------------------------------------------------------
 #>
 function Read-AIAssistantPackage {
@@ -83,6 +85,7 @@ name         : Read-AIAssistantThemePackage
 desc         : 동봉 테마 VSIX의 SHA256, 제품 ID, 버전과 대상 IDE를 설치 전에 확인한다.
 author       : CodexCode
 create date  : 2026-10-20
+               2026-11-03 CodexOrig : TASK073 standard 0.15.0 package metadata.
 -------------------------------------------------------------------------
 #>
 function Read-AIAssistantThemePackage {
@@ -126,6 +129,7 @@ desc         : 실제 설치 버전을 VSIX 규칙으로 정규화하고 Communi
 author       : CodexOrig
 create date  : 2026-10-19
 update date  : 2026-10-19 CodexOrig : 낮은 빌드·다른 연도·BuildTools·ARM64·불완전 설치 차단.
+               2026-11-03 CodexOrig : TASK073 standard 0.15.0 package metadata.
 -------------------------------------------------------------------------
 #>
 function Get-AIAssistantInstallPlan {
@@ -168,6 +172,7 @@ desc         : 운영체제 비트 수 대신 대상 devenv.exe의 PE 머신 값
 author       : CodexOrig
 create date  : 2026-10-19
 update date  : 2026-10-19 CodexOrig : VS2022 ARM64를 x64로 잘못 선택하지 않도록 실제 파일 검사.
+               2026-11-03 CodexOrig : TASK073 standard 0.15.0 package metadata.
 -------------------------------------------------------------------------
 #>
 function Get-AIAssistantIdeArchitecture {
@@ -190,6 +195,7 @@ desc         : VS2017에 동봉된 구형 vswhere에서도 JSON을 읽고 호출
 author       : CodexOrig
 create date  : 2026-10-19
 update date  : 2026-10-19 CodexOrig : 2.5에서 추가된 -utf8 옵션에 의존하지 않도록 변경.
+               2026-11-03 CodexOrig : TASK073 standard 0.15.0 package metadata.
 -------------------------------------------------------------------------
 #>
 function Get-AIAssistantVisualStudioInstances {
@@ -212,6 +218,7 @@ name         : Stop-AIAssistantIfRequested
 desc         : 현재 VSIXInstaller 프로세스를 강제 종료하지 않고 다음 설치 경계에서 중지한다.
 author       : CodexCode
 create date  : 2026-10-20
+               2026-11-03 CodexOrig : TASK073 standard 0.15.0 package metadata.
 -------------------------------------------------------------------------
 #>
 function Stop-AIAssistantIfRequested {
@@ -230,6 +237,7 @@ name         : Assert-AIAssistantLogPath
 desc         : 로그 원본과 진단 사본에서 경로 재지정을 거절한다.
 author       : CodexOrig
 create date  : 2026-10-21
+               2026-11-03 CodexOrig : TASK073 standard 0.15.0 package metadata.
 -------------------------------------------------------------------------
 #>
 function Assert-AIAssistantLogPath {
@@ -250,6 +258,7 @@ name         : New-AIAssistantLogPlan
 desc         : 공식 설치기가 지원하는 TEMP basename과 새 진단 사본 이름을 만든다.
 author       : CodexOrig
 create date  : 2026-10-21
+               2026-11-03 CodexOrig : TASK073 standard 0.15.0 package metadata.
 -------------------------------------------------------------------------
 #>
 function New-AIAssistantLogPlan {
@@ -268,6 +277,7 @@ name         : Complete-AIAssistantLog
 desc         : 이 실행의 유일 TEMP 로그만 제한 검증·복사하며 설치 종료 코드와 로그 오류를 분리한다.
 author       : CodexOrig
 create date  : 2026-10-21
+               2026-11-03 CodexOrig : TASK073 standard 0.15.0 package metadata.
 -------------------------------------------------------------------------
 #>
 function Complete-AIAssistantLog {
@@ -312,6 +322,7 @@ name         : Invoke-AIAssistantVsixInstaller
 desc         : 설치 UI를 유지하고 실제 존재하는 로그만 결과와 안내에 포함한다.
 author       : CodexOrig
 create date  : 2026-10-21
+               2026-11-03 CodexOrig : TASK073 standard 0.15.0 package metadata.
 -------------------------------------------------------------------------
 #>
 function Invoke-AIAssistantVsixInstaller {

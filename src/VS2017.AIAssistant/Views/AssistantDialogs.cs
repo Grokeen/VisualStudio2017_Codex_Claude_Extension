@@ -300,9 +300,12 @@ namespace VS2017.AIAssistant.Views
         /// <summary>
         /// 설정 구역을 왼쪽 페이지 목록으로 표시하고 선택한 구역만 본문에 둔다.
         /// 닫힐 때 RestoreSectionPages를 호출해 원래 화면의 전체 구역을 복원해야 한다.
+        /// update date  : 2026-11-03 CodexOrig4 : 설정 목록 높이·말줄임과 keyboard-focus 전체 ToolTip을 맞춘다.
+        ///                2026-11-03 CodexOrig : 설정 목록의 UI 진입점을 검증한 뒤 키보드 안내를 연결한다.
         /// </summary>
         public void SetSectionPages(Panel sectionHost, params DialogSection[] sections)
         {
+            Dispatcher.VerifyAccess();
             if (sectionHost == null) throw new ArgumentNullException(nameof(sectionHost));
             RestoreSectionPages();
             var items = (sections ?? new DialogSection[0]).Where(x => x != null).ToArray();
@@ -316,7 +319,12 @@ namespace VS2017.AIAssistant.Views
             Navigation.Visibility = Visibility.Collapsed; SidebarNavigation.Children.Clear(); SidebarNavigation.Orientation = Orientation.Vertical;
             foreach (var item in items)
             {
-                var button = new ToggleButton { Content = item.Icon + "  " + item.Title, Width = 164, HorizontalContentAlignment = HorizontalAlignment.Left, VerticalContentAlignment = VerticalAlignment.Center, Margin = new Thickness(0, 0, 0, 6), Padding = new Thickness(12, 10, 10, 10), MinHeight = 40, IsThreeState = false, ToolTip = item.Title + " 설정 페이지" };
+                var button = new ToggleButton { Content = item.Icon + "  " + item.Title, Width = 164, HorizontalContentAlignment = HorizontalAlignment.Left, VerticalContentAlignment = VerticalAlignment.Center, Margin = new Thickness(0, 0, 0, 6), Padding = new Thickness(12, 10, 10, 10), Height = 40, MinHeight = 40, MaxHeight = 40, IsThreeState = false, ToolTip = item.Title + " 설정 페이지" };
+                AssistantKeyboardToolTip.SetIsEnabled(button, true);
+                button.ContentTemplate = new DataTemplate { VisualTree = new FrameworkElementFactory(typeof(TextBlock)) };
+                button.ContentTemplate.VisualTree.SetBinding(TextBlock.TextProperty, new System.Windows.Data.Binding());
+                button.ContentTemplate.VisualTree.SetValue(TextBlock.TextWrappingProperty, TextWrapping.NoWrap);
+                button.ContentTemplate.VisualTree.SetValue(TextBlock.TextTrimmingProperty, TextTrimming.CharacterEllipsis);
                 AutomationProperties.SetName(button, item.Title + " 설정 페이지");
                 button.SetResourceReference(FrameworkElement.StyleProperty, typeof(ToggleButton));
                 button.Click += (sender, args) => ShowSectionPage(item, button);
@@ -465,6 +473,7 @@ namespace VS2017.AIAssistant.Views
             ///                2026-10-19 CodexCode : Role15 카드 바탕·테두리·글자를 동적 리소스로 연결.
             ///                2026-10-19 CodexCode : SDK15 이벤트 콜백 안에서 실제 Dispatcher 진입을 명시 검증.
             ///                2026-10-19 CodexOrig : TASK-025 위임 생성자도 공유하는 실제 WPF UI 스레드 검증.
+            /// update date  : 2026-11-03 CodexOrig4 : 카드 높이·문구 영역과 keyboard-focus 전문 ToolTip을 맞춘다.
             /// </summary>
             /// ---------------------------------------------------------------------
             public GuideGallery(GuideStep[] steps, AssistantControl source)
@@ -477,12 +486,13 @@ namespace VS2017.AIAssistant.Views
                 foreach (var step in steps)
                 {
                     var words = new StackPanel();
-                    words.Children.Add(new TextBlock { Text = step.Number + "  " + step.Icon + "  " + step.Title, FontSize = 17, FontWeight = FontWeights.SemiBold, TextWrapping = TextWrapping.Wrap });
-                    words.Children.Add(new TextBlock { Text = step.Summary, TextWrapping = TextWrapping.Wrap, Margin = new Thickness(0, 8, 0, 0) });
+                    words.Children.Add(new TextBlock { Text = step.Number + "  " + step.Icon + "  " + step.Title, FontSize = 17, FontWeight = FontWeights.SemiBold, TextWrapping = TextWrapping.Wrap, TextTrimming = TextTrimming.CharacterEllipsis, MaxHeight = 42 });
+                    words.Children.Add(new TextBlock { Text = step.Summary, TextWrapping = TextWrapping.Wrap, TextTrimming = TextTrimming.CharacterEllipsis, MaxHeight = 54, Margin = new Thickness(0, 8, 0, 0) });
                     var prompt = new TextBlock { Text = "자세히 보기  →", FontSize = 12, Margin = new Thickness(0, 10, 0, 0) }; prompt.SetResourceReference(TextBlock.ForegroundProperty, "AssistantMutedForegroundBrush"); words.Children.Add(prompt);
                     var surface = new Border { BorderThickness = new Thickness(1), CornerRadius = new CornerRadius(8), Padding = new Thickness(14), Child = words, IsHitTestVisible = false, RenderTransform = new TranslateTransform() };
                     surface.SetResourceReference(Border.BackgroundProperty, "AssistantSurfaceBrush"); surface.SetResourceReference(Border.BorderBrushProperty, "AssistantBorderBrush");
-                    var button = new Button { Content = surface, DataContext = step, HorizontalContentAlignment = HorizontalAlignment.Stretch, VerticalContentAlignment = VerticalAlignment.Stretch, Padding = new Thickness(0), BorderThickness = new Thickness(0), Background = Brushes.Transparent, Margin = new Thickness(0, 0, 0, 16), ToolTip = step.Title + " 상세 설명" };
+                    var button = new Button { Content = surface, DataContext = step, HorizontalContentAlignment = HorizontalAlignment.Stretch, VerticalContentAlignment = VerticalAlignment.Stretch, Padding = new Thickness(0), BorderThickness = new Thickness(0), Background = Brushes.Transparent, Margin = new Thickness(0, 0, 0, 16), Height = 164, MinHeight = 164, MaxHeight = 164, ToolTip = step.Title + "\n" + step.Summary };
+                    AssistantKeyboardToolTip.SetIsEnabled(button, true);
                     button.SetResourceReference(Control.ForegroundProperty, "AssistantForegroundBrush");
                     var hit = new FrameworkElementFactory(typeof(Border)); hit.SetValue(Border.BackgroundProperty, Brushes.Transparent);
                     var cardContent = new FrameworkElementFactory(typeof(ContentPresenter));
@@ -491,6 +501,7 @@ namespace VS2017.AIAssistant.Views
                     hit.AppendChild(cardContent);
                     button.Template = new ControlTemplate(typeof(Button)) { VisualTree = hit };
                     AutomationProperties.SetName(button, step.Title + " 상세 설명");
+                    AutomationProperties.SetHelpText(button, step.Summary);
                     button.MouseEnter += (sender, args) => Highlight(button);
                     button.MouseLeave += (sender, args) => Highlight(button.IsKeyboardFocusWithin ? button : null);
                     button.GotKeyboardFocus += (sender, args) => Highlight(button);
@@ -534,6 +545,7 @@ namespace VS2017.AIAssistant.Views
             ///                2026-10-18 CodexCode : TASK-022 목록 복귀 버튼의 배치와 내부 글자 정렬을 분리.
             ///                2026-10-19 CodexCode : TASK-024 우상단 복귀는 스크롤 밖에 고정하고 원문은 Markdown으로 표시.
             ///                2026-10-19 CodexCode : SDK15 복귀·링크 콜백도 독립적인 Dispatcher 계약으로 검증.
+            /// update date  : 2026-11-03 CodexOrig4 : 같은 안내 상세 구역의 뒤로 버튼 높이를 고정한다.
             /// </summary>
             /// ---------------------------------------------------------------------
             private void ShowDetail(GuideStep step, Button source)
@@ -543,7 +555,7 @@ namespace VS2017.AIAssistant.Views
                 var page = new Grid();
                 page.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
                 page.RowDefinitions.Add(new RowDefinition());
-                var back = new Button { Content = "← 뒤로", HorizontalContentAlignment = HorizontalAlignment.Center, VerticalContentAlignment = VerticalAlignment.Center, HorizontalAlignment = HorizontalAlignment.Left, MinWidth = 82, MinHeight = 36, Margin = new Thickness(0, 0, 0, 12), Padding = new Thickness(12, 7, 12, 7), ToolTip = "안내 목록으로 돌아가기" };
+                var back = new Button { Content = "← 뒤로", HorizontalContentAlignment = HorizontalAlignment.Center, VerticalContentAlignment = VerticalAlignment.Center, HorizontalAlignment = HorizontalAlignment.Left, MinWidth = 82, Height = 36, MinHeight = 36, MaxHeight = 36, Margin = new Thickness(0, 0, 0, 12), Padding = new Thickness(12, 7, 12, 7), ToolTip = "안내 목록으로 돌아가기" };
                 back.SetResourceReference(StyleProperty, "GuideActionButton");
                 back.Click += (sender, args) => { Dispatcher.VerifyAccess(); Content = overview; FocusAfterLayout(source); };
                 page.Children.Add(back);

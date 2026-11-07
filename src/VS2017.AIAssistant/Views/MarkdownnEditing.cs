@@ -5,7 +5,9 @@
 // 기능: Markdownn 편집기의 목록·인용 자동 이어쓰기와 키보드 서식 입력을 계산합니다.
 // 출처: 사용자 제공 Markdown_Memo_Interchange/RemoteControlDemo/Features/Markdown/MarkdownnEditing.cs.
 using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace VS2017.AIAssistant.Views
@@ -125,6 +127,108 @@ namespace VS2017.AIAssistant.Views
                 return null;
             }
             catch (RegexMatchTimeoutException) { return null; }
+        }
+    }
+
+    /// ---------------------------------------------------------------------
+    /// <summary>
+    /// name         : MarkdownHeadingEditing
+    /// desc         : 명시한 Markdown 제목 수준을 원문 줄바꿈을 보존해 적용한다.
+    /// author       : CodexOrig4
+    /// create date  : 2026-11-07
+    /// update date  : 2026-11-07 CodexOrig4 : ATX/Setext 제목 변환과 기존 제목 수준 교체를 제공.
+    /// </summary>
+    /// ---------------------------------------------------------------------
+    internal static class MarkdownHeadingEditing
+    {
+        private static readonly TimeSpan MatchTimeout = TimeSpan.FromMilliseconds(100);
+        private static readonly Regex AtxHeading = new Regex(@"^([ \t]{0,3})(#{1,6})(?:([ \t]+)(.*))?$", RegexOptions.Compiled | RegexOptions.CultureInvariant, MatchTimeout);
+        private static readonly Regex SetextHeading = new Regex(@"^[ \t]*(=+|-+)[ \t]*$", RegexOptions.Compiled | RegexOptions.CultureInvariant, MatchTimeout);
+
+        /// <summary>
+        /// name         : Apply
+        /// desc         : 선택된 텍스트의 각 줄에 제목 수준을 적용하고 기존 Setext 밑줄은 제거한다.
+        /// author       : CodexOrig4
+        /// create date  : 2026-11-07
+        /// update date  : 2026-11-07 CodexOrig4 : CRLF/LF/CR 구분자를 유지하며 원래 본문을 보존.
+        /// </summary>
+        internal static string Apply(string text, int level, bool addMarkerToSingleBlankLine)
+        {
+            if (level < 1 || level > 3 || text == null || text.Length > 128 * 1024) return text;
+
+            var lines = SplitLines(text);
+            try
+            {
+                for (int i = 0; i < lines.Count; i++)
+                {
+                    if (i > 0 && lines[i - 1].Text.Length > 0 && SetextHeading.IsMatch(lines[i].Text))
+                    {
+                        lines[i - 1].Text = ApplyLine(lines[i - 1].Text, level);
+                        lines[i - 1].Delimiter = lines[i].Delimiter;
+                        lines.RemoveAt(i);
+                        i--;
+                        continue;
+                    }
+                    if (string.IsNullOrWhiteSpace(lines[i].Text) && (lines.Count != 1 || !addMarkerToSingleBlankLine)) continue;
+                    lines[i].Text = ApplyLine(lines[i].Text, level);
+                }
+            }
+            catch (RegexMatchTimeoutException) { return text; }
+
+            var result = new StringBuilder(text.Length + Math.Max(0, lines.Count * (level + 1)));
+            foreach (var line in lines) { result.Append(line.Text); result.Append(line.Delimiter); }
+            return result.ToString();
+        }
+
+        /// <summary>
+        /// name         : IsSetextUnderline
+        /// desc         : 현재 줄이 Setext 제목 밑줄인지 유한한 정규식으로 판별한다.
+        /// author       : CodexOrig4
+        /// create date  : 2026-11-07
+        /// update date  : 2026-11-07 CodexOrig4 : 제목 조작 시 앞뒤 범위를 안전하게 확장.
+        /// </summary>
+        internal static bool IsSetextUnderline(string line)
+        {
+            if (line == null || line.Length > 128 * 1024) return false;
+            try { return SetextHeading.IsMatch(line); }
+            catch (RegexMatchTimeoutException) { return false; }
+        }
+
+        private static string ApplyLine(string line, int level)
+        {
+            if (line.Length > 32768) return line;
+            var match = AtxHeading.Match(line);
+            if (match.Success)
+            {
+                string indent = match.Groups[1].Value;
+                string spacing = match.Groups[3].Success ? match.Groups[3].Value : " ";
+                string content = match.Groups[4].Value;
+                return indent + new string('#', level) + spacing + content;
+            }
+            return new string('#', level) + " " + line;
+        }
+
+        private static List<HeadingLine> SplitLines(string text)
+        {
+            var lines = new List<HeadingLine>();
+            int start = 0;
+            for (int i = 0; i < text.Length; i++)
+            {
+                if (text[i] != '\r' && text[i] != '\n') continue;
+                string delimiter = text[i] == '\r' && i + 1 < text.Length && text[i + 1] == '\n' ? "\r\n" : text[i].ToString();
+                lines.Add(new HeadingLine(text.Substring(start, i - start), delimiter));
+                if (delimiter.Length == 2) i++;
+                start = i + 1;
+            }
+            lines.Add(new HeadingLine(text.Substring(start), string.Empty));
+            return lines;
+        }
+
+        private sealed class HeadingLine
+        {
+            internal HeadingLine(string text, string delimiter) { Text = text; Delimiter = delimiter; }
+            internal string Text;
+            internal string Delimiter;
         }
     }
 }

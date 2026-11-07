@@ -72,6 +72,7 @@ namespace VS2017.AIAssistant.Views
         /// update date  : 2026-10-18 CodexCode : v0.5 대화·입력·프로젝트 작업 흐름 연결 및 검토.
         /// update date  : 2026-10-18 CodexCode : TASK-022 독립 Popup에도 명시한 검정 메뉴 템플릿 적용.
         ///                2026-10-19 CodexOrig4 : TASK024 Markdown 편집·미리보기 우클릭 연결 이력과 공통 테마 메뉴 보존.
+        /// update date  : 2026-11-07 CodexOrig : 명시 전송 동의·수락 기반 주석 코드 수동 메뉴 연결.
         /// </summary>
         /// ---------------------------------------------------------------------
         private ContextMenu CreateAssistantMenu(TextBoxBase box)
@@ -102,7 +103,7 @@ namespace VS2017.AIAssistant.Views
             menu.Opened += (sender, args) => { settings.IsEnabled = help.IsEnabled = markdownDocument.IsEnabled = !busy && !disposed; };
             menu.Items.Add(settings); menu.Items.Add(help); menu.Items.Add(markdownDocument);
             var recent = new MenuItem { Header = "최근 알림", Icon = new TextBlock { Text = "ⓘ" } };
-            recent.Click += RecentNotificationsClicked; menu.Items.Add(recent); return menu;
+            recent.Click += RecentNotificationsClicked; menu.Items.Add(recent); AddCommentCodeActions(menu); return menu;
         }
 
         /// ---------------------------------------------------------------------

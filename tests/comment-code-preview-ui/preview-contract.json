@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 1,
+  "scope": "UI source contract only; no WPF window, IDE, SDK build, network, save, or buffer mutation",
+  "validInsert": {
+    "targetFilePath": "src/OrderPricing.cs",
+    "line": 42,
+    "column": 5,
+    "contextBefore": "public decimal Total { get; set; }\n",
+    "existingText": "",
+    "proposedCode": "public decimal ApplyDiscount(decimal rate)\n{\n    return Total * (1m - rate);\n}\n",
+    "contextAfter": "}\n",
+    "acceptOutcome": "Accepted"
+  },
+  "staleAfterCaretOrDocumentChange": {
+    "setStaleReason": "문서나 커서 위치가 바뀌었습니다.",
+    "acceptEnabled": false,
+    "requestAgainVisible": true,
+    "bufferMutation": false
+  },
+  "staleAfterSelectionChange": {
+    "setStaleReason": "선택 영역이 바뀌었습니다.",
+    "acceptEnabled": false,
+    "requestAgainVisible": true,
+    "bufferMutation": false
+  },
+  "imeOrReadOnlyGuardRejectsAtAccept": {
+    "acceptOutcome": "Stale",
+    "acceptEnabled": false,
+    "bufferMutation": false
+  },
+  "rejectedApply": {
+    "acceptOutcome": "Rejected",
+    "dialogRemainsOpen": true,
+    "errorShown": true,
+    "bufferMutation": false
+  },
+  "coordinateCases": [
+    {
+      "name": "LF with Hangul",
+      "newline": "LF",
+      "sourceText": "// 할인 적용\npublic decimal Total;\n",
+      "utf16Offset": 9,
+      "expectedLine": 2,
+      "expectedColumn": 1
+    },
+    {
+      "name": "CRLF with Hangul and supplementary character",
+      "newline": "CRLF",
+      "sourceText": "// 😀 합계\r\npublic decimal Total;\r\n",
+      "utf16Offset": 10,
+      "expectedLine": 2,
+      "expectedColumn": 1
+    },
+    {
+      "name": "multiline selection with Korean identifiers",
+      "newline": "CRLF",
+      "sourceText": "// 주문 합계\r\nvar 주문금액 = 10;\r\nvar 할인율 = 0.1m;\r\nreturn 주문금액;\r\n",
+      "selectionStartUtf16": 10,
+      "selectionLengthUtf16": 33,
+      "selectionLine": 2,
+      "selectionColumn": 1,
+      "selectedText": "var 주문금액 = 10;\r\nvar 할인율 = 0.1m;\r\n"
+    }
+  ]
+}

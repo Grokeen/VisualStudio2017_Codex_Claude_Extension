@@ -24,6 +24,9 @@ namespace VS2017.AIAssistant.Views
         private readonly TextBox ExecutablePath = new TextBox();
         private readonly TextBlock AccountLabel = new TextBlock();
         private AssistantDialog activeSettingsDialog = null;
+        // 2026-11-07 CodexOrig : 소스 전용 호스트의 무효화 계약만 집계한다. 실제 메타데이터 조회를 실행하지 않는다.
+        internal int RuntimeInvalidations { get; private set; }
+        private void RuntimeProviderChanged() { RuntimeInvalidations++; }
     }
 }
 namespace VS2017.AIAssistant.Providers

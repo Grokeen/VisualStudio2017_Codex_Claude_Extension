@@ -9,5 +9,6 @@ using System.Windows;
 [assembly: AssemblyCopyright("Copyright © 2026 Grokeen")]
 [assembly: ComVisible(false)]
 [assembly: ThemeInfo(ResourceDictionaryLocation.None, ResourceDictionaryLocation.SourceAssembly)]
-[assembly: AssemblyVersion("0.14.2.0")]
-[assembly: AssemblyFileVersion("0.14.2.0")]
+// 2026-11-03 CodexOrig : TASK073 activity feed package version; existing assembly metadata retained.
+[assembly: AssemblyVersion("0.15.0.0")]
+[assembly: AssemblyFileVersion("0.15.0.0")]
