@@ -573,3 +573,9 @@ CodexOrig2 사후 감사 상태: PASS_PUBLIC_PREVIEW_TASK072_WITH_DOCUMENTED_RES
 최종 검증은 이 커밋을 새 경로에 체크아웃한 실제 바이트와 생성 DLL/VSIX 해시에 묶습니다. Root 단독 빌드 슬롯에서 네 SKU를 경고 오류 처리와 SKU별 요약/전체 로그/binlog로 빌드합니다. 관련 검사는 tests/provider-options, tests/provider-cli, tests/task020, tests/project-conversations, tests/quota-remaining, tests/comment-code-product, tests/markdown-headings, tests/markdown-close-confirm 및 TASK073 계약으로 실행합니다. 실제 DLL 검사와 소스 발췌·모의 검사는 결과에서 구분합니다.
 
 이 보고 시점에는 최종 통합 DLL 검사와 공개 게시가 아직 실행되지 않았습니다. 게시 전에는 동일 소스·55쪽 PDF·내장 테마·14개 사용자 자산의 해시를 대조하고, 게시 후 14개 익명 다운로드 원본을 독립 재검산합니다. 사용자 배포 폴더에는 소스·PDB·계정·개발 증거를 넣지 않습니다. 실제 IDE/실계정/실 AI 검증을 했다고 보고하지 않으며 기존 GUI 중단도 유지합니다.
+
+## 0.15.0 Preview 재검증 인계 — CodexOrig8 / 2026-11-08 00:48:00 KST
+
+첫 최종 SDK 후보에서 UI 경계 오류 네 건을 확인하여 실패 원본을 보존했습니다. 제품 세 소스의 진입점 확인과 Dispatcher 우선순위만 수정했고, 독립 검토에서 지적한 전체 C# 버퍼 전송 범위의 문서 오해 가능성도 사용자 확인창과 일치시켰습니다. 수정 전 PDF와 문서 목록은 보존했습니다.
+
+이 재동결 소스를 새 경로에 체크아웃하여 후보2로 빌드합니다. 앞선 후보의 실패나 기존 소스/모의 검사를 최종 DLL 합격으로 바꾸지 않습니다. 최종 빌드·검사와 14개 사용자 산출물의 검증은 동일 커밋/실제 파일 해시에 묶어 기록합니다.
