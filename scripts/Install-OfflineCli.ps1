@@ -10,8 +10,9 @@ update date  : 2026-10-19 CodexOrig : TASK-038 旮办〈 CLI路PATH路瓿勳爼路VS 靹れ
 -------------------------------------------------------------------------
 #>
 [CmdletBinding()]
-param([string]$BundleDirectory=$PSScriptRoot,[string]$DestinationRoot=(Join-Path $env:LOCALAPPDATA 'Programs/VisualStudioAIAssistant/OfflineCLI'),[switch]$Install,[string]$ReportPath)
+param([string]$BundleDirectory,[string]$DestinationRoot=(Join-Path $env:LOCALAPPDATA 'Programs/VisualStudioAIAssistant/OfflineCLI'),[switch]$Install,[string]$ReportPath)
 $ErrorActionPreference='Stop'
+if(!$BundleDirectory){$BundleDirectory=Split-Path -Parent $PSCommandPath}
 $common=Join-Path $PSScriptRoot 'OfflineCli.Common.ps1'
 if(!(Test-Path -LiteralPath $common)){$common=Join-Path $PSScriptRoot 'scripts/OfflineCli.Common.ps1'}
 . $common
