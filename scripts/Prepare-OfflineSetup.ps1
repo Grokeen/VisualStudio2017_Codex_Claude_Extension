@@ -20,6 +20,7 @@ param(
 )
 $ErrorActionPreference='Stop'
 . (Join-Path $PSScriptRoot 'OfflineCli.Common.ps1')
+. (Join-Path $PSScriptRoot 'OfflinePackage.Common.ps1')
 
 <#
 -------------------------------------------------------------------------
@@ -88,15 +89,8 @@ try {
     }
     $extensionRoot=[IO.Path]::GetFullPath($ExtensionPackageDirectory)
     $sourceRoot=if(Test-Path -LiteralPath (Join-Path $PSScriptRoot 'Install-AIAssistant.ps1')){$PSScriptRoot}else{throw '설치 도구 파일이 없습니다.'}
-    $vsixNames=@("VS2017.15.7.AIAssistant-$PackageVersion.vsix","VS2017.AIAssistant-$PackageVersion.vsix","VS2019.AIAssistant-$PackageVersion.vsix","VS2022.AIAssistant-$PackageVersion.vsix",'SHA256SUMS.txt')
-    foreach($name in $vsixNames){if(!(Test-Path -LiteralPath (Join-Path $extensionRoot $name) -PathType Leaf)){throw "확장 설치 파일이 없습니다: $name"}}
-    $vsixHashes=@{}
-    foreach($name in $vsixNames|Where-Object {$_ -like '*.vsix'}) {
-        $entries=@([IO.File]::ReadAllLines((Join-Path $extensionRoot 'SHA256SUMS.txt'))|Where-Object {$_ -match ('^[A-Fa-f0-9]{64}\s+'+[regex]::Escape($name)+'$')})
-        if($entries.Count -ne 1 -or (Get-FileHash -LiteralPath (Join-Path $extensionRoot $name)).Hash -ne $entries[0].Substring(0,64)){throw "확장 체크섬이 일치하지 않습니다: $name"}
-        $vsixHashes[$name]=$entries[0].Substring(0,64)
-    }
-    $toolFiles=@('OfflineCli.Common.ps1','Install-OfflineCli.ps1','Install-AIAssistant.ps1','Test-OfflineSetupOnTarget.ps1')
+    $inventory=@(Get-OfflineExtensionInventory -ExtensionRoot $extensionRoot -PackageVersion $PackageVersion)
+    $toolFiles=@('OfflineCli.Common.ps1','OfflinePackage.Common.ps1','Install-OfflineCli.ps1','Install-AIAssistant.ps1','Test-OfflineSetupOnTarget.ps1','Verify-OfflineFiles.ps1')
     foreach($name in $toolFiles){if(!(Test-Path -LiteralPath (Join-Path $sourceRoot $name))){throw "필수 도구가 없습니다: $name"}}
     $repoRoot=Split-Path -Parent $PSScriptRoot
     $assetRoot=if(Test-Path -LiteralPath (Join-Path $PSScriptRoot 'InstallOfflineCLI.bat')){$PSScriptRoot}else{$repoRoot}
@@ -111,8 +105,7 @@ try {
         [pscustomobject]@{Path=$row.Path;Bytes=(Get-Item -LiteralPath $target).Length;Sha256=$row.ExpectedHash}
     })
     [pscustomobject]@{SchemaVersion=1;Architecture='amd64';BundleId=('codex-'+$metadata.version+'_claude-'+$claudeVersion+'_win-x64');CodexVersion=$metadata.version;ClaudeVersion=$claudeVersion;PreparedAt=[DateTimeOffset]::Now.ToString('o');Files=$rows;PublisherChecks=$signatures;ProfilesIncluded=$false;CliExecutedDuringPreparation=$false;AuthenticationCopied=$false}|ConvertTo-Json -Depth 8|Set-Content -LiteralPath (Join-Path $output 'offline-manifest.json') -Encoding UTF8
-    foreach($name in $vsixNames){Copy-Item -LiteralPath (Join-Path $extensionRoot $name) -Destination $output}
-    foreach($name in $vsixHashes.Keys){if((Get-FileHash -LiteralPath (Join-Path $output $name)).Hash -ne $vsixHashes[$name]){throw '확장 파일 복사 중 변경을 발견했습니다.'}}
+    Copy-OfflineExtensionInventory -Inventory $inventory -ExtensionRoot $extensionRoot -Destination $output -PackageVersion $PackageVersion
     foreach($name in $toolFiles){Copy-Item -LiteralPath (Join-Path $sourceRoot $name) -Destination $output}
     foreach($name in @('InstallOfflineCLI.bat','InstallAIAssistant.bat','VerifyOfflineSetup.bat')){Copy-Item -LiteralPath (Join-Path $assetRoot $name) -Destination $output}
     Copy-Item -LiteralPath $guide -Destination (Join-Path $output 'OFFLINE_INSTALL.md')

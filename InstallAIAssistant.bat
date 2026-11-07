@@ -8,8 +8,19 @@ if not exist "%AI_ASSISTANT_SCRIPT%" (
   exit /b 1
 )
 set "AI_ASSISTANT_PACKAGES=%~dp0."
-if not exist "%~dp0SHA256SUMS.txt" if exist "%~dp0releases\v0.11.1\SHA256SUMS.txt" set "AI_ASSISTANT_PACKAGES=%~dp0releases\v0.11.1"
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%AI_ASSISTANT_SCRIPT%" -PackageDirectory "%AI_ASSISTANT_PACKAGES%" -Install
+set "AI_ASSISTANT_PACKAGE_VERSION=0.15.0"
+if not exist "%~dp0SHA256SUMS.txt" if exist "%~dp0releases\v%AI_ASSISTANT_PACKAGE_VERSION%\SHA256SUMS.txt" set "AI_ASSISTANT_PACKAGES=%~dp0releases\v%AI_ASSISTANT_PACKAGE_VERSION%"
+if not exist "%AI_ASSISTANT_PACKAGES%\SHA256SUMS.txt" goto missing_packages
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%AI_ASSISTANT_SCRIPT%" -PackageDirectory "%AI_ASSISTANT_PACKAGES%" -PackageVersion "%AI_ASSISTANT_PACKAGE_VERSION%" -Install
 set "AI_ASSISTANT_EXIT=%ERRORLEVEL%"
+if /i "%~1"=="--noninteractive" goto done
 pause
+:done
 exit /b %AI_ASSISTANT_EXIT%
+
+:missing_packages
+echo Current version installation packages are missing. Extract the complete package first.
+if /i "%~1"=="--noninteractive" goto missing_exit
+pause
+:missing_exit
+exit /b 1
