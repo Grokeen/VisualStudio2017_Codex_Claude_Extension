@@ -119,7 +119,7 @@ def notice_page():
     h = box(
         c,
         "오프라인 검사 배치는 설치와 구분하세요",
-        "공개 v0.15.0의 <b>VerifyOfflineSetup.bat</b>은 실제 설치 모드로 진행할 수 있으므로 checksum 확인만 위해 실행하지 마세요. ZIP 해시는 같은 Release의 <b>.zip.sha256</b>과 비교합니다. v0.15.1 후보의 배치 역할 변경은 소스·패키지 검증이 끝나기 전까지 확정된 동작으로 보지 마세요.",
+        "공개 v0.15.0의 <b>VerifyOfflineSetup.bat</b>은 실제 설치 모드로 진행할 수 있으므로 checksum 확인만 위해 실행하지 마세요. ZIP 해시는 같은 Release의 <b>.zip.sha256</b>과 비교합니다. v0.15.1 후보 검사는 읽기 전용이지만 네트워크 차단을 증명하지 않습니다. 필수 VSIX 목록 대조와 배포 ZIP 검증이 남아 있습니다.",
         margin, y, W - 2 * margin, AMBER_BG, AMBER_EDGE, title_color=AMBER, size=9.0,
     )
     y -= h + 12
@@ -173,6 +173,7 @@ def main():
         "이 페이지는 기존 v0.15.0의 55쪽 설명서 앞에 붙인 v0.15.1 미공개 후보 공지입니다",
         "오프라인 검사 배치는 설치와 구분하세요",
         "공개 v0.15.0의 VerifyOfflineSetup.bat은 실제 설치 모드로 진행할 수 있으므로 checksum 확인만 위해 실행하지 마세요",
+        "v0.15.1 후보 검사는 읽기 전용이지만 네트워크 차단을 증명하지 않습니다",
     )
     for phrase in unique_phrases:
         count = normalized.count(phrase)

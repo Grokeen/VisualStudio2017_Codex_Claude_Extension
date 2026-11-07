@@ -8,7 +8,7 @@
 
 현재 공개된 최신 Preview는 [v0.15.0-preview.1 Release](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/tag/v0.15.0-preview.1)입니다. 인터넷이 연결된 PC에서 **CLI 포함 전체 오프라인 ZIP**을 받거나, 연결이 가능한 대상 PC에서 해당 IDE용 VSIX를 받으세요. v0.15.1-preview.1은 아직 패키지와 Release가 공개되지 않은 문서·소스 후보입니다.
 
-v0.15.1 후보에서는 `VerifyOfflineSetup.bat`을 파일 목록·해시 확인만 하는 읽기 전용 검사기로 바꾸는 소스 작업이 진행 중입니다. 이 변경은 아직 소스 후보에 고정되거나 패키지에서 확인되지 않았으므로 아래의 실제 설치 절차는 공개 v0.15.0의 동작을 설명합니다. 0.15.0 패키지의 동명 배치는 검사 후 `-Install` 경로로 진행할 수 있으니, 해당 버전에서는 설치할 때만 실행하세요.
+v0.15.1 후보의 읽기 전용 검사기 호출은 소스 커밋 `010f0f03f5d2e273ad6fee219821575e6d5bf6ae`에, 설치 배치의 0.15.1 패키지 버전 선택은 후속 커밋 `d0c643b3117244b5ab1c4b4c7ca9d5403745e7ce`에 반영되어 있습니다. 이 후보의 `VerifyOfflineSetup.bat`은 파일 무결성 검사 스크립트만 호출하며 설치 명령이나 CLI를 실행하지 않습니다. 경로 형식과 파일 해시를 검사해도 실제 네트워크 차단은 확인·강제하지 않습니다. 드라이브 문자 경로만으로 로컬 디스크를 보장할 수도 없습니다(네트워크 매핑 드라이브일 수 있음). 필수 7개 VSIX와 checksum 목록의 완전한 대조 보완 및 최종 배포 ZIP 검증은 아직 남아 있으므로 완성된 검증 범위로 간주하지 마세요. 아래 절차에서 공개 v0.15.0의 동명 배치는 검사 후 `-Install` 경로로 진행할 수 있으므로 그 버전에서는 설치할 때만 실행하세요.
 
 | 용도 | 파일 |
 |---|---|
@@ -25,7 +25,7 @@ v0.15.1 후보에서는 `VerifyOfflineSetup.bat`을 파일 목록·해시 확인
 
 ### 오프라인 설치
 
-1. 준비 PC에서 Release의 FullOffline ZIP과 해당 ZIP의 `.zip.sha256` 파일을 받습니다. ZIP 바이트만 확인하려면 PowerShell에서 `Get-FileHash .\VisualStudio_AI_Assistant-0.15.0-Preview1-FullOffline-win-x64.zip -Algorithm SHA256`을 실행해 출력된 `Hash`를 같은 Release의 `.zip.sha256` 값과 비교하세요. 이는 ZIP 자체의 바이트만 확인하며 ZIP 안의 파일 목록이나 설치를 검증하지 않습니다. `VerifyOfflineSetup.bat`은 설치 동작을 포함하므로 해시 확인만을 위해 실행하지 마세요.
+1. 준비 PC에서 Release의 FullOffline ZIP과 해당 ZIP의 `.zip.sha256` 파일을 받습니다. ZIP 바이트만 확인하려면 PowerShell에서 `Get-FileHash .\VisualStudio_AI_Assistant-0.15.0-Preview1-FullOffline-win-x64.zip -Algorithm SHA256`을 실행해 출력된 `Hash`를 같은 Release의 `.zip.sha256` 값과 비교하세요. 이는 ZIP 자체의 바이트가 공개 sidecar와 일치하는지만 확인하며 ZIP 안의 파일 목록이나 설치를 검증하지 않습니다. ZIP과 sidecar를 같은 출처에서 받았다면 이 비교만으로 출처 자체의 진위까지 독립 검증하는 것은 아닙니다. `VerifyOfflineSetup.bat`은 설치 동작을 포함하므로 해시 확인만을 위해 실행하지 마세요.
 2. ZIP을 승인된 이동 매체로 대상 PC에 옮기고 대상 PC에서 완전히 압축을 풉니다. ZIP 안에서 설치를 직접 실행하지 않습니다.
 3. 실행 중인 Visual Studio 창을 모두 닫습니다. 선택한 대상 버전에서 오프라인 테마 설치기를 실행하거나 해당 Visual Studio 버전의 VSIX를 설치합니다.
 4. 설치가 끝나면 같은 Visual Studio를 다시 열어 도구 메뉴와 확장 관리자에서 표시되는 설치를 확인합니다.

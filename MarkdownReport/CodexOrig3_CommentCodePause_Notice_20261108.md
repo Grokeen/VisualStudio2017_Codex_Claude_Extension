@@ -18,28 +18,33 @@
 ## 오프라인 설치 안내의 안전 보완
 
 - 공개 `v0.15.0` FullOffline 묶음의 `VerifyOfflineSetup.bat`은 이름과 달리 설치 작업을 수행합니다. 소스의 동작을 확인했으며 이 배치에는 `Test-OfflineSetupOnTarget.ps1 -Install`이 연결됩니다.
-- 소스 담당자는 차기 `v0.15.1`에서 `VerifyOfflineSetup.bat`을 `scripts/Verify-OfflineFiles.ps1` 기반 읽기 전용 파일 목록·해시 검사(설치/CLI 호출 없음)로 바꾸는 작업이 아직 진행 중이라고 알렸습니다. 해당 변경은 이 기록 시점에 미고정이고 본 문서 브랜치에서는 소스나 동작을 검증하지 않았습니다. 문서와 PDF는 그 계획을 완료된 사실로 쓰지 않고, 공개 0.15.0 배치의 확정된 동작과 분리해 표시합니다.
+- 고정된 오프라인 수정 소스: 별도 브랜치 `codex/comment-preview-pause-20261108`, commit `010f0f03f5d2e273ad6fee219821575e6d5bf6ae`, tree `871e2d94288bee4931381dede9b176d722440202`, parent `267a81ea849c1a9bb9858176dd3d65501fded460`. 읽기 전용으로 확인한 `VerifyOfflineSetup.bat`은 `scripts/Verify-OfflineFiles.ps1`만 실행합니다. verifier는 `OFFLINE_SHA256SUMS.txt`, 파일 목록, offline CLI manifest, 해시와 예상 항목을 확인하며 설치 스크립트·CLI·Visual Studio를 호출하지 않습니다.
+- 후속 출하 준비 commit `d0c643b3117244b5ab1c4b4c7ca9d5403745e7ce` (tree `46df64444fac6864c09183daecb94463d78846ce`)에서 `InstallAIAssistant.bat`의 버전 선택은 `0.15.1`로 갱신됐습니다. 다만 이 커밋의 verifier는 필요한 모든 VSIX 항목을 대조하는 보완 및 최종 ZIP 검증을 기다리고 있으므로 배포 완료나 검증된 사용자 패키지로 취급하지 않습니다.
+- 단, 출하 담당자는 verifier가 필수 7개 VSIX와 checksum 목록을 완전하게 대조하는 P1 보완은 별도 작업 중이라고 정정했습니다. 따라서 고정 commit에서는 **읽기 전용 실행 경계**까지만 확인했고, 오프라인 ZIP의 모든 필수 항목을 검증한다고 보증하지 않습니다. 이 추가 변경 후 0.15.1 완성 패키지 재검증이 필요합니다.
+- `Verify-OfflineFiles.ps1`의 드라이브 문자 경로 형식 검사로는 물리 로컬 저장소나 실제 네트워크 차단을 보증할 수 없습니다(매핑된 네트워크 드라이브일 수도 있음). 문서의 “파일 무결성 검사” 표현은 네트워크 격리 확인과 분리했습니다. ZIP 외부의 Release sidecar SHA 대조는 ZIP 바이트와 공개값의 일치 확인이며 같은 배포 출처의 독립 인증으로 과장하지 않습니다.
+- 이전 `010f0f0` 개발 커밋의 `InstallAIAssistant.bat` 기본값은 `0.15.0`이었고 `-PackageVersion`을 PowerShell에 전달했습니다. 후속 `d0c643b`에서는 선택 버전을 `0.15.1`로 맞췄습니다. 이 출하 준비 브랜치도 아직 최종 패키지가 아닙니다.
+- 소스 담당자가 보고한 검증 범위: verifier 합성 조건 3개와 inventory/배치 분기 테스트가 PowerShell 7·5에서 통과했고 설치 실행은 0회라고 전달받았습니다. 이 결과는 후속 필수 VSIX inventory 보완 이전의 실행이며, 본 문서 작업에서는 그 테스트를 재실행하지 않았습니다. 소스 시험결과를 독립 감사한 결과로 표시하지 않습니다.
 - 설치 흐름은 사전 검사, 오프라인 대상 여부에 대한 사용자 확인, 실행 중 Visual Studio 종료 요구, 설치 대상 선택(필요한 경우), CLI 설치 및 버전 확인, 공식 VSIX 설치기 실행을 포함합니다. 로그인을 하거나 AI 모델 요청을 보내지는 않습니다. 오프라인 여부 프롬프트는 사용자 진술이며 네트워크 차단을 증명하거나 설정하지 않습니다.
-- 따라서 `VerifyOfflineSetup.bat`은 checksum 전용이나 읽기 전용 검증 수단으로 안내하지 않습니다. ZIP 자체의 해시 확인은 PowerShell `Get-FileHash` 결과를 같은 Release의 `.zip.sha256` sidecar와 비교하도록 안내합니다. 이 비교는 ZIP 바이트만 확인하며 내부 파일 목록 전체를 검증하지 않습니다.
+- 버전별 동작을 분리해 안내합니다. 공개 v0.15.0 배치는 checksum 전용이나 읽기 전용이 아니므로 실행하지 말고, ZIP 자체의 해시는 PowerShell `Get-FileHash` 결과를 같은 Release의 `.zip.sha256` sidecar와 비교합니다. 이 비교는 ZIP 바이트만 확인하며 내부 파일 목록 전체를 검증하지 않습니다. 0.15.1 출하 준비 소스는 읽기 전용 verifier 호출 및 패키지 선택 버전 0.15.1을 반영했지만, 필수 VSIX 전체 inventory와 최종 ZIP 통합·재검증은 미완료입니다.
 - 설치 절차에서는 보존할 사용자 데이터를 먼저 백업하고 `%LOCALAPPDATA%\VS2017AIAssistant`를 삭제하지 않도록 주의시킵니다. 설치가 목적일 때에만 배치를 실행하고, Visual Studio를 닫은 뒤 대상 선택과 설치 안내를 따르도록 명시합니다. `-Install` 없는 직접 진단은 설치를 수행하지 않지만 Release 전체의 검증으로 과장하지 않습니다.
 - 익명 Release 확인에서 FullOffline ZIP과 동일 이름의 `.zip.sha256` sidecar가 게시된 것을 확인했습니다. ZIP SHA-256은 `a221e0753ddce6daf88b14ecaab4d3e24dda9212a47a51a1a3e330722f95e2a8`입니다. 이 문서 작업에서는 오프라인 배치나 설치를 실행하지 않았습니다.
 
 ## PDF 후보와 검증
 
 - 후보 위치: `output/pdf/VisualStudio_AI_Assistant_설치_사용설명서_v0.15.1-preview.1_comment-code-pause-notice-candidate.pdf`.
-- 첫 페이지는 현재 공개 v0.15.0이 자동 차단하지 않는다는 점, 미공개 v0.15.1 소스 후보의 전송 전 중지 코드, 실제 IDE 검증 미완료, 중지 범위와 오래된 뒤쪽 절차보다 공지를 우선할 점을 구분해 안내합니다.
+- 첫 페이지는 현재 공개 v0.15.0이 C# 요청을 자동 차단하지 않는다는 점, 미공개 v0.15.1 소스 후보의 전송 전 중지 코드, 오프라인 검사 BAT의 버전별 역할과 아직 남은 inventory/패키지 검증, 파일 검사가 네트워크 차단을 증명하지 않는다는 점, 실제 IDE 미검증, 중지 범위와 오래된 뒤쪽 절차보다 공지를 우선할 점을 구분해 안내합니다.
 - 기존 v0.15.0의 55쪽 콘텐츠 스트림은 수정하지 않고 첫 페이지를 앞에 붙입니다. 후보는 56쪽입니다. PDF 추출에서 공지의 고유 제목·본문 anchor가 각각 한 번만 나타나는지, 뒤쪽 55페이지 콘텐츠 스트림이 보존됐는지 확인하고 첫 페이지를 Poppler로 렌더링해 시각 점검합니다.
 - 앞서 만든 D266 PDF는 공지 텍스트가 추출상 중복되어 폐기했습니다. CodexOrig6의 첫 독립 검토에서 이를 발견했고 생성기의 측정 단계에서 그리기를 끄도록 수정했습니다. 실제 스크린리더 동작 및 전체 PDF 리소스/주석 동등성은 확인하지 않았습니다.
 
 ## SHA-256 · 문서 후보
 
-PDF는 56쪽이며 공개 v0.15.0 55쪽의 콘텐츠 스트림 55/55를 보존합니다. 생성기를 두 번 실행해 같은 바이트 결과를 얻었습니다. 각 첫 페이지 문구 anchor 9개는 텍스트 추출에서 정확히 한 번 나타납니다. 첫 페이지는 Poppler 140dpi 렌더링으로 점검했고 텍스트/패널 겹침과 잘림은 보이지 않았습니다.
+PDF는 56쪽이며 공개 v0.15.0 55쪽의 콘텐츠 스트림 55/55를 보존합니다. 생성기를 두 번 실행해 같은 바이트 결과를 얻었습니다. 각 첫 페이지 문구 anchor 10개는 텍스트 추출에서 정확히 한 번 나타납니다. 첫 페이지는 Poppler 140dpi 렌더링으로 점검했고 텍스트/패널 겹침과 잘림은 보이지 않았습니다.
 
-- PDF `output/pdf/VisualStudio_AI_Assistant_설치_사용설명서_v0.15.1-preview.1_comment-code-pause-notice-candidate.pdf`: 3,327,938 bytes · SHA-256 `2fc07dcc78ad358b90c9747e1119b0ddf9077931c5d56e8eeb00fdff874b54fc`
-- `README.md`: `dde80fa80ce0dd258d9b6d9561502ba4f65449c2fb25592a33792876e526b0b8`
+- PDF `output/pdf/VisualStudio_AI_Assistant_설치_사용설명서_v0.15.1-preview.1_comment-code-pause-notice-candidate.pdf`: 3,328,769 bytes · SHA-256 `0c197bee05f76e5cce9e1a494fa754f75b1112fd72fb84576ca6f788b6a453f2`
+- `README.md`: `80fbf20f18856443c538d56a946c31ceef391b93c67b7ef9199a5707a59b15d0`
 - `docs/USER_GUIDE.md`: `018d6eeb30f5bc8e81c8300cd4a833efc6e0d50427d87d9031643108de421b53`
-- `docs/OFFLINE_INSTALL.md`: `6e07d438717fb45f45d8bf231bd2031bd6bec74f939ec06dd91d2e19774cdf22`
-- `MarkdownReport/Build_CommentCodePauseNotice.py`: `71ddf77a97dcd02a9c7392ac3a2168251aee9258cbbb0635e9b5f6eaaaff27ec`
+- `docs/OFFLINE_INSTALL.md`: `8c10a47d5327891abc6661b9f2384d9fc88988992bea64832d0ff48e90b36ae4`
+- `MarkdownReport/Build_CommentCodePauseNotice.py`: `2992668fd8632d780764d780f8402f2ff39144892e377eb6cfdb02ae7d513336`
 - 이 보고서 자체의 최종 해시와 문서 commit/tree는 최종 인계에 기록합니다.
 
 ## 확인 경계 및 후속 검토

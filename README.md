@@ -118,7 +118,7 @@ Markdown 작성기의 **H1**, **H2**, **H3** 버튼으로 선택 영역 또는 �
 
 설치 묶음 ZIP을 모두 풀고 **InstallAIAssistant.bat**를 실행하면 설치된 IDE의 버전·패키지 무결성을 검사하고 해당 버전용 설치기를 엽니다. 여러 IDE가 있으면 설치할 대상을 선택합니다. [설치 오류 해결과 진단 방법](docs/INSTALL_TROUBLESHOOTING.md)을 함께 제공합니다.
 
-**설치할 때 인터넷이 없다면:** GitHub Releases에서 CLI 포함 완성 오프라인 ZIP과 matching `.zip.sha256` 파일을 받으세요. ZIP 바이트만 확인하려면 PowerShell `Get-FileHash` 결과를 sidecar 값과 비교합니다. 현재 공개 v0.15.0의 **VerifyOfflineSetup.bat은 검증 전용이 아니라 실제 설치 모드**입니다. 설치할 때만 실행하고, checksum 확인만 원하면 실행하지 마세요. [오프라인 설치 안내](docs/OFFLINE_INSTALL.md)의 설치 동의·백업·Visual Studio 종료 단계를 먼저 확인하세요. 로그인과 AI 사용은 연결 가능한 시점에 진행합니다.
+**설치할 때 인터넷이 없다면:** GitHub Releases에서 CLI 포함 완성 오프라인 ZIP과 matching `.zip.sha256` 파일을 받으세요. ZIP 바이트만 확인하려면 PowerShell `Get-FileHash` 결과를 sidecar 값과 비교합니다. 현재 공개 v0.15.0의 **VerifyOfflineSetup.bat은 검증 전용이 아니라 실제 설치 모드**입니다. 설치할 때만 실행하고 checksum 확인만 원하면 실행하지 마세요. v0.15.1 후보 소스는 읽기 전용 검사와 0.15.1 패키지 선택이 반영됐지만 필수 VSIX 목록 대조와 배포 ZIP 검증은 남아 있습니다. 이 검사는 네트워크 차단을 증명하지 않습니다. [오프라인 설치 안내](docs/OFFLINE_INSTALL.md)의 설치 동의·백업·Visual Studio 종료 단계를 먼저 확인하세요. 로그인과 AI 사용은 연결 가능한 시점에 진행합니다.
 
 설치된 확장만 제거하려면 VS2017에서 **도구 → 확장 및 업데이트 → 설치됨**, VS2019·2022에서 **확장 → 확장 관리 → 설치됨**을 여세요. 목록에서 해당 버전의 AI Assistant 항목을 **제거**한 뒤 모든 Visual Studio 창을 닫습니다. 잠시 끄기만 하려면 **사용 안 함**을 선택하고 Visual Studio를 다시 여세요. 버전별 실제 항목 이름과 데이터 보존 안내는 [사용자 안내서](docs/USER_GUIDE.md#visual-studio-ai-assistant-확장-제거)를 참조하세요.
 
