@@ -93,12 +93,20 @@ try {
     $extensionRoot=[IO.Path]::GetFullPath($ExtensionPackageDirectory)
     $sourceRoot=if(Test-Path -LiteralPath (Join-Path $PSScriptRoot 'Install-AIAssistant.ps1')){$PSScriptRoot}else{throw '설치 도구 파일이 없습니다.'}
     $inventory=@(Get-OfflineExtensionInventory -ExtensionRoot $extensionRoot -PackageVersion $PackageVersion)
-    $toolFiles=@('OfflineCli.Common.ps1','OfflinePackage.Common.ps1','Install-OfflineCli.ps1','Install-AIAssistant.ps1','Test-OfflineSetupOnTarget.ps1','Verify-OfflineFiles.ps1')
+    $toolFiles=@('OfflineCli.Common.ps1','OfflinePackage.Common.ps1','Install-OfflineCli.ps1','Install-AIAssistant.ps1','Test-OfflineSetupOnTarget.ps1')
     foreach($name in $toolFiles){if(!(Test-Path -LiteralPath (Join-Path $sourceRoot $name))){throw "필수 도구가 없습니다: $name"}}
     $repoRoot=Split-Path -Parent $PSScriptRoot
     $assetRoot=if(Test-Path -LiteralPath (Join-Path $PSScriptRoot 'InstallOfflineCLI.bat')){$PSScriptRoot}else{$repoRoot}
     $guide=if(Test-Path -LiteralPath (Join-Path $assetRoot 'OFFLINE_INSTALL.md')){Join-Path $assetRoot 'OFFLINE_INSTALL.md'}else{Join-Path $repoRoot 'docs/OFFLINE_INSTALL.md'}
-    foreach($p in @($guide,(Join-Path $assetRoot 'InstallOfflineCLI.bat'),(Join-Path $assetRoot 'InstallAIAssistant.bat'),(Join-Path $assetRoot 'VerifyOfflineSetup.bat'))){if(!(Test-Path -LiteralPath $p)){throw "안내/배치 파일이 없습니다: $p"}}
+    foreach($p in @($guide,(Join-Path $assetRoot 'InstallOfflineCLI.bat'),(Join-Path $assetRoot 'InstallAIAssistant.bat'))){if(!(Test-Path -LiteralPath $p)){throw "안내/배치 파일이 없습니다: $p"}}
+    $templateDirectory=Join-Path $assetRoot 'offline-templates'
+    Assert-OfflinePlainPath (Join-Path $assetRoot 'VerifyOfflineSetup.bat')
+    Assert-OfflinePlainPath (Join-Path $sourceRoot 'Verify-OfflineFiles.ps1')
+    $batchInRoot=Test-Path -LiteralPath (Join-Path $assetRoot 'VerifyOfflineSetup.bat') -PathType Leaf
+    $scriptInRoot=Test-Path -LiteralPath (Join-Path $sourceRoot 'Verify-OfflineFiles.ps1') -PathType Leaf
+    if($batchInRoot -ne $scriptInRoot){throw 'Verification root template pair is incomplete.'}
+    $verifyBatch=Resolve-OfflineVerificationTemplate -RootFile (Join-Path $assetRoot 'VerifyOfflineSetup.bat') -TemplateDirectory $templateDirectory -Name 'VerifyOfflineSetup.bat'
+    $verifyScript=Resolve-OfflineVerificationTemplate -RootFile (Join-Path $sourceRoot 'Verify-OfflineFiles.ps1') -TemplateDirectory $templateDirectory -Name 'Verify-OfflineFiles.ps1'
     $null=New-Item -ItemType Directory -Path $output
     $rows=@(foreach($row in $sourceFiles){
         $target=Resolve-OfflinePayloadPath $output $row.Path
@@ -114,10 +122,11 @@ try {
         if($name -in @('Install-AIAssistant.ps1','Test-OfflineSetupOnTarget.ps1','Verify-OfflineFiles.ps1')){Write-OfflineVersionedPowerShell -Template $source -Destination $destination -PackageVersion $PackageVersion}
         else{Copy-Item -LiteralPath $source -Destination $destination}
     }
+    Write-OfflineVersionedPowerShell -Template $verifyScript -Destination (Join-Path $output 'Verify-OfflineFiles.ps1') -PackageVersion $PackageVersion
     Copy-Item -LiteralPath (Join-Path $assetRoot 'InstallOfflineCLI.bat') -Destination $output
     # Bind both launchers to the version actually prepared, including explicitly requested versions.
     Write-OfflineVersionedLauncher -Template (Join-Path $assetRoot 'InstallAIAssistant.bat') -Destination (Join-Path $output 'InstallAIAssistant.bat') -PackageVersion $PackageVersion -VariableName 'AI_ASSISTANT_PACKAGE_VERSION'
-    Write-OfflineVersionedLauncher -Template (Join-Path $assetRoot 'VerifyOfflineSetup.bat') -Destination (Join-Path $output 'VerifyOfflineSetup.bat') -PackageVersion $PackageVersion -VariableName 'OFFLINE_PACKAGE_VERSION'
+    Write-OfflineVersionedLauncher -Template $verifyBatch -Destination (Join-Path $output 'VerifyOfflineSetup.bat') -PackageVersion $PackageVersion -VariableName 'OFFLINE_PACKAGE_VERSION'
     Copy-Item -LiteralPath $guide -Destination (Join-Path $output 'OFFLINE_INSTALL.md')
     $null=Read-OfflineCliBundle $output
     $sums=@(Get-OfflinePlainFiles $output|ForEach-Object{(Get-FileHash -LiteralPath $_.FullName).Hash+'  '+$_.FullName.Substring($output.Length+1).Replace('\','/')})

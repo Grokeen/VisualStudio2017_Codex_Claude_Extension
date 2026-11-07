@@ -76,6 +76,13 @@ function Check([string]$name,[scriptblock]$change,[bool]$expected,[string]$expec
         $log=Join-Path $output ($name+'-'+$shell+'.log')
         [IO.File]::WriteAllLines($log,[string[]]@($text|ForEach-Object {$_.ToString()}),(New-Object Text.UTF8Encoding($false)))
         $script:results+= [pscustomobject]@{Case=$name;Shell=$shell;Version=$runtimeVersions[$shell];ExitCode=$code;ExpectedSuccess=$expected;ExpectedReason=$expectedReason;InputsUnchanged=$true;InstallerMarkerAbsent=$true;Log=$log;LogSHA256=(Get-FileHash -LiteralPath $log).Hash}
+        if($name -in @('normal','tampered')){
+            $process=Invoke-OwnedProcess $shell @('-NoProfile','-ExecutionPolicy','Bypass','-File',(Join-Path $root 'Verify-OfflineFiles.ps1')) ''
+            $text=@($process.Output);$code=$process.ExitCode
+            if((($code -eq 0) -ne $expected) -or (!$expected -and ($text -join ' ') -notmatch [regex]::Escape($expectedReason)) -or (Get-Snapshot $root) -cne $before -or (Test-Path -LiteralPath (Join-Path $root 'executed-marker.txt'))){throw "Default directory verification failed for $name in $shell"}
+            $log=Join-Path $output ('default-'+$name+'-'+$shell+'.log');[IO.File]::WriteAllLines($log,[string[]]@($text|ForEach-Object {$_.ToString()}),(New-Object Text.UTF8Encoding($false)))
+            $script:results+=[pscustomobject]@{Case=('default-'+$name);Shell=$shell;Version=$runtimeVersions[$shell];ExitCode=$code;ExpectedSuccess=$expected;ExpectedReason=$expectedReason;InputsUnchanged=$true;InstallerMarkerAbsent=$true;Log=$log;LogSHA256=(Get-FileHash -LiteralPath $log).Hash}
+        }
     }
     if($name -eq 'normal' -or $name -eq 'tampered'){
         $bat=Join-Path $root 'VerifyOfflineSetup.bat'

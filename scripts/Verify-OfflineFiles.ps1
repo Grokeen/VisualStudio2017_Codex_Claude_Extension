@@ -1,7 +1,8 @@
 # TASK074 / 2026-11-08 CodexOrig8 : Pure checksum verification for an extracted bundle.
 [CmdletBinding()]
-param([string]$BundleDirectory=$PSScriptRoot,[ValidatePattern('^\d+\.\d+\.\d+$')][string]$PackageVersion='0.15.1')
+param([string]$BundleDirectory,[ValidatePattern('^\d+\.\d+\.\d+$')][string]$PackageVersion='0.15.1')
 $ErrorActionPreference='Stop'
+if([string]::IsNullOrWhiteSpace($BundleDirectory)){$BundleDirectory=Split-Path -Parent $PSCommandPath}
 # Use modules for this PowerShell runtime even when a parent process supplied another runtime's PSModulePath.
 foreach($module in @('Microsoft.PowerShell.Management','Microsoft.PowerShell.Utility')){
     $modulePath=Join-Path $PSHOME ('Modules/'+$module+'/'+$module+'.psd1')

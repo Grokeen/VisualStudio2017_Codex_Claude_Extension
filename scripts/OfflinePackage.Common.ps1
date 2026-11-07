@@ -47,6 +47,28 @@ function Copy-OfflineExtensionInventory {
     $null=Get-OfflineExtensionInventory -ExtensionRoot $destination -PackageVersion $PackageVersion
 }
 
+function Resolve-OfflineVerificationTemplate {
+    param([Parameter(Mandatory=$true)][string]$RootFile,[Parameter(Mandatory=$true)][string]$TemplateDirectory,[Parameter(Mandatory=$true)][ValidateSet('VerifyOfflineSetup.bat','Verify-OfflineFiles.ps1')][string]$Name)
+    Assert-OfflinePlainPath $RootFile
+    if(Test-Path -LiteralPath $RootFile -PathType Leaf){return [IO.Path]::GetFullPath($RootFile)}
+    if(Test-Path -LiteralPath $RootFile){throw 'Verification root template path is not a file.'}
+    $list=Join-Path $TemplateDirectory 'SHA256SUMS.txt'
+    Assert-OfflinePlainPath $TemplateDirectory;Assert-OfflinePlainPath $list
+    if(!(Test-Path -LiteralPath $list -PathType Leaf)){throw 'Verification template checksum list is missing.'}
+    $rows=@([IO.File]::ReadAllLines($list));$names=@('VerifyOfflineSetup.bat','Verify-OfflineFiles.ps1')
+    if($rows.Count -ne 2){throw 'Verification template checksum list must contain two entries.'}
+    $seen=New-Object 'System.Collections.Generic.HashSet[string]' ([StringComparer]::Ordinal)
+    foreach($row in $rows){
+        if($row -cnotmatch '^([A-Fa-f0-9]{64})  (VerifyOfflineSetup\.bat|Verify-OfflineFiles\.ps1)$'){throw 'Invalid verification template checksum entry.'}
+        $hash=$matches[1].ToUpperInvariant();$itemName=$matches[2]
+        if(!$seen.Add($itemName)){throw 'Duplicate verification template checksum entry.'}
+        $path=Join-Path $TemplateDirectory $itemName;Assert-OfflinePlainPath $path
+        if(!(Test-Path -LiteralPath $path -PathType Leaf) -or (Get-FileHash -LiteralPath $path -Algorithm SHA256).Hash -cne $hash){throw 'Verification template is missing or checksum mismatch.'}
+    }
+    if($seen.Count -ne $names.Count){throw 'Verification template checksum list is incomplete.'}
+    return [IO.Path]::GetFullPath((Join-Path $TemplateDirectory $Name))
+}
+
 function Write-OfflineVersionedLauncher {
     param([Parameter(Mandatory=$true)][string]$Template,[Parameter(Mandatory=$true)][string]$Destination,[Parameter(Mandatory=$true)][string]$PackageVersion,[Parameter(Mandatory=$true)][ValidateSet('OFFLINE_PACKAGE_VERSION','AI_ASSISTANT_PACKAGE_VERSION')][string]$VariableName)
     if($PackageVersion -notmatch '^\d+\.\d+\.\d+$'){throw 'Invalid package version.'}
