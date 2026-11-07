@@ -74,7 +74,13 @@ foreach($file in @('SHA256SUMS.txt','VS2017.AIAssistant-0.15.1.vsix','Grokeen-Vi
     $root=New-ThemeFixture $name 'flat' 'Grokeen.VisualStudioThemes.2017' '0.15.1' '[15.0,16.0)' 'x86'
     $path=Join-Path $root $file;$target=Join-Path $outside ($name+'.target');Copy-Item -LiteralPath $path -Destination $target
     Remove-Item -LiteralPath $path
-    [void](New-Item -ItemType SymbolicLink -Path $path -Target $target)
+    try{[void](New-Item -ItemType SymbolicLink -Path $path -Target $target)}
+    catch{
+        if($_.FullyQualifiedErrorId -notlike 'NewItemSymbolicLinkElevationRequired*'){throw}
+        $log=Join-Path $out ($name+'.log');[IO.File]::WriteAllText($log,'SKIPPED: operating system did not permit creation of the symbolic-link fixture.',(New-Object Text.UTF8Encoding($false)))
+        $script:results+=[pscustomobject]@{Case=$name;Status='Skipped';ThemeRequested=$true;ExpectedReason='Symbolic-link fixture creation requires privilege';Runtime=$PSVersionTable.PSVersion.ToString();Log=$log;LogSHA256=(Get-FileHash -LiteralPath $log).Hash}
+        continue
+    }
     $expected=if($name -eq 'theme-link'){'InvalidThemePackage'}else{'InvalidPackage'}
     Check-LinkedPlan $name $root $true $expected
 }
@@ -84,5 +90,6 @@ $themePath=Join-Path $root 'Themes';$themeTarget=Join-Path $outside 'themes';Mov
 Check-LinkedPlan 'theme-junction' $root $true 'InvalidThemePackage'
 Check-LinkedPlan 'unrequested-theme-junction' $root $false 'Ready'
 if((Get-FileHash -LiteralPath $sentinel).Hash -ne $sentinelHash){throw 'Outside sentinel changed.'}
-[pscustomobject]@{Succeeded=$true;Checks=$results;ProductScriptSha256=(Get-FileHash -LiteralPath (Join-Path $repo 'scripts/Install-AIAssistant.ps1')).Hash;ActualVsixInstallerExecuted=$false;ActualIDE=$false;NetworkUsed=$false}|ConvertTo-Json -Depth 4|Set-Content -LiteralPath (Join-Path $out 'result.json') -Encoding UTF8
-Write-Output ('PASS '+$results.Count+' synthetic theme layout and install-plan cases; no installer was run.')
+[pscustomobject]@{Succeeded=$true;Checks=$results;Runtime=$PSVersionTable.PSVersion.ToString();PSHome=$PSHOME;TestScriptSha256=(Get-FileHash -LiteralPath $PSCommandPath).Hash;ProductScriptSha256=(Get-FileHash -LiteralPath (Join-Path $repo 'scripts/Install-AIAssistant.ps1')).Hash;ActualVsixInstallerExecuted=$false;ActualIDE=$false;NetworkUsed=$false}|ConvertTo-Json -Depth 4|Set-Content -LiteralPath (Join-Path $out 'result.json') -Encoding UTF8
+$skipped=@($results|Where-Object Status -eq 'Skipped').Count
+Write-Output ('PASS '+($results.Count-$skipped)+' synthetic theme layout and install-plan cases; skipped '+$skipped+'; no installer was run.')
