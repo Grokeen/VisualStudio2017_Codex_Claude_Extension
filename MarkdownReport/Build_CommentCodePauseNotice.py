@@ -119,7 +119,7 @@ def notice_page():
     h = box(
         c,
         "오프라인 검사 배치는 설치와 구분하세요",
-        "공개 간단 ZIP의 예전 <b>VerifyOfflineSetup.bat</b>은 실행하지 마세요. 공개 v0.15.0 FullOffline ZIP의 같은 이름 배치는 checksum만 확인할 때 실행하지 말고, 실제 설치를 할 때만 안내된 FullOffline 절차에 따라 실행하세요. v0.15.1 FullOffline ZIP의 <b>VerifyOfflineSetup.bat</b>은 파일 검사만 하며 설치를 수행하지 않습니다. FullOffline ZIP 자체는 Release의 <b>.zip.sha256</b>, 간단 ZIP은 <b>RELEASE_SHA256SUMS.txt</b>의 해당 행과 비교합니다. FullOffline ZIP은 테마 VSIX를 <b>Themes/</b> 아래 둡니다. 선택 테마 옵션은 루트 위치를 찾을 수 있어 실패 가능성이 있으나 실제 설치하지 않았습니다. 배포 묶음은 실행 검증기와 CLI manifest를 FullOffline 루트에, <b>BUNDLE_SHA256SUMS.txt</b>를 간단 ZIP에 두는 계약입니다. 준비 입력의 offline-templates/에서 템플릿을 읽어 버전을 반영한 새 검증 파일을 FullOffline 출력 루트에 생성합니다. 템플릿 SHA는 바이트 일치만 확인합니다. 내부 목록은 ZIP 자체나 공급자 서명을 증명하지 않으며, BUNDLE에 대해 사용자가 따라 할 확인 명령은 확정되지 않았습니다. 오프라인 진단의 경로 전달은 PowerShell 5.1·7.6.9 합성 시험에서 확인했지만 실제 CLI·IDE 전체 진단은 검증하지 않았습니다. 합성 시험은 가짜 CLI·설치기와 대체 서명/파일 구조 검사를 썼고 실제 설치는 미확인입니다. 일반 드라이브 경로도 매핑된 네트워크일 수 있고 검사 후 경로 변경 경쟁까지 막는 것은 아니므로 네트워크 격리 증거로 보지 마세요.",
+        "공개 간단 ZIP의 예전 <b>VerifyOfflineSetup.bat</b>은 실행하지 마세요. 공개 v0.15.0 FullOffline ZIP의 같은 이름 배치는 checksum만 확인할 때 실행하지 말고, 실제 설치를 할 때만 안내된 FullOffline 절차에 따라 실행하세요. v0.15.1 FullOffline ZIP의 <b>VerifyOfflineSetup.bat</b>은 파일 검사만 하며 설치를 수행하지 않습니다. FullOffline ZIP 자체는 Release의 <b>.zip.sha256</b>, 간단 ZIP은 <b>RELEASE_SHA256SUMS.txt</b>의 해당 행과 비교합니다. 공개 v0.15.0 FullOffline ZIP은 테마 VSIX를 <b>Themes/</b> 아래 둡니다. 이 ZIP에서 선택 테마 옵션은 루트 위치를 찾지 못해 실패 가능성이 있지만 실제 설치하지 않았습니다. v0.15.1 설치 스크립트는 패키지 루트와 Themes/ 두 경로를 확인하도록 변경됐으나 실제 설치는 검증하지 않았습니다. 배포 묶음은 실행 검증기와 CLI manifest를 FullOffline 루트에, <b>BUNDLE_SHA256SUMS.txt</b>를 간단 ZIP에 두는 계약입니다. 준비 입력의 offline-templates/에서 템플릿을 읽어 버전을 반영한 새 검증 파일을 FullOffline 출력 루트에 생성합니다. 템플릿 SHA는 바이트 일치만 확인합니다. 내부 목록은 ZIP 자체나 공급자 서명을 증명하지 않으며, BUNDLE에 대해 사용자가 따라 할 확인 명령은 확정되지 않았습니다. 오프라인 진단의 경로 전달은 PowerShell 5.1·7.6.9 합성 시험에서 확인했지만 실제 CLI·IDE 전체 진단은 검증하지 않았습니다. 합성 시험은 가짜 CLI·설치기와 대체 서명/파일 구조 검사를 썼고 실제 설치는 미확인입니다. 일반 드라이브 경로도 매핑된 네트워크일 수 있고 검사 후 경로 변경 경쟁까지 막는 것은 아니므로 네트워크 격리 증거로 보지 마세요.",
         margin, y, W - 2 * margin, AMBER_BG, AMBER_EDGE, title_color=AMBER, size=9.0,
     )
     y -= h + 12
@@ -176,7 +176,9 @@ def main():
         "공개 v0.15.0 FullOffline ZIP의 같은 이름 배치는 checksum만 확인할 때 실행하지 말고, 실제 설치를 할 때만 안내된 FullOffline 절차에 따라 실행하세요",
         "v0.15.1 FullOffline ZIP의 VerifyOfflineSetup.bat은 파일 검사만 하며 설치를 수행하지 않습니다",
         "배포 묶음은 실행 검증기와 CLI manifest를 FullOffline 루트에, BUNDLE_SHA256SUMS.txt를 간단 ZIP에 두는 계약입니다",
-        "FullOffline ZIP은 테마 VSIX를 Themes/ 아래 둡니다",
+        "공개 v0.15.0 FullOffline ZIP은 테마 VSIX를 Themes/ 아래 둡니다",
+        "이 ZIP에서 선택 테마 옵션은 루트 위치를 찾지 못해 실패 가능성이 있지만 실제 설치하지 않았습니다",
+        "v0.15.1 설치 스크립트는 패키지 루트와 Themes/ 두 경로를 확인하도록 변경됐으나 실제 설치는 검증하지 않았습니다",
         "BUNDLE_SHA256SUMS.txt",
         "준비 입력의 offline-templates/에서 템플릿을 읽어 버전을 반영한 새 검증 파일을 FullOffline 출력 루트에 생성합니다",
         "오프라인 진단의 경로 전달은 PowerShell 5.1·7.6.9 합성 시험에서 확인했지만 실제 CLI·IDE 전체 진단은 검증하지 않았습니다",
