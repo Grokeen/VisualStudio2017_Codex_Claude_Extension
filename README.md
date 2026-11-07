@@ -125,7 +125,7 @@ Markdown 작성기의 **H1**, **H2**, **H3** 버튼으로 선택 영역 또는 �
 
 각 버전에 맞는 설치 파일을 사용하세요. Windows 네이티브 `codex.exe` 또는 `claude.exe`와 해당 서비스 계정이 필요합니다. 확장을 직접 빌드할 필요는 없습니다.
 
-**VS2017 15.7.1에서 업데이트 없이 설치:** 위의 **VS2017 15.7용**을 선택하세요. 15.7 당시 SDK로 별도로 컴파일한 패키지이며, 기존 15.9 이상용의 설치 하한만 바꾼 파일이 아닙니다. Community·Professional·Enterprise를 지원합니다. 현재 실제 IDE 검사는 VS2017 15.9에서 수행했으며, 고객의 15.7.1 PC 실행 결과는 별도 확인이 필요합니다.
+**VS2017 15.7.1에서 업데이트 없이 설치:** 최신 Preview의 [VS2017 15.7 전용 VSIX](https://github.com/Grokeen/VisualStudio2017_Codex_Claude_Extension/releases/download/v0.15.1-preview.1/VS2017.15.7.AIAssistant-0.15.1.vsix)를 선택하세요. 15.7 당시 SDK로 별도로 컴파일한 패키지이며, 기존 15.9 이상용의 설치 하한만 바꾼 파일이 아닙니다. Community·Professional·Enterprise를 지원합니다. 현재 실제 IDE 검사는 VS2017 15.9에서 수행했으며, 고객의 15.7.1 PC 실행 결과는 별도 확인이 필요합니다.
 
 설치 묶음 ZIP을 모두 풀고 **InstallAIAssistant.bat**를 실행하면 설치된 IDE의 버전·패키지 무결성을 검사하고 해당 버전용 설치기를 엽니다. 여러 IDE가 있으면 설치할 대상을 선택합니다. [설치 오류 해결과 진단 방법](docs/INSTALL_TROUBLESHOOTING.md)을 함께 제공합니다.
 
