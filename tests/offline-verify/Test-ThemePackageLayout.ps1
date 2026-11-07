@@ -64,6 +64,7 @@ function Check-LinkedPlan([string]$name,[string]$directory,[bool]$requestTheme,[
 }
 $outside=Join-Path $out 'outside';[void][IO.Directory]::CreateDirectory($outside)
 $linkEvidence=@()
+$linkBranchEvidence=@();$helperInvocationCount=0
 $helper=Join-Path $out 'New-TestSymbolicLink.ps1'
 $helperText=switch($LinkHelperMode){
     'PermissionDenied' {'throw "Administrator privilege required for this operation."'}
@@ -99,18 +100,25 @@ foreach($file in @('SHA256SUMS.txt','VS2017.AIAssistant-0.15.1.vsix','Grokeen-Vi
     $root=New-ThemeFixture $name 'flat' 'Grokeen.VisualStudioThemes.2017' '0.15.1' '[15.0,16.0)' 'x86'
     $path=Join-Path $root $file;$target=Join-Path $outside ($name+'.target');Copy-Item -LiteralPath $path -Destination $target
     Remove-Item -LiteralPath $path
-    $creator=$PSVersionTable.PSVersion.ToString();$created=$false;$skipReason=$null
-    try{[void](New-Item -ItemType SymbolicLink -Path $path -Target $target);$created=$true}
-    catch{
-        if($_.FullyQualifiedErrorId -notlike 'NewItemSymbolicLinkElevationRequired*'){throw}
+    $creator=$PSVersionTable.PSVersion.ToString();$created=$false;$skipReason=$null;$helperExitCode=$null
+    $directAttempted=$false;$useHelper=($LinkHelperMode -ne 'Normal')
+    if(!$useHelper){
+        $directAttempted=$true
+        try{[void](New-Item -ItemType SymbolicLink -Path $path -Target $target);$created=$true}
+        catch{if($_.FullyQualifiedErrorId -notlike 'NewItemSymbolicLinkElevationRequired*'){throw};$useHelper=$true}
+    }
+    if($useHelper){
         $pwsh=if($LinkHelperMode -eq 'MissingHelper'){$null}else{Get-Command pwsh.exe -ErrorAction SilentlyContinue}
         if($pwsh){
+            $helperInvocationCount++
             $helperResult=Invoke-TestLinkHelper $pwsh.Source $helper $path $target
+            $helperExitCode=$helperResult.ExitCode
             if($helperResult.ExitCode -eq 0){$creator=$helperResult.Output.Trim();if(!$creator){throw 'Symbolic-link helper returned no runtime.'};$created=$true}
             elseif($helperResult.Error -match 'NewItemSymbolicLinkElevationRequired|Administrator privilege required'){$skipReason='Symbolic-link fixture creation requires privilege'}
-            else{throw ("Unexpected symbolic-link helper failure: exit $($helperResult.ExitCode); "+$helperResult.Output+' '+$helperResult.Error)}
+            else{throw ("Unexpected symbolic-link helper failure in $name ($LinkHelperMode): exit $($helperResult.ExitCode); "+$helperResult.Output+' '+$helperResult.Error)}
         }else{$skipReason='PowerShell 7 helper unavailable'}
     }
+    $linkBranchEvidence+=[pscustomobject]@{Case=$name;Mode=$LinkHelperMode;DirectAttempted=$directAttempted;HelperInvoked=($null -ne $helperExitCode);HelperExitCode=$helperExitCode;Created=$created;SkipReason=$skipReason}
     if(!$created){
         if(!$skipReason){throw 'Symbolic-link fixture was not created for an unknown reason.'}
         $log=Join-Path $out ($name+'.log');[IO.File]::WriteAllText($log,('SKIPPED: '+$skipReason),(New-Object Text.UTF8Encoding($false)))
@@ -136,5 +144,7 @@ $skipped=@($results|Where-Object Status -eq 'Skipped').Count
 $expectedCases=@('flat','nested','missing','without-theme-option','both-locations','path-mismatch','tampered','wrong-id','wrong-version','wrong-target','wrong-arch','package-junction','ancestor-junction','checksum-link','ai-link','theme-link','theme-junction','unrequested-theme-junction')
 $actualCases=@($results|ForEach-Object Case)
 if($actualCases.Count -ne $expectedCases.Count -or @(Compare-Object -ReferenceObject $expectedCases -DifferenceObject $actualCases).Count -ne 0 -or @($actualCases|Select-Object -Unique).Count -ne $actualCases.Count){throw 'Theme fixture case inventory differs.'}
-[pscustomobject]@{ExecutedCasesSucceeded=$true;ExpectedCases=18;Passed=($results.Count-$skipped);Skipped=$skipped;Failed=0;AllCasesExecuted=($skipped -eq 0);LinkHelperMode=$LinkHelperMode;Checks=$results;LinkEvidence=$linkEvidence;SentinelSHA256=$sentinelHash;SentinelUnchanged=$true;Runtime=$PSVersionTable.PSVersion.ToString();PSHome=$PSHOME;TestScriptSha256=(Get-FileHash -LiteralPath $PSCommandPath).Hash;ProductScriptSha256=(Get-FileHash -LiteralPath (Join-Path $repo 'scripts/Install-AIAssistant.ps1')).Hash;ActualVsixInstallerExecuted=$false;ActualIDE=$false;NetworkUsed=$false}|ConvertTo-Json -Depth 5|Set-Content -LiteralPath (Join-Path $out 'result.json') -Encoding UTF8
+if($LinkHelperMode -eq 'MissingHelper' -and ($skipped -ne 3 -or $helperInvocationCount -ne 0)){throw 'Missing-helper injection did not reach all three link cases.'}
+if($LinkHelperMode -eq 'PermissionDenied' -and ($skipped -ne 3 -or $helperInvocationCount -ne 3)){throw 'Permission-denied injection did not reach all three helper calls.'}
+[pscustomobject]@{ExecutedCasesSucceeded=$true;ExpectedCases=18;Passed=($results.Count-$skipped);Skipped=$skipped;Failed=0;AllCasesExecuted=($skipped -eq 0);LinkHelperMode=$LinkHelperMode;HelperInvocationCount=$helperInvocationCount;LinkBranchEvidence=$linkBranchEvidence;Checks=$results;LinkEvidence=$linkEvidence;SentinelSHA256=$sentinelHash;SentinelUnchanged=$true;Runtime=$PSVersionTable.PSVersion.ToString();PSHome=$PSHOME;TestScriptSha256=(Get-FileHash -LiteralPath $PSCommandPath).Hash;ProductScriptSha256=(Get-FileHash -LiteralPath (Join-Path $repo 'scripts/Install-AIAssistant.ps1')).Hash;ActualVsixInstallerExecuted=$false;ActualIDE=$false;NetworkUsed=$false}|ConvertTo-Json -Depth 5|Set-Content -LiteralPath (Join-Path $out 'result.json') -Encoding UTF8
 Write-Output ('PASS '+($results.Count-$skipped)+' synthetic theme layout and install-plan cases; skipped '+$skipped+'; no installer was run.')
