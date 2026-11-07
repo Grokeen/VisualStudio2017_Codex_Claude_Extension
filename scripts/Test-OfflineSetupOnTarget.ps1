@@ -9,8 +9,9 @@ update date  : 2026-10-19 CodexOrig : TASK-041 오프라인 사용자 확인과 
 -------------------------------------------------------------------------
 #>
 [CmdletBinding()]
-param([string]$BundleDirectory=$PSScriptRoot,[string]$OutputDirectory,[string]$InstanceId,[switch]$Install,[switch]$LibraryOnly,[ValidatePattern('^\d+\.\d+\.\d+$')][string]$PackageVersion='0.15.1')
+param([string]$BundleDirectory,[string]$OutputDirectory,[string]$InstanceId,[switch]$Install,[switch]$LibraryOnly,[ValidatePattern('^\d+\.\d+\.\d+$')][string]$PackageVersion='0.15.1')
 $ErrorActionPreference='Stop'
+if(!$BundleDirectory){$BundleDirectory=Split-Path -Parent $PSCommandPath}
 
 <#
 -------------------------------------------------------------------------
