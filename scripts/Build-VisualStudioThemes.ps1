@@ -26,6 +26,14 @@ if((Test-Path -LiteralPath $output) -and @(Get-ChildItem -LiteralPath $output -F
 $null=New-Item -ItemType Directory -Path $output -Force
 $themeInputs=@(@(Get-ChildItem -LiteralPath $themeRoot -Recurse -File)+@(Get-Item -LiteralPath $PSCommandPath) | Sort-Object FullName -Unique | ForEach-Object {[pscustomobject]@{Path=$_.FullName;Sha256=(Get-FileHash -LiteralPath $_.FullName).Hash;Bytes=$_.Length}})
 $themeInputs|ConvertTo-Json -Depth 4|Set-Content -LiteralPath (Join-Path $output 'source-inputs-before.json') -Encoding UTF8
+function Read-ThemeBuildSummary([string]$Text){
+    $warningMatches=[regex]::Matches($Text,'(?im)^\s*(?:경고\s+(?<Count>\d+)개|(?<Count>\d+)\s+Warnings?(?:\(s\))?)\s*$')
+    $errorMatches=[regex]::Matches($Text,'(?im)^\s*(?:오류\s+(?<Count>\d+)개|(?<Count>\d+)\s+Errors?(?:\(s\))?)\s*$')
+    $warnings=@($warningMatches|ForEach-Object {[int]$_.Groups['Count'].Value})
+    $errors=@($errorMatches|ForEach-Object {[int]$_.Groups['Count'].Value})
+    $recognized=$warnings.Count -gt 0 -and $errors.Count -gt 0
+    return [pscustomobject]@{Recognized=$recognized;Warnings=if($recognized){($warnings|Measure-Object -Sum).Sum}else{$null};Errors=if($recognized){($errors|Measure-Object -Sum).Sum}else{$null}}
+}
 $compiler='C:/Program Files (x86)/Microsoft Visual Studio/2017/Community/VSSDK/VisualStudioIntegration/Tools/Bin/VsixColorCompiler.exe'
 $msbuild='C:/Program Files (x86)/Microsoft Visual Studio/2017/Community/MSBuild/15.0/Bin/MSBuild.exe'
 if(!(Test-Path -LiteralPath $compiler)){throw 'VS2017 VSSDK Color Compiler is required to build (not to install) these themes.'}
@@ -286,13 +294,17 @@ foreach($year in @('2017','2019','2022')){
 "@
     [IO.File]::WriteAllText((Join-Path $folder 'source.extension.vsixmanifest'),$manifest,$utf8)
     $log=Join-Path $output ('build-'+$year+'.log')
-    & $targetMsbuild (Join-Path $folder 'VisualStudioThemes.csproj') /restore /t:Rebuild /m /nologo /v:minimal /p:Configuration=Release /p:DeployExtension=false /p:ZipPackageCompressionLevel=normal *> $log
+    $normalLog=Join-Path $output ('build-'+$year+'.normal.log')
+    $binaryLog=Join-Path $output ('build-'+$year+'.binlog')
+    $arguments=@((Join-Path $folder 'VisualStudioThemes.csproj'),'/restore','/t:Rebuild','/m:1','/nr:false','/noautoresponse','/warnaserror','/p:MSBuildWarningsNotAsErrors=','/p:WarningsNotAsErrors=','/nologo','/v:minimal','/clp:Summary','/p:Configuration=Release','/p:DeployExtension=false','/p:ZipPackageCompressionLevel=normal',('/flp:logfile='+$normalLog+';verbosity=normal;encoding=UTF-8'),('/bl:'+$binaryLog))
+    & $targetMsbuild @arguments *> $log
     $code=$LASTEXITCODE;$raw=[IO.File]::ReadAllText($log)
-    if($code -ne 0 -or [regex]::IsMatch($raw,'(?im)^.*:\s*(warning|error)\s+\w+')){throw ('Theme VSIX build failed or warned: '+$year+'; '+$log)}
+    $summary=Read-ThemeBuildSummary $raw
+    if($code -ne 0 -or !$summary.Recognized -or $summary.Warnings -ne 0 -or $summary.Errors -ne 0 -or !(Test-Path -LiteralPath $normalLog -PathType Leaf) -or !(Test-Path -LiteralPath $binaryLog -PathType Leaf)){throw ('Theme VSIX build failed, warned or lacked native summary/logs: '+$year+'; '+$log)}
     $vsix=Get-ChildItem -LiteralPath (Join-Path $folder 'bin/Release') -Filter '*.vsix' -File
     if(@($vsix).Count -ne 1){throw 'Expected one independent theme VSIX.'}
     $target=Join-Path $output ('Grokeen-VisualStudio-Themes-'+$Version+'-VS'+$year+'.vsix');Copy-Item -LiteralPath $vsix.FullName -Destination $target
-    $packages+=[pscustomobject]@{Year=$year;Path=$target;Bytes=(Get-Item -LiteralPath $target).Length;Sha256=(Get-FileHash -LiteralPath $target).Hash;BuildExitCode=$code;Warnings=0;Errors=0}
+    $packages+=[pscustomobject]@{Year=$year;Path=$target;Bytes=(Get-Item -LiteralPath $target).Length;Sha256=(Get-FileHash -LiteralPath $target).Hash;BuildExitCode=$code;Warnings=$summary.Warnings;Errors=$summary.Errors;NativeSummaryRecognized=$summary.Recognized;MsbuildPath=$targetMsbuild;MsbuildSHA256=(Get-FileHash -LiteralPath $targetMsbuild).Hash;BuildArguments=$arguments;Log=$log;LogSHA256=(Get-FileHash -LiteralPath $log).Hash;NormalLog=$normalLog;NormalLogSHA256=(Get-FileHash -LiteralPath $normalLog).Hash;BinaryLog=$binaryLog;BinaryLogSHA256=(Get-FileHash -LiteralPath $binaryLog).Hash}
     Write-Output ('Built independent theme VSIX: '+$year)
 }
 foreach($inputRecord in $themeInputs){if((Get-FileHash -LiteralPath $inputRecord.Path).Hash -ne $inputRecord.Sha256){throw ('Theme source changed during build: '+$inputRecord.Path)}}
