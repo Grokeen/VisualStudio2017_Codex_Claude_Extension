@@ -1,4 +1,4 @@
-[CmdletBinding()]
+﻿[CmdletBinding()]
 param([Parameter(Mandatory=$true)][string]$OutputDirectory)
 $ErrorActionPreference='Stop'
 foreach($module in @('Microsoft.PowerShell.Management','Microsoft.PowerShell.Utility')){Import-Module -Name (Join-Path $PSHOME ('Modules/'+$module+'/'+$module+'.psd1')) -ErrorAction Stop}
@@ -16,13 +16,14 @@ function New-InventoryFixture([string]$name,[string]$version){
     [IO.File]::WriteAllLines((Join-Path $root 'SHA256SUMS.txt'),[string[]]$lines)
     return $root
 }
-function Check-Inventory([string]$name,[string]$fixtureVersion,[scriptblock]$change,[bool]$expected){
+function Check-Inventory([string]$name,[string]$fixtureVersion,[scriptblock]$change,[bool]$expected,[string]$expectedReason){
     $root=New-InventoryFixture $name $fixtureVersion
     if($null -ne $change){& $change $root}
-    $accepted=$true
+    $accepted=$true;$failure=''
     try {$inventory=@(Get-OfflineExtensionInventory -ExtensionRoot $root -PackageVersion '0.15.1')}
-    catch {$accepted=$false}
+    catch {$accepted=$false;$failure=$_.Exception.Message}
     if($accepted -ne $expected){throw "$name returned unexpected acceptance"}
+    if(!$expected -and !$failure.Contains($expectedReason)){throw "$name returned an unexpected failure reason"}
     if($accepted){
         $destination=Join-Path $out ($name+'-copy');[void][IO.Directory]::CreateDirectory($destination)
         Copy-OfflineExtensionInventory -Inventory $inventory -ExtensionRoot $root -Destination $destination -PackageVersion '0.15.1'
@@ -30,19 +31,20 @@ function Check-Inventory([string]$name,[string]$fixtureVersion,[scriptblock]$cha
         if($files.Count -ne 8 -or @($files|Where-Object {$_.Name -like 'Grokeen-VisualStudio-Themes-*.vsix'}).Count -ne 3){throw 'Copy omitted required theme packages.'}
         $null=Get-OfflineExtensionInventory -ExtensionRoot $destination -PackageVersion '0.15.1'
     }
-    $script:results+=[pscustomobject]@{Case=$name;Expected=$expected;Accepted=$accepted}
+    $log=Join-Path $out ($name+'.log');[IO.File]::WriteAllText($log,('reason='+$failure),(New-Object Text.UTF8Encoding($false)))
+    $script:results+=[pscustomobject]@{Case=$name;Expected=$expected;Accepted=$accepted;ExpectedReason=$expectedReason;Runtime=$PSVersionTable.PSVersion.ToString();Log=$log;LogSHA256=(Get-FileHash -LiteralPath $log).Hash}
 }
-Check-Inventory 'normal' '0.15.1' $null $true
-Check-Inventory 'themes-layout' '0.15.1' {param($r) $dir=Join-Path $r 'Themes';[void][IO.Directory]::CreateDirectory($dir); Get-ChildItem -LiteralPath $r -File -Filter 'Grokeen-VisualStudio-Themes-*.vsix'|ForEach-Object {Move-Item -LiteralPath $_.FullName -Destination (Join-Path $dir $_.Name)}; $p=Join-Path $r 'SHA256SUMS.txt';$lines=@([IO.File]::ReadAllLines($p)|ForEach-Object {$_ -replace '  Grokeen-','  Themes/Grokeen-'});[IO.File]::WriteAllLines($p,[string[]]$lines)} $true
-Check-Inventory 'both-theme-locations' '0.15.1' {param($r) $dir=Join-Path $r 'Themes';[void][IO.Directory]::CreateDirectory($dir);Copy-Item -LiteralPath (Join-Path $r 'Grokeen-VisualStudio-Themes-0.15.1-VS2019.vsix') -Destination $dir} $false
-Check-Inventory 'theme-location-mismatch' '0.15.1' {param($r) $dir=Join-Path $r 'Themes';[void][IO.Directory]::CreateDirectory($dir);Move-Item -LiteralPath (Join-Path $r 'Grokeen-VisualStudio-Themes-0.15.1-VS2019.vsix') -Destination $dir} $false
-Check-Inventory 'old-version' '0.11.1' $null $false
-Check-Inventory 'missing-theme' '0.15.1' {param($r) Remove-Item -LiteralPath (Join-Path $r 'Grokeen-VisualStudio-Themes-0.15.1-VS2019.vsix')} $false
-Check-Inventory 'tampered' '0.15.1' {param($r) [IO.File]::AppendAllText((Join-Path $r 'VS2019.AIAssistant-0.15.1.vsix'),'changed')} $false
-Check-Inventory 'duplicate' '0.15.1' {param($r) $p=Join-Path $r 'SHA256SUMS.txt';$lines=[IO.File]::ReadAllLines($p);[IO.File]::AppendAllText($p,$lines[0]+[Environment]::NewLine)} $false
-Check-Inventory 'extra-vsix' '0.15.1' {param($r) [IO.File]::WriteAllText((Join-Path $r 'unexpected.vsix'),'unexpected')} $false
-Check-Inventory 'extra-row' '0.15.1' {param($r) $p=Join-Path $r 'SHA256SUMS.txt';[IO.File]::AppendAllText($p,(('A'*64)+'  unexpected.vsix'+[Environment]::NewLine))} $false
-Check-Inventory 'traversal' '0.15.1' {param($r) $p=Join-Path $r 'SHA256SUMS.txt';[IO.File]::AppendAllText($p,(('A'*64)+'  ../outside.vsix'+[Environment]::NewLine))} $false
+Check-Inventory 'normal' '0.15.1' $null $true ''
+Check-Inventory 'themes-layout' '0.15.1' {param($r) $dir=Join-Path $r 'Themes';[void][IO.Directory]::CreateDirectory($dir); Get-ChildItem -LiteralPath $r -File -Filter 'Grokeen-VisualStudio-Themes-*.vsix'|ForEach-Object {Move-Item -LiteralPath $_.FullName -Destination (Join-Path $dir $_.Name)}; $p=Join-Path $r 'SHA256SUMS.txt';$lines=@([IO.File]::ReadAllLines($p)|ForEach-Object {$_ -replace '  Grokeen-','  Themes/Grokeen-'});[IO.File]::WriteAllLines($p,[string[]]$lines)} $true ''
+Check-Inventory 'both-theme-locations' '0.15.1' {param($r) $dir=Join-Path $r 'Themes';[void][IO.Directory]::CreateDirectory($dir);Copy-Item -LiteralPath (Join-Path $r 'Grokeen-VisualStudio-Themes-0.15.1-VS2019.vsix') -Destination $dir} $false 'Extension directory contains missing or unexpected VSIX files.'
+Check-Inventory 'theme-location-mismatch' '0.15.1' {param($r) $dir=Join-Path $r 'Themes';[void][IO.Directory]::CreateDirectory($dir);Move-Item -LiteralPath (Join-Path $r 'Grokeen-VisualStudio-Themes-0.15.1-VS2019.vsix') -Destination $dir} $false 'Extension checksum mismatch or file missing.'
+Check-Inventory 'old-version' '0.11.1' $null $false 'Unexpected or duplicate extension checksum entry.'
+Check-Inventory 'missing-theme' '0.15.1' {param($r) Remove-Item -LiteralPath (Join-Path $r 'Grokeen-VisualStudio-Themes-0.15.1-VS2019.vsix')} $false 'Extension checksum mismatch or file missing.'
+Check-Inventory 'tampered' '0.15.1' {param($r) [IO.File]::AppendAllText((Join-Path $r 'VS2019.AIAssistant-0.15.1.vsix'),'changed')} $false 'Extension checksum mismatch or file missing.'
+Check-Inventory 'duplicate' '0.15.1' {param($r) $p=Join-Path $r 'SHA256SUMS.txt';$lines=[IO.File]::ReadAllLines($p);[IO.File]::AppendAllText($p,$lines[0]+[Environment]::NewLine)} $false 'Unexpected or duplicate extension checksum entry.'
+Check-Inventory 'extra-vsix' '0.15.1' {param($r) [IO.File]::WriteAllText((Join-Path $r 'unexpected.vsix'),'unexpected')} $false 'Extension directory contains missing or unexpected VSIX files.'
+Check-Inventory 'extra-row' '0.15.1' {param($r) $p=Join-Path $r 'SHA256SUMS.txt';[IO.File]::AppendAllText($p,(('A'*64)+'  unexpected.vsix'+[Environment]::NewLine))} $false 'Unexpected or duplicate extension checksum entry.'
+Check-Inventory 'traversal' '0.15.1' {param($r) $p=Join-Path $r 'SHA256SUMS.txt';[IO.File]::AppendAllText($p,(('A'*64)+'  ../outside.vsix'+[Environment]::NewLine))} $false 'Invalid extension checksum row.'
 $launcherDir=Join-Path $out 'versioned-launchers';[void][IO.Directory]::CreateDirectory($launcherDir)
 foreach($pair in @(@('VerifyOfflineSetup.bat','OFFLINE_PACKAGE_VERSION'),@('InstallAIAssistant.bat','AI_ASSISTANT_PACKAGE_VERSION'))){
     $template=Join-Path $repo $pair[0];$destination=Join-Path $launcherDir $pair[0]

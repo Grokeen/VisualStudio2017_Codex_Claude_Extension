@@ -32,26 +32,57 @@ function New-ThemeFixture([string]$name,[string]$layout,[string]$id,[string]$ver
     return $root
 }
 $instance=[pscustomobject]@{instanceId='synthetic';productId='Microsoft.VisualStudio.Product.Community';displayName='synthetic';installationVersion='15.9.28307.1';installationPath=$out;isComplete=$true;isLaunchable=$true}
-function Check([string]$name,[string]$layout,[bool]$requestTheme,[scriptblock]$change,[string]$expected){
+function Check([string]$name,[string]$layout,[bool]$requestTheme,[scriptblock]$change,[string]$expected,[string]$expectedReason){
     $root=New-ThemeFixture $name $layout 'Grokeen.VisualStudioThemes.2017' '0.15.1' '[15.0,16.0)' 'x86'
     if($null -ne $change){& $change $root}
     $script:InstallTheme=$requestTheme;$script:RequireTheme=$false
     $plan=Get-AIAssistantInstallPlan -Instance $instance -Directory $root -CoreEditorPresent $true -Architecture 'x86'
     if($plan.Status -cne $expected){throw "$name returned unexpected plan status: $($plan.Status)"}
+    if($expected -ne 'Ready' -and !$plan.Reason.Contains($expectedReason)){throw "$name failed for an unexpected reason: $($plan.Reason)"}
     if($expected -eq 'Ready' -and $requestTheme -and $null -eq $plan.ThemePackage){throw "$name omitted the theme"}
     if($expected -eq 'Ready' -and !$requestTheme -and $null -ne $plan.ThemePackage){throw "$name unexpectedly requested the theme"}
-    $script:results+=[pscustomobject]@{Case=$name;Status=$plan.Status;ThemeRequested=$requestTheme}
+    $log=Join-Path $out ($name+'.log');[IO.File]::WriteAllText($log,('status='+$plan.Status+'; reason='+$plan.Reason),(New-Object Text.UTF8Encoding($false)))
+    $script:results+=[pscustomobject]@{Case=$name;Status=$plan.Status;ThemeRequested=$requestTheme;ExpectedReason=$expectedReason;Runtime=$PSVersionTable.PSVersion.ToString();Log=$log;LogSHA256=(Get-FileHash -LiteralPath $log).Hash}
 }
-Check 'flat' 'flat' $true $null 'Ready'
-Check 'nested' 'nested' $true $null 'Ready'
-Check 'missing' 'missing' $true $null 'InvalidThemePackage'
-Check 'without-theme-option' 'missing' $false $null 'Ready'
-Check 'both-locations' 'flat' $true {param($r) $d=Join-Path $r 'Themes';[void][IO.Directory]::CreateDirectory($d);Copy-Item -LiteralPath (Join-Path $r 'Grokeen-VisualStudio-Themes-0.15.1-VS2017.vsix') -Destination $d} 'InvalidThemePackage'
-Check 'path-mismatch' 'flat' $true {param($r) $p=Join-Path $r 'SHA256SUMS.txt';$rows=@([IO.File]::ReadAllLines($p)|ForEach-Object {$_ -replace '  Grokeen-','  Themes/Grokeen-'});[IO.File]::WriteAllLines($p,[string[]]$rows)} 'InvalidThemePackage'
-Check 'tampered' 'flat' $true {param($r) [IO.File]::AppendAllText((Join-Path $r 'Grokeen-VisualStudio-Themes-0.15.1-VS2017.vsix'),'tampered')} 'InvalidThemePackage'
-Check 'wrong-id' 'flat' $true {param($r) $p=Join-Path $r 'Grokeen-VisualStudio-Themes-0.15.1-VS2017.vsix';Remove-Item -LiteralPath $p;New-SyntheticVsix $p 'Not.Grokeen' '0.15.1' '[15.0,16.0)' 'x86';$s=Join-Path $r 'SHA256SUMS.txt';$rows=@([IO.File]::ReadAllLines($s));$rows[1]=(Get-FileHash -LiteralPath $p).Hash+'  '+[IO.Path]::GetFileName($p);[IO.File]::WriteAllLines($s,[string[]]$rows)} 'InvalidThemePackage'
-Check 'wrong-version' 'flat' $true {param($r) $p=Join-Path $r 'Grokeen-VisualStudio-Themes-0.15.1-VS2017.vsix';Remove-Item -LiteralPath $p;New-SyntheticVsix $p 'Grokeen.VisualStudioThemes.2017' '0.11.1' '[15.0,16.0)' 'x86';$s=Join-Path $r 'SHA256SUMS.txt';$rows=@([IO.File]::ReadAllLines($s));$rows[1]=(Get-FileHash -LiteralPath $p).Hash+'  '+[IO.Path]::GetFileName($p);[IO.File]::WriteAllLines($s,[string[]]$rows)} 'InvalidThemePackage'
-Check 'wrong-target' 'flat' $true {param($r) $p=Join-Path $r 'Grokeen-VisualStudio-Themes-0.15.1-VS2017.vsix';Remove-Item -LiteralPath $p;New-SyntheticVsix $p 'Grokeen.VisualStudioThemes.2017' '0.15.1' '[16.0,17.0)' 'x86';$s=Join-Path $r 'SHA256SUMS.txt';$rows=@([IO.File]::ReadAllLines($s));$rows[1]=(Get-FileHash -LiteralPath $p).Hash+'  '+[IO.Path]::GetFileName($p);[IO.File]::WriteAllLines($s,[string[]]$rows)} 'InvalidThemePackage'
-Check 'wrong-arch' 'flat' $true {param($r) $p=Join-Path $r 'Grokeen-VisualStudio-Themes-0.15.1-VS2017.vsix';Remove-Item -LiteralPath $p;New-SyntheticVsix $p 'Grokeen.VisualStudioThemes.2017' '0.15.1' '[15.0,16.0)' 'amd64';$s=Join-Path $r 'SHA256SUMS.txt';$rows=@([IO.File]::ReadAllLines($s));$rows[1]=(Get-FileHash -LiteralPath $p).Hash+'  '+[IO.Path]::GetFileName($p);[IO.File]::WriteAllLines($s,[string[]]$rows)} 'InvalidThemePackage'
+Check 'flat' 'flat' $true $null 'Ready' ''
+Check 'nested' 'nested' $true $null 'Ready' ''
+Check 'missing' 'missing' $true $null 'InvalidThemePackage' '테마 설치 파일이 없거나 두 위치에 중복됩니다'
+Check 'without-theme-option' 'missing' $false $null 'Ready' ''
+Check 'both-locations' 'flat' $true {param($r) $d=Join-Path $r 'Themes';[void][IO.Directory]::CreateDirectory($d);Copy-Item -LiteralPath (Join-Path $r 'Grokeen-VisualStudio-Themes-0.15.1-VS2017.vsix') -Destination $d} 'InvalidThemePackage' '테마 설치 파일이 없거나 두 위치에 중복됩니다'
+Check 'path-mismatch' 'flat' $true {param($r) $p=Join-Path $r 'SHA256SUMS.txt';$rows=@([IO.File]::ReadAllLines($p)|ForEach-Object {$_ -replace '  Grokeen-','  Themes/Grokeen-'});[IO.File]::WriteAllLines($p,[string[]]$rows)} 'InvalidThemePackage' '테마 파일과 체크섬 경로가 다릅니다'
+Check 'tampered' 'flat' $true {param($r) [IO.File]::AppendAllText((Join-Path $r 'Grokeen-VisualStudio-Themes-0.15.1-VS2017.vsix'),'tampered')} 'InvalidThemePackage' '테마 파일 체크섬 불일치'
+Check 'wrong-id' 'flat' $true {param($r) $p=Join-Path $r 'Grokeen-VisualStudio-Themes-0.15.1-VS2017.vsix';Remove-Item -LiteralPath $p;New-SyntheticVsix $p 'Not.Grokeen' '0.15.1' '[15.0,16.0)' 'x86';$s=Join-Path $r 'SHA256SUMS.txt';$rows=@([IO.File]::ReadAllLines($s));$rows[1]=(Get-FileHash -LiteralPath $p).Hash+'  '+[IO.Path]::GetFileName($p);[IO.File]::WriteAllLines($s,[string[]]$rows)} 'InvalidThemePackage' '테마 VSIX 제품 ID/버전이 다릅니다'
+Check 'wrong-version' 'flat' $true {param($r) $p=Join-Path $r 'Grokeen-VisualStudio-Themes-0.15.1-VS2017.vsix';Remove-Item -LiteralPath $p;New-SyntheticVsix $p 'Grokeen.VisualStudioThemes.2017' '0.11.1' '[15.0,16.0)' 'x86';$s=Join-Path $r 'SHA256SUMS.txt';$rows=@([IO.File]::ReadAllLines($s));$rows[1]=(Get-FileHash -LiteralPath $p).Hash+'  '+[IO.Path]::GetFileName($p);[IO.File]::WriteAllLines($s,[string[]]$rows)} 'InvalidThemePackage' '테마 VSIX 제품 ID/버전이 다릅니다'
+Check 'wrong-target' 'flat' $true {param($r) $p=Join-Path $r 'Grokeen-VisualStudio-Themes-0.15.1-VS2017.vsix';Remove-Item -LiteralPath $p;New-SyntheticVsix $p 'Grokeen.VisualStudioThemes.2017' '0.15.1' '[16.0,17.0)' 'x86';$s=Join-Path $r 'SHA256SUMS.txt';$rows=@([IO.File]::ReadAllLines($s));$rows[1]=(Get-FileHash -LiteralPath $p).Hash+'  '+[IO.Path]::GetFileName($p);[IO.File]::WriteAllLines($s,[string[]]$rows)} 'InvalidThemePackage' '테마 IDE 대상 범위가 다릅니다'
+Check 'wrong-arch' 'flat' $true {param($r) $p=Join-Path $r 'Grokeen-VisualStudio-Themes-0.15.1-VS2017.vsix';Remove-Item -LiteralPath $p;New-SyntheticVsix $p 'Grokeen.VisualStudioThemes.2017' '0.15.1' '[15.0,16.0)' 'amd64';$s=Join-Path $r 'SHA256SUMS.txt';$rows=@([IO.File]::ReadAllLines($s));$rows[1]=(Get-FileHash -LiteralPath $p).Hash+'  '+[IO.Path]::GetFileName($p);[IO.File]::WriteAllLines($s,[string[]]$rows)} 'InvalidThemePackage' '테마 IDE 아키텍처가 다릅니다'
+function Check-LinkedPlan([string]$name,[string]$directory,[bool]$requestTheme,[string]$expected) {
+    $script:InstallTheme=$requestTheme;$script:RequireTheme=$false
+    $plan=Get-AIAssistantInstallPlan -Instance $instance -Directory $directory -CoreEditorPresent $true -Architecture 'x86'
+    if($plan.Status -cne $expected -or ($expected -ne 'Ready' -and !$plan.Reason.Contains('Reparse paths are not accepted'))){throw "$name unexpected: $($plan.Status) $($plan.Reason)"}
+    $log=Join-Path $out ($name+'.log');[IO.File]::WriteAllText($log,('status='+$plan.Status+'; reason='+$plan.Reason),(New-Object Text.UTF8Encoding($false)))
+    $script:results+=[pscustomobject]@{Case=$name;Status=$plan.Status;ThemeRequested=$requestTheme;ExpectedReason='Reparse paths are not accepted';Runtime=$PSVersionTable.PSVersion.ToString();Log=$log;LogSHA256=(Get-FileHash -LiteralPath $log).Hash}
+}
+$outside=Join-Path $out 'outside';[void][IO.Directory]::CreateDirectory($outside)
+$sentinel=Join-Path $outside 'sentinel.txt';[IO.File]::WriteAllText($sentinel,'unchanged');$sentinelHash=(Get-FileHash -LiteralPath $sentinel).Hash
+$real=New-ThemeFixture 'outside/package' 'flat' 'Grokeen.VisualStudioThemes.2017' '0.15.1' '[15.0,16.0)' 'x86'
+$link=Join-Path $out 'package-junction';[void](New-Item -ItemType Junction -Path $link -Target $real)
+Check-LinkedPlan 'package-junction' $link $true 'InvalidPackage'
+$link=Join-Path $out 'ancestor-junction';[void](New-Item -ItemType Junction -Path $link -Target $outside)
+Check-LinkedPlan 'ancestor-junction' (Join-Path $link 'package') $true 'InvalidPackage'
+foreach($file in @('SHA256SUMS.txt','VS2017.AIAssistant-0.15.1.vsix','Grokeen-VisualStudio-Themes-0.15.1-VS2017.vsix')){
+    $name=if($file -eq 'SHA256SUMS.txt'){'checksum-link'}elseif($file.StartsWith('VS')){'ai-link'}else{'theme-link'}
+    $root=New-ThemeFixture $name 'flat' 'Grokeen.VisualStudioThemes.2017' '0.15.1' '[15.0,16.0)' 'x86'
+    $path=Join-Path $root $file;$target=Join-Path $outside ($name+'.target');Copy-Item -LiteralPath $path -Destination $target
+    Remove-Item -LiteralPath $path
+    [void](New-Item -ItemType SymbolicLink -Path $path -Target $target)
+    $expected=if($name -eq 'theme-link'){'InvalidThemePackage'}else{'InvalidPackage'}
+    Check-LinkedPlan $name $root $true $expected
+}
+$root=New-ThemeFixture 'theme-junction' 'nested' 'Grokeen.VisualStudioThemes.2017' '0.15.1' '[15.0,16.0)' 'x86'
+$themePath=Join-Path $root 'Themes';$themeTarget=Join-Path $outside 'themes';Move-Item -LiteralPath $themePath -Destination $themeTarget
+[void](New-Item -ItemType Junction -Path $themePath -Target $themeTarget)
+Check-LinkedPlan 'theme-junction' $root $true 'InvalidThemePackage'
+Check-LinkedPlan 'unrequested-theme-junction' $root $false 'Ready'
+if((Get-FileHash -LiteralPath $sentinel).Hash -ne $sentinelHash){throw 'Outside sentinel changed.'}
 [pscustomobject]@{Succeeded=$true;Checks=$results;ProductScriptSha256=(Get-FileHash -LiteralPath (Join-Path $repo 'scripts/Install-AIAssistant.ps1')).Hash;ActualVsixInstallerExecuted=$false;ActualIDE=$false;NetworkUsed=$false}|ConvertTo-Json -Depth 4|Set-Content -LiteralPath (Join-Path $out 'result.json') -Encoding UTF8
 Write-Output ('PASS '+$results.Count+' synthetic theme layout and install-plan cases; no installer was run.')

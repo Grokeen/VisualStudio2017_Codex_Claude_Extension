@@ -32,6 +32,21 @@ param(
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
+# 설치 묶음 경로의 각 요소를 검사한다. 검사와 사용 사이의 변경은 막지 못한다.
+function Assert-AIAssistantPlainPath {
+    param([string]$Path)
+    $full=[IO.Path]::GetFullPath($Path)
+    $volume=[IO.Path]::GetPathRoot($full)
+    if($full.StartsWith('\\') -or $volume -notmatch '^[A-Za-z]:\\$'){throw 'Only drive-letter installation package paths are accepted.'}
+    $cursor=$volume
+    foreach($segment in $full.Substring($volume.Length).Split('\')) {
+        if(!$segment){continue}
+        $cursor=Join-Path $cursor $segment
+        $item=Get-Item -LiteralPath $cursor -Force -ErrorAction SilentlyContinue
+        if($item -and ($item.Attributes -band [IO.FileAttributes]::ReparsePoint)){throw 'Reparse paths are not accepted for installation packages.'}
+    }
+}
+
 <#
 -------------------------------------------------------------------------
 name         : Read-AIAssistantPackage
@@ -46,8 +61,11 @@ function Read-AIAssistantPackage {
     param([string]$Directory, [string]$Year, [switch]$Legacy)
     $name=if($Legacy){"VS2017.15.7.AIAssistant-$PackageVersion.vsix"}else{"VS$Year.AIAssistant-$PackageVersion.vsix"}
     $path = Join-Path $Directory $name
+    Assert-AIAssistantPlainPath $Directory
+    Assert-AIAssistantPlainPath $path
     if (!(Test-Path -LiteralPath $path -PathType Leaf)) { throw "설치 파일이 없습니다: $path" }
     $checksums = Join-Path $Directory 'SHA256SUMS.txt'
+    Assert-AIAssistantPlainPath $checksums
     $name = [IO.Path]::GetFileName($path)
     $lines = @([IO.File]::ReadAllLines($checksums) | Where-Object { $_ -match ('^[A-Fa-f0-9]{64}\s+\*?' + [regex]::Escape($name) + '$') })
     if ($lines.Count -ne 1) { throw "SHA256SUMS.txt의 파일 항목이 없거나 중복입니다: $name" }
@@ -94,14 +112,16 @@ function Read-AIAssistantThemePackage {
     $flat=Join-Path $Directory $name
     $themeDirectory=Join-Path $Directory 'Themes'
     $nested=Join-Path $themeDirectory $name
+    Assert-AIAssistantPlainPath $Directory
+    Assert-AIAssistantPlainPath $flat
+    Assert-AIAssistantPlainPath $nested
     $flatExists=Test-Path -LiteralPath $flat -PathType Leaf
     $nestedExists=Test-Path -LiteralPath $nested -PathType Leaf
     if($flatExists -eq $nestedExists){throw "테마 설치 파일이 없거나 두 위치에 중복됩니다: $name"}
     $path=if($flatExists){$flat}else{$nested}
     $relative=if($flatExists){$name}else{'Themes/'+$name}
-    if((Get-Item -LiteralPath $path -Force).Attributes -band [IO.FileAttributes]::ReparsePoint){throw '테마 파일의 연결 경로는 사용할 수 없습니다.'}
-    if($nestedExists -and ((Get-Item -LiteralPath $themeDirectory -Force).Attributes -band [IO.FileAttributes]::ReparsePoint)){throw '테마 폴더의 연결 경로는 사용할 수 없습니다.'}
     $checksums=Join-Path $Directory 'SHA256SUMS.txt'
+    Assert-AIAssistantPlainPath $checksums
     $lines=@([IO.File]::ReadAllLines($checksums)|Where-Object {$_ -match ('^[A-Fa-f0-9]{64}\s+\*?(?:Themes[/\\])?'+[regex]::Escape($name)+'$')})
     if($lines.Count -ne 1){throw "테마 체크섬 항목이 없거나 중복입니다: $name"}
     if($lines[0] -notmatch ('^[A-Fa-f0-9]{64}\s+\*?(?<path>(?:Themes[/\\])?'+[regex]::Escape($name)+')$') -or $matches['path'].Replace('\','/') -cne $relative){throw "테마 파일과 체크섬 경로가 다릅니다: $name"}
