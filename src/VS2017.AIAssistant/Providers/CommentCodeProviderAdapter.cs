@@ -10,6 +10,21 @@ namespace VS2017.AIAssistant.Providers
 {
     /// ---------------------------------------------------------------------
     /// <summary>
+    /// name         : CommentCodeSafetyPause
+    /// desc         : 문서 대상 확인 보완 전 주석 코드 전송만 일시 중지한다.
+    /// author       : CodexOrig
+    /// create date  : 2026-11-08
+    /// </summary>
+    /// ---------------------------------------------------------------------
+    internal static class CommentCodeSafetyPause
+    {
+        internal const string Notice = "문서 대상 확인 기능을 보완하는 동안 주석 코드 제안이 일시 중지되었습니다. 이 요청의 원본은 AI에 전송하거나 변경하지 않았습니다. 일반 대화는 사용할 수 있습니다.";
+
+        internal static bool IsPaused() { return true; }
+    }
+
+    /// ---------------------------------------------------------------------
+    /// <summary>
     /// name         : CommentCodeProviderAdapter
     /// desc         : 전체 권한 공급자를 계승하지 않고 승인형 CLI 응답에서 정확한 단일 위치 변경만 추출한다.
     /// author       : CodexOrig
@@ -52,6 +67,7 @@ namespace VS2017.AIAssistant.Providers
         /// ---------------------------------------------------------------------
         public async Task<string> GenerateAsync(CommentCodeRequest request, CancellationToken cancellationToken)
         {
+            if (CommentCodeSafetyPause.IsPaused()) throw new InvalidOperationException("Comment code proposals are temporarily paused.");
             if (request == null) throw new ArgumentNullException(nameof(request));
             cancellationToken.ThrowIfCancellationRequested();
             EditorSnapshot captured = request.Snapshot;

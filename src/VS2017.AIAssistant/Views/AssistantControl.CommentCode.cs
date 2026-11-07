@@ -35,7 +35,7 @@ namespace VS2017.AIAssistant.Views
         private void AddCommentCodeActions(ContextMenu menu)
         {
             Dispatcher.VerifyAccess();
-            var request = new MenuItem { Header = "주석으로 코드 제안 요청…", ToolTip = "열린 C# 편집기의 현재 위치 · 실제 AI 전송 동의 후 미리보기" };
+            var request = new MenuItem { Header = "주석으로 코드 제안 요청…", ToolTip = "문서 대상 확인 보완 중 일시 중지 · 선택하면 자세한 안내를 표시합니다." };
             var cancel = new MenuItem { Header = "주석 코드 요청 취소" };
             var undo = new MenuItem { Header = "직전 주석 코드 제안 되돌리기" };
             request.Click += CommentCodeRequested; cancel.Click += CommentCodeCancelled; undo.Click += CommentCodeUndo;
@@ -61,6 +61,11 @@ namespace VS2017.AIAssistant.Views
         {
             Dispatcher.VerifyAccess();
             if (disposed || busy || commentCodeRequesting || commentCodeDialog != null) return;
+            if (CommentCodeSafetyPause.IsPaused())
+            {
+                MessageBox.Show(Window.GetWindow(this), CommentCodeSafetyPause.Notice, "주석 코드 제안 일시 중지", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
             DisposeCommentCode();
             bool requestAgain = false;
             try
