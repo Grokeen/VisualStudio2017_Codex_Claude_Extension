@@ -88,6 +88,8 @@ function Check([string]$name,[scriptblock]$change,[bool]$expected,[string]$expec
     }
 }
 Check 'normal' $null $true ''
+Check 'nested-themes' {param($r) $dir=Join-Path $r 'Themes';[void][IO.Directory]::CreateDirectory($dir);Get-ChildItem -LiteralPath $r -File -Filter 'Grokeen-VisualStudio-Themes-*.vsix'|ForEach-Object {Move-Item -LiteralPath $_.FullName -Destination (Join-Path $dir $_.Name)};$p=Join-Path $r 'SHA256SUMS.txt';$rows=@([IO.File]::ReadAllLines($p)|ForEach-Object {$_ -replace '  Grokeen-','  Themes/Grokeen-'});[IO.File]::WriteAllLines($p,[string[]]$rows);Write-Sums $r} $true ''
+Check 'theme-location-mismatch' {param($r) $dir=Join-Path $r 'Themes';[void][IO.Directory]::CreateDirectory($dir);Move-Item -LiteralPath (Join-Path $r 'Grokeen-VisualStudio-Themes-0.15.1-VS2019.vsix') -Destination $dir;Write-Sums $r} $false 'Extension package missing from full checksums.'
 Check 'tampered' {param($r) [IO.File]::AppendAllText((Join-Path $r 'cli/synthetic-00.bin'),'changed')} $false 'Listed file hash mismatch.'
 Check 'missing' {param($r) Remove-Item -LiteralPath (Join-Path $r 'cli/synthetic-01.bin')} $false 'Listed file missing or outside bundle.'
 Check 'duplicate' {param($r) $p=Join-Path $r 'OFFLINE_SHA256SUMS.txt';$rows=[IO.File]::ReadAllLines($p);[IO.File]::AppendAllText($p,$rows[0]+[Environment]::NewLine)} $false 'Unsafe or duplicate checksum path.'
