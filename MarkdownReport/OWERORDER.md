@@ -586,3 +586,8 @@ CodexOrig2 사후 감사 상태: PASS_PUBLIC_PREVIEW_TASK072_WITH_DOCUMENTED_RES
 주석 기능의 실제 AI Assistant 패널 메뉴 위치·정확한 항목명과 전체 버퍼 전송 안내를 소스에 맞췄습니다. 내부 Markdown 닫기 확인의 비파괴 포커스는 스레드 예약을 사용하지 않는 Loaded/즉시 WPF 경로로 정리했습니다. Root 개발 검증에서 네 SKU 경고·오류 0을 확인한 원문과 동일하게 반영했지만, 개발용 산출물을 출하 파일로 사용하지 않습니다.
 
 최종 Shipping 후보는 새 소스 커밋/실제 체크아웃 해시/55쪽 PDF1801A4C5와 동일한 내장 테마로 다시 생성합니다. 최종 제품 DLL 검사와 14자산 공개 다운로드 증거를 받은 뒤에만 게시 결과를 확정합니다. 실제 GUI·계정·AI·IME·native Undo는 미검증으로 유지합니다.
+
+
+## 최종 Heading 검사 PS5 인코딩 정합 — CodexOrig8 / 2026-11-08 01:02:43 KST
+
+Root 개발 DLL 검사에서 새 Heading 검사기의 UTF-8 무BOM 한글 상수가 PS5.1에서 오해독되는 문제를 확인했습니다. tests/markdown-headings/Test-MarkdownHeadingAssembly.ps1에 BOM 3바이트만 추가하여 원문/assertion을 보존했습니다. Root의 동일 decoded text 검사와 재실행 통과 기록을 대조했으며 제품 소스 변경은 없습니다. 최종 Shipping DLL에서 같은 검사를 다시 실행합니다.

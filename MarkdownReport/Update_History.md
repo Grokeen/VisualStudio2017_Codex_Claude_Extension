@@ -624,3 +624,8 @@ CodexOrig2 사후 감사 상태: PASS_PUBLIC_PREVIEW_TASK072_WITH_DOCUMENTED_RES
 - 전송 범위 안내를 유지한 55쪽 새 PDF/내장 PDF의 SHA-256은 1801A4C5C51CF2518B0329EA249A278AFAC8485296408229088DE373F884C13B입니다. 이전 PDF 사본은 보존했고 기존 46쪽 스트림과 수정된 안내 페이지 렌더를 확인했습니다.
 - 별도 개발 코드검증에서 Dispatcher 예약 API가 엄격 SDK 분석에 부합하지 않아, 계속 작성 버튼의 Loaded UI 확인과 즉시 포커스 경로로 한 소스의 세 지점을 정리했습니다. 수정 본문은 Root의 개발용 네 SKU 경고·오류 0 원본과 EOL 정규화 후 파일 전체가 동일함을 확인하고 이력 주석만 추가했습니다.
 - 개발용 690 PDF/dirty prototype 결과는 출하 승인이 아닙니다. 이 최종 커밋과 최신 PDF를 새 Shipping 후보로 빌드·검증하며, 앞선 실패 후보와 로그는 보존합니다.
+
+
+## 최종 Heading 검사 PS5 인코딩 정합 — CodexOrig8 / 2026-11-08 01:02:43 KST
+
+Root 개발 DLL 검사에서 새 Heading 검사기의 UTF-8 무BOM 한글 상수가 PS5.1에서 오해독되는 문제를 확인했습니다. tests/markdown-headings/Test-MarkdownHeadingAssembly.ps1에 BOM 3바이트만 추가하여 원문/assertion을 보존했습니다. Root의 동일 decoded text 검사와 재실행 통과 기록을 대조했으며 제품 소스 변경은 없습니다. 최종 Shipping DLL에서 같은 검사를 다시 실행합니다.
